@@ -4,9 +4,7 @@ import com.alibaba.dubbo.samples.group.api.GroupService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class GroupConsumer {
 
     public static void main(String[] args) {

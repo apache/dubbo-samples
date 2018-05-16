@@ -4,9 +4,7 @@ import com.alibaba.dubbo.samples.direct.api.DirectService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class DirectConsumer {
 
     public static void main(String[] args) {

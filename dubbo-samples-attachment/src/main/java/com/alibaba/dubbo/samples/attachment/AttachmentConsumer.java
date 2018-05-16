@@ -5,9 +5,7 @@ import com.alibaba.dubbo.samples.attachment.api.AttachmentService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class AttachmentConsumer {
 
     public static void main(String[] args) {

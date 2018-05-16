@@ -6,9 +6,7 @@ import java.util.Date;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.group.api.GroupService;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class GroupAServiceImpl implements GroupService{
 
     public String sayHello(String name) {

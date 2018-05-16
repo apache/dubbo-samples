@@ -6,9 +6,7 @@ import java.util.Date;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.attachment.api.AttachmentService;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class AttachmentImpl implements AttachmentService{
 
     public String sayHello(String name) {

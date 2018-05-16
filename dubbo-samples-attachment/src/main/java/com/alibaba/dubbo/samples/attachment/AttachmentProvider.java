@@ -2,9 +2,7 @@ package com.alibaba.dubbo.samples.attachment;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class AttachmentProvider {
 
     public static void main(String[] args) throws Exception{

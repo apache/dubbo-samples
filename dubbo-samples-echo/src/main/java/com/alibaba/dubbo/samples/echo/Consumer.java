@@ -7,9 +7,7 @@ import com.alibaba.dubbo.samples.echo.api.DemoService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class Consumer {
 
     public static void main(String[] args) {

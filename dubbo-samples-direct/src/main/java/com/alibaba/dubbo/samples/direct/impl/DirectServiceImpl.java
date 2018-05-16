@@ -6,9 +6,7 @@ import java.util.Date;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.direct.api.DirectService;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class DirectServiceImpl implements DirectService{
 
     public String sayHello(String name) {

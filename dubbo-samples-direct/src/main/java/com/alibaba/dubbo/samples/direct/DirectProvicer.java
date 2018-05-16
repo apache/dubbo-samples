@@ -2,9 +2,7 @@ package com.alibaba.dubbo.samples.direct;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/4/26
- */
+
 public class DirectProvicer {
 
     public static void main(String[] args) throws Exception {
