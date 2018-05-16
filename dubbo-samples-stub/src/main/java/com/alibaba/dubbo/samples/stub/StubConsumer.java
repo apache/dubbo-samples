@@ -23,7 +23,7 @@ import com.alibaba.dubbo.samples.stub.api.DemoService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Consumer {
+public class StubConsumer {
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(

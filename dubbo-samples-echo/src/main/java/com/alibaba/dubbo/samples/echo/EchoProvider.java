@@ -17,18 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.basic;
+package com.alibaba.dubbo.samples.echo;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Provider {
+
+public class EchoProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/dubbo-demo-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/echo-provider.xml"});
         context.start();
 
         System.in.read(); // press any key to exit
     }
-
 }
