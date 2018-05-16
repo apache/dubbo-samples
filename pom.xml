@@ -21,6 +21,7 @@
         <module>dubbo-samples-merge</module>
         <module>dubbo-samples-notify</module>
         <module>dubbo-samples-stub</module>
+        <module>dubbo-samples-version</module>
     </modules>
 
     <dependencyManagement>
