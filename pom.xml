@@ -18,6 +18,7 @@
         <module>dubbo-samples-echo</module>
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
+        <module>dubbo-samples-merge</module>
     </modules>
 
     <dependencyManagement>
