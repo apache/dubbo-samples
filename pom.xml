@@ -19,6 +19,7 @@
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
         <module>dubbo-samples-merge</module>
+        <module>dubbo-samples-notify</module>
     </modules>
 
     <dependencyManagement>
