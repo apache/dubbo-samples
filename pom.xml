@@ -13,6 +13,7 @@
         <module>dubbo-samples-async</module>
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-cache</module>
+        <module>dubbo-samples-callback</module>
     </modules>
 
     <dependencyManagement>
