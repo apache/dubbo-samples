@@ -14,6 +14,7 @@
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-cache</module>
         <module>dubbo-samples-callback</module>
+        <module>dubbo-samples-direct</module>
     </modules>
 
     <dependencyManagement>
