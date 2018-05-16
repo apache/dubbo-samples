@@ -15,6 +15,7 @@
         <module>dubbo-samples-cache</module>
         <module>dubbo-samples-callback</module>
         <module>dubbo-samples-direct</module>
+        <module>dubbo-samples-echo</module>
     </modules>
 
     <dependencyManagement>
