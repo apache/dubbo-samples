@@ -11,16 +11,4 @@
 
     <artifactId>dubbo-samples-echo</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dubbo</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-        </dependency>
-    </dependencies>
-
-
 </project>
