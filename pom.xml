@@ -11,6 +11,7 @@
     <modules>
         <module>dubbo-samples-basic</module>
         <module>dubbo-samples-async</module>
+        <module>dubbo-samples-attachment</module>
     </modules>
 
     <dependencyManagement>
