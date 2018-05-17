@@ -39,6 +39,7 @@
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
         <module>dubbo-samples-merge</module>
+        <module>dubbo-samples-mock</module>
         <module>dubbo-samples-notify</module>
         <module>dubbo-samples-rest</module>
         <module>dubbo-samples-stub</module>
