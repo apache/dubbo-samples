@@ -17,13 +17,13 @@
  *
  */
 
-package com.alibaba.dubbo.sample.callback.api;
+package com.alibaba.dubbo.samples.callback.api;
 
 /**
- * CallbackService
+ * CallbackListener
  */
-public interface CallbackService {
+public interface CallbackListener {
 
-    void addListener(String key, CallbackListener listener);
+    void changed(String msg);
 
 }

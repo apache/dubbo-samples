@@ -19,6 +19,7 @@
 
 package com.alibaba.dubbo.samples.basic;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.basic.api.DemoService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -34,6 +35,7 @@ public class BasicConsumer {
             try {
                 Thread.sleep(1000);
                 String hello = demoService.sayHello("world"); // call remote method
+                RpcContext.getContext().isConsumerSide();
                 System.out.println(hello); // get result
 
             } catch (Throwable throwable) {

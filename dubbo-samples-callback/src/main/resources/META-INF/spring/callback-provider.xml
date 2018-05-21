@@ -31,9 +31,9 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="callbackService" class="com.alibaba.dubbo.sample.callback.impl.CallbackServiceImpl"/>
+    <bean id="callbackService" class="com.alibaba.dubbo.samples.callback.impl.CallbackServiceImpl"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.sample.callback.api.CallbackService" ref="callbackService"
+    <dubbo:service interface="com.alibaba.dubbo.samples.callback.api.CallbackService" ref="callbackService"
                    connections="1" callbacks="1000">
         <dubbo:method name="addListener">
             <dubbo:argument index="1" callback="true"/>

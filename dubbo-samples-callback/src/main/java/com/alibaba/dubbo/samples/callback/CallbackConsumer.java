@@ -17,19 +17,27 @@
  *
  */
 
-package com.alibaba.dubbo.sample.callback;
+package com.alibaba.dubbo.samples.callback;
+
+import com.alibaba.dubbo.samples.callback.api.CallbackListener;
+import com.alibaba.dubbo.samples.callback.api.CallbackService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * MergeProvider
+ * CallbackConsumer
  */
-public class CallbackProvider {
+public class CallbackConsumer {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/callback-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/callback-consumer.xml"});
         context.start();
+        CallbackService callbackService = (CallbackService) context.getBean("callbackService");
+        callbackService.addListener("foo.bar", new CallbackListener() {
+            public void changed(String msg) {
+                System.out.println("callback1:" + msg);
+            }
+        });
         System.in.read();
     }
 

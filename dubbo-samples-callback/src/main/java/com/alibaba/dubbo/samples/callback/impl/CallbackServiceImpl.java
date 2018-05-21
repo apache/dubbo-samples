@@ -17,15 +17,15 @@
  *
  */
 
-package com.alibaba.dubbo.sample.callback.impl;
+package com.alibaba.dubbo.samples.callback.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.alibaba.dubbo.sample.callback.api.CallbackListener;
-import com.alibaba.dubbo.sample.callback.api.CallbackService;
+import com.alibaba.dubbo.samples.callback.api.CallbackListener;
+import com.alibaba.dubbo.samples.callback.api.CallbackService;
 
 /**
  * CallbackServiceImpl
