@@ -46,6 +46,7 @@
         <module>dubbo-samples-validation</module>
         <module>dubbo-samples-version</module>
         <module>dubbo-samples-docker</module>
+        <module>dubbo-samples-context</module>
     </modules>
 
     <dependencyManagement>
