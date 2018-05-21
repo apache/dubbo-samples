@@ -19,9 +19,6 @@ package com.alibaba.dubbo.samples.context;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/5/21
- */
 public class ContextProvider {
 
     public static void main(String[] args) throws Exception {

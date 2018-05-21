@@ -22,9 +22,6 @@ import com.alibaba.dubbo.samples.context.api.ContextService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * @author zmx ON 2018/5/21
- */
 public class ContextConsumer {
 
     public static void main(String[] args) {
