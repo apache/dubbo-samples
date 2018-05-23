@@ -17,22 +17,22 @@
  *
  */
 
-package com.alibaba.dubbo.samples.notify.impl;
+package com.alibaba.dubbo.samples.http;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.alibaba.dubbo.samples.http.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.alibaba.dubbo.samples.notify.api.Notify;
+/**
+ * HttpConsumer
+ */
+public class HttpConsumer {
 
-public class NotifyImpl implements Notify{
-
-    public Map<Integer, String> ret = new HashMap<Integer, String>();
-    public void onreturn(String name, int id) {
-        ret.put(id, name);
-        System.out.println("onreturn: " + name);
-    }
-
-    public void onthrow(Throwable ex, String name, int id) {
-        System.out.println("onthrow: " + name);
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/http-consumer.xml"});
+        context.start();
+        DemoService demoService = (DemoService) context.getBean("demoService");
+        String result = demoService.sayHello("world");
+        System.out.println(result);
+        System.in.read();
     }
 }

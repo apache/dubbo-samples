@@ -47,10 +47,18 @@
         <module>dubbo-samples-version</module>
         <module>dubbo-samples-docker</module>
         <module>dubbo-samples-context</module>
+        <module>dubbo-samples-http</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>4.3.16.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>dubbo</artifactId>
