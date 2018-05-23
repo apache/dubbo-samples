@@ -32,7 +32,6 @@
 
     <bean id="userserviceimpl" class="com.alibaba.dubbo.samples.generic.impl.UserServiceImpl"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.generic.api.IUserService" ref="userserviceimpl">
-    </dubbo:service>
+    <dubbo:service interface="com.alibaba.dubbo.samples.generic.api.IUserService" ref="userserviceimpl"/>
 
 </beans>
