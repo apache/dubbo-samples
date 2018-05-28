@@ -48,6 +48,7 @@
         <module>dubbo-samples-docker</module>
         <module>dubbo-samples-context</module>
         <module>dubbo-samples-http</module>
+        <module>dubbo-samples-api</module>
     </modules>
 
     <properties>
@@ -114,6 +115,12 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -126,6 +133,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
