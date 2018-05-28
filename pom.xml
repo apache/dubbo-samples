@@ -62,6 +62,7 @@
         <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
         <curator-client.version>2.12.0</curator-client.version>
+        <swagger.version>1.5.19</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -107,6 +108,17 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-client</artifactId>
                 <version>${curator-client.version}</version>
+            </dependency>
+            <!-- swagger -->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-jaxrs</artifactId>
+                <version>${swagger.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

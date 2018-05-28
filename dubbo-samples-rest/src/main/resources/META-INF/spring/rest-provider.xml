@@ -58,4 +58,23 @@
                    ref="anotherUserRestService" protocol="rest,dubbo" timeout="2000" connections="100"
                    validation="true"/>
 
+
+    <!-- SwaggerUI -->
+    <bean id="swaggerService" class="com.alibaba.dubbo.integration.swagger.DubboSwaggerApiListingResource" />
+    <bean id="beanConfig" class="io.swagger.jaxrs.config.BeanConfig">
+        <property name="schemes" value="http" />
+        <property name="resourcePackage" value="com.alibaba.dubbo.samples.rest.api"/>
+        <property name="version" value="2.0"/>
+        <property name="host" value="localhost:8888"/>
+        <property name="basePath" value="/services/"/>
+        <property name="title" value="title"/>
+        <property name="description" value="desc"/>
+        <property name="contact" value="abc"/>
+        <property name="license" value="Apache 2.0"/>
+        <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+        <property name="scan" value="true" />
+    </bean>
+    <dubbo:service interface="com.alibaba.dubbo.integration.swagger.DubboSwaggerService" ref="swaggerService" protocol="rest" />
+
+
 </beans>

@@ -18,8 +18,32 @@
  */
 package com.alibaba.dubbo.samples.rest.api;
 
+
+import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+@Path("users")
+@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+@Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
+@Api(value = "UserService")
 public interface UserService {
-    User getUser(Long id);
+
+    @GET
+    @Path("{id : \\d+}")
+    @ApiOperation(value = "getUser")
+    User getUser(@ApiParam(value = "id") @PathParam("id")Long id);
 
     Long registerUser(User user);
 }
