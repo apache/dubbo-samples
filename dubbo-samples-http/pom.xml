@@ -30,26 +30,30 @@
 
     <artifactId>dubbo-samples-http</artifactId>
 
-    <dependencies>
+    <properties>
+        <tomcat.version>7.0.88</tomcat.version>
+        <servlet.version>3.0.1</servlet.version>
+    </properties>
 
+    <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>3.0</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.taobao.tomcat.embed</groupId>
+            <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>7.0.64.1</version>
+            <version>${tomcat.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.taobao.tomcat.embed</groupId>
+            <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-logging-juli</artifactId>
-            <version>7.0.64.1</version>
+            <version>${tomcat.version}</version>
         </dependency>
     </dependencies>
 
