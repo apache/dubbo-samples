@@ -32,7 +32,7 @@ public class Application {
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
         service.export();
-
+        System.out.println("first-dubbo-provider is running.");
         System.in.read();
     }
 }
