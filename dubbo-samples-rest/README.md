@@ -19,8 +19,8 @@ We will find target/dubbo-samples-rest-1.0-SNAPSHOT.war
 6. Access http://localhost:8888/swagger/ to see Rest APIs.
 7. We can try to invoke rest web service here.
 
-[](screenshots/01.png)
-[](screenshots/02.png)
+![](https://raw.githubusercontent.com/dubbo/dubbo-samples/master/dubbo-samples-rest/screenshots/01.png)
+![](https://raw.githubusercontent.com/dubbo/dubbo-samples/master/dubbo-samples-rest/screenshots/02.png)
 
 ## Export Rest web services 
 
