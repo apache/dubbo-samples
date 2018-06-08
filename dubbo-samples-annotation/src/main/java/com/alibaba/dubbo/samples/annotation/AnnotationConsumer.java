@@ -43,7 +43,7 @@ public class AnnotationConsumer {
 
     @Configuration
     @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.annotation.action")
-    @PropertySource("classpath:/META-INF/spring/dubbo-consumer.properties")
+    @PropertySource("classpath:/spring/dubbo-consumer.properties")
     @ComponentScan(value = {"com.alibaba.dubbo.samples.annotation.action"})
     static public class ConsumerConfiguration {
 

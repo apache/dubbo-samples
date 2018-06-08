@@ -41,7 +41,7 @@ public class AnnotationProvider {
 
     @Configuration
     @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.annotation.impl")
-    @PropertySource("classpath:/META-INF/spring/dubbo-provider.properties")
+    @PropertySource("classpath:/spring/dubbo-provider.properties")
     static public class ProviderConfiguration {
         @Bean
         public ProviderConfig providerConfig() {
