@@ -29,7 +29,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class VersionConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/version-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/version-consumer.xml"});
         context.start();
         VersionService versionService = (VersionService) context.getBean("versionService");
         for (int i = 0; i < 10000; i++) {

@@ -28,7 +28,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class HttpConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/http-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/http-consumer.xml"});
         context.start();
         DemoService demoService = (DemoService) context.getBean("demoService");
         String result = demoService.sayHello("world");

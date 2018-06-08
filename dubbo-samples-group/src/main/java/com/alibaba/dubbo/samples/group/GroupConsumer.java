@@ -29,7 +29,7 @@ public class GroupConsumer {
     public static void main(String[] args) {
         //Prevent to get IPV6 address,this way only work in debug mode
         //But you can pass use -Djava.net.preferIPv4Stack=true,then it work well whether in debug mode or not
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/group-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/group-consumer.xml"});
         context.start();
         GroupService groupAService = (GroupService) context.getBean("groupAService"); // get remote service proxy
         GroupService groupBService = (GroupService)context.getBean("groupBService");

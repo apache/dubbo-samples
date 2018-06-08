@@ -31,7 +31,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MergeConsumer2 {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/merge-consumer2.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/merge-consumer2.xml"});
         context.start();
         MergeService mergeService = (MergeService) context.getBean("mergeService");
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
