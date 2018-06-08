@@ -49,6 +49,7 @@
         <module>dubbo-samples-context</module>
         <module>dubbo-samples-http</module>
         <module>dubbo-samples-api</module>
+        <module>dubbo-samples-spring-hystrix</module>
     </modules>
 
     <properties>
