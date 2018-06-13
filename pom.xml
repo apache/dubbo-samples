@@ -50,6 +50,7 @@
         <module>dubbo-samples-http</module>
         <module>dubbo-samples-api</module>
         <module>dubbo-samples-spring-hystrix</module>
+        <module>dubbo-samples-spring-boot-hystrix</module>
     </modules>
 
     <properties>
