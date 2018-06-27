@@ -21,30 +21,22 @@ package com.alibaba.dubbo.samples.async.impl;
 
 import com.alibaba.dubbo.samples.async.api.AsyncService;
 
-import org.apache.dubbo.rpc.AsyncContext;
-import org.apache.dubbo.rpc.RpcContext;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * AsyncServiceImpl
  */
 public class AsyncServiceImpl implements AsyncService {
 
-    public String sayHello(String name) {
-        System.out.println("Main sayHello() method start.");
-        final AsyncContext asyncContext = RpcContext.startAsync();
-        new Thread(() -> {
-            asyncContext.signalContextSwitch();
-            System.out.println("    -- Async start.");
+    public CompletableFuture<String> sayHello(String name) {
+        return CompletableFuture.supplyAsync(() -> {
             try {
-                Thread.sleep(500);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            asyncContext.write("Hello " + name + ", response from provider.");
-            System.out.println("    -- Async end.");
-        }).start();
-        System.out.println("Main sayHello() method end.");
-        return "hello, " + name;
+            return "async response from provider.";
+        });
     }
 
 }

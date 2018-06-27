@@ -17,34 +17,36 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async.impl;
+package com.alibaba.dubbo.samples.async;
 
 import com.alibaba.dubbo.samples.async.api.AsyncService;
 
-import org.apache.dubbo.rpc.AsyncContext;
-import org.apache.dubbo.rpc.RpcContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
- * AsyncServiceImpl
+ * CallbackConsumer
  */
-public class AsyncServiceImpl implements AsyncService {
+public class AsyncConsumer {
 
-    public String sayHello(String name) {
-        System.out.println("Main sayHello() method start.");
-        final AsyncContext asyncContext = RpcContext.startAsync();
-        new Thread(() -> {
-            asyncContext.signalContextSwitch();
-            System.out.println("    -- Async start.");
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
+        context.start();
+
+        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
+
+
+        CompletableFuture<String> future = asyncService.sayHello("async call request");
+        future.whenComplete((v, t) -> {
+            if (t != null) {
+                t.printStackTrace();
+            } else {
+                System.out.println(v);
             }
-            asyncContext.write("Hello " + name + ", response from provider.");
-            System.out.println("    -- Async end.");
-        }).start();
-        System.out.println("Main sayHello() method end.");
-        return "hello, " + name;
+        });
+
+        System.in.read();
     }
 
 }
