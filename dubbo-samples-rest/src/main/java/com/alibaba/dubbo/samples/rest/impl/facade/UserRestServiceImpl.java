@@ -18,6 +18,16 @@
  */
 package com.alibaba.dubbo.samples.rest.impl.facade;
 
+import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
+import com.alibaba.dubbo.samples.rest.api.User;
+import com.alibaba.dubbo.samples.rest.api.UserService;
+import com.alibaba.dubbo.samples.rest.api.facade.RegistrationResult;
+import com.alibaba.dubbo.samples.rest.api.facade.UserRestService;
+
+import org.apache.dubbo.rpc.RpcContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -27,16 +37,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.alibaba.dubbo.samples.rest.api.User;
-import com.alibaba.dubbo.samples.rest.api.UserService;
-import com.alibaba.dubbo.samples.rest.api.facade.RegistrationResult;
-import com.alibaba.dubbo.samples.rest.api.facade.UserRestService;
-import com.alibaba.dubbo.rpc.RpcContext;
-import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service("userRestService")
 @Path("users")

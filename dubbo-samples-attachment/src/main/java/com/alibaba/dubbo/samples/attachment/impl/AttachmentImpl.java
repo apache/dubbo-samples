@@ -19,11 +19,12 @@
 
 package com.alibaba.dubbo.samples.attachment.impl;
 
+import com.alibaba.dubbo.samples.attachment.api.AttachmentService;
+
+import org.apache.dubbo.rpc.RpcContext;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.alibaba.dubbo.rpc.RpcContext;
-import com.alibaba.dubbo.samples.attachment.api.AttachmentService;
 
 
 public class AttachmentImpl implements AttachmentService{

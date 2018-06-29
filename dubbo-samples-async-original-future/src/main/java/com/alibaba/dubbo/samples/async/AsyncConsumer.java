@@ -42,9 +42,10 @@ public class AsyncConsumer {
             if (t != null) {
                 t.printStackTrace();
             } else {
-                System.out.println(v);
+                System.out.println("Response: " + v);
             }
         });
+        System.out.println("Executed before response return.");
 
         System.in.read();
     }

@@ -19,9 +19,9 @@
 
 package com.alibaba.dubbo.samples.attachment;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.attachment.api.AttachmentService;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 

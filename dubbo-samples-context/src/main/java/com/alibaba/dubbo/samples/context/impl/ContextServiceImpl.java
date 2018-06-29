@@ -17,8 +17,9 @@
 
 package com.alibaba.dubbo.samples.context.impl;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.context.api.ContextService;
+
+import org.apache.dubbo.rpc.RpcContext;
 
 public class ContextServiceImpl implements ContextService{
 

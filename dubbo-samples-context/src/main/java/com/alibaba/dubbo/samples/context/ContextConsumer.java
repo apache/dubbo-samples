@@ -17,9 +17,9 @@
 
 package com.alibaba.dubbo.samples.context;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.context.api.ContextService;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ContextConsumer {

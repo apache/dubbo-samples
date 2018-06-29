@@ -17,10 +17,11 @@
 
 package com.alibaba.dubbo.samples.client;
 
-import com.alibaba.dubbo.config.ApplicationConfig;
-import com.alibaba.dubbo.config.ReferenceConfig;
-import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.samples.api.GreetingsService;
+
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
 
 public class Application {
     public static void main(String[] args) {

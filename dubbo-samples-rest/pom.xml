@@ -40,7 +40,7 @@
             <artifactId>resteasy-jackson-provider</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
+            <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-rpc-rest</artifactId>
         </dependency>
         <dependency>

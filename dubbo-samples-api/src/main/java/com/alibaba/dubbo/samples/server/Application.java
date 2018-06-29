@@ -17,10 +17,11 @@
 
 package com.alibaba.dubbo.samples.server;
 
-import com.alibaba.dubbo.config.ApplicationConfig;
-import com.alibaba.dubbo.config.RegistryConfig;
-import com.alibaba.dubbo.config.ServiceConfig;
 import com.alibaba.dubbo.samples.api.GreetingsService;
+
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.ServiceConfig;
 
 import java.io.IOException;
 

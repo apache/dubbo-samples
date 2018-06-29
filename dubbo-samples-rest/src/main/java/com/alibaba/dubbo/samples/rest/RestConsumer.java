@@ -20,8 +20,8 @@ package com.alibaba.dubbo.samples.rest;
 
 import com.alibaba.dubbo.samples.rest.api.User;
 import com.alibaba.dubbo.samples.rest.api.facade.AnotherUserRestService;
-import com.alibaba.dubbo.rpc.RpcContext;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class RestConsumer {
