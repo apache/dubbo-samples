@@ -31,4 +31,9 @@ public class AsyncServiceImpl implements AsyncService {
         return "hello, " + name;
     }
 
+    @Override
+    public String goodbye(String name) {
+        return "goodbye, " + name;
+    }
+
 }
