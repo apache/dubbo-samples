@@ -34,6 +34,7 @@ public class AsyncServiceImpl implements AsyncService {
         final AsyncContext asyncContext = RpcContext.startAsync();
         new Thread(() -> {
             asyncContext.signalContextSwitch();
+            System.out.println(RpcContext.getContext().getAttachment("consumer-key1"));
             System.out.println("    -- Async start.");
             try {
                 Thread.sleep(500);

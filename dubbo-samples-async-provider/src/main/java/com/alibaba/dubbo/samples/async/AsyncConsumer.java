@@ -21,6 +21,7 @@ package com.alibaba.dubbo.samples.async;
 
 import com.alibaba.dubbo.samples.async.api.AsyncService;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -32,6 +33,7 @@ public class AsyncConsumer {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
         context.start();
 
+        RpcContext.getContext().setAttachment("consumer-key1", "consumer-value1");
         final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
 
         System.out.println(asyncService.sayHello("async call request"));
