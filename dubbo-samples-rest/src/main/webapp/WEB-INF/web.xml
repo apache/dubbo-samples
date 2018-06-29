@@ -5,7 +5,7 @@
 <web-app>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/classes/META-INF/spring/rest-provider.xml</param-value>
+        <param-value>/WEB-INF/classes/spring/rest-provider.xml</param-value>
     </context-param>
 
     <!--this listener must be defined before the spring listener-->
