@@ -21,6 +21,7 @@ package com.alibaba.dubbo.samples.async;
 
 import com.alibaba.dubbo.samples.async.api.AsyncService;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
@@ -36,9 +37,11 @@ public class AsyncConsumer {
 
         final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
 
-
+        RpcContext.getContext().setAttachment("consumer-key1", "consumer-value1");
         CompletableFuture<String> future = asyncService.sayHello("async call request");
+        RpcContext savedServerContext = RpcContext.getServerContext();
         future.whenComplete((v, t) -> {
+            System.out.println(savedServerContext.getAttachment("server-key1"));
             if (t != null) {
                 t.printStackTrace();
             } else {

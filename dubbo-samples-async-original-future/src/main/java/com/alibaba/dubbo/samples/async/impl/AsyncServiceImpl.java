@@ -21,6 +21,8 @@ package com.alibaba.dubbo.samples.async.impl;
 
 import com.alibaba.dubbo.samples.async.api.AsyncService;
 
+import org.apache.dubbo.rpc.RpcContext;
+
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -29,9 +31,13 @@ import java.util.concurrent.CompletableFuture;
 public class AsyncServiceImpl implements AsyncService {
 
     public CompletableFuture<String> sayHello(String name) {
+        RpcContext savedContext = RpcContext.getContext();
+        RpcContext savedServerContext = RpcContext.getServerContext();
         return CompletableFuture.supplyAsync(() -> {
+            System.out.println(savedContext.getAttachment("consumer-key1"));
+            savedServerContext.setAttachment("server-key1", "server-value1");
             try {
-                Thread.sleep(30000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
