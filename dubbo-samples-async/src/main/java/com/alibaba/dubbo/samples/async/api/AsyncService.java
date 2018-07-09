@@ -26,4 +26,6 @@ public interface AsyncService {
 
     String sayHello(String name);
 
+    String goodbye(String name);
+
 }

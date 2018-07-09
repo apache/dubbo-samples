@@ -27,20 +27,17 @@ import com.alibaba.dubbo.samples.async.api.AsyncService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * CallbackConsumer
- */
 public class AsyncConsumer {
 
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/async-consumer.xml"});
         context.start();
 
-        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
+        final AsyncService service = (AsyncService) context.getBean("asyncService");
 
         Future<String> f = RpcContext.getContext().asyncCall(new Callable<String>() {
             public String call() throws Exception {
-                return asyncService.sayHello("async call request");
+                return service.sayHello("async call request");
             }
         });
 
@@ -49,10 +46,15 @@ public class AsyncConsumer {
 
         RpcContext.getContext().asyncCall(new Runnable() {
             public void run() {
-                asyncService.sayHello("oneway call request1");
-                asyncService.sayHello("oneway call request2");
+                service.sayHello("oneway call request1");
+                service.sayHello("oneway call request2");
             }
         });
+
+        service.goodbye("samples");
+        Future<String> future = RpcContext.getContext().getFuture();
+        String result = future.get();
+        System.out.println(result);
 
         System.in.read();
     }

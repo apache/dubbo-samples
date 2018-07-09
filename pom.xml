@@ -66,6 +66,7 @@
         <resteasy.version>3.0.19.Final</resteasy.version>
         <curator-client.version>2.12.0</curator-client.version>
         <swagger.version>1.5.19</swagger.version>
+        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -129,6 +130,14 @@
                 <artifactId>swagger-jaxrs</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -161,5 +170,14 @@
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
