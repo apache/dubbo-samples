@@ -11,7 +11,7 @@ public class ThriftConsumer {
         context.start();
         DemoService.Iface demo = (DemoService.Iface) context.getBean("demoService");
         for (int i = 0; i < 10; i++) {
-            RpcContext.getContext().setAttachment("parm", "嘿嘿"+i);
+            RpcContext.getContext().setAttachment("parm", "hehe"+i);
             System.out.println(demo.echoI32(i + 1));
             System.out.println(demo.echoBool(true));
         }
