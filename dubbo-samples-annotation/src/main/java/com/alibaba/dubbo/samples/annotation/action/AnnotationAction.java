@@ -21,12 +21,8 @@ package com.alibaba.dubbo.samples.annotation.action;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.samples.annotation.api.AnnotationService;
-
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 

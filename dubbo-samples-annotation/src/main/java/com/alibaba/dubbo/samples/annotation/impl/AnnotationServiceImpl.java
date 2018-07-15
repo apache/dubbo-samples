@@ -22,15 +22,12 @@ package com.alibaba.dubbo.samples.annotation.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.dubbo.samples.annotation.api.AnnotationService;
 
-/**
- * AsyncServiceImpl
- */
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
 
     public String sayHello(String name) {
         System.out.println("async provider received: " + name);
-        return "annotation: hello, " + name;
+        return "hello, " + name;
     }
 
 }
