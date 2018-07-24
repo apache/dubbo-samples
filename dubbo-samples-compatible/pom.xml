@@ -24,43 +24,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.alibaba</groupId>
-    <artifactId>dubbo-samples-all</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>dubbo-samples-compatible</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>dubbo-samples-annotation</module>
-        <module>dubbo-samples-async</module>
-        <module>dubbo-samples-attachment</module>
-        <module>dubbo-samples-basic</module>
-        <module>dubbo-samples-cache</module>
-        <module>dubbo-samples-callback</module>
-        <module>dubbo-samples-direct</module>
-        <module>dubbo-samples-echo</module>
-        <module>dubbo-samples-generic</module>
-        <module>dubbo-samples-group</module>
-        <module>dubbo-samples-merge</module>
-        <module>dubbo-samples-mock</module>
-        <module>dubbo-samples-notify</module>
-        <module>dubbo-samples-rest</module>
-        <module>dubbo-samples-stub</module>
-        <module>dubbo-samples-validation</module>
-        <module>dubbo-samples-version</module>
-        <module>dubbo-samples-docker</module>
-        <module>dubbo-samples-context</module>
-        <module>dubbo-samples-http</module>
-        <module>dubbo-samples-api</module>
-        <module>dubbo-samples-spring-hystrix</module>
-        <module>dubbo-samples-spring-boot-hystrix</module>
-        <module>dubbo-samples-monitor</module>
-        <module>dubbo-samples-genericinvoke</module>
-    </modules>
 
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <dubbo.version>2.6.2</dubbo.version>
-        <dubbo.rpc.version>2.6.2</dubbo.rpc.version>
+        <dubbo.version>2.7.0-SNAPSHOT</dubbo.version>
+        <dubbo.rpc.version>2.7.0-SNAPSHOT</dubbo.rpc.version>
         <curator.version>2.12.0</curator.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
@@ -80,14 +53,9 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
+                <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
                 <version>${dubbo.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>dubbo-rpc-rest</artifactId>
-                <version>${dubbo.rpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
@@ -148,7 +116,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
+            <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>
     </dependencies>

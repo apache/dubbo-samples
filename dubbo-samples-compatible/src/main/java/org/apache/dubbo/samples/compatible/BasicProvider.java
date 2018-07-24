@@ -17,11 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.basic.api;
+package org.apache.dubbo.samples.compatible;
 
-public interface DemoService {
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    String sayHello(String name);
+public class BasicProvider {
 
-    User getUser(int id);
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-demo-provider.xml"});
+        context.start();
+
+        System.in.read(); // press any key to exit
+    }
+
 }

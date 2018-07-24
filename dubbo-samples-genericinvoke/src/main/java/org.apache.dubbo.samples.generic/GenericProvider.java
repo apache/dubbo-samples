@@ -17,11 +17,20 @@
  *
  */
 
-package com.alibaba.dubbo.samples.basic.api;
+package org.apache.dubbo.samples.generic;
 
-public interface DemoService {
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    String sayHello(String name);
+/**
+ * GenericProvider
+ */
+public class GenericProvider {
 
-    User getUser(int id);
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/generic-provider.xml"});
+        context.start();
+        System.in.read();
+    }
+
 }

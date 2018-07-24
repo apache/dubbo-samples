@@ -17,11 +17,12 @@
  *
  */
 
-package com.alibaba.dubbo.samples.basic;
+package org.apache.dubbo.samples.compatible;
 
 import com.alibaba.dubbo.samples.basic.api.DemoService;
 import com.alibaba.dubbo.samples.basic.api.User;
 
+import org.apache.dubbo.rpc.RpcException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BasicConsumer {
@@ -33,18 +34,18 @@ public class BasicConsumer {
 
         //while (true) {
         //    try {
-        String hello = demoService.sayHello("world"); // call remote method
-        System.out.println(hello); // get result
+                String hello = demoService.sayHello("world"); // call remote method
+                System.out.println(hello); // get result
 
 
-        User user = demoService.getUser(1);
-        System.out.println(user);
+                User user = demoService.getUser(1);
+                System.out.println(user);
 
-        try {
-            demoService.getUser(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                try {
+                    demoService.getUser(0);
+                } catch (RpcException e) {
+                    e.printStackTrace();
+                }
 
         //        Thread.sleep(1000);
         //    } catch (Throwable throwable) {
