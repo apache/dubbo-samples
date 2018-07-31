@@ -23,25 +23,25 @@ import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ConsumerConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
-import com.alibaba.dubbo.samples.annotation.action.AnnotationAction;
+import com.alibaba.dubbo.samples.action.GreetingServiceConsumer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-public class AnnotationConsumer {
+public class ConsumerBootstrap {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
-        final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
-        String hello = annotationAction.doSayHello("annotation");
+        GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
+        String hello = greetingServiceConsumer.doSayHello("annotation");
         System.out.println("result: " + hello);
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.annotation.action")
-    @ComponentScan(value = {"com.alibaba.dubbo.samples.annotation.action"})
+    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.action")
+    @ComponentScan(value = {"com.alibaba.dubbo.samples.action"})
     static class ConsumerConfiguration {
         @Bean
         public ApplicationConfig applicationConfig() {

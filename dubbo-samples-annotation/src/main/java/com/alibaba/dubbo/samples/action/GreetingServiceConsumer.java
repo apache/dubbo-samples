@@ -17,17 +17,20 @@
  *
  */
 
-package com.alibaba.dubbo.samples.annotation.impl;
+package com.alibaba.dubbo.samples.action;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import com.alibaba.dubbo.samples.annotation.api.AnnotationService;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.samples.api.GreetingService;
+import org.springframework.stereotype.Component;
 
-@Service
-public class AnnotationServiceImpl implements AnnotationService {
+@Component("annotatedConsumer")
+public class GreetingServiceConsumer {
 
-    public String sayHello(String name) {
-        System.out.println("async provider received: " + name);
-        return "hello, " + name;
+    @Reference
+    private GreetingService greetingService;
+
+    public String doSayHello(String name) {
+        return greetingService.sayHello(name);
     }
 
 }

@@ -17,9 +17,9 @@
  *
  */
 
-package com.alibaba.dubbo.samples.annotation.api;
+package com.alibaba.dubbo.samples.api;
 
-public interface AnnotationService {
+public interface GreetingService {
 
     String sayHello(String name);
 

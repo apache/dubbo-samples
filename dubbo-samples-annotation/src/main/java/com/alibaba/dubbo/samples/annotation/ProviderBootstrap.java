@@ -24,11 +24,12 @@ import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.ProviderConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.alibaba.dubbo.samples.support.EmbeddedZooKeeper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-public class AnnotationProvider {
+public class ProviderBootstrap {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
@@ -38,7 +39,7 @@ public class AnnotationProvider {
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.annotation.impl")
+    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.impl")
     static class ProviderConfiguration {
         @Bean
         public ProviderConfig providerConfig() {

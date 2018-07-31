@@ -17,14 +17,15 @@
  *
  */
 
-package com.alibaba.dubbo.samples.annotation;
+package com.alibaba.dubbo.samples.config;
 
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.alibaba.dubbo.samples.support.EmbeddedZooKeeper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-public class ExternalizedConfigurationProvider {
+public class ProviderBootstrap {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
@@ -34,7 +35,7 @@ public class ExternalizedConfigurationProvider {
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.annotation.impl")
+    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.impl")
     @PropertySource("classpath:/spring/dubbo-provider.properties")
     static class ProviderConfiguration {
     }
