@@ -19,34 +19,52 @@
 
 package com.alibaba.dubbo.samples.annotation;
 
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ConsumerConfig;
+import org.apache.dubbo.config.RegistryConfig;
+
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import com.alibaba.dubbo.samples.annotation.action.AnnotationAction;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
-/**
- * CallbackConsumer
- */
 public class AnnotationConsumer {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
-        String hello = annotationAction.doSayHello("world");
-        System.out.println("result :" + hello);
-        System.in.read();
+        String hello = annotationAction.doSayHello("annotation");
+        System.out.println("result: " + hello);
     }
 
     @Configuration
     @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.annotation.action")
-    @PropertySource("classpath:/spring/dubbo-consumer.properties")
     @ComponentScan(value = {"com.alibaba.dubbo.samples.annotation.action"})
-    static public class ConsumerConfiguration {
+    static class ConsumerConfiguration {
+        @Bean
+        public ApplicationConfig applicationConfig() {
+            ApplicationConfig applicationConfig = new ApplicationConfig();
+            applicationConfig.setName("dubbo-annotation-consumer");
+            return applicationConfig;
+        }
 
+        @Bean
+        public ConsumerConfig consumerConfig() {
+            ConsumerConfig consumerConfig = new ConsumerConfig();
+            consumerConfig.setTimeout(3000);
+            return consumerConfig;
+        }
+
+        @Bean
+        public RegistryConfig registryConfig() {
+            RegistryConfig registryConfig = new RegistryConfig();
+            registryConfig.setProtocol("zookeeper");
+            registryConfig.setAddress("localhost");
+            registryConfig.setPort(2181);
+            return registryConfig;
+        }
     }
-
 }

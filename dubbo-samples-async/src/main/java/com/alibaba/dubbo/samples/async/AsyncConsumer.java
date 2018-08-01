@@ -25,6 +25,7 @@ import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 /**
  * CallbackConsumer
@@ -35,19 +36,25 @@ public class AsyncConsumer {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/async-consumer.xml"});
         context.start();
 
-        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
+        final AsyncService service = (AsyncService) context.getBean("asyncService");
 
-        CompletableFuture<String> f = RpcContext.getContext().asyncCall(() -> asyncService.sayHello("async call request"));
+        CompletableFuture<String> f = RpcContext.getContext().asyncCall(() -> service.sayHello("async call request"));
+
 
         System.out.println("async call ret :" + f.get());
 
-
-        RpcContext.getContext().asyncCall(() -> {
-                asyncService.sayHello("oneway call request1");
-                asyncService.sayHello("oneway call request2");
+        RpcContext.getContext().asyncCall(new Runnable() {
+            public void run() {
+                service.sayHello("oneway call request1");
+                service.sayHello("oneway call request2");
+            }
         });
+
+        service.goodbye("samples");
+        Future<String> future = RpcContext.getContext().getFuture();
+        String result = future.get();
+        System.out.println(result);
 
         System.in.read();
     }
-
 }
