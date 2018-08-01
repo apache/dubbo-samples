@@ -17,15 +17,24 @@
  *
  */
 
-package com.alibaba.dubbo.samples.generic.impl;
+package com.alibaba.dubbo.samples.generic.api;
 
-import com.alibaba.dubbo.samples.generic.api.IUserService;
-import com.alibaba.dubbo.samples.generic.api.Params;
-import com.alibaba.dubbo.samples.generic.api.User;
+import java.io.Serializable;
 
-public class UserServiceImpl implements IUserService {
+public class Params implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private String query;
 
-    public User get(Params params) {
-        return new User(1, "charles");
+    public Params(String query) {
+        super();
+        this.query = query;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 }
