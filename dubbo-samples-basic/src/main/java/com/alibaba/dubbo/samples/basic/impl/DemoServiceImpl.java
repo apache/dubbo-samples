@@ -21,17 +21,34 @@ package com.alibaba.dubbo.samples.basic.impl;
 
 import com.alibaba.dubbo.samples.basic.api.DemoService;
 
-import org.apache.dubbo.rpc.RpcContext;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.samples.basic.api.Phone;
+import com.alibaba.dubbo.samples.basic.api.User;
 
 public class DemoServiceImpl implements DemoService {
 
     public String sayHello(String name) {
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
+                .getContext().getRemoteAddress());
         return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
     }
 
+    @Override
+    public User getUser(int id) {
+        if (id == 0) {
+            throw new IllegalArgumentException("id is 0");
+        }
+
+        User user = new User();
+        Phone phone = new Phone();
+        user.setName("aaa");
+        user.setAge(10);
+        phone.setMobile("13333333");
+        phone.setTel("057199999");
+        user.setPhone(phone);
+        return user;
+    }
 }

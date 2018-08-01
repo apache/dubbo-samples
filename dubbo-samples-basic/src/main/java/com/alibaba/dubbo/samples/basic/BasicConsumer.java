@@ -20,6 +20,7 @@
 package com.alibaba.dubbo.samples.basic;
 
 import com.alibaba.dubbo.samples.basic.api.DemoService;
+import com.alibaba.dubbo.samples.basic.api.User;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,18 +31,26 @@ public class BasicConsumer {
         context.start();
         DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
 
-        while (true) {
-            try {
-                Thread.sleep(1000);
-                String hello = demoService.sayHello("world"); // call remote method
-                System.out.println(hello); // get result
-
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+        //while (true) {
+        //    try {
+        String hello = demoService.sayHello("world"); // call remote method
+        System.out.println(hello); // get result
 
 
+        User user = demoService.getUser(1);
+        System.out.println(user);
+
+        try {
+            demoService.getUser(0);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        //        Thread.sleep(1000);
+        //    } catch (Throwable throwable) {
+        //        throwable.printStackTrace();
+        //    }
+        //}
 
     }
 }

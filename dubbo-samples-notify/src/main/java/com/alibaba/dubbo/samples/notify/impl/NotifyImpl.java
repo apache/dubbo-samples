@@ -27,6 +27,7 @@ import com.alibaba.dubbo.samples.notify.api.Notify;
 public class NotifyImpl implements Notify{
 
     public Map<Integer, String> ret = new HashMap<Integer, String>();
+
     public void onreturn(String name, int id) {
         ret.put(id, name);
         System.out.println("onreturn: " + name);
