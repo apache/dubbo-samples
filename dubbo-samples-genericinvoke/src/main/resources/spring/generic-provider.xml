@@ -28,7 +28,7 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:protocol name="dubbo" port="20880" serialization="native-hessian"/>
+    <dubbo:protocol name="dubbo"/>
 
     <bean id="greetingService" class="org.apache.dubbo.samples.generic.service.GreetingServiceImpl"/>
 

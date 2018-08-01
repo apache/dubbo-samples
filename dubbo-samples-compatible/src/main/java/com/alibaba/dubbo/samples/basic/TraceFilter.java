@@ -16,36 +16,23 @@
  *   limitations under the License.
  *
  */
-package com.alibaba.dubbo.samples.basic.api;
+package com.alibaba.dubbo.samples.basic;
 
-import java.io.Serializable;
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.extension.Activate;
+import com.alibaba.dubbo.rpc.*;
 
-public class Phone implements Serializable {
+@Activate(group = { Constants.CONSUMER })
+public class TraceFilter implements Filter {
 
-    private String mobile;
-    private String tel;
+    public TraceFilter() {
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
     }
 
     @Override
-    public String toString() {
-        return "Phone{" +
-                "mobile='" + mobile + '\'' +
-                ", tel='" + tel + '\'' +
-                '}';
+    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+        Result result = invoker.invoke(invocation);
+        System.out.println("trace filter: " + result.getValue());
+        return result;
     }
 }

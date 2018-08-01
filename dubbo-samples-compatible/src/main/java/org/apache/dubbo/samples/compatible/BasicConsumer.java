@@ -22,7 +22,6 @@ package org.apache.dubbo.samples.compatible;
 import com.alibaba.dubbo.samples.basic.api.DemoService;
 import com.alibaba.dubbo.samples.basic.api.User;
 
-import org.apache.dubbo.rpc.RpcException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BasicConsumer {
@@ -32,26 +31,18 @@ public class BasicConsumer {
         context.start();
         DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
 
-        //while (true) {
-        //    try {
+        while (true) {
+            try {
                 String hello = demoService.sayHello("world"); // call remote method
                 System.out.println(hello); // get result
-
 
                 User user = demoService.getUser(1);
                 System.out.println(user);
 
-                try {
-                    demoService.getUser(0);
-                } catch (RpcException e) {
-                    e.printStackTrace();
-                }
-
-        //        Thread.sleep(1000);
-        //    } catch (Throwable throwable) {
-        //        throwable.printStackTrace();
-        //    }
-        //}
-
+                Thread.sleep(1000);
+            } catch (Throwable throwable) {
+                System.out.println(throwable.getMessage());
+            }
+        }
     }
 }
