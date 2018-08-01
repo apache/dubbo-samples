@@ -16,12 +16,20 @@
  *   limitations under the License.
  *
  */
+package com.alibaba.dubbo.samples.generic.impl;
 
-package com.alibaba.dubbo.samples.generic.api;
+import com.alibaba.dubbo.rpc.service.GenericException;
+import com.alibaba.dubbo.rpc.service.GenericService;
 
-public interface IUserService {
+public class GenericServiceImpl implements GenericService {
+    @Override
+    public Object $invoke(String method, String[] parameterTypes, Object[] args) throws GenericException {
+        if (method.equals("hi")) {
+            return "hi, " + args[0];
+        } else if (method.equals("hello")) {
+            return "hello, " + args[0];
+        }
 
-    User get(Params params);
-
-    String delete(int id);
+        return "welcome";
+    }
 }
