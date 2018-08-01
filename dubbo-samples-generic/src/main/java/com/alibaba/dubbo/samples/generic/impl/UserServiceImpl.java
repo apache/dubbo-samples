@@ -25,7 +25,13 @@ import com.alibaba.dubbo.samples.generic.api.User;
 
 public class UserServiceImpl implements IUserService {
 
+    @Override
     public User get(Params params) {
         return new User(1, "charles");
+    }
+
+    @Override
+    public String delete(int id) {
+        return "dubbo";
     }
 }

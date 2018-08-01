@@ -35,7 +35,12 @@ public class GenericConsumer {
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/generic-consumer.xml"});
         context.start();
-        GenericService userService = (GenericService) context.getBean("userservice");
+        GenericService userService = (GenericService) context.getBean("userService");
+
+        // primary param and return value
+        String name = (String) userService.$invoke("delete", new String[]{int.class.getName()}, new Object[]{1});
+        System.out.println(name);
+
         String[] parameterTypes = new String[]{"com.alibaba.dubbo.samples.generic.api.Params"};
         // sample one
         Map<String, Object> param = new HashMap<String, Object>();
