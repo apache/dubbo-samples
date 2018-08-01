@@ -54,6 +54,7 @@
         <module>dubbo-samples-api</module>
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
+        <module>dubbo-samples-compatible</module>
     </modules>
 
     <properties>
