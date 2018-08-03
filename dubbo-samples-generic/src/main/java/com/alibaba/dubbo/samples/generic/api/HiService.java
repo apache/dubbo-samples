@@ -16,12 +16,9 @@
  *   limitations under the License.
  *
  */
-
 package com.alibaba.dubbo.samples.generic.api;
 
-public interface IUserService {
+public interface HiService {
 
-    User get(Params params);
-
-    String delete(int id);
+    String hi(String name);
 }

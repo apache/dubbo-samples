@@ -17,8 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.generic.api;
+package com.alibaba.dubbo.samples.multi.registry;
 
-public interface IService<P, V> {
-    V get(P params);
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+public class MultiRegistryProvider {
+
+    public static void main(String[] args) throws Exception{
+        new EmbeddedZooKeeper(2181, false).start();
+        new EmbeddedZooKeeper(2182, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/multi-registry-provider.xml"});
+        context.start();
+        System.in.read(); // press any key to exit
+    }
 }

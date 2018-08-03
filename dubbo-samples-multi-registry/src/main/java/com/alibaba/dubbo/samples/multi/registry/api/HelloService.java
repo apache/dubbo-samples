@@ -17,11 +17,10 @@
  *
  */
 
-package com.alibaba.dubbo.samples.generic.api;
+package com.alibaba.dubbo.samples.multi.registry.api;
 
-public interface IUserService {
 
-    User get(Params params);
+public interface HelloService {
 
-    String delete(int id);
+    public String sayHello(String name);
 }

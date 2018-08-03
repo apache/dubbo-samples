@@ -19,11 +19,13 @@
 
 package com.alibaba.dubbo.samples.generic;
 
-import com.alibaba.dubbo.samples.generic.api.IUserService;
-import com.alibaba.dubbo.samples.generic.api.IUserService.Params;
-import com.alibaba.dubbo.samples.generic.api.IUserService.User;
+import com.alibaba.dubbo.rpc.service.GenericService;
+import com.alibaba.dubbo.samples.generic.api.Params;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * GenericConsumer
@@ -33,9 +35,22 @@ public class GenericConsumer {
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/generic-consumer.xml"});
         context.start();
-        IUserService userservice = (IUserService) context.getBean("userservice");
-        User user = userservice.get(new Params("a=b"));
-        System.out.println(user);
+        GenericService userService = (GenericService) context.getBean("userService");
+
+        // primary param and return value
+        String name = (String) userService.$invoke("delete", new String[]{int.class.getName()}, new Object[]{1});
+        System.out.println(name);
+
+        String[] parameterTypes = new String[]{"com.alibaba.dubbo.samples.generic.api.Params"};
+        // sample one
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("class", "com.alibaba.dubbo.samples.generic.api.Params");
+        param.put("query", "a=b");
+        Object user = userService.$invoke("get", parameterTypes, new Object[]{param});
+        System.out.println("sample one result: " + user);
+        // sample two
+        user = userService.$invoke("get", parameterTypes, new Object[]{new Params("a=b")});
+        System.out.println("sample two result: " + user);
         System.in.read();
     }
 }

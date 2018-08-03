@@ -24,10 +24,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="generic-consumer"/>
+    <!-- consumer's application name, used for tracing dependency relationship (not a matching criterion),
+    don't set it same as provider -->
+    <dubbo:application name="multi-registry-consumer"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <!-- use multicast registry center to discover service -->
+    <dubbo:registry id="beijingRegistry" address="zookeeper://127.0.0.1:2181" default="false"/>
+    <dubbo:registry id="shanghaiRegistry" address="zookeeper://127.0.0.1:2182" />
 
-    <dubbo:reference id="userService" interface="com.alibaba.dubbo.samples.generic.api.IUserService" generic="true"/>
+    <!-- generate proxy for the remote service, then demoService can be used in the same way as the
+    local regular interface -->
+    <dubbo:reference id="demoServiceFormDefault" interface="com.alibaba.dubbo.samples.multi.registry.api.DemoService"/>
+    <dubbo:reference id="demoServiceFormBeijing" interface="com.alibaba.dubbo.samples.multi.registry.api.DemoService" registry="beijingRegistry"/>
+    <dubbo:reference id="helloServiceFormBeijing" interface="com.alibaba.dubbo.samples.multi.registry.api.HelloService" registry="beijingRegistry"/>
+    <dubbo:reference id="helloServiceFormShanghai" interface="com.alibaba.dubbo.samples.multi.registry.api.HelloService" registry="shanghaiRegistry"/>
 
 </beans>
+

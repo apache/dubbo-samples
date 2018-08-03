@@ -20,12 +20,18 @@
 package com.alibaba.dubbo.samples.generic.impl;
 
 import com.alibaba.dubbo.samples.generic.api.IUserService;
-import com.alibaba.dubbo.samples.generic.api.IUserService.Params;
-import com.alibaba.dubbo.samples.generic.api.IUserService.User;
+import com.alibaba.dubbo.samples.generic.api.Params;
+import com.alibaba.dubbo.samples.generic.api.User;
 
 public class UserServiceImpl implements IUserService {
 
+    @Override
     public User get(Params params) {
         return new User(1, "charles");
+    }
+
+    @Override
+    public String delete(int id) {
+        return "dubbo";
     }
 }

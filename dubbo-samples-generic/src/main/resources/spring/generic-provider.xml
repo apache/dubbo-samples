@@ -30,8 +30,8 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="userserviceimpl" class="com.alibaba.dubbo.samples.generic.impl.UserServiceImpl"/>
+    <bean id="userServiceImpl" class="com.alibaba.dubbo.samples.generic.impl.UserServiceImpl"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.generic.api.IUserService" ref="userserviceimpl"/>
+    <dubbo:service interface="com.alibaba.dubbo.samples.generic.api.IUserService" ref="userServiceImpl"/>
 
 </beans>

@@ -19,9 +19,22 @@
 
 package com.alibaba.dubbo.samples.generic.api;
 
-public interface IUserService {
+import java.io.Serializable;
 
-    User get(Params params);
+public class Params implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private String query;
 
-    String delete(int id);
+    public Params(String query) {
+        super();
+        this.query = query;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
 }

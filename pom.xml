@@ -53,6 +53,7 @@
         <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-zookeeper</module>
+        <module>dubbo-samples-multi-registry</module>
     </modules>
 
     <properties>
