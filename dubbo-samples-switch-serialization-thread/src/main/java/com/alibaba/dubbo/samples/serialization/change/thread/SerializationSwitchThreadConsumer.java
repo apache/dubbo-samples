@@ -17,20 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.serialization.change.thread.impl;
+package com.alibaba.dubbo.samples.serialization.change.thread;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.serialization.change.thread.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+public class SerializationSwitchThreadConsumer {
 
-public class DemoServiceImpl implements DemoService {
-
-    public String sayHello(String name) {
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-                .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/serialization-switch-thread-consumer.xml"});
+        context.start();
+        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+        System.out.println(demoService.sayHello("Dubbo"));
     }
 
 }

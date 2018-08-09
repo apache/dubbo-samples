@@ -24,6 +24,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class SerializationSwitchThreadProvider {
 
     public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/serialization-switch-thread-provider.xml"});
         context.start();
 

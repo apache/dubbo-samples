@@ -19,8 +19,6 @@
 
 package com.alibaba.dubbo.samples.serialization.change.thread.api;
 
-public interface DemoSerivice {
-
+public interface DemoService {
     String sayHello(String name);
-
 }
