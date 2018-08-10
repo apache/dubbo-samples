@@ -54,6 +54,7 @@
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-zookeeper</module>
         <module>dubbo-samples-multi-registry</module>
+        <module>dubbo-samples-switch-serialization-thread</module>
     </modules>
 
     <properties>
