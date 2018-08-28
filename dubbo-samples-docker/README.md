@@ -46,7 +46,7 @@ docker run --name zkserver --restart always -d zookeeper:3.4.9
 docker run -e DUBBO_IP_TO_REGISTRY=30.5.97.6 -e DUBBO_PORT_TO_REGISTRY=20881 -p 30.5.97.6:20881:20880 --link zkserver:zkserver -it --rm dubbo-docker-sample
 ```
 > 假设宿主机ip为30.5.97.6。    
-> 通过环境变量 `DUBBO_IP_TO_REGISTRY=30.5.97.6` `DUBBO_PORT_TO_REGISTRY=20880` 设置provider注册到注册中心的ip、port      
+> 通过环境变量 `DUBBO_IP_TO_REGISTRY=30.5.97.6` `DUBBO_PORT_TO_REGISTRY=20881` 设置provider注册到注册中心的ip、port      
 > 通过`-p 30.5.97.6:20881:20880`做端口映射，其中20880是dubbo自动选择的监听port，由于没有设置监听ip，将监听0.0.0.0即所有ip地址  
 > 启动后provider的注册地址为：30.5.97.6:20881，容器的监听地址为：0.0.0.0:20880  
 
