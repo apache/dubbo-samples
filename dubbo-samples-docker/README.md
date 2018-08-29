@@ -15,12 +15,12 @@
 > * 如果设置`PORT_TO_BIND=20881` `IP_TO_BIND=30.5.97.6`，则默认`PORT_TO_REGISTRY=20881` `IP_TO_REGISTRY=30.5.97.6`
 > 
 
-[dubbo-docker-sample](https://github.com/dubbo/dubbo-docker-sample)工程本地运行流程： 
+[dubbo-docker-sample](https://github.com/dubbo/dubbo-samples)工程本地运行流程： 
  
 1. clone工程到本地 
 ```sh
-git clone git@github.com:dubbo/dubbo-docker-sample.git
-cd dubbo-docker-sample
+git clone git@github.com:dubbo/dubbo-samples.git
+cd dubbo-samples/dubbo-samples-docker
 ```
 2. 本地maven打包  
 ```sh
