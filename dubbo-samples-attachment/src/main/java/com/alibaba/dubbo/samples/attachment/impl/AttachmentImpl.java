@@ -30,9 +30,8 @@ public class AttachmentImpl implements AttachmentService{
 
     public String sayHello(String name) {
 
-        String index = RpcContext.getContext().getAttachment("index");  //the attachment will be remove after this
-        System.out.println("receive attachment index: " + index);
-
+        String consumerName = RpcContext.getContext().getAttachment("name");  //the attachment will be remove after this
+        System.out.println("receive attachment index: " + consumerName);
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
             .getContext().getRemoteAddress());
         return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
