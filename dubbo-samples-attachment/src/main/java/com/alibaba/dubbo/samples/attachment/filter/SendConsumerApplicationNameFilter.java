@@ -17,19 +17,22 @@
  *
  */
 
-package com.alibaba.dubbo.samples.attachment;
+package com.alibaba.dubbo.samples.attachment.filter;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.extension.Activate;
+import com.alibaba.dubbo.rpc.*;
 
+@Activate(group = Constants.CONSUMER)
+public class SendConsumerApplicationNameFilter implements Filter {
+    public static final String SEND_CONSUMER_APPLICATION_NAME_KEY = "sendConsumerApplicationName";
 
-public class AttachmentProvider {
-
-    public static void main(String[] args) throws Exception{
-        new EmbeddedZooKeeper(2181, false).start();
-        System.setProperty("java.net.preferIPv4Stack", "true");
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/attachment-provider.xml"});
-        context.start();
-
-        System.in.read(); // press any key to exit
+    @Override
+    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+        if (invocation instanceof RpcInvocation) {
+            String consumerApplicationName = invoker.getUrl().getParameter(Constants.APPLICATION_KEY);
+            ((RpcInvocation) invocation).setAttachment(SEND_CONSUMER_APPLICATION_NAME_KEY, consumerApplicationName);
+        }
+        return invoker.invoke(invocation);
     }
 }
