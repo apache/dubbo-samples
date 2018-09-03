@@ -28,6 +28,6 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:reference id="mergeService" interface="com.alibaba.dubbo.samples.merge.api.MergeService" group="*"/>
+    <dubbo:reference id="mergeService" interface="com.alibaba.dubbo.samples.merge.api.MergeService" group="*" merger="true"/>
 
 </beans>
