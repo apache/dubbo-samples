@@ -19,5 +19,5 @@
 package com.alibaba.dubbo.samples.api;
 
 public interface GreetingsService {
-    String sayHi(String name);
+    String sayHello(String name);
 }

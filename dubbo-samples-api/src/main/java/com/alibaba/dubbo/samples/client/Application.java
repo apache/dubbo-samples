@@ -29,7 +29,7 @@ public class Application {
         reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
-        String message = greetingsService.sayHi("dubbo");
+        String message = greetingsService.sayHello("dubbo");
         System.out.println(message);
     }
 }

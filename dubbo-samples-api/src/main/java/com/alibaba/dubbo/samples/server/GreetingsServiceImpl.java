@@ -21,7 +21,7 @@ import com.alibaba.dubbo.samples.api.GreetingsService;
 
 public class GreetingsServiceImpl implements GreetingsService {
     @Override
-    public String sayHi(String name) {
+    public String sayHello(String name) {
         return "hi, " + name;
     }
 }
