@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.server;
+package com.alibaba.dubbo.samples.provider;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.RegistryConfig;

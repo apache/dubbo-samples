@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.client;
+package com.alibaba.dubbo.samples.consumer;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
@@ -25,7 +25,7 @@ import com.alibaba.dubbo.samples.api.GreetingsService;
 public class Application {
     public static void main(String[] args) {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
-        reference.setApplication(new ApplicationConfig("first-dubbo-client"));
+        reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
         reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();

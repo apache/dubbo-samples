@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.server;
+package com.alibaba.dubbo.samples.provider;
 
 import com.alibaba.dubbo.samples.api.GreetingsService;
 
 public class GreetingsServiceImpl implements GreetingsService {
     @Override
     public String sayHello(String name) {
-        return "hi, " + name;
+        return "Hello " + name;
     }
 }
