@@ -32,10 +32,6 @@
 
     <properties>
         <scala.version>2.12.5</scala.version>
-        <scala.test.version>3.0.5</scala.test.version>
-        <scala.check.version>1.14.0</scala.check.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
-        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencies>
