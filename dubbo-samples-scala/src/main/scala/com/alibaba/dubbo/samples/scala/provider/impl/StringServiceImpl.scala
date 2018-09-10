@@ -24,5 +24,5 @@ import com.alibaba.dubbo.samples.scala.service.StringService
 
 @Service
 class StringServiceImpl extends StringService {
-  override def reverse(s: String): Option[String] = Option(s).map(s ⇒ s.reverse)
+  override def reverse(s: String): String = s.reverse
 }

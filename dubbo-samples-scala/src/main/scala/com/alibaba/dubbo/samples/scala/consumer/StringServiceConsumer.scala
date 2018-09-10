@@ -29,6 +29,6 @@ class StringServiceConsumer {
   @Reference
   private val greetingService: StringService = null
 
-  def reverse(s: String): Option[String] = greetingService.reverse(s)
+  def reverse(s: String): String = greetingService.reverse(s)
 
 }

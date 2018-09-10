@@ -21,6 +21,6 @@ package com.alibaba.dubbo.samples.scala.service
 
 trait StringService {
 
-  def reverse(s: String): Option[String]
+  def reverse(s: String): String
 
 }

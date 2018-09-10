@@ -25,7 +25,7 @@ class StringServiceSuite extends FunSuite with Matchers with BeforeAndAfterAll w
 
   test("StringService.reverse") {
     forAll { s: String ⇒
-      stringService.reverse(s).map(s ⇒ s.reverse) shouldEqual Option(s)
+      stringService.reverse(s).reverse shouldEqual s
     }
   }
 }
