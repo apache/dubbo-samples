@@ -5,6 +5,5 @@ samples for Apache Dubbo (incubating)
 [![Gitter](https://badges.gitter.im/alibaba/dubbo.svg)](https://gitter.im/alibaba/dubbo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ![license](https://img.shields.io/github/license/dubbo/dubbo-samples.svg)
 
-## dubbo-samples-rest
-[dubbo-samples-rest](dubbo-samples-rest)
+Check README in each individual sub projects.
 
