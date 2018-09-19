@@ -30,8 +30,9 @@ public class Application {
         //reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
         reference.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
         reference.setInterface(GreetingsService.class);
-        System.out.println(reference.getProtocol());
         GreetingsService greetingsService = reference.get();
+        System.out.println(reference.getProtocol());
+        System.out.println(reference.getUrl());
         String message = greetingsService.sayHello("dubbo");
         System.out.println(message);
     }
