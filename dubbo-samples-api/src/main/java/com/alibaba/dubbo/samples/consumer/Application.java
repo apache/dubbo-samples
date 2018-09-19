@@ -18,6 +18,7 @@
 package com.alibaba.dubbo.samples.consumer;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.samples.api.GreetingsService;
@@ -26,6 +27,7 @@ public class Application {
     public static void main(String[] args) {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
+        System.out.println(reference.getProtocol());
         //reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
         reference.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
         reference.setInterface(GreetingsService.class);

@@ -18,6 +18,7 @@
 package com.alibaba.dubbo.samples.provider;
 
 import com.alibaba.dubbo.config.ApplicationConfig;
+import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.ServiceConfig;
 import com.alibaba.dubbo.samples.api.GreetingsService;
@@ -27,7 +28,13 @@ import java.io.IOException;
 public class Application {
     public static void main(String[] args) throws IOException {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
-        service.setApplication(new ApplicationConfig("first-dubbo-provider"));
+        ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-provider");
+        service.setApplication(applicationConfig);
+        ProtocolConfig protocolConfig = new ProtocolConfig();
+        protocolConfig.setHost("10.0.14.59");
+        protocolConfig.setPort(20880);
+        protocolConfig.setName("dubbo");
+        service.setProtocol(protocolConfig);
         //service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
         service.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
         service.setInterface(GreetingsService.class);
