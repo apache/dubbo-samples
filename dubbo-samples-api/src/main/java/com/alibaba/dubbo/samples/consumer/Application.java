@@ -27,9 +27,9 @@ public class Application {
     public static void main(String[] args) {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
-        System.out.println(reference.getProtocol());
         //reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
         reference.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
+        System.out.println(reference.getProtocol());
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
         String message = greetingsService.sayHello("dubbo");
