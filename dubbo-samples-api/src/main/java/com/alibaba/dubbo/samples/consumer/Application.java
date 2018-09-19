@@ -27,8 +27,8 @@ public class Application {
     public static void main(String[] args) {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
-        //reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
-        reference.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
+        reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        //reference.setRegistry(new RegistryConfig("zookeeper://localhost:2181"));
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
         System.out.println(reference.toUrl());

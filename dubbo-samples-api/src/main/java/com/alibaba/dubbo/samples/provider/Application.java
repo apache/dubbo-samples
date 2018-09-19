@@ -28,15 +28,14 @@ import java.io.IOException;
 public class Application {
     public static void main(String[] args) throws IOException {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
-        ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-provider");
-        service.setApplication(applicationConfig);
+        service.setApplication(new ApplicationConfig("first-dubbo-provider"));
         ProtocolConfig protocolConfig = new ProtocolConfig();
-        protocolConfig.setHost("10.0.14.59");
+        protocolConfig.setHost("localhost");
         protocolConfig.setPort(20880);
         protocolConfig.setName("dubbo");
         service.setProtocol(protocolConfig);
-        //service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
-        service.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
+        service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        //service.setRegistry(new RegistryConfig("zookeeper://localhost:2181"));
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
         service.export();
