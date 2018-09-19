@@ -31,8 +31,7 @@ public class Application {
         reference.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
-        System.out.println(reference.getProtocol());
-        System.out.println(reference.getUrl());
+        System.out.println(reference.toUrl());
         String message = greetingsService.sayHello("dubbo");
         System.out.println(message);
     }
