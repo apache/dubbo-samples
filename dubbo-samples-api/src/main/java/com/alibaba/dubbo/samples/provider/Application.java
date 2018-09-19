@@ -28,7 +28,8 @@ public class Application {
     public static void main(String[] args) throws IOException {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setApplication(new ApplicationConfig("first-dubbo-provider"));
-        service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        //service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        service.setRegistry(new RegistryConfig("zookeeper://10.0.14.59:2181"));
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
         service.export();
