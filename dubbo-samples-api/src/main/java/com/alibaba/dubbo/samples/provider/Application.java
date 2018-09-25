@@ -31,7 +31,7 @@ public class Application {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setApplication(new ApplicationConfig("first-dubbo-provider"));
         ProtocolConfig protocolConfig = new ProtocolConfig();
-        protocolConfig.setHost("localhost");
+        protocolConfig.setHost("10.0.14.59");
         protocolConfig.setPort(20880);
         protocolConfig.setName("dubbo");
         service.setProtocol(protocolConfig);
