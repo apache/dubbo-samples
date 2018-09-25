@@ -21,17 +21,20 @@ import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.api.GreetingsService;
 
 public class Application {
     public static void main(String[] args) {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
-        reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
-        //reference.setRegistry(new RegistryConfig("zookeeper://localhost:2181"));
+        //reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        reference.setRegistry(new RegistryConfig("zookeeper://localhost:2181"));
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
+        String serverIP = RpcContext.getContext().getRemoteAddressString();
         System.out.println(reference.toUrl());
+        System.out.println(serverIP);
         String message = greetingsService.sayHello("dubbo");
         System.out.println(message);
     }

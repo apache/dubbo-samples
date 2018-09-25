@@ -21,6 +21,7 @@ import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.ServiceConfig;
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.samples.api.GreetingsService;
 
 import java.io.IOException;
@@ -34,8 +35,8 @@ public class Application {
         protocolConfig.setPort(20880);
         protocolConfig.setName("dubbo");
         service.setProtocol(protocolConfig);
-        service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
-        //service.setRegistry(new RegistryConfig("zookeeper://localhost:2181"));
+        //service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        service.setRegistry(new RegistryConfig("zookeeper://localhost:2181"));
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
         service.export();
