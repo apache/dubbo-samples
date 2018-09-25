@@ -32,10 +32,10 @@ public class Application {
         reference.setRegistry(new RegistryConfig("zookeeper://localhost:2181"));
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
-        String serverIP = RpcContext.getContext().getRemoteAddressString();
         System.out.println(reference.toUrl());
-        System.out.println(serverIP);
         String message = greetingsService.sayHello("dubbo");
+        String serverIP = RpcContext.getContext().getRemoteAddressString();
+        System.out.println(serverIP);
         System.out.println(message);
     }
 }
