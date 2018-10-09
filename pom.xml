@@ -56,6 +56,7 @@
         <module>dubbo-samples-multi-registry</module>
         <module>dubbo-samples-switch-serialization-thread</module>
         <module>dubbo-samples-scala</module>
+        <module>dubbo-samples-zipkin</module>
     </modules>
 
     <properties>
