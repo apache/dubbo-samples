@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~
-  ~   Licensed to the Apache Software Foundation (ASF) under one or more
-  ~   contributor license agreements.  See the NOTICE file distributed with
-  ~   this work for additional information regarding copyright ownership.
-  ~   The ASF licenses this file to You under the Apache License, Version 2.0
-  ~   (the "License"); you may not use this file except in compliance with
-  ~   the License.  You may obtain a copy of the License at
-  ~
-  ~       http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~   Unless required by applicable law or agreed to in writing, software
-  ~   distributed under the License is distributed on an "AS IS" BASIS,
-  ~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~   See the License for the specific language governing permissions and
-  ~   limitations under the License.
-  ~
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -25,7 +23,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.alibaba.dubbo.samples.rest"/>
+    <context:component-scan base-package="org.apache.dubbo.samples.rest"/>
 
     <dubbo:application name="rest-provider" owner="programmer" organization="dubbo"/>
 
@@ -36,11 +34,11 @@
 
     <!-- use tomcat server -->
     <dubbo:protocol name="rest" port="8888" threads="500" contextpath="services" server="tomcat" accepts="500"
-                    extension="com.alibaba.dubbo.samples.rest.api.extension.TraceInterceptor,
-                    com.alibaba.dubbo.samples.rest.api.extension.TraceFilter,
-                    com.alibaba.dubbo.samples.rest.api.extension.ClientTraceFilter,
-                    com.alibaba.dubbo.samples.rest.api.extension.DynamicTraceBinding,
-                    com.alibaba.dubbo.samples.rest.api.extension.CustomExceptionMapper,
+                    extension="org.apache.dubbo.samples.rest.api.extension.TraceInterceptor,
+                    org.apache.dubbo.samples.rest.api.extension.TraceFilter,
+                    org.apache.dubbo.samples.rest.api.extension.ClientTraceFilter,
+                    org.apache.dubbo.samples.rest.api.extension.DynamicTraceBinding,
+                    org.apache.dubbo.samples.rest.api.extension.CustomExceptionMapper,
                     com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter"/>
 
     <dubbo:protocol name="dubbo" port="20880" threads="200"/>
@@ -49,12 +47,12 @@
     <!--<dubbo:protocol name="rest" port="8888" contextpath="services" server="servlet"/>-->
 
     <!-- we add the group property since there's another annotation-configured service impl: com.alibaba.dubbo.demo.user.facade.AnnotationDrivenUserRestServiceImpl -->
-    <dubbo:service interface="com.alibaba.dubbo.samples.rest.api.UserService" ref="userService" protocol="dubbo"
+    <dubbo:service interface="org.apache.dubbo.samples.rest.api.UserService" ref="userService" protocol="dubbo"
                    group="xmlConfig"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.rest.api.facade.UserRestService" ref="userRestService"
+    <dubbo:service interface="org.apache.dubbo.samples.rest.api.facade.UserRestService" ref="userRestService"
                    protocol="rest" validation="true"/>
-    <dubbo:service interface="com.alibaba.dubbo.samples.rest.api.facade.AnotherUserRestService"
+    <dubbo:service interface="org.apache.dubbo.samples.rest.api.facade.AnotherUserRestService"
                    ref="anotherUserRestService" protocol="rest,dubbo" timeout="2000" connections="100"
                    validation="true"/>
 
@@ -63,7 +61,7 @@
     <bean id="swaggerService" class="com.alibaba.dubbo.integration.swagger.DubboSwaggerApiListingResource" />
     <bean id="beanConfig" class="io.swagger.jaxrs.config.BeanConfig">
         <property name="schemes" value="http" />
-        <property name="resourcePackage" value="com.alibaba.dubbo.samples.rest.api"/>
+        <property name="resourcePackage" value="org.apache.dubbo.samples.rest.api"/>
         <property name="version" value="2.0"/>
         <property name="host" value="localhost:8888"/>
         <property name="basePath" value="/services/"/>

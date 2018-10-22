@@ -29,7 +29,7 @@
 
     <dubbo:provider delay="-1" />
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.docker.DemoService" ref="demoService"/>
-    <bean id="demoService" class="com.alibaba.dubbo.samples.docker.DemoServiceImpl" />
+    <dubbo:service interface="org.apache.dubbo.samples.docker.DemoService" ref="demoService"/>
+    <bean id="demoService" class="org.apache.dubbo.samples.docker.DemoServiceImpl" />
 
 </beans>
