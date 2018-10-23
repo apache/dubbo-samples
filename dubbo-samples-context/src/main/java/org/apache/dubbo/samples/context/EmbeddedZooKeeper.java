@@ -14,13 +14,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.alibaba.dubbo.samples.context;
+package org.apache.dubbo.samples.context;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.UUID;
 
+import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
@@ -252,5 +253,4 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
             }
         }
     }
-
 }

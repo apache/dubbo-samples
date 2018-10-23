@@ -15,8 +15,21 @@
  *   limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.context.api;
+package org.apache.dubbo.samples.context.impl;
 
-public interface ContextService {
-    public String sayHello(String name);
+import org.apache.dubbo.samples.context.api.ContextService;
+
+import org.apache.dubbo.rpc.RpcContext;
+
+public class ContextServiceImpl implements ContextService {
+
+    @Override
+    public String sayHello(String name) {
+
+        boolean isProviderSide = RpcContext.getContext().isProviderSide();
+        String clientIP = RpcContext.getContext().getRemoteHost();
+        String application = RpcContext.getContext().getUrl().getParameter("application");
+
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+    }
 }

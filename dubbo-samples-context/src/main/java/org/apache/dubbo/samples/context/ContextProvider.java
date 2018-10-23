@@ -15,21 +15,17 @@
  *   limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.context.impl;
+package org.apache.dubbo.samples.context;
 
-import com.alibaba.dubbo.samples.context.api.ContextService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.apache.dubbo.rpc.RpcContext;
+public class ContextProvider {
 
-public class ContextServiceImpl implements ContextService{
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-context-provider.xml"});
+        context.start();
 
-    @Override
-    public String sayHello(String name) {
-
-        boolean isProviderSide = RpcContext.getContext().isProviderSide();
-        String clientIP = RpcContext.getContext().getRemoteHost();
-        String application = RpcContext.getContext().getUrl().getParameter("application");
-
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+        System.in.read(); // press any key to exit
     }
 }

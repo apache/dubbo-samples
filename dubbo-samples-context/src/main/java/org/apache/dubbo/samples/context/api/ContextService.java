@@ -15,17 +15,8 @@
  *   limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.context;
+package org.apache.dubbo.samples.context.api;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-public class ContextProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-context-provider.xml"});
-        context.start();
-
-        System.in.read(); // press any key to exit
-    }
+public interface ContextService {
+    String sayHello(String name);
 }
