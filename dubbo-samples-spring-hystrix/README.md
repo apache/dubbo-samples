@@ -2,12 +2,12 @@
 
 ### Start Provider
 
-Run `AnnotationProvider`
+Run `org.apache.dubbo.samples.annotation.AnnotationProvider`
 
 
 ### Start Consumer
 
-Run `AnnotationConsumer`
+Run `org.apache.dubbo.samples.annotation.AnnotationConsumer`
 
 ### Result
 
