@@ -17,28 +17,13 @@
  *
  */
 
-package com.alibaba.dubbo.samples.callback;
-
-import com.alibaba.dubbo.samples.callback.api.CallbackListener;
-import com.alibaba.dubbo.samples.callback.api.CallbackService;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+package org.apache.dubbo.samples.callback.api;
 
 /**
- * CallbackConsumer
+ * CallbackService
  */
-public class CallbackConsumer {
+public interface CallbackService {
 
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/callback-consumer.xml"});
-        context.start();
-        CallbackService callbackService = (CallbackService) context.getBean("callbackService");
-        callbackService.addListener("foo.bar", new CallbackListener() {
-            public void changed(String msg) {
-                System.out.println("callback1:" + msg);
-            }
-        });
-        System.in.read();
-    }
+    void addListener(String key, CallbackListener listener);
 
 }
