@@ -1,1 +1,1 @@
-asyncpostprocess=com.alibaba.dubbo.samples.async.filter.AsyncPostprocessFilter
+asyncpostprocess=AsyncPostprocessFilter

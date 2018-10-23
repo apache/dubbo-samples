@@ -17,11 +17,10 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async.impl;
-
-import com.alibaba.dubbo.samples.async.api.AsyncService;
+package org.apache.dubbo.samples.async.impl;
 
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.async.api.AsyncService;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -30,6 +29,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class AsyncServiceImpl implements AsyncService {
 
+    @Override
     public CompletableFuture<String> sayHello(String name) {
         RpcContext savedContext = RpcContext.getContext();
         RpcContext savedServerContext = RpcContext.getServerContext();
