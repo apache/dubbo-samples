@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.http;
+package org.apache.dubbo.samples.http;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

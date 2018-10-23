@@ -30,10 +30,6 @@
 
     <artifactId>dubbo-samples-http</artifactId>
 
-    <properties>
-        <tomcat.version>7.0.88</tomcat.version>
-        <servlet.version>3.0.1</servlet.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -43,17 +39,14 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>${tomcat.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-logging-juli</artifactId>
-            <version>${tomcat.version}</version>
         </dependency>
     </dependencies>
 

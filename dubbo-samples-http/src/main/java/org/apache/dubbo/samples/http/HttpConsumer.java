@@ -17,21 +17,22 @@
  *
  */
 
-package com.alibaba.dubbo.samples.http.impl;
+package org.apache.dubbo.samples.http;
 
-import com.alibaba.dubbo.samples.http.api.DemoService;
+import org.apache.dubbo.samples.http.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.apache.dubbo.rpc.RpcContext;
+/**
+ * HttpConsumer
+ */
+public class HttpConsumer {
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class DemoServiceImpl implements DemoService {
-
-    public String sayHello(String name) {
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/http-consumer.xml"});
+        context.start();
+        DemoService demoService = (DemoService) context.getBean("demoService");
+        String result = demoService.sayHello("world");
+        System.out.println(result);
+        System.in.read();
     }
-
 }
