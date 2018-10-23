@@ -17,10 +17,10 @@
  *
  */
 
-package com.alibaba.dubbo.samples.annotation;
+package org.apache.dubbo.samples.annotation;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
-import com.alibaba.dubbo.samples.annotation.action.AnnotationAction;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.samples.annotation.action.AnnotationAction;
 import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -47,7 +47,7 @@ public class AnnotationConsumer {
     @Configuration
     @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.annotation.action")
     @PropertySource("classpath:/spring/dubbo-consumer.properties")
-    @ComponentScan(value = {"com.alibaba.dubbo.samples.annotation.action"})
+    @ComponentScan(value = {"org.apache.dubbo.samples.annotation.action"})
     @EnableAspectJAutoProxy
     static public class ConsumerConfiguration {
 
