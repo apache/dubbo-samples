@@ -17,13 +17,20 @@
  *
  */
 
-package com.alibaba.dubbo.samples.cache.api;
+package org.apache.dubbo.samples.cache;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * ValidationService
+ * CacheProvider
  */
-public interface CacheService {
+public class CacheProvider {
 
-    String findCache(String id);
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/cache-provider.xml"});
+        context.start();
+        System.in.read();
+    }
 
 }

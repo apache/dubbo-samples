@@ -17,11 +17,11 @@
  *
  */
 
-package com.alibaba.dubbo.samples.cache.impl;
+package org.apache.dubbo.samples.cache.impl;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.alibaba.dubbo.samples.cache.api.CacheService;
+import org.apache.dubbo.samples.cache.api.CacheService;
 
 /**
  * ValidationServiceImpl
