@@ -16,23 +16,12 @@
  *   limitations under the License.
  *
  */
-package com.alibaba.dubbo.samples.basic;
 
-import com.alibaba.dubbo.common.Constants;
-import com.alibaba.dubbo.common.extension.Activate;
-import com.alibaba.dubbo.rpc.*;
+package org.apache.dubbo.samples.basic.api;
 
-@Activate(group = { Constants.CONSUMER })
-public class TraceFilter implements Filter {
+public interface DemoService {
 
-    public TraceFilter() {
+    String sayHello(String name);
 
-    }
-
-    @Override
-    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        Result result = invoker.invoke(invocation);
-        System.out.println("trace filter: " + result.getValue());
-        return result;
-    }
+    User getUser(int id);
 }

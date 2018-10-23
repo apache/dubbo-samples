@@ -1,1 +1,1 @@
-trace1=com.alibaba.dubbo.samples.basic.TraceFilter
+trace1=TraceFilter

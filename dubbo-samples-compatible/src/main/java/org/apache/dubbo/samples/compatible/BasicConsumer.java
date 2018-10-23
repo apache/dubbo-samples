@@ -19,8 +19,8 @@
 
 package org.apache.dubbo.samples.compatible;
 
-import com.alibaba.dubbo.samples.basic.api.DemoService;
-import com.alibaba.dubbo.samples.basic.api.User;
+import org.apache.dubbo.samples.basic.api.DemoService;
+import org.apache.dubbo.samples.basic.api.User;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

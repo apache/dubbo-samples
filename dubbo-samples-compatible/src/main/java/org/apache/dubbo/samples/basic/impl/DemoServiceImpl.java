@@ -17,18 +17,19 @@
  *
  */
 
-package com.alibaba.dubbo.samples.basic.impl;
+package org.apache.dubbo.samples.basic.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.alibaba.dubbo.rpc.RpcContext;
-import com.alibaba.dubbo.samples.basic.api.DemoService;
-import com.alibaba.dubbo.samples.basic.api.Phone;
-import com.alibaba.dubbo.samples.basic.api.User;
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.basic.api.DemoService;
+import org.apache.dubbo.samples.basic.api.Phone;
+import org.apache.dubbo.samples.basic.api.User;
 
 public class DemoServiceImpl implements DemoService {
 
+    @Override
     public String sayHello(String name) {
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
             .getContext().getRemoteAddress());

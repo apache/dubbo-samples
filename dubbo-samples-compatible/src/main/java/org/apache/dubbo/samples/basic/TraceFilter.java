@@ -16,47 +16,27 @@
  *   limitations under the License.
  *
  */
-package com.alibaba.dubbo.samples.basic.api;
+package org.apache.dubbo.samples.basic;
 
-import java.io.Serializable;
+import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.rpc.Filter;
+import org.apache.dubbo.rpc.Invocation;
+import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.Result;
+import org.apache.dubbo.rpc.RpcException;
 
-public class User implements Serializable {
+@Activate(group = { Constants.CONSUMER })
+public class TraceFilter implements Filter {
 
-    private String name;
-    private int age;
+    public TraceFilter() {
 
-    private Phone phone;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Phone phone) {
-        this.phone = phone;
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                ", phone=" + phone +
-                '}';
+    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+        Result result = invoker.invoke(invocation);
+        System.out.println("trace filter: " + result.getValue());
+        return result;
     }
 }

@@ -16,12 +16,47 @@
  *   limitations under the License.
  *
  */
+package org.apache.dubbo.samples.basic.api;
 
-package com.alibaba.dubbo.samples.basic.api;
+import java.io.Serializable;
 
-public interface DemoService {
+public class User implements Serializable {
 
-    String sayHello(String name);
+    private String name;
+    private int age;
 
-    User getUser(int id);
+    private Phone phone;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Phone phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", phone=" + phone +
+                '}';
+    }
 }

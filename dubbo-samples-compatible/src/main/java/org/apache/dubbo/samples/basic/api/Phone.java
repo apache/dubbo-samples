@@ -16,7 +16,7 @@
  *   limitations under the License.
  *
  */
-package com.alibaba.dubbo.samples.basic.api;
+package org.apache.dubbo.samples.basic.api;
 
 import java.io.Serializable;
 
