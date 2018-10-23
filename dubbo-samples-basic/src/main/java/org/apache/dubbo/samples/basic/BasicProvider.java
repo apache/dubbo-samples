@@ -17,21 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.basic.impl;
+package org.apache.dubbo.samples.basic;
 
-import com.alibaba.dubbo.samples.basic.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.apache.dubbo.rpc.RpcContext;
+public class BasicProvider {
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-demo-provider.xml"});
+        context.start();
 
-public class DemoServiceImpl implements DemoService {
-
-    public String sayHello(String name) {
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+        System.in.read(); // press any key to exit
     }
 
 }
