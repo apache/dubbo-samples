@@ -15,17 +15,12 @@
  *   limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.mock;
+package org.apache.dubbo.samples.mock.api;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class DemoServiceMock implements DemoService{
 
-public class MockProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/mock-provider.xml"});
-        context.start();
-
-        System.in.read(); // press any key to exit
+    public String sayHello(String name) {
+        System.out.println("local mock Impl");
+        return "mock " + name;
     }
 }

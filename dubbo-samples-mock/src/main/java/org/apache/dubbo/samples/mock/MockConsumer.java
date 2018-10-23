@@ -15,14 +15,19 @@
  *   limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.mock.api;
+package org.apache.dubbo.samples.mock;
 
-import com.alibaba.dubbo.samples.mock.api.DemoService;
+import org.apache.dubbo.samples.mock.api.DemoService;
 
-public class DemoServiceMock implements DemoService{
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    public String sayHello(String name) {
-        System.out.println("local mock Impl");
-        return "mock " + name;
+public class MockConsumer {
+
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/mock-consumer.xml"});
+        context.start();
+        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+        String hello = demoService.sayHello("world"); // call remote method
+        System.out.println(hello); // get result
     }
 }

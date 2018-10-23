@@ -15,18 +15,17 @@
  *   limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.mock.impl;
+package org.apache.dubbo.samples.mock;
 
-import com.alibaba.dubbo.samples.mock.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class DemoServiceImpl implements DemoService{
+public class MockProvider {
 
-    public String sayHello(String name) {
-        try {
-            Thread.sleep(5000);  // sleep 5 seconds throws TimeoutException, and mock Impl will be called
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return "hello " + name;
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/mock-provider.xml"});
+        context.start();
+
+        System.in.read(); // press any key to exit
     }
 }

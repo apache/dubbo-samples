@@ -15,8 +15,18 @@
  *   limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.mock.api;
+package org.apache.dubbo.samples.mock.impl;
 
-public interface DemoService {
-    String sayHello(String name);
+import org.apache.dubbo.samples.mock.api.DemoService;
+
+public class DemoServiceImpl implements DemoService {
+
+    public String sayHello(String name) {
+        try {
+            Thread.sleep(5000);  // sleep 5 seconds throws TimeoutException, and mock Impl will be called
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "hello " + name;
+    }
 }
