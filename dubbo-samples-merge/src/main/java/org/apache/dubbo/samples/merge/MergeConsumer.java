@@ -17,20 +17,32 @@
  *
  */
 
-package com.alibaba.dubbo.samples.merge;
+package org.apache.dubbo.samples.merge;
+
+import java.util.List;
+
+import org.apache.dubbo.samples.merge.api.MergeService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * MergeProvider
+ * MergeConsumer
  */
-public class MergeProvider {
+public class MergeConsumer {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/merge-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/merge-consumer.xml"});
         context.start();
-        System.in.read();
+        MergeService mergeService = (MergeService) context.getBean("mergeService");
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            try {
+                List<String> result = mergeService.mergeResult();
+                System.out.println("(" + i + ") " + result);
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

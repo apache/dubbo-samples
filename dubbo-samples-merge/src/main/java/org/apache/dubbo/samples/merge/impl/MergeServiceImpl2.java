@@ -17,20 +17,24 @@
  *
  */
 
-package com.alibaba.dubbo.samples.merge;
+package org.apache.dubbo.samples.merge.impl;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.dubbo.samples.merge.api.MergeService;
 
 /**
- * MergeProvider2
+ * MenuServiceImpl
  */
-public class MergeProvider2 {
+public class MergeServiceImpl2 implements MergeService {
 
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/merge-provider2.xml"});
-        context.start();
-        System.in.read();
+    @Override
+    public List<String> mergeResult() {
+        List<String> menus = new ArrayList<String>();
+        menus.add("group-2.1");
+        menus.add("group-2.2");
+        return menus;
     }
 
 }

@@ -30,12 +30,12 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="mergeService" class="com.alibaba.dubbo.samples.merge.impl.MergeServiceImpl"/>
+    <bean id="mergeService" class="org.apache.dubbo.samples.merge.impl.MergeServiceImpl"/>
 
-    <dubbo:service group="merge" interface="com.alibaba.dubbo.samples.merge.api.MergeService" ref="mergeService"/>
+    <dubbo:service group="merge" interface="org.apache.dubbo.samples.merge.api.MergeService" ref="mergeService"/>
 
-    <bean id="mergeService2" class="com.alibaba.dubbo.samples.merge.impl.MergeServiceImpl2"/>
+    <bean id="mergeService2" class="org.apache.dubbo.samples.merge.impl.MergeServiceImpl2"/>
 
-    <dubbo:service group="merge2" interface="com.alibaba.dubbo.samples.merge.api.MergeService" ref="mergeService2"/>
+    <dubbo:service group="merge2" interface="org.apache.dubbo.samples.merge.api.MergeService" ref="mergeService2"/>
 
 </beans>
