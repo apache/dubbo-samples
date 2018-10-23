@@ -17,20 +17,10 @@
  *
  */
 
-package com.alibaba.dubbo.samples.version;
+package org.apache.dubbo.samples.version.api;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public interface VersionService {
 
-/**
- * VersionProvider
- */
-public class VersionProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/version-provider.xml"});
-        context.start();
-        System.in.read();
-    }
+    String sayHello(String name);
 
 }

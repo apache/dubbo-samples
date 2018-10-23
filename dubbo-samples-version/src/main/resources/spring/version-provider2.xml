@@ -30,9 +30,9 @@
 
     <dubbo:protocol name="dubbo" port="20882"/>
 
-    <bean id="versionService" class="com.alibaba.dubbo.samples.version.impl.VersionServiceImpl2"/>
+    <bean id="versionService" class="org.apache.dubbo.samples.version.impl.VersionServiceImpl2"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.version.api.VersionService" version="2.0.0"
+    <dubbo:service interface="org.apache.dubbo.samples.version.api.VersionService" version="2.0.0"
                    ref="versionService"/>
 
 </beans>
