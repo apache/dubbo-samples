@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.api;
+package org.apache.dubbo.samples.api;
 
 import com.alibaba.dubbo.config.async.DubboAsync;
 

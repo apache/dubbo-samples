@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package com.alibaba.dubbo.samples.server;
+package org.apache.dubbo.samples.server;
 
-import com.alibaba.dubbo.samples.api.GreetingsService;
 
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
+import org.apache.dubbo.samples.api.GreetingsService;
 
 import java.io.IOException;
 
