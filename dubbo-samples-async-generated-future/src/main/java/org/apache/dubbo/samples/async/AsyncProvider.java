@@ -17,25 +17,17 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async.impl;
+package org.apache.dubbo.samples.async;
 
-import com.alibaba.dubbo.samples.api.GreetingsService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * AsyncServiceImpl
- */
-public class GreetingsServiceImpl implements GreetingsService {
+public class AsyncProvider {
 
-    @Override
-    public String sayHi(String name) {
-        System.out.println("provider received: " + name);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("provider returned.");
-        return "hello, " + name;
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-provider.xml"});
+        context.start();
+        System.in.read();
     }
 
 }

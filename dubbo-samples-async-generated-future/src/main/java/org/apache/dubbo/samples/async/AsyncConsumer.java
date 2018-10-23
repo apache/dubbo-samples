@@ -17,10 +17,9 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async;
+package org.apache.dubbo.samples.async;
 
-import com.alibaba.dubbo.samples.api.GreetingsServiceAsync;
-
+import org.apache.dubbo.samples.api.GreetingsServiceAsync;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;

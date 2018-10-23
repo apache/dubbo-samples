@@ -28,6 +28,6 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:reference id="greetingsService" interface="com.alibaba.dubbo.samples.api.GreetingsServiceAsync"/>
-
+    <dubbo:reference id="greetingsService" interface="org.apache.dubbo.samples.api.GreetingsServiceAsync"/>
+    <!--<dubbo:reference id="greetingsService" interface="org.apache.dubbo.samples.api.GreetingsService"/>-->
 </beans>
