@@ -1,4 +1,4 @@
-package com.alibaba.dubbo.samples.docker;
+package org.apache.dubbo.samples.docker;
 
 /**
  * Created by ken.lj on 2017/9/24.

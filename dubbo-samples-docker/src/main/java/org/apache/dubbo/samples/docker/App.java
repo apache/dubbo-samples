@@ -1,4 +1,4 @@
-package com.alibaba.dubbo.samples.docker;
+package org.apache.dubbo.samples.docker;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ImportResource;
 public class App {
 
 	public static void main(String[] args) throws IOException {
+		new EmbeddedZooKeeper(2181, false).start();
 		new SpringApplicationBuilder(App.class).web(false).run(args);
 		System.in.read();
 	}

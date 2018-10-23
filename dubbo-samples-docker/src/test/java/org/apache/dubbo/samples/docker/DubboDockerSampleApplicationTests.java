@@ -1,4 +1,4 @@
-package com.alibaba.dubbo.samples.docker;
+package org.apache.dubbo.samples.docker;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
