@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async.api;
+package org.apache.dubbo.samples.async.api;
 
 /**
  * AsyncService

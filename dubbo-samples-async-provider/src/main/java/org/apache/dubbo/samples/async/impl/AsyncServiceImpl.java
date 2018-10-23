@@ -17,18 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async.impl;
-
-import com.alibaba.dubbo.samples.async.api.AsyncService;
+package org.apache.dubbo.samples.async.impl;
 
 import org.apache.dubbo.rpc.AsyncContext;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.async.api.AsyncService;
 
 /**
  * AsyncServiceImpl
  */
 public class AsyncServiceImpl implements AsyncService {
 
+    @Override
     public String sayHello(String name) {
         System.out.println("Main sayHello() method start.");
         final AsyncContext asyncContext = RpcContext.startAsync();
