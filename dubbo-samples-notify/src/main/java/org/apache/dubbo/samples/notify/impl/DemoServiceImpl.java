@@ -17,13 +17,14 @@
  *
  */
 
-package com.alibaba.dubbo.samples.notify.api;
+package org.apache.dubbo.samples.notify.impl;
+
+import org.apache.dubbo.samples.notify.api.DemoService;
 
 
+public class DemoServiceImpl implements DemoService {
 
-public interface Notify {
-
-    public void onreturn(String name, int id);
-
-    public void onthrow(Throwable ex, String name, int id);
+    public String sayHello(int id) {
+        return "aaa";
+    }
 }

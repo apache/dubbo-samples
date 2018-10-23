@@ -17,10 +17,13 @@
  *
  */
 
-package com.alibaba.dubbo.samples.notify.api;
+package org.apache.dubbo.samples.notify.api;
 
 
-public interface DemoService {
-    public String sayHello(int id);
 
+public interface Notify {
+
+    public void onreturn(String name, int id);
+
+    public void onthrow(Throwable ex, String name, int id);
 }

@@ -17,22 +17,10 @@
  *
  */
 
-package com.alibaba.dubbo.samples.notify.impl;
+package org.apache.dubbo.samples.notify.api;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import com.alibaba.dubbo.samples.notify.api.Notify;
+public interface DemoService {
+    public String sayHello(int id);
 
-public class NotifyImpl implements Notify{
-
-    public Map<Integer, String> ret = new HashMap<Integer, String>();
-    public void onreturn(String name, int id) {
-        ret.put(id, name);
-        System.out.println("onreturn: " + name);
-    }
-
-    public void onthrow(Throwable ex, String name, int id) {
-        System.out.println("onthrow: " + name);
-    }
 }

@@ -17,10 +17,10 @@
  *
  */
 
-package com.alibaba.dubbo.samples.notify;
+package org.apache.dubbo.samples.notify;
 
-import com.alibaba.dubbo.samples.notify.api.DemoService;
-import com.alibaba.dubbo.samples.notify.impl.NotifyImpl;
+import org.apache.dubbo.samples.notify.api.DemoService;
+import org.apache.dubbo.samples.notify.impl.NotifyImpl;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

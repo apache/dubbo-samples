@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.notify;
+package org.apache.dubbo.samples.notify;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
