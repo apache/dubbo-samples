@@ -17,9 +17,9 @@
  *
  */
 
-package com.alibaba.dubbo.samples.group;
+package org.apache.dubbo.samples.group;
 
-import com.alibaba.dubbo.samples.group.api.GroupService;
+import org.apache.dubbo.samples.group.api.GroupService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

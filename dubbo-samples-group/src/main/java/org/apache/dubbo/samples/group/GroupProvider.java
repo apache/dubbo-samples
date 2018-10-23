@@ -17,10 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.group.api;
+package org.apache.dubbo.samples.group;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
-public interface GroupService {
+public class GroupProvider {
 
-    public String sayHello(String name);
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/group-provider.xml"});
+        context.start();
+
+        System.in.read(); // press any key to exit
+    }
 }

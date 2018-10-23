@@ -17,9 +17,9 @@
  *
  */
 
-package com.alibaba.dubbo.samples.group.impl;
+package org.apache.dubbo.samples.group.impl;
 
-import com.alibaba.dubbo.samples.group.api.GroupService;
+import org.apache.dubbo.samples.group.api.GroupService;
 
 import org.apache.dubbo.rpc.RpcContext;
 
@@ -27,11 +27,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class GroupBServiceImpl implements GroupService{
+public class GroupAServiceImpl implements GroupService{
 
+    @Override
     public String sayHello(String name) {
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress() + "in groupB");
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress() + "group B";
+            .getContext().getRemoteAddress() + "in groupA");
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress() + "group A";
     }
 }

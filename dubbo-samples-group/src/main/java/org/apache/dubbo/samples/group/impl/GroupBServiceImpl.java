@@ -17,18 +17,22 @@
  *
  */
 
-package com.alibaba.dubbo.samples.group;
+package org.apache.dubbo.samples.group.impl;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.dubbo.samples.group.api.GroupService;
+
+import org.apache.dubbo.rpc.RpcContext;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-public class GroupProvider {
+public class GroupBServiceImpl implements GroupService{
 
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/group-provider.xml"});
-        context.start();
-
-        System.in.read(); // press any key to exit
+    @Override
+    public String sayHello(String name) {
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
+            .getContext().getRemoteAddress() + "in groupB");
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress() + "group B";
     }
 }

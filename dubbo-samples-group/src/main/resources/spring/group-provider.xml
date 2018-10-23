@@ -34,13 +34,13 @@
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <!-- service implementation, as same as regular local bean -->
-    <bean id="groupAService" class="com.alibaba.dubbo.samples.group.impl.GroupAServiceImpl"/>
+    <bean id="groupAService" class="org.apache.dubbo.samples.group.impl.GroupAServiceImpl"/>
 
-    <bean id="groupBService" class="com.alibaba.dubbo.samples.group.impl.GroupBServiceImpl"/>
+    <bean id="groupBService" class="org.apache.dubbo.samples.group.impl.GroupBServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service group="groupA" interface="com.alibaba.dubbo.samples.group.api.GroupService" ref="groupAService"/>
+    <dubbo:service group="groupA" interface="org.apache.dubbo.samples.group.api.GroupService" ref="groupAService"/>
 
-    <dubbo:service group="groupB" interface="com.alibaba.dubbo.samples.group.api.GroupService" ref="groupBService"/>
+    <dubbo:service group="groupB" interface="org.apache.dubbo.samples.group.api.GroupService" ref="groupBService"/>
 
 </beans>
