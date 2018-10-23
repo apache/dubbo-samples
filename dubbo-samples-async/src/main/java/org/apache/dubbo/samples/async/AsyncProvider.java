@@ -17,36 +17,16 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async;
+package org.apache.dubbo.samples.async;
 
-import com.alibaba.dubbo.samples.async.api.AsyncService;
-
-import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.concurrent.CompletableFuture;
-
-/**
- * CallbackConsumer
- */
-public class AsyncConsumer {
+public class AsyncProvider {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/async-consumer.xml"});
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/async-provider.xml"});
         context.start();
-
-        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
-
-        CompletableFuture<String> f = RpcContext.getContext().asyncCall(() -> asyncService.sayHello("async call request"));
-
-        System.out.println("async call ret :" + f.get());
-
-
-        RpcContext.getContext().asyncCall(() -> {
-                asyncService.sayHello("oneway call request1");
-                asyncService.sayHello("oneway call request2");
-        });
-
         System.in.read();
     }
 

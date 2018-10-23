@@ -17,13 +17,19 @@
  *
  */
 
-package com.alibaba.dubbo.samples.async.api;
+package org.apache.dubbo.samples.async.impl;
+
+import org.apache.dubbo.samples.async.api.AsyncService;
 
 /**
- * AsyncService
+ * AsyncServiceImpl
  */
-public interface AsyncService {
+public class AsyncServiceImpl implements AsyncService {
 
-    String sayHello(String name);
+    @Override
+    public String sayHello(String name) {
+        System.out.println("async provider received: " + name);
+        return "hello, " + name;
+    }
 
 }
