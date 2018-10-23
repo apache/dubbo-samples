@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.annotation.api;
+package org.apache.dubbo.samples.annotation.api;
 
 /**
  * AsyncService
