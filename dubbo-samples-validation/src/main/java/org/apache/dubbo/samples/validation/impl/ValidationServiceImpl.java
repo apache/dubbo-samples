@@ -17,22 +17,25 @@
  *
  */
 
-package com.alibaba.dubbo.samples.validation.impl;
+package org.apache.dubbo.samples.validation.impl;
 
-import com.alibaba.dubbo.samples.validation.api.ValidationParameter;
-import com.alibaba.dubbo.samples.validation.api.ValidationService;
+import org.apache.dubbo.samples.validation.api.ValidationParameter;
+import org.apache.dubbo.samples.validation.api.ValidationService;
 
 /**
  * ValidationServiceImpl
  */
 public class ValidationServiceImpl implements ValidationService {
 
+    @Override
     public void save(ValidationParameter parameter) {
     }
 
+    @Override
     public void update(ValidationParameter parameter) {
     }
 
+    @Override
     public void delete(long id, String operator) {
     }
 

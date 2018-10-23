@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.validation.api;
+package org.apache.dubbo.samples.validation.api;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

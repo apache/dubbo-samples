@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.validation;
+package org.apache.dubbo.samples.validation;
 
 import java.util.Date;
 import java.util.Set;
@@ -25,8 +25,8 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import com.alibaba.dubbo.samples.validation.api.ValidationParameter;
-import com.alibaba.dubbo.samples.validation.api.ValidationService;
+import org.apache.dubbo.samples.validation.api.ValidationParameter;
+import org.apache.dubbo.samples.validation.api.ValidationService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.validation;
+package org.apache.dubbo.samples.validation;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.validation.api;
+package org.apache.dubbo.samples.validation.api;
 
 import java.io.Serializable;
 import java.util.Date;
