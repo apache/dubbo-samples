@@ -33,6 +33,6 @@
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the
     local regular interface -->
-    <dubbo:reference id="directService" check="false" interface="com.alibaba.dubbo.samples.direct.api.DirectService" url="localhost:20880"/>
+    <dubbo:reference id="directService" check="false" interface="org.apache.dubbo.samples.direct.api.DirectService" url="localhost:20880"/>
 
 </beans>

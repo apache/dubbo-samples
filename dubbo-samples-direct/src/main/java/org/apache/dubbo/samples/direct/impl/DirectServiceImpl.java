@@ -17,11 +17,22 @@
  *
  */
 
-package com.alibaba.dubbo.samples.direct.api;
+package org.apache.dubbo.samples.direct.impl;
+
+import org.apache.dubbo.samples.direct.api.DirectService;
+
+import org.apache.dubbo.rpc.RpcContext;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-public interface DirectService {
+public class DirectServiceImpl implements DirectService{
 
-    String sayHello(String name);
-
+    @Override
+    public String sayHello(String name) {
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
+            .getContext().getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+    }
 }
