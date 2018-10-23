@@ -17,27 +17,21 @@
  *
  */
 
-package com.alibaba.dubbo.samples.stub.impl;
+package org.apache.dubbo.samples.stub;
 
-import com.alibaba.dubbo.samples.stub.api.DemoService;
+import org.apache.dubbo.samples.stub.api.DemoService;
 
-public class DemoServiceStub implements DemoService{
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    private final DemoService demoService;
+public class StubConsumer {
 
-    public DemoServiceStub(DemoService demoService) {
-        this.demoService = demoService;
-    }
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+            new String[] {"spring/stub-consumer.xml"});
+        context.start();
+        DemoService demoService = (DemoService)context.getBean("demoService"); // get remote service proxy
+        demoService.sayHello("aaa");
 
-    public String sayHello(String name) {
-        //client check code goes here
-        System.out.println("stub sayHello");
 
-        try {
-            return demoService.sayHello(name);
-        } catch (Exception e) {
-           //handle Exception
-            return null;
-        }
     }
 }

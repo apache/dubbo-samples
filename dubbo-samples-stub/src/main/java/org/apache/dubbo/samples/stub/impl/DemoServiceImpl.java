@@ -17,12 +17,13 @@
  *
  */
 
-package com.alibaba.dubbo.samples.stub.impl;
+package org.apache.dubbo.samples.stub.impl;
 
-import com.alibaba.dubbo.samples.stub.api.DemoService;
+import org.apache.dubbo.samples.stub.api.DemoService;
 
 public class DemoServiceImpl implements DemoService {
 
+    @Override
     public String sayHello(String name) {
         return null;
     }

@@ -17,17 +17,9 @@
  *
  */
 
-package com.alibaba.dubbo.samples.stub;
+package org.apache.dubbo.samples.stub.api;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public interface DemoService {
 
-public class StubProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/stub-provider.xml"});
-        context.start();
-
-        System.in.read(); // press any key to exit
-    }
+    public String sayHello(String name);
 }
