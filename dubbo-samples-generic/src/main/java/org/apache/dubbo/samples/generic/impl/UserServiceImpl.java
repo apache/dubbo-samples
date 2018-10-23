@@ -17,25 +17,14 @@
  *
  */
 
-package com.alibaba.dubbo.samples.generic;
+package org.apache.dubbo.samples.generic.impl;
 
-import com.alibaba.dubbo.samples.generic.api.IUserService;
-import com.alibaba.dubbo.samples.generic.api.IUserService.Params;
-import com.alibaba.dubbo.samples.generic.api.IUserService.User;
+import org.apache.dubbo.samples.generic.api.IUserService;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class UserServiceImpl implements IUserService {
 
-/**
- * GenericConsumer
- */
-public class GenericConsumer {
-
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/generic-consumer.xml"});
-        context.start();
-        IUserService userservice = (IUserService) context.getBean("userservice");
-        User user = userservice.get(new Params("a=b"));
-        System.out.println(user);
-        System.in.read();
+    @Override
+    public User get(Params params) {
+        return new User(1, "charles");
     }
 }

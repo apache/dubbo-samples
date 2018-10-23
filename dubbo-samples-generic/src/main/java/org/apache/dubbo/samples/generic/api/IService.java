@@ -17,15 +17,8 @@
  *
  */
 
-package com.alibaba.dubbo.samples.generic.impl;
+package org.apache.dubbo.samples.generic.api;
 
-import com.alibaba.dubbo.samples.generic.api.IUserService;
-import com.alibaba.dubbo.samples.generic.api.IUserService.Params;
-import com.alibaba.dubbo.samples.generic.api.IUserService.User;
-
-public class UserServiceImpl implements IUserService {
-
-    public User get(Params params) {
-        return new User(1, "charles");
-    }
+public interface IService<P, V> {
+    V get(P params);
 }

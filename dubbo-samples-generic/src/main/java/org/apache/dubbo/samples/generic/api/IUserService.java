@@ -17,12 +17,12 @@
  *
  */
 
-package com.alibaba.dubbo.samples.generic.api;
+package org.apache.dubbo.samples.generic.api;
 
 import java.io.Serializable;
 
-import com.alibaba.dubbo.samples.generic.api.IUserService.Params;
-import com.alibaba.dubbo.samples.generic.api.IUserService.User;
+import org.apache.dubbo.samples.generic.api.IUserService.Params;
+import org.apache.dubbo.samples.generic.api.IUserService.User;
 
 public interface IUserService extends IService<Params, User> {
 
