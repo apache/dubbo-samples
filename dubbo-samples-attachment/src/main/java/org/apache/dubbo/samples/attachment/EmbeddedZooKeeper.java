@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.dubbo.samples.attachment;
+package org.apache.dubbo.samples.attachment;
 
 import java.io.File;
 import java.lang.reflect.Method;

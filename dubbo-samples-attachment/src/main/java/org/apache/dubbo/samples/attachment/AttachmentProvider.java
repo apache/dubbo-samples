@@ -17,25 +17,19 @@
  *
  */
 
-package com.alibaba.dubbo.samples.attachment.impl;
+package org.apache.dubbo.samples.attachment;
 
-import com.alibaba.dubbo.samples.attachment.api.AttachmentService;
-
-import org.apache.dubbo.rpc.RpcContext;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
-public class AttachmentImpl implements AttachmentService{
+public class AttachmentProvider {
 
-    public String sayHello(String name) {
+    public static void main(String[] args) throws Exception{
+        new EmbeddedZooKeeper(2181, false).start();
+        System.setProperty("java.net.preferIPv4Stack", "true");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/attachment-provider.xml"});
+        context.start();
 
-        String index = RpcContext.getContext().getAttachment("index");  //the attachment will be remove after this
-        System.out.println("receive attachment index: " + index);
-
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+        System.in.read(); // press any key to exit
     }
 }

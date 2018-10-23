@@ -17,7 +17,7 @@
  *
  */
 
-package com.alibaba.dubbo.samples.attachment.api;
+package org.apache.dubbo.samples.attachment.api;
 
 
 public interface AttachmentService {
