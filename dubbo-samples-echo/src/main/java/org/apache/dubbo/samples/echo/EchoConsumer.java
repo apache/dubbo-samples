@@ -17,10 +17,27 @@
  *
  */
 
-package com.alibaba.dubbo.samples.echo.api;
+package org.apache.dubbo.samples.echo;
 
-public interface DemoService {
+import org.apache.dubbo.rpc.service.EchoService;
+import org.apache.dubbo.samples.echo.api.DemoService;
 
-    String sayHello(String name);
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+
+public class EchoConsumer {
+
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/echo-consumer.xml"});
+        context.start();
+        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+
+        EchoService echoService = (EchoService) demoService;
+        String status = (String)echoService.$echo("OK");
+        System.out.println("echo result: " + status);
+
+
+
+
+    }
 }

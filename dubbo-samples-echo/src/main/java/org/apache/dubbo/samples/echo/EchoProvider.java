@@ -17,21 +17,18 @@
  *
  */
 
-package com.alibaba.dubbo.samples.echo.impl;
+package org.apache.dubbo.samples.echo;
 
-import com.alibaba.dubbo.samples.echo.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.apache.dubbo.rpc.RpcContext;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+public class EchoProvider {
 
-public class DemoServiceImpl implements DemoService {
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/echo-provider.xml"});
+        context.start();
 
-    public String sayHello(String name) {
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+        System.in.read(); // press any key to exit
     }
-
 }

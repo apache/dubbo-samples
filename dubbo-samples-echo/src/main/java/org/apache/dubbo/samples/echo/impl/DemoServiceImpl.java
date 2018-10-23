@@ -17,29 +17,22 @@
  *
  */
 
-package com.alibaba.dubbo.samples.echo;
+package org.apache.dubbo.samples.echo.impl;
 
-import javax.sound.midi.Soundbank;
+import org.apache.dubbo.samples.echo.api.DemoService;
 
-import com.alibaba.dubbo.rpc.service.EchoService;
-import com.alibaba.dubbo.samples.echo.api.DemoService;
+import org.apache.dubbo.rpc.RpcContext;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+public class DemoServiceImpl implements DemoService {
 
-public class EchoConsumer {
-
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/echo-consumer.xml"});
-        context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
-
-        EchoService echoService = (EchoService) demoService;
-        String status = (String)echoService.$echo("OK");
-        System.out.println("echo result: " + status);
-
-
-
-
+    @Override
+    public String sayHello(String name) {
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
+            .getContext().getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
     }
+
 }

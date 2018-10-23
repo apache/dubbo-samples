@@ -17,18 +17,10 @@
  *
  */
 
-package com.alibaba.dubbo.samples.echo;
+package org.apache.dubbo.samples.echo.api;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public interface DemoService {
 
+    String sayHello(String name);
 
-public class EchoProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/echo-provider.xml"});
-        context.start();
-
-        System.in.read(); // press any key to exit
-    }
 }
