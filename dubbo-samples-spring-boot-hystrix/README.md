@@ -2,12 +2,12 @@
 
 ### Start Provider
 
-Run `com.alibaba.dubbo.spring.boot.provider.ProviderApplication`
+Run `org.apache.dubbo.spring.boot.provider.ProviderApplication`
 
 
 ### Start Consumer
 
-Run `com.alibaba.dubbo.spring.boot.consumer.ConsumerApplication`
+Run `org.apache.dubbo.spring.boot.consumer.ConsumerApplication`
 
 ### Result
 

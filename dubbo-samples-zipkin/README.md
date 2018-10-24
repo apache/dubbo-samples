@@ -38,22 +38,22 @@ Start Zookeeper server:
 zkServer start
 ```
 
-Start `com.alibaba.dubbo.samples.service.hello.Application` in command line, you can also start it directly from IDE:
+Start `org.apache.dubbo.samples.service.hello.Application` in command line, you can also start it directly from IDE:
 
 ```bash
-mvn exec:java -Dexec.mainClass=com.alibaba.dubbo.samples.service.hello.Application
+mvn exec:java -Dexec.mainClass=org.apache.dubbo.samples.service.hello.Application
 ```
 
-Start `com.alibaba.dubbo.samples.service.greeting.Application` in command line, you can also start it directly from IDE:
+Start `org.apache.dubbo.samples.service.greeting.Application` in command line, you can also start it directly from IDE:
 
 ```bash
-mvn exec:java -Dexec.mainClass=com.alibaba.dubbo.samples.service.greeting.Application
+mvn exec:java -Dexec.mainClass=org.apache.dubbo.samples.service.greeting.Application
 ```
 
 Start client in command line, you can also start it directly from IDE:
 
 ```bash
-mvn exec:java -Dexec.mainClass=com.alibaba.dubbo.samples.client.Application
+mvn exec:java -Dexec.mainClass=org.apache.dubbo.samples.client.Application
 ```
 
 "greeting, hello, world" should be print on the screen, then open http://localhost:9411 to check the trace. The sample trace in JSON format may look like this:
