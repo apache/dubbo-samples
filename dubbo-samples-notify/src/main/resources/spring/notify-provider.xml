@@ -34,9 +34,9 @@
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <!-- service implementation, as same as regular local bean -->
-    <bean id="demoService" class="com.alibaba.dubbo.samples.notify.impl.DemoServiceImpl"/>
+    <bean id="demoService" class="org.apache.dubbo.samples.notify.impl.DemoServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service interface="com.alibaba.dubbo.samples.notify.api.DemoService" ref="demoService" version="1.0.0" group="cn"/>
+    <dubbo:service interface="org.apache.dubbo.samples.notify.api.DemoService" ref="demoService" version="1.0.0" group="cn"/>
 
 </beans>

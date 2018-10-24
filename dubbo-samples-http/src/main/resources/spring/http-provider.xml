@@ -28,10 +28,10 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:protocol name="http" port="8080" server="tomcat"/>
+    <dubbo:protocol name="http" id="http" port="8080" server="tomcat"/>
 
-    <bean id="demoService" class="com.alibaba.dubbo.samples.http.impl.DemoServiceImpl"/>
+    <bean id="demoService" class="org.apache.dubbo.samples.http.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.http.api.DemoService" ref="demoService" protocol="http"/>
+    <dubbo:service interface="org.apache.dubbo.samples.http.api.DemoService" ref="demoService" protocol="http"/>
 
 </beans>

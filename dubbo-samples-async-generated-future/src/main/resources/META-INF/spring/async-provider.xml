@@ -30,8 +30,8 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="greetingsService" class="com.alibaba.dubbo.samples.async.impl.GreetingsServiceImpl"/>
+    <bean id="greetingsService" class="org.apache.dubbo.samples.async.impl.GreetingsServiceImpl"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.api.GreetingsService" ref="greetingsService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.api.GreetingsService" ref="greetingsService"/>
 
 </beans>

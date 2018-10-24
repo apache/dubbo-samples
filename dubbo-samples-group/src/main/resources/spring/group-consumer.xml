@@ -33,8 +33,8 @@
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the
     local regular interface -->
-    <dubbo:reference group="groupA" id="groupAService" check="false" interface="com.alibaba.dubbo.samples.group.api.GroupService"/>
+    <dubbo:reference group="groupA" id="groupAService" check="false" interface="org.apache.dubbo.samples.group.api.GroupService"/>
 
-    <dubbo:reference group="groupB" id="groupBService" check="false" interface="com.alibaba.dubbo.samples.group.api.GroupService"/>
+    <dubbo:reference group="groupB" id="groupBService" check="false" interface="org.apache.dubbo.samples.group.api.GroupService"/>
 
 </beans>

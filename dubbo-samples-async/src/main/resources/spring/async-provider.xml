@@ -30,8 +30,8 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="asyncService" class="com.alibaba.dubbo.samples.async.impl.AsyncServiceImpl"/>
+    <bean id="asyncService" class="org.apache.dubbo.samples.async.impl.AsyncServiceImpl"/>
 
-    <dubbo:service interface="com.alibaba.dubbo.samples.async.api.AsyncService" ref="asyncService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.async.api.AsyncService" ref="asyncService"/>
 
 </beans>
