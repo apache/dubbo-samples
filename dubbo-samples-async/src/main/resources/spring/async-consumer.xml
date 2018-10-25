@@ -28,6 +28,9 @@
 
     <dubbo:reference id="asyncService" interface="org.apache.dubbo.samples.async.api.AsyncService">
         <dubbo:method name="goodbye" async="true"/>
+
+        <dubbo:method name="invokeCallback" async="true" onreturn="notify.onreturn"/>
     </dubbo:reference>
 
+    <bean id="notify" class="org.apache.dubbo.samples.async.api.Callback"/>
 </beans>

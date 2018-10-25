@@ -36,4 +36,9 @@ public class AsyncServiceImpl implements AsyncService {
         return "goodbye, " + name;
     }
 
+    @Override
+    public String invokeCallback(String name) {
+        return name + " call successfully";
+    }
+
 }

@@ -56,6 +56,8 @@ public class AsyncConsumer {
         String result = future.get();
         System.out.println(result);
 
+        service.invokeCallback("kongming");
+
         System.in.read();
     }
 

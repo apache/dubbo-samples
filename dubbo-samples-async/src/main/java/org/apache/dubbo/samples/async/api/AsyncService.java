@@ -28,4 +28,5 @@ public interface AsyncService {
 
     String goodbye(String name);
 
+    String invokeCallback(String name);
 }
