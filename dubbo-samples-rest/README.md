@@ -28,7 +28,7 @@ We can use two steps to export Rest Service in Dubbo:
 Step 1: Add dependency to the pom file in our project:
 ```
         <dependency>
-            <groupId>com.alibaba</groupId>
+            <groupId>org.apache</groupId>
             <artifactId>dubbo-rpc-rest</artifactId>
             <version>${dubbo.rpc.version}</version>
         </dependency>
@@ -52,10 +52,10 @@ Step 2: copy these config to your spring config file:
 
 ```
 <!-- SwaggerUI -->
-    <bean id="swaggerService" class="com.alibaba.dubbo.integration.swagger.DubboSwaggerApiListingResource" />
+    <bean id="swaggerService" class="org.apache.dubbo.integration.swagger.DubboSwaggerApiListingResource" />
     <bean id="beanConfig" class="io.swagger.jaxrs.config.BeanConfig">
         <property name="schemes" value="http" />
-        <property name="resourcePackage" value="com.alibaba.dubbo.samples.rest.api"/>
+        <property name="resourcePackage" value="org.apache.dubbo.samples.rest.api"/>
         <property name="version" value="2.0"/>
         <property name="host" value="localhost:8888"/>
         <property name="basePath" value="/services/"/>
@@ -66,7 +66,7 @@ Step 2: copy these config to your spring config file:
         <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
         <property name="scan" value="true" />
     </bean>
-    <dubbo:service interface="com.alibaba.dubbo.integration.swagger.DubboSwaggerService" ref="swaggerService" protocol="rest" />
+    <dubbo:service interface="org.apache.dubbo.integration.swagger.DubboSwaggerService" ref="swaggerService" protocol="rest" />
 
 ```
 
