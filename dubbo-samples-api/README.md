@@ -11,11 +11,11 @@ mvn clean package
 ## Start the service provider
 
 ```bash
-mvn -Djava.net.preferIPv4Stack=true -Dexec.mainClass=com.alibaba.dubbo.samples.provider.Application exec:java
+mvn -Djava.net.preferIPv4Stack=true -Dexec.mainClass=org.apache.dubbo.samples.provider.Application exec:java
 ```
 
 ## Invoke the service consumer
 
 ```bash
-mvn -Djava.net.preferIPv4Stack=true -Dexec.mainClass=com.alibaba.dubbo.samples.consumer.Application exec:java
+mvn -Djava.net.preferIPv4Stack=true -Dexec.mainClass=org.apache.dubbo.samples.consumer.Application exec:java
 ```

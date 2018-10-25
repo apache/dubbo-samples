@@ -56,5 +56,5 @@ Execute from another host or container
 ```sh
 telnet 30.5.97.6 20881
 ls
-invoke com.alibaba.dubbo.test.docker.DemoService.hello("world")
+invoke org.apache.dubbo.test.docker.DemoService.hello("world")
 ```
