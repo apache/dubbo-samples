@@ -15,7 +15,7 @@
  *   limitations under the License.
  */
 
-package com.example;
+package org.example;
 
 public interface HelloService {
 

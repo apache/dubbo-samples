@@ -15,7 +15,7 @@
  *   limitations under the License.
  */
 
-package com.example;
+package org.example;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
