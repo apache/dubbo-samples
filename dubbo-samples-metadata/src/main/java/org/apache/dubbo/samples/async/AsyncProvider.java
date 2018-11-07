@@ -17,21 +17,17 @@
  *
  */
 
-package org.apache.dubbo.samples.basic.impl;
+package org.apache.dubbo.samples.async;
 
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.basic.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+public class AsyncProvider {
 
-public class DemoServiceImpl implements DemoService {
-
-    @Override
-    public String sayHello(String name) {
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-provider.xml"});
+        context.start();
+        System.in.read();
     }
 
 }

@@ -18,26 +18,20 @@
   ~
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>dubbo-samples-all</artifactId>
-        <groupId>org.apache.dubbo</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <artifactId>dubbo-samples-annotation</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <!-- Remove this dependency whenever  -->
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-metadata-report-api</artifactId>
-        </dependency>
-    </dependencies>
-</project>
+    <dubbo:application name="async-provider"/>
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+    <bean id="asyncService" class="org.apache.dubbo.samples.async.impl.AsyncServiceImpl"/>
+
+    <dubbo:service async="true" interface="org.apache.dubbo.samples.async.api.AsyncService" ref="asyncService"/>
+
+</beans>

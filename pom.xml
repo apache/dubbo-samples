@@ -55,6 +55,8 @@
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-compatible</module>
+        <module>dubbo-samples-configcenter</module>
+        <module>dubbo-samples-configcenter-multiprotocol</module>
     </modules>
 
     <properties>
@@ -81,6 +83,13 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
                 <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
