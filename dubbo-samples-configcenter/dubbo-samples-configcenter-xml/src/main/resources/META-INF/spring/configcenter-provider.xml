@@ -24,9 +24,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
+    <!-- optional -->
     <dubbo:application name="configcenter-provider"/>
 
-    <dubbo:configcenter type="zookeeper" address="127.0.0.1:2181" configfile="dubbo.properties"/>
+    <dubbo:configcenter type="springcloudconfig" address="127.0.0.1:2181" configfile="dubbo.properties"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
     <dubbo:service async="true" interface="org.apache.dubbo.samples.configcenter.api.DemoService" ref="demoService"/>

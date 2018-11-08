@@ -24,6 +24,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
+    <!-- optional -->
     <dubbo:application name="configcenter-consumer"/>
 
     <dubbo:configcenter type="zookeeper" address="127.0.0.1:2181" configfile="dubbo.properties"
