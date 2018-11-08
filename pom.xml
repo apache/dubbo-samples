@@ -30,7 +30,6 @@
     <modules>
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-async</module>
-        <module>dubbo-samples-async</module>
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-basic</module>
         <module>dubbo-samples-cache</module>
@@ -74,6 +73,7 @@
         <servlet.version>3.0.1</servlet.version>
         <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
+        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -173,7 +173,18 @@
         </dependency>
     </dependencies>
 
+
+
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
