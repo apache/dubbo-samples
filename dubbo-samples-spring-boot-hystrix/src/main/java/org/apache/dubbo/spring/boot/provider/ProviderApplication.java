@@ -24,7 +24,7 @@ import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 
 @SpringBootApplication
 @EnableHystrix
-@EnableDubbo(scanBasePackages = { "com.example" })
+@EnableDubbo(scanBasePackages = { "org.example" })
 public class ProviderApplication {
 
     public static void main(String[] args) {
