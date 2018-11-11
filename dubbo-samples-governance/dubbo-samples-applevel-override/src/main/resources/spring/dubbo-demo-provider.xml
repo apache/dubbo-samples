@@ -37,8 +37,12 @@
 
     <!-- service implementation, as same as regular local bean -->
     <bean id="demoService" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl"/>
-
     <!-- declare the service interface to be exported -->
     <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService" ref="demoService"/>
+
+    <!-- service implementation, as same as regular local bean -->
+    <bean id="demoService2" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl2"/>
+    <!-- declare the service interface to be exported -->
+    <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService2" ref="demoService2"/>
 
 </beans>

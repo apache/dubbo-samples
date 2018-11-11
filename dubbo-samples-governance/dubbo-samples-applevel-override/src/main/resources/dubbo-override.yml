@@ -1,0 +1,30 @@
+# Execute on demo-provider only
+# the demo-provider instances on those provides who's port is 20880 will be lifted to 1000
+# this will take effect on all services on demo-provider.
+---
+scope: application
+key: demo-provider
+enabled: true
+configs:
+- addresses: ["0.0.0.0:20880"]
+  side: provider
+  rules:
+    config:
+      weight: 1000
+...
+
+
+# Execute on demo-consumer only
+# the traffic come out from demo-consumer will be distributed evenly across all providers,
+# because demo-consumer will consider them having the same weight 100.
+---
+scope: application
+key: demo-consumer
+enabled: true
+configs:
+- addresses: ["0.0.0.0"]
+  side: consumer
+  rules:
+    config:
+      weight: 100
+...

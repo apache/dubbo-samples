@@ -20,6 +20,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.dubbo.common.utils.StringUtils;
+import org.apache.zookeeper.CreateMode;
 
 /**
  *
@@ -33,27 +34,59 @@ public class ZKTools {
         client.start();
 
         generateAppevelOverride();
+        generateAppevelOverrideConsumer();
     }
 
     public static void generateAppevelOverride() {
-        String str = "# Service scope, without any app\n" +
+        String str = "# Application scope, apply to all services\n" +
                 "---\n" +
                 "scope: application\n" +
                 "key: demo-provider\n" +
+                "enabled: true\n" +
                 "configs:\n" +
                 " - addresses: [\"0.0.0.0:20880\"]\n" +
                 "   side: provider\n" +
                 "   rules:\n" +
                 "    config:\n" +
-                "     weight: 500\n" +
+                "     weight: 1000\n" +
                 "...";
 
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/org.apache.dubbo.samples.governance.api.DemoService/configurators";
+            String path = "/dubbo/config/demo-provider/configurators";
             if (client.checkExists().forPath(path) == null) {
-                client.create().creatingParentsIfNeeded().forPath(path);
+                client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
+            }
+            setData(path, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     */
+    public static void generateAppevelOverrideConsumer() {
+        String str = "# Application scope, apply to all services\n" +
+                "---\n" +
+                "scope: application\n" +
+                "key: demo-consumer\n" +
+                "enabled: false\n" +
+                "configs:\n" +
+                " - addresses: [\"0.0.0.0\"]\n" +
+                "   side: consumer\n" +
+                "   rules:\n" +
+                "    config:\n" +
+                "     weight: 200\n" +
+                "...";
+
+        System.out.println(str);
+
+        try {
+            String path = "/dubbo/config/demo-consumer/configurators";
+            if (client.checkExists().forPath(path) == null) {
+                client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
             }
             setData(path, str);
         } catch (Exception e) {

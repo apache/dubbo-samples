@@ -30,7 +30,6 @@
     <modules>
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-async</module>
-        <module>dubbo-samples-async</module>
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-basic</module>
         <module>dubbo-samples-cache</module>

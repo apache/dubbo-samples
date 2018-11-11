@@ -31,9 +31,9 @@ import java.util.UUID;
 
 /**
  * from: https://github.com/spring-projects/spring-xd/blob/v1.3.1.RELEASE/spring-xd-dirt/src/main/java/org/springframework/xd/dirt/zookeeper/ZooKeeperUtils.java
- * <p>
+ *
  * Helper class to start an embedded instance of standalone (non clustered) ZooKeeper.
- * <p>
+ *
  * NOTE: at least an external standalone server (if not an ensemble) are recommended, even for
  * {@link org.springframework.xd.dirt.server.singlenode.SingleNodeApplication}
  *
@@ -90,7 +90,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * Construct an EmbeddedZooKeeper with the provided port.
      *
-     * @param clientPort port for ZooKeeper server to bind to
+     * @param clientPort  port for ZooKeeper server to bind to
      */
     public EmbeddedZooKeeper(int clientPort, boolean daemon) {
         this.clientPort = clientPort;
@@ -107,14 +107,6 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isAutoStartup() {
-        return this.autoStartup;
-    }
-
-    /**
      * Specify whether to start automatically. Default is true.
      *
      * @param autoStartup whether to start automatically
@@ -127,8 +119,8 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
      * {@inheritDoc}
      */
     @Override
-    public int getPhase() {
-        return this.phase;
+    public boolean isAutoStartup() {
+        return this.autoStartup;
     }
 
     /**
@@ -138,6 +130,14 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
      */
     public void setPhase(int phase) {
         this.phase = phase;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getPhase() {
+        return this.phase;
     }
 
     /**

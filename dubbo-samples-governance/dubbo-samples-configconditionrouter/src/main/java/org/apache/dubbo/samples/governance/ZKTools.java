@@ -32,27 +32,26 @@ public class ZKTools {
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
 
-        generateServiceLevelOverride();
+        generateAppevelRouter();
     }
 
-    public static void generateServiceLevelOverride() {
-        String str = "# Service scope, without any app\n" +
-                "---\n" +
-                "scope: service\n" +
-                "key: org.apache.dubbo.samples.governance.api.DemoService\n" +
+    public static void generateAppevelRouter() {
+        String str = "---\n" +
+                "scope: application\n" +
+                "force: true\n" +
+                "runtime: true\n" +
                 "enabled: true\n" +
-                "configs:\n" +
-                " - addresses: [0.0.0.0]\n" +
-                "   side: consumer\n" +
-                "   rules:\n" +
-                "    config:\n" +
-                "     timeout: 6000\n" +
+                "priority: 2\n" +
+                "key: demo-consumer\n" +
+                "conditions:\n" +
+                " - interface=org.apache.dubbo.samples.governance.api.DemoService&method=sayHello=>address=*:20880\n" +
+                " - interface=org.apache.dubbo.samples.governance.api.DemoService2&method=sayHello=>address=*:20881\n" +
                 "...";
 
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/org.apache.dubbo.samples.governance.api.DemoService/configurators";
+            String path = "/dubbo/config/governance-conditionrouter-consumer/routers";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
