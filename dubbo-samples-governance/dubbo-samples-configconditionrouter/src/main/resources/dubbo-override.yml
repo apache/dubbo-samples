@@ -4,7 +4,7 @@ force: true
 runtime: true
 enabled: true
 priority: 2
-key: demo-consumer
+key: governance-conditionrouter-consumer
 conditions:
 - interface=org.apache.dubbo.samples.governance.api.DemoService&method=sayHello=>address=*:20880
 - interface=org.apache.dubbo.samples.governance.api.DemoService2&method=sayHello=>address=*:20881

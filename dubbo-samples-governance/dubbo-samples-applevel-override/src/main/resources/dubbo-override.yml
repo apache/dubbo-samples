@@ -1,9 +1,9 @@
-# Execute on demo-provider only
-# the demo-provider instances on those provides who's port is 20880 will be lifted to 1000
+# Execute on governance-appoverride-provider only
+# the governance-appoverride-provider instances on those provides who's port is 20880 will be lifted to 1000
 # this will take effect on all services on demo-provider.
 ---
 scope: application
-key: demo-provider
+key: governance-appoverride-provider
 enabled: true
 configs:
 - addresses: ["0.0.0.0:20880"]
@@ -15,11 +15,11 @@ configs:
 
 
 # Execute on demo-consumer only
-# the traffic come out from demo-consumer will be distributed evenly across all providers,
-# because demo-consumer will consider them having the same weight 100.
+# the traffic come out from governance-appoverride-consumer will be distributed evenly across all providers,
+# because governance-appoverride-consumer will consider them having the same weight 100.
 ---
 scope: application
-key: demo-consumer
+key: governance-appoverride-consumer
 enabled: true
 configs:
 - addresses: ["0.0.0.0"]

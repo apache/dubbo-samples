@@ -25,7 +25,7 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- optional provider's application name, used for tracing dependency relationship -->
-    <dubbo:application name="demo-provider"/>
+    <dubbo:application name="governance-serviceoverride-provider"/>
 
     <!-- optional -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>

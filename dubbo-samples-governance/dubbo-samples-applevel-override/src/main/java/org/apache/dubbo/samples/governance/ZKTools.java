@@ -41,7 +41,7 @@ public class ZKTools {
         String str = "# Application scope, apply to all services\n" +
                 "---\n" +
                 "scope: application\n" +
-                "key: demo-provider\n" +
+                "key: governance-appoverride-provider\n" +
                 "enabled: true\n" +
                 "configs:\n" +
                 " - addresses: [\"0.0.0.0:20880\"]\n" +
@@ -54,7 +54,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/demo-provider/configurators";
+            String path = "/dubbo/config/governance-appoverride-provider/configurators";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
             }
@@ -71,7 +71,7 @@ public class ZKTools {
         String str = "# Application scope, apply to all services\n" +
                 "---\n" +
                 "scope: application\n" +
-                "key: demo-consumer\n" +
+                "key: governance-appoverride-consumer\n" +
                 "enabled: false\n" +
                 "configs:\n" +
                 " - addresses: [\"0.0.0.0\"]\n" +
@@ -84,7 +84,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/demo-consumer/configurators";
+            String path = "/dubbo/config/governance-appoverride-consumer/configurators";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
             }

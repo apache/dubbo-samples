@@ -3,7 +3,7 @@ force: false
 runtime: true
 enabled: true
 priority: 1
-key: demo-provider
+key: governance-tagrouter-provider
 tags:
 - name: tag1
   addresses: ["192.168.0.100:20881"]
