@@ -31,8 +31,9 @@ public class Application {
         configCenter.setAddress("127.0.0.1:2181");
         configCenter.init();
 
-        // Or you can set external configuration to Dubbo directly.
-       /* Map<String, String> dubboConfigurations = new HashMap<>();
+        // If you don't want to use ConfigCenter provided by dubbo, you can set external configuration to Dubbo directly.
+        // We created a Map instance manually and put a value into it, but in reality, the external configurations will most likely being generated from other plugins in your system.
+        /*Map<String, String> dubboConfigurations = new HashMap<>();
         dubboConfigurations.put("dubbo.registry.address", "zookeeper://127.0.0.1:2181");
         Environment.getInstance().updateExternalConfigurationMap(dubboConfigurations);*/
 
