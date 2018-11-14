@@ -17,27 +17,22 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.simplified.registry.impl;
+
 
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.governance.api.AsyncService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.dubbo.samples.simplified.registry.api.DemoService;
 
-/**
- * CallbackConsumer
- */
-public class AsyncConsumer {
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
-        context.start();
+public class DemoServiceImpl implements DemoService {
 
-        RpcContext.getContext().setAttachment("consumer-key1", "consumer-value1");
-        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
-
-        System.out.println(asyncService.sayHello("async call request"));
-
-        System.in.read();
+    @Override
+    public String sayHello(String name) {
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
+                .getContext().getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
     }
 
 }

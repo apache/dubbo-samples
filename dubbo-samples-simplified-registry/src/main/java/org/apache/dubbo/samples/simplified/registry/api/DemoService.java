@@ -17,12 +17,9 @@
  *
  */
 
-package org.apache.dubbo.samples.governance.api;
+package org.apache.dubbo.samples.simplified.registry.api;
 
-/**
- * AsyncService
- */
-public interface AsyncService {
+public interface DemoService {
 
     String sayHello(String name);
 
