@@ -32,7 +32,7 @@
 
     <properties>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
-        <main-class>com.alibaba.dubbo.spring.boot.provider.ProviderApplication</main-class>
+        <main-class>org.apache.dubbo.samples.configcenter.provider.ProviderApplication</main-class>
     </properties>
 
     <dependencyManagement>

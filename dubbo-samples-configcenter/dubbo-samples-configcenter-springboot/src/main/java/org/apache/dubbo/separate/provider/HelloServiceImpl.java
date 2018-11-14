@@ -14,10 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example;
+package org.apache.dubbo.separate.provider;
 
-public interface HelloService {
+import com.alibaba.dubbo.config.annotation.Service;
 
-    String sayHello(String name);
+@Service(version = "1.0.0")
+public class HelloServiceImpl implements HelloService {
+
+    @Override
+    public String sayHello(String name) {
+        return "Hello, " + name;
+    }
 
 }

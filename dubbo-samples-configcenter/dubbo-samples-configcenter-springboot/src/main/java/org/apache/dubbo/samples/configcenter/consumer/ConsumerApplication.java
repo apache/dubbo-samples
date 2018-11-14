@@ -14,23 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.dubbo.spring.boot.provider;
+package org.apache.dubbo.samples.configcenter.consumer;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.alibaba.dubbo.config.annotation.Reference;
 
+import org.apache.dubbo.separate.provider.HelloService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Service;
 
 @SpringBootApplication
-@EnableDubbo(scanBasePackages = {"com.example"})
-public class ProviderApplication {
+@Service
+public class ConsumerApplication {
+
+    @Reference(version = "1.0.0")
+    private HelloService demoService;
 
     public static void main(String[] args) {
 
-        // start embedded zookeeper server
-        new EmbeddedZooKeeper(2181, false).start();
+        ConfigurableApplicationContext context = SpringApplication.run(ConsumerApplication.class, args);
+        ConsumerApplication application = context.getBean(ConsumerApplication.class);
 
-        SpringApplication.run(ProviderApplication.class, args);
+        String result = application.doSayHello("world");
+        System.err.println("result :" + result);
     }
 
+    public String doSayHello(String name) {
+        return demoService.sayHello(name);
+    }
 }

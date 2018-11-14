@@ -17,10 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation.impl;
+package org.apache.dubbo.samples.externalconfiguration.impl;
 
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.annotation.api.AnnotationService;
+import org.apache.dubbo.samples.externalconfiguration.api.AnnotationService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 

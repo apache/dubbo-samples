@@ -17,12 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation.action;
+package org.apache.dubbo.samples.externalconfiguration.consumer;
 
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.samples.externalconfiguration.api.AnnotationService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-
+import org.apache.dubbo.samples.externalconfiguration.service.AnnotationService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -34,13 +32,8 @@ public class AnnotationAction {
     @Reference
     private AnnotationService annotationService;
 
-    @HystrixCommand(fallbackMethod = "reliable")
     public String doSayHello(String name) {
         return annotationService.sayHello(name);
-    }
-
-    public String reliable(String name) {
-        return "hystrix fallback value";
     }
 
 }

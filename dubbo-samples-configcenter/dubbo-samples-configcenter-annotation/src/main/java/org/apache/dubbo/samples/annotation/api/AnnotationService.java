@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation.api;
+package org.apache.dubbo.samples.externalconfiguration.api;
 
 /**
  * AsyncService

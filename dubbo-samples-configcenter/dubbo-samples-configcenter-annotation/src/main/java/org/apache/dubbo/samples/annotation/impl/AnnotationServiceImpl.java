@@ -20,7 +20,7 @@
 package org.apache.dubbo.samples.annotation.impl;
 
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.annotation.api.AnnotationService;
+import org.apache.dubbo.samples.externalconfiguration.api.AnnotationService;
 
 /**
  * AsyncServiceImpl
