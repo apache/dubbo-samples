@@ -35,9 +35,6 @@ import org.springframework.context.annotation.Configuration;
 public class AnnotationProvider {
 
     public static void main(String[] args) throws Exception {
-       /* AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
-
-        context.start();*/
         // start embedded zookeeper server
         new EmbeddedZooKeeper(2181, false).start();
 
