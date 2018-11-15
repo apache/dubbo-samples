@@ -16,18 +16,32 @@
  *   limitations under the License.
  *
  */
+package org.apache.dubbo.samples.simplified.registry;
 
-package org.apache.dubbo.samples.governance;
+import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.URL;
+import org.apache.dubbo.samples.simplified.registry.api.DemoService;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+/**
+ * 2018/11/8
+ */
+public class ZkUtil {
 
-public class AsyncProvider {
+    private static String toRootDir() {
+        return "/dubbo";
+    }
 
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-provider.xml"});
-        context.start();
-        System.in.read();
+    private static String toServicePath() {
+        String name = DemoService.class.getName();
+        return toRootDir() + Constants.PATH_SEPARATOR + URL.encode(name);
+    }
+
+    private static String toCategoryPath(String side) {
+        return toServicePath() + Constants.PATH_SEPARATOR + side;
+    }
+
+    public static String toUrlPath(String side) {
+        return toCategoryPath(side);
     }
 
 }

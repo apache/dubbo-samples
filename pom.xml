@@ -55,6 +55,7 @@
         <module>dubbo-samples-configcenter</module>
         <module>dubbo-samples-governance</module>
         <module>dubbo-samples-metadata-report</module>
+        <module>dubbo-samples-simplified-registry</module>
     </modules>
 
     <properties>
