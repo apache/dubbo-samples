@@ -36,9 +36,10 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForApp() {
-        String str = "#key格式: dubbo.{配置项名称}.{id}.{property}\n" +
+        String str = "#key: dubbo.{item-name}.{id}.{property}\n" +
+                "dubbo.protocols=dubbo,hessian" +
                 "dubbo.protocol.dubbo.name=dubbo\n" +
-                "dubbo.protocol.dubbo.port=20990\n" +
+                "dubbo.protocol.dubbo.port=20991\n" +
                 "\n" +
                 "dubbo.protocol.hessian.name=hessian\n" +
                 "dubbo.protocol.hessian.port=8089";

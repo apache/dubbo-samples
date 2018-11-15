@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 /**
  *
+ * The users are responsible for gathering all Dubbo related configurations and put them into the standard Spring environment mapping to a specified key, in this demo is 'dubbo.properties' and 'application.dubbo.properties'.
  */
 public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
 

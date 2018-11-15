@@ -27,8 +27,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
         // Enable Config Center.
         ConfigCenterConfig configCenter = new ConfigCenterConfig();
-        configCenter.setType("zookeeper");
-        configCenter.setAddress("127.0.0.1:2181");
+        configCenter.setAddress("zookeeper://127.0.0.1:2181");
         configCenter.init();
 
         // If you don't want to use ConfigCenter provided by dubbo, you can set external configuration to Dubbo directly.

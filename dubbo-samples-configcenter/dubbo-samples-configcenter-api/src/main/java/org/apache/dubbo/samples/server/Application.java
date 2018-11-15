@@ -19,19 +19,21 @@ package org.apache.dubbo.samples.server;
 
 
 import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ConfigCenterConfig;
 import org.apache.dubbo.config.ServiceConfig;
+import org.apache.dubbo.config.context.Environment;
 import org.apache.dubbo.samples.api.GreetingsService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Application {
     public static void main(String[] args) throws Exception {
         // Enable Config Center.
-        ConfigCenterConfig configCenter = new ConfigCenterConfig();
-        configCenter.setType("zookeeper");
-        configCenter.setAddress("127.0.0.1:2181");
-        configCenter.init();
+      /*  ConfigCenterConfig configCenter = new ConfigCenterConfig();
+        configCenter.setAddress("zookeeper://127.0.0.1:2181");
+        configCenter.init();*/
 
-        /*
+
         // If you don't want to use ConfigCenter provided by dubbo, you can set external configuration to Dubbo directly.
         // We created a Map instance manually and put a value into it, but in reality, the external configurations will most likely being generated from other plugins in your system.
         Map<String, String> dubboConfigurations = new HashMap<>();
@@ -40,7 +42,7 @@ public class Application {
         // but notice it will not be used for getting startup configurations.
         dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
         Environment.getInstance().setExternalConfiguration(dubboConfigurations);
-        */
+
 
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setApplication(new ApplicationConfig("first-dubbo-provider"));
