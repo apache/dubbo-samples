@@ -33,7 +33,7 @@
     <!--optional, use dubbo protocol to export service on port 20880 -->
     <dubbo:protocol name="dubbo" port="-1"/>
 
-    <dubbo:configcenter address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:configcenter priority="false" address="zookeeper://127.0.0.1:2181"/>
 
     <!-- service implementation, as same as regular local bean -->
     <bean id="demoService" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl"/>

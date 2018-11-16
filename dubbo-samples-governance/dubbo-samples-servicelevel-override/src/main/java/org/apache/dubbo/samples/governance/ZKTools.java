@@ -36,18 +36,17 @@ public class ZKTools {
     }
 
     public static void generateServiceLevelOverride() {
-        String str = "# Service scope, without any app\n" +
+        String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" +
                 "---\n" +
+                "apiVersion: v2.7\n" +
                 "scope: service\n" +
                 "key: org.apache.dubbo.samples.governance.api.DemoService\n" +
                 "enabled: true\n" +
                 "configs:\n" +
-                " - addresses: [0.0.0.0]\n" +
-                "   side: consumer\n" +
-                "   rules:\n" +
-                "    config:\n" +
-                "     timeout: 6000\n" +
-                "...";
+                "- addresses: [0.0.0.0]\n" +
+                "  parameters:\n" +
+                "    timeout: 6000\n" +
+                "...\n";
 
         System.out.println(str);
 

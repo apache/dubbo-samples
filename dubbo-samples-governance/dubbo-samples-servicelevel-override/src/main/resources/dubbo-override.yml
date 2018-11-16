@@ -18,13 +18,12 @@
 #
 # All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000
 ---
+apiVersion: v2.7
 scope: service
 key: org.apache.dubbo.samples.governance.api.DemoService
 enabled: true
 configs:
 - addresses: [0.0.0.0]
-  side: consumer
-  rules:
-    config:
-      timeout: 6000
+  parameters:
+    timeout: 6000
 ...

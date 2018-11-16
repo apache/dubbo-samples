@@ -33,22 +33,24 @@ public class ZKTools {
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
 
-        generateAppevelOverride();
+//        generateAppevelOverride();
+//        System.in.read();
         generateAppevelOverrideConsumer();
     }
 
     public static void generateAppevelOverride() {
-        String str = "# Application scope, apply to all services\n" +
+        String str = "# Execute on governance-appoverride-provider only\n" +
+                "# the governance-appoverride-provider instances on those provides who's port is 20880 will be lifted to 1000\n" +
+                "# this will take effect on all services on governance-appoverride-provider.\n" +
                 "---\n" +
+                "apiVersion: v2.7\n" +
                 "scope: application\n" +
                 "key: governance-appoverride-provider\n" +
                 "enabled: true\n" +
                 "configs:\n" +
-                " - addresses: [\"0.0.0.0:20880\"]\n" +
-                "   side: provider\n" +
-                "   rules:\n" +
-                "    config:\n" +
-                "     weight: 1000\n" +
+                "- addresses: [\"0.0.0.0:20880\"]\n" +
+                "  parameters:\n" +
+                "    weight: 1000\n" +
                 "...";
 
         System.out.println(str);
@@ -68,18 +70,19 @@ public class ZKTools {
      *
      */
     public static void generateAppevelOverrideConsumer() {
-        String str = "# Application scope, apply to all services\n" +
+        String str = "# Execute on demo-consumer only\n" +
+                "# the traffic come out from governance-appoverride-consumer will be distributed evenly across all providers,\n" +
+                "# because governance-appoverride-consumer will consider them having the same weight 100.\n" +
                 "---\n" +
+                "apiVersion: v2.7\n" +
                 "scope: application\n" +
                 "key: governance-appoverride-consumer\n" +
-                "enabled: false\n" +
+                "enabled: true\n" +
                 "configs:\n" +
-                " - addresses: [\"0.0.0.0\"]\n" +
-                "   side: consumer\n" +
-                "   rules:\n" +
-                "    config:\n" +
-                "     weight: 200\n" +
-                "...";
+                "- addresses: [\"0.0.0.0\"]\n" +
+                "  parameters:\n" +
+                "    weight: 140\n" +
+                "...\n";
 
         System.out.println(str);
 
