@@ -25,12 +25,13 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- optional -->
-    <dubbo:application name="simplified-registry-xml-provider"/>
+    <dubbo:application name="simplified-registry-nosimple-provider"/>
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <bean id="demoService" class="DemoServiceImpl"/>
-    <dubbo:service async="true" interface="DemoService" version="1.2.3" group="dubbo-simple"
-                   ref="demoService" executes="4500" retries="7" owner="vict" timeout="5300"/>
+    <bean id="demoService" class="org.apache.dubbo.samples.simplified.registry.nosimple.impl.DemoServiceImpl"/>
+    <dubbo:service async="true" interface="org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService"
+                   version="1.2.3" group="dubbo-simple" ref="demoService"
+                   executes="4500" retries="7" owner="vict" timeout="5300"/>
 
 </beans>

@@ -22,6 +22,7 @@ package org.apache.dubbo.samples.metadatareport.local.annotation;
 
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
+import org.apache.dubbo.config.MetadataReportConfig;
 import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.metadata.identifier.ProviderMetadataIdentifier;
@@ -59,6 +60,12 @@ public class AnnotationProvider {
             ProviderConfig providerConfig = new ProviderConfig();
             providerConfig.setTimeout(1000);
             return providerConfig;
+        }
+        @Bean
+        public MetadataReportConfig metadataReportConfig() {
+            MetadataReportConfig metadataReportConfig = new MetadataReportConfig();
+            metadataReportConfig.setAddress("zookeeper://127.0.0.1:2181");
+            return metadataReportConfig;
         }
     }
 

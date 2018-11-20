@@ -33,9 +33,9 @@ public class BasicConsumer {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/metadata-consumer.xml"});
         context.start();
 
-        printServiceData();
-
         DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+
+        printServiceData();
 
         while (true) {
             try {

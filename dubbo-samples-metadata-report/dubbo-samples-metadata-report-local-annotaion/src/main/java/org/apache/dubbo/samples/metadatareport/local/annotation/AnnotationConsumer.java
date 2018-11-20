@@ -21,6 +21,7 @@ package org.apache.dubbo.samples.metadatareport.local.annotation;
 
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
+import org.apache.dubbo.config.MetadataReportConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.metadata.identifier.ConsumerMetadataIdentifier;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
@@ -28,6 +29,7 @@ import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.metadatareport.local.annotation.action.AnnotationAction;
 import org.apache.dubbo.samples.metadatareport.local.annotation.api.AnnotationService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -55,7 +57,12 @@ public class AnnotationConsumer {
     @PropertySource("classpath:/spring/dubbo-consumer.properties")
     @ComponentScan(value = {"org.apache.dubbo.samples.metadatareport.local.annotation.action"})
     static public class ConsumerConfiguration {
-
+        @Bean
+        public MetadataReportConfig metadataReportConfig() {
+            MetadataReportConfig metadataReportConfig = new MetadataReportConfig();
+            metadataReportConfig.setAddress("zookeeper://127.0.0.1:2181");
+            return metadataReportConfig;
+        }
     }
 
     private static void printServiceData(){

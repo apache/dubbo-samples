@@ -29,7 +29,7 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181" username="xxx" password="yyy" check="true"/>
 
-    <dubbo:reference id="demoService" interface="DemoService"
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService"
                      owner="vvv" retries="4" actives="6" timeout="4500" version="1.2.3" group="dubbo-simple"/>
 
 </beans>

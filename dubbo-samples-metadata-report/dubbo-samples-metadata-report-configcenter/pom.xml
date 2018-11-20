@@ -29,5 +29,10 @@
 
     <artifactId>dubbo-samples-metadata-report-configcenter</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-configcenter-zookeeper</artifactId>
+        </dependency>
+    </dependencies>
 </project>
