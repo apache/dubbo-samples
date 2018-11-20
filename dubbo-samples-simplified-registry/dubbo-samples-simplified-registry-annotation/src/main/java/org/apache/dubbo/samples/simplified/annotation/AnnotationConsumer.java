@@ -19,6 +19,7 @@
 
 package org.apache.dubbo.samples.simplified.annotation;
 
+import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.config.RegistryDataConfig;
@@ -78,6 +79,7 @@ public class AnnotationConsumer {
         System.out.println("simple contain 'application':" + urls.get(0).contains("application"));
         System.out.println("simple contain 'version':" + urls.get(0).contains("version"));
         System.out.println("simple contain 'group':" + urls.get(0).contains("group"));
+        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.SPECIFICATION_VERSION_KEY));
         System.out.println("*********************************************************");
     }
 }

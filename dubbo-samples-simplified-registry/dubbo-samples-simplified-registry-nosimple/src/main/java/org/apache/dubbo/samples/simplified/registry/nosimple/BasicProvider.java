@@ -19,6 +19,7 @@
 
 package org.apache.dubbo.samples.simplified.registry.nosimple;
 
+import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
@@ -53,6 +54,7 @@ public class BasicProvider {
         System.out.println("simple contain 'timeout(default)':" + urls.get(0).contains("timeout"));
         System.out.println("simple contain 'version(default)':" + urls.get(0).contains("version"));
         System.out.println("simple contain 'group(default)':" + urls.get(0).contains("group"));
+        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.SPECIFICATION_VERSION_KEY));
         System.out.println("*********************************************************");
     }
 
