@@ -47,6 +47,7 @@ public class AnnotationProvider {
         @Bean
         public ConfigCenterBean configCenterBean() {
             ConfigCenterBean configCenterBean = new ConfigCenterBean();
+            // This is the critical part that
             configCenterBean.setAuto(true);
             return configCenterBean;
         }

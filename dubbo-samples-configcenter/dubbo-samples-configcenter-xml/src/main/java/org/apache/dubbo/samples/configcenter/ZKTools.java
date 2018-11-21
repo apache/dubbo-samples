@@ -60,7 +60,7 @@ public class ZKTools {
 
     public static void generateDubboPropertiesForApp() {
         String str = "dubbo.consumer.timeout=6666\n" +
-                "dubbo.qos.port=33333\n" +
+                "dubbo.application.qos.port=33333\n" +
                 "dubbo.reference.org.apache.dubbo.samples.configcenter.api.DemoService.timeout=9999";
 
         System.out.println(str);

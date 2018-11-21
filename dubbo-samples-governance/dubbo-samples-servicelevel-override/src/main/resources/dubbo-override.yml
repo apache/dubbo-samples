@@ -24,6 +24,7 @@ key: org.apache.dubbo.samples.governance.api.DemoService
 enabled: true
 configs:
 - addresses: [0.0.0.0]
+  side: consumer
   parameters:
     timeout: 6000
 ...

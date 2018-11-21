@@ -18,9 +18,10 @@
 package org.apache.dubbo.samples.server;
 
 
+import org.apache.dubbo.common.config.Environment;
 import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ConfigCenterConfig;
 import org.apache.dubbo.config.ServiceConfig;
-import org.apache.dubbo.config.context.Environment;
 import org.apache.dubbo.samples.api.GreetingsService;
 
 import java.util.HashMap;
@@ -42,6 +43,8 @@ public class Application {
         // but notice it will not be used for getting startup configurations.
         dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
         Environment.getInstance().setExternalConfiguration(dubboConfigurations);
+        ConfigCenterConfig configCenter = new ConfigCenterConfig();
+        configCenter.init();
 
 
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();

@@ -80,6 +80,7 @@ public class ZKTools {
                 "enabled: true\n" +
                 "configs:\n" +
                 "- addresses: [\"0.0.0.0\"]\n" +
+                "  side: consumer\n" +
                 "  parameters:\n" +
                 "    weight: 140\n" +
                 "...\n";

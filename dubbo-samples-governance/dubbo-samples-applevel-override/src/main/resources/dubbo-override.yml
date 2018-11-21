@@ -27,6 +27,7 @@ key: governance-appoverride-provider
 enabled: true
 configs:
 - addresses: ["0.0.0.0:20880"]
+  side: consumer
   parameters:
     weight: 1000
 ...

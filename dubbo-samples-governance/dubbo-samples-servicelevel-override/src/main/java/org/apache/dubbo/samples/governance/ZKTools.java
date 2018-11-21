@@ -29,7 +29,7 @@ public class ZKTools {
 
     public static void main(String[] args) throws Exception {
         client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000,
-                new ExponentialBackoffRetry(1000, 3));
+                new ExponentialBackoffRetry(6000, 3));
         client.start();
 
         generateServiceLevelOverride();
@@ -44,8 +44,9 @@ public class ZKTools {
                 "enabled: true\n" +
                 "configs:\n" +
                 "- addresses: [0.0.0.0]\n" +
+                "  side: consumer\n" +
                 "  parameters:\n" +
-                "    timeout: 6000\n" +
+                "    timeout: 4000\n" +
                 "...\n";
 
         System.out.println(str);
