@@ -23,7 +23,7 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- provider's application name, used for tracing dependency relationship -->
-    <dubbo:application name="demo-provider"/>
+    <dubbo:application name="demo-provider" />
 
     <!-- use multicast registry center to export service -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
