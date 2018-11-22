@@ -37,4 +37,11 @@
         <module>dubbo-samples-async-original-future</module>
         <module>dubbo-samples-async-provider</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-configcenter-zookeeper</artifactId>
+        </dependency>
+    </dependencies>
 </project>

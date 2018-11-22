@@ -1,1 +1,1 @@
-asyncpostprocess=AsyncPostprocessFilter
+asyncpostprocess=org.apache.dubbo.samples.governance.filter.AsyncPostprocessFilter
