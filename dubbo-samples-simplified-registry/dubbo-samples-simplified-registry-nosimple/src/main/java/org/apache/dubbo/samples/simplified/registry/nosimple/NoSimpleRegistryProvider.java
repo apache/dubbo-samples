@@ -17,23 +17,24 @@
  *
  */
 
-package org.apache.dubbo.samples.metadatareport.local.xml;
+package org.apache.dubbo.samples.simplified.registry.nosimple;
 
+import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
-import org.apache.dubbo.metadata.identifier.ProviderMetadataIdentifier;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
-import org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class BasicProvider {
+import java.util.List;
+
+public class NoSimpleRegistryProvider {
 
     public static void main(String[] args) throws Exception {
         EmbeddedZooKeeper embeddedZooKeeper = new EmbeddedZooKeeper(2181, false);
         embeddedZooKeeper.start();
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/metadata-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/simplified-provider.xml"});
         context.start();
 
         printServiceData();
@@ -44,11 +45,18 @@ public class BasicProvider {
     private static void printServiceData() {
         // get service data(provider) from zookeeper .
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new ProviderMetadataIdentifier(DemoService.class.getName(), null, null)));
+        List<String> urls = zookeeperClient.getChildren(ZkUtil.toUrlPath("providers"));
         System.out.println("*********************************************************");
-        System.out.println("Dubbo store metadata into special store(as zk,redis) when local xml:");
-        System.out.println(data);
+        System.out.println(urls);
+        System.out.println("simple contain 'executes':" + urls.get(0).contains("executes"));
+        System.out.println("simple contain 'retries':" + urls.get(0).contains("retries"));
+        System.out.println("simple contain 'owner':" + urls.get(0).contains("owner"));
+        System.out.println("simple contain 'timeout(default)':" + urls.get(0).contains("timeout"));
+        System.out.println("simple contain 'version(default)':" + urls.get(0).contains("version"));
+        System.out.println("simple contain 'group(default)':" + urls.get(0).contains("group"));
+        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.SPECIFICATION_VERSION_KEY));
         System.out.println("*********************************************************");
     }
+
 
 }

@@ -17,29 +17,59 @@
  *
  */
 
-package org.apache.dubbo.samples.simplified.registry.nosimple;
+package org.apache.dubbo.samples.simplified.annotation;
+
 
 import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
+import org.apache.dubbo.config.ProviderConfig;
+import org.apache.dubbo.config.RegistryDataConfig;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
 
-public class BasicProvider {
+/**
+ *
+ */
+public class SimpleRegistryAnnotationProvider {
 
     public static void main(String[] args) throws Exception {
         EmbeddedZooKeeper embeddedZooKeeper = new EmbeddedZooKeeper(2181, false);
         embeddedZooKeeper.start();
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/simplified-provider.xml"});
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
-
+        // get service data(provider) from zookeeper .
         printServiceData();
-        System.in.read(); // press any key to exit
+        System.in.read();
         embeddedZooKeeper.stop();
+    }
+
+    @Configuration
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simplified.annotation.impl")
+    @PropertySource("classpath:/spring/dubbo-provider.properties")
+    static public class ProviderConfiguration {
+        @Bean
+        public ProviderConfig providerConfig() {
+            ProviderConfig providerConfig = new ProviderConfig();
+            providerConfig.setTimeout(1000);
+            return providerConfig;
+        }
+
+        @Bean
+        public RegistryDataConfig registryDataConfig() {
+            RegistryDataConfig registryDataConfig = new RegistryDataConfig();
+            registryDataConfig.setExtraProviderKeys("retries,owner");
+            registryDataConfig.setSimpleProviderConfig(true);
+            return registryDataConfig;
+        }
     }
 
     private static void printServiceData() {
@@ -48,7 +78,7 @@ public class BasicProvider {
         List<String> urls = zookeeperClient.getChildren(ZkUtil.toUrlPath("providers"));
         System.out.println("*********************************************************");
         System.out.println(urls);
-        System.out.println("simple contain 'executes':" + urls.get(0).contains("executes"));
+        System.out.println("simple donot contain 'executes':" + !urls.get(0).contains("executes"));
         System.out.println("simple contain 'retries':" + urls.get(0).contains("retries"));
         System.out.println("simple contain 'owner':" + urls.get(0).contains("owner"));
         System.out.println("simple contain 'timeout(default)':" + urls.get(0).contains("timeout"));
@@ -57,6 +87,5 @@ public class BasicProvider {
         System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.SPECIFICATION_VERSION_KEY));
         System.out.println("*********************************************************");
     }
-
 
 }
