@@ -48,7 +48,7 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
             Map<String, Object> appDubboProperties = new HashMap<>();
             BufferedReader appReader = new BufferedReader(new InputStreamReader(MyEnvironmentPostProcessor.class.getResourceAsStream("/yourconfigcenter/dubbo-properties-in-configcenter-provider.properties")));
             String appName = application.getMainApplicationClass().getSimpleName();
-            if (appName.contains("consumer")) {
+            if (appName.contains("Consumer")) {
                 appReader = new BufferedReader(new InputStreamReader(MyEnvironmentPostProcessor.class.getResourceAsStream("/yourconfigcenter/dubbo-properties-in-configcenter-consumer.properties")));
             }
             appDubboProperties.put("application.dubbo.properties", appReader.lines().collect(Collectors.joining("\n")));
