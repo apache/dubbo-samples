@@ -42,7 +42,7 @@ public class Application {
         // you will need to add the configcenter address if you want to use the service governance features in 2.7, e.g., overrides and routers.
         // but notice it will not be used for getting startup configurations.
         dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
-        Environment.getInstance().setExternalConfiguration(dubboConfigurations);
+        Environment.getInstance().setExternalConfig(dubboConfigurations);
         ConfigCenterConfig configCenter = new ConfigCenterConfig();
         configCenter.init();
 
