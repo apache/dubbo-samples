@@ -64,11 +64,12 @@
         <spring.version>4.3.16.RELEASE</spring.version>
         <dubbo.version>2.7.0-SNAPSHOT</dubbo.version>
         <dubbo.rpc.version>2.7.0-SNAPSHOT</dubbo.rpc.version>
-        <curator.version>2.12.0</curator.version>
+        <zookeeper.version>3.4.13</zookeeper.version>
+        <curator.version>4.0.1</curator.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
-        <curator-client.version>2.12.0</curator-client.version>
+        <curator-client.version>4.0.1</curator-client.version>
         <swagger.version>1.5.19</swagger.version>
         <tomcat.version>7.0.88</tomcat.version>
         <servlet.version>3.0.1</servlet.version>
@@ -104,9 +105,20 @@
                 <version>${dubbo.rpc.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
                 <version>${curator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -127,6 +139,12 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-client</artifactId>
                 <version>${curator-client.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -166,7 +184,15 @@
                     <groupId>io.netty</groupId>
                     <artifactId>netty</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.zookeeper</groupId>
+                    <artifactId>zookeeper</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
