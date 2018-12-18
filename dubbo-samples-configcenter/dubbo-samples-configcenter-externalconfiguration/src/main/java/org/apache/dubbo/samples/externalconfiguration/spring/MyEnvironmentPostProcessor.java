@@ -52,7 +52,7 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
                 appReader = new BufferedReader(new InputStreamReader(MyEnvironmentPostProcessor.class.getResourceAsStream("/yourconfigcenter/dubbo-properties-in-configcenter-consumer.properties")));
             }
             appDubboProperties.put("application.dubbo.properties", appReader.lines().collect(Collectors.joining("\n")));
-            MapPropertySource appDubboPropertySource = new MapPropertySource("application.dubbo.properties", appDubboProperties);
+            MapPropertySource appDubboPropertySource = new MapPropertySource("configcenter-annotation-provider.dubbo.properties", appDubboProperties);
             environment.getPropertySources().addLast(appDubboPropertySource);
         } catch (Exception e) {
             e.printStackTrace();

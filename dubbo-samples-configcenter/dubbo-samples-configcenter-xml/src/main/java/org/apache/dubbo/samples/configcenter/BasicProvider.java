@@ -24,7 +24,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class BasicProvider {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
+//        new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/configcenter-provider.xml"});
         context.start();
 

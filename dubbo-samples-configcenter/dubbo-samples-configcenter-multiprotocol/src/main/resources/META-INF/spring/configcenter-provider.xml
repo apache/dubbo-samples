@@ -26,15 +26,14 @@
 
     <dubbo:application name="configcenter-multiprotocol-provider"/>
 
-    <dubbo:configcenter address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:config-center address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:protocol id="dubbo"/>
-    <dubbo:protocol id="hessian"/>
+    <dubbo:provider protocol="hessian1"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
-    <dubbo:service protocol="dubbo" interface="org.apache.dubbo.samples.configcenter.api.DemoService"
+    <dubbo:service interface="org.apache.dubbo.samples.configcenter.api.DemoService"
                    ref="demoService"/>
-    <dubbo:service protocol="hessian" interface="org.apache.dubbo.samples.configcenter.api.DemoService"
+    <dubbo:service protocol="dubbo1" interface="org.apache.dubbo.samples.configcenter.api.DemoService"
                    ref="demoService"/>
 
 </beans>

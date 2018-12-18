@@ -20,8 +20,10 @@
 package org.apache.dubbo.samples.externalconfiguration.provider;
 
 
+import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.spring.ConfigCenterBean;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -44,12 +46,33 @@ public class AnnotationProvider {
 
     @Configuration
     static public class ProviderConfiguration {
+
+        /**
+         * It's still required to initialize ConfigCenterBean, here we use the JavaBean method, but it doesn't matter which way you use, for example, xml or .properties are all ok to go.
+         * <p>
+         * Notice that if you have a
+         */
         @Bean
         public ConfigCenterBean configCenterBean() {
             ConfigCenterBean configCenterBean = new ConfigCenterBean();
-            // This is the critical part that
-            configCenterBean.setAuto(true);
+            // This is a critical switch to tell Dubbo framework to get configs from standard Spring Environment
+            configCenterBean.setFromSpring(true);
+            configCenterBean.setConfigfile("dubbo.properties");// by default is dubbo.properties
+            configCenterBean.setLocalconfigfile("configcenter-annotation-provider.dubbo.properties"); // by default is application.dubbo.properties
             return configCenterBean;
+        }
+
+        /**
+         * It's ok to have local configuration for each part, there's nothing different with 2.6.x regarding this part.
+         * It's only a matter of priority, by default, the external configuration (loaded from standard Spring Environment in this sample) has a higher priority than the local configuration.
+         *
+         * @return
+         */
+        @Bean
+        public ProviderConfig providerConfig() {
+            ProviderConfig providerConfig = new ProviderConfig();
+            providerConfig.setTimeout(6666);
+            return providerConfig;
         }
 
     }

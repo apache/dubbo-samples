@@ -25,26 +25,20 @@ import org.apache.dubbo.samples.api.GreetingsService;
 
 public class Application {
     public static void main(String[] args) throws Exception {
-        // Enable Config Center.
-        ConfigCenterConfig configCenter = new ConfigCenterConfig();
-        configCenter.setAddress("zookeeper://127.0.0.1:2181");
-        configCenter.init();
-
-        // If you don't want to use ConfigCenter provided by dubbo, you can set external configuration to Dubbo directly.
-        // We created a Map instance manually and put a value into it, but in reality, the external configurations will most likely being generated from other plugins in your system.
-        /*Map<String, String> dubboConfigurations = new HashMap<>();
-        dubboConfigurations.put("dubbo.registry.address", "zookeeper://127.0.0.1:2181");
-        // you will need to add the configcenter address if you want to use the service governance features in 2.7, e.g., overrides and routers.
-        // but notice it will not be used for getting startup configurations.
-        dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
-        Environment.getInstance().updateExternalConfigurationMap(dubboConfigurations);*/
+        loadConfigByDubbo();
 
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-client"));
-//        reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
         String message = greetingsService.sayHi("dubbo");
         System.out.println(message);
+    }
+
+    public static void loadConfigByDubbo() {
+        // Enable Config Center.
+        ConfigCenterConfig configCenter = new ConfigCenterConfig();
+        configCenter.setAddress("zookeeper://127.0.0.1:2181");
+        configCenter.init();
     }
 }

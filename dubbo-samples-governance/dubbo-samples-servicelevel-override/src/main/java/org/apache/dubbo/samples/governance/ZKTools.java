@@ -16,10 +16,11 @@
  */
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.common.utils.StringUtils;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.dubbo.common.utils.StringUtils;
 
 /**
  *
@@ -37,16 +38,14 @@ public class ZKTools {
 
     public static void generateServiceLevelOverride() {
         String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" +
-                "---\n" +
-                "apiVersion: v2.7\n" +
+                "---\n" + "configVersion: v2.7\n" +
                 "scope: service\n" +
                 "key: org.apache.dubbo.samples.governance.api.DemoService\n" +
                 "enabled: true\n" +
                 "configs:\n" +
                 "- addresses: [0.0.0.0]\n" +
                 "  side: consumer\n" +
-                "  parameters:\n" +
-                "    timeout: 4000\n" +
+                "  parameters:\n" + "    timeout: 6000\n" +
                 "...\n";
 
         System.out.println(str);

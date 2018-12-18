@@ -19,9 +19,9 @@
 
 package org.apache.dubbo.samples.governance;
 
-import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.api.DemoService2;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BasicConsumer {
@@ -35,11 +35,9 @@ public class BasicConsumer {
         while (true) {
             try {
                 Thread.sleep(1000);
-                RpcContext.getContext().setAttachment("tag", "tag1");
                 String hello = demoService.sayHello("world"); // call remote method
                 System.out.println(hello); // get result
 
-                RpcContext.getContext().setAttachment("tag", "tag2");
                 String hello2 = demoService2.sayHello("world again"); // call remote method
                 System.out.println(hello2); // get result
 

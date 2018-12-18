@@ -21,16 +21,20 @@ package org.apache.dubbo.samples.client;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.samples.api.GreetingsService;
+import org.apache.dubbo.rpc.service.GenericService;
 
 public class Application {
     public static void main(String[] args) {
-        ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
+        ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-client"));
-        reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
-        reference.setInterface(GreetingsService.class);
-        GreetingsService greetingsService = reference.get();
-        String message = greetingsService.sayHi("dubbo");
+        reference.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+//        reference.setInterface(GreetingsService.class);
+        reference.setGeneric(true);
+        reference.setInterface("org.apache.dubbo.samples.api.GreetingsService");
+        GenericService genericService = reference.get();
+
+
+        Object message = genericService.$invoke("sayHi", new String[]{"java.lang.String"}, new Object[]{"aaa"});
         System.out.println(message);
     }
 }

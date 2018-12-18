@@ -16,10 +16,11 @@
  */
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.common.utils.StringUtils;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.dubbo.common.utils.StringUtils;
 
 /**
  *
@@ -39,13 +40,10 @@ public class ZKTools {
         String str = "---\n" +
                 "scope: application\n" +
                 "force: true\n" +
-                "runtime: true\n" +
-                "enabled: true\n" +
+                "runtime: true\n" + "enabled: false\n" +
                 "priority: 2\n" +
                 "key: demo-consumer\n" +
-                "conditions:\n" +
-                " - interface=org.apache.dubbo.samples.governance.api.DemoService&method=sayHello=>address=*:20880\n" +
-                " - interface=org.apache.dubbo.samples.governance.api.DemoService2&method=sayHello=>address=*:20881\n" +
+                "conditions:\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService=>address=*:20880\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService2=>address=*:20881\n" + "blackWhiteList:\n" + " enabled: true\n" + " conditions:\n" + "  - interface=org.apache.dubbo.samples.governance.api.DemoService=>address=*:20880\n" + "  - interface=org.apache.dubbo.samples.governance.api.DemoService2=>address=*:20881\n" +
                 "...";
 
         System.out.println(str);

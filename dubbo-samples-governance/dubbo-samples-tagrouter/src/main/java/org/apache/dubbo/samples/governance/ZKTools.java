@@ -16,10 +16,11 @@
  */
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.common.utils.StringUtils;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.dubbo.common.utils.StringUtils;
 
 /**
  *
@@ -40,13 +41,10 @@ public class ZKTools {
                 "force: false\n" +
                 "runtime: true\n" +
                 "enabled: true\n" +
-                "priority: 1\n" +
-                "key: demo-provider\n" +
+                "priority: 1\n" + "key: governance-tagrouter-provider\n" +
                 "tags:\n" +
-                "  - name: tag1\n" +
-                "    addresses: [\"192.168.1.6:20881\"]\n" +
-                "  - name: tag2\n" +
-                "    addresses: [\"192.168.1.6:20880\"]\n" +
+                "  - name: tag1\n" + "    addresses: [\"30.5.121.131:20880\"]\n" +
+                "  - name: tag2\n" + "    addresses: [\"30.5.121.131:20881\"]\n" +
                 "...";
 
         System.out.println(str);

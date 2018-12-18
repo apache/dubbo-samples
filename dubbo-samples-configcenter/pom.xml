@@ -32,6 +32,7 @@
     <modules>
         <module>dubbo-samples-configcenter-xml</module>
         <module>dubbo-samples-configcenter-multiprotocol</module>
+        <module>dubbo-samples-configcenter-multi-registries</module>
         <module>dubbo-samples-configcenter-annotation</module>
         <module>dubbo-samples-configcenter-externalconfiguration</module>
         <module>dubbo-samples-configcenter-api</module>

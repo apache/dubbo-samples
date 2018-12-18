@@ -16,10 +16,11 @@
  */
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.common.utils.StringUtils;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.zookeeper.CreateMode;
 
 /**
@@ -33,24 +34,22 @@ public class ZKTools {
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
 
-//        generateAppevelOverride();
-//        System.in.read();
-        generateAppevelOverrideConsumer();
+        generateAppLevelOverride();
+        System.in.read();
+        generateAppLevelOverrideConsumer();
     }
 
-    public static void generateAppevelOverride() {
+    public static void generateAppLevelOverride() {
         String str = "# Execute on governance-appoverride-provider only\n" +
                 "# the governance-appoverride-provider instances on those provides who's port is 20880 will be lifted to 1000\n" +
                 "# this will take effect on all services on governance-appoverride-provider.\n" +
-                "---\n" +
-                "apiVersion: v2.7\n" +
+                "---\n" + "configVersion: v2.7\n" +
                 "scope: application\n" +
                 "key: governance-appoverride-provider\n" +
                 "enabled: true\n" +
                 "configs:\n" +
-                "- addresses: [\"0.0.0.0:20880\"]\n" +
-                "  parameters:\n" +
-                "    weight: 1000\n" +
+                "- addresses: [\"0.0.0.0:20880\"]\n" + "  side: provider\n" +
+                "  parameters:\n" + "    weight: 900\n" +
                 "...";
 
         System.out.println(str);
@@ -69,20 +68,18 @@ public class ZKTools {
     /**
      *
      */
-    public static void generateAppevelOverrideConsumer() {
+    public static void generateAppLevelOverrideConsumer() {
         String str = "# Execute on demo-consumer only\n" +
                 "# the traffic come out from governance-appoverride-consumer will be distributed evenly across all providers,\n" +
                 "# because governance-appoverride-consumer will consider them having the same weight 100.\n" +
-                "---\n" +
-                "apiVersion: v2.7\n" +
+                "---\n" + "configVersion: v2.7\n" +
                 "scope: application\n" +
                 "key: governance-appoverride-consumer\n" +
                 "enabled: true\n" +
                 "configs:\n" +
                 "- addresses: [\"0.0.0.0\"]\n" +
                 "  side: consumer\n" +
-                "  parameters:\n" +
-                "    weight: 140\n" +
+                "  parameters:\n" + "    weight: 100\n" +
                 "...\n";
 
         System.out.println(str);

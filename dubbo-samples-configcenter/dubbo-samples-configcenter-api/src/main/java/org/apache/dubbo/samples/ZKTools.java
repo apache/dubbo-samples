@@ -16,10 +16,11 @@
  */
 package org.apache.dubbo.samples;
 
+import org.apache.dubbo.common.utils.StringUtils;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.dubbo.common.utils.StringUtils;
 
 /**
  *
@@ -36,12 +37,7 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registry.address=zookeeper://127.0.0.1:2181\n" +
-                "#global config for consumer\n" +
-                "dubbo.consumer.timeout=6000\n" +
-                "#global config for provider\n" +
-                "dubbo.protocol.port=20990\n" +
-                "dubbo.provider.timeout=5000";
+        String str = "dubbo.registry.address=zookeeper://127.0.0.1:2181\n";
 
         System.out.println(str);
 

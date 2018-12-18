@@ -27,9 +27,9 @@
     <!-- optional -->
     <dubbo:application name="configcenter-provider"/>
 
-    <dubbo:configcenter address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:config-center address="zookeeper://127.0.0.1:2181"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
-    <dubbo:service async="true" interface="org.apache.dubbo.samples.configcenter.api.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.configcenter.api.DemoService" ref="demoService"/>
 
 </beans>
