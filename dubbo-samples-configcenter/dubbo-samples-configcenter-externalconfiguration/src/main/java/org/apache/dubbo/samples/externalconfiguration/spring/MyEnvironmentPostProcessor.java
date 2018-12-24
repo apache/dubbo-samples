@@ -46,14 +46,19 @@ public class MyEnvironmentPostProcessor implements EnvironmentPostProcessor {
             environment.getPropertySources().addLast(dubboPropertySource);
 
             Map<String, Object> appDubboProperties = new HashMap<>();
-            BufferedReader appReader = new BufferedReader(new InputStreamReader(MyEnvironmentPostProcessor.class.getResourceAsStream("/yourconfigcenter/dubbo-properties-in-configcenter-provider.properties")));
+            BufferedReader appReader;
             String appName = application.getMainApplicationClass().getSimpleName();
             if (appName.contains("consumer")) {
                 appReader = new BufferedReader(new InputStreamReader(MyEnvironmentPostProcessor.class.getResourceAsStream("/yourconfigcenter/dubbo-properties-in-configcenter-consumer.properties")));
+                appDubboProperties.put("configcenter-annotation-consumer.dubbo.properties", appReader.lines().collect(Collectors.joining("\n")));
+                MapPropertySource appDubboPropertySource = new MapPropertySource("configcenter-annotation-consumer.dubbo.properties", appDubboProperties);
+                environment.getPropertySources().addLast(appDubboPropertySource);
+            } else {
+                appReader = new BufferedReader(new InputStreamReader(MyEnvironmentPostProcessor.class.getResourceAsStream("/yourconfigcenter/dubbo-properties-in-configcenter-provider.properties")));
+                appDubboProperties.put("configcenter-annotation-provider.dubbo.properties", appReader.lines().collect(Collectors.joining("\n")));
+                MapPropertySource appDubboPropertySource = new MapPropertySource("configcenter-annotation-provider.dubbo.properties", appDubboProperties);
+                environment.getPropertySources().addLast(appDubboPropertySource);
             }
-            appDubboProperties.put("application.dubbo.properties", appReader.lines().collect(Collectors.joining("\n")));
-            MapPropertySource appDubboPropertySource = new MapPropertySource("configcenter-annotation-provider.dubbo.properties", appDubboProperties);
-            environment.getPropertySources().addLast(appDubboPropertySource);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -56,7 +56,7 @@
         <module>dubbo-samples-governance</module>
         <module>dubbo-samples-metadata-report</module>
         <module>dubbo-samples-simplified-registry</module>
-        <module>dubbo-samples-concurrency</module>
+        <module>dubbo-samples-chain</module>
     </modules>
 
     <properties>

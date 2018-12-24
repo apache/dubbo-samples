@@ -21,6 +21,7 @@ package org.apache.dubbo.samples.annotation;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.annotation.action.AnnotationAction;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -37,11 +38,11 @@ public class AnnotationConsumer {
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
         String hello = annotationAction.doSayHello("world");
         System.out.println("result :" + hello);
-        System.in.read();
+        Thread.sleep(10000000);
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.action")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.action", multipleConfig = true)
     @PropertySource("classpath:/spring/dubbo-consumer.properties")
     @ComponentScan(value = {"org.apache.dubbo.samples.annotation.action"})
     static public class ConsumerConfiguration {

@@ -36,6 +36,8 @@ public class ZKTools {
 
         generateAppLevelOverride();
         System.in.read();
+        generateServiceLevelOverride();
+        System.in.read();
         generateAppLevelOverrideConsumer();
     }
 
@@ -48,8 +50,7 @@ public class ZKTools {
                 "key: governance-appoverride-provider\n" +
                 "enabled: true\n" +
                 "configs:\n" +
-                "- addresses: [\"0.0.0.0:20880\"]\n" + "  side: provider\n" +
-                "  parameters:\n" + "    weight: 900\n" +
+                "- addresses: [\"0.0.0.0:20880\"]\n" + "  side: provider\n" + "  parameters:\n" + "    weight: 100\n" +
                 "...";
 
         System.out.println(str);
@@ -86,6 +87,22 @@ public class ZKTools {
 
         try {
             String path = "/dubbo/config/governance-appoverride-consumer/configurators";
+            if (client.checkExists().forPath(path) == null) {
+                client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
+            }
+            setData(path, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void generateServiceLevelOverride() {
+        String str = "# Execute on demo-consumer only\n" + "# the traffic come out from governance-appoverride-consumer will be distributed evenly across all providers,\n" + "# because governance-appoverride-consumer will consider them having the same weight 100.\n" + "---\n" + "configVersion: v2.7\n" + "scope: service\n" + "key: org.apache.dubbo.samples.governance.api.DemoService\n" + "enabled: true\n" + "configs:\n" + "- addresses: [\"0.0.0.0:20881\"]\n" + "  side: provider\n" + "  parameters:\n" + "    weight: 1000\n" + "...\n";
+
+        System.out.println(str);
+
+        try {
+            String path = "/dubbo/config/org.apache.dubbo.samples.governance.api.DemoService/configurators";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
             }

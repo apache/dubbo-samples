@@ -40,12 +40,14 @@ public class BasicConsumer {
                 RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
                 String hello = demoService.sayHello("world"); // call remote method
                 System.out.println(hello); // get result
-
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+            try {
                 RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
 //                RpcContext.getContext().setAttachment(Constants.FORCE_USE_TAG, "true");
                 String hello2 = demoService2.sayHello("world again"); // call remote method
                 System.out.println(hello2); // get result
-
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }

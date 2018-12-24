@@ -30,5 +30,12 @@
 
     <artifactId>dubbo-samples-mock</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.20</version>
+        </dependency>
+    </dependencies>
 
 </project>

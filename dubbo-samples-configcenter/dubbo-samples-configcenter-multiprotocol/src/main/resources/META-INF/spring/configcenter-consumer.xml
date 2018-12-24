@@ -26,7 +26,7 @@
 
     <dubbo:application name="configcenter-multiprotocol-consumer"/>
 
-    <dubbo:config-center address="zookeeper://127.0.0.1:2181" configfile="dubbo.properties"/>
+    <dubbo:config-center address="zookeeper://127.0.0.1:2181"/>
 
     <dubbo:reference id="demoService" protocol="hessian"
                      interface="org.apache.dubbo.samples.configcenter.api.DemoService"/>

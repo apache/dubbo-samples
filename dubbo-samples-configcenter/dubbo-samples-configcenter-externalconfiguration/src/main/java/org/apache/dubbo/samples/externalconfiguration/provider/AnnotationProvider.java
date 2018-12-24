@@ -57,8 +57,8 @@ public class AnnotationProvider {
             ConfigCenterBean configCenterBean = new ConfigCenterBean();
             // This is a critical switch to tell Dubbo framework to get configs from standard Spring Environment
             configCenterBean.setFromSpring(true);
-            configCenterBean.setConfigfile("dubbo.properties");// by default is dubbo.properties
-            configCenterBean.setLocalconfigfile("configcenter-annotation-provider.dubbo.properties"); // by default is application.dubbo.properties
+            configCenterBean.setConfigFile("dubbo.properties");// by default is dubbo.properties
+            configCenterBean.setAppConfigFile("configcenter-annotation-provider.dubbo.properties"); // by default is application.dubbo.properties
             return configCenterBean;
         }
 

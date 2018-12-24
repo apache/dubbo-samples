@@ -21,6 +21,7 @@ import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.data.Stat;
 
 /**
  *
@@ -39,7 +40,7 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "";
+        String str = "dubbo.registry.address=zookeeper://127.0.0.1:2181\n" + "dubbo.metadataReport.address=zookeeper://127.0.0.1:2181\n" + "dubbo.protocol.port=-1\n" + "dubbo.registryData.simpleProviderConfig=true\n" + "dubbo.registryData.simpleConsumerConfig=true\n";
 
         System.out.println(str);
 
@@ -72,6 +73,14 @@ public class ZKTools {
         }
     }
 
+    private static void createNode(String path) throws Exception {
+        client.create().forPath(path);
+    }
+
+    private static void deleteNode(String path) throws Exception {
+        client.delete().forPath(path);
+    }
+
     private static void setData(String path, String data) throws Exception {
         client.setData().forPath(path, data.getBytes());
     }
@@ -81,6 +90,47 @@ public class ZKTools {
             return path;
         }
         return path.replace("/dubbo/config/", "").replaceAll("/", ".");
+    }
+
+    public static void quickOnlineOfline() {
+        String providerUrl = "dubbo%3A%2F%2F30.5.120.251%3A20880%2Forg.apache.dubbo.samples.configcenter.api.DemoService%3Fapplication%3Dconfigcenter-provider%26dubbo%3D2.0.2%26group%3Dtest2%26specVersion%3D2.7.0-SNAPSHOT%26timestamp%3D1545282828049";
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        createNode("/dubbo/org.apache.dubbo.samples.configcenter.api.DemoService/providers/" + providerUrl);
+                        Stat stat = client.checkExists().forPath("/dubbo/org.apache.dubbo.samples.configcenter.api.DemoService/providers/" + providerUrl);
+                        if (stat != null) {
+                            deleteNode("/dubbo/org.apache.dubbo.samples.configcenter.api.DemoService/providers/" + providerUrl);
+                        }
+                        Thread.sleep(20);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(100);
+                        Stat stat = client.checkExists().forPath("/dubbo/org.apache.dubbo.samples.configcenter.api.DemoService/providers/" + providerUrl);
+                        if (stat != null) {
+                            deleteNode("/dubbo/org.apache.dubbo.samples.configcenter.api.DemoService/providers/" + providerUrl);
+                        }
+                        Thread.sleep(10);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+
     }
 
 }

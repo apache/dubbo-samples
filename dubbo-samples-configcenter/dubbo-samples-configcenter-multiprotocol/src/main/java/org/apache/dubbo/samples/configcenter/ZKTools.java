@@ -32,35 +32,11 @@ public class ZKTools {
         client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000,
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
-//
-//        generateDubboPropertiesForGlobal();
-//        generateDubboPropertiesForApp();
-        System.in.read();
+        generateDubboPropertiesForGlobal();
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registry.address=zookeeper://127.0.0.1:2181";
-
-//        String str = "dubbo.registry.address=zookeeper://127.0.0.1:2183\n" +
-//                "dubbo.registries.registry1.address=zookeeper://127.0.0.1:2181\n" +
-//                "dubbo.registries.registry2.address=zookeeper://127.0.0.1:2181\n";
-
-        System.out.println(str);
-
-        try {
-            String path = "/dubbo/config/dubbo/dubbo.properties";
-            if (client.checkExists().forPath(path) == null) {
-                client.create().creatingParentsIfNeeded().forPath(path);
-            }
-            setData(path, str);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void generateDubboPropertiesForApp() {
-        String str = "#key: dubbo.{item-name}.{id}.{property}\n" + "dubbo.protocols.dubbo1.name=dubbo\n" + "dubbo.protocols.dubbo1.port=20991\n" +
-                "\n" + "dubbo.protocols.hessian1.name=hessian\n" + "dubbo.protocols.hessian1.port=8089";
+        String str = "#key: dubbo.{item-name}.{id}.{property}\n" + "dubbo.registry.address=zookeeper://127.0.0.1:2181\n" + "dubbo.protocols.dubbo1.name=dubbo\n" + "dubbo.protocols.dubbo1.port=20991\n" + "dubbo.protocols.hessian1.name=hessian\n" + "dubbo.protocols.hessian1.port=8089";
 
         System.out.println(str);
 
