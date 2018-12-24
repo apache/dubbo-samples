@@ -19,9 +19,10 @@
 
 package org.apache.dubbo.samples.metadatareport.local.xml;
 
+import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
-import org.apache.dubbo.metadata.identifier.ConsumerMetadataIdentifier;
+import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService;
@@ -53,7 +54,7 @@ public class MetadataLocalXmlConsumer {
     private static void printServiceData() {
         // get service data(consumer) from zookeeper.
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new ConsumerMetadataIdentifier(DemoService.class.getName(), null, null, "metadatareport-local-xml-consumer")));
+        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.CONSUMER_SIDE, "metadatareport-local-xml-consumer")));
         System.out.println("*********************************************************");
         System.out.println("Dubbo store consumer param into special store(as zk,redis) when local xml:");
         System.out.println(data);
