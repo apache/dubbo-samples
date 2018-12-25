@@ -39,5 +39,10 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-metadata-report-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.spring</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
 </project>
