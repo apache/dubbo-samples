@@ -57,6 +57,7 @@
         <module>dubbo-samples-metadata-report</module>
         <module>dubbo-samples-simplified-registry</module>
         <module>dubbo-samples-chain</module>
+        <module>dubbo-samples-generic-call</module>
     </modules>
 
     <properties>
