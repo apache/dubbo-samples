@@ -1,18 +1,19 @@
 package org.apache.dubbo.samples.resilience4j.filter;
 
-import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
 
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+
 /**
  * @author cvictory ON 2018/12/25
  */
-public class Resilience4jCircuitBreakerFilter implements Filter {
+public class Resilience4jRateLimiterFilter implements Filter {
 
     static CircuitBreaker circuitBreaker;
 
