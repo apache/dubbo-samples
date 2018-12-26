@@ -21,6 +21,7 @@ package org.apache.dubbo.samples.resilience4j;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.resilience4j.action.AnnotationAction;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

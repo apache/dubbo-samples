@@ -20,8 +20,6 @@
 package org.apache.dubbo.samples.resilience4j.action;
 
 import org.apache.dubbo.config.annotation.Reference;
-
-
 import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
 import org.springframework.stereotype.Component;
 

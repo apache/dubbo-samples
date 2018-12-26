@@ -45,7 +45,7 @@ public class Resilience4jCircuitBreakerFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        System.out.println("**************** enter CircuitBreaker ****************");
+        System.out.println("**************** Enter CircuitBreaker ****************");
         long start = System.nanoTime();
         try {
             Result result = invoker.invoke(invocation);

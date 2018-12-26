@@ -29,6 +29,8 @@ import org.apache.dubbo.rpc.RpcException;
 
 import java.time.Duration;
 
+
+
 /**
  * @author cvictory ON 2018/12/25
  */
@@ -50,7 +52,7 @@ public class Resilience4jRateLimiterFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         try {
-            System.out.println("**************** enter RateLimiter ****************");
+            System.out.println("**************** Enter RateLimiter ****************");
             RateLimiter.waitForPermission(rateLimiter);
             return invoker.invoke(invocation);
         } catch (Throwable throwable) {

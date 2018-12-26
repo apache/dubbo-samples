@@ -32,7 +32,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>dubbo-samples-resilience4j-filter</module>
-        <module>dubbo-samples-resilience4j-springboot2</module>
+        <!--<module>dubbo-samples-resilience4j-springboot2</module>-->
     </modules>
 
     <properties>
