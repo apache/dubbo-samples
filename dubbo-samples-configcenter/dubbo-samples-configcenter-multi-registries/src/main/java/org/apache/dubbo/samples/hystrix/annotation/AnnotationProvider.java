@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation;
+package org.apache.dubbo.samples.hystrix.annotation;
 
 
 import org.apache.dubbo.config.ProviderConfig;

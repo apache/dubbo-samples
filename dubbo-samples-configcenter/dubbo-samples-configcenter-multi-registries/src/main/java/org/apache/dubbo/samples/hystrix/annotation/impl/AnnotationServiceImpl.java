@@ -17,10 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation.impl;
+package org.apache.dubbo.samples.hystrix.annotation.impl;
 
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.externalconfiguration.api.AnnotationService;
+import org.apache.dubbo.samples.hystrix.annotation.api.AnnotationService;
 
 /**
  * AsyncServiceImpl

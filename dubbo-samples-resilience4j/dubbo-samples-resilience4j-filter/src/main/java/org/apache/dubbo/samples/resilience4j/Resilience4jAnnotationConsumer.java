@@ -30,7 +30,7 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * CallbackConsumer
  */
-public class AnnotationConsumer {
+public class Resilience4jAnnotationConsumer {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
@@ -38,11 +38,13 @@ public class AnnotationConsumer {
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
         String hello = annotationAction.doSayHello("world");
         System.err.println("result :" + hello);
+        annotationAction.sayCircuitBreaker("circuitBreaker");
+        annotationAction.sayRateLimiter("rateLimiter", "Just Happy!");
         System.in.read();
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.resilience4j.action")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.resilience4j.action")
     @PropertySource("classpath:/spring/dubbo-consumer.properties")
     @ComponentScan(value = {"org.apache.dubbo.samples.resilience4j.action"})
     @EnableAspectJAutoProxy

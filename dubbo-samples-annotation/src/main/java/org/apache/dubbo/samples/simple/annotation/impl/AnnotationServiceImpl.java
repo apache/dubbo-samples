@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.annotation.impl;
+package org.apache.dubbo.samples.simple.annotation.impl;
 
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.annotation.api.AnnotationService;
+import org.apache.dubbo.samples.simple.annotation.api.AnnotationService;
 
 /**
  *

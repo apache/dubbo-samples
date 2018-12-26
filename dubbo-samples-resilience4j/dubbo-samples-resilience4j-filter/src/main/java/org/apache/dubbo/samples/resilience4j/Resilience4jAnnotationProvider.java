@@ -20,18 +20,15 @@
 package org.apache.dubbo.samples.resilience4j;
 
 
-import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 
 /**
  * MergeProvider
  */
-public class AnnotationProvider {
+public class Resilience4jAnnotationProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
@@ -41,16 +38,17 @@ public class AnnotationProvider {
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "com.alibaba.dubbo.samples.resilience4j.impl")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.resilience4j.impl")
     @PropertySource("classpath:/spring/dubbo-provider.properties")
 //    @EnableAspectJAutoProxy
     static public class ProviderConfiguration {
-        @Bean
-        public ProviderConfig providerConfig() {
-            ProviderConfig providerConfig = new ProviderConfig();
-            providerConfig.setTimeout(1000);
-            return providerConfig;
-        }
+//        @Bean
+//        public ProviderConfig providerConfig() {
+//            ProviderConfig providerConfig = new ProviderConfig();
+//            providerConfig.setTimeout(1000);
+//            providerConfig.setFilter("rateLimiter");
+//            return providerConfig;
+//        }
 
 //        @Bean
 //        public HystrixCommandAspect hystrixCommandAspect() {

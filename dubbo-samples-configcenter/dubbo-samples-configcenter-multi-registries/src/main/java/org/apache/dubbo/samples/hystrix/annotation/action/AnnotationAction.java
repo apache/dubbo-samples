@@ -17,10 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation.action;
+package org.apache.dubbo.samples.hystrix.annotation.action;
 
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.samples.externalconfiguration.api.AnnotationService;
+import org.apache.dubbo.samples.hystrix.annotation.api.AnnotationService;
 
 import org.springframework.stereotype.Component;
 

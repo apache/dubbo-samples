@@ -17,13 +17,21 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation.api;
+package org.apache.dubbo.samples.configcenter.annotation.impl;
+
+import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.samples.configcenter.annotation.api.AnnotationService;
 
 /**
- * AsyncService
+ * AsyncServiceImpl
  */
-public interface AnnotationService {
+@Service
+public class AnnotationServiceImpl implements AnnotationService {
 
-    String sayHello(String name);
+    @Override
+    public String sayHello(String name) {
+        System.out.println("provider received: " + name);
+        return "annotation: hello, " + name;
+    }
 
 }

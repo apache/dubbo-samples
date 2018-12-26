@@ -17,10 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation;
+package org.apache.dubbo.samples.hystrix.annotation;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.annotation.action.AnnotationAction;
+import org.apache.dubbo.samples.hystrix.annotation.action.AnnotationAction;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;

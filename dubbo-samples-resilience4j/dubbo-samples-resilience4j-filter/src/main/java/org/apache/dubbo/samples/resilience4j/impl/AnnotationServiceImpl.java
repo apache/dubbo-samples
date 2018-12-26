@@ -28,13 +28,13 @@ import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
 
-//    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+    //    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
 //                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000") })
     @Override
     public String sayHello(String name) {
 //        System.out.println("async provider received: " + name);
 //        return "annotation: hello, " + name;
-        throw new RuntimeException("Exception to show hystrix enabled.");
+        return "Hello, " + name + "! this is annotation.";
     }
 
 }

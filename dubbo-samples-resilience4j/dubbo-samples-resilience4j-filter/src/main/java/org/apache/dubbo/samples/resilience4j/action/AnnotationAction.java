@@ -23,6 +23,9 @@ import org.apache.dubbo.config.annotation.Reference;
 
 
 import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
+import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
+import org.apache.dubbo.samples.resilience4j.api.RateLimiterService;
+import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,10 +36,52 @@ public class AnnotationAction {
 
     @Reference
     private AnnotationService annotationService;
+    @Reference
+    private CircuitBreakerService circuitBreakerService;
+    @Reference
+    private RateLimiterService rateLimiterService;
 
-//    @HystrixCommand(fallbackMethod = "reliable")
     public String doSayHello(String name) {
         return annotationService.sayHello(name);
+    }
+
+    public void sayCircuitBreaker(String name) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                {
+                    int i = 0;
+                    while (true) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(circuitBreakerService.say(name + (i++)));
+                    }
+                }
+            }
+        }).start();
+
+    }
+
+    public void sayRateLimiter(String name, String value) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                {
+                    int i = 0;
+                    while (true) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(rateLimiterService.say(name + (i++), value + i));
+                    }
+                }
+            }
+        }).start();
     }
 
     public String reliable(String name) {

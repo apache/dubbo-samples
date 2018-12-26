@@ -30,7 +30,7 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * CallbackConsumer
  */
-public class AnnotationConsumer {
+public class Resilience4jBootAnnotationConsumer {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);

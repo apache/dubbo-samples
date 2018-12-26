@@ -31,7 +31,7 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * MergeProvider
  */
-public class AnnotationProvider {
+public class Resilience4jBootAnnotationProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();

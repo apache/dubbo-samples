@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.annotation;
+package org.apache.dubbo.samples.simple.annotation;
 
 
 import org.apache.dubbo.config.ProviderConfig;
@@ -40,7 +40,7 @@ public class AnnotationProvider {
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.impl")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simple.annotation.impl")
     @PropertySource("classpath:/spring/dubbo-provider.properties")
     static public class ProviderConfiguration {
         @Bean

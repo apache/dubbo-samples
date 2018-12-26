@@ -17,13 +17,23 @@
  *
  */
 
-package org.apache.dubbo.samples.externalconfiguration.api;
+package org.apache.dubbo.samples.configcenter.annotation.action;
+
+import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.samples.configcenter.annotation.api.AnnotationService;
+import org.springframework.stereotype.Component;
 
 /**
- * AsyncService
+ * AnnotationAction
  */
-public interface AnnotationService {
+@Component("annotationAction")
+public class AnnotationAction {
 
-    String sayHello(String name);
+    @Reference
+    private AnnotationService annotationService;
+
+    public String doSayHello(String name) {
+        return annotationService.sayHello(name);
+    }
 
 }
