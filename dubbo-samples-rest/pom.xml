@@ -60,6 +60,11 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba.spring</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>1.0.2</version>
+        </dependency>
 
         <dependency>
             <groupId>io.swagger</groupId>
