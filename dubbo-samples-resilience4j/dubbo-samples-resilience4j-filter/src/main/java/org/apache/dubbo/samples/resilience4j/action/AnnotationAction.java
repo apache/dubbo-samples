@@ -31,11 +31,11 @@ import org.springframework.stereotype.Component;
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference
+    @Reference(interfaceClass = AnnotationService.class)
     private AnnotationService annotationService;
-    @Reference
+    @Reference(interfaceClass = CircuitBreakerService.class)
     private CircuitBreakerService circuitBreakerService;
-    @Reference
+    @Reference(interfaceClass = RateLimiterService.class)
     private RateLimiterService rateLimiterService;
 
     public String doSayHello(String name) {
@@ -49,17 +49,32 @@ public class AnnotationAction {
                 {
                     int i = 0;
                     while (true) {
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        System.out.println(circuitBreakerService.say(name + (i++)));
+                        doSayCircuitBreaker("off", name, 20, ++i);
+                        doSayCircuitBreaker("on", name, 25, ++i);
+                        doSayCircuitBreaker("half", name, 30, ++i);
+                        doSayCircuitBreaker("off", name, 30, ++i);
+                        doSayCircuitBreaker("half", name, 30, ++i);
+                        doSayCircuitBreaker("off", name, 15, ++i);
                     }
                 }
             }
         }).start();
 
+    }
+
+    private void doSayCircuitBreaker(String tag, String name, int c, int l) {
+        System.out.println("--------------------- start to run circuitBreak: " + tag + name + "---------------------");
+        for (int i = 0; i < c; i++) {
+            try {
+                Thread.sleep(20);
+                System.out.print(System.currentTimeMillis() + " - ");
+                System.out.println(circuitBreakerService.say(tag + "-" + name + "=" + l + ":" + i));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (Throwable t) {
+                System.err.println("==" + t.getMessage());
+            }
+        }
     }
 
     public void sayRateLimiter(String name, String value) {
@@ -70,11 +85,13 @@ public class AnnotationAction {
                     int i = 0;
                     while (true) {
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(40);
+                            System.out.println(rateLimiterService.say(name + (i++), value + i));
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                        } catch (Exception e) {
+                            System.err.println("<<<<<<<<<<<<<<<<<<<<<<<<<< " + e.getMessage() + " >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                         }
-                        System.out.println(rateLimiterService.say(name + (i++), value + i));
                     }
                 }
             }

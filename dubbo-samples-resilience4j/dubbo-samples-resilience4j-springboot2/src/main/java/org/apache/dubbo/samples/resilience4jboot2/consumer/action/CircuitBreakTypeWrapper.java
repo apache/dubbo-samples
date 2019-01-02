@@ -16,28 +16,23 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.resilience4j.impl;
+package org.apache.dubbo.samples.resilience4jboot2.consumer.action;
 
-import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
-
-import java.util.concurrent.atomic.AtomicLong;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.samples.resilience4jboot2.api.CircuitBreakerService;
+import org.springframework.stereotype.Component;
 
 /**
- * 2018/12/26
+ * 2019/1/2
  */
-@Service(interfaceClass = CircuitBreakerService.class)
-public class CircuitBreakerServiceImpl implements CircuitBreakerService {
-    private AtomicLong count = new AtomicLong(0);
+@Component("circuitBreakTypeWrapper")
+@CircuitBreaker(name = "backendA")
+public class CircuitBreakTypeWrapper {
+    @Reference(interfaceClass = CircuitBreakerService.class)
+    private CircuitBreakerService circuitBreakerService;
 
-    @Override
     public String say(String name) {
-        long countLong = count.incrementAndGet();
-        if (name.startsWith("half") && countLong % 20 < 18) {
-            return "Hello " + name + " - " + countLong;
-        } else if (name.startsWith("off")) {
-            return "Hello " + name + " - " + countLong;
-        }
-        throw new RuntimeException("Exception to show resilience enabled." + name);
+        return circuitBreakerService.say(name);
     }
 }

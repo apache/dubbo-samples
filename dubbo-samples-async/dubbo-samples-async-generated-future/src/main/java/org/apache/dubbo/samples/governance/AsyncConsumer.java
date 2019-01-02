@@ -19,26 +19,21 @@
 
 package org.apache.dubbo.samples.governance;
 
-import org.apache.dubbo.samples.api.GreetingsServiceAsync;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.CompletableFuture;
-
 /**
  * CallbackConsumer
  */
 public class AsyncConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
-        context.start();
-
-        final GreetingsServiceAsync greetingsService = (GreetingsServiceAsync) context.getBean("greetingsService");
-
-        CompletableFuture<String> future = greetingsService.sayHiAsync("async call reqeust");
-        System.out.println("async call ret :" + future.get());
-
-        System.out.println(greetingsService.sayHi("normal sync call request"));
+//        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
+//        context.start();
+//
+//        final GreetingsServiceAsync greetingsService = (GreetingsServiceAsync) context.getBean("greetingsService");
+//
+//        CompletableFuture<String> future = greetingsService.sayHiAsync("async call reqeust");
+//        System.out.println("async call ret :" + future.get());
+//
+//        System.out.println(greetingsService.sayHi("normal sync call request"));
 
         System.in.read();
     }

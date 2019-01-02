@@ -16,14 +16,12 @@
  *   limitations under the License.
  *
  */
-
-package org.apache.dubbo.samples.resilience4j.api;
+package org.apache.dubbo.samples.resilience4jboot2.api;
 
 /**
- * AsyncService
+ * 2018/12/26
  */
-public interface AnnotationService {
+public interface RateLimiterService {
 
-    String sayHello(String name);
-
+    String say(String name, String value);
 }

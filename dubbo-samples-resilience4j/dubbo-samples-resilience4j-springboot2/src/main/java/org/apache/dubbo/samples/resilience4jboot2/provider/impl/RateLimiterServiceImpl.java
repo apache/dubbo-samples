@@ -16,28 +16,20 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.resilience4j.impl;
+package org.apache.dubbo.samples.resilience4jboot2.provider.impl;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
-
-import java.util.concurrent.atomic.AtomicLong;
+import org.apache.dubbo.samples.resilience4jboot2.api.RateLimiterService;
 
 /**
  * 2018/12/26
  */
-@Service(interfaceClass = CircuitBreakerService.class)
-public class CircuitBreakerServiceImpl implements CircuitBreakerService {
-    private AtomicLong count = new AtomicLong(0);
-
+@Service(interfaceClass = RateLimiterService.class)
+public class RateLimiterServiceImpl implements RateLimiterService {
     @Override
-    public String say(String name) {
-        long countLong = count.incrementAndGet();
-        if (name.startsWith("half") && countLong % 20 < 18) {
-            return "Hello " + name + " - " + countLong;
-        } else if (name.startsWith("off")) {
-            return "Hello " + name + " - " + countLong;
-        }
-        throw new RuntimeException("Exception to show resilience enabled." + name);
+    @RateLimiter(name = "limiterA")
+    public String say(String name, String value) {
+        return "Hello " + name + ", this is rateLimiter. The value is :" + value;
     }
 }

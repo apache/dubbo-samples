@@ -20,24 +20,33 @@ package org.apache.dubbo.samples.resilience4j.filter;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerOpenException;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+import io.github.resilience4j.circuitbreaker.utils.CircuitBreakerUtils;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
 
+import java.time.Duration;
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
- * @author cvictory ON 2018/12/25
+ * 2018/12/25
  */
 public class Resilience4jCircuitBreakerFilter implements Filter {
 
     static CircuitBreaker circuitBreaker;
+    static AtomicLong count = new AtomicLong(0);
+    static AtomicLong breakCount = new AtomicLong(0);
 
     static {
         CircuitBreakerConfig config = CircuitBreakerConfig.custom()
                 .failureRateThreshold(20)
-                .ringBufferSizeInClosedState(5)
+                .waitDurationInOpenState(Duration.ofMillis(6000))
+                .ringBufferSizeInHalfOpenState(10)
+                .ringBufferSizeInClosedState(10)
                 .build();
         CircuitBreakerRegistry registry = CircuitBreakerRegistry.of(config);
         circuitBreaker = registry.circuitBreaker("myCircuitBreaker");
@@ -46,17 +55,35 @@ public class Resilience4jCircuitBreakerFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         System.out.println("**************** Enter CircuitBreaker ****************");
-        long start = System.nanoTime();
+        long countLong = count.incrementAndGet();
+        long start = 0;
         try {
+            CircuitBreakerUtils.isCallPermitted(circuitBreaker);
+            start = System.nanoTime();
             Result result = invoker.invoke(invocation);
+            if (result.hasException()) {
+                doThrowException(result.getException(), start);
+                return result;
+            }
             long durationInNanos = System.nanoTime() - start;
             circuitBreaker.onSuccess(durationInNanos);
             return result;
+        } catch (CircuitBreakerOpenException cbo) {
+
+            doCircuitBreakerOpenException(cbo, countLong, breakCount.incrementAndGet());
+            throw cbo;
         } catch (Throwable throwable) {
-            System.out.println("************* CircuitBreaker! Try it later! *************");
-            long durationInNanos = System.nanoTime() - start;
-            circuitBreaker.onError(durationInNanos, throwable);
+            doThrowException(throwable, start);
             throw throwable;
         }
+    }
+
+    private void doThrowException(Throwable throwable, long start) {
+        long durationInNanos = System.nanoTime() - start;
+        circuitBreaker.onError(durationInNanos, throwable);
+    }
+
+    private void doCircuitBreakerOpenException(Throwable throwable, long count, long breakCount) {
+        System.err.println("---------------------------- Open CircuitBreaker! Try it later! ----------------------------" + breakCount + " / " + count);
     }
 }

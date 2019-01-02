@@ -17,8 +17,10 @@
 #
 #
 
-dubbo.application.name=resilience4jboot2-annotation-provider
-dubbo.registry.address=zookeeper://127.0.0.1:2181
-dubbo.protocol.name=dubbo
-dubbo.protocol.port=20880
-dubbo.provider.timeout=1000
+spring:
+  application.name: dubbo-resilience4j-springboot2-consumer
+  jackson.serialization.indent_output: true
+
+server:
+  port: 9082
+

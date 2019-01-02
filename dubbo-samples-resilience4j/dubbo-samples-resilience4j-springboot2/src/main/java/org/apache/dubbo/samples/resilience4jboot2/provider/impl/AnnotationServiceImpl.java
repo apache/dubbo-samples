@@ -16,28 +16,25 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.resilience4j.impl;
+
+package org.apache.dubbo.samples.resilience4jboot2.provider.impl;
 
 import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
-
-import java.util.concurrent.atomic.AtomicLong;
+import org.apache.dubbo.samples.resilience4jboot2.api.AnnotationService;
 
 /**
- * 2018/12/26
+ * AsyncServiceImpl
  */
-@Service(interfaceClass = CircuitBreakerService.class)
-public class CircuitBreakerServiceImpl implements CircuitBreakerService {
-    private AtomicLong count = new AtomicLong(0);
+@Service(interfaceClass = AnnotationService.class)
+public class AnnotationServiceImpl implements AnnotationService {
 
+    //    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+//                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000") })
     @Override
-    public String say(String name) {
-        long countLong = count.incrementAndGet();
-        if (name.startsWith("half") && countLong % 20 < 18) {
-            return "Hello " + name + " - " + countLong;
-        } else if (name.startsWith("off")) {
-            return "Hello " + name + " - " + countLong;
-        }
-        throw new RuntimeException("Exception to show resilience enabled." + name);
+    public String sayHello(String name) {
+//        System.out.println("async provider received: " + name);
+//        return "annotation: hello, " + name;
+        return "Hello, " + name + "! this is annotation.";
     }
+
 }

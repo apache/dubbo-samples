@@ -16,25 +16,17 @@
  *   limitations under the License.
  *
  */
+package org.apache.dubbo.samples.resilience4jboot2.provider;
 
-package org.apache.dubbo.samples.resilience4j.impl;
-
-import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 /**
- * AsyncServiceImpl
+ * 2019/1/2
  */
-@Service
-public class AnnotationServiceImpl implements AnnotationService {
-
-//    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
-//                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000") })
-    @Override
-    public String sayHello(String name) {
-//        System.out.println("async provider received: " + name);
-//        return "annotation: hello, " + name;
-        throw new RuntimeException("Exception to show hystrix enabled.");
-    }
-
+@Configuration
+@EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.resilience4jboot2.provider.impl")
+@PropertySource("classpath:/spring/dubbo-provider.properties")
+public class DubbConfiguration {
 }

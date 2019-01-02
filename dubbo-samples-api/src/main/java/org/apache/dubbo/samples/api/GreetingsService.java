@@ -18,9 +18,9 @@
 
 package org.apache.dubbo.samples.api;
 
-import com.alibaba.dubbo.config.async.DubboAsync;
-
-@DubboAsync
+//import com.alibaba.dubbo.config.async.DubboAsync;
+//
+//@DubboAsync
 public interface GreetingsService {
     String sayHi(String name);
 }

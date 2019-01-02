@@ -18,7 +18,6 @@ package org.apache.dubbo.samples.governance.filter;
 
 import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.extension.Activate;
-import org.apache.dubbo.rpc.AbstractPostProcessFilter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
@@ -28,17 +27,17 @@ import org.apache.dubbo.rpc.RpcException;
  *
  */
 @Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
-public class AsyncPostprocessFilter extends AbstractPostProcessFilter {
-    @Override
+public class AsyncPostprocessFilter {
+    //extends AbstractPostProcessFilter {
     protected Result doPostProcess(Result result, Invoker<?> invoker, Invocation invocation) {
         System.out.println(Thread.currentThread().getName());
         System.out.println("Filter get the return value: " + result.getValue());
         return result;
     }
 
-    @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         System.out.println(Thread.currentThread().getName());
-        return postProcessResult(invoker.invoke(invocation), invoker, invocation);
+//        return postProcessResult(invoker.invoke(invocation), invoker, invocation);
+        return null;
     }
 }
