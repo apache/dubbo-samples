@@ -16,29 +16,28 @@
  *   limitations under the License.
  *
  */
+package org.apache.dubbo.samples.resilience4jboot2.provider.impl;
 
-package org.apache.dubbo.samples.resilience4j.action;
+import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.samples.resilience4jboot2.api.CircuitBreakerService;
 
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
-import org.springframework.stereotype.Component;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * AnnotationAction
+ * 2018/12/26
  */
-@Component("annotationAction")
-public class AnnotationAction {
+@Service(interfaceClass = CircuitBreakerService.class)
+public class CircuitBreakerServiceImpl implements CircuitBreakerService {
+    private AtomicLong count = new AtomicLong(0);
 
-    @Reference
-    private AnnotationService annotationService;
-
-//    @HystrixCommand(fallbackMethod = "reliable")
-    public String doSayHello(String name) {
-        return annotationService.sayHello(name);
+    @Override
+    public String say(String name) {
+        long countLong = count.incrementAndGet();
+        if (name.startsWith("half") && countLong % 20 < 18) {
+            return "Hello " + name + " - " + countLong;
+        } else if (name.startsWith("off")) {
+            return "Hello " + name + " - " + countLong;
+        }
+        throw new RuntimeException("Exception to show resilience enabled." + name);
     }
-
-    public String reliable(String name) {
-        return "hystrix fallback value";
-    }
-
 }

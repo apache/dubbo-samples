@@ -21,6 +21,7 @@ package org.apache.dubbo.samples.resilience4j.filter;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
@@ -30,9 +31,8 @@ import org.apache.dubbo.rpc.RpcException;
 import java.time.Duration;
 
 
-
 /**
- * @author cvictory ON 2018/12/25
+ * 2018/12/25
  */
 public class Resilience4jRateLimiterFilter implements Filter {
 
@@ -41,8 +41,8 @@ public class Resilience4jRateLimiterFilter implements Filter {
     static {
         RateLimiterConfig config = RateLimiterConfig.custom()
                 .limitRefreshPeriod(Duration.ofMillis(1000))
-                .limitForPeriod(2)
-                .timeoutDuration(Duration.ofMillis(2000))
+                .limitForPeriod(10)
+                .timeoutDuration(Duration.ofMillis(200))
                 .build();
 
         RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
@@ -55,8 +55,11 @@ public class Resilience4jRateLimiterFilter implements Filter {
             System.out.println("**************** Enter RateLimiter ****************");
             RateLimiter.waitForPermission(rateLimiter);
             return invoker.invoke(invocation);
+        } catch (RequestNotPermitted rnp) {
+            System.err.println("---------------- Rate Limiter! Try it later! ----------------");
+            throw rnp;
         } catch (Throwable throwable) {
-            System.out.println("************* Rate Limiter! Try it later! *************");
+            System.err.println("........" + throwable.getMessage());
             throw throwable;
         }
     }

@@ -25,7 +25,7 @@ import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
 /**
  * AsyncServiceImpl
  */
-@Service
+@Service(interfaceClass = AnnotationService.class)
 public class AnnotationServiceImpl implements AnnotationService {
 
     //    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),

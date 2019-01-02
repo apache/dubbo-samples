@@ -39,7 +39,7 @@ public class Resilience4jAnnotationConsumer {
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
         String hello = annotationAction.doSayHello("world");
         System.err.println("result :" + hello);
-        annotationAction.sayCircuitBreaker("circuitBreaker");
+//        annotationAction.sayCircuitBreaker("circuitBreaker");
         annotationAction.sayRateLimiter("rateLimiter", "Just Happy!");
         System.in.read();
     }

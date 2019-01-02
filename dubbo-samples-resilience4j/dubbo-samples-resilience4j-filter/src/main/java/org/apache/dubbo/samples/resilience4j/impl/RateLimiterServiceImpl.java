@@ -24,7 +24,7 @@ import org.apache.dubbo.samples.resilience4j.api.RateLimiterService;
 /**
  * 2018/12/26
  */
-@Service
+@Service(interfaceClass = RateLimiterService.class)
 public class RateLimiterServiceImpl implements RateLimiterService {
     @Override
     public String say(String name, String value) {
