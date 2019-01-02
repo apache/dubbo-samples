@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo-async-processer</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
@@ -57,13 +57,14 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>com.alibaba</groupId>
-                            <artifactId>dubbo-async-processer</artifactId>
-                            <version>1.0.0-SNAPSHOT</version>
-                        </path>
-                    </annotationProcessorPaths>
+                    <!-- should be obsoleted -->
+                    <!--<annotationProcessorPaths>-->
+                    <!--<path>-->
+                    <!--<groupId>com.alibaba</groupId>-->
+                    <!--<artifactId>dubbo-async-processer</artifactId>-->
+                    <!--<version>1.0.0-SNAPSHOT</version>-->
+                    <!--</path>-->
+                    <!--</annotationProcessorPaths>-->
                 </configuration>
             </plugin>
         </plugins>

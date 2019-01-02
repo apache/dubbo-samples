@@ -1,4 +1,3 @@
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,9 +17,14 @@
 
 package org.apache.dubbo.samples.api;
 
-import com.alibaba.dubbo.config.async.DubboAsync;
+import com.alibaba.dubbo.config.async.AsyncSignal;
 
-@DubboAsync
+import java.util.concurrent.CompletableFuture;
+
 public interface GreetingsService {
     String sayHi(String name);
+
+    default CompletableFuture<String> sayHi(String name, AsyncSignal signal) {
+        return CompletableFuture.completedFuture(sayHi(name));
+    }
 }
