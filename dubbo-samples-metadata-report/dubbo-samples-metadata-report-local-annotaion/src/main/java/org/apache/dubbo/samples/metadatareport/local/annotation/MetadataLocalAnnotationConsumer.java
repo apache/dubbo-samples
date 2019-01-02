@@ -66,8 +66,9 @@ public class MetadataLocalAnnotationConsumer {
         }
     }
 
-    private static void printServiceData(){
+    private static void printServiceData() throws InterruptedException {
         // get service data(consumer) from zookeeper.
+        Thread.sleep(3000);
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
         String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.8", "d-test", Constants.CONSUMER_SIDE, "metadatareport-local-annotaion-consumer")));
         System.out.println("*********************************************************");

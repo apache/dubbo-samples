@@ -42,8 +42,9 @@ public class MetadataLocalXmlProvider {
         embeddedZooKeeper.stop();
     }
 
-    private static void printServiceData() {
+    private static void printServiceData() throws InterruptedException {
         // get service data(provider) from zookeeper .
+        Thread.sleep(3000);
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
         String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.PROVIDER_SIDE, "metadatareport-local-xml-provider")));
         System.out.println("*********************************************************");

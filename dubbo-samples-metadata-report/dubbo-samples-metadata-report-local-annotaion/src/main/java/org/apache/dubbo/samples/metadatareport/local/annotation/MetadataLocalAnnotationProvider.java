@@ -70,8 +70,10 @@ public class MetadataLocalAnnotationProvider {
         }
     }
 
-    private static void printServiceData() {
+    private static void printServiceData() throws InterruptedException {
         // get service data(provider) from zookeeper .
+        // async store
+        Thread.sleep(3000);
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
         String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.8", "d-test", Constants.PROVIDER_SIDE, "metadatareport-local-annotaion-provider")));
         System.out.println("*********************************************************");

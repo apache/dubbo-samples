@@ -30,7 +30,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MetadataLocalXmlConsumer {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/metadata-consumer.xml"});
         context.start();
 
@@ -51,8 +51,9 @@ public class MetadataLocalXmlConsumer {
 
     }
 
-    private static void printServiceData() {
+    private static void printServiceData() throws InterruptedException {
         // get service data(consumer) from zookeeper.
+        Thread.sleep(3000);
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
         String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.CONSUMER_SIDE, "metadatareport-local-xml-consumer")));
         System.out.println("*********************************************************");
