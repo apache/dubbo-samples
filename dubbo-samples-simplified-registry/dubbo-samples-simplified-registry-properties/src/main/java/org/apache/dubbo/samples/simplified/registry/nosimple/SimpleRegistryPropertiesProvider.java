@@ -17,60 +17,29 @@
  *
  */
 
-package org.apache.dubbo.samples.simplified.annotation;
-
+package org.apache.dubbo.samples.simplified.registry.nosimple;
 
 import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
-import org.apache.dubbo.config.ProviderConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
-/**
- *
- */
-public class SimpleRegistryAnnotationProvider {
+public class SimpleRegistryPropertiesProvider {
 
     public static void main(String[] args) throws Exception {
         EmbeddedZooKeeper embeddedZooKeeper = new EmbeddedZooKeeper(2181, false);
         embeddedZooKeeper.start();
 
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/simplified-provider.xml"});
         context.start();
-        // get service data(provider) from zookeeper .
+
         printServiceData();
-        System.in.read();
+        System.in.read(); // press any key to exit
         embeddedZooKeeper.stop();
-    }
-
-    @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simplified.annotation.impl")
-    @PropertySource("classpath:/spring/dubbo-provider.properties")
-    static public class ProviderConfiguration {
-        @Bean
-        public ProviderConfig providerConfig() {
-            ProviderConfig providerConfig = new ProviderConfig();
-            providerConfig.setTimeout(1000);
-            return providerConfig;
-        }
-
-        @Bean
-        public RegistryConfig registryConfig() {
-            RegistryConfig registryConfig = new RegistryConfig();
-            registryConfig.setAddress("zookeeper://127.0.0.1:2181");
-            registryConfig.setSimplified(true);
-            registryConfig.setExtraKeys("retries,owner");
-            return registryConfig;
-        }
     }
 
     private static void printServiceData() {
@@ -88,5 +57,6 @@ public class SimpleRegistryAnnotationProvider {
         System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.SPECIFICATION_VERSION_KEY));
         System.out.println("*********************************************************");
     }
+
 
 }

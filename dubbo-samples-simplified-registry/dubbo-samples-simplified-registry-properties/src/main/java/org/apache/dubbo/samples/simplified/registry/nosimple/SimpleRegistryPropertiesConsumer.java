@@ -17,54 +17,39 @@
  *
  */
 
-package org.apache.dubbo.samples.simplified.annotation;
+package org.apache.dubbo.samples.simplified.registry.nosimple;
 
 import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
-import org.apache.dubbo.samples.simplified.annotation.action.AnnotationAction;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
-/**
- * CallbackConsumer
- */
-public class SimpleRegistryAnnotationConsumer {
+public class SimpleRegistryPropertiesConsumer {
 
-    public static void main(String[] args) throws Exception {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/simplified-consumer.xml"});
         context.start();
 
-        final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
-        // get service data(consumer) from zookeeper.
+        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+
         printServiceData();
 
-        String hello = annotationAction.doSayHello("world");
-        System.out.println("result :" + hello);
-        System.in.read();
-    }
+        while (true) {
+            try {
+                Thread.sleep(1000);
+                String hello = demoService.sayHello("world"); // call remote method
+                System.out.println(hello); // get result
 
-    @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simplified.annotation.action")
-    @PropertySource("classpath:/spring/dubbo-consumer.properties")
-    @ComponentScan(value = {"org.apache.dubbo.samples.simplified.annotation.action"})
-    static public class ConsumerConfiguration {
-        @Bean
-        public RegistryConfig registryConfig() {
-            RegistryConfig registryConfig = new RegistryConfig();
-            registryConfig.setAddress("zookeeper://127.0.0.1:2181");
-            registryConfig.setSimplified(true);
-            return registryConfig;
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         }
+
     }
 
     private static void printServiceData() {

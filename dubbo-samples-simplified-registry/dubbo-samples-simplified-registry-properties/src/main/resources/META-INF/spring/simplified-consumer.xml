@@ -25,12 +25,9 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- optional -->
-    <dubbo:application name="simplified-registry-xml-provider"/>
+    <dubbo:application name="simplified-registry-properties-consumer"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181" simplified="true" extra-keys="retries,owner"/>
-
-    <bean id="demoService" class="org.apache.dubbo.samples.simplified.registry.nosimple.impl.DemoServiceImpl"/>
-    <dubbo:service async="true" interface="org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService" version="1.2.3" group="dubbo-simple"
-                   ref="demoService" executes="4500" retries="7" owner="vict" timeout="5300"/>
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService"
+                     owner="vvv" retries="4" actives="6" timeout="4500" version="1.2.3" group="dubbo-simple"/>
 
 </beans>
