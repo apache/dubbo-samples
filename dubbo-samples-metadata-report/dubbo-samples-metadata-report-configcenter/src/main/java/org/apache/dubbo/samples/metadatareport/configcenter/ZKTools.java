@@ -41,7 +41,7 @@ public class ZKTools {
 
     public static void generateDubboPropertiesForGlobal() {
         String str = "dubbo.registry.address=zookeeper://127.0.0.1:2181\n" +
-                "dubbo.metadataReport.address=zookeeper://127.0.0.1:2181\n" +
+                "dubbo.metadata-report.address=zookeeper://127.0.0.1:2181\n" +
                 "#global config for consumer\n" +
                 "dubbo.consumer.timeout=6000\n" +
                 "#global config for provider\n" +

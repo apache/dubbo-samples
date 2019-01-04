@@ -55,7 +55,7 @@ public class MetadataLocalXmlConsumer {
         // get service data(consumer) from zookeeper.
         Thread.sleep(3000);
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.CONSUMER_SIDE, "metadatareport-local-xml-consumer")));
+        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.CONSUMER_SIDE, "metadatareport-local-xml-consumer2")));
         System.out.println("*********************************************************");
         System.out.println("Dubbo store consumer param into special store(as zk,redis) when local xml:");
         System.out.println(data);

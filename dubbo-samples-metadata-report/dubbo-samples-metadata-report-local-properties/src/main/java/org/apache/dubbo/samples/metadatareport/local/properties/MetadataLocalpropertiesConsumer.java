@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.metadatareport.local.xml;
+package org.apache.dubbo.samples.metadatareport.local.properties;
 
 import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
@@ -25,32 +25,40 @@ import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
-import org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService;
+import org.apache.dubbo.samples.metadatareport.local.properties.api.DemoService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class MetadataLocalXmlProvider {
+public class MetadataLocalpropertiesConsumer {
 
-    public static void main(String[] args) throws Exception {
-        EmbeddedZooKeeper embeddedZooKeeper = new EmbeddedZooKeeper(2181, false);
-        embeddedZooKeeper.start();
-
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/metadata-provider.xml"});
+    public static void main(String[] args) throws InterruptedException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/metadata-consumer.xml"});
         context.start();
 
+        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+
         printServiceData();
-        System.in.read(); // press any key to exit
-        embeddedZooKeeper.stop();
+
+        while (true) {
+            try {
+                Thread.sleep(1000);
+                String hello = demoService.sayHello("world"); // call remote method
+                System.out.println(hello); // get result
+
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }
+
     }
 
     private static void printServiceData() throws InterruptedException {
-        // get service data(provider) from zookeeper .
+        // get service data(consumer) from zookeeper.
         Thread.sleep(3000);
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.PROVIDER_SIDE, "metadatareport-local-xml-provider2")));
+        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.CONSUMER_SIDE, "metadatareport-local-properties-consumer")));
         System.out.println("*********************************************************");
-        System.out.println("Dubbo store metadata into special store(as zk,redis) when local xml:");
+        System.out.println("Dubbo store consumer param into special store(as zk,redis) when local xml:");
         System.out.println(data);
         System.out.println("*********************************************************");
     }
-
 }
