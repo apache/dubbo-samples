@@ -23,22 +23,21 @@ import org.apache.dubbo.config.ConfigCenterConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.samples.api.GreetingsService;
 
-public class Application {
-    public static void main(String[] args) throws Exception {
-        loadConfigByDubbo();
+public class Consumer {
+    private static ConfigCenterConfig configCenter = new ConfigCenterConfig();
+    private static ApplicationConfig applicationConfig = new ApplicationConfig("api-dubbo-consumer");
 
+    static {
+        configCenter.setAddress("zookeeper://127.0.0.1:2181");
+    }
+
+    public static void main(String[] args) throws Exception {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
-        reference.setApplication(new ApplicationConfig("first-dubbo-client"));
+        reference.setApplication(applicationConfig);
+        reference.setConfigCenter(configCenter);
         reference.setInterface(GreetingsService.class);
         GreetingsService greetingsService = reference.get();
         String message = greetingsService.sayHi("dubbo");
         System.out.println(message);
-    }
-
-    public static void loadConfigByDubbo() {
-        // Enable Config Center.
-        ConfigCenterConfig configCenter = new ConfigCenterConfig();
-        configCenter.setAddress("zookeeper://127.0.0.1:2181");
-        configCenter.init();
     }
 }

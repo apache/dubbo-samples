@@ -40,17 +40,14 @@ public class ZKTools {
         String str = "---\n" +
                 "force: false\n" +
                 "runtime: true\n" +
-                "enabled: true\n" +
-                "priority: 1\n" + "key: governance-tagrouter-provider\n" +
-                "tags:\n" +
-                "  - name: tag1\n" + "    addresses: [\"30.5.121.131:20880\"]\n" +
-                "  - name: tag2\n" + "    addresses: [\"30.5.121.131:20881\"]\n" +
+                "enabled: true\n" + "priority: 1\n" + "key: governance-tagrouter-provider\n" +
+                "tags:\n" + "  - name: tag1\n" + "    addresses: [\"30.5.121.151:20880\"]\n" + "  - name: tag2\n" + "    addresses: [\"30.5.121.151:20881\"]\n" +
                 "...";
 
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/governance-tagrouter-provider/tagrouters";
+            String path = "/dubbo/config/governance-tagrouter-provider/tag-router";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }

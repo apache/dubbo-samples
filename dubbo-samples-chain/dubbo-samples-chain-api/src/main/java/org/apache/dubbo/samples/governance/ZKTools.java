@@ -63,7 +63,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/governance-tagrouter-provider/tagrouters";
+            String path = "/dubbo/config/governance-tagrouter-provider/router-tag";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -79,7 +79,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/governance-tagrouter-provider/tagrouters";
+            String path = "/dubbo/config/governance-tagrouter-provider/tag-router";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }

@@ -26,12 +26,19 @@ import org.apache.dubbo.samples.api.GreetingsService;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Application {
-    public static void main(String[] args) throws Exception {
-        setExternalConfigurationDirectly();
+public class Provider {
 
+    private static ConfigCenterConfig configCenter = new ConfigCenterConfig();
+    private static ApplicationConfig applicationConfig = new ApplicationConfig("api-dubbo-provider");
+
+    static {
+        configCenter.setExternalConfig(getExternalConfiguration());
+    }
+
+    public static void main(String[] args) throws Exception {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
-        service.setApplication(new ApplicationConfig("api-dubbo-provider"));
+        service.setApplication(applicationConfig);
+        service.setConfigCenter(configCenter);
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
         service.export();
@@ -44,15 +51,13 @@ public class Application {
      * In this sample, we created a Map instance manually and put a value into it, but in reality,
      * the external configurations will most likely being generated from other plugins in your system.
      */
-    public static void setExternalConfigurationDirectly() {
+    public static Map<String, String> getExternalConfiguration() {
         Map<String, String> dubboConfigurations = new HashMap<>();
         dubboConfigurations.put("dubbo.registry.address", "zookeeper://127.0.0.1:2181");
         // you will need to add the configcenter address if you want to use the service governance features in 2.7, e.g., overrides and routers.
         // but notice it will not be used for gathering startup configurations.
         dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
 
-        ConfigCenterConfig configCenter = new ConfigCenterConfig();
-        configCenter.setExternalConfig(dubboConfigurations);
-        configCenter.init();
+        return dubboConfigurations;
     }
 }

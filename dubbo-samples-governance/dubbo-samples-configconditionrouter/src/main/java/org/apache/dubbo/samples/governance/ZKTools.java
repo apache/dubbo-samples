@@ -37,19 +37,12 @@ public class ZKTools {
     }
 
     public static void generateAppevelRouter() {
-        String str = "---\n" +
-                "scope: application\n" +
-                "force: true\n" +
-                "runtime: true\n" + "enabled: false\n" +
-                "priority: 2\n" +
-                "key: demo-consumer\n" +
-                "conditions:\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService=>address=*:20880\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService2=>address=*:20881\n" + "blackWhiteList:\n" + " enabled: true\n" + " conditions:\n" + "  - interface=org.apache.dubbo.samples.governance.api.DemoService=>address=*:20880\n" + "  - interface=org.apache.dubbo.samples.governance.api.DemoService2=>address=*:20881\n" +
-                "...";
+        String str = "---\n" + "scope: application\n" + "force: true\n" + "runtime: true\n" + "enabled: true\n" + "priority: 2\n" + "key: governance-conditionrouter-consumer\n" + "conditions:\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService=>address=*:20880\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService2=>address=*:20881\n" + "...";
 
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/governance-conditionrouter-consumer/routers";
+            String path = "/dubbo/config/governance-conditionrouter-consumer/condition-router";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }

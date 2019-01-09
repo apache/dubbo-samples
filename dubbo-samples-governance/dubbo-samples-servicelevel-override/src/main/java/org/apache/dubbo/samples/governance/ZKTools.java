@@ -38,14 +38,12 @@ public class ZKTools {
     }
 
     public static void generateServiceLevelOverride() {
-        String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" +
-                "---\n" + "configVersion: v2.7\n" +
+        String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" + "---\n" + "configVersion: v2.7\n" +
                 "scope: service\n" +
                 "key: org.apache.dubbo.samples.governance.api.DemoService\n" +
                 "enabled: true\n" +
                 "configs:\n" +
-                "- addresses: [0.0.0.0]\n" +
-                "  side: consumer\n" + "  parameters:\n" + "    timeout: 1000\n" +
+                "- addresses: [0.0.0.0]\n" + "  side: consumer\n" + "  parameters:\n" + "    timeout: 5000\n" +
                 "...\n";
 
         System.out.println(str);
@@ -62,7 +60,7 @@ public class ZKTools {
     }
 
     public static void generateApplicationLevelOverride() {
-        String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" + "---\n" + "configVersion: v2.7\n" + "scope: application\n" + "key: governance-serviceoverride-consumer\n" + "enabled: true\n" + "configs:\n" + "- addresses: [0.0.0.0]\n" + "  side: consumer\n" + "  parameters:\n" + "    timeout: 5000\n" + "...\n";
+        String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" + "---\n" + "configVersion: v2.7\n" + "scope: application\n" + "key: governance-serviceoverride-consumer\n" + "enabled: true\n" + "configs:\n" + "- addresses: [0.0.0.0]\n" + "  side: consumer\n" + "  parameters:\n" + "    timeout: 2000\n" + "...\n";
 
         System.out.println(str);
 

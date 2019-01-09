@@ -49,8 +49,7 @@ public class ZKTools {
                 "scope: application\n" +
                 "key: governance-appoverride-provider\n" +
                 "enabled: true\n" +
-                "configs:\n" +
-                "- addresses: [\"0.0.0.0:20880\"]\n" + "  side: provider\n" + "  parameters:\n" + "    weight: 100\n" +
+                "configs:\n" + "- addresses: [\"0.0.0.0:20880\"]\n" + "  side: provider\n" + "  parameters:\n" + "    weight: 1000\n" +
                 "...";
 
         System.out.println(str);
@@ -79,8 +78,7 @@ public class ZKTools {
                 "enabled: true\n" +
                 "configs:\n" +
                 "- addresses: [\"0.0.0.0\"]\n" +
-                "  side: consumer\n" +
-                "  parameters:\n" + "    weight: 100\n" +
+                "  side: consumer\n" + "  parameters:\n" + "    weight: 100\n" +
                 "...\n";
 
         System.out.println(str);
