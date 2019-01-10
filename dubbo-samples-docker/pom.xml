@@ -41,10 +41,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
-<<<<<<< HEAD
-=======
             <version>2.6.5</version>
->>>>>>> dubbo_samples_remote/master
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -70,6 +67,11 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
             <version>3.0.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>0.8.0</version>
         </dependency>
         <dependency>
             <groupId>com.caucho</groupId>
