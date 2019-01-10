@@ -27,6 +27,7 @@
 
     <dubbo:protocol name="nthrift"/>
 
-    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.rpc.nativethrift.api.DemoService$Iface" version="1.0.0"/>
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.rpc.nativethrift.api.DemoService$Iface"
+                     version="1.0.0"/>
 
 </beans>
