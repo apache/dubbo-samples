@@ -228,6 +228,7 @@
                                 <exclude>**/codestyle/*</exclude>
                                 <exclude>**/resources/META-INF/**</exclude>
                                 <exclude>**/webapp/swagger/**</exclude>
+                                <exclude>**/org/apache/dubbo/samples/rpc/nativethrift/api/DemoService.java</exclude>
                             </excludes>
                         </configuration>
                     </execution>
