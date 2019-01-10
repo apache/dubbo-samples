@@ -2,9 +2,10 @@ language: java
 sudo: false # faster builds
 
 jdk:
-    - oraclejdk10
-    - oraclejdk9
+    - oraclejdk11
     - oraclejdk8
 
+install: true
+
 script:
-    - mvn clean package
+    - ./mvnw clean install 
