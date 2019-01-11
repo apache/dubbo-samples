@@ -36,7 +36,7 @@ public class LegacyBlockFilter implements Filter {
         if (result.hasException()) {
             System.out.println("LegacyBlockFilter: This will only happen when the real exception returns: " + result.getException());
         }
-        System.err.println("LegacyBlockFilter: This msg should not be blocked.");
+        System.out.println("LegacyBlockFilter: This msg should not be blocked.");
         return result;
     }
 }

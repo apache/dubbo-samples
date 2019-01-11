@@ -21,8 +21,6 @@ package org.apache.dubbo.samples.governance;
 
 import org.apache.dubbo.samples.api.GreetingsService;
 
-import com.alibaba.dubbo.config.async.AsyncSignal;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
@@ -32,13 +30,15 @@ import java.util.concurrent.CompletableFuture;
  */
 public class AsyncConsumer {
 
+    private static final byte SIGNAL = 1;
+
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
         context.start();
 
         final GreetingsService greetingsService = (GreetingsService) context.getBean("greetingsService");
 
-        CompletableFuture<String> future = greetingsService.sayHi("async call reqeust", AsyncSignal.SIGNAL);
+        CompletableFuture<String> future = greetingsService.sayHi("async call reqeust", SIGNAL);
         System.out.println("async call ret :" + future.get());
 
         System.out.println(greetingsService.sayHi("normal sync call request"));

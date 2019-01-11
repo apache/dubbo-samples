@@ -17,14 +17,12 @@
 
 package org.apache.dubbo.samples.api;
 
-import com.alibaba.dubbo.config.async.AsyncSignal;
-
 import java.util.concurrent.CompletableFuture;
 
 public interface GreetingsService {
     String sayHi(String name);
 
-    default CompletableFuture<String> sayHi(String name, AsyncSignal signal) {
+    default CompletableFuture<String> sayHi(String name, byte signal) {
         return CompletableFuture.completedFuture(sayHi(name));
     }
 }
