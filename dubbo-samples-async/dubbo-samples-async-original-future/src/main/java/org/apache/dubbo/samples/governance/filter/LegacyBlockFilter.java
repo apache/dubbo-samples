@@ -28,16 +28,15 @@ import org.apache.dubbo.rpc.RpcException;
  *
  */
 @Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
-public class AsyncPostprocessFilter implements Filter {
+public class LegacyBlockFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        return invoker.invoke(invocation);
-    }
-
-    @Override
-    public Result onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
-        System.out.println("AsyncPostprocessFilter: Filter get the return value: " + result.getValue());
+        Result result =  invoker.invoke(invocation);
+        System.out.println("LegacyBlockFilter: This is the default return value: " + result.getValue());
+        if (result.hasException()) {
+            System.out.println("LegacyBlockFilter: This will only happen when the real exception returns: " + result.getException());
+        }
+        System.err.println("LegacyBlockFilter: This msg should not be blocked.");
         return result;
     }
-
 }

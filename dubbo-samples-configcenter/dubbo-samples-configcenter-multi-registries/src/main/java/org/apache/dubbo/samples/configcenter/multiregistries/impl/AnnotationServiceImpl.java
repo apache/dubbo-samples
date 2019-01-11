@@ -17,24 +17,21 @@
  *
  */
 
-package org.apache.dubbo.samples.hystrix.annotation.action;
+package org.apache.dubbo.samples.configcenter.multiregistries.impl;
 
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.samples.hystrix.annotation.api.AnnotationService;
-
-import org.springframework.stereotype.Component;
+import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.samples.configcenter.multiregistries.api.AnnotationService;
 
 /**
- * AnnotationAction
+ * AsyncServiceImpl
  */
-@Component("annotationAction")
-public class AnnotationAction {
+@Service
+public class AnnotationServiceImpl implements AnnotationService {
 
-    @Reference
-    private AnnotationService annotationService;
-
-    public String doSayHello(String name) {
-        return annotationService.sayHello(name);
+    @Override
+    public String sayHello(String name) {
+        System.out.println("provider received: " + name);
+        return "annotation: hello, " + name;
     }
 
 }

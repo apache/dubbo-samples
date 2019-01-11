@@ -28,7 +28,7 @@
 
     <dubbo:config-center address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:reference id="demoService" protocol="hessian"
+    <dubbo:reference id="demoService" protocol="dubbo"
                      interface="org.apache.dubbo.samples.configcenter.api.DemoService"/>
 
 </beans>

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.hystrix.annotation;
+package org.apache.dubbo.samples.configcenter.multiregistries;
 
 import org.apache.dubbo.common.utils.StringUtils;
 
@@ -36,7 +36,8 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registries.registry1.address=zookeeper://127.0.0.1:2181\n" + "dubbo.registries.registry2.address=zookeeper://127.0.0.1:2182\n";
+        String str = "dubbo.registries.registry1.address=zookeeper://127.0.0.1:2181\n" +
+                "dubbo.registries.registry2.address=zookeeper://127.0.0.1:2181\n";
 
         System.out.println(str);
 

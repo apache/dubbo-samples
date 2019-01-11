@@ -14,30 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance.filter;
+package org.apache.dubbo.samples.server;
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.common.extension.Activate;
-import org.apache.dubbo.rpc.Filter;
-import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.samples.api.DemoService;
 
 /**
  *
  */
-@Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
-public class AsyncPostprocessFilter implements Filter {
+public class DemoServiceImpl implements DemoService {
     @Override
-    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        return invoker.invoke(invocation);
+    public String sayHello() {
+        return "Hello, you!";
     }
-
-    @Override
-    public Result onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
-        System.out.println("AsyncPostprocessFilter: Filter get the return value: " + result.getValue());
-        return result;
-    }
-
 }

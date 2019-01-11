@@ -36,7 +36,12 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "#key: dubbo.{item-name}.{id}.{property}\n" + "dubbo.registry.address=zookeeper://127.0.0.1:2181\n" + "dubbo.protocols.dubbo1.name=dubbo\n" + "dubbo.protocols.dubbo1.port=20991\n" + "dubbo.protocols.hessian1.name=hessian\n" + "dubbo.protocols.hessian1.port=8089";
+        String str = "#key: dubbo.{item-name}.{id}.{property}\n" +
+                "dubbo.registry.address=zookeeper://127.0.0.1:2181\n" +
+                "dubbo.protocols.dubbo1.name=dubbo\n" +
+                "dubbo.protocols.dubbo1.port=20991\n" +
+                "dubbo.protocols.hessian1.name=hessian\n" +
+                "dubbo.protocols.hessian1.port=8089";
 
         System.out.println(str);
 

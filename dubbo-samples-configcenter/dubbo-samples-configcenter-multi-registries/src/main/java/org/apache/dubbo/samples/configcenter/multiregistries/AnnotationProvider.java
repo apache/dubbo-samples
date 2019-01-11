@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.hystrix.annotation;
+package org.apache.dubbo.samples.configcenter.multiregistries;
 
 
 import org.apache.dubbo.config.ProviderConfig;
@@ -41,7 +41,7 @@ public class AnnotationProvider {
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.impl")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.configcenter.multiregistries.impl")
     @PropertySource("classpath:/spring/dubbo-provider.properties")
     static public class ProviderConfiguration {
         @Bean

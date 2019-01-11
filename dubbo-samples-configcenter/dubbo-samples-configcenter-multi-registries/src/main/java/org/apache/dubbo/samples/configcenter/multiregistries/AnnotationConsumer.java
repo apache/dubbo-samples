@@ -17,10 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.hystrix.annotation;
+package org.apache.dubbo.samples.configcenter.multiregistries;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.hystrix.annotation.action.AnnotationAction;
+import org.apache.dubbo.samples.configcenter.multiregistries.action.AnnotationAction;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -42,9 +42,9 @@ public class AnnotationConsumer {
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.action")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.configcenter.multiregistries.action")
     @PropertySource("classpath:/spring/dubbo-consumer.properties")
-    @ComponentScan(value = {"org.apache.dubbo.samples.annotation.action"})
+    @ComponentScan(value = {"org.apache.dubbo.samples.configcenter.multiregistries.action"})
     static public class ConsumerConfiguration {
 
     }

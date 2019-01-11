@@ -21,6 +21,7 @@ package org.apache.dubbo.samples.governance;
 
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.governance.api.AsyncService;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
@@ -44,10 +45,10 @@ public class AsyncConsumer {
             if (t != null) {
                 t.printStackTrace();
             } else {
-                System.out.println("Response: " + v);
+                System.out.println("AsyncConsumer: Response: " + v);
             }
         });
-        System.out.println("Executed before response return.");
+        System.out.println("AsyncConsumer: Executed before response return.");
 
         System.in.read();
     }

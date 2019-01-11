@@ -28,7 +28,7 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:reference id="asyncService" timeout="10000"
+    <dubbo:reference id="asyncService" timeout="20000"
                      interface="org.apache.dubbo.samples.governance.api.AsyncService"/>
 
 </beans>

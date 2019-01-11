@@ -21,6 +21,7 @@ package org.apache.dubbo.samples.governance;
 
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.governance.api.AsyncService;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.Future;
@@ -43,7 +44,6 @@ public class AsyncConsumer {
 
         RpcContext.getContext().asyncCall(() -> {
             asyncService.sayHello("oneway call request1");
-            asyncService.sayHello("oneway call request2");
         });
 
         System.in.read();

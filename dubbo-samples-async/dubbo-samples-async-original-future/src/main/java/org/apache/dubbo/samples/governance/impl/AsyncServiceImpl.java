@@ -37,7 +37,7 @@ public class AsyncServiceImpl implements AsyncService {
             System.out.println(savedContext.getAttachment("consumer-key1"));
             savedServerContext.setAttachment("server-key1", "server-value1");
             try {
-                Thread.sleep(5000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

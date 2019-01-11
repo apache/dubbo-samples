@@ -37,7 +37,7 @@ public class AsyncServiceImpl implements AsyncService {
             System.out.println("Attachment from consumer: " + RpcContext.getContext().getAttachment("consumer-key1"));
             System.out.println("    -- Async start.");
             try {
-                Thread.sleep(500);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

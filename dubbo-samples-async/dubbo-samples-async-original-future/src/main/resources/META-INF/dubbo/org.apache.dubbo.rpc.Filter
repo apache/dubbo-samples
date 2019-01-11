@@ -1,1 +1,2 @@
 asyncpostprocess=org.apache.dubbo.samples.governance.filter.AsyncPostprocessFilter
+logacy-block=org.apache.dubbo.samples.governance.filter.LegacyBlockFilter

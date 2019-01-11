@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.hystrix.annotation.api;
+package org.apache.dubbo.samples.configcenter.multiregistries.api;
 
 /**
  * AsyncService
