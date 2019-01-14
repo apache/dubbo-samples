@@ -35,9 +35,6 @@ import org.apache.dubbo.samples.rest.api.facade.UserRestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Service(protocol = {"rest", "dubbo"}, group = "annotationConfig", validation = "true")
-@Path("customers")
-@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 @Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
 public class AnnotationDrivenUserRestServiceImpl implements UserRestService {
 

@@ -39,8 +39,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Service("userRestService")
-@Path("users")
-@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 @Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
 public class UserRestServiceImpl implements UserRestService {
 
@@ -54,9 +52,7 @@ public class UserRestServiceImpl implements UserRestService {
     }
 
     @Override
-    @GET
-    @Path("{id : \\d+}")
-    public User getUser(@PathParam("id") Long id/*, @Context HttpServletRequest request*/) {
+    public User getUser(Long id/*, @Context HttpServletRequest request*/) {
         // test context injection
 //        System.out.println("Client address from @Context injection: " + (request != null ? request.getRemoteAddr() : ""));
         System.out.println("Client address from RpcContext: " + RpcContext.getContext().getRemoteAddressString());
@@ -70,8 +66,6 @@ public class UserRestServiceImpl implements UserRestService {
     }
 
     @Override
-    @POST
-    @Path("register")
     public RegistrationResult registerUser(User user) {
         return new RegistrationResult(userService.registerUser(user));
     }

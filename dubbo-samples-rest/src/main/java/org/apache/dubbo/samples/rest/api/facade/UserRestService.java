@@ -19,7 +19,14 @@
 package org.apache.dubbo.samples.rest.api.facade;
 
 import javax.validation.constraints.Min;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.MediaType;
 
+import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.rest.api.User;
 
 /**
@@ -30,12 +37,19 @@ import org.apache.dubbo.samples.rest.api.User;
  * http://localhost:8888/user/1.json
  * http://localhost:8888/user/1.xml
  */
+@Service(protocol = {"rest", "dubbo"}, group = "annotationConfig", validation = "true")
+@Path("customers")
+@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 public interface UserRestService {
 
     /**
      * the request object is just used to test jax-rs injection.
      */
-    User getUser(@Min(value = 1L, message = "User ID must be greater than 1") Long id/*, HttpServletRequest request*/);
+    @GET
+    @Path("{id : \\d+}")
+    User getUser(@PathParam("id") @Min(value = 1L, message = "User ID must be greater than 1") Long id/*, HttpServletRequest request*/);
 
+    @POST
+    @Path("register")
     RegistrationResult registerUser(User user);
 }
