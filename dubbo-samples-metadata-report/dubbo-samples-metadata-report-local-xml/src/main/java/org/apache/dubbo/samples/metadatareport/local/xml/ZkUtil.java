@@ -34,6 +34,6 @@ public class ZkUtil {
     }
 
     public static String getNodePath(MetadataIdentifier metadataIdentifier) {
-        return toRootDir("/dubbo") + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH) + Constants.PATH_SEPARATOR + "service.data";
+        return toRootDir("/dubbo3") + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH) + Constants.PATH_SEPARATOR + "service.data";
     }
 }

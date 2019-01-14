@@ -38,7 +38,7 @@ public class GenericCallConsumer {
         referenceConfig.setGeneric(true);
         GenericService genericService = referenceConfig.get();
         Object result = genericService.$invoke("sayHello", new String[]{"java.lang.String"}, new Object[]{"world"});
-        System.out.println(result);
+        System.out.println("...." + result);
     }
 
 }

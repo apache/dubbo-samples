@@ -27,9 +27,9 @@
     <!-- optional -->
     <dubbo:application name="metadatareport-local-xml-consumer2"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry address="zookeeper://127.0.0.1:2181" group="dubbo3"/>
 
-    <dubbo:metadata-report address="zookeeper://127.0.0.1:2181" cycle-report="false" retry-period="4590" sync-report="true" retry-times="23" />
+    <dubbo:metadata-report address="zookeeper://127.0.0.1:2181" group="dubbo3" cycle-report="false" retry-period="4590" sync-report="true" retry-times="23" />
 
     <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService"/>
 

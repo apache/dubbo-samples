@@ -27,6 +27,7 @@ import java.io.IOException;
 
 public class Application {
     public static void main(String[] args) throws IOException {
+        System.setProperty("java.net.preferIPv4Stack", "true");
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setApplication(new ApplicationConfig("first-dubbo-provider"));
         service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));

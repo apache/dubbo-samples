@@ -25,6 +25,7 @@ import org.apache.dubbo.rpc.service.GenericService;
 
 public class Application {
     public static void main(String[] args) {
+        System.setProperty("java.net.preferIPv4Stack", "true");
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-client"));
         reference.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
