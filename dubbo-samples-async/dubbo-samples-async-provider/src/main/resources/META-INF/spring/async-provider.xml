@@ -32,6 +32,6 @@
 
     <bean id="asyncService" class="org.apache.dubbo.samples.governance.impl.AsyncServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.governance.api.AsyncService" ref="asyncService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.governance.api.AsyncService" ref="asyncService" async="true" timeout="10000"/>
 
 </beans>
