@@ -25,19 +25,17 @@ import com.alibaba.dubbo.rpc.RpcException;
 /**
  *
  */
-public class CompatibleProtocol implements Protocol {
+public abstract class CompatibleProtocol implements Protocol {
 
     @Override
     public int getDefaultPort() {
         return 20880;
     }
 
-    @Override
     public <T> Exporter<T> export(Invoker<T> invoker) throws RpcException {
         return new MyExporter<>();
     }
 
-    @Override
     public <T> Invoker<T> refer(Class<T> aClass, URL url) throws RpcException {
         return new MyInvoker<>();
     }

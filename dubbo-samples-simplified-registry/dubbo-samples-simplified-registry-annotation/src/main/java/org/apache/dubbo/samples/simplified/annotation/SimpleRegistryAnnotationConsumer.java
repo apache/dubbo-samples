@@ -27,6 +27,7 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.simplified.annotation.action.AnnotationAction;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -79,7 +80,7 @@ public class SimpleRegistryAnnotationConsumer {
         System.out.println("simple contain 'application':" + urls.get(0).contains("application"));
         System.out.println("simple contain 'version':" + urls.get(0).contains("version"));
         System.out.println("simple contain 'group':" + urls.get(0).contains("group"));
-        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.SPECIFICATION_VERSION_KEY));
+        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.RELEASE_KEY));
         System.out.println("*********************************************************");
     }
 }
