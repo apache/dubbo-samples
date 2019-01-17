@@ -19,32 +19,57 @@
 
 package org.apache.dubbo.samples.merge;
 
-import java.util.List;
+//import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 
 import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.merge.api.MergeService;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.alibaba.dubbo.common.Constants.TAG_KEY;
 
 /**
- * MergeConsumer2
+ * CallbackConsumer
  */
-public class MergeConsumer2 {
+public class AnnotationConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/merge-consumer2.xml"});
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
         MergeService mergeService = (MergeService) context.getBean("mergeService");
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             try {
-                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "vvvttt");
+                RpcContext.getContext().setAttachment(TAG_KEY, "vvvttt");
                 List<String> result = mergeService.mergeResult();
                 System.out.println("(" + i + ") " + result);
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Configuration
+    @ImportResource("spring/merge-consumer2.xml")
+    static public class ConsumerConfiguration {
+        @Bean
+        public ApplicationConfig applicationConfig() {
+            ApplicationConfig applicationConfig = new ApplicationConfig();
+            applicationConfig.setName("consumer-book6");
+            applicationConfig.setQosEnable(false);
+            Map<String,String> parameters = new HashMap<>();
+            parameters.put(Constants.ROUTER_KEY, "tag");
+            applicationConfig.setParameters(parameters);
+            return applicationConfig;
         }
     }
 

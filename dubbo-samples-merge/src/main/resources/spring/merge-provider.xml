@@ -36,6 +36,6 @@
 
     <bean id="mergeService2" class="org.apache.dubbo.samples.merge.impl.MergeServiceImpl2"/>
 
-    <dubbo:service group="merge2" interface="org.apache.dubbo.samples.merge.api.MergeService" ref="mergeService2"/>
+    <dubbo:service group="merge88" interface="org.apache.dubbo.samples.merge.api.MergeService" ref="mergeService2"/>
 
 </beans>
