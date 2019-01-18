@@ -27,11 +27,8 @@
     <!-- optional -->
     <dubbo:application name="dubbo-configcenter-apollo"/>
 
-    <!--<dubbo:registry address="zookeeper://127.0.0.1:2181"/>-->
-    <!--<dubbo:protocol port="-1"/>-->
-
     <dubbo:config-center address="apollo://106.12.25.204:8080"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
-    <dubbo:service group="test2" interface="org.apache.dubbo.samples.configcenter.api.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.configcenter.api.DemoService" ref="demoService"/>
 </beans>

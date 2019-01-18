@@ -18,15 +18,6 @@
  */
 package org.apache.dubbo.samples.rest.impl.facade;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.rpc.protocol.rest.support.ContentType;
 import org.apache.dubbo.samples.rest.api.User;
 import org.apache.dubbo.samples.rest.api.UserService;
@@ -34,6 +25,12 @@ import org.apache.dubbo.samples.rest.api.facade.RegistrationResult;
 import org.apache.dubbo.samples.rest.api.facade.UserRestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 @Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
 public class AnnotationDrivenUserRestServiceImpl implements UserRestService {
