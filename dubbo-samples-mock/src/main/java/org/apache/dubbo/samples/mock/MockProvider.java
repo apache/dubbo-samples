@@ -17,6 +17,8 @@
 
 package org.apache.dubbo.samples.mock;
 
+import org.apache.dubbo.samples.tools.EmbeddedZooKeeper;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MockProvider {

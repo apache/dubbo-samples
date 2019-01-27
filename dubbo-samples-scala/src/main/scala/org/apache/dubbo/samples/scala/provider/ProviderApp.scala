@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.scala.provider
 
-import org.apache.dubbo.samples.scala.EmbeddedZooKeeper
+import org.apache.dubbo.samples.tools.EmbeddedZooKeeper
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import scala.io.StdIn

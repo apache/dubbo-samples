@@ -18,11 +18,13 @@
  */
 package org.apache.dubbo.samples.generic;
 
+import org.apache.dubbo.samples.generic.impl.GenericServiceImpl;
+import org.apache.dubbo.samples.tools.EmbeddedZooKeeper;
+
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.ServiceConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
-import org.apache.dubbo.samples.generic.impl.GenericServiceImpl;
 
 import java.io.IOException;
 

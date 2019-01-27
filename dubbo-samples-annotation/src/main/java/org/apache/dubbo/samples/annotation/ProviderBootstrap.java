@@ -19,12 +19,13 @@
 
 package org.apache.dubbo.samples.annotation;
 
+import org.apache.dubbo.samples.tools.EmbeddedZooKeeper;
+
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.ProviderConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.support.EmbeddedZooKeeper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

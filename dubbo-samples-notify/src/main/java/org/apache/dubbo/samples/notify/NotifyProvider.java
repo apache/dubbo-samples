@@ -19,6 +19,8 @@
 
 package org.apache.dubbo.samples.notify;
 
+import org.apache.dubbo.samples.tools.EmbeddedZooKeeper;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class NotifyProvider {

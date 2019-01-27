@@ -20,6 +20,8 @@
 package org.apache.dubbo.samples.local;
 
 import org.apache.dubbo.samples.local.api.DemoService;
+import org.apache.dubbo.samples.tools.EmbeddedZooKeeper;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class LocalDemo {

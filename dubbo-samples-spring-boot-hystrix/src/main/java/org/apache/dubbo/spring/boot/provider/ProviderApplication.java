@@ -16,11 +16,12 @@
  */
 package org.apache.dubbo.spring.boot.provider;
 
+import org.apache.dubbo.samples.tools.EmbeddedZooKeeper;
+
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
-
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 
 @SpringBootApplication
 @EnableHystrix

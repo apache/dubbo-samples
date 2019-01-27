@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.annotation;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.annotation.action.AnnotationAction;
-import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
