@@ -15,17 +15,21 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+    http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="merge-consumer"/>
+    <dubbo:application name="thrift-provider"/>
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:reference id="mergeService" interface="org.apache.dubbo.samples.merge.api.MergeService" group="*" merger="true"/>
+    <dubbo:protocol name="nthrift" id="nthrift" port="2345"/>
+
+    <bean id="demoService" class="org.apache.dubbo.samples.rpc.nativethrift.DemoServiceImpl"/>
+
+    <dubbo:service protocol="nthrift" interface="org.apache.dubbo.samples.rpc.nativethrift.api.DemoService$Iface"
+                   ref="demoService" version="1.0.0"/>
 
 </beans>

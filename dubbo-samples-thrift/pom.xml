@@ -15,6 +15,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -25,13 +26,22 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-annotation</artifactId>
-
+    <artifactId>dubbo-samples-thrift</artifactId>
+    <properties>
+        <dubbo-rpc-native-thrift.version>1.0.0-SNAPSHOT</dubbo-rpc-native-thrift.version>
+        <libthrift.version>0.11.0</libthrift.version>
+    </properties>
     <dependencies>
         <dependency>
-            <groupId>com.alibaba.spring</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>1.0.2</version>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-rpc-native-thrift</artifactId>
+            <version>${dubbo-rpc-native-thrift.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>${libthrift.version}</version>
         </dependency>
     </dependencies>
+
 </project>
