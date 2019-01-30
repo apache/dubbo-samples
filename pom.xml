@@ -59,6 +59,7 @@
         <module>dubbo-samples-chain</module>
         <module>dubbo-samples-generic-call</module>
         <module>dubbo-samples-resilience4j</module>
+        <module>dubbo-samples-SPI-compatible</module>
     </modules>
 
     <properties>

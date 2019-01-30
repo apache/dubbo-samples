@@ -36,7 +36,7 @@
         <module>dubbo-samples-configcenter-annotation</module>
         <module>dubbo-samples-configcenter-externalconfiguration</module>
         <module>dubbo-samples-configcenter-api</module>
-        <!--<module>dubbo-samples-configcenter-springboot</module>-->
+        <module>dubbo-samples-configcenter-apollo</module>
     </modules>
 
 
