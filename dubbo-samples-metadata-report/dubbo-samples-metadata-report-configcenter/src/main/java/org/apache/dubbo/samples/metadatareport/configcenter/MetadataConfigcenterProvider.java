@@ -62,9 +62,11 @@ public class MetadataConfigcenterProvider {
         }
     }
 
-    private static void printServiceData() {
+    private static void printServiceData() throws InterruptedException {
         // get service data(provider) from zookeeper .
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
+        Thread.sleep(3000);
+
         String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.1", "d-test", Constants.PROVIDER_SIDE, "metadatareport-configcenter-provider")));
         System.out.println("*********************************************************");
         System.out.println("Dubbo store metadata into special store(as zk,redis) when configcenter:");
