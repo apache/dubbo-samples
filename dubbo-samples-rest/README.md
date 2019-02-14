@@ -28,12 +28,12 @@ We can use two steps to export Rest Service in Dubbo:
 Step 1: Add dependency to the pom file in our project:
 ```
         <dependency>
-            <groupId>org.apache</groupId>
+            <groupId>${dubbo.rpc.groupId}</groupId>
             <artifactId>dubbo-rpc-rest</artifactId>
             <version>${dubbo.rpc.version}</version>
         </dependency>
 ```
-
+If you are using is [2.6.1~2.6.5] version,then groupId is com.alibaba ,only if dubbo's version is 2.7.0 or above, its groupId is org.apache.dubbo .
 Step 2: Export Rest Service in our provider spring config file:
 
 ```
