@@ -26,36 +26,37 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>dubbo-samples-annotation</module>
+        <module>dubbo-samples-api</module>
         <module>dubbo-samples-async</module>
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-basic</module>
         <module>dubbo-samples-cache</module>
+        <module>dubbo-samples-context</module>
         <module>dubbo-samples-callback</module>
         <module>dubbo-samples-direct</module>
+        <module>dubbo-samples-docker</module>
         <module>dubbo-samples-echo</module>
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
+        <module>dubbo-samples-http</module>
+        <module>dubbo-samples-local</module>
         <module>dubbo-samples-merge</module>
         <module>dubbo-samples-mock</module>
+        <module>dubbo-samples-monitor</module>
+        <module>dubbo-samples-multi-registry</module>
         <module>dubbo-samples-notify</module>
         <module>dubbo-samples-rest</module>
-        <module>dubbo-samples-stub</module>
-        <module>dubbo-samples-validation</module>
-        <module>dubbo-samples-version</module>
-        <module>dubbo-samples-docker</module>
-        <module>dubbo-samples-context</module>
-        <module>dubbo-samples-http</module>
-        <module>dubbo-samples-api</module>
+        <module>dubbo-samples-scala</module>
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
-        <module>dubbo-samples-monitor</module>
-        <module>dubbo-samples-zookeeper</module>
-        <module>dubbo-samples-multi-registry</module>
+        <module>dubbo-samples-stub</module>
         <module>dubbo-samples-switch-serialization-thread</module>
-        <module>dubbo-samples-scala</module>
-        <module>dubbo-samples-zipkin</module>
-        <module>dubbo-samples-local</module>
+        <module>dubbo-samples-thrift</module>
         <module>dubbo-samples-tools</module>
+        <module>dubbo-samples-validation</module>
+        <module>dubbo-samples-version</module>
+        <module>dubbo-samples-zipkin</module>
+        <module>dubbo-samples-zookeeper</module>
         <module>dubbo-samples-nacos</module>
         <module>dubbo-samples-fescar</module>
     </modules>
