@@ -19,17 +19,18 @@
 
 package org.apache.dubbo.samples.async;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-
-import com.alibaba.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.async.api.AsyncService;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 public class AsyncConsumer {
 
     public static void main(String[] args) throws Exception {
+        System.setProperty("qos.enable", "false");
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/async-consumer.xml"});
         context.start();
 

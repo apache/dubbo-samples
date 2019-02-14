@@ -57,6 +57,7 @@
         <module>dubbo-samples-local</module>
         <module>dubbo-samples-tools</module>
         <module>dubbo-samples-nacos</module>
+        <module>dubbo-samples-fescar</module>
     </modules>
 
     <properties>
