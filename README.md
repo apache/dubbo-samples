@@ -1,16 +1,12 @@
-# Samples for Dubbo 2.7.0-SNAPSHOT (not released yet)
+# Dubbo Samples
 
-This branch contains samples for the upcoming Dubbo 2.7.0-SNAPSHOT version, to make sure you can resolve 2.7.0-SNAPSHOT successfully, **you should build 2.7.0-SNAPSHOT locally or add the following repository to your ~/.m2/settings.xml**: 
-```xml
-<repository>
-    <id>apache.snapshots.https</id>
-    <name>Apache Development Snapshot Repository</name>
-    <url>https://repository.apache.org/content/repositories/snapshots</url>
-    <releases>
-        <enabled>false</enabled>
-    </releases>
-    <snapshots>
-        <enabled>true</enabled>
-    </snapshots>
-</repository>
-```
+Samples for Apache Dubbo (incubating)
+
+[![Build Status](https://travis-ci.org/apache/incubator-dubbo-samples.svg?branch=master)](https://travis-ci.org/apache/incubator-dubbo-samples) 
+[![Gitter](https://badges.gitter.im/alibaba/dubbo.svg)](https://gitter.im/alibaba/dubbo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+![license](https://img.shields.io/github/license/apache/incubator-dubbo-samples.svg)
+
+This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, check README in each individual sub projects. 
+
+Pls. cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/user/quick-start.html) for the details.
+

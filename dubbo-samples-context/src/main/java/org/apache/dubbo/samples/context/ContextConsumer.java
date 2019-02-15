@@ -17,8 +17,9 @@
 
 package org.apache.dubbo.samples.context;
 
-import org.apache.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.context.api.ContextService;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ContextConsumer {
@@ -31,11 +32,8 @@ public class ContextConsumer {
         String hello = contextService.sayHello("world"); // call remote method
 
         boolean isConsumerSide = RpcContext.getContext().isConsumerSide();
-        System.out.println("isConsumerSide:" + isConsumerSide);
         String application = RpcContext.getContext().getUrl().getParameter("application");
-        System.out.println("application:" + application);
         String serverIP = RpcContext.getContext().getRemoteHost();
-        System.out.println("serverIP:" + serverIP);
 
         System.out.println(hello); // get result
 

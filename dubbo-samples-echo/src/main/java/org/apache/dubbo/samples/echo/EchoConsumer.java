@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.echo;
 
-import org.apache.dubbo.rpc.service.EchoService;
+import com.alibaba.dubbo.rpc.service.EchoService;
 import org.apache.dubbo.samples.echo.api.DemoService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -35,9 +35,5 @@ public class EchoConsumer {
         EchoService echoService = (EchoService) demoService;
         String status = (String)echoService.$echo("OK");
         System.out.println("echo result: " + status);
-
-
-
-
     }
 }

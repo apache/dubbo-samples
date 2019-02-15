@@ -27,8 +27,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.dubbo.rpc.protocol.rest.support.ContentType;
 import org.apache.dubbo.samples.rest.api.User;
+import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
 
 @Path("u")
 @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})

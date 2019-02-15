@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~
-  ~   Licensed to the Apache Software Foundation (ASF) under one or more
-  ~   contributor license agreements.  See the NOTICE file distributed with
-  ~   this work for additional information regarding copyright ownership.
-  ~   The ASF licenses this file to You under the Apache License, Version 2.0
-  ~   (the "License"); you may not use this file except in compliance with
-  ~   the License.  You may obtain a copy of the License at
-  ~
-  ~       http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~   Unless required by applicable law or agreed to in writing, software
-  ~   distributed under the License is distributed on an "AS IS" BASIS,
-  ~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~   See the License for the specific language governing permissions and
-  ~   limitations under the License.
-  ~
-  -->
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
 
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -29,20 +26,32 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>dubbo-samples-annotation</module>
+        <module>dubbo-samples-api</module>
         <module>dubbo-samples-async</module>
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-basic</module>
         <module>dubbo-samples-cache</module>
+        <module>dubbo-samples-context</module>
         <module>dubbo-samples-callback</module>
         <module>dubbo-samples-direct</module>
+        <module>dubbo-samples-docker</module>
         <module>dubbo-samples-echo</module>
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
+        <module>dubbo-samples-http</module>
+        <module>dubbo-samples-local</module>
         <module>dubbo-samples-merge</module>
         <module>dubbo-samples-mock</module>
+        <module>dubbo-samples-monitor</module>
+        <module>dubbo-samples-multi-registry</module>
         <module>dubbo-samples-notify</module>
         <module>dubbo-samples-rest</module>
+        <module>dubbo-samples-scala</module>
+        <module>dubbo-samples-spring-hystrix</module>
+        <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-stub</module>
+        <module>dubbo-samples-switch-serialization-thread</module>
+        <module>dubbo-samples-thrift</module>
         <module>dubbo-samples-validation</module>
         <module>dubbo-samples-version</module>
         <module>dubbo-samples-docker</module>
@@ -60,6 +69,8 @@
         <module>dubbo-samples-generic-call</module>
         <module>dubbo-samples-resilience4j</module>
         <module>dubbo-samples-SPI-compatible</module>
+        <module>dubbo-samples-zipkin</module>
+        <module>dubbo-samples-zookeeper</module>
     </modules>
 
     <properties>
@@ -92,6 +103,19 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.16.Final</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-bom</artifactId>
                 <version>${dubbo.version}</version>
@@ -102,6 +126,12 @@
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
                 <version>${dubbo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.thrift</groupId>
+                        <artifactId>libthrift</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
@@ -206,6 +236,14 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-configcenter-zookeeper</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
     </dependencies>
 
 
@@ -274,13 +312,24 @@
                                 <exclude>**/codestyle/*</exclude>
                                 <exclude>**/resources/META-INF/**</exclude>
                                 <exclude>**/webapp/swagger/**</exclude>
+                                <exclude>**/org/apache/dubbo/samples/rpc/nativethrift/api/DemoService.java</exclude>
                             </excludes>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
     <profiles>
         <profile>
             <id>checkstyle</id>

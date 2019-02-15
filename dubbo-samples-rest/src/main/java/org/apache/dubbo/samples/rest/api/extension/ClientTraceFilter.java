@@ -18,6 +18,8 @@
  */
 package org.apache.dubbo.samples.rest.api.extension;
 
+import java.io.IOException;
+
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.ClientResponseContext;
@@ -25,13 +27,12 @@ import javax.ws.rs.client.ClientResponseFilter;
 
 public class ClientTraceFilter implements ClientRequestFilter, ClientResponseFilter {
 
-    @Override
-    public void filter(ClientRequestContext requestContext) {
+    public void filter(ClientRequestContext requestContext) throws IOException {
         System.out.println("Client request filter invoked");
     }
 
-    @Override
-    public void filter(ClientRequestContext clientRequestContext, ClientResponseContext clientResponseContext) {
+    public void filter(ClientRequestContext clientRequestContext, ClientResponseContext clientResponseContext) throws
+        IOException {
         System.out.println("Client response filter invoked");
     }
 }

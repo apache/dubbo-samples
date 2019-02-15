@@ -18,5 +18,5 @@
 package org.apache.dubbo.samples.context.api;
 
 public interface ContextService {
-    String sayHello(String name);
+    public String sayHello(String name);
 }

@@ -1,32 +1,32 @@
-有些部署场景需要动态指定服务注册的地址，如docker bridge网络模式下要指定注册宿主机ip以实现外网通信。dubbo提供了两对启动阶段的系统属性，用于设置对外通信的ip、port地址   
-* DUBBO_IP_TO_REGISTRY --- 注册到注册中心的ip地址  
-* DUBBO_PORT_TO_REGISTRY --- 注册到注册中心的port端口  
-* DUBBO_IP_TO_BIND --- 监听ip地址  
-* DUBBO_PORT_TO_BIND --- 监听port端口 
+Some deployment scenarios need to dynamically specify the address of service registration. For example, docker bridge network mode need to specify a registered host IP for external network communication. Dubbo provides two pairs of system attributes in the startup phase, which are used to set the IP and port addresses of external communication. 
+* DUBBO_IP_TO_REGISTRY --- Registering to the IP address of the registration center  
+* DUBBO_PORT_TO_REGISTRY --- Registering to the port of the registration center 
+* DUBBO_IP_TO_BIND --- Listening IP addresses  
+* DUBBO_PORT_TO_BIND --- Listening ports 
 
-> 1. 以上四个配置项均为可选项，如不配置dubbo会自动获取ip与端口，请根据具体的部署场景灵活选择配置。 
-> 2. dubbo支持多协议，**如果一个应用同时暴露多个不同协议服务，且需要为每个服务单独指定ip或port，请分别在以上属性前加协议前缀。** 如：  
-> * HESSIAN_DUBBO_PORT_TO_BIND    hessian协议绑定的port
-> * DUBBO_DUBBO_PORT_TO_BIND      dubbo协议绑定的port
-> * HESSIAN_DUBBO_IP_TO_REGISTRY  hessian协议注册的ip
-> * DUBBO_DUBBO_PORT_TO_BIND      dubbo协议注册的ip
-> 3. `PORT_TO_REGISTRY`或`IP_TO_REGISTRY`不会用作默认`PORT_TO_BIND`或`IP_TO_BIND`，但是反过来是成立的
-> * 如设置`PORT_TO_REGISTRY=20881` `IP_TO_REGISTRY=30.5.97.6`，则`PORT_TO_BIND` `IP_TO_BIND`不受影响
-> * 如果设置`PORT_TO_BIND=20881` `IP_TO_BIND=30.5.97.6`，则默认`PORT_TO_REGISTRY=20881` `IP_TO_REGISTRY=30.5.97.6`
+> 1. The above four configurations are optional. Dubbo will automatically get IP and port if there is no configuration. Please choose them flexibly according to deployment scenarios. 
+> 2. Dubbo supports multi-protocol. **If an application exposes multiple different protocol services simultaneously and need to specify IP or port separately for each service. Please add the protocol prefix before the above attributes separately.** For example:
+> * HESSIAN_DUBBO_PORT_TO_BIND    hessian protocol bound port
+> * DUBBO_DUBBO_PORT_TO_BIND      dubbo protocol bound port
+> * HESSIAN_DUBBO_IP_TO_REGISTRY  hessian protocol registered IP
+> * DUBBO_DUBBO_IP_TO_REGISTRY      dubbo protocol registered IP
+> 3. `PORT_TO_REGISTRY` or `IP_TO_REGISTRY`won’t be used as default `PORT_TO_BIND` or `IP_TO_BIND`，But the reverse is true.
+> * If set`PORT_TO_REGISTRY=20881` `IP_TO_REGISTRY=30.5.97.6`，then `PORT_TO_BIND` `IP_TO_BIND`won’t be affected.
+> * If set`PORT_TO_BIND=20881` `IP_TO_BIND=30.5.97.6`，then `PORT_TO_REGISTRY=20881` `IP_TO_REGISTRY=30.5.97.6` by default.
 > 
 
-[dubbo-docker-sample](https://github.com/dubbo/dubbo-docker-sample)工程本地运行流程： 
+[dubbo-docker-sample](https://github.com/dubbo/dubbo-docker-sample) local operation process： 
  
-1. clone工程到本地 
+1. clone project to local
 ```sh
 git clone git@github.com:dubbo/dubbo-docker-sample.git
 cd dubbo-docker-sample
 ```
-2. 本地maven打包  
+2. package local maven
 ```sh
 mvn clean install  
 ```
-3. docker build构建镜像  
+3. build a mirror by docker build
 ```sh
 docker build --no-cache -t dubbo-docker-sample . 
 ```
@@ -37,23 +37,24 @@ ADD target/dubbo-docker-sample-0.0.1-SNAPSHOT.jar app.jar
 ENV JAVA_OPTS=""
 ENTRYPOINT exec java $JAVA_OPTS -jar /app.jar
 ```
-4. 从镜像创建容器并运行
+4. Create and run containers from mirroring
 ```sh
-# 由于我们使用zk注册中心，先启动zk容器
+# Since we use the zk registration center, we start zk container first
 docker run --name zkserver --restart always -d zookeeper:3.4.9
 ```
 ```sh
 docker run -e DUBBO_IP_TO_REGISTRY=30.5.97.6 -e DUBBO_PORT_TO_REGISTRY=20881 -p 30.5.97.6:20881:20880 --link zkserver:zkserver -it --rm dubbo-docker-sample
 ```
-> 假设宿主机ip为30.5.97.6。    
-> 通过环境变量 `DUBBO_IP_TO_REGISTRY=30.5.97.6` `DUBBO_PORT_TO_REGISTRY=20880` 设置provider注册到注册中心的ip、port      
-> 通过`-p 30.5.97.6:20881:20880`做端口映射，其中20880是dubbo自动选择的监听port，由于没有设置监听ip，将监听0.0.0.0即所有ip地址  
-> 启动后provider的注册地址为：30.5.97.6:20881，容器的监听地址为：0.0.0.0:20880  
 
-5. 测试
-从另外一个宿主机或容器执行
+> Suppose the host IP is 30.5.97.6.    
+> set the provider to register the IP address and port of the registration center by environment variables `DUBBO_IP_TO_REGISTRY=30.5.97.6` `DUBBO_PORT_TO_REGISTRY=20881`    
+> Implement the port mapping by`-p 30.5.97.6:20881:20880`, where 20800 is the listening port automatically selected by dubbo. There is no monitoring IP configuration, so it will listen 0.0.0.0 (all IP).
+> After startup, the registered address of provider is 30.5.97.6:20881, and the listening address of the container is: 0.0.0.0:20880 
+
+5. Test
+Execute from another host or container
 ```sh
 telnet 30.5.97.6 20881
 ls
-invoke com.alibaba.dubbo.test.docker.DemoService.hello("world")
+invoke org.apache.dubbo.test.docker.DemoService.hello("world")
 ```

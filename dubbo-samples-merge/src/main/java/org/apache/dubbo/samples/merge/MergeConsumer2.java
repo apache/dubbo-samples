@@ -21,8 +21,6 @@ package org.apache.dubbo.samples.merge;
 
 import java.util.List;
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.merge.api.MergeService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -38,7 +36,6 @@ public class MergeConsumer2 {
         MergeService mergeService = (MergeService) context.getBean("mergeService");
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
             try {
-                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "vvvttt");
                 List<String> result = mergeService.mergeResult();
                 System.out.println("(" + i + ") " + result);
                 Thread.sleep(1000);

@@ -1,0 +1,11 @@
+language: java
+sudo: false # faster builds
+
+jdk:
+    - oraclejdk11
+    - oraclejdk8
+
+install: true
+
+script:
+    - ./mvnw clean install 

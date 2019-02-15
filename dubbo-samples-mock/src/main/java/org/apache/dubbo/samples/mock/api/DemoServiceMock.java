@@ -17,6 +17,8 @@
 
 package org.apache.dubbo.samples.mock.api;
 
+import org.apache.dubbo.samples.mock.api.DemoService;
+
 public class DemoServiceMock implements DemoService{
 
     public String sayHello(String name) {

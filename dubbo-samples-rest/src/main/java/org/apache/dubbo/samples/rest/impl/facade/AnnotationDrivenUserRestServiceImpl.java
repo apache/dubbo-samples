@@ -18,20 +18,26 @@
  */
 package org.apache.dubbo.samples.rest.impl.facade;
 
-import org.apache.dubbo.rpc.protocol.rest.support.ContentType;
-import org.apache.dubbo.samples.rest.api.User;
-import org.apache.dubbo.samples.rest.api.UserService;
-import org.apache.dubbo.samples.rest.api.facade.RegistrationResult;
-import org.apache.dubbo.samples.rest.api.facade.UserRestService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
+import com.alibaba.dubbo.config.annotation.Service;
+import org.apache.dubbo.samples.rest.api.User;
+import org.apache.dubbo.samples.rest.api.UserService;
+import org.apache.dubbo.samples.rest.api.facade.RegistrationResult;
+import org.apache.dubbo.samples.rest.api.facade.UserRestService;
+import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service(protocol = {"rest", "dubbo"}, group = "annotationConfig", validation = "true")
+@Path("customers")
+@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 @Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
 public class AnnotationDrivenUserRestServiceImpl implements UserRestService {
 

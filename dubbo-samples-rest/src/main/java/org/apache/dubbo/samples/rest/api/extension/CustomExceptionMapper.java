@@ -18,15 +18,14 @@
  */
 package org.apache.dubbo.samples.rest.api.extension;
 
-import org.apache.dubbo.rpc.RpcContext;
-
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
+import com.alibaba.dubbo.rpc.RpcContext;
+
 public class CustomExceptionMapper implements ExceptionMapper<NotFoundException> {
 
-    @Override
     public Response toResponse(NotFoundException e) {
         System.out.println("Exception mapper successfully got an exception: " + e + ":" + e.getMessage());
         System.out.println("Client IP is " + RpcContext.getContext().getRemoteAddressString());

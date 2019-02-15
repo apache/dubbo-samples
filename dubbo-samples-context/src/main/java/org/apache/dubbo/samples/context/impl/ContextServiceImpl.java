@@ -17,11 +17,10 @@
 
 package org.apache.dubbo.samples.context.impl;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.context.api.ContextService;
 
-import org.apache.dubbo.rpc.RpcContext;
-
-public class ContextServiceImpl implements ContextService {
+public class ContextServiceImpl implements ContextService{
 
     @Override
     public String sayHello(String name) {
