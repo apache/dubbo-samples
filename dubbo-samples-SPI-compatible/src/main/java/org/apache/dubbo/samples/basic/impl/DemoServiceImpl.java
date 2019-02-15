@@ -17,24 +17,21 @@
  *
  */
 
-package org.apache.dubbo.samples.notify.impl;
+package org.apache.dubbo.samples.basic.impl;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.dubbo.samples.basic.api.DemoService;
 
-import org.apache.dubbo.samples.notify.api.Notify;
+import com.alibaba.dubbo.rpc.RpcContext;
 
-public class NotifyImpl implements Notify {
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    public Map<Integer, String> ret = new HashMap<Integer, String>();
-    @Override
-    public void onreturn(String name, int id) {
-        ret.put(id, name);
-        System.out.println("onreturn: " + name);
+public class DemoServiceImpl implements DemoService {
+
+    public String sayHello(String name) {
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
+            .getContext().getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
     }
 
-    @Override
-    public void onthrow(Throwable ex, String name, int id) {
-        System.out.println("onthrow: " + name);
-    }
 }

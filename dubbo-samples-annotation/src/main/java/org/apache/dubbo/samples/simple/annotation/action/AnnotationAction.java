@@ -17,24 +17,24 @@
  *
  */
 
-package org.apache.dubbo.samples.notify.impl;
+package org.apache.dubbo.samples.simple.annotation.action;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.samples.simple.annotation.api.AnnotationService;
 
-import org.apache.dubbo.samples.notify.api.Notify;
+import org.springframework.stereotype.Component;
 
-public class NotifyImpl implements Notify {
+/**
+ * AnnotationAction
+ */
+@Component("annotationAction")
+public class AnnotationAction {
 
-    public Map<Integer, String> ret = new HashMap<Integer, String>();
-    @Override
-    public void onreturn(String name, int id) {
-        ret.put(id, name);
-        System.out.println("onreturn: " + name);
+    @Reference
+    private AnnotationService annotationService;
+
+    public String doSayHello(String name) {
+        return annotationService.sayHello(name);
     }
 
-    @Override
-    public void onthrow(Throwable ex, String name, int id) {
-        System.out.println("onthrow: " + name);
-    }
 }

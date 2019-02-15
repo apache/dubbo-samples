@@ -17,10 +17,8 @@
  *
  */
 
-package org.apache.dubbo.samples.http.api;
+package org.apache.dubbo.samples.generic.api;
 
-public interface DemoService {
-
-    String sayHello(String name);
-
+public interface IService<P, V> {
+    V get(P params);
 }

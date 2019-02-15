@@ -21,7 +21,6 @@ package org.apache.dubbo.samples.attachment;
 
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.attachment.api.AttachmentService;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 

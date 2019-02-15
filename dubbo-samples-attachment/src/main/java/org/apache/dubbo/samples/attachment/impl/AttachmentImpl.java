@@ -19,8 +19,9 @@
 
 package org.apache.dubbo.samples.attachment.impl;
 
-import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.attachment.api.AttachmentService;
+
+import org.apache.dubbo.rpc.RpcContext;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
