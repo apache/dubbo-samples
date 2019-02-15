@@ -31,11 +31,13 @@ import javax.ws.rs.ext.WriterInterceptorContext;
 @Priority(Priorities.USER)
 public class DynamicTraceInterceptor implements ReaderInterceptor, WriterInterceptor {
 
+    @Override
     public Object aroundReadFrom(ReaderInterceptorContext readerInterceptorContext) throws IOException, WebApplicationException {
         System.out.println("Dynamic reader interceptor invoked");
         return readerInterceptorContext.proceed();
     }
 
+    @Override
     public void aroundWriteTo(WriterInterceptorContext writerInterceptorContext) throws IOException, WebApplicationException {
         System.out.println("Dynamic writer interceptor invoked");
         writerInterceptorContext.proceed();

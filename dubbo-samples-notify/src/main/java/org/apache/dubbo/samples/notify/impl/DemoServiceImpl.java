@@ -22,7 +22,7 @@ package org.apache.dubbo.samples.notify.impl;
 import org.apache.dubbo.samples.notify.api.DemoService;
 
 
-public class DemoServiceImpl implements DemoService{
+public class DemoServiceImpl implements DemoService {
 
     public String sayHello(int id) {
         return "aaa";

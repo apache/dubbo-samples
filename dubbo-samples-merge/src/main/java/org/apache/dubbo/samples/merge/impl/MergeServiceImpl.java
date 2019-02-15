@@ -29,6 +29,7 @@ import org.apache.dubbo.samples.merge.api.MergeService;
  */
 public class MergeServiceImpl implements MergeService {
 
+    @Override
     public List<String> mergeResult() {
         List<String> menus = new ArrayList<String>();
         menus.add("group-1.1");

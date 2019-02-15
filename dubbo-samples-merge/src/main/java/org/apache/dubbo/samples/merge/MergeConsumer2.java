@@ -19,11 +19,11 @@
 
 package org.apache.dubbo.samples.merge;
 
-import java.util.List;
-
 import org.apache.dubbo.samples.merge.api.MergeService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.List;
 
 /**
  * MergeConsumer2

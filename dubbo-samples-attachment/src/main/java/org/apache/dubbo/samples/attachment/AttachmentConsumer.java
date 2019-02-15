@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.attachment;
 
-import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.attachment.api.AttachmentService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -32,16 +32,12 @@ public class AttachmentConsumer {
         context.start();
         AttachmentService attachmentService = (AttachmentService) context.getBean("demoService"); // get remote service proxy
 
-        while(true){
-            try{
-                Thread.sleep(1000);
-                String consumerName = context.getBeanDefinitionNames()[0];
-                RpcContext.getContext().setAttachment("name",  consumerName);
-                String hello = attachmentService.sayHello("world");
-                System.out.println(hello);
-            }catch (Throwable throwable){
-                throwable.printStackTrace();
-            }
-        }
+        RpcContext.getContext().setAttachment("index", "1");
+        String hello = attachmentService.sayHello("world");
+        System.out.println(hello); // get result
+
+
+        hello = attachmentService.sayHello("world"); //attachment only affective once
+        System.out.println(hello); // get result
     }
 }

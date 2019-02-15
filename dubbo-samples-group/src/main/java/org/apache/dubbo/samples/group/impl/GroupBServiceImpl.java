@@ -19,11 +19,12 @@
 
 package org.apache.dubbo.samples.group.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.apache.dubbo.samples.group.api.GroupService;
 
 import com.alibaba.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.group.api.GroupService;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class GroupBServiceImpl implements GroupService{

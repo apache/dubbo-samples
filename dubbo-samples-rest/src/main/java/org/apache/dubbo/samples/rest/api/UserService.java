@@ -19,10 +19,10 @@
 package org.apache.dubbo.samples.rest.api;
 
 
-import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.dubbo.rpc.protocol.rest.support.ContentType;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

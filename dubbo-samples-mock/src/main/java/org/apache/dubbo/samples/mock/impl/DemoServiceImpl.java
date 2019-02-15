@@ -19,7 +19,7 @@ package org.apache.dubbo.samples.mock.impl;
 
 import org.apache.dubbo.samples.mock.api.DemoService;
 
-public class DemoServiceImpl implements DemoService{
+public class DemoServiceImpl implements DemoService {
 
     public String sayHello(String name) {
         try {

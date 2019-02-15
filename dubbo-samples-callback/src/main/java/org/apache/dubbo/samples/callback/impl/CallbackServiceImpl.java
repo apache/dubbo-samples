@@ -35,21 +35,19 @@ public class CallbackServiceImpl implements CallbackService {
     private final Map<String, CallbackListener> listeners = new ConcurrentHashMap<String, CallbackListener>();
 
     public CallbackServiceImpl() {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                while (true) {
-                    try {
-                        for (Map.Entry<String, CallbackListener> entry : listeners.entrySet()) {
-                            try {
-                                entry.getValue().changed(getChanged(entry.getKey()));
-                            } catch (Throwable t) {
-                                listeners.remove(entry.getKey());
-                            }
+        Thread t = new Thread(() -> {
+            while (true) {
+                try {
+                    for (Map.Entry<String, CallbackListener> entry : listeners.entrySet()) {
+                        try {
+                            entry.getValue().changed(getChanged(entry.getKey()));
+                        } catch (Throwable t1) {
+                            listeners.remove(entry.getKey());
                         }
-                        Thread.sleep(5000); // timely trigger change event
-                    } catch (Throwable t) {
-                        t.printStackTrace();
                     }
+                    Thread.sleep(5000); // timely trigger change event
+                } catch (Throwable t1) {
+                    t1.printStackTrace();
                 }
             }
         });
@@ -57,6 +55,7 @@ public class CallbackServiceImpl implements CallbackService {
         t.start();
     }
 
+    @Override
     public void addListener(String key, CallbackListener listener) {
         listeners.put(key, listener);
         listener.changed(getChanged(key)); // send notification for change

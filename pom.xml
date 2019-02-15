@@ -54,6 +54,15 @@
         <module>dubbo-samples-thrift</module>
         <module>dubbo-samples-validation</module>
         <module>dubbo-samples-version</module>
+        <module>dubbo-samples-compatible</module>
+        <module>dubbo-samples-configcenter</module>
+        <module>dubbo-samples-governance</module>
+        <module>dubbo-samples-metadata-report</module>
+        <module>dubbo-samples-simplified-registry</module>
+        <module>dubbo-samples-chain</module>
+        <module>dubbo-samples-generic-call</module>
+        <module>dubbo-samples-resilience4j</module>
+        <module>dubbo-samples-SPI-compatible</module>
         <module>dubbo-samples-zipkin</module>
         <module>dubbo-samples-zookeeper</module>
     </modules>
@@ -62,17 +71,20 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <dubbo.version>2.6.5</dubbo.version>
-        <dubbo.rpc.version>2.6.5</dubbo.rpc.version>
-        <curator.version>2.12.0</curator.version>
+        <dubbo.version>2.7.0</dubbo.version>
+        <dubbo.rpc.version>2.7.0</dubbo.rpc.version>
+        <zookeeper.version>3.4.13</zookeeper.version>
+        <curator.version>4.0.1</curator.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
-        <curator-client.version>2.12.0</curator-client.version>
+        <curator-client.version>4.0.1</curator-client.version>
         <swagger.version>1.5.19</swagger.version>
-        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
+        <tomcat.version>7.0.88</tomcat.version>
+        <servlet.version>3.0.1</servlet.version>
         <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
+        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -98,7 +110,14 @@
                 <version>4.1.16.Final</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
                 <version>${dubbo.version}</version>
                 <exclusions>
@@ -109,14 +128,25 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
+                <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-rpc-rest</artifactId>
                 <version>${dubbo.rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
                 <version>${curator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -137,6 +167,27 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-client</artifactId>
                 <version>${curator-client.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-logging-juli</artifactId>
+                <version>${tomcat.version}</version>
             </dependency>
             <!-- swagger -->
             <dependency>
@@ -161,11 +212,23 @@
                     <groupId>io.netty</groupId>
                     <artifactId>netty</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.zookeeper</groupId>
+                    <artifactId>zookeeper</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-configcenter-zookeeper</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -177,7 +240,18 @@
         </dependency>
     </dependencies>
 
+
+
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -239,15 +313,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <profiles>

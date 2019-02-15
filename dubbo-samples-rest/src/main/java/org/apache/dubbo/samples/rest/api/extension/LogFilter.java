@@ -18,13 +18,15 @@
  */
 package org.apache.dubbo.samples.rest.api.extension;
 
-import com.alibaba.dubbo.rpc.Filter;
-import com.alibaba.dubbo.rpc.Invocation;
-import com.alibaba.dubbo.rpc.Invoker;
-import com.alibaba.dubbo.rpc.Result;
-import com.alibaba.dubbo.rpc.RpcException;
+
+import org.apache.dubbo.rpc.Filter;
+import org.apache.dubbo.rpc.Invocation;
+import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.Result;
+import org.apache.dubbo.rpc.RpcException;
 
 public class LogFilter implements Filter {
+    @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         System.out.println(invocation.getMethodName() + "is invoked");
         return invoker.invoke(invocation);

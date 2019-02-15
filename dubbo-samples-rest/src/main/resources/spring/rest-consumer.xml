@@ -30,6 +30,6 @@
                      interface="org.apache.dubbo.samples.rest.api.facade.AnotherUserRestService"/>
 
     <!-- directly connect to provider to simulate the access to non-dubbo rest services -->
-    <!--<dubbo:reference id="anotherUserRestService" interface="com.alibaba.dubbo.demo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
+    <!--<dubbo:reference id="anotherUserRestService" interface="org.apache.dubbo.demo.user.facade.AnotherUserRestService" url="rest://localhost:8888/services/"/>-->
 
 </beans>

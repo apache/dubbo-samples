@@ -23,6 +23,7 @@ import org.apache.dubbo.samples.version.api.VersionService;
 
 public class VersionServiceImpl implements VersionService {
 
+    @Override
     public String sayHello(String name) {
         return "hello, " + name;
     }

@@ -21,7 +21,7 @@ package org.apache.dubbo.samples.stub.impl;
 
 import org.apache.dubbo.samples.stub.api.DemoService;
 
-public class DemoServiceStub implements DemoService{
+public class DemoServiceStub implements DemoService {
 
     private final DemoService demoService;
 
@@ -29,6 +29,7 @@ public class DemoServiceStub implements DemoService{
         this.demoService = demoService;
     }
 
+    @Override
     public String sayHello(String name) {
         //client check code goes here
         System.out.println("stub sayHello");
