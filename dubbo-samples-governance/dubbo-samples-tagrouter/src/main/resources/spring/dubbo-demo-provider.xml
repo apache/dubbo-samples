@@ -24,7 +24,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <!-- optional provider's application name, used for tracing dependency relationship -->
     <dubbo:application name="governance-tagrouter-provider"/>
 
     <!-- optional -->

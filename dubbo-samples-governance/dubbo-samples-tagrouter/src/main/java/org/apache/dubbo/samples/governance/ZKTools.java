@@ -40,8 +40,14 @@ public class ZKTools {
         String str = "---\n" +
                 "force: false\n" +
                 "runtime: true\n" +
-                "enabled: true\n" + "priority: 1\n" + "key: governance-tagrouter-provider\n" +
-                "tags:\n" + "  - name: tag1\n" + "    addresses: [\"30.5.121.151:20880\"]\n" + "  - name: tag2\n" + "    addresses: [\"30.5.121.151:20881\"]\n" +
+                "enabled: true\n" +
+                "priority: 1\n" +
+                "key: governance-tagrouter-provider\n" +
+                "tags:\n" +
+                "  - name: tag1\n" +
+                "    addresses: [\"192.168.0.102:20880\"]\n" +
+                "  - name: tag2\n" +
+                "    addresses: [\"192.168.0.102:20881\"]\n" +
                 "...";
 
         System.out.println(str);

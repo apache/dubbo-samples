@@ -42,9 +42,8 @@ public class ZKTools {
     }
 
     public static void generateAppLevelOverride() {
-        String str = "# Execute on governance-appoverride-provider only\n" +
-                "# the governance-appoverride-provider instances on those provides who's port is 20880 will be lifted to 1000\n" +
-                "# this will take effect on all services on governance-appoverride-provider.\n" +
+        String str = "# Execute on governance-appoverride-provider only and only those instances who's port is 20880 will be lifted to 1000.\n" +
+                "# This will take effect on all services in governance-appoverride-provider." +
                 "---\n" + "configVersion: v2.7\n" +
                 "scope: application\n" +
                 "key: governance-appoverride-provider\n" +

@@ -45,10 +45,10 @@ public class FrontendConsumer {
 
 
 //                cat(context);
-        dog(context);
+//        dog(context);
 //                tiger(context);
 //                lion(context);
-//        chinese(context);
+        chinese(context);
 //        american(context);
 
     }

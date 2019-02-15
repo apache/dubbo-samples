@@ -52,7 +52,7 @@
     <dubbo:service interface="org.apache.dubbo.samples.rest.api.UserService" ref="userService" protocol="dubbo"
                    group="xmlConfig"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.rest.api.facade.UserRestService" ref="userRestService"
+    <dubbo:service path="test" interface="org.apache.dubbo.samples.rest.api.facade.UserRestService" ref="userRestService"
                    protocol="rest" validation="true"/>
     <dubbo:service interface="org.apache.dubbo.samples.rest.api.facade.AnotherUserRestService"
                    ref="anotherUserRestService" protocol="rest,dubbo" timeout="2000" connections="100"

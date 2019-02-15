@@ -17,9 +17,8 @@
 #
 #
 
-# Execute on governance-appoverride-provider only
-# the governance-appoverride-provider instances on those provides who's port is 20880 will be lifted to 1000
-# this will take effect on all services on governance-appoverride-provider.
+# Execute on governance-appoverride-provider only and only those instances who's port is 20880 will be lifted to 1000.
+# This will take effect on all services in governance-appoverride-provider.
 ---
 apiVersion: v2.7
 scope: application
@@ -27,7 +26,7 @@ key: governance-appoverride-provider
 enabled: true
 configs:
 - addresses: ["0.0.0.0:20880"]
-  side: consumer
+  side: provider
   parameters:
     weight: 1000
 ...

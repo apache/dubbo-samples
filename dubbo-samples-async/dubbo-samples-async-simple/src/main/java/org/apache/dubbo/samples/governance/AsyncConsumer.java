@@ -24,6 +24,7 @@ import org.apache.dubbo.samples.governance.api.AsyncService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
@@ -37,7 +38,17 @@ public class AsyncConsumer {
 
         final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
 
-        Future<String> f = RpcContext.getContext().asyncCall(() -> asyncService.sayHello("async call request"));
+        asyncService.sayHello("world");
+        CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
+        helloFuture.whenComplete((retValue, exception) -> {
+            if (exception == null) {
+                System.out.println(retValue);
+            } else {
+                exception.printStackTrace();
+            }
+        });
+
+        CompletableFuture<String> f = RpcContext.getContext().asyncCall(() -> asyncService.sayHello("async call request"));
 
         System.out.println("async call ret :" + f.get());
 
