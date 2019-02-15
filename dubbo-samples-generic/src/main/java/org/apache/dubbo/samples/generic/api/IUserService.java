@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.generic.api;
 
-import java.io.Serializable;
-
 import org.apache.dubbo.samples.generic.api.IUserService.Params;
 import org.apache.dubbo.samples.generic.api.IUserService.User;
+
+import java.io.Serializable;
 
 public interface IUserService extends IService<Params, User> {
 

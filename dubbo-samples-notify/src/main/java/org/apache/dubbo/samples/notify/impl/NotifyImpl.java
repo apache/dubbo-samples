@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.notify.impl;
 
+import org.apache.dubbo.samples.notify.api.Notify;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.dubbo.samples.notify.api.Notify;
 
 public class NotifyImpl implements Notify {
 

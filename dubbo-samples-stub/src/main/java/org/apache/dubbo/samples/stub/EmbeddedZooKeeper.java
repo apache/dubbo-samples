@@ -15,11 +15,6 @@
  */
 package org.apache.dubbo.samples.stub;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.Properties;
-import java.util.UUID;
-
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
@@ -28,6 +23,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.util.ErrorHandler;
 import org.springframework.util.SocketUtils;
+
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Properties;
+import java.util.UUID;
 
 /**
  * from: https://github.com/spring-projects/spring-xd/blob/v1.3.1.RELEASE/spring-xd-dirt/src/main/java/org/springframework/xd/dirt/zookeeper/ZooKeeperUtils.java
