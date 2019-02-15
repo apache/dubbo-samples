@@ -54,12 +54,6 @@
         <module>dubbo-samples-thrift</module>
         <module>dubbo-samples-validation</module>
         <module>dubbo-samples-version</module>
-        <module>dubbo-samples-docker</module>
-        <module>dubbo-samples-context</module>
-        <module>dubbo-samples-http</module>
-        <module>dubbo-samples-api</module>
-        <module>dubbo-samples-spring-hystrix</module>
-        <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-compatible</module>
         <module>dubbo-samples-configcenter</module>
         <module>dubbo-samples-governance</module>
@@ -319,15 +313,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <profiles>

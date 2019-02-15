@@ -19,11 +19,12 @@
 
 package org.apache.dubbo.samples.direct.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.apache.dubbo.samples.direct.api.DirectService;
 
 import com.alibaba.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.direct.api.DirectService;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class DirectServiceImpl implements DirectService{

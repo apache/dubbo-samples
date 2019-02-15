@@ -18,11 +18,11 @@
  */
 package org.apache.dubbo.samples.rest.api.extension;
 
+import com.alibaba.dubbo.rpc.RpcContext;
+
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
-
-import com.alibaba.dubbo.rpc.RpcContext;
 
 public class CustomExceptionMapper implements ExceptionMapper<NotFoundException> {
 

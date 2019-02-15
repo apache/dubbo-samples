@@ -18,12 +18,11 @@
  */
 package org.apache.dubbo.samples.rest.api.extension;
 
-import java.io.IOException;
-
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.ClientResponseContext;
 import javax.ws.rs.client.ClientResponseFilter;
+import java.io.IOException;
 
 public class ClientTraceFilter implements ClientRequestFilter, ClientResponseFilter {
 

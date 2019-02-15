@@ -25,7 +25,6 @@ import org.apache.dubbo.samples.governance.api.AsyncService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 /**
  * CallbackConsumer
