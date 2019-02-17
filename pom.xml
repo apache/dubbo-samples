@@ -31,22 +31,32 @@
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-basic</module>
         <module>dubbo-samples-cache</module>
-        <module>dubbo-samples-context</module>
+        <module>dubbo-samples-chain</module>
         <module>dubbo-samples-callback</module>
+        <module>dubbo-samples-compatible</module>
+        <module>dubbo-samples-configcenter</module>
+        <module>dubbo-samples-context</module>
         <module>dubbo-samples-direct</module>
         <module>dubbo-samples-docker</module>
         <module>dubbo-samples-echo</module>
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
+        <module>dubbo-samples-generic-call</module>
+        <module>dubbo-samples-governance</module>
         <module>dubbo-samples-http</module>
+        <module>dubbo-samples-jetty</module>
         <module>dubbo-samples-local</module>
         <module>dubbo-samples-merge</module>
+        <module>dubbo-samples-metadata-report</module>
         <module>dubbo-samples-mock</module>
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-multi-registry</module>
         <module>dubbo-samples-notify</module>
+        <module>dubbo-samples-resilience4j</module>
         <module>dubbo-samples-rest</module>
         <module>dubbo-samples-scala</module>
+        <module>dubbo-samples-simplified-registry</module>
+        <module>dubbo-samples-SPI-compatible</module>
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-stub</module>
@@ -54,15 +64,6 @@
         <module>dubbo-samples-thrift</module>
         <module>dubbo-samples-validation</module>
         <module>dubbo-samples-version</module>
-        <module>dubbo-samples-compatible</module>
-        <module>dubbo-samples-configcenter</module>
-        <module>dubbo-samples-governance</module>
-        <module>dubbo-samples-metadata-report</module>
-        <module>dubbo-samples-simplified-registry</module>
-        <module>dubbo-samples-chain</module>
-        <module>dubbo-samples-generic-call</module>
-        <module>dubbo-samples-resilience4j</module>
-        <module>dubbo-samples-SPI-compatible</module>
         <module>dubbo-samples-zipkin</module>
         <module>dubbo-samples-zookeeper</module>
     </modules>
