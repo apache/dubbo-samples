@@ -32,6 +32,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
  */
 public class HelloWorld extends AbstractHandler
 {
+    @Override
     public void handle(String target,
                        Request baseRequest,
                        HttpServletRequest request,
