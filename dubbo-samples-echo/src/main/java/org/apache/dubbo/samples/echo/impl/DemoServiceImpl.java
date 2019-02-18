@@ -19,12 +19,11 @@
 
 package org.apache.dubbo.samples.echo.impl;
 
-import org.apache.dubbo.samples.echo.api.DemoService;
-
-import org.apache.dubbo.rpc.RpcContext;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.echo.api.DemoService;
 
 public class DemoServiceImpl implements DemoService {
 
