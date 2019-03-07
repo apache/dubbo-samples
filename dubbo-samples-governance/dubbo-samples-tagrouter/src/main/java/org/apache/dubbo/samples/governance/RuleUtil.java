@@ -22,10 +22,13 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  *
  */
-public class ZKTools {
+public class RuleUtil {
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
@@ -33,34 +36,35 @@ public class ZKTools {
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
 
-        generateAppevelRouter();
+        generateRule();
+        System.in.read();
+        deleteRule();
     }
 
-    public static void generateAppevelRouter() {
-        String str = "---\n" +
-                "force: false\n" +
-                "runtime: true\n" +
-                "enabled: true\n" +
-                "priority: 1\n" +
-                "key: governance-tagrouter-provider\n" +
-                "tags:\n" +
-                "  - name: tag1\n" +
-                "    addresses: [\"192.168.0.102:20880\"]\n" +
-                "  - name: tag2\n" +
-                "    addresses: [\"192.168.0.102:20881\"]\n" +
-                "...";
-
-        System.out.println(str);
-
-        try {
+    public static void generateRule() {
+        try (InputStream yamlStream = RuleUtil.class.getResourceAsStream("/dubbo-routers-tag.yml")) {
             String path = "/dubbo/config/governance-tagrouter-provider/tag-router";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
-            setData(path, str);
+            setData(path, streamToString(yamlStream));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void deleteRule() throws Exception{
+        String path = "/dubbo/config/governance-tagrouter-provider/tag-router";
+        if (client.checkExists().forPath(path) == null) {
+            client.create().creatingParentsIfNeeded().forPath(path);
+        }
+        setData(path, "");
+    }
+
+    private static String streamToString(InputStream stream) throws IOException {
+        byte[] bytes = new byte[stream.available()];
+        stream.read(bytes);
+        return new String(bytes);
     }
 
     private static void setData(String path, String data) throws Exception {

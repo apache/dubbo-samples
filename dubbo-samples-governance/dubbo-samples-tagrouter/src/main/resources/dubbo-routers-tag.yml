@@ -25,7 +25,7 @@ priority: 1
 key: governance-tagrouter-provider
 tags:
 - name: tag1
-  addresses: ["192.168.0.100:20881"]
+  addresses: ["30.5.120.77:20881"]
 - name: tag2
-  addresses: ["192.168.0.100:20880"]
+  addresses: ["30.5.120.77:20880"]
 ...
