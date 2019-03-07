@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.annotation.action;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.annotation.api.AnnotationService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+import com.alibaba.dubbo.config.annotation.Method;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Component;
 
 /**
@@ -34,13 +34,39 @@ public class AnnotationAction {
     @Reference
     private AnnotationService annotationService;
 
-    @HystrixCommand(fallbackMethod = "reliable")
+    @Reference(version = "2.0.0", methods = {@Method(name = "testConsumer", timeout = 200)})
+    private AnnotationService annotationService2;
+
+    //    @HystrixCommand(fallbackMethod = "reliable")
     public String doSayHello(String name) {
         return annotationService.sayHello(name);
     }
 
-    public String reliable(String name) {
-        return "hystrix fallback value";
+    public String doSayProvider(String name) {
+        return annotationService.testProvider(name);
     }
 
+    public String doSayConsumer(String name) {
+        return annotationService.testConsumer(name);
+    }
+
+    public String doSayUsual(String name) {
+        return annotationService.testUsual(name);
+    }
+
+    public String doSayHello2(String name) {
+        return annotationService2.sayHello(name);
+    }
+
+    public String doSayProvider2(String name) {
+        return annotationService2.testProvider(name);
+    }
+
+    public String doSayConsumer2(String name) {
+        return annotationService2.testConsumer(name);
+    }
+
+    public String doSayUsual2(String name) {
+        return annotationService2.testUsual(name);
+    }
 }

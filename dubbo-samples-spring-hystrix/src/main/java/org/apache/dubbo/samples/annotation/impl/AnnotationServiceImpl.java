@@ -20,9 +20,10 @@
 package org.apache.dubbo.samples.annotation.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+
 import org.apache.dubbo.samples.annotation.api.AnnotationService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+//import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 /**
  * AsyncServiceImpl
@@ -30,13 +31,33 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
 
-    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000") })
+    //    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+//                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000") })
     @Override
     public String sayHello(String name) {
 //        System.out.println("async provider received: " + name);
 //        return "annotation: hello, " + name;
         throw new RuntimeException("Exception to show hystrix enabled.");
+    }
+
+    @Override
+    public String testProvider(String name) {
+        return "provider :" + name;
+    }
+
+    @Override
+    public String testConsumer(String name) {
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "consumer :" + name;
+    }
+
+    @Override
+    public String testUsual(String name) {
+        return "usual :" + name;
     }
 
 }

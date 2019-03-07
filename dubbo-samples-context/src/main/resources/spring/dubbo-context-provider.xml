@@ -34,9 +34,9 @@
     <dubbo:protocol name="dubbo" port="20890"/>
 
     <!-- service implementation, as same as regular local bean -->
-    <bean id="contextService" class="org.apache.dubbo.samples.context.impl.ContextServiceImpl"/>
+    <bean id="contextService" class="org.apache.dubbo.samples.context.impl.ContextHelloServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service interface="org.apache.dubbo.samples.context.api.ContextService" ref="contextService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.api.client.HelloService" ref="contextService"/>
 
 </beans>

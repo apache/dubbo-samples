@@ -26,4 +26,10 @@ public interface AnnotationService {
 
     String sayHello(String name);
 
+    String testProvider(String name);
+
+    String testConsumer(String name);
+
+    String testUsual(String name);
+
 }

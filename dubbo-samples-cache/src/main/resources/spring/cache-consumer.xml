@@ -26,6 +26,6 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:reference id="cacheService" interface="org.apache.dubbo.samples.cache.api.CacheService" cache="true"/>
+    <dubbo:reference id="cacheService" interface="org.apache.dubbo.samples.api.client.HelloService" cache="true"/>
 
 </beans>

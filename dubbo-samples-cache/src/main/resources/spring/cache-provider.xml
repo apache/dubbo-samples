@@ -28,8 +28,8 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="cacheService" class="org.apache.dubbo.samples.cache.impl.CacheServiceImpl"/>
+    <bean id="cacheService" class="org.apache.dubbo.samples.cache.impl.CacheHelloServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.cache.api.CacheService" ref="cacheService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.api.client.HelloService" ref="cacheService"/>
 
 </beans>

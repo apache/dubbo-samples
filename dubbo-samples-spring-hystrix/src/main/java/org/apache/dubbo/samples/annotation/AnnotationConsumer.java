@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.annotation;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.annotation.action.AnnotationAction;
-import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,8 +39,21 @@ public class AnnotationConsumer {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
-        String hello = annotationAction.doSayHello("world");
-        System.err.println("result :" + hello);
+        System.err.println("usual ---:" + annotationAction.doSayUsual("world"));
+        System.err.println("provider ---:" + annotationAction.doSayProvider("world"));
+        System.err.println("consumer ---:" + annotationAction.doSayConsumer("world"));
+        System.err.println("usual2 ---:" + annotationAction.doSayUsual2("world"));
+
+        try {
+            System.err.println("provider2 ---:" + annotationAction.doSayProvider2("world"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            System.err.println("consumer2 ---:" + annotationAction.doSayConsumer2("world"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.in.read();
     }
 
