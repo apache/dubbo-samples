@@ -19,15 +19,15 @@
 
 package org.apache.dubbo.samples.governance.impl;
 
-import org.apache.dubbo.samples.api.GreetingsService;
+import org.apache.dubbo.samples.api.client.GreetingService;
 
 /**
  * AsyncServiceImpl
  */
-public class GreetingsServiceImpl implements GreetingsService {
+public class GreetingsServiceImpl implements GreetingService {
 
     @Override
-    public String sayHi(String name) {
+    public String greeting(String name) {
         System.out.println("provider received: " + name);
         try {
             Thread.sleep(500);

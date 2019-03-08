@@ -30,8 +30,8 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="greetingsService" class="org.apache.dubbo.samples.governance.impl.GreetingsServiceImpl"/>
+    <bean id="greetingService" class="org.apache.dubbo.samples.governance.impl.GreetingsServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.api.GreetingsService" ref="greetingsService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.api.client.GreetingService" ref="greetingService"/>
 
 </beans>

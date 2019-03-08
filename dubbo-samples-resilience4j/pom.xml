@@ -21,11 +21,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>dubbo-samples-all</artifactId>
-        <groupId>org.apache.dubbo</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+    <groupId>org.apache.dubbo</groupId>
+    <version>1.0-SNAPSHOT</version>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-resilience4j</artifactId>
@@ -34,10 +32,5 @@
         <module>dubbo-samples-resilience4j-filter</module>
         <module>dubbo-samples-resilience4j-springboot2</module>
     </modules>
-
-    <properties>
-        <resilience4j.version>0.13.1</resilience4j.version>
-    </properties>
-
 
 </project>
