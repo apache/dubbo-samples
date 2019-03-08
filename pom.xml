@@ -46,7 +46,7 @@
         <module>dubbo-samples-docker</module>
         <module>dubbo-samples-context</module>
         <module>dubbo-samples-http</module>
-        <module>dubbo-samples-api-invoker</module>
+        <module>dubbo-samples-api-invoke</module>
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-monitor</module>
