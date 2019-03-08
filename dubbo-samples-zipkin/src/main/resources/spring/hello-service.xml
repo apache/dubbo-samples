@@ -23,7 +23,9 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- provider's application name, used for tracing dependency relationship -->
-    <dubbo:application name="hello-service-provider"/>
+    <dubbo:application name="hello-service-provider">
+        <dubbo:parameter key="qos.port" value="22886"/>
+    </dubbo:application>
 
     <!-- use zookeeper registry center to export service -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
@@ -32,10 +34,10 @@
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <!-- service implementation, as same as regular local bean -->
-    <bean id="helloService" class="com.alibaba.dubbo.samples.service.hello.HelloServiceImpl"/>
+    <bean id="helloService" class="org.apache.dubbo.samples.zipkin.service.hello.HelloServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service interface="com.alibaba.dubbo.samples.api.HelloService" ref="helloService" filter="tracing"/>
+    <dubbo:service interface="org.apache.dubbo.samples.api.client.HelloService" ref="helloService" filter="tracing"/>
 
     <!-- zipkin configuration -->
     <bean id="sender" class="zipkin2.reporter.beans.OkHttpSenderFactoryBean">

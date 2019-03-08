@@ -16,19 +16,28 @@
  *   limitations under the License.
  *
  */
+package org.apache.dubbo.samples.zipkin.service.greeting;
 
-package org.apache.dubbo.samples.client;
+import org.apache.dubbo.samples.api.client.GreetingService;
+import org.apache.dubbo.samples.api.client.HelloService;
 
-import org.apache.dubbo.samples.api.GreetingService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.Random;
 
-public class Application {
+public class GreetingServiceImpl implements GreetingService {
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/client.xml");
-        context.start();
-        // get remote service proxy
-        GreetingService greetingService = (GreetingService) context.getBean("greetingService");
-        System.out.println(greetingService.greeting("world"));
+    private HelloService helloService;
+
+    public void setHelloService(HelloService helloService) {
+        this.helloService = helloService;
+    }
+
+    @Override
+    public String greeting(String message) {
+        try {
+            Thread.sleep(new Random(System.currentTimeMillis()).nextInt(1000));
+        } catch (InterruptedException e) {
+            // no op
+        }
+        return "greeting, " + helloService.sayHello(message);
     }
 }

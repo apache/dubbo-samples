@@ -23,7 +23,9 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- provider's application name, used for tracing dependency relationship -->
-    <dubbo:application name="greeting-service-provider"/>
+    <dubbo:application name="greeting-service-provider">
+        <dubbo:parameter key="qos.port" value="33333"/>
+    </dubbo:application>
 
     <!-- use zookeeper registry center to export service -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
@@ -32,15 +34,15 @@
     <dubbo:protocol name="dubbo" port="20881"/>
 
     <!-- service implementation, as same as regular local bean -->
-    <bean id="greetingService" class="com.alibaba.dubbo.samples.service.greeting.GreetingServiceImpl">
+    <bean id="greetingService" class="org.apache.dubbo.samples.zipkin.service.greeting.GreetingServiceImpl">
         <property name="helloService" ref="helloService"/>
     </bean>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service interface="com.alibaba.dubbo.samples.api.GreetingService" ref="greetingService" filter="tracing"/>
+    <dubbo:service interface="org.apache.dubbo.samples.api.client.GreetingService" ref="greetingService" filter="tracing"/>
 
     <!-- generate proxy for the remote service, then helloService can be used in the same way as the local regular interface -->
-    <dubbo:reference id="helloService" check="false" interface="com.alibaba.dubbo.samples.api.HelloService" filter="tracing"/>
+    <dubbo:reference id="helloService" check="false" interface="org.apache.dubbo.samples.api.client.HelloService" filter="tracing"/>
 
     <!-- zipkin configuration -->
     <bean id="sender" class="zipkin2.reporter.beans.OkHttpSenderFactoryBean">

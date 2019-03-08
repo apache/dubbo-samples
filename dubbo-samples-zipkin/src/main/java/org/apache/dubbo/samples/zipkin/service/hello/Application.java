@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.service.greeting;
+package org.apache.dubbo.samples.zipkin.service.hello;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,10 +23,10 @@ import java.io.IOException;
 
 public class Application {
     public static void main(String[] args) throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/greeting-service.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/hello-service.xml");
         context.start();
 
-        System.out.println("Greeting service started");
+        System.out.println("Hello service started");
         // press any key to exit
         System.in.read();
     }

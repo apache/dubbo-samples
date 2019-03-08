@@ -16,20 +16,11 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.service.hello;
 
-import org.apache.dubbo.samples.api.HelloService;
+package org.apache.dubbo.samples.api.client;
 
-import java.util.Random;
+public interface GreetingService {
 
-public class HelloServiceImpl implements HelloService {
-    @Override
-    public String hello(String message) {
-        try {
-            Thread.sleep(new Random(System.currentTimeMillis()).nextInt(1000));
-        } catch (InterruptedException e) {
-            // no op
-        }
-        return "hello, " + message;
-    }
+    String greeting(String name);
+
 }

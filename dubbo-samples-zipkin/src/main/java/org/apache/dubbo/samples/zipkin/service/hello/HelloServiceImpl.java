@@ -16,8 +16,20 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.api;
+package org.apache.dubbo.samples.zipkin.service.hello;
 
-public interface GreetingService {
-    String greeting(String message);
+import org.apache.dubbo.samples.api.client.HelloService;
+
+import java.util.Random;
+
+public class HelloServiceImpl implements HelloService {
+    @Override
+    public String sayHello(String message) {
+        try {
+            Thread.sleep(new Random(System.currentTimeMillis()).nextInt(1000));
+        } catch (InterruptedException e) {
+            // no op
+        }
+        return "hello, " + message;
+    }
 }

@@ -24,13 +24,15 @@
 
     <!-- consumer's application name, used for tracing dependency relationship (not a matching criterion),
     don't set it same as provider -->
-    <dubbo:application name="dubbo-client"/>
+    <dubbo:application name="dubbo-client">
+        <dubbo:parameter key="qos.port" value="22997"/>
+    </dubbo:application>
 
     <!-- use zookeeper registry center to discover service -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the local regular interface -->
-    <dubbo:reference id="greetingService" check="false" interface="com.alibaba.dubbo.samples.api.GreetingService" filter="tracing"/>
+    <dubbo:reference id="greetingService" check="false" interface="org.apache.dubbo.samples.api.client.GreetingService" filter="tracing"/>
 
     <!-- zipkin configuration -->
     <bean id="sender" class="zipkin2.reporter.beans.OkHttpSenderFactoryBean">
