@@ -20,11 +20,9 @@ package org.apache.dubbo.samples.basic;
 
 import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.extension.Activate;
-import org.apache.dubbo.rpc.Filter;
-import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcException;
+
+import com.alibaba.dubbo.rpc.Filter;
+import com.alibaba.dubbo.rpc.Result;
 
 @Activate(group = { Constants.CONSUMER })
 public class TraceFilter implements Filter {
@@ -34,9 +32,10 @@ public class TraceFilter implements Filter {
     }
 
     @Override
-    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+    public com.alibaba.dubbo.rpc.Result invoke(com.alibaba.dubbo.rpc.Invoker<?> invoker, com.alibaba.dubbo.rpc.Invocation invocation) throws com.alibaba.dubbo.rpc.RpcException {
         Result result = invoker.invoke(invocation);
         System.out.println("trace filter: " + result.getValue());
         return result;
     }
+
 }

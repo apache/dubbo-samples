@@ -1,1 +1,1 @@
-trace1=TraceFilter
+trace1=org.apache.dubbo.samples.basic.TraceFilter
