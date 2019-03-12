@@ -212,6 +212,11 @@
             <artifactId>spring-context-support</artifactId>
             <version>1.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-samples-api-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 

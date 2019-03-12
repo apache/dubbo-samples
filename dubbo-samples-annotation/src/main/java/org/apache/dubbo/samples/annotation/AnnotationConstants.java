@@ -16,25 +16,11 @@
  *   limitations under the License.
  *
  */
-
-package org.apache.dubbo.samples.simple.annotation.action;
-
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.samples.simple.annotation.api.AnnotationService;
-
-import org.springframework.stereotype.Component;
+package org.apache.dubbo.samples.annotation;
 
 /**
- * AnnotationAction
+ * @author cvictory ON 2019-03-12
  */
-@Component("annotationAction")
-public class AnnotationAction {
-
-    @Reference
-    private AnnotationService annotationService;
-
-    public String doSayHello(String name) {
-        return annotationService.sayHello(name);
-    }
-
+public interface AnnotationConstants {
+    static final String VERSION = "1.0.0_annotation";
 }

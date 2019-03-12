@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.simple.annotation;
+package org.apache.dubbo.samples.annotation;
 
 
 import org.apache.dubbo.config.ProviderConfig;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * MergeProvider
  */
-public class AnnotationProvider {
+public class AnnotationProviderBootstrap {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
@@ -41,7 +41,7 @@ public class AnnotationProvider {
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simple.annotation.impl")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.impl")
     @PropertySource("classpath:/spring/dubbo-provider.properties")
     static public class ProviderConfiguration {
         @Bean

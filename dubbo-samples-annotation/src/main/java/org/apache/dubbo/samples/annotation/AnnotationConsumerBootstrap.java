@@ -17,10 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.simple.annotation;
+package org.apache.dubbo.samples.annotation;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.simple.annotation.action.AnnotationAction;
+import org.apache.dubbo.samples.annotation.action.AnnotationAction;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,21 +30,25 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * CallbackConsumer
  */
-public class AnnotationConsumer {
+public class AnnotationConsumerBootstrap {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
-        String hello = annotationAction.doSayHello("world");
-        System.out.println("result :" + hello);
+
+        System.out.println("hello :" + annotationAction.doSayHello("world"));
+        System.out.println("goodbye :" + annotationAction.doSayGoodbye("world"));
+        System.out.println("greeting :" + annotationAction.doGreeting("world"));
+        System.out.println("reply :" + annotationAction.replyGreeting("world"));
         System.in.read();
     }
 
+
     @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simple.annotation.action")
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.action")
     @PropertySource("classpath:/spring/dubbo-consumer.properties")
-    @ComponentScan(value = {"org.apache.dubbo.samples.simple.annotation.action"})
+    @ComponentScan(value = {"org.apache.dubbo.samples.annotation.action"})
     static public class ConsumerConfiguration {
 
     }
