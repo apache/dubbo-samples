@@ -33,12 +33,7 @@
     <modules>
         <module>dubbo-samples-generic-call</module>
         <module>dubbo-samples-generic-impl</module>
+        <module>dubbo-samples-generic-type</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-    </dependencies>
 </project>
