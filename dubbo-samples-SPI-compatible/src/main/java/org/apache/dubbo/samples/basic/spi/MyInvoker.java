@@ -16,10 +16,9 @@
  */
 package org.apache.dubbo.samples.basic.spi;
 
-import org.apache.dubbo.common.URL;
 import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.RpcResult;
 
+import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcException;
@@ -34,7 +33,16 @@ public class MyInvoker<T> implements Invoker<T> {
         return null;
     }
 
+    @Override
+    public org.apache.dubbo.rpc.Result invoke(Invocation invocation) throws org.apache.dubbo.rpc.RpcException {
+        return null;
+    }
 
+
+    @Override
+    public Result invoke(com.alibaba.dubbo.rpc.Invocation invocation) throws RpcException {
+        return null;
+    }
 
     @Override
     public URL getUrl() {
@@ -49,10 +57,5 @@ public class MyInvoker<T> implements Invoker<T> {
     @Override
     public void destroy() {
 
-    }
-
-    @Override
-    public Result invoke(Invocation invocation) throws RpcException {
-        return new Result.CompatibleResult(new RpcResult());
     }
 }
