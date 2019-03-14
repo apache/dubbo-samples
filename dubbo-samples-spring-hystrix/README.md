@@ -7,7 +7,7 @@ Run `org.apache.dubbo.samples.annotation.AnnotationProvider`
 
 ### Start Consumer
 
-Run `org.apache.dubbo.samples.annotation.AnnotationConsumer`
+Run `org.apache.dubbo.samples.annotation.AnnotationConsumerBootstrap`
 
 ### Result
 

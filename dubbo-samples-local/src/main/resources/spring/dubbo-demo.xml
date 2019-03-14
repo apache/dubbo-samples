@@ -28,9 +28,9 @@
 
     <dubbo:protocol name="dubbo" port="20890"/>
 
-    <bean id="demoServiceTarget" class="org.apache.dubbo.samples.local.impl.DemoServiceImpl"/>
+    <bean id="target" class="org.apache.dubbo.samples.local.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.local.api.DemoService" ref="demoServiceTarget"/>
+    <dubbo:service interface="org.apache.dubbo.samples.local.api.DemoService" ref="target"/>
 
     <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.local.api.DemoService"/>
 

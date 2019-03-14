@@ -14,21 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.simple.annotation.impl;
 
-import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.simple.annotation.api.AnnotationService;
+package org.apache.dubbo.samples.api;
 
-/**
- *
- */
-@Service
-public class AnnotationServiceImpl implements AnnotationService {
+public interface GreetingsService {
 
-    @Override
-    public String sayHello(String name) {
-        System.out.println("async provider received: " + name);
-        return "annotation: hello, " + name;
-    }
-
+    String sayHi(String name);
 }

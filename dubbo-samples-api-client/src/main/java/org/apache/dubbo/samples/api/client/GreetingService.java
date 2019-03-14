@@ -17,13 +17,20 @@
  *
  */
 
-package org.apache.dubbo.samples.simple.annotation.api;
+package org.apache.dubbo.samples.api.client;
 
-/**
- * AsyncService
- */
-public interface AnnotationService {
+import java.util.concurrent.CompletableFuture;
 
-    String sayHello(String name);
+public interface GreetingService {
+
+    String greeting(String name);
+
+    default String replyGreeting(String name) {
+        return "Fine, " + name;
+    }
+
+    default CompletableFuture<String> greeting(String name, byte signal) {
+        return CompletableFuture.completedFuture(greeting(name));
+    }
 
 }
