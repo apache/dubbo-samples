@@ -41,7 +41,6 @@
         <module>dubbo-samples-echo</module>
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
-        <module>dubbo-samples-generic-call</module>
         <module>dubbo-samples-governance</module>
         <module>dubbo-samples-http</module>
         <module>dubbo-samples-jetty</module>

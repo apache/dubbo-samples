@@ -28,11 +28,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <artifactId>dubbo-samples-generic</artifactId>
+    <artifactId>dubbo-samples-generic-call</artifactId>
 
     <modules>
-        <module>dubbo-samples-generic-call</module>
-        <module>dubbo-samples-generic-impl</module>
+        <module>dubbo-samples-generic-call-api</module>
+        <module>dubbo-samples-generic-call-provider</module>
+        <module>dubbo-samples-generic-call-consumer</module>
     </modules>
 
     <dependencies>
