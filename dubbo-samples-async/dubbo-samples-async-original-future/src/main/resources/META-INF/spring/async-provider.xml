@@ -28,7 +28,7 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:protocol name="hessian" port="20880"/>
+    <dubbo:protocol port="20880"/>
 
     <bean id="asyncService" class="org.apache.dubbo.samples.governance.impl.AsyncServiceImpl"/>
 
