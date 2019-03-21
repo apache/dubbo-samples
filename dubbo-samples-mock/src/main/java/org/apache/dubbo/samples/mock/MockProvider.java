@@ -17,15 +17,18 @@
 
 package org.apache.dubbo.samples.mock;
 
+import org.apache.dubbo.samples.mock.zk.EmbeddedZooKeeper;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MockProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/mock-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/mock-provider.xml");
         context.start();
 
-        System.in.read(); // press any key to exit
+        // press any key to exit
+        System.in.read();
     }
 }
