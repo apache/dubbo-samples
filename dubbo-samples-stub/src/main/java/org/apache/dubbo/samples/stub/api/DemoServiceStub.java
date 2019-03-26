@@ -17,9 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.stub.impl;
-
-import org.apache.dubbo.samples.stub.api.DemoService;
+package org.apache.dubbo.samples.stub.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
