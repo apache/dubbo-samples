@@ -26,12 +26,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class StubConsumer {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-            new String[] {"spring/stub-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/stub-consumer.xml");
         context.start();
-        DemoService demoService = (DemoService)context.getBean("demoService"); // get remote service proxy
-        demoService.sayHello("aaa");
-
-
+        DemoService demoService = (DemoService) context.getBean("demoService");
+        demoService.sayHello("dubbo");
     }
 }
