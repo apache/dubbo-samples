@@ -17,10 +17,10 @@
 
 package org.apache.dubbo.samples.mock.api;
 
-public class DemoServiceMock implements DemoService{
+public class DemoServiceMock implements DemoService {
 
     public String sayHello(String name) {
-        System.out.println("local mock Impl");
+        System.err.println("about to execute the local mock impl");
         return "mock " + name;
     }
 }

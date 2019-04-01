@@ -25,7 +25,7 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <!-- provider's application name, used for tracing dependency relationship -->
-    <dubbo:application name="demo-provider"/>
+    <dubbo:application name="stub-demo-provider"/>
 
     <!-- use multicast registry center to export service -->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
@@ -37,6 +37,6 @@
     <bean id="demoService" class="org.apache.dubbo.samples.stub.impl.DemoServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service interface="org.apache.dubbo.samples.stub.api.DemoService" ref="demoService" stub="org.apache.dubbo.samples.stub.impl.DemoServiceStub"/>
+    <dubbo:service interface="org.apache.dubbo.samples.stub.api.DemoService" ref="demoService"/>
 
 </beans>

@@ -21,5 +21,5 @@ package org.apache.dubbo.samples.stub.api;
 
 public interface DemoService {
 
-    public String sayHello(String name);
+    String sayHello(String name);
 }

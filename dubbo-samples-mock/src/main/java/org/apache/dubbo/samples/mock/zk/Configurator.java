@@ -14,29 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.mock;
-
-import org.apache.dubbo.common.utils.StringUtils;
+package org.apache.dubbo.samples.mock.zk;
 
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-/**
- *
- */
-public class ZKTools {
+import static org.apache.curator.framework.CuratorFrameworkFactory.newClient;
+
+public class Configurator {
     private static CuratorFramework client;
 
-    public static void main(String[] args) throws Exception {
-        client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000, new ExponentialBackoffRetry(6000, 3));
+    public static void main(String[] args) {
+        client = newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000, new ExponentialBackoffRetry(6000, 3));
         client.start();
 
         generateServiceLevelOverride();
     }
 
-    public static void generateServiceLevelOverride() {
-        String str = "---\n" + "configVersion: v2.7\n" + "scope: service\n" + "key: org.apache.dubbo.samples.mock.api.DemoService\n" + "enabled: true\n" + "configs:\n" + "- addresses: [0.0.0.0]\n" + "  side: consumer\n" + "  parameters:\n" + "    mock: return null\n" + "...\n";
+    private static void generateServiceLevelOverride() {
+        String str = "---\n" +
+                "configVersion: v2.7\n" +
+                "scope: service\n" +
+                "key: org.apache.dubbo.samples.mock.api.DemoService\n" +
+                "enabled: true\n" + "configs:\n" +
+                "- addresses: [0.0.0.0]\n" +
+                "  side: consumer\n" +
+                "  parameters:\n" +
+                "    mock: return null\n"
+                + "...\n";
 
         System.out.println(str);
 
@@ -54,12 +59,4 @@ public class ZKTools {
     private static void setData(String path, String data) throws Exception {
         client.setData().forPath(path, data.getBytes());
     }
-
-    private static String pathToKey(String path) {
-        if (StringUtils.isEmpty(path)) {
-            return path;
-        }
-        return path.replace("/dubbo/config/", "").replaceAll("/", ".");
-    }
-
 }

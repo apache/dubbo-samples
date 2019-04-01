@@ -17,11 +17,14 @@
  *
  */
 
-package org.apache.dubbo.samples.stub.impl;
+package org.apache.dubbo.samples.stub.api;
 
-import org.apache.dubbo.samples.stub.api.DemoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class DemoServiceStub implements DemoService {
+    private static Logger logger = LoggerFactory.getLogger(DemoServiceStub.class);
 
     private final DemoService demoService;
 
@@ -31,13 +34,13 @@ public class DemoServiceStub implements DemoService {
 
     @Override
     public String sayHello(String name) {
-        //client check code goes here
-        System.out.println("stub sayHello");
-
+        logger.info("before execute remote service, parameter: " + name);
         try {
-            return demoService.sayHello(name);
+            String result = demoService.sayHello(name);
+            logger.info("after execute remote service, result: " + result);
+            return result;
         } catch (Exception e) {
-           //handle Exception
+            logger.warn("fail to execute service", e);
             return null;
         }
     }
