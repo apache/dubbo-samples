@@ -27,7 +27,7 @@
     <modules>
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-api-client</module>
-        <module>dubbo-samples-api-invoke</module>
+        <module>dubbo-samples-api</module>
         <module>dubbo-samples-async</module>
         <module>dubbo-samples-attachment</module>
         <module>dubbo-samples-basic</module>

@@ -24,7 +24,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-api-invoke</artifactId>
+    <artifactId>dubbo-samples-api</artifactId>
 
     <properties>
         <source.level>1.8</source.level>
