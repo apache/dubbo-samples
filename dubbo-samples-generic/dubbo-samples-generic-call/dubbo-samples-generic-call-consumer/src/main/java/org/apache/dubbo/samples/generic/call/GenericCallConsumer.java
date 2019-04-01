@@ -47,8 +47,6 @@ public class GenericCallConsumer {
         genericService = referenceConfig.get();
         $invokeWithNormalSignature();
         $invokeWithAsyncSignature();
-        $invokeAsyncWithAsyncSignature();
-        $invokeAsyncWithNormalSignature();
         System.in.read();
     }
 
@@ -72,26 +70,6 @@ public class GenericCallConsumer {
         });
 
         System.out.println("...." + result);
-    }
-
-    public static void $invokeAsyncWithAsyncSignature() throws Exception {
-        CompletableFuture<Object> future  = genericService.$invokeAsync("sayHelloAsync", new String[]{"java.lang.String"}, new Object[]{"world"});
-
-        future.whenComplete((value, t) -> {
-            System.err.println(value);
-        });
-
-        System.out.println(".... before return ...");
-    }
-
-    public static void $invokeAsyncWithNormalSignature() throws Exception {
-        CompletableFuture<Object> future  = genericService.$invokeAsync("sayHello", new String[]{"java.lang.String"}, new Object[]{"world"});
-
-        future.whenComplete((value, t) -> {
-            System.err.println(value);
-        });
-
-        System.out.println(".... before return ...");
     }
 
 }

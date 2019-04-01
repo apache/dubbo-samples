@@ -35,8 +35,9 @@ public class AsyncPostprocessFilter implements Filter {
     }
 
     @Override
-    public void onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
+    public Result onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
         System.out.println("AsyncPostprocessFilter: Filter get the return value: " + result.getValue());
+        return result;
     }
 
 }
