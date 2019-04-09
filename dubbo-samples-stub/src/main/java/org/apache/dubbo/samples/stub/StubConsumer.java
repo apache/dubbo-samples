@@ -21,14 +21,17 @@ package org.apache.dubbo.samples.stub;
 
 import org.apache.dubbo.samples.stub.api.DemoService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class StubConsumer {
+    private static Logger logger = LoggerFactory.getLogger(StubConsumer.class);
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/stub-consumer.xml");
         context.start();
         DemoService demoService = context.getBean("demoService", DemoService.class);
-        demoService.sayHello("dubbo");
+        logger.info("result: " + demoService.sayHello("dubbo"));
     }
 }
