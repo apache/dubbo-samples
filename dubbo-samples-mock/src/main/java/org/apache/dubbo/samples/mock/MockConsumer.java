@@ -19,15 +19,18 @@ package org.apache.dubbo.samples.mock;
 
 import org.apache.dubbo.samples.mock.api.DemoService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MockConsumer {
+    private static Logger logger = LoggerFactory.getLogger(MockConsumer.class);
 
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/mock-consumer.xml");
         context.start();
         DemoService demoService = context.getBean("demoService", DemoService.class);
         String hello = demoService.sayHello("world");
-        System.out.println(hello);
+        logger.info("result: " + hello);
     }
 }

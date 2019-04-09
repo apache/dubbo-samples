@@ -30,6 +30,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>2.7.1</dubbo.version>
+        <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
     </properties>
@@ -57,6 +58,15 @@
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
             <version>${dubbo.version}</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
         </dependency>
     </dependencies>
 
