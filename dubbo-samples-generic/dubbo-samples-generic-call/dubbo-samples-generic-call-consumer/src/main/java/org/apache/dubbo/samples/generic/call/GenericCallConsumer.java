@@ -41,12 +41,13 @@ public class GenericCallConsumer {
         applicationConfig.setRegistry(registryConfig);
         referenceConfig.setApplication(applicationConfig);
         referenceConfig.setGeneric(true);
-//        referenceConfig.setAsync(true);
+        referenceConfig.setAsync(true);
         referenceConfig.setTimeout(7000);
 
         genericService = referenceConfig.get();
         $invokeWithNormalSignature();
-        $invokeWithAsyncSignature();
+        // Generic call does not support method with CompletableFuture signature at present, will add support soon.
+        // $invokeWithAsyncSignature();
         System.in.read();
     }
 
