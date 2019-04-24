@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  seata-mysql:
+    build: mysql
+    ports:
+      - "3306:3306"
+  seata-server:
+    build: seata
+    ports:
+      - "8091:8091"
+  zookeeper:
+    image: "zookeeper:latest"
+    ports:
+      - "2181:2181"
+
