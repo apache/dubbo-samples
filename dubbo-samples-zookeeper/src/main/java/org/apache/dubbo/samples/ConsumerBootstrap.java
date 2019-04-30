@@ -19,24 +19,22 @@
 
 package org.apache.dubbo.samples;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.action.GreetingServiceConsumer;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import java.io.IOException;
-
 public class ConsumerBootstrap {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
         GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
         String hello = greetingServiceConsumer.doSayHello("zookeeper");
         System.out.println("result: " + hello);
-        System.in.read();
     }
 
     @Configuration

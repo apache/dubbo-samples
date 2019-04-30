@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.api.GreetingService;
 
 @Service

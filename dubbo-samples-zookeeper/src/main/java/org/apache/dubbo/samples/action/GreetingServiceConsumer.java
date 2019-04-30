@@ -19,8 +19,9 @@
 
 package org.apache.dubbo.samples.action;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.api.GreetingService;
+
 import org.springframework.stereotype.Component;
 
 @Component("annotatedConsumer")
