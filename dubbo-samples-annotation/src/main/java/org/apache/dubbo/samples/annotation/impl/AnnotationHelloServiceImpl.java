@@ -16,12 +16,13 @@
  */
 package org.apache.dubbo.samples.annotation.impl;
 
-import org.apache.dubbo.samples.api.client.HelloService;
 
-/**
- * @since 2.7.1
- */
-//@Service(version = AnnotationConstants.VERSION, methods = {@Method(name = "sayGoodbye", timeout = 250, retries = 0)})
+import org.apache.dubbo.config.annotation.Method;
+import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.samples.annotation.AnnotationConstants;
+import org.apache.dubbo.samples.annotation.api.HelloService;
+
+@Service(version = AnnotationConstants.VERSION, methods = {@Method(name = "sayGoodbye", timeout = 250, retries = 0)})
 public class AnnotationHelloServiceImpl implements HelloService {
 
     @Override

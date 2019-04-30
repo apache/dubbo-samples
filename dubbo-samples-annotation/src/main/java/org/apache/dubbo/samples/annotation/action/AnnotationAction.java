@@ -19,26 +19,23 @@
 
 package org.apache.dubbo.samples.annotation.action;
 
+import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.annotation.AnnotationConstants;
-import org.apache.dubbo.samples.api.client.GreetingService;
-import org.apache.dubbo.samples.api.client.HelloService;
+import org.apache.dubbo.samples.annotation.api.GreetingService;
+import org.apache.dubbo.samples.annotation.api.HelloService;
 
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 
     @Reference(interfaceClass = HelloService.class, version = AnnotationConstants.VERSION)
     private HelloService helloService;
 
-    /**
-     * @since 2.7.1
-     */
-    //@Reference(interfaceClass = GreetingService.class, version = AnnotationConstants.VERSION, methods = {@Method(name = "greeting", timeout = 250, retries = 1)})
+    @Reference(interfaceClass = GreetingService.class,
+            version = AnnotationConstants.VERSION,
+            methods = {@Method(name = "greeting", timeout = 250, retries = 1)})
     private GreetingService greetingService;
 
     public String doSayHello(String name) {
@@ -51,7 +48,6 @@ public class AnnotationAction {
     }
 
     public String doSayGoodbye(String name) {
-
         try {
             return helloService.sayGoodbye(name);
         } catch (Exception e) {
@@ -62,7 +58,6 @@ public class AnnotationAction {
     }
 
     public String doGreeting(String name) {
-
         try {
             return greetingService.greeting(name);
         } catch (Exception e) {
@@ -79,7 +74,5 @@ public class AnnotationAction {
             e.printStackTrace();
             return "Throw Exception";
         }
-
     }
-
 }

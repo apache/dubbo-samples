@@ -27,12 +27,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * CallbackConsumer
- */
 public class AnnotationConsumerBootstrap {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
@@ -41,7 +38,6 @@ public class AnnotationConsumerBootstrap {
         System.out.println("goodbye :" + annotationAction.doSayGoodbye("world"));
         System.out.println("greeting :" + annotationAction.doGreeting("world"));
         System.out.println("reply :" + annotationAction.replyGreeting("world"));
-        System.in.read();
     }
 
 

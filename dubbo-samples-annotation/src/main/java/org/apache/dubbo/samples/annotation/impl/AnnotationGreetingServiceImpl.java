@@ -18,11 +18,8 @@ package org.apache.dubbo.samples.annotation.impl;
 
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.annotation.AnnotationConstants;
-import org.apache.dubbo.samples.api.client.GreetingService;
+import org.apache.dubbo.samples.annotation.api.GreetingService;
 
-/**
- * 2019-03-12
- */
 @Service(version = AnnotationConstants.VERSION)
 public class AnnotationGreetingServiceImpl implements GreetingService {
 

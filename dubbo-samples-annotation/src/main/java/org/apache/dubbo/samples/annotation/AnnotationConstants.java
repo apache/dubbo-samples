@@ -18,9 +18,6 @@
  */
 package org.apache.dubbo.samples.annotation;
 
-/**
- * @author cvictory ON 2019-03-12
- */
 public interface AnnotationConstants {
-    static final String VERSION = "1.0.0_annotation";
+    String VERSION = "1.0.0_annotation";
 }
