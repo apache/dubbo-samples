@@ -1,6 +1,6 @@
 # Dubbo Zookeeper Example
 
-This example shows how a global transaction manager works in Dubbo framework. Here we use [seata](https://github.com/seata/seata) as an example, but other transaction managers are possible to work with Dubbo too if they provide the corresponding Dubbo filter implementation.
+This example shows how to use [zookeeper](https://zookeeper.apache.org/) as Dubbo's registry center.
 
 ## How To Run
 

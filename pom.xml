@@ -67,6 +67,7 @@
         <module>dubbo-samples-zipkin</module>
         <module>dubbo-samples-zookeeper</module>
         <module>dubbo-samples-transaction</module>
+        <module>dubbo-samples-consul</module>
     </modules>
 
 </project>
