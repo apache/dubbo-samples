@@ -15,22 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.client;
+package org.apache.dubbo.samples.provider;
 
-
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.samples.api.GreetingsService;
 
-public class Application {
-    public static void main(String[] args) {
-        ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
-        reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
-        reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
-        reference.setInterface(GreetingsService.class);
-        GreetingsService service = reference.get();
-        String message = service.sayHi("dubbo");
-        System.out.println(message);
+public class GreetingsServiceImpl implements GreetingsService {
+    @Override
+    public String sayHi(String name) {
+        return "hi, " + name;
     }
 }

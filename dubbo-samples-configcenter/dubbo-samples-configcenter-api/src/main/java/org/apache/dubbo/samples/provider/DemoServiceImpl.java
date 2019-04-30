@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.samples.provider;
 
-package org.apache.dubbo.samples.server;
+import org.apache.dubbo.samples.api.DemoService;
 
-import org.apache.dubbo.samples.api.GreetingsService;
-
-public class GreetingsServiceImpl implements GreetingsService {
+/**
+ *
+ */
+public class DemoServiceImpl implements DemoService {
     @Override
-    public String sayHi(String name) {
-        return "hi, " + name;
+    public String sayHello() {
+        return "Hello, you!";
     }
 }
