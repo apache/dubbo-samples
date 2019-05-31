@@ -44,8 +44,9 @@
         <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
-        <dubbo-rpc-native-thrift.version>1.0.0-SNAPSHOT</dubbo-rpc-native-thrift.version>
+        <dubbo-rpc-native-thrift.version>2.7.2-SNAPSHOT</dubbo-rpc-native-thrift.version>
         <libthrift.version>0.11.0</libthrift.version>
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
     </properties>
 
     <dependencyManagement>
@@ -213,6 +214,12 @@
             <artifactId>libthrift</artifactId>
             <version>${libthrift.version}</version>
         </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax.annotation-api.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -313,7 +320,8 @@
                                 <phase>validate</phase>
                                 <configuration>
                                     <configLocation>../codestyle/checkstyle.xml</configLocation>
-                                    <suppressionsLocation>../codestyle/checkstyle-suppressions.xml</suppressionsLocation>
+                                    <suppressionsLocation>../codestyle/checkstyle-suppressions.xml
+                                    </suppressionsLocation>
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failOnViolation>true</failOnViolation>

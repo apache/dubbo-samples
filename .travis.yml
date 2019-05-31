@@ -1,11 +1,20 @@
 language: java
-sudo: false # faster builds
+sudo: false
 
 jdk:
-    - oraclejdk11
-    - oraclejdk8
+  - openjdk11
+  - oraclejdk11
+  - openjdk8
+  - oraclejdk8
+
+cache:
+  directories:
+    - $HOME/.m2
 
 install: true
 
 script:
-    - ./mvnw clean install 
+  - ./mvnw clean install
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
