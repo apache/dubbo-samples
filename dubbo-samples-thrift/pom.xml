@@ -44,7 +44,7 @@
         <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
-        <dubbo-rpc-native-thrift.version>1.0.0-SNAPSHOT</dubbo-rpc-native-thrift.version>
+        <dubbo-rpc-native-thrift.version>2.7.2-SNAPSHOT</dubbo-rpc-native-thrift.version>
         <libthrift.version>0.11.0</libthrift.version>
     </properties>
 
