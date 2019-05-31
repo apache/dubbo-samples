@@ -9,7 +9,7 @@ Samples for Apache Dubbo (incubating)
 
 This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, check README in each individual sub projects. 
 
-Every sub project have some integration test case using `Travis CI`,`junit5`,`testcontainers` ensure the quality 
+Every sub project have some integration test case using `Travis CI`,`junit5`,`testcontainers` to ensure the quality 
 
 Pls. cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/user/quick-start.html) for the details.
 
