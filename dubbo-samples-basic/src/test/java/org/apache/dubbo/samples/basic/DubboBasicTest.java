@@ -16,21 +16,15 @@
  *   limitations under the License.
  *
  */
-
 package org.apache.dubbo.samples.basic;
 
-import org.apache.dubbo.samples.basic.api.DemoService;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.jupiter.api.Test;
 
-public class BasicConsumer {
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
-        context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService");
-        String hello = demoService.sayHello("world");
-        System.out.println("---------------");
-        System.out.println(hello);
+public class DubboBasicTest {
+    @Test
+    public void testDubboBasicCall() throws Exception {
+
     }
 }
