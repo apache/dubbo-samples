@@ -30,6 +30,14 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>2.7.2-SNAPSHOT</dubbo.version>
+        <junit.version>4.12</junit.version>
+        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
+        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+        <image.name>dubbo-samples-api</image.name>
+        <dubbo.port>20880</dubbo.port>
+        <man-class>org.apache.dubbo.samples.provider.Application</man-class>
     </properties>
 
     <dependencies>
@@ -42,7 +50,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -52,7 +60,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
@@ -63,7 +71,7 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>1.2.0</version>
+                <version>${jib-maven-plugin.version}</version>
                 <configuration>
                     <from>
                         <image>gcr.io/distroless/java:debug</image>
@@ -75,9 +83,9 @@
                         <jvmFlags>
                             <jvmFlag>-Djava.net.preferIPv4Stack=true</jvmFlag>
                         </jvmFlags>
-                        <mainClass>org.apache.dubbo.samples.provider.Application</mainClass>
+                        <mainClass>${man-class}</mainClass>
                         <ports>
-                            <port>20880</port>
+                            <port>${dubbo.port}</port>
                         </ports>
                     </container>
                 </configuration>
@@ -94,14 +102,14 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.30.0</version>
+                <version>${docker-maven-plugin.version}</version>
                 <configuration>
                     <images>
                         <image>
-                            <name>dubbo-samples-api:${dubbo.version}</name>
+                            <name>${image.name}:${dubbo.version}</name>
                             <run>
                                 <ports>
-                                    <port>20880:20880</port>
+                                    <port>${dubbo.port}:${dubbo.port}</port>
                                 </ports>
                             </run>
                         </image>
@@ -129,7 +137,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -141,7 +149,7 @@
                                 <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
                             </systemPropertyVariables>
                             <includes>
-                                <include>**/*IT.*</include>
+                                <include>**/*IT.java</include>
                             </includes>
                         </configuration>
                     </execution>
