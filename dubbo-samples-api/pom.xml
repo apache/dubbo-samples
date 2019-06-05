@@ -35,9 +35,9 @@
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
-        <image.name>dubbo-samples-api</image.name>
+        <image.name>${artifactId}</image.name>
         <dubbo.port>20880</dubbo.port>
-        <man-class>org.apache.dubbo.samples.provider.Application</man-class>
+        <main-class>org.apache.dubbo.samples.provider.Application</main-class>
     </properties>
 
     <dependencies>
@@ -75,7 +75,7 @@
                                 <jvmFlags>
                                     <jvmFlag>-Djava.net.preferIPv4Stack=true</jvmFlag>
                                 </jvmFlags>
-                                <mainClass>${man-class}</mainClass>
+                                <mainClass>${main-class}</mainClass>
                                 <ports>
                                     <port>${dubbo.port}</port>
                                 </ports>

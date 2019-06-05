@@ -40,7 +40,7 @@
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
         <image.name>${artifactId}</image.name>
         <dubbo.port>20880</dubbo.port>
-        <man-class>org.apache.dubbo.samples.attachment.AttachmentProvider</man-class>
+        <main-class>org.apache.dubbo.samples.attachment.AttachmentProvider</main-class>
     </properties>
 
     <dependencies>
@@ -106,7 +106,7 @@
                                 <image>${image.name}:${dubbo.version}</image>
                             </to>
                             <container>
-                                <mainClass>${man-class}</mainClass>
+                                <mainClass>${main-class}</mainClass>
                                 <ports>
                                     <port>${dubbo.port}</port>
                                     <port>2181</port>
