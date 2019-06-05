@@ -25,6 +25,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>dubbo-maven-address-plugin</module>
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-api-client</module>
         <module>dubbo-samples-api</module>
