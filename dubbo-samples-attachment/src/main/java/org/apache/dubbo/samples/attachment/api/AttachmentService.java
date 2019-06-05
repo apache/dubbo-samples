@@ -21,6 +21,5 @@ package org.apache.dubbo.samples.attachment.api;
 
 
 public interface AttachmentService {
-
-    public String sayHello(String name);
+    String sayHello(String name);
 }

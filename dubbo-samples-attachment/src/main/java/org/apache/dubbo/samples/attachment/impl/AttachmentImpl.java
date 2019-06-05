@@ -29,12 +29,15 @@ import java.util.Date;
 public class AttachmentImpl implements AttachmentService {
 
     public String sayHello(String name) {
+        RpcContext context = RpcContext.getContext();
 
-        String index = RpcContext.getContext().getAttachment("index");  //the attachment will be remove after this
+        // the attachment will be remove after this
+        String index = context.getAttachment("index");
         System.out.println("receive attachment index: " + index);
 
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +
+                ", request from consumer: " + context.getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + context.getLocalAddress() +
+                ", attachment - index: " + index;
     }
 }

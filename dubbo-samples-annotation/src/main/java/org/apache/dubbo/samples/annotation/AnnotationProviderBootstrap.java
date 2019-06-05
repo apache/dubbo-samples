@@ -36,6 +36,7 @@ public class AnnotationProviderBootstrap {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
+        System.out.println("dubbo service started.");
         System.in.read();
     }
 
