@@ -31,7 +31,15 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>2.7.1</dubbo.version>
+        <dubbo.version>2.7.2-SNAPSHOT</dubbo.version>
+        <junit.version>4.12</junit.version>
+        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
+        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+        <image.name>dubbo-samples-annotation</image.name>
+        <dubbo.port>20880</dubbo.port>
+        <man-class>org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap</man-class>
     </properties>
 
     <dependencies>
@@ -47,14 +55,136 @@
             <version>${dubbo.version}</version>
             <type>pom</type>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dubbo-integration-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.dubbo</groupId>
+                        <artifactId>dubbo-maven-address-plugin</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>local-address</goal>
+                                </goals>
+                                <configuration>
+                                    <localAddress>dubbo-local-address</localAddress>
+                                </configuration>
+                                <phase>initialize</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>${jib-maven-plugin.version}</version>
+                        <configuration>
+                            <from>
+                                <image>gcr.io/distroless/java:debug</image>
+                            </from>
+                            <to>
+                                <image>${image.name}:${dubbo.version}</image>
+                            </to>
+                            <container>
+                                <mainClass>${man-class}</mainClass>
+                                <ports>
+                                    <port>${dubbo.port}</port>
+                                    <port>2181</port>
+                                </ports>
+                                <environment>
+                                    <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
+                                </environment>
+                            </container>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>dockerBuild</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker-maven-plugin.version}</version>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>${image.name}:${dubbo.version}</name>
+                                    <run>
+                                        <ports>
+                                            <port>${dubbo.port}:${dubbo.port}</port>
+                                            <port>2181:2181</port>
+                                        </ports>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                                <configuration>
+                                    <systemPropertyVariables>
+                                        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
+                                    </systemPropertyVariables>
+                                    <includes>
+                                        <include>**/*IT.java</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
