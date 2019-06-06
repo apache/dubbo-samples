@@ -3,9 +3,6 @@ sudo: false
 
 jdk:
   - openjdk11
-  - oraclejdk11
-  - openjdk8
-  - oraclejdk8
 
 cache:
   directories:
@@ -13,8 +10,16 @@ cache:
 
 install: true
 
-script:
-  - ./mvnw clean install
+
+jobs:
+  include:
+    - stage: test
+      script: ./mvnw clean install
+    - stage: integration test
+      script: ./mvnw clean install -pl dubbo-maven-address-plugin
+      name: "Prepare dubbo maven plugin"
+    - script: ./mvnw clean verify -Pdubbo-integration-test
+      name: "Run integration test"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
