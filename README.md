@@ -18,7 +18,7 @@ Pls. cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/u
 
 ### 2. Integration test cases of Dubbo Project
 
-#### what test cases  to write here ?
+#### What test cases  to write here ?
 
 The purpose of this project is to verify issues in module integration and process invocation of Dubbo. The samples in this repository are good integration test cases.  
 
