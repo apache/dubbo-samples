@@ -26,6 +26,18 @@ This project, together with Dubbo unit testing (please see [unit test guide](htt
 
 #### How to write integration test cases ?
 
-This repository uses `docker container` as a cross-process testing tool.  If you submit a PR  , the test cases runs in the docker container on the `Travis ci`machine.  If you want to run test cases on your local pc,  please install and start `docker`.
+This repository uses [docker](https://www.docker.com/) as a cross-process testing tool.  If you submit a PR  , the test cases runs in the docker container on the `Travis ci`machine. 
+`Travis CI`,`junit5`,`testcontainers` can be used . 
 
-`Travis CI`,`junit5`,`testcontainers` can be used  .
+When you run the test cases on your local pc,  please follow the steps :
+
+* 1 . install and start `docker` on your pc.  https://docs.docker.com/get-started/ is docker help website. 
+
+* 2. run mvn command in the terminal
+
+```shell 
+cd dubbo-samples
+mvn clean verify -Pdubbo-integration-test
+
+```
+  Then you can run the integration test case , feel free to add new test cases 
