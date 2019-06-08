@@ -16,8 +16,11 @@ install: true
 
 jobs:
   include:
+    - stage: test
+      script: ./mvnw clean install
+      name : "Compile and install project"
     - stage: integration test
-      script: ./mvnw clean verify -Pdubbo-integration-test
+      script: ./mvnw clean test -Pdubbo-integration-test
       name: "Run integration test"
 
 after_success:
