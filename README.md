@@ -31,9 +31,9 @@ This repository uses [docker](https://www.docker.com/) as a cross-process testin
 
 When you run the test cases on your local pc,  please follow the steps :
 
-* 1 . install and start `docker` on your pc.  https://docs.docker.com/get-started/ is docker help website. 
+* 1  install and start `docker` on your pc.  https://docs.docker.com/get-started/ is docker help website. 
 
-* 2. run mvn command in the terminal
+* 2  run mvn command in the terminal
 
 ```shell 
 cd dubbo-samples
