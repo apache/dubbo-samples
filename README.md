@@ -22,7 +22,7 @@ Pls. cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/u
 
 The purpose of this project is to verify issues in module integration and process invocation of Dubbo. The samples in this repository are good integration test cases.  
 
-This project, together with Dubbo unit testing (please see [unit test guide](http://dubbo.apache.org/en-us/docs/developers/contributor-guide/test-coverage-guide_dev.html)), constitutes the functional testing of Dubbo. For those issues that are not easy to verify in Dubbo unit test , please feel free to add new test cases
+This project, together with Dubbo unit testing (please see [unit test guide](http://dubbo.apache.org/en-us/docs/developers/contributor-guide/test-coverage-guide_dev.html)), constitutes the functional testing of Dubbo. For those issues that are not easy to verify in Dubbo unit test , please submit here. 
 
 #### How to write integration test cases ?
 
