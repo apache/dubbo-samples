@@ -3,7 +3,10 @@ sudo: false
 
 jdk:
   - openjdk11
+  - oracle11
   - openjdk8
+  - oracle8
+  
 cache:
   directories:
     - $HOME/.m2
