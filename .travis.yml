@@ -3,9 +3,9 @@ sudo: false
 
 jdk:
   - openjdk11
-  - oracle11
+  - oraclejdk11
   - openjdk8
-  - oracle8
+  - oraclejdk8
   
 cache:
   directories:
