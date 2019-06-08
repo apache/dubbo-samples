@@ -78,7 +78,7 @@
         <mockito_version>2.23.4</mockito_version>
         <cglib_version>2.2</cglib_version>
         <testcontainers.version>1.11.3</testcontainers.version>
-        <maven_surefire_version>2.22.1</maven_surefire_version>
+        <maven_failsafe_version>2.22.1</maven_failsafe_version>
         <!-- Build args -->
         <argline>-server -Xms256m -Xmx512m -Dfile.encoding=UTF-8
             -Djava.net.preferIPv4Stack=true -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=128m
@@ -143,8 +143,8 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven_surefire_version}</version>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven_failsafe_version}</version>
                 <configuration>
                     <useSystemClassLoader>true</useSystemClassLoader>
                     <forkMode>once</forkMode>
