@@ -41,6 +41,7 @@
         <dubbo.port>20880</dubbo.port>
         <main-class>org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap</main-class>
         <spring-test.version>4.3.16.RELEASE</spring-test.version>
+        <maven_jacoco_version>0.8.3</maven_jacoco_version>
     </properties>
 
     <dependencies>
@@ -179,6 +180,29 @@
                                         <include>**/*IT.java</include>
                                     </includes>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${maven_jacoco_version}</version>
+                        <executions>
+                            <execution>
+                                <id>jacoco-initialize</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <configuration>
+                                    <propertyName>jacocoArgLine</propertyName>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>report-aggregate</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report-aggregate</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
