@@ -14,8 +14,7 @@ cache:
 install: true
 
 script:
-  - ./mvnw clean install
-  - ./mvnw clean verify -Pdubbo-integration-test
+  - ./mvnw clean install -Pdubbo-integration-test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
