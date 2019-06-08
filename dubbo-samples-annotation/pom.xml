@@ -31,7 +31,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>2.7.2-SNAPSHOT</dubbo.version>
+        <dubbo.version>2.7.2</dubbo.version>
         <junit.version>4.12</junit.version>
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
@@ -100,7 +100,7 @@
                         <version>${jib-maven-plugin.version}</version>
                         <configuration>
                             <from>
-                                <image>gcr.io/distroless/java:debug</image>
+                                <image>openjdk:8</image>
                             </from>
                             <to>
                                 <image>${image.name}</image>

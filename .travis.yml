@@ -6,15 +6,22 @@ jdk:
   - oraclejdk11
   - openjdk8
   - oraclejdk8
-
+  
 cache:
   directories:
     - $HOME/.m2
 
 install: true
 
-script:
-  - ./mvnw clean install
+
+jobs:
+  include:
+    - stage: test
+      script: ./mvnw clean install
+      name : "Compile and install project"
+    - stage: integration test
+      script: ./mvnw clean verify -Pdubbo-integration-test
+      name: "Run integration test"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
