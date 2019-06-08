@@ -13,8 +13,15 @@ cache:
 
 install: true
 
-script:
-  - ./mvnw clean install -Pdubbo-integration-test
+
+jobs:
+  include:
+    - stage: test
+      script: ./mvnw clean install
+      name : "Compile and install project"
+    - stage: integration test
+      script: ./mvnw clean verify -Pdubbo-integration-test
+      name: "Run integration test"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
