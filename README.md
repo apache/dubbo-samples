@@ -22,7 +22,7 @@ Pls. cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/u
 
 The purpose of this project is to verify issues in module integration and process invocation of Dubbo. The samples in this repository are good integration test cases.  
 
-This project, together with Dubbo unit testing (please see [unit test guide](http://dubbo.apache.org/en-us/docs/developers/contributor-guide/test-coverage-guide_dev.html)), constitutes the functional testing of Dubbo. For those issues that are not easy to verify in Dubbo unit test , please submit here.
+This project, together with Dubbo unit testing (please see [unit test guide](http://dubbo.apache.org/en-us/docs/developers/contributor-guide/test-coverage-guide_dev.html)), constitutes the functional testing of Dubbo. For those issues that are not easy to verify in Dubbo unit test , please feel free to add new test cases
 
 #### How to write integration test cases ?
 
@@ -33,11 +33,10 @@ When you run the test cases on your local pc,  please follow the steps :
 
 * 1  install and start `docker` on your pc.  https://docs.docker.com/get-started/ is docker help website. 
 
-* 2  run mvn command in the terminal
+* 2  run the integration test case in the terminal
 
 ```shell 
 cd dubbo-samples
 mvn clean verify -Pdubbo-integration-test
 
 ```
-  Then you can run the integration test case , feel free to add new test cases 
