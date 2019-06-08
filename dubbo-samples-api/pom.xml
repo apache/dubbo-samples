@@ -35,7 +35,7 @@
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
-        <image.name>${artifactId}</image.name>
+        <image.name>${artifactId}:${dubbo.version}</image.name>
         <dubbo.port>20880</dubbo.port>
         <main-class>org.apache.dubbo.samples.provider.Application</main-class>
     </properties>
@@ -69,7 +69,7 @@
                                 <image>gcr.io/distroless/java:debug</image>
                             </from>
                             <to>
-                                <image>${image.name}:${dubbo.version}</image>
+                                <image>${image.name}</image>
                             </to>
                             <container>
                                 <jvmFlags>
@@ -98,7 +98,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>${image.name}:${dubbo.version}</name>
+                                    <name>${image.name}</name>
                                     <run>
                                         <ports>
                                             <port>${dubbo.port}:${dubbo.port}</port>
