@@ -30,7 +30,6 @@ public class BasicConsumer {
         context.start();
         DemoService demoService = (DemoService) context.getBean("demoService");
         String hello = demoService.sayHello("world");
-        System.out.println("---------------");
         System.out.println(hello);
     }
 }
