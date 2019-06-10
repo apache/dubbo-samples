@@ -28,7 +28,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {AnnotationConsumerBootstrap.ConsumerConfiguration.class})
-public class AnnotationConsumerIT {
+public class AnnotationServicesIT {
     @Autowired
     private AnnotationAction annotationAction;
 

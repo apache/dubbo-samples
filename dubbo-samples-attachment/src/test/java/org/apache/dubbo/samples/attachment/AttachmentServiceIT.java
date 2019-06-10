@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:spring/attachment-consumer.xml")
-public class AttachmentConsumerIT {
+public class AttachmentServiceIT {
     @Autowired
     @Qualifier("demoService")
     private AttachmentService service;

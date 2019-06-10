@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.provider;
+package org.apache.dubbo.samples.client;
 
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -25,7 +25,7 @@ import org.apache.dubbo.samples.api.GreetingsService;
 import junit.framework.TestCase;
 import org.junit.Test;
 
-public class ApplicationIT {
+public class GreetingServiceIT {
 
     @Test
     public void test() {
