@@ -19,13 +19,10 @@
 
 package org.apache.dubbo.samples.cache.impl;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.dubbo.samples.cache.api.CacheService;
 
-/**
- * ValidationServiceImpl
- */
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class CacheServiceImpl implements CacheService {
 
     private final AtomicInteger i = new AtomicInteger();
