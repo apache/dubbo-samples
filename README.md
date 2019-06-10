@@ -56,10 +56,7 @@ If you are interested in contributing more integration test for dubbo, pls. read
 <main-class>org.apache.dubbo.samples.attachment.AttachmentProvider</main-class>
 ```
 
-Integration test leverages [docker](https://docs.docker.com/get-started/) to setup test environment, more accurately, to start dubbo provider instance, and any other supporting systems like registry center if necessary, in docker. Therefore, there are two maven plugins required for composing docker image and start-and-stop the docker instances before-and-after the integration test: 
-
-0. [jib-maven-plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin) from google
-0. [docker-maven-plugin](https://github.com/fabric8io/docker-maven-plugin) from fabric8
+Integration test leverages [docker](https://docs.docker.com/get-started/) to setup test environment, more accurately, to start dubbo provider instance, and any other supporting systems like registry center if necessary, in docker. Therefore, there are two maven plugins required for composing docker image and start-and-stop the docker instances before-and-after the integration test: 1. [jib-maven-plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin) from google 2. [docker-maven-plugin](https://github.com/fabric8io/docker-maven-plugin) from fabric8.
 
 2. Configure maven plugins:
 
