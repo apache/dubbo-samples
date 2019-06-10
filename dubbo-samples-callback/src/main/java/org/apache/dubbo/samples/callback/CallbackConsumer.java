@@ -20,18 +20,16 @@
 package org.apache.dubbo.samples.callback;
 
 import org.apache.dubbo.samples.callback.api.CallbackService;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * CallbackConsumer
- */
 public class CallbackConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/callback-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/callback-consumer.xml");
         context.start();
         CallbackService callbackService = (CallbackService) context.getBean("callbackService");
-        callbackService.addListener("foo.bar", msg -> System.out.println("callback1:" + msg));
+        callbackService.addListener("foo.bar", msg -> System.out.println("callback:" + msg));
         System.in.read();
     }
 

@@ -24,7 +24,6 @@
 
     <dubbo:application name="callback-consumer"/>
 
-    <!--<dubbo:registry address="multicast://224.5.6.7:1234"/>-->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
     <dubbo:reference id="callbackService" interface="org.apache.dubbo.samples.callback.api.CallbackService"/>

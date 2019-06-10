@@ -19,17 +19,14 @@
 
 package org.apache.dubbo.samples.callback.impl;
 
+import org.apache.dubbo.samples.callback.api.CallbackListener;
+import org.apache.dubbo.samples.callback.api.CallbackService;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.dubbo.samples.callback.api.CallbackListener;
-import org.apache.dubbo.samples.callback.api.CallbackService;
-
-/**
- * CallbackServiceImpl
- */
 public class CallbackServiceImpl implements CallbackService {
 
     private final Map<String, CallbackListener> listeners = new ConcurrentHashMap<String, CallbackListener>();
