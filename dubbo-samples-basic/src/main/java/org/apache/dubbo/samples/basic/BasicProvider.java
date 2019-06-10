@@ -29,7 +29,7 @@ public class BasicProvider {
         Thread.sleep(1000);
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
         context.start();
-
+        System.out.println("dubbo service started");
         System.in.read();
     }
 
