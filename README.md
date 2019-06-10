@@ -57,6 +57,7 @@ If you are interested in contributing more integration test for dubbo, pls. read
 ```
 
 Integration test leverages [docker](https://docs.docker.com/get-started/) to setup test environment, more accurately, to start dubbo provider instance, and any other supporting systems like registry center if necessary, in docker. Therefore, there are two maven plugins required for composing docker image and start-and-stop the docker instances before-and-after the integration test: 
+
 0. [jib-maven-plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin) from google
 0. [docker-maven-plugin](https://github.com/fabric8io/docker-maven-plugin) from fabric8
 
@@ -75,7 +76,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 </profiles>
 ```
 
-2.1 Configure dubbo-maven-address-plugin
+2.1. Configure dubbo-maven-address-plugin
 
 ```xml
 <plugin>
@@ -98,7 +99,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 
 'dubbo-local-address' is a maven property in which dubbo provider's IP address is stored. 
 
-2.2 Configure jib-maven-plugin
+2.2. Configure jib-maven-plugin
 
 ```xml
 <plugin>
@@ -136,7 +137,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 
 '<DUBBO_IP_TO_REGISTRY>' is an environment variable to instruct dubbo provider the IP address used for registering to service registration center. Since the dubbo provider will run within a docker instance, a host's IP address (detected from dubbo-maven-address-plugin) must be used in order to allow it discovered by the dubbo client running outside docker instance. 
 
-2.3 Configure docker-maven-plugin
+2.3. Configure docker-maven-plugin
 
 ```xml
 <plugin>
@@ -182,7 +183,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 
 'docker-maven-plugin' will start the specified docker image before integration test (phase 'pre-integration-test') and stop it after integration test (phase 'post-integration-test').
 
-2.4 Configure maven-failsafe-plugin
+2.4. Configure maven-failsafe-plugin
 
 ```xml
 <plugin>
