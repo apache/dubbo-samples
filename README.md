@@ -58,7 +58,7 @@ If you are interested in contributing more integration test for dubbo, pls. read
 
 Integration test leverages [docker](https://docs.docker.com/get-started/) to setup test environment, more accurately, to start dubbo provider instance, and any other supporting systems like registry center if necessary, in docker. Therefore, there are two maven plugins required for composing docker image and start-and-stop the docker instances before-and-after the integration test: 1. [jib-maven-plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin) from google 2. [docker-maven-plugin](https://github.com/fabric8io/docker-maven-plugin) from fabric8.
 
-2. Configure maven plugins:
+2. Configure maven profile:
 
 Since we use profile 'dubbo-integration-test' to enable integration test, make sure the following plugins are configured under the desire profile, which is **'dubbo-integration-test'**:
 
@@ -73,7 +73,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 </profiles>
 ```
 
-2.1. Configure dubbo-maven-address-plugin
+3. Configure dubbo-maven-address-plugin
 
 ```xml
 <plugin>
@@ -96,7 +96,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 
 'dubbo-local-address' is a maven property in which dubbo provider's IP address is stored. 
 
-2.2. Configure jib-maven-plugin
+4. Configure jib-maven-plugin
 
 ```xml
 <plugin>
@@ -134,7 +134,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 
 '<DUBBO_IP_TO_REGISTRY>' is an environment variable to instruct dubbo provider the IP address used for registering to service registration center. Since the dubbo provider will run within a docker instance, a host's IP address (detected from dubbo-maven-address-plugin) must be used in order to allow it discovered by the dubbo client running outside docker instance. 
 
-2.3. Configure docker-maven-plugin
+5. Configure docker-maven-plugin
 
 ```xml
 <plugin>
@@ -180,7 +180,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 
 'docker-maven-plugin' will start the specified docker image before integration test (phase 'pre-integration-test') and stop it after integration test (phase 'post-integration-test').
 
-2.4. Configure maven-failsafe-plugin
+6. Configure maven-failsafe-plugin
 
 ```xml
 <plugin>
