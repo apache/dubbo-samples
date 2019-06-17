@@ -14,38 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance.impl;
+package org.apache.dubbo.samples.chain.api;
 
-import org.apache.dubbo.samples.governance.api.DogService;
+public interface ChineseService {
+    String eat();
 
-/**
- *
- */
-public class DogServiceImpl implements DogService {
-    @Override
-    public int getId() {
-        return 0;
-    }
-
-    @Override
-    public String getName() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("I am a Dog!");
-        return "I am a Dog!";
-    }
-
-    @Override
-    public String dog() {
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Woof Woof!");
-        return "Woof Woof!";
-    }
+    String watch();
 }

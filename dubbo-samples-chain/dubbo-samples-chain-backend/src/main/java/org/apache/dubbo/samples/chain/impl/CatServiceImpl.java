@@ -14,15 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance.api;
+package org.apache.dubbo.samples.chain.impl;
 
-/**
- *
- */
-public interface CatService {
-    int getId();
+import org.apache.dubbo.samples.chain.api.CatService;
 
-    String getName();
+public class CatServiceImpl implements CatService {
+    @Override
+    public int getId() {
+        return 1;
+    }
 
-    String cat();
+    @Override
+    public String getName() {
+        System.out.println("I am a Cat!");
+        return "I am a Cat!";
+    }
+
+    @Override
+    public String cat() {
+        System.out.println("Meow Meow!");
+        return "Meow Meow!";
+    }
 }

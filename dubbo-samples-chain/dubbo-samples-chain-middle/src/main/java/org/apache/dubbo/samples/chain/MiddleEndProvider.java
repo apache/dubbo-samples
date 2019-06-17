@@ -14,13 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance.api;
 
-/**
- *
- */
-public interface ChineseService {
-    String eat();
+package org.apache.dubbo.samples.chain;
 
-    String watch();
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.CountDownLatch;
+
+public class MiddleEndProvider {
+
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
+        context.start();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
+    }
 }

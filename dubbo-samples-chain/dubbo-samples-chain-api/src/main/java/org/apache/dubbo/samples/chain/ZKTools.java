@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.chain;
 
 import org.apache.dubbo.common.utils.StringUtils;
 
@@ -22,9 +22,6 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-/**
- *
- */
 public class ZKTools {
     private static CuratorFramework client;
 

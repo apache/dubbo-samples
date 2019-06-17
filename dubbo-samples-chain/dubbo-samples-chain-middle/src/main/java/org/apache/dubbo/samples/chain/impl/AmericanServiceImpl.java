@@ -14,50 +14,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance.impl;
+package org.apache.dubbo.samples.chain.impl;
 
-import org.apache.dubbo.samples.governance.api.ChineseService;
-import org.apache.dubbo.samples.governance.api.DogService;
-import org.apache.dubbo.samples.governance.api.TigerService;
+import org.apache.dubbo.samples.chain.api.AmericanService;
+import org.apache.dubbo.samples.chain.api.CatService;
+import org.apache.dubbo.samples.chain.api.LionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- */
-public class ChineseServiceImpl implements ChineseService {
+public class AmericanServiceImpl implements AmericanService {
 
     @Autowired
-    private DogService dogService;
+    private CatService catService;
 
     @Autowired
-    private TigerService tigerService;
+    private LionService lionService;
 
     @Override
     public String eat() {
-        System.out.println(dogService.getName());
-        return "I can eat Dog!";
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(catService.getName());
+        return "I can eat Cat!";
     }
 
     @Override
     public String watch() {
-        System.out.println(tigerService.getName());
-        return "I want to see Tiger!";
+        System.out.println(lionService.getName());
+        return "I want to see Lion!";
     }
 
-    public DogService getDogService() {
-        return dogService;
+    public CatService getCatService() {
+        return catService;
     }
 
-    public void setDogService(DogService dogService) {
-        this.dogService = dogService;
+    public void setCatService(CatService catService) {
+        this.catService = catService;
     }
 
-    public TigerService getTigerService() {
-        return tigerService;
+    public LionService getLionService() {
+        return lionService;
     }
 
-    public void setTigerService(TigerService tigerService) {
-        this.tigerService = tigerService;
+    public void setLionService(LionService lionService) {
+        this.lionService = lionService;
     }
 }

@@ -14,28 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance.impl;
+package org.apache.dubbo.samples.chain.api;
 
-import org.apache.dubbo.samples.governance.api.TigerService;
+public interface DogService {
+    int getId();
 
-/**
- *
- */
-public class TigerServiceImpl implements TigerService {
-    @Override
-    public int getId() {
-        return 3;
-    }
+    String getName();
 
-    @Override
-    public String getName() {
-        System.out.println("I am a Tiger!");
-        return "I am a Tiger!";
-    }
-
-    @Override
-    public String tiger() {
-        System.out.println("Tiger Tiger!");
-        return "Tiger Tiger!";
-    }
+    String dog();
 }
