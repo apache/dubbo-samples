@@ -17,32 +17,18 @@
  *
  */
 
-package org.apache.dubbo.samples.compatible;
-
-import org.apache.dubbo.samples.basic.api.DemoService;
-import org.apache.dubbo.samples.basic.api.User;
+package org.apache.dubbo.samples.compat;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class BasicConsumer {
+public class Provider {
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-demo-consumer.xml"});
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-compat-provider.xml");
         context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
-
-        while (true) {
-            try {
-                String hello = demoService.sayHello("world"); // call remote method
-                System.out.println(hello); // get result
-
-                User user = demoService.getUser(1);
-                System.out.println(user);
-
-                Thread.sleep(1000);
-            } catch (Throwable throwable) {
-                System.out.println(throwable.getMessage());
-            }
-        }
+        System.out.println("dubbo service started");
+        System.in.read();
     }
+
 }

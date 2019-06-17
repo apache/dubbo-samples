@@ -24,21 +24,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <!-- provider's application name, used for tracing dependency relationship -->
-    <dubbo:application name="demo-provider"/>
-
-    <!-- use multicast registry center to export service -->
-    <dubbo:registry group="aaa" address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:application name="compat-consumer"/>
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-    <!--<dubbo:registry address="zookeeper://11.163.250.27:2181"/>-->
-
-    <!-- use dubbo protocol to export service on port 20880 -->
-    <dubbo:protocol name="dubbo" port="20890"/>
-
-    <!-- service implementation, as same as regular local bean -->
-    <bean id="demoService" class="org.apache.dubbo.samples.basic.impl.DemoServiceImpl"/>
-
-    <!-- declare the service interface to be exported -->
-    <dubbo:service interface="org.apache.dubbo.samples.basic.api.DemoService" ref="demoService"/>
-
+    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.basic.api.DemoService"/>
 </beans>

@@ -19,21 +19,22 @@
 
 package org.apache.dubbo.samples.basic.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.basic.api.DemoService;
 import org.apache.dubbo.samples.basic.api.Phone;
 import org.apache.dubbo.samples.basic.api.User;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static org.apache.dubbo.rpc.RpcContext.getContext;
 
 public class DemoServiceImpl implements DemoService {
 
     @Override
     public String sayHello(String name) {
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
-            .getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +
+                ", request from consumer: " + getContext().getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + getContext().getLocalAddress();
     }
 
     @Override

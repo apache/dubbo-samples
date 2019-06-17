@@ -17,18 +17,22 @@
  *
  */
 
-package org.apache.dubbo.samples.compatible;
+package org.apache.dubbo.samples.compat;
+
+import org.apache.dubbo.samples.basic.api.DemoService;
+import org.apache.dubbo.samples.basic.api.User;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class BasicProvider {
+public class Consumer {
 
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-demo-provider.xml"});
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-compat-consumer.xml");
         context.start();
-
-        System.in.read(); // press any key to exit
+        DemoService demoService = (DemoService) context.getBean("demoService");
+        String hello = demoService.sayHello("world");
+        System.out.println(hello);
+        User user = demoService.getUser(1);
+        System.out.println(user);
     }
-
 }

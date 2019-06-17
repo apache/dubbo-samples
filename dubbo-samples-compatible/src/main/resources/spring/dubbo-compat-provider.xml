@@ -23,16 +23,9 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
-
-    <!-- consumer's application name, used for tracing dependency relationship (not a matching criterion),
-    don't set it same as provider -->
-    <dubbo:application name="demo-consumer"/>
-
-    <!-- use multicast registry center to discover service -->
-    <dubbo:registry group="aaa" address="zookeeper://127.0.0.1:2181"/>
-
-    <!-- generate proxy for the remote service, then demoService can be used in the same way as the
-    local regular interface -->
-    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.basic.api.DemoService"/>
-
+    <dubbo:application name="compat-provider"/>
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:protocol name="dubbo" port="20890"/>
+    <bean id="demoService" class="org.apache.dubbo.samples.basic.impl.DemoServiceImpl"/>
+    <dubbo:service interface="org.apache.dubbo.samples.basic.api.DemoService" ref="demoService"/>
 </beans>
