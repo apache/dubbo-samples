@@ -1,0 +1,14 @@
+version: "2"
+services:
+  zookeeper:
+    image: "zookeeper:latest"
+    ports:
+      - "2181:2181"
+  backend:
+    image: "dubbo-samples-chain-backend:${dubbo.version}"
+    ports:
+      - "20880:20880"
+  middle:
+    image: "dubbo-samples-chain-middle:${dubbo.version}"
+    ports:
+      - "20881:20881"

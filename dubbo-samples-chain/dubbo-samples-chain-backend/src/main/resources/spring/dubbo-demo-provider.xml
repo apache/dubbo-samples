@@ -20,27 +20,28 @@
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
 
     <!-- optional provider's application name, used for tracing dependency relationship -->
-    <dubbo:application name="concurrency-backend"/>
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-    <dubbo:protocol port="-1"/>
+    <dubbo:application name="chain-backend-app"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <dubbo:protocol port="20880"/>
 
-    <dubbo:config-center address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:config-center address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <bean id="catService" class="org.apache.dubbo.samples.governance.impl.CatServiceImpl"/>
-    <dubbo:service interface="org.apache.dubbo.samples.governance.api.CatService" ref="catService"/>
+    <bean id="catService" class="org.apache.dubbo.samples.chain.impl.CatServiceImpl"/>
+    <dubbo:service interface="org.apache.dubbo.samples.chain.api.CatService" ref="catService"/>
 
-    <bean id="dogService" class="org.apache.dubbo.samples.governance.impl.DogServiceImpl"/>
-    <dubbo:service interface="org.apache.dubbo.samples.governance.api.DogService" ref="dogService"/>
+    <bean id="dogService" class="org.apache.dubbo.samples.chain.impl.DogServiceImpl"/>
+    <dubbo:service interface="org.apache.dubbo.samples.chain.api.DogService" ref="dogService"/>
 
-    <bean id="lionService" class="org.apache.dubbo.samples.governance.impl.LionServiceImpl"/>
-    <dubbo:service interface="org.apache.dubbo.samples.governance.api.LionService" ref="lionService"/>
+    <bean id="lionService" class="org.apache.dubbo.samples.chain.impl.LionServiceImpl"/>
+    <dubbo:service interface="org.apache.dubbo.samples.chain.api.LionService" ref="lionService"/>
 
-    <bean id="tigerService" class="org.apache.dubbo.samples.governance.impl.TigerServiceImpl"/>
-    <dubbo:service interface="org.apache.dubbo.samples.governance.api.TigerService" ref="tigerService"/>
+    <bean id="tigerService" class="org.apache.dubbo.samples.chain.impl.TigerServiceImpl"/>
+    <dubbo:service interface="org.apache.dubbo.samples.chain.api.TigerService" ref="tigerService"/>
 
 </beans>
