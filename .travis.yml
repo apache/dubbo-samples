@@ -15,14 +15,10 @@ cache:
 
 install: true
 
-jobs:
-  include:
-    - stage: test
-      script: ./mvnw clean install
-      name : "Compile and install project"
-    - stage: integration test
-      script: ./mvnw clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE}
-      name: "Run integration test"
+script:
+  - ./mvnw clean install
+  - ./mvnw clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE}
+
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
