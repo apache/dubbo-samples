@@ -1,11 +1,13 @@
 language: java
+
 sudo: false
 
-jdk:
-  - openjdk11
-  - oraclejdk11
-  - openjdk8
-  - oraclejdk8
+matrix:
+  include:
+    - jdk: openjdk11
+      env: JAVA_BASE_IMAGE=openjdk:11
+    - jdk: openjdk8
+      env: JAVA_BASE_IMAGE=openjdk:8
 
 cache:
   directories:
@@ -13,14 +15,13 @@ cache:
 
 install: true
 
-
 jobs:
   include:
     - stage: test
       script: ./mvnw clean install
       name : "Compile and install project"
     - stage: integration test
-      script: ./mvnw clean verify -Pdubbo-integration-test
+      script: ./mvnw clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE}
       name: "Run integration test"
 
 after_success:
