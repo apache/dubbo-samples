@@ -16,8 +16,8 @@ cache:
 install: true
 
 script:
-  - ./mvnw clean install
-  - ./mvnw clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE}
+  - travis_wait 10 ./mvnw clean install
+  - travis_wait 30 ./mvnw clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE}
 
 
 after_success:
