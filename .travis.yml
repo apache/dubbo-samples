@@ -16,7 +16,7 @@ cache:
 install: true
 
 script:
-  - ./mvnw -B clean install
+  - ./mvnw -B clean install -pl dubbo-maven-address-plugin
   - ./mvnw -B clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE}
 
 
