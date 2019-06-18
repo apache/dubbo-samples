@@ -14,22 +14,29 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-
 package org.apache.dubbo.samples.mock;
 
-import org.apache.dubbo.samples.mock.zk.EmbeddedZooKeeper;
+import org.apache.dubbo.samples.mock.api.DemoService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
-public class MockProvider {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath*:spring/mock-consumer.xml")
+public class MockServicesIT {
+    @Autowired
+    @Qualifier("demoService")
+    private DemoService service;
 
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/mock-provider.xml");
-        context.start();
-
-        System.out.println("dubbo service started");
-        // press any key to exit
-        System.in.read();
+    @Test
+    public void testMock() {
+        String response = service.sayHello("world");
+        assertThat(response, is("mock world"));
     }
 }
