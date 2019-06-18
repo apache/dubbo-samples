@@ -35,9 +35,9 @@
     </dubbo:protocol>
 
     <!-- service implementation, as same as regular local bean -->
-    <bean id="demoService" class="com.alibaba.dubbo.samples.serialization.change.thread.impl.DemoServiceImpl"/>
+    <bean id="demoService" class="org.apache.dubbo.samples.serialization.change.thread.impl.DemoServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service interface="com.alibaba.dubbo.samples.serialization.change.thread.api.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.serialization.change.thread.api.DemoService" ref="demoService"/>
 
 </beans>
