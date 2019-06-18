@@ -27,10 +27,7 @@
     <dubbo:application name="demo-consumer"/>
 
     <!-- use zookeeper registry center to discover service -->
-    <dubbo:registry  address="zookeeper://127.0.0.1:2181">
-        <!-- qos default port is 22222,so add this avoid port conflict -->
-        <dubbo:parameter key="qos.port" value="33333"/>
-    </dubbo:registry>
+    <dubbo:registry  address="zookeeper://127.0.0.1:2181"/>
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the
     local regular interface -->
