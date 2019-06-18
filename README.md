@@ -105,7 +105,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
     <version>${jib-maven-plugin.version}</version>
     <configuration>
         <from>
-            <image>openjdk:8</image>
+            <image>${java-image.name}</image>
         </from>
         <to>
             <image>${image.name}</image>
