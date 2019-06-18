@@ -18,9 +18,6 @@ package org.apache.dubbo.samples.server;
 
 import org.apache.dubbo.samples.api.DemoService;
 
-/**
- *
- */
 public class DemoServiceImpl implements DemoService {
     @Override
     public String sayHello() {

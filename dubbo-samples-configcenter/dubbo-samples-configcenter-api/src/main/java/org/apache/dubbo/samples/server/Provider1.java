@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.provider;
+package org.apache.dubbo.samples.server;
 
 
 import org.apache.dubbo.config.ApplicationConfig;
@@ -26,10 +26,10 @@ import org.apache.dubbo.samples.api.GreetingsService;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Provider {
+public class Provider1 {
 
     private static ConfigCenterConfig configCenter = new ConfigCenterConfig();
-    private static ApplicationConfig applicationConfig = new ApplicationConfig("api-dubbo-provider");
+    private static ApplicationConfig applicationConfig = new ApplicationConfig("api-dubbo-provider-1");
 
     static {
         configCenter.setExternalConfig(getExternalConfiguration());
@@ -42,7 +42,7 @@ public class Provider {
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
         service.export();
-        System.out.println("Dubbo provider started successfully!");
+        System.out.println("dubbo service started");
         System.in.read();
     }
 
@@ -54,8 +54,8 @@ public class Provider {
     public static Map<String, String> getExternalConfiguration() {
         Map<String, String> dubboConfigurations = new HashMap<>();
         dubboConfigurations.put("dubbo.registry.address", "zookeeper://127.0.0.1:2181");
-        // you will need to add the configcenter address if you want to use the service governance features in 2.7, e.g., overrides and routers.
-        // but notice it will not be used for gathering startup configurations.
+        // you will need to add the configcenter address if you want to use the service governance features in 2.7,
+        // e.g., overrides and routers, but notice it will not be used for gathering startup configurations.
         dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
 
         return dubboConfigurations;

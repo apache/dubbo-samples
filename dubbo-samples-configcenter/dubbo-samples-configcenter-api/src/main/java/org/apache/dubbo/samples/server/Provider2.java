@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.provider;
+package org.apache.dubbo.samples.server;
 
 
 import org.apache.dubbo.config.ApplicationConfig;
@@ -25,27 +25,26 @@ import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.samples.api.DemoService;
 import org.apache.dubbo.samples.api.GreetingsService;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
-public class MultipleServiceProvider {
+public class Provider2 {
     private static ConfigCenterConfig configCenter = new ConfigCenterConfig();
-    private static ApplicationConfig application = new ApplicationConfig("api-dubbo-provider");
-    private static RegistryConfig registry1 = new RegistryConfig();
-    private static RegistryConfig registry2 = new RegistryConfig();
+    private static ApplicationConfig application = new ApplicationConfig("api-dubbo-provider-2");
+    private static RegistryConfig registry = new RegistryConfig();
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
 
     static {
         configCenter.setExternalConfig(getExternalConfiguration());
-        registry1.setAddress("zookeeper://127.0.0.1:2181");
-        registry2.setAddress("zookeeper://127.0.0.1:2181");
+        registry.setAddress("zookeeper://" + zookeeperHost + ":2182");
     }
 
     public static void main(String[] args) throws Exception {
         ServiceConfig<GreetingsService> greetingsService = new ServiceConfig<>();
         greetingsService.setApplication(application);
         greetingsService.setConfigCenter(configCenter);
-        greetingsService.setRegistries(Arrays.asList(registry1, registry2));
+        greetingsService.setRegistry(registry);
         greetingsService.setInterface(GreetingsService.class);
         greetingsService.setRef(new GreetingsServiceImpl());
         greetingsService.export();
@@ -54,12 +53,12 @@ public class MultipleServiceProvider {
         demoService.setApplication(application);
         demoService.setConfigCenter(configCenter);
         demoService.setInterface(DemoService.class);
-        demoService.setRegistries(Arrays.asList(registry1, registry2));
+        demoService.setRegistry(registry);
         demoService.setRef(new DemoServiceImpl());
         demoService.export();
 
-        System.out.println("Dubbo provider started successfully!");
-        System.in.read();
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
     /**
@@ -69,10 +68,10 @@ public class MultipleServiceProvider {
      */
     public static Map<String, String> getExternalConfiguration() {
         Map<String, String> dubboConfigurations = new HashMap<>();
-        dubboConfigurations.put("dubbo.registry.address", "zookeeper://127.0.0.1:2181");
-        // you will need to add the configcenter address if you want to use the service governance features in 2.7, e.g., overrides and routers.
-        // but notice it will not be used for gathering startup configurations.
-        dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
+        dubboConfigurations.put("dubbo.registry.address", "zookeeper://" + zookeeperHost + ":2181");
+        // you will need to add the config center address if you want to use the service governance features in 2.7,
+        // e.g., overrides and routers, but notice it will not be used for gathering startup configurations.
+        dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://" + zookeeperHost + ":2181");
 
         return dubboConfigurations;
     }

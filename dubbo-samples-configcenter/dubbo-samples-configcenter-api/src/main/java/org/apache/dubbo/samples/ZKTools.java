@@ -22,22 +22,17 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-/**
- *
- */
 public class ZKTools {
     private static CuratorFramework client;
+    private static String zookeeperHost = "127.0.0.0";
 
     public static void main(String[] args) throws Exception {
-        client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000,
-                new ExponentialBackoffRetry(1000, 3));
-        client.start();
-
+        initClient();
         generateDubboPropertiesForGlobal();
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registry.address=zookeeper://127.0.0.1:2181\n";
+        String str = "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2181\n";
 
         System.out.println(str);
 
@@ -50,6 +45,16 @@ public class ZKTools {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setZookeeperHost(String host) {
+        zookeeperHost = host;
+    }
+
+    public static void initClient() {
+        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+                new ExponentialBackoffRetry(1000, 3));
+        client.start();
     }
 
     private static void setData(String path, String data) throws Exception {
