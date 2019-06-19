@@ -18,9 +18,6 @@ package org.apache.dubbo.samples.externalconfiguration.service;
 
 import org.apache.dubbo.config.annotation.Service;
 
-/**
- *
- */
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
 

@@ -21,11 +21,9 @@ package org.apache.dubbo.samples.externalconfiguration.consumer;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.externalconfiguration.service.AnnotationService;
+
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 

@@ -29,9 +29,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * MergeProvider
- */
+import java.util.concurrent.CountDownLatch;
+
 @SpringBootApplication
 @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.externalconfiguration.service")
 public class AnnotationProvider {
@@ -41,32 +40,33 @@ public class AnnotationProvider {
         new EmbeddedZooKeeper(2181, false).start();
 
         SpringApplication.run(AnnotationProvider.class, args);
-        System.in.read();
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
     @Configuration
     static public class ProviderConfiguration {
 
         /**
-         * It's still required to initialize ConfigCenterBean, here we use the JavaBean method, but it doesn't matter which way you use, which means xml or .properties are all ok to go.
-         * <p>
-         * Notice that if you have a
+         * It's still required to initialize ConfigCenterBean, here we use the JavaBean method, but it doesn't matter
+         * which way you use, which means xml or .properties are all ok to go.
          */
         @Bean
         public ConfigCenterBean configCenterBean() {
             ConfigCenterBean configCenterBean = new ConfigCenterBean();
             // This is a critical switch to tell Dubbo framework to get configs from standard Spring Environment
             configCenterBean.setIncludeSpringEnv(true);
-            configCenterBean.setConfigFile("dubbo.properties");// by default is dubbo.properties
-            configCenterBean.setAppConfigFile("configcenter-annotation-provider.dubbo.properties"); // by default is application.dubbo.properties
+            // by default is dubbo.properties
+            configCenterBean.setConfigFile("dubbo.properties");
+            // by default is application.dubbo.properties
+            configCenterBean.setAppConfigFile("configcenter-annotation-provider.dubbo.properties");
             return configCenterBean;
         }
 
         /**
          * It's ok to have local configuration for each part, there's nothing different with 2.6.x regarding this part.
-         * It's only a matter of priority, by default, the external configuration (loaded from standard Spring Environment in this sample) has a higher priority than the local configuration.
-         *
-         * @return
+         * It's only a matter of priority, by default, the external configuration (loaded from standard Spring
+         * Environment in this sample) has a higher priority than the local configuration.
          */
         @Bean
         public ProviderConfig providerConfig() {
@@ -74,7 +74,5 @@ public class AnnotationProvider {
             providerConfig.setTimeout(6666);
             return providerConfig;
         }
-
     }
-
 }

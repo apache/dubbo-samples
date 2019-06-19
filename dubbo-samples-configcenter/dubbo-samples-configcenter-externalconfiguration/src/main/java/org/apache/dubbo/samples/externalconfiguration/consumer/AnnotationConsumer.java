@@ -28,9 +28,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * CallbackConsumer
- */
 @SpringBootApplication
 @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.externalconfiguration.consumer")
 public class AnnotationConsumer {
@@ -40,27 +37,26 @@ public class AnnotationConsumer {
         AnnotationAction action = context.getBean(AnnotationAction.class);
 
         String result = action.doSayHello("world");
-        System.err.println("result :" + result);
+        System.out.println("result: " + result);
     }
 
-    /**
-     *
-     */
     @Configuration
     static public class ConsumerConfiguration {
 
         /**
-         * It's still required to initialize ConfigCenterBean, here we use the JavaBean method, but it doesn't matter which way you use, for example, xml or .properties are all ok.
+         * It's still required to initialize ConfigCenterBean, here we use the JavaBean method, but it doesn't matter
+         * which way you use, for example, xml or .properties are all ok.
          */
         @Bean
         public ConfigCenterBean configCenterBean() {
             ConfigCenterBean configCenterBean = new ConfigCenterBean();
             // This is a critical switch to tell Dubbo framework to get configs from standard Spring Environment
             configCenterBean.setIncludeSpringEnv(true);
-            configCenterBean.setConfigFile("dubbo.properties");// by default is dubbo.properties
-            configCenterBean.setAppConfigFile("configcenter-annotation-provider.dubbo.properties"); // by default is application.dubbo.properties
+            // by default is dubbo.properties
+            configCenterBean.setConfigFile("dubbo.properties");
+            // by default is application.dubbo.properties
+            configCenterBean.setAppConfigFile("configcenter-annotation-provider.dubbo.properties");
             return configCenterBean;
         }
-
     }
 }

@@ -16,9 +16,6 @@
  */
 package org.apache.dubbo.samples.externalconfiguration.service;
 
-/**
- *
- */
 public interface AnnotationService {
 
     String sayHello(String name);
