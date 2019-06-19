@@ -19,23 +19,16 @@ package org.apache.dubbo.samples.context;
 
 import org.apache.dubbo.samples.context.api.ContextService;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ContextConsumer {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-context-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-context-consumer.xml");
         context.start();
-        ContextService contextService = (ContextService) context.getBean("demoService"); // get remote service proxy
+        ContextService contextService = context.getBean("demoService", ContextService.class);
 
-        String hello = contextService.sayHello("world"); // call remote method
-
-        boolean isConsumerSide = RpcContext.getContext().isConsumerSide();
-        String application = RpcContext.getContext().getUrl().getParameter("application");
-        String serverIP = RpcContext.getContext().getRemoteHost();
-
-        System.out.println(hello); // get result
-
+        String hello = contextService.sayHello("world");
+        System.out.println("result: " + hello);
     }
 }
