@@ -21,14 +21,19 @@ package org.apache.dubbo.samples.configcenter;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 public class BasicProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/configcenter-provider.xml"});
+        ZKTools.generateDubboProperties();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/configcenter-provider.xml");
         context.start();
 
-        System.in.read(); // press any key to exit
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }
