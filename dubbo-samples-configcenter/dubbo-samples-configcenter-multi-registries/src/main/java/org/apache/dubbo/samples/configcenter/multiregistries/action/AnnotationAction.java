@@ -24,9 +24,6 @@ import org.apache.dubbo.samples.configcenter.multiregistries.api.AnnotationServi
 
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 

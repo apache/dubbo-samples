@@ -19,9 +19,6 @@
 
 package org.apache.dubbo.samples.configcenter.multiregistries.api;
 
-/**
- * AsyncService
- */
 public interface AnnotationService {
 
     String sayHello(String name);

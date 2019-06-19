@@ -28,16 +28,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * MergeProvider
- */
+import java.util.concurrent.CountDownLatch;
+
 public class AnnotationProvider {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
+        ZKTools.generateDubboProperties();
+
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
-        System.in.read();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
     @Configuration

@@ -1,0 +1,14 @@
+version: "2"
+services:
+  config-center:
+    image: "zookeeper:latest"
+    ports:
+      - "2181:2181"
+  registry-center-1:
+    image: "zookeeper:latest"
+    ports:
+      - "2182:2181"
+  registry-center-2:
+    image: "zookeeper:latest"
+    ports:
+      - "2183:2181"

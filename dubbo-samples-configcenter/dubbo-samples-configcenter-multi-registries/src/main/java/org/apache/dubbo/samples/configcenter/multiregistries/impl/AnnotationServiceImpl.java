@@ -22,9 +22,6 @@ package org.apache.dubbo.samples.configcenter.multiregistries.impl;
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.configcenter.multiregistries.api.AnnotationService;
 
-/**
- * AsyncServiceImpl
- */
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
 

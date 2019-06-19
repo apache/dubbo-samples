@@ -27,9 +27,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * CallbackConsumer
- */
 public class AnnotationConsumer {
 
     public static void main(String[] args) throws Exception {
@@ -37,8 +34,7 @@ public class AnnotationConsumer {
         context.start();
         final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
         String hello = annotationAction.doSayHello("world");
-        System.out.println("result :" + hello);
-        System.in.read();
+        System.out.println("result: " + hello);
     }
 
     @Configuration
