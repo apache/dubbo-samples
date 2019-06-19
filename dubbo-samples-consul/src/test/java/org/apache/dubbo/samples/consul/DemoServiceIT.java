@@ -17,16 +17,23 @@
 
 package org.apache.dubbo.samples.consul;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.dubbo.samples.consul.api.DemoService;
 
-import java.util.concurrent.CountDownLatch;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-public class ConsulProvider {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath*:spring/dubbo-demo-consumer.xml")
+public class DemoServiceIT {
+    @Autowired
+    private DemoService service;
 
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
-        context.start();
-        System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
+    @Test
+    public void test() throws Exception {
+        Assert.assertEquals("hello, dubbo", service.sayHello("dubbo"));
     }
 }

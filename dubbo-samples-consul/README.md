@@ -9,9 +9,10 @@ This example shows how to use [consul](https://www.consul.io/) as Dubbo's regist
 In this example, a docker compose file is provided to start the required consul agent easily. But at the same time, it requires you to prepare docker environment as a prerequisite. You can refer to [docker quick start](https://www.docker.com/get-started) to install.
 
 ```bash
-cd src/main/resources/docker
-docker-compose up
+docker run -p8500:8500 consul:latest
 ```
+
+You may need also check further from [Consul Devops Handbook](https://imaginea.gitbooks.io/consul-devops-handbook/content/deploying_consul_in_docker_containers.html).
 
 #### Step 2. Build Examples
 
