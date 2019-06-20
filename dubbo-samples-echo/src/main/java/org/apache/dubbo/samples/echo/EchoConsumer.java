@@ -19,21 +19,20 @@
 
 package org.apache.dubbo.samples.echo;
 
+import org.apache.dubbo.rpc.service.EchoService;
 import org.apache.dubbo.samples.echo.api.DemoService;
 
-import com.alibaba.dubbo.rpc.service.EchoService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 
 public class EchoConsumer {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/echo-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/echo-consumer.xml");
         context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+        DemoService demoService = context.getBean("demoService", DemoService.class);
 
         EchoService echoService = (EchoService) demoService;
-        String status = (String)echoService.$echo("OK");
+        String status = (String) echoService.$echo("OK");
         System.out.println("echo result: " + status);
     }
 }
