@@ -21,7 +21,7 @@ package org.apache.dubbo.samples.echo;
 
 import org.apache.dubbo.samples.echo.api.DemoService;
 
-import com.alibaba.dubbo.rpc.service.EchoService;
+import org.apache.dubbo.rpc.service.EchoService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
