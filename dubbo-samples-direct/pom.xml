@@ -34,7 +34,7 @@
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <image.name>${artifactId}:${dubbo.version}</image.name>
         <dubbo.port>20880</dubbo.port>
         <main-class>org.apache.dubbo.samples.direct.DirectProvider</main-class>

@@ -39,7 +39,7 @@
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <dubbo.port>20880</dubbo.port>
-        <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <main-class>org.apache.dubbo.samples.mock.MockProvider</main-class>
         <spring-test.version>4.3.16.RELEASE</spring-test.version>
     </properties>

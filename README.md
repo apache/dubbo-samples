@@ -50,7 +50,7 @@ If you are interested in contributing more integration test for dubbo, pls. read
 <junit.version>4.12</junit.version>
 <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
 <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
-<maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+<maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
 <image.name>${artifactId}:${dubbo.version}</image.name>
 <dubbo.port>20880</dubbo.port>
 <main-class>org.apache.dubbo.samples.attachment.AttachmentProvider</main-class>
