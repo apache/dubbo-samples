@@ -18,9 +18,6 @@ package org.apache.dubbo.samples.generic.call.api;
 
 import java.io.Serializable;
 
-/**
- *
- */
 public class Person implements Serializable {
     private int id;
     private String name;
@@ -44,5 +41,13 @@ public class Person implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -14,29 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.generic.call.api;
 
-import java.io.Serializable;
+package org.apache.dubbo.samples.generic.call;
 
-public class GenericType<T> implements Serializable {
-    private T type;
+import org.junit.Test;
 
-    public GenericType(T aa) {
-        this.type = aa;
-    }
-
-    public T getType() {
-        return type;
-    }
-
-    public void setType(T t) {
-        this.type = t;
-    }
-
-    @Override
-    public String toString() {
-        return "GenericType{" +
-                "type=" + type +
-                '}';
+public class FooIT {
+    @Test
+    public void test() throws Exception {
+        System.out.println(">>> what's up?");
     }
 }

@@ -29,12 +29,11 @@ public class HelloServiceImpl implements HelloService {
 
     @Override
     public String sayHello(String name) {
-        return "=======" + "Hello " + name + "========";
+        return "sayHello: " + name;
     }
 
     @Override
     public CompletableFuture<String> sayHelloAsync(String name) {
-        System.err.println("executing");
         CompletableFuture<String> future = new CompletableFuture<>();
         new Thread(() -> {
             try {
@@ -42,7 +41,7 @@ public class HelloServiceImpl implements HelloService {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            future.complete("hahaha");
+            future.complete("sayHelloAsync: " + name);
         }).start();
 
         return future;
@@ -50,11 +49,34 @@ public class HelloServiceImpl implements HelloService {
 
     @Override
     public CompletableFuture<Person> sayHelloAsyncComplex(String name) {
-        return null;
+        Person person = new Person(1, "sayHelloAsyncComplex: " + name);
+        CompletableFuture<Person> future = new CompletableFuture<>();
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            future.complete(person);
+        }).start();
+
+        return future;
     }
 
     @Override
     public CompletableFuture<GenericType<Person>> sayHelloAsyncGenericComplex(String name) {
-        return null;
+        Person person = new Person(1, "sayHelloAsyncGenericComplex: " + name);
+        GenericType<Person> genericType = new GenericType<>(person);
+        CompletableFuture<GenericType<Person>> future = new CompletableFuture<>();
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            future.complete(genericType);
+        }).start();
+
+        return future;
     }
 }
