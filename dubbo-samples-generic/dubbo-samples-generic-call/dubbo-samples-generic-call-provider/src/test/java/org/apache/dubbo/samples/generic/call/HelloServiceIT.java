@@ -40,7 +40,6 @@ public class HelloServiceIT {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        System.out.println(">>> hello, hello");
         ApplicationConfig applicationConfig = new ApplicationConfig();
         applicationConfig.setName("generic-call-consumer");
         RegistryConfig registryConfig = new RegistryConfig();
