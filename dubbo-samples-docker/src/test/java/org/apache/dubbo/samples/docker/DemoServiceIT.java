@@ -16,20 +16,27 @@
  *   limitations under the License.
  *
  */
+
 package org.apache.dubbo.samples.docker;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.ImportResource;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@ContextConfiguration(locations = {"classpath:/dubbo-docker-consumer.xml"})
+public class DemoServiceIT {
+    @Autowired
+    private DemoService demoService;
 
-@SpringBootApplication
-@ImportResource("classpath:dubbo-docker-provider.xml")
-public class App {
+    @Test
+    public void test() throws Exception {
+        Assert.assertEquals("Hello dubbo from docker", demoService.hello("dubbo"));
+    }
 
-	public static void main(String[] args) throws IOException {
-		new SpringApplicationBuilder(App.class).web(false).run(args);
-		System.in.read();
-	}
 }

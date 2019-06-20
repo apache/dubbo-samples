@@ -19,20 +19,20 @@
   -->
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
 
-    <dubbo:application name="dubbo-docker-sample"/>
+    <dubbo:application name="dubbo-docker-provider"/>
 
-    <dubbo:registry client="curator" address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry client="curator" address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <!-- 用dubbo协议在20880端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="20880" />
+    <dubbo:protocol name="dubbo" port="20880"/>
 
-    <dubbo:provider delay="-1" />
+    <dubbo:provider delay="-1"/>
 
     <dubbo:service interface="org.apache.dubbo.samples.docker.DemoService" ref="demoService"/>
-    <bean id="demoService" class="org.apache.dubbo.samples.docker.DemoServiceImpl" />
 
+    <bean id="demoService" class="org.apache.dubbo.samples.docker.DemoServiceImpl"/>
 </beans>

@@ -21,6 +21,6 @@ package org.apache.dubbo.samples.docker;
 
 public class DemoServiceImpl implements DemoService {
     public String hello(String str) {
-        return "str";
+        return "Hello " + str + " from docker";
     }
 }

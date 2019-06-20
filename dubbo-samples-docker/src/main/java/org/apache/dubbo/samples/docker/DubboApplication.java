@@ -16,20 +16,21 @@
  *   limitations under the License.
  *
  */
-
 package org.apache.dubbo.samples.docker;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.ImportResource;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class DubboDockerSampleApplicationTests {
+import java.util.concurrent.CountDownLatch;
 
-	@Test
-	public void contextLoads() {
-	}
+@SpringBootApplication
+@ImportResource("classpath:dubbo-docker-provider.xml")
+public class DubboApplication {
 
+    public static void main(String[] args) throws Exception {
+        new SpringApplicationBuilder(DubboApplication.class).web(false).run(args);
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
+    }
 }
