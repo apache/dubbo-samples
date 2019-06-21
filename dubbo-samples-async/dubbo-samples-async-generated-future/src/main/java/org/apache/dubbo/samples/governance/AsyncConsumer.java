@@ -35,7 +35,7 @@ public class AsyncConsumer {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
         context.start();
 
-        final GreetingService greetingService = (GreetingService) context.getBean("greetingService");
+        final GreetingService greetingService = (GreetingService) context.getBean("greetingsService");
 
         CompletableFuture<String> future = greetingService.greeting("async call reqeust", SIGNAL);
         System.out.println("async call ret :" + future.get());
