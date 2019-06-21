@@ -32,8 +32,8 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <dubbo.version>2.7.0</dubbo.version>
-        <dubbo.rpc.version>2.7.0</dubbo.rpc.version>
+        <dubbo.version>2.7.1</dubbo.version>
+        <dubbo.rpc.version>2.7.1</dubbo.rpc.version>
         <zookeeper.version>3.4.13</zookeeper.version>
         <curator.version>4.0.1</curator.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
