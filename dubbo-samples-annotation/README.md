@@ -6,13 +6,13 @@ First, there have to be an overall configuration of provider:
 
 ```Java
 @Configuration
-@EnableDubbo(scanBasePackages = oorg.apache.dubbo.samples.annotation.implation.impl)
+@EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.impl")
 @PropertySource("classpath:/spring/dubbo-provider.properties")
 static class ProviderConfiguration {
 }
 ``` 
 
-`@EnableDubbo` will enable Spring org.apache.dubbo.samples.annotation.implples.impl` package to find anything annotated by Dubbo annotation.
+`@EnableDubbo` will enable Spring `org.apache.dubbo.samples.annotation.impl` package to find anything annotated by Dubbo annotation.
 
 As a provider, the interface implementation class have to be annotated by `@Service`:
 
@@ -34,9 +34,9 @@ The overall configuration for consumer is very smilier to provider's:
 
 ```Java
 @Configuration
-@EnableDubbo(scanBasePackages = oorg.apache.dubbo.samples.annotation.actionion.action)
+@EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.action")
 @PropertySource("classpath:/spring/dubbo-consumer.properties")
-@ComponentScan(vorg.apache.dubbo.samples.annotation.actions.annotation.action})
+@ComponentScan(value = {"org.apache.dubbo.samples.annotation.action"})
 static class ConsumerConfiguration {
 
 }
