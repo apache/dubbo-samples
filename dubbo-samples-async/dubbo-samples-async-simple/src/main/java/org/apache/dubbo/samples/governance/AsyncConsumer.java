@@ -37,7 +37,8 @@ public class AsyncConsumer {
 
         final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
 
-        asyncService.sayHello("world");
+        String res = asyncService.sayHello("world");
+        // res should be null
         CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
         helloFuture.whenComplete((retValue, exception) -> {
             if (exception == null) {

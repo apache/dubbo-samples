@@ -27,7 +27,6 @@
     <modules>
         <module>dubbo-maven-address-plugin</module>
         <module>dubbo-samples-annotation</module>
-        <module>dubbo-samples-api-client</module>
         <module>dubbo-samples-api</module>
         <module>dubbo-samples-async</module>
         <module>dubbo-samples-attachment</module>

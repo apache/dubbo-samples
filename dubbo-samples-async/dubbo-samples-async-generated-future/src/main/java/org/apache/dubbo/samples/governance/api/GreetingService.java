@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.api.client;
+package org.apache.dubbo.samples.governance.api;
 
 import java.util.concurrent.CompletableFuture;
 

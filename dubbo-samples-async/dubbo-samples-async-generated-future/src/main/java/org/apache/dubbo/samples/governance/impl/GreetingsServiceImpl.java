@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.governance.impl;
 
-import org.apache.dubbo.samples.api.client.GreetingService;
+import org.apache.dubbo.samples.governance.api.GreetingService;
 
 /**
  * AsyncServiceImpl

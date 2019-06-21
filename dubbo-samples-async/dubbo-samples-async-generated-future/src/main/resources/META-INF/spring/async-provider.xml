@@ -32,6 +32,6 @@
 
     <bean id="greetingService" class="org.apache.dubbo.samples.governance.impl.GreetingsServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.api.client.GreetingService" ref="greetingService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.governance.api.GreetingService" ref="greetingService"/>
 
 </beans>
