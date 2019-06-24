@@ -19,12 +19,14 @@
 
 package org.apache.dubbo.samples.generic.impl;
 
-import org.apache.dubbo.samples.generic.api.IUserService;
+import org.apache.dubbo.samples.generic.api.Params;
+import org.apache.dubbo.samples.generic.api.User;
+import org.apache.dubbo.samples.generic.api.UserService;
 
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
 
     @Override
     public User get(Params params) {
-        return new User(1, "charles");
+        return new User(Integer.parseInt(params.get("id")), params.get("name"));
     }
 }

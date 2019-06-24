@@ -19,6 +19,6 @@
 
 package org.apache.dubbo.samples.generic.api;
 
-public interface IService<P, V> {
+public interface Service<P, V> {
     V get(P params);
 }

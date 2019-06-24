@@ -17,22 +17,8 @@
  *
  */
 
-package org.apache.dubbo.samples.generic;
+package org.apache.dubbo.samples.generic.api;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.CountDownLatch;
-
-public class GenericProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/generic-type-provider.xml");
-        context.start();
-
-        System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
-    }
+public interface UserService extends Service<Params, User> {
 
 }
