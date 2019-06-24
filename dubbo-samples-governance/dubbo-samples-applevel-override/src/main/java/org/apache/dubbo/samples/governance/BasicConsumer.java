@@ -20,30 +20,21 @@
 package org.apache.dubbo.samples.governance;
 
 import org.apache.dubbo.samples.governance.api.DemoService;
-import org.apache.dubbo.samples.governance.api.DemoService2;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BasicConsumer {
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-demo-consumer.xml"});
+    public static void main(String[] args) throws InterruptedException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
         context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
-        DemoService2 demoService2 = (DemoService2) context.getBean("demoService2"); // get remote service proxy
 
-        while (true) {
-            try {
-                Thread.sleep(1000);
-                String hello = demoService.sayHello("world"); // call remote method
-                System.out.println(hello); // get result
+        DemoService demoService = (DemoService) context.getBean("demoService");
 
-                String hello2 = demoService2.sayHello("world again"); // call remote method
-                System.out.println(hello2); // get result
-
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
+        for (int i = 0; i < 1000; i++) {
+            String hello = demoService.sayHello("world");
+            Thread.sleep(2000);
+            System.out.println(hello);
         }
-
     }
 }
