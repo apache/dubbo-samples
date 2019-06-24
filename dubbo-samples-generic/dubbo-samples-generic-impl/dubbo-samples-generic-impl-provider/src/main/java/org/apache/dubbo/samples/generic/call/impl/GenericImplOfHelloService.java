@@ -21,19 +21,17 @@ import org.apache.dubbo.rpc.service.GenericService;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- *
- */
 public class GenericImplOfHelloService implements GenericService {
     @Override
     public Object $invoke(String method, String[] parameterTypes, Object[] args) throws GenericException {
         if (method.equals("sayHello")) {
             System.out.print("executing sayHello.");
-            throw new RuntimeException("test biz exception");
+            throw new RuntimeException("sayHello: throws exception");
         } else if (method.equals("sayHelloAsync")) {
             System.out.print("executing sayHelloAsync.");
-            return CompletableFuture.completedFuture("future method invoke.");
+            return CompletableFuture.completedFuture("sayHelloAsync: hello " + args[0]);
         }
+
         GenericException genericException = new GenericException();
         genericException.setExceptionMessage("method does not exist.");
         throw genericException;

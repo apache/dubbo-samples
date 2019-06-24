@@ -24,32 +24,39 @@ import org.apache.dubbo.samples.generic.call.api.HelloService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 
 public class GenericImplConsumer {
 
     private static HelloService helloService;
 
-    public static void main(String[] args) throws Exception{
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/generic-impl-consumer.xml"});
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/generic-impl-consumer.xml");
         context.start();
-        helloService = (HelloService) context.getBean("helloService"); // get remote service proxy
+
+        helloService = (HelloService) context.getBean("helloService");
 
         syncCall();
         futureCall();
-
-        System.in.read();
     }
 
     public static void syncCall() {
-        String syncCallResult = helloService.sayHello("world");
-        System.out.println(syncCallResult);
+        try {
+            String syncCallResult = helloService.sayHello("world");
+            System.out.println(syncCallResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void futureCall() {
+    public static void futureCall() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
         CompletableFuture<String> future = helloService.sayHelloAsync("world");
         future.whenComplete((v, t) -> {
-            System.err.print(v);
+            System.out.println(v);
+            latch.countDown();
         });
+        latch.await();
     }
 
 }

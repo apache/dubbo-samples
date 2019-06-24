@@ -25,33 +25,27 @@ import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.apache.dubbo.samples.generic.call.impl.GenericImplOfHelloService;
 
-/**
- * GenericCallProvider
- */
+import java.util.concurrent.CountDownLatch;
+
 public class GenericImplProvider {
 
     public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+
         ApplicationConfig applicationConfig = new ApplicationConfig();
         applicationConfig.setName("generic-impl-provider");
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setAddress("zookeeper://127.0.0.1:2181");
 
-        // 用org.apache.dubbo.rpc.service.GenericService可以替代所有接口实现
         GenericService helloService = new GenericImplOfHelloService();
-
-        // 该实例很重量，里面封装了所有与注册中心及服务提供方连接，请缓存
         ServiceConfig<GenericService> service = new ServiceConfig<>();
         service.setApplication(applicationConfig);
         service.setRegistry(registryConfig);
-        // 弱类型接口名
         service.setInterface("org.apache.dubbo.samples.generic.call.api.HelloService");
-        // 指向一个通用服务实现
         service.setRef(helloService);
-
-        // 暴露及注册服务
         service.export();
 
-        System.in.read();
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
-
 }

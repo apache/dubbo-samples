@@ -30,11 +30,28 @@
 
     <artifactId>dubbo-samples-generic-impl-consumer</artifactId>
 
+    <properties>
+        <dubbo.version>2.7.2</dubbo.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-samples-generic-impl-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <version>${dubbo.version}</version>
+            <type>pom</type>
         </dependency>
     </dependencies>
 

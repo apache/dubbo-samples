@@ -26,4 +26,6 @@ public interface HelloService {
     String sayHello(String name);
 
     CompletableFuture<String> sayHelloAsync(String name);
+
+    String notImplementedHello(String name);
 }
