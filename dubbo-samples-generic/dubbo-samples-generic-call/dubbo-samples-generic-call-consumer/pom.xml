@@ -32,8 +32,6 @@
 
     <properties>
         <dubbo.version>2.7.2</dubbo.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
-        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencies>
@@ -54,20 +52,6 @@
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
             <version>${dubbo.version}</version>
             <type>pom</type>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
