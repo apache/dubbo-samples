@@ -37,6 +37,12 @@ cd dubbo-samples-annotation
 mvn -Pdubbo-integration-test clean verify
 ```
 
+If docker container fails to startup successfully in any case, you can use *-Ddocker.showLogs* to check its logging output to understand what happens.
+
+```bash
+mvn -Ddocker.showLogs -Pdubbo-integration-test clean verify
+```
+
 Pls. note integration test relies on docker environment, make sure docker environment is available before run it.
 
 **How to add more integration test**
