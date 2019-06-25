@@ -22,28 +22,35 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-/**
- *
- */
 public class ZKTools {
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
-        client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000,
-                new ExponentialBackoffRetry(6000, 3));
-        client.start();
-
-        generateServiceLevelOverride();
-        generateApplicationLevelOverride();
+        initClient();
+        generateServiceLevelOverride(5000);
+        generateApplicationLevelOverride(2000);
     }
 
-    public static void generateServiceLevelOverride() {
-        String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" + "---\n" + "configVersion: v2.7\n" +
+    public static void initClient() {
+        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+                new ExponentialBackoffRetry(6000, 3));
+        client.start();
+    }
+
+    public static void generateServiceLevelOverride(long timeout) {
+        String str = "" +
+                "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" +
+                "---\n" +
+                "configVersion: v2.7\n" +
                 "scope: service\n" +
                 "key: org.apache.dubbo.samples.governance.api.DemoService\n" +
                 "enabled: true\n" +
                 "configs:\n" +
-                "- addresses: [0.0.0.0]\n" + "  side: consumer\n" + "  parameters:\n" + "    timeout: 5000\n" +
+                "- addresses: [0.0.0.0]\n" +
+                "  side: consumer\n" +
+                "  parameters:\n" +
+                "    timeout: " + timeout + "\n" +
                 "...\n";
 
         System.out.println(str);
@@ -59,8 +66,20 @@ public class ZKTools {
         }
     }
 
-    public static void generateApplicationLevelOverride() {
-        String str = "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" + "---\n" + "configVersion: v2.7\n" + "scope: application\n" + "key: governance-serviceoverride-consumer\n" + "enabled: true\n" + "configs:\n" + "- addresses: [0.0.0.0]\n" + "  side: consumer\n" + "  parameters:\n" + "    timeout: 2000\n" + "...\n";
+    public static void generateApplicationLevelOverride(long timeout) {
+        String str = "" +
+                "# All Consumers that consume the service org.apache.dubbo.samples.governance.api.DemoService will increase the timeout value to 6000\n" +
+                "---\n" +
+                "configVersion: v2.7\n" +
+                "scope: application\n" +
+                "key: governance-serviceoverride-consumer\n" +
+                "enabled: true\n" +
+                "configs:\n" +
+                "- addresses: [0.0.0.0]\n" +
+                "  side: consumer\n" +
+                "  parameters:\n" +
+                "    timeout: " + timeout + "\n" +
+                "...\n";
 
         System.out.println(str);
 
@@ -70,6 +89,21 @@ public class ZKTools {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
             setData(path, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void cleanup() {
+        try {
+            String path = "/dubbo/config/org.apache.dubbo.samples.governance.api.DemoService/configurators";
+            if (client.checkExists().forPath(path) != null) {
+                client.delete().forPath(path);
+            }
+            path = "/dubbo/config/governance-serviceoverride-consumer/configurators";
+            if (client.checkExists().forPath(path) != null) {
+                client.delete().forPath(path);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

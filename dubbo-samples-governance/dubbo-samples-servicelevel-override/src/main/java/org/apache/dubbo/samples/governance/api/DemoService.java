@@ -21,6 +21,6 @@ package org.apache.dubbo.samples.governance.api;
 
 public interface DemoService {
 
-    String sayHello(String name);
+    String sayHello(String name, long millis);
 
 }

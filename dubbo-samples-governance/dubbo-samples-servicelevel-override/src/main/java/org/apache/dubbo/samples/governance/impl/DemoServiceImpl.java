@@ -25,9 +25,9 @@ import org.apache.dubbo.samples.governance.api.DemoService;
 public class DemoServiceImpl implements DemoService {
 
     @Override
-    public String sayHello(String name) {
+    public String sayHello(String name, long millis) {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(millis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
