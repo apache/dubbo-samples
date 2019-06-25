@@ -25,16 +25,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BasicConsumer {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
         context.start();
 
         DemoService demoService = (DemoService) context.getBean("demoService");
-
-        for (int i = 0; i < 1000; i++) {
-            String hello = demoService.sayHello("world");
-            Thread.sleep(2000);
-            System.out.println(hello);
-        }
+        String hello = demoService.sayHello("world");
+        System.out.println(hello);
     }
 }
