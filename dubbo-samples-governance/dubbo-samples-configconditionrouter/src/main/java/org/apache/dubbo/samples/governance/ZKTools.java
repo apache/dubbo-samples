@@ -22,22 +22,34 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-/**
- *
- */
 public class ZKTools {
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
-        client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000,
-                new ExponentialBackoffRetry(1000, 3));
-        client.start();
-
+        initClient();
         generateAppevelRouter();
     }
 
+    public static void initClient() {
+        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+                new ExponentialBackoffRetry(1000, 3));
+        client.start();
+    }
+
     public static void generateAppevelRouter() {
-        String str = "---\n" + "scope: application\n" + "force: true\n" + "runtime: true\n" + "enabled: true\n" + "priority: 2\n" + "key: governance-conditionrouter-consumer\n" + "conditions:\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService=>address=*:20880\n" + " - interface=org.apache.dubbo.samples.governance.api.DemoService2=>address=*:20881\n" + "...";
+        String str = "" +
+                "---\n" +
+                "scope: application\n" +
+                "force: true\n" +
+                "runtime: true\n" +
+                "enabled: true\n" +
+                "priority: 2\n" +
+                "key: governance-conditionrouter-consumer\n" +
+                "conditions:\n" +
+                " - interface=org.apache.dubbo.samples.governance.api.DemoService=>address=*:20880\n" +
+                " - interface=org.apache.dubbo.samples.governance.api.DemoService2=>address=*:20881\n" +
+                "...";
 
         System.out.println(str);
 
