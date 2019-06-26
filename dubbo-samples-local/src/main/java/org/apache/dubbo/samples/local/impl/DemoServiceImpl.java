@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.local.impl;
 
-import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.local.api.DemoService;
 
 import java.text.SimpleDateFormat;

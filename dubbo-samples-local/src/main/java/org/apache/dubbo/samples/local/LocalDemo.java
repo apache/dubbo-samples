@@ -27,7 +27,7 @@ public class LocalDemo {
 
     public static void main(String[] args) {
         new EmbeddedZooKeeper(2181, true).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-demo.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo.xml");
         context.start();
 
         DemoService demoService = context.getBean("demoService", DemoService.class);
