@@ -19,38 +19,33 @@
 
 package org.apache.dubbo.samples.metadatareport.local.xml;
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.common.URL;
-import org.apache.dubbo.common.extension.ExtensionLoader;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.CountDownLatch;
 
 public class MetadataLocalXmlProvider {
 
     public static void main(String[] args) throws Exception {
-        EmbeddedZooKeeper embeddedZooKeeper = new EmbeddedZooKeeper(2181, false);
-        embeddedZooKeeper.start();
+        new EmbeddedZooKeeper(2181, false).start();
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/metadata-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/metadata-provider.xml");
         context.start();
 
         printServiceData();
-        System.in.read(); // press any key to exit
-        embeddedZooKeeper.stop();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
-    private static void printServiceData() throws InterruptedException {
-        // get service data(provider) from zookeeper .
-        ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-
-        Thread.sleep(5000);
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(DemoService.class.getName(), null, null, Constants.PROVIDER_SIDE, "metadatareport-local-xml-provider2")));
+    private static void printServiceData() throws Exception {
+        Thread.sleep(3000);
         System.out.println("*********************************************************");
-        System.out.println("Dubbo store metadata into special store(as zk,redis) when local xml:");
-        System.out.println(data);
+        System.out.println("service metadata:");
+        System.out.println(ZkUtil.getMetadata("/dubbo3", DemoService.class.getName(), CommonConstants.PROVIDER_SIDE,
+                "metadatareport-local-xml-provider2"));
         System.out.println("*********************************************************");
     }
 

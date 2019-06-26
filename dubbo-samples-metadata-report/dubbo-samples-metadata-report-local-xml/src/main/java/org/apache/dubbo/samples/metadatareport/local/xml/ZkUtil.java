@@ -18,22 +18,41 @@
  */
 package org.apache.dubbo.samples.metadatareport.local.xml;
 
-import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
 
-/**
- * 2018/11/8
- */
-public class ZkUtil {
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.ExponentialBackoffRetry;
 
-    static String toRootDir(String root) {
-        if (root.equals(Constants.PATH_SEPARATOR)) {
-            return root;
-        }
-        return root + Constants.PATH_SEPARATOR;
+import static org.apache.dubbo.common.constants.CommonConstants.PATH_SEPARATOR;
+
+public class ZkUtil {
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+    private static CuratorFramework client;
+
+    static {
+        initClient();
     }
 
-    public static String getNodePath(MetadataIdentifier metadataIdentifier) {
-        return toRootDir("/dubbo3") + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH) + Constants.PATH_SEPARATOR + "service.data";
+    public static void initClient() {
+        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+                new ExponentialBackoffRetry(1000, 3));
+        client.start();
+    }
+
+    public static String getMetadata(String root, String serviceInterface, String side, String app) throws Exception {
+        String path = getNodePath(root, new MetadataIdentifier(serviceInterface, null, null, side, app));
+        return new String(client.getData().forPath(path));
+    }
+
+    public static String getNodePath(String root, MetadataIdentifier metadataIdentifier) {
+        return toRootDir(root) + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH);
+    }
+
+    private static String toRootDir(String root) {
+        if (root.equals(PATH_SEPARATOR)) {
+            return root;
+        }
+        return root + PATH_SEPARATOR;
     }
 }
