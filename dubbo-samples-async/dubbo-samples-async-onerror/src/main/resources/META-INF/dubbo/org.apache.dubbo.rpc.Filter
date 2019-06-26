@@ -1,0 +1,6 @@
+1=org.apache.dubbo.samples.governance.filter.NormalAsyncFilter
+2=org.apache.dubbo.samples.governance.filter.NormalSyncFilter
+#3=org.apache.dubbo.samples.governance.filter.OnErrorThrowableAsyncFilter
+#4=org.apache.dubbo.samples.governance.filter.OnResponseThrowableAsyncFilter
+5=org.apache.dubbo.samples.governance.filter.ProviderErrorAsyncFilter
+#6=org.apache.dubbo.samples.governance.filter.ThrowableAsyncFilter
