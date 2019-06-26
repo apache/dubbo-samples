@@ -21,14 +21,18 @@ package org.apache.dubbo.samples.group;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 
 public class GroupProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/group-provider.xml"});
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/group-provider.xml");
         context.start();
 
-        System.in.read(); // press any key to exit
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }
