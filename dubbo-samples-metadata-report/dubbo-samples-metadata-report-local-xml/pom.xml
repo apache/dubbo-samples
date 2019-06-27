@@ -43,8 +43,6 @@
         <main-class>org.apache.dubbo.samples.metadatareport.local.xml.MetadataLocalXmlProvider</main-class>
     </properties>
 
-    <dependencyManagement></dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
