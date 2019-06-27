@@ -64,7 +64,7 @@ public class MetadataIT {
      *     "anyhost": "true"
      *   },
      *   "canonicalName": "org.apache.dubbo.samples.metadatareport.local.properties.api.DemoService",
-     *   "codeSource": "file:/Users/iluo/github/dubbo/incubator-dubbo-samples/dubbo-samples-metadata-report/dubbo-samples-metadata-report-local-properties/target/classes/",
+     *   "codeSource": "file:/github/dubbo/incubator-dubbo-samples/dubbo-samples-metadata-report/dubbo-samples-metadata-report-local-properties/target/classes/",
      *   "methods": [
      *     {
      *       "name": "sayHello",
