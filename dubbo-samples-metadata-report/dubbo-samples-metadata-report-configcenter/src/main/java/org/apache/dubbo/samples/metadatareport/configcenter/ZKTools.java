@@ -17,31 +17,41 @@
 package org.apache.dubbo.samples.metadatareport.configcenter;
 
 import org.apache.dubbo.common.utils.StringUtils;
+import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-/**
- *
- */
+import static org.apache.dubbo.common.constants.CommonConstants.PATH_SEPARATOR;
+
 public class ZKTools {
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
 
-    public static void main(String[] args) throws Exception {
-        client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000,
-                new ExponentialBackoffRetry(1000, 3));
-        client.start();
+    static {
+        initClient();
+    }
 
-        //removeInterfaceData(AnnotationService.class);
+    public static void main(String[] args) throws Exception {
+        generateDubboProperties();
+    }
+
+    public static void generateDubboProperties() {
         generateDubboPropertiesForGlobal();
         generateDubboPropertiesForProvider();
         generateDubboPropertiesForConsumer();
     }
 
+    private static void initClient() {
+        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+                new ExponentialBackoffRetry(1000, 3));
+        client.start();
+    }
+
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registry.address=zookeeper://127.0.0.1:2181\n" +
-                "dubbo.metadata-report.address=zookeeper://127.0.0.1:2181\n" +
+        String str = "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2181\n" +
+                "dubbo.metadata-report.address=zookeeper://" + zookeeperHost + ":2181\n" +
                 "#global config for consumer\n" +
                 "dubbo.consumer.timeout=6000\n" +
                 "#global config for provider\n" +
@@ -108,6 +118,31 @@ public class ZKTools {
     private static void removeInterfaceData(Class interfaceClazz) {
         try {
             client.delete().forPath("/dubbo/" + interfaceClazz.getName().replaceAll("\\.", "/"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getMetadata(String root, String serviceInterface, String version, String group,
+                                     String side, String app) throws Exception {
+        String path = getNodePath(root, new MetadataIdentifier(serviceInterface, version, group, side, app));
+        return new String(client.getData().forPath(path));
+    }
+
+    public static String getNodePath(String root, MetadataIdentifier metadataIdentifier) {
+        return toRootDir(root) + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH);
+    }
+
+    private static String toRootDir(String root) {
+        if (root.equals(PATH_SEPARATOR)) {
+            return root;
+        }
+        return root + PATH_SEPARATOR;
+    }
+
+    private static void removeGlobalConfig() {
+        try {
+            client.delete().forPath("/dubbo/config/dubbo/dubbo.properties");
         } catch (Exception e) {
             e.printStackTrace();
         }

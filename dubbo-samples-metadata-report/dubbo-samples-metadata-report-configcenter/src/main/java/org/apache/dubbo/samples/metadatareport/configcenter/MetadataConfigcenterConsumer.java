@@ -19,36 +19,27 @@
 
 package org.apache.dubbo.samples.metadatareport.configcenter;
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.common.URL;
-import org.apache.dubbo.common.extension.ExtensionLoader;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.metadatareport.configcenter.action.AnnotationAction;
 import org.apache.dubbo.samples.metadatareport.configcenter.api.AnnotationService;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * CallbackConsumer
- */
 public class MetadataConfigcenterConsumer {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
 
-
         printServiceData();
 
-        final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
+        AnnotationAction annotationAction = context.getBean("annotationAction", AnnotationAction.class);
         String hello = annotationAction.doSayHello("world");
-        System.out.println("result :" + hello);
-        System.in.read();
+        System.out.println("result: " + hello);
     }
 
     @Configuration
@@ -59,14 +50,13 @@ public class MetadataConfigcenterConsumer {
 
     }
 
-    private static void printServiceData() throws InterruptedException {
-        // get service data(consumer) from zookeeper.
-        ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
+
+    private static void printServiceData() throws Exception {
         Thread.sleep(3000);
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.1", "d-test", Constants.CONSUMER_SIDE, "metadatareport-configcenter-consumer")));
         System.out.println("*********************************************************");
-        System.out.println("Dubbo store consumer param into special store(as zk,redis) when configcenter:");
-        System.out.println(data);
+        System.out.println("service metadata:");
+        System.out.println(ZKTools.getMetadata("/dubbo", AnnotationService.class.getName(), "1.1.1", "d-test",
+                CommonConstants.CONSUMER_SIDE, "metadatareport-configcenter-consumer"));
         System.out.println("*********************************************************");
     }
 }
