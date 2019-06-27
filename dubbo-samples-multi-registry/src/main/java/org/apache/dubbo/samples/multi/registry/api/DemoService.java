@@ -22,5 +22,5 @@ package org.apache.dubbo.samples.multi.registry.api;
 
 public interface DemoService {
 
-    public String get(String name);
+    String get(String name);
 }
