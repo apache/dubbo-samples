@@ -25,7 +25,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-metadata-report-local-annotaion</artifactId>
+    <artifactId>dubbo-samples-metadata-report-local-annotation</artifactId>
 
     <properties>
         <source.level>1.8</source.level>

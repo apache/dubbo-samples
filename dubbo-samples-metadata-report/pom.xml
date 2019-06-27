@@ -29,7 +29,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>dubbo-samples-metadata-report-configcenter</module>
-        <module>dubbo-samples-metadata-report-local-annotaion</module>
+        <module>dubbo-samples-metadata-report-local-annotation</module>
         <module>dubbo-samples-metadata-report-local-xml</module>
         <module>dubbo-samples-metadata-report-local-properties</module>
     </modules>
