@@ -20,65 +20,62 @@
 package org.apache.dubbo.samples.metadatareport.local.annotation;
 
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.common.URL;
-import org.apache.dubbo.common.extension.ExtensionLoader;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.MetadataReportConfig;
 import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.metadatareport.local.annotation.api.AnnotationService;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- *
- */
+import java.util.concurrent.CountDownLatch;
+
 public class MetadataLocalAnnotationProvider {
 
     public static void main(String[] args) throws Exception {
-        EmbeddedZooKeeper embeddedZooKeeper = new EmbeddedZooKeeper(2181, false);
-        embeddedZooKeeper.start();
+        new EmbeddedZooKeeper(2181, false).start();
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
-        // get service data(provider) from zookeeper .
+
         printServiceData();
-        System.in.read();
-        embeddedZooKeeper.stop();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
     @Configuration
     @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.metadatareport.local.annotation.impl")
     @PropertySource("classpath:/spring/dubbo-provider.properties")
     static public class ProviderConfiguration {
+        @Value("zookeeper://${zookeeper.address:127.0.0.1}:2181")
+        private String zookeeperAddress;
+
         @Bean
         public ProviderConfig providerConfig() {
             ProviderConfig providerConfig = new ProviderConfig();
             providerConfig.setTimeout(1000);
             return providerConfig;
         }
+
         @Bean
         public MetadataReportConfig metadataReportConfig() {
             MetadataReportConfig metadataReportConfig = new MetadataReportConfig();
-            metadataReportConfig.setAddress("zookeeper://127.0.0.1:2181");
+            metadataReportConfig.setAddress(zookeeperAddress);
             return metadataReportConfig;
         }
     }
 
-    private static void printServiceData() throws InterruptedException {
-        // get service data(provider) from zookeeper .
-        // async store
+    private static void printServiceData() throws Exception {
         Thread.sleep(3000);
-        ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.8", "d-test", Constants.PROVIDER_SIDE, "metadatareport-local-annotaion-provider")));
         System.out.println("*********************************************************");
-        System.out.println("Dubbo store metadata into special store(as zk,redis) when local annotation:");
-        System.out.println(data);
+        System.out.println("service metadata:");
+        System.out.println(ZkUtil.getMetadata("/dubbo", AnnotationService.class.getName(), "1.1.8", "d-test",
+                CommonConstants.PROVIDER_SIDE, "metadatareport-local-annotaion-provider"));
         System.out.println("*********************************************************");
     }
 

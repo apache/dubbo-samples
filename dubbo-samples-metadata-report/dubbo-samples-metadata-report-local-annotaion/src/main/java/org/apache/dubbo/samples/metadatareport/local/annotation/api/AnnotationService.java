@@ -19,9 +19,6 @@
 
 package org.apache.dubbo.samples.metadatareport.local.annotation.api;
 
-/**
- * AsyncService
- */
 public interface AnnotationService {
 
     String sayHello(String name);
