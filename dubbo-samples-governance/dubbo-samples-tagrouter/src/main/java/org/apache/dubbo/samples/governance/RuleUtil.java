@@ -25,20 +25,21 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- *
- */
 public class RuleUtil {
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
-        client = CuratorFrameworkFactory.newClient("127.0.0.1:2181", 60 * 1000, 60 * 1000,
-                new ExponentialBackoffRetry(1000, 3));
-        client.start();
-
+        initClient();
         generateRule();
         System.in.read();
         deleteRule();
+    }
+
+    public static void initClient() {
+        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+                new ExponentialBackoffRetry(1000, 3));
+        client.start();
     }
 
     public static void generateRule() {
@@ -53,7 +54,7 @@ public class RuleUtil {
         }
     }
 
-    public static void deleteRule() throws Exception{
+    public static void deleteRule() throws Exception {
         String path = "/dubbo/config/governance-tagrouter-provider/tag-router";
         if (client.checkExists().forPath(path) == null) {
             client.create().creatingParentsIfNeeded().forPath(path);

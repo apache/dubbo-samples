@@ -28,14 +28,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MultiRegistryConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/multi-registry-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/multi-registry-consumer.xml");
         context.start();
-        DemoService demoServiceFormDefault = (DemoService) context.getBean("demoServiceFormDefault"); // get remote service proxy
-        HelloService helloServiceFormShanghai = (HelloService) context.getBean("helloServiceFormShanghai"); // get remote service proxy
-        HelloService helloServiceFormBeijing = (HelloService) context.getBean("helloServiceFormBeijing"); // get remote service proxy
+
+        DemoService demoServiceFormDefault = (DemoService) context.getBean("demoServiceFormDefault");
+        HelloService helloServiceFormShanghai = (HelloService) context.getBean("helloServiceFormShanghai");
+        HelloService helloServiceFormBeijing = (HelloService) context.getBean("helloServiceFormBeijing");
+
         System.out.println(demoServiceFormDefault.get("service form default registry"));
         System.out.println(helloServiceFormShanghai.sayHello("service form shanghai registry"));
         System.out.println(helloServiceFormBeijing.sayHello("service form beijing registry"));
-        System.in.read();
     }
 }

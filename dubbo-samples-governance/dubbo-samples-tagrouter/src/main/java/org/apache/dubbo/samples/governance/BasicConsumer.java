@@ -19,37 +19,30 @@
 
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.cluster.Constants;
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.api.DemoService2;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import static org.apache.dubbo.rpc.Constants.FORCE_USE_TAG;
+
 public class BasicConsumer {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/dubbo-demo-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
         context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
-        DemoService2 demoService2 = (DemoService2) context.getBean("demoService2");
+        DemoService demoService = context.getBean("demoService", DemoService.class);
+        DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
 
-        while (true) {
-            try {
-                Thread.sleep(1000);
-//                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
-                String hello = demoService.sayHello("world"); // call remote method
-                System.out.println(hello); // get result
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-            try {
-//                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
-//                RpcContext.getContext().setAttachment(Constants.FORCE_USE_TAG, "true");
-                String hello2 = demoService2.sayHello("world again"); // call remote method
-                System.out.println(hello2); // get result
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }
+        RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+        String hello = demoService.sayHello("world");
+        System.out.println(hello);
 
+        RpcContext.getContext().setAttachment(FORCE_USE_TAG, "true");
+        RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
+        String hello2 = demoService2.sayHello("world again");
+        System.out.println(hello2);
     }
 }

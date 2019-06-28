@@ -22,16 +22,12 @@ package org.apache.dubbo.samples.metadatareport.configcenter.impl;
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.metadatareport.configcenter.api.AnnotationService;
 
-/**
- * AsyncServiceImpl
- */
 @Service(version = "1.1.1", group = "d-test")
 public class AnnotationServiceImpl implements AnnotationService {
 
     @Override
     public String sayHello(String name) {
-        System.out.println("async provider received: " + name);
+        System.out.println("received: " + name);
         return "annotation: hello, " + name;
     }
-
 }

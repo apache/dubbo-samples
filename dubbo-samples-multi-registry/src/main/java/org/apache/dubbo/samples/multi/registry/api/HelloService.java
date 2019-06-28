@@ -22,5 +22,5 @@ package org.apache.dubbo.samples.multi.registry.api;
 
 public interface HelloService {
 
-    public String sayHello(String name);
+    String sayHello(String name);
 }

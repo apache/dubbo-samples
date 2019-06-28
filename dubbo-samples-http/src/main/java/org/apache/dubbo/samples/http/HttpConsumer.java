@@ -20,19 +20,17 @@
 package org.apache.dubbo.samples.http;
 
 import org.apache.dubbo.samples.http.api.DemoService;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * HttpConsumer
- */
 public class HttpConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/http-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/http-consumer.xml");
         context.start();
+
         DemoService demoService = (DemoService) context.getBean("demoService");
         String result = demoService.sayHello("world");
         System.out.println(result);
-        System.in.read();
     }
 }

@@ -18,24 +18,23 @@
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
 
-    <!-- consumer's application name, used for tracing dependency relationship (not a matching criterion),
-    don't set it same as provider -->
     <dubbo:application name="multi-registry-consumer"/>
 
-    <!-- use multicast registry center to discover service -->
-    <dubbo:registry id="beijingRegistry" address="zookeeper://127.0.0.1:2181" default="false"/>
-    <dubbo:registry id="shanghaiRegistry" address="zookeeper://127.0.0.1:2182" />
+    <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2181" default="false"/>
+    <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2182"/>
 
-    <!-- generate proxy for the remote service, then demoService can be used in the same way as the
-    local regular interface -->
     <dubbo:reference id="demoServiceFormDefault" interface="org.apache.dubbo.samples.multi.registry.api.DemoService"/>
-    <dubbo:reference id="demoServiceFormBeijing" interface="org.apache.dubbo.samples.multi.registry.api.DemoService" registry="beijingRegistry"/>
-    <dubbo:reference id="helloServiceFormBeijing" interface="org.apache.dubbo.samples.multi.registry.api.HelloService" registry="beijingRegistry"/>
-    <dubbo:reference id="helloServiceFormShanghai" interface="org.apache.dubbo.samples.multi.registry.api.HelloService" registry="shanghaiRegistry"/>
+    <dubbo:reference id="demoServiceFormBeijing" interface="org.apache.dubbo.samples.multi.registry.api.DemoService"
+                     registry="beijingRegistry"/>
+    <dubbo:reference id="helloServiceFormBeijing" interface="org.apache.dubbo.samples.multi.registry.api.HelloService"
+                     registry="beijingRegistry"/>
+    <dubbo:reference id="helloServiceFormShanghai" interface="org.apache.dubbo.samples.multi.registry.api.HelloService"
+                     registry="shanghaiRegistry"/>
 
 </beans>
 

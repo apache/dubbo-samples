@@ -21,11 +21,9 @@ package org.apache.dubbo.samples.metadatareport.configcenter.action;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.metadatareport.configcenter.api.AnnotationService;
+
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 

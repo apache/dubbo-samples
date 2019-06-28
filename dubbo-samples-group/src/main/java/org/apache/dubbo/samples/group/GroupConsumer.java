@@ -27,28 +27,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class GroupConsumer {
 
     public static void main(String[] args) {
-        //Prevent to get IPV6 address,this way only work in debug mode
-        //But you can pass use -Djava.net.preferIPv4Stack=true,then it work well whether in debug mode or not
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/group-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/group-consumer.xml");
         context.start();
-        GroupService groupAService = (GroupService) context.getBean("groupAService"); // get remote service proxy
-        GroupService groupBService = (GroupService)context.getBean("groupBService");
 
-        while (true) {
-            try {
-                Thread.sleep(1000);
-                String resultGroupA = groupAService.sayHello("world"); // call remote method
-                System.out.println(resultGroupA); // get result
+        GroupService groupAService = context.getBean("groupAService", GroupService.class);
+        GroupService groupBService = context.getBean("groupBService", GroupService.class);
 
-                String resultGroupB = groupBService.sayHello("world");
-                System.out.println(resultGroupB); // get result
+        String resultGroupA = groupAService.sayHello("world");
+        System.out.println(resultGroupA);
 
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-
-        }
-
+        String resultGroupB = groupBService.sayHello("world");
+        System.out.println(resultGroupB);
     }
 }

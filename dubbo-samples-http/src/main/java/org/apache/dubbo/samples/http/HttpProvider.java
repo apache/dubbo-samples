@@ -21,16 +21,16 @@ package org.apache.dubbo.samples.http;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * HttpProvider
- */
+import java.util.concurrent.CountDownLatch;
+
 public class HttpProvider {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/http-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/http-provider.xml");
         context.start();
-        System.in.read();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }

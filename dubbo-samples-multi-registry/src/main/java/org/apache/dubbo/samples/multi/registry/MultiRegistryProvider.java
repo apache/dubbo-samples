@@ -21,14 +21,19 @@ package org.apache.dubbo.samples.multi.registry;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 
 public class MultiRegistryProvider {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
         new EmbeddedZooKeeper(2182, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/multi-registry-provider.xml"});
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/multi-registry-provider.xml");
         context.start();
-        System.in.read(); // press any key to exit
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }
