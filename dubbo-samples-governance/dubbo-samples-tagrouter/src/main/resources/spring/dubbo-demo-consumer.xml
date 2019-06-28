@@ -35,7 +35,9 @@
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the
     local regular interface -->
-    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService"/>
-    <dubbo:reference id="demoService2" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService2"/>
+    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService">
+    </dubbo:reference>
+    <dubbo:reference id="demoService2" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService2">
+    </dubbo:reference>
 
 </beans>

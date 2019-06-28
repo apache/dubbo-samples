@@ -56,7 +56,7 @@ public class Provider1 {
         dubboConfigurations.put("dubbo.registry.address", "zookeeper://127.0.0.1:2181");
         // you will need to add the configcenter address if you want to use the service governance features in 2.7,
         // e.g., overrides and routers, but notice it will not be used for gathering startup configurations.
-        dubboConfigurations.put("dubbo.configcenter.address", "zookeeper://127.0.0.1:2181");
+        dubboConfigurations.put("dubbo.config-center.address", "zookeeper://127.0.0.1:2181");
 
         return dubboConfigurations;
     }

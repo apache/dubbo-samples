@@ -19,8 +19,6 @@
 
 package org.apache.dubbo.samples.governance;
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.api.DemoService2;
 
@@ -37,14 +35,14 @@ public class BasicConsumer {
         while (true) {
             try {
                 Thread.sleep(1000);
-                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+//                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
                 String hello = demoService.sayHello("world"); // call remote method
                 System.out.println(hello); // get result
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
             try {
-                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
+//                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
 //                RpcContext.getContext().setAttachment(Constants.FORCE_USE_TAG, "true");
                 String hello2 = demoService2.sayHello("world again"); // call remote method
                 System.out.println(hello2); // get result
