@@ -20,10 +20,9 @@
 package org.apache.dubbo.samples.notify.api;
 
 
-
 public interface Notify {
 
-    public void onreturn(String name, int id);
+    void onReturn(String name, int id);
 
-    public void onthrow(Throwable ex, String name, int id);
+    void onThrow(Throwable ex, int id);
 }

@@ -25,6 +25,9 @@ import org.apache.dubbo.samples.notify.api.DemoService;
 public class DemoServiceImpl implements DemoService {
 
     public String sayHello(int id) {
-        return "aaa";
+        if (id > 10) {
+            throw new RuntimeException("exception from sayHello: too large id");
+        }
+        return "demo" + id;
     }
 }

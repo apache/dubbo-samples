@@ -21,14 +21,18 @@ package org.apache.dubbo.samples.notify;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 public class NotifyProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/notify-provider.xml"});
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/notify-provider.xml");
         context.start();
 
-        System.in.read(); // press any key to exit
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }
