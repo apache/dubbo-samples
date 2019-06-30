@@ -23,9 +23,6 @@ import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * 2018/12/26
- */
 @Service(interfaceClass = CircuitBreakerService.class)
 public class CircuitBreakerServiceImpl implements CircuitBreakerService {
     private AtomicLong count = new AtomicLong(0);

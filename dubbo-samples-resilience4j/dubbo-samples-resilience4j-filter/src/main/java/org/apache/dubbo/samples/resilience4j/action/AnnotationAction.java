@@ -23,18 +23,18 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
 import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
 import org.apache.dubbo.samples.resilience4j.api.RateLimiterService;
+
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 
     @Reference(interfaceClass = AnnotationService.class)
     private AnnotationService annotationService;
+
     @Reference(interfaceClass = CircuitBreakerService.class)
     private CircuitBreakerService circuitBreakerService;
+
     @Reference(interfaceClass = RateLimiterService.class)
     private RateLimiterService rateLimiterService;
 
@@ -43,19 +43,16 @@ public class AnnotationAction {
     }
 
     public void sayCircuitBreaker(String name) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                {
-                    int i = 0;
-                    while (true) {
-                        doSayCircuitBreaker("off", name, 20, ++i);
-                        doSayCircuitBreaker("on", name, 25, ++i);
-                        doSayCircuitBreaker("half", name, 30, ++i);
-                        doSayCircuitBreaker("off", name, 30, ++i);
-                        doSayCircuitBreaker("half", name, 30, ++i);
-                        doSayCircuitBreaker("off", name, 15, ++i);
-                    }
+        new Thread(() -> {
+            {
+                int i = 0;
+                while (true) {
+                    doSayCircuitBreaker("off", name, 20, ++i);
+                    doSayCircuitBreaker("on", name, 25, ++i);
+                    doSayCircuitBreaker("half", name, 30, ++i);
+                    doSayCircuitBreaker("off", name, 30, ++i);
+                    doSayCircuitBreaker("half", name, 30, ++i);
+                    doSayCircuitBreaker("off", name, 15, ++i);
                 }
             }
         }).start();
@@ -78,20 +75,17 @@ public class AnnotationAction {
     }
 
     public void sayRateLimiter(String name, String value) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                {
-                    int i = 0;
-                    while (true) {
-                        try {
-                            Thread.sleep(40);
-                            System.out.println(rateLimiterService.say(name + (i++), value + i));
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            System.err.println("<<<<<<<<<<<<<<<<<<<<<<<<<< " + e.getMessage() + " >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                        }
+        new Thread(() -> {
+            {
+                int i = 0;
+                while (true) {
+                    try {
+                        Thread.sleep(40);
+                        System.out.println(rateLimiterService.say(name + (i++), value + i));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        System.err.println("<<<<<<<<<<<<<<<<<<<<<<<<<< " + e.getMessage() + " >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                     }
                 }
             }

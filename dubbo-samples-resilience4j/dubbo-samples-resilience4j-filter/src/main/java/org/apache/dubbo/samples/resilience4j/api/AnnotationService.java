@@ -19,9 +19,6 @@
 
 package org.apache.dubbo.samples.resilience4j.api;
 
-/**
- * AsyncService
- */
 public interface AnnotationService {
 
     String sayHello(String name);

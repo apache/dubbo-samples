@@ -22,9 +22,6 @@ package org.apache.dubbo.samples.resilience4j.impl;
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
 
-/**
- * AsyncServiceImpl
- */
 @Service(interfaceClass = AnnotationService.class)
 public class AnnotationServiceImpl implements AnnotationService {
 

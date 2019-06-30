@@ -28,20 +28,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * CallbackConsumer
- */
 public class Resilience4jAnnotationConsumer {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
-        final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
+
+        AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
         String hello = annotationAction.doSayHello("world");
-        System.err.println("result :" + hello);
+        System.out.println("result :" + hello);
 //        annotationAction.sayCircuitBreaker("circuitBreaker");
         annotationAction.sayRateLimiter("rateLimiter", "Just Happy!");
-        System.in.read();
     }
 
     @Configuration
