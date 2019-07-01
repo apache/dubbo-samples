@@ -44,7 +44,7 @@ public class RuleUtil {
 
     public static void generateRule() {
         try (InputStream yamlStream = RuleUtil.class.getResourceAsStream("/dubbo-routers-tag.yml")) {
-            String path = "/dubbo/config/governance-tagrouter-provider/tag-router";
+            String path = "/dubbo/config/dubbo/governance-tagrouter-provider.tag-router";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -55,7 +55,7 @@ public class RuleUtil {
     }
 
     public static void deleteRule() throws Exception {
-        String path = "/dubbo/config/governance-tagrouter-provider/tag-router";
+        String path = "/dubbo/config/dubbo/governance-tagrouter-provider.tag-router";
         if (client.checkExists().forPath(path) == null) {
             client.create().creatingParentsIfNeeded().forPath(path);
         }

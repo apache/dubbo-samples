@@ -19,7 +19,6 @@
 
 package org.apache.dubbo.samples.configcenter.impl;
 
-
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.configcenter.api.DemoService;
 

@@ -26,17 +26,21 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BasicConsumer {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
         context.start();
 
         DemoService demoService = context.getBean("demoService", DemoService.class);
         DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
 
-        String hello = demoService.sayHello("world");
-        System.out.println(hello);
+        while (true) {
+            String hello = demoService.sayHello("world");
+            System.out.println(hello);
 
-        String hello2 = demoService2.sayHello("world again");
-        System.out.println(hello2);
+            String hello2 = demoService2.sayHello("world again");
+            System.out.println(hello2);
+
+            Thread.sleep(200);
+        }
     }
 }

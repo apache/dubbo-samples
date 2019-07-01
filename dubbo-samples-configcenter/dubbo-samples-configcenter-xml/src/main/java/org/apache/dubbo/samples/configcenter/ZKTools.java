@@ -22,6 +22,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class ZKTools {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+    private static String nacosHost = System.getProperty("nacos.address", "127.0.0.1");
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
@@ -38,8 +39,10 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2181\n" +
-                "dubbo.metadata-report.address=zookeeper://" + zookeeperHost + ":2181\n" +
+        String str =
+                "dubbo.registry.address=nacos://" + nacosHost + ":8848\n" +
+//                "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2181\n" +
+//                "dubbo.metadata-report.address=zookeeper://" + zookeeperHost + ":2181\n" +
                 "dubbo.protocol.port=-1\n" +
                 "dubbo.registry.simplified=true\n";
 
@@ -64,7 +67,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/configcenter-consumer/dubbo.properties";
+            String path = "/dubbo/config/configcenter-provider/dubbo.properties";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
