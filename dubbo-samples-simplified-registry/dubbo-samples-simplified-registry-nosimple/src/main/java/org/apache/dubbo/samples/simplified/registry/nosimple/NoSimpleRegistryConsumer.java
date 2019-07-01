@@ -19,53 +19,41 @@
 
 package org.apache.dubbo.samples.simplified.registry.nosimple;
 
-import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
-import org.apache.dubbo.common.extension.ExtensionLoader;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
+import static org.apache.dubbo.common.constants.CommonConstants.RELEASE_KEY;
+
 public class NoSimpleRegistryConsumer {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/simplified-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/simplified-consumer.xml");
         context.start();
 
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+        DemoService demoService = context.getBean("demoService", DemoService.class);
 
         printServiceData();
 
-        while (true) {
-            try {
-                Thread.sleep(1000);
-                String hello = demoService.sayHello("world"); // call remote method
-                System.out.println(hello); // get result
-
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }
-
+        String hello = demoService.sayHello("world");
+        System.out.println(hello);
     }
 
     private static void printServiceData() {
-        ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        List<String> urls = zookeeperClient.getChildren(ZkUtil.toUrlPath("consumers"));
+        List<String> urls = ZkUtil.getChildren(ZkUtil.toUrlPath("consumers"));
         System.out.println("*********************************************************");
-        System.out.println(urls);
-        System.out.println("simple contain 'retries':" + urls.get(0).contains("retries"));
-        System.out.println("simple contain 'owner':" + urls.get(0).contains("owner"));
-        System.out.println("simple contain 'actives':" + urls.get(0).contains("actives"));
-        System.out.println("simple contain 'timeout':" + urls.get(0).contains("timeout"));
-        System.out.println("simple contain 'application':" + urls.get(0).contains("application"));
-        System.out.println("simple contain 'version':" + urls.get(0).contains("version"));
-        System.out.println("simple contain 'group':" + urls.get(0).contains("group"));
-        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.RELEASE_KEY));
+        urls.stream().map(URL::decode).forEach(System.out::println);
+        System.out.println("contains 'retries':" + urls.get(0).contains("retries"));
+        System.out.println("contains 'owner':" + urls.get(0).contains("owner"));
+        System.out.println("contains 'actives':" + urls.get(0).contains("actives"));
+        System.out.println("contains 'timeout':" + urls.get(0).contains("timeout"));
+        System.out.println("contains 'application':" + urls.get(0).contains("application"));
+        System.out.println("contains 'version':" + urls.get(0).contains("version"));
+        System.out.println("contains 'group':" + urls.get(0).contains("group"));
+        System.out.println("contains 'specVersion(default)':" + urls.get(0).contains(RELEASE_KEY));
         System.out.println("*********************************************************");
     }
 }
