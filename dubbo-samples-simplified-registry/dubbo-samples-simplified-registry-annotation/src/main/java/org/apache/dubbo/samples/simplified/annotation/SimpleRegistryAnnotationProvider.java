@@ -20,43 +20,43 @@
 package org.apache.dubbo.samples.simplified.annotation;
 
 
-import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.URL;
-import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
-import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
-/**
- *
- */
+import static org.apache.dubbo.common.constants.CommonConstants.RELEASE_KEY;
+
 public class SimpleRegistryAnnotationProvider {
 
     public static void main(String[] args) throws Exception {
-        EmbeddedZooKeeper embeddedZooKeeper = new EmbeddedZooKeeper(2181, false);
-        embeddedZooKeeper.start();
+        new EmbeddedZooKeeper(2181, false).start();
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
-        // get service data(provider) from zookeeper .
+
         printServiceData();
-        System.in.read();
-        embeddedZooKeeper.stop();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
     @Configuration
     @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simplified.annotation.impl")
     @PropertySource("classpath:/spring/dubbo-provider.properties")
     static public class ProviderConfiguration {
+        @Value("zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}")
+        private String zookeeperAddress;
+
         @Bean
         public ProviderConfig providerConfig() {
             ProviderConfig providerConfig = new ProviderConfig();
@@ -67,7 +67,7 @@ public class SimpleRegistryAnnotationProvider {
         @Bean
         public RegistryConfig registryConfig() {
             RegistryConfig registryConfig = new RegistryConfig();
-            registryConfig.setAddress("zookeeper://127.0.0.1:2181");
+            registryConfig.setAddress(zookeeperAddress);
             registryConfig.setSimplified(true);
             registryConfig.setExtraKeys("retries,owner");
             return registryConfig;
@@ -75,19 +75,16 @@ public class SimpleRegistryAnnotationProvider {
     }
 
     private static void printServiceData() {
-        // get service data(provider) from zookeeper .
-        ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        List<String> urls = zookeeperClient.getChildren(ZkUtil.toUrlPath("providers"));
+        List<String> urls = ZkUtil.getChildren(ZkUtil.toUrlPath("providers"));
         System.out.println("*********************************************************");
-        System.out.println(urls);
-        System.out.println("simple donot contain 'executes':" + !urls.get(0).contains("executes"));
-        System.out.println("simple contain 'retries':" + urls.get(0).contains("retries"));
-        System.out.println("simple contain 'owner':" + urls.get(0).contains("owner"));
-        System.out.println("simple contain 'timeout(default)':" + urls.get(0).contains("timeout"));
-        System.out.println("simple contain 'version(default)':" + urls.get(0).contains("version"));
-        System.out.println("simple contain 'group(default)':" + urls.get(0).contains("group"));
-        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.RELEASE_KEY));
+        urls.stream().map(URL::decode).forEach(System.out::println);
+        System.out.println("not contains 'executes':" + !urls.get(0).contains("executes"));
+        System.out.println("contains 'retries':" + urls.get(0).contains("retries"));
+        System.out.println("contains 'owner':" + urls.get(0).contains("owner"));
+        System.out.println("contains 'timeout(default)':" + urls.get(0).contains("timeout"));
+        System.out.println("contains 'version(default)':" + urls.get(0).contains("version"));
+        System.out.println("contains 'group(default)':" + urls.get(0).contains("group"));
+        System.out.println("contains 'specVersion(default)':" + urls.get(0).contains(RELEASE_KEY));
         System.out.println("*********************************************************");
     }
-
 }
