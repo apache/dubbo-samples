@@ -18,25 +18,23 @@
  */
 package org.apache.dubbo.samples.resilience4j.filter;
 
-import io.github.resilience4j.ratelimiter.RateLimiter;
-import io.github.resilience4j.ratelimiter.RateLimiterConfig;
-import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
-import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
 
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
+
 import java.time.Duration;
 
 
-/**
- * 2018/12/25
- */
 public class Resilience4jRateLimiterFilter implements Filter {
 
-    static RateLimiter rateLimiter;
+    private static RateLimiter rateLimiter;
 
     static {
         RateLimiterConfig config = RateLimiterConfig.custom()

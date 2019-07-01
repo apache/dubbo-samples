@@ -21,11 +21,9 @@ package org.apache.dubbo.samples.simplified.annotation.action;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.simplified.annotation.api.AnnotationService;
+
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 
@@ -35,5 +33,4 @@ public class AnnotationAction {
     public String doSayHello(String name) {
         return annotationService.sayHello(name);
     }
-
 }

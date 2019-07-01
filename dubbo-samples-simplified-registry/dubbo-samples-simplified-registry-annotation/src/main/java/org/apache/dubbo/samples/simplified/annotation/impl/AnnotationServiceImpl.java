@@ -22,9 +22,6 @@ package org.apache.dubbo.samples.simplified.annotation.impl;
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.simplified.annotation.api.AnnotationService;
 
-/**
- * AsyncServiceImpl
- */
 @Service(version = "1.1.8", group = "d-test", executes = 4500, retries = 7, owner = "victanno", timeout = 5300)
 public class AnnotationServiceImpl implements AnnotationService {
 
