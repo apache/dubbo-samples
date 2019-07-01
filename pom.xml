@@ -57,7 +57,7 @@
         <module>dubbo-samples-rest</module>
         <module>dubbo-samples-scala</module>
         <module>dubbo-samples-simplified-registry</module>
-        <module>dubbo-samples-SPI-compatible</module>
+        <module>dubbo-samples-spi-compatible</module>
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-stub</module>
