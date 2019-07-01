@@ -16,32 +16,11 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.simplified.registry.nosimple;
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.common.URL;
-import org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService;
+package org.apache.dubbo.samples.simplified.registry.xml.api;
 
-/**
- * 2018/11/8
- */
-public class ZkUtil {
+public interface DemoService {
 
-    private static String toRootDir() {
-        return "/dubbo";
-    }
-
-    private static String toServicePath() {
-        String name = DemoService.class.getName();
-        return toRootDir() + Constants.PATH_SEPARATOR + URL.encode(name);
-    }
-
-    private static String toCategoryPath(String side) {
-        return toServicePath() + Constants.PATH_SEPARATOR + side;
-    }
-
-    public static String toUrlPath(String side) {
-        return toCategoryPath(side);
-    }
+    String sayHello(String name);
 
 }
