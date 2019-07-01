@@ -18,15 +18,15 @@
   ~
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>org.apache.dubbo</groupId>
     <version>1.0-SNAPSHOT</version>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-configcenter-xml</artifactId>
+    <artifactId>dubbo-samples-nacos-override</artifactId>
 
     <properties>
         <source.level>1.8</source.level>
@@ -41,7 +41,7 @@
         <image.name>${artifactId}:${dubbo.version}</image.name>
         <dubbo.port>20880</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
-        <main-class>org.apache.dubbo.samples.configcenter.BasicProvider</main-class>
+        <main-class>org.apache.dubbo.samples.governance.BasicProvider</main-class>
     </properties>
 
     <dependencies>
@@ -50,6 +50,18 @@
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-configcenter-nacos</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-registry-nacos</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -108,10 +120,6 @@
                             </to>
                             <container>
                                 <mainClass>${main-class}</mainClass>
-                                <ports>
-                                    <port>${dubbo.port}</port>
-                                    <port>${zookeeper.port}</port>
-                                </ports>
                                 <environment>
                                     <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
                                 </environment>
@@ -137,11 +145,18 @@
                         <configuration>
                             <images>
                                 <image>
+                                    <name>zookeeper:latest</name>
+                                    <run>
+                                        <ports>
+                                            <port>${zookeeper.port}:${zookeeper.port}</port>
+                                        </ports>
+                                    </run>
+                                </image>
+                                <image>
                                     <name>${image.name}</name>
                                     <run>
                                         <ports>
                                             <port>${dubbo.port}:${dubbo.port}</port>
-                                            <port>${zookeeper.port}:${zookeeper.port}</port>
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
@@ -207,5 +222,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

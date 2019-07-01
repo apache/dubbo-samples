@@ -26,8 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-configcenter-xml</artifactId>
-
+    <artifactId>dubbo-samples-nacos-tagrouter</artifactId>
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
@@ -39,9 +38,10 @@
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <image.name>${artifactId}:${dubbo.version}</image.name>
-        <dubbo.port>20880</dubbo.port>
+        <dubbo.port.1>20880</dubbo.port.1>
+        <dubbo.port.2>20881</dubbo.port.2>
         <zookeeper.port>2181</zookeeper.port>
-        <main-class>org.apache.dubbo.samples.configcenter.BasicProvider</main-class>
+        <main-class>org.apache.dubbo.samples.governance.BasicProvider</main-class>
     </properties>
 
     <dependencies>
@@ -50,6 +50,18 @@
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-configcenter-nacos</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-registry-nacos</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -108,10 +120,6 @@
                             </to>
                             <container>
                                 <mainClass>${main-class}</mainClass>
-                                <ports>
-                                    <port>${dubbo.port}</port>
-                                    <port>${zookeeper.port}</port>
-                                </ports>
                                 <environment>
                                     <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
                                 </environment>
@@ -137,15 +145,39 @@
                         <configuration>
                             <images>
                                 <image>
+                                    <name>zookeeper:latest</name>
+                                    <run>
+                                        <ports>
+                                            <port>${zookeeper.port}:${zookeeper.port}</port>
+                                        </ports>
+                                    </run>
+                                </image>
+                                <image>
                                     <name>${image.name}</name>
                                     <run>
                                         <ports>
-                                            <port>${dubbo.port}:${dubbo.port}</port>
-                                            <port>${zookeeper.port}:${zookeeper.port}</port>
+                                            <port>${dubbo.port.1}:${dubbo.port.1}</port>
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
                                         </wait>
+                                        <env>
+                                            <dubbo.port>${dubbo.port.1}</dubbo.port>
+                                        </env>
+                                    </run>
+                                </image>
+                                <image>
+                                    <name>${image.name}</name>
+                                    <run>
+                                        <ports>
+                                            <port>${dubbo.port.2}:${dubbo.port.2}</port>
+                                        </ports>
+                                        <wait>
+                                            <log>dubbo service started</log>
+                                        </wait>
+                                        <env>
+                                            <dubbo.port>${dubbo.port.2}</dubbo.port>
+                                        </env>
                                     </run>
                                 </image>
                             </images>
@@ -207,5 +239,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

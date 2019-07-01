@@ -69,6 +69,7 @@
         <module>dubbo-samples-zookeeper</module>
         <module>dubbo-samples-transaction</module>
         <module>dubbo-samples-consul</module>
+        <module>dubbo-samples-nacos</module>
     </modules>
     <properties>
         <!-- Test libs -->
