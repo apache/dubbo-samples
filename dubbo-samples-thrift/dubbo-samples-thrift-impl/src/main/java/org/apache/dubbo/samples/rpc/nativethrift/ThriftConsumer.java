@@ -16,17 +16,18 @@
  */
 package org.apache.dubbo.samples.rpc.nativethrift;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.rpc.nativethrift.api.DemoService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ThriftConsumer {
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("thrift-consumer.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/thrift-consumer.xml");
         context.start();
-        DemoService.Iface demo = (DemoService.Iface) context.getBean("demoService");
+
+        DemoService.Iface demo = context.getBean("demoService", DemoService.Iface.class);
         for (int i = 0; i < 10; i++) {
             RpcContext.getContext().setAttachment("parm", "hehe" + i);
             System.out.println(demo.echoI32(i + 1));

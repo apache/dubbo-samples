@@ -18,15 +18,16 @@ package org.apache.dubbo.samples.rpc.nativethrift;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class ThriftProvider {
-    /**
-     * thrift provider
-     */
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("thrift-provider.xml");
-        context.start();
-        System.out.println("context started");
-        System.in.read();
-    }
+import java.util.concurrent.CountDownLatch;
 
+public class ThriftProvider {
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/thrift-provider.xml");
+        context.start();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
+    }
 }

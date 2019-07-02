@@ -16,9 +16,9 @@
  */
 package org.apache.dubbo.samples.rpc.nativethrift;
 
-import com.alibaba.dubbo.rpc.RpcContext;
-
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.rpc.nativethrift.api.DemoService;
+
 import org.apache.thrift.TException;
 
 import java.util.Map;
