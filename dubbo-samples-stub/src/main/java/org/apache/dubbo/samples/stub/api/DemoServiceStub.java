@@ -38,7 +38,7 @@ public class DemoServiceStub implements DemoService {
         try {
             String result = demoService.sayHello(name);
             logger.info("after execute remote service, result: " + result);
-            return result;
+            return "stub - " + result;
         } catch (Exception e) {
             logger.warn("fail to execute service", e);
             return null;
