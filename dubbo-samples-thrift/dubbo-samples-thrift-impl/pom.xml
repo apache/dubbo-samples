@@ -107,18 +107,20 @@
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
+                                <configuration>
+                                    <executable>java</executable>
+                                    <arguments>
+                                        <argument>-DDUBBO_IP_TO_REGISTRY=${dubbo-local-address}</argument>
+                                        <argument>-classpath</argument>
+                                        <classpath/>
+                                        <argument>${main-class}</argument>
+                                    </arguments>
+                                    <async>true</async>
+                                    <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
+                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>
-                            <executable>java</executable>
-                            <arguments>
-                                <argument>-DDUBBO_IP_TO_REGISTRY=${dubbo-local-address}</argument>
-                                <argument>-classpath</argument>
-                                <classpath/>
-                                <argument>${main-class}</argument>
-                            </arguments>
-                            <async>true</async>
-                        </configuration>
+
                     </plugin>
 
                     <plugin>
