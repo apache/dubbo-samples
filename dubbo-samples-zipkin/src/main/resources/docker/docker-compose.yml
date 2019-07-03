@@ -1,0 +1,10 @@
+version: "2"
+services:
+  zookeeper:
+    image: "zookeeper:latest"
+    ports:
+      - "2181:2181"
+  zipkin:
+    image: "openzipkin/zipkin"
+    ports:
+      - "9411:9411"

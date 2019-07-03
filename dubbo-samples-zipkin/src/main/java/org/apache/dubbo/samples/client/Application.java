@@ -27,8 +27,8 @@ public class Application {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/client.xml");
         context.start();
-        // get remote service proxy
-        GreetingService greetingService = (GreetingService) context.getBean("greetingService");
+
+        GreetingService greetingService = context.getBean("greetingService", GreetingService.class);
         System.out.println(greetingService.greeting("world"));
     }
 }
