@@ -17,10 +17,10 @@
 
 package org.apache.dubbo.samples.starter;
 
-import org.apache.dubbo.samples.ApplicationKeeper;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * The type Dubbo account service starter.
@@ -31,13 +31,14 @@ public class DubboAccountServiceStarter {
      *
      * @param args the input arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ClassPathXmlApplicationContext accountContext = new ClassPathXmlApplicationContext("spring/dubbo-account-service.xml");
         accountContext.getBean("service");
         JdbcTemplate accountJdbcTemplate = (JdbcTemplate) accountContext.getBean("jdbcTemplate");
         accountJdbcTemplate.update("delete from account_tbl where user_id = 'U100001'");
         accountJdbcTemplate.update("insert into account_tbl(user_id, money) values ('U100001', 999)");
 
-        new ApplicationKeeper(accountContext).keep();
+        System.out.println("account service started");
+        new CountDownLatch(1).await();
     }
 }

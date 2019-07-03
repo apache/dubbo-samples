@@ -17,10 +17,10 @@
 
 package org.apache.dubbo.samples.starter;
 
-import org.apache.dubbo.samples.ApplicationKeeper;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * The type Dubbo storage service starter.
@@ -31,12 +31,14 @@ public class DubboStorageServiceStarter {
      *
      * @param args the input arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ClassPathXmlApplicationContext storageContext = new ClassPathXmlApplicationContext("spring/dubbo-storage-service.xml");
         storageContext.getBean("service");
         JdbcTemplate storageJdbcTemplate = (JdbcTemplate) storageContext.getBean("jdbcTemplate");
         storageJdbcTemplate.update("delete from storage_tbl where commodity_code = 'C00321'");
         storageJdbcTemplate.update("insert into storage_tbl(commodity_code, count) values ('C00321', 100)");
-        new ApplicationKeeper(storageContext).keep();
+
+        System.out.println("storage service started");
+        new CountDownLatch(1).await();
     }
 }

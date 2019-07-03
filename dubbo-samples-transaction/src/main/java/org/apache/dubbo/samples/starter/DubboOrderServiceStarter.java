@@ -17,9 +17,9 @@
 
 package org.apache.dubbo.samples.starter;
 
-import org.apache.dubbo.samples.ApplicationKeeper;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * The type Dubbo order service starter.
@@ -30,12 +30,14 @@ public class DubboOrderServiceStarter {
      *
      * @param args the input arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         /**
          *  3. Order service is ready . Waiting for buyers to order
          */
         ClassPathXmlApplicationContext orderContext = new ClassPathXmlApplicationContext("spring/dubbo-order-service.xml");
         orderContext.getBean("service");
-        new ApplicationKeeper(orderContext).keep();
+
+        System.out.println("order service started");
+        new CountDownLatch(1).await();
     }
 }

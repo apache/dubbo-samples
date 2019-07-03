@@ -29,4 +29,12 @@ public interface StorageService {
      * @param count         amount to deduct
      */
     void deduct(String commodityCode, int count);
+
+    /**
+     * query storage
+     *
+     * @param commodityCode commodity code
+     * @return commodity count
+     */
+    int queryCount(String commodityCode);
 }
