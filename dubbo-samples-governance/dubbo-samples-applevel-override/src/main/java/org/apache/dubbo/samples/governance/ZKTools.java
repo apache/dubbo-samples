@@ -16,8 +16,6 @@
  */
 package org.apache.dubbo.samples.governance;
 
-import org.apache.dubbo.common.utils.StringUtils;
-
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -63,7 +61,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/governance-appoverride-provider/configurators";
+            String path = "/dubbo/config/dubbo/governance-appoverride-provider.configurators";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
             }
@@ -93,7 +91,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/governance-appoverride-consumer/configurators";
+            String path = "/dubbo/config/dubbo/governance-appoverride-consumer.configurators";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
             }
@@ -122,7 +120,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/org.apache.dubbo.samples.governance.api.DemoService/configurators";
+            String path = "/dubbo/config/dubbo/org.apache.dubbo.samples.governance.api.DemoService::.configurators";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path);
             }
@@ -134,13 +132,6 @@ public class ZKTools {
 
     private static void setData(String path, String data) throws Exception {
         client.setData().forPath(path, data.getBytes());
-    }
-
-    private static String pathToKey(String path) {
-        if (StringUtils.isEmpty(path)) {
-            return path;
-        }
-        return path.replace("/dubbo/config/", "").replaceAll("/", ".");
     }
 
 }
