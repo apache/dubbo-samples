@@ -57,7 +57,7 @@
         <module>dubbo-samples-rest</module>
         <module>dubbo-samples-scala</module>
         <module>dubbo-samples-simplified-registry</module>
-        <module>dubbo-samples-SPI-compatible</module>
+        <module>dubbo-samples-spi-compatible</module>
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-stub</module>
@@ -69,7 +69,9 @@
         <module>dubbo-samples-zookeeper</module>
         <module>dubbo-samples-transaction</module>
         <module>dubbo-samples-consul</module>
+        <module>dubbo-samples-edas</module>
         <module>dubbo-samples-nacos</module>
+        <module>dubbo-samples-metrics</module>
     </modules>
     <properties>
         <!-- Test libs -->

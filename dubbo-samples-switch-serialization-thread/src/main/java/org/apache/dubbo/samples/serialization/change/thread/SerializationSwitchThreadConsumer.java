@@ -20,15 +20,16 @@
 package org.apache.dubbo.samples.serialization.change.thread;
 
 import org.apache.dubbo.samples.serialization.change.thread.api.DemoService;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SerializationSwitchThreadConsumer {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/serialization-switch-thread-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/serialization-switch-thread-consumer.xml");
         context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get remote service proxy
+
+        DemoService demoService = context.getBean("demoService", DemoService.class);
         System.out.println(demoService.sayHello("Dubbo"));
     }
-
 }
