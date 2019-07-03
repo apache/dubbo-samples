@@ -17,26 +17,25 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
-
-import org.apache.dubbo.samples.governance.api.DemoService;
-import org.apache.dubbo.samples.governance.api.DemoService2;
+package org.apache.dubbo.samples.basic;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class BasicConsumer {
+public class BasicProvider {
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        // wait for embedded zookeeper start completely.
+        Thread.sleep(1000);
+
+        System.setProperty("dubbo.labels", "dubbo.key1=value1; dubbo.key2=value2");
+        System.setProperty("dubbo.env.keys", "DUBBO_KEY1, DUBBO_KEY2");
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
         context.start();
 
-        DemoService demoService = context.getBean("demoService", DemoService.class);
-        DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
-
-        String hello = demoService.sayHello("world");
-        System.out.println(hello);
-
-        String hello2 = demoService2.sayHello("world again");
-        System.out.println(hello2);
+        System.out.println("dubbo service started");
+        System.in.read();
     }
+
 }

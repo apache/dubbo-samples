@@ -17,26 +17,21 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.basic.impl;
 
-import org.apache.dubbo.samples.governance.api.DemoService;
-import org.apache.dubbo.samples.governance.api.DemoService2;
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.basic.api.DemoService;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class BasicConsumer {
+public class DemoServiceImpl implements DemoService {
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
-        context.start();
-
-        DemoService demoService = context.getBean("demoService", DemoService.class);
-        DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
-
-        String hello = demoService.sayHello("world");
-        System.out.println(hello);
-
-        String hello2 = demoService2.sayHello("world again");
-        System.out.println(hello2);
+    @Override
+    public String sayHello(String name) {
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +
+                ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
     }
+
 }

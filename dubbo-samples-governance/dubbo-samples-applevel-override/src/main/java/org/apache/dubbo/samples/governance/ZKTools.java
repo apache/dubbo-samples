@@ -85,7 +85,7 @@ public class ZKTools {
                 "- addresses: [\"0.0.0.0\"]\n" +
                 "  side: consumer\n" +
                 "  parameters:\n" +
-                "    weight: 101\n" +
+                "    weight: 100\n" +
                 "...\n";
 
         System.out.println(str);
@@ -111,7 +111,7 @@ public class ZKTools {
                 "key: org.apache.dubbo.samples.governance.api.DemoService\n" +
                 "enabled: true\n" +
                 "configs:\n" +
-                "- addresses: [\"0.0.0.0:20880\"]\n" +
+                "- addresses: [\"0.0.0.0:20881\"]\n" +
                 "  side: provider\n" +
                 "  parameters:\n" +
                 "    weight: 1000\n" +

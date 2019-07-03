@@ -17,26 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.basic.api;
 
-import org.apache.dubbo.samples.governance.api.DemoService;
-import org.apache.dubbo.samples.governance.api.DemoService2;
+public interface DemoService {
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+    String sayHello(String name);
 
-public class BasicConsumer {
-
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
-        context.start();
-
-        DemoService demoService = context.getBean("demoService", DemoService.class);
-        DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
-
-        String hello = demoService.sayHello("world");
-        System.out.println(hello);
-
-        String hello2 = demoService2.sayHello("world again");
-        System.out.println(hello2);
-    }
 }

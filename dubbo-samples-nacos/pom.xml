@@ -33,6 +33,7 @@
         <module>dubbo-samples-nacos-conditionrouter</module>
         <module>dubbo-samples-nacos-configcenter</module>
         <module>dubbo-samples-nacos-tagrouter</module>
+        <module>dubbo-samples-nacos-registry</module>
     </modules>
 
 </project>
