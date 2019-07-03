@@ -30,13 +30,10 @@ import org.apache.dubbo.samples.validation.api.ValidationService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * ValidationConsumer
- */
 public class ValidationConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/validation-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/validation-consumer.xml");
         context.start();
 
         ValidationService validationService = (ValidationService) context.getBean("validationService");
