@@ -17,25 +17,22 @@
  *
  */
 
-package org.apache.dubbo.samples.governance.impl;
+package org.apache.dubbo.samples.async;
 
-import org.apache.dubbo.samples.api.client.GreetingService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- * AsyncServiceImpl
- */
-public class GreetingsServiceImpl implements GreetingService {
+import java.util.concurrent.CountDownLatch;
 
-    @Override
-    public String greeting(String name) {
-        System.out.println("provider received: " + name);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("provider returned.");
-        return "hello, " + name;
+public class AsyncProvider {
+
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/async-provider.xml");
+        context.start();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }
