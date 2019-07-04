@@ -21,8 +21,6 @@ package org.apache.dubbo.samples.service.greeting;
 import org.apache.dubbo.samples.api.GreetingService;
 import org.apache.dubbo.samples.api.HelloService;
 
-import java.util.Random;
-
 public class GreetingServiceImpl implements GreetingService {
 
     private HelloService helloService;
@@ -33,11 +31,6 @@ public class GreetingServiceImpl implements GreetingService {
 
     @Override
     public String greeting(String message) {
-        try {
-            Thread.sleep(new Random(System.currentTimeMillis()).nextInt(1000));
-        } catch (InterruptedException e) {
-            // no op
-        }
         return "greeting, " + helloService.hello(message);
     }
 }

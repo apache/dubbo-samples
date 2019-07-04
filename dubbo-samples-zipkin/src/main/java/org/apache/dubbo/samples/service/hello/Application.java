@@ -19,15 +19,14 @@ package org.apache.dubbo.samples.service.hello;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 public class Application {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/hello-service.xml");
         context.start();
 
-        System.out.println("Hello service started");
-        // press any key to exit
-        System.in.read();
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }
