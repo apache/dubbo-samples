@@ -38,6 +38,13 @@ Start Zookeeper server:
 zkServer start
 ```
 
+Alternatively a docker compose file is provided in this example in order to start up both Zipkin server and Zookeeper server together.
+
+```bash
+cd main/resources/docker
+docker-compose up
+```
+
 Start `org.apache.dubbo.samples.service.hello.Application` in command line, you can also start it directly from IDE:
 
 ```bash
