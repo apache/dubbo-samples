@@ -17,25 +17,32 @@
  *
  */
 
-package org.apache.dubbo.samples.governance.impl;
+package org.apache.dubbo.samples.async.impl;
 
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.governance.api.AsyncService;
+import org.apache.dubbo.samples.async.api.AsyncService;
+import org.apache.dubbo.samples.async.filter.LegacyBlockFilter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- * AsyncServiceImpl
- */
 public class AsyncServiceImpl implements AsyncService {
+    private static Logger logger = LoggerFactory.getLogger(AsyncServiceImpl.class);
 
     @Override
     public CompletableFuture<String> sayHello(String name) {
         RpcContext savedContext = RpcContext.getContext();
         RpcContext savedServerContext = RpcContext.getServerContext();
         return CompletableFuture.supplyAsync(() -> {
-            System.out.println(savedContext.getAttachment("consumer-key1"));
-            savedServerContext.setAttachment("server-key1", "server-value1");
+            String received = savedContext.getAttachment("consumer-key1");
+            logger.info("consumer-key1 from attachment: " + received);
+            savedServerContext.setAttachment("server-key1", "server-" + received);
+
+            received = savedContext.getAttachment("filters");
+            logger.info("filters from attachment: " + received);
+            savedServerContext.setAttachment("filters", received);
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

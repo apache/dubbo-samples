@@ -17,40 +17,43 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.async;
 
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.governance.api.AsyncService;
+import org.apache.dubbo.samples.async.api.AsyncService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 
-/**
- * CallbackConsumer
- */
 public class AsyncConsumer {
+    private static Logger logger = LoggerFactory.getLogger(AsyncConsumer.class);
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/async-consumer.xml");
         context.start();
 
-        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
-
+        AsyncService asyncService = context.getBean("asyncService", AsyncService.class);
         RpcContext.getContext().setAttachment("consumer-key1", "consumer-value1");
+
         CompletableFuture<String> future = asyncService.sayHello("async call request");
         RpcContext savedServerContext = RpcContext.getServerContext();
+        CountDownLatch latch = new CountDownLatch(1);
         future.whenComplete((v, t) -> {
             System.out.println(savedServerContext.getAttachment("server-key1"));
             if (t != null) {
-                t.printStackTrace();
+                logger.warn("Exception: ", t);
             } else {
-                System.out.println("AsyncConsumer: Response: " + v);
+                logger.info("Response: " + v);
             }
+            latch.countDown();
         });
-        System.out.println("AsyncConsumer: Executed before response return.");
 
-        System.in.read();
+        logger.info("Executed before response returns");
+        latch.await();
     }
 
 }

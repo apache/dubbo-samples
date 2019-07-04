@@ -17,13 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.governance.api;
+package org.apache.dubbo.samples.async.api;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- * AsyncService
- */
 public interface AsyncService {
 
     CompletableFuture<String> sayHello(String name);

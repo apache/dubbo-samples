@@ -14,29 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.governance.filter;
+package org.apache.dubbo.samples.async.filter;
 
-import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 
-/**
- *
- */
+import com.alibaba.dubbo.common.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
-public class LegacyBlockFilter implements Filter {
+public class AsyncPostprocessFilter implements Filter {
+    private static Logger logger = LoggerFactory.getLogger(AsyncPostprocessFilter.class);
+
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        Result result =  invoker.invoke(invocation);
-        System.out.println("LegacyBlockFilter: This is the default return value: " + result.getValue());
-        if (result.hasException()) {
-            System.out.println("LegacyBlockFilter: This will only happen when the real exception returns: " + result.getException());
+        RpcContext context = RpcContext.getContext();
+        String filters = context.getAttachment("filters");
+        if (StringUtils.isEmpty(filters)) {
+            filters = "";
         }
-        System.out.println("LegacyBlockFilter: This msg should not be blocked.");
+        filters += " async-post-process-filter";
+        context.setAttachment("filters", filters);
+
+        return invoker.invoke(invocation);
+    }
+
+    @Override
+    public Result onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
+        logger.info("Filter get the return value: " + result.getValue());
         return result;
     }
+
 }
