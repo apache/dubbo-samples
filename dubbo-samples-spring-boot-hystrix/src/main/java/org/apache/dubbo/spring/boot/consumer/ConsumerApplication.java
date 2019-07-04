@@ -22,8 +22,9 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import org.example.HelloService;
+import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.spring.boot.api.HelloService;
+
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @SpringBootApplication
@@ -39,10 +40,8 @@ public class ConsumerApplication {
         ConfigurableApplicationContext context = SpringApplication.run(ConsumerApplication.class, args);
         ConsumerApplication application = context.getBean(ConsumerApplication.class);
 
-        // server 端的hystrix会抛出异常，本地的调用结果会走 fallbackMethod
-        // 证明server 和 client端都经过 hystrix处理
         String result = application.doSayHello("world");
-        System.err.println("result :" + result);
+        System.out.println("result: " + result);
     }
 
     @HystrixCommand(fallbackMethod = "reliable")

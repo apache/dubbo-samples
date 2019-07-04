@@ -16,23 +16,27 @@
  */
 package org.apache.dubbo.spring.boot.provider;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import java.util.concurrent.CountDownLatch;
+
 
 @SpringBootApplication
 @EnableHystrix
-@EnableDubbo(scanBasePackages = { "org.example" })
+@EnableDubbo(scanBasePackages = {"org.apache.dubbo.spring.boot.provider.impl"})
 public class ProviderApplication {
 
-    public static void main(String[] args) {
-
-        // start embedded zookeeper server
+    public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
 
         SpringApplication.run(ProviderApplication.class, args);
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }
