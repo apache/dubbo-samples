@@ -17,46 +17,40 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.async;
 
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.governance.api.AsyncService;
+import org.apache.dubbo.samples.async.api.AsyncService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- * CallbackConsumer
- */
 public class AsyncConsumer {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/async-consumer.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/async-consumer.xml");
         context.start();
 
-        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
-
+        AsyncService asyncService = context.getBean("asyncService", AsyncService.class);
         asyncService.sayHello("world");
+
         CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
         helloFuture.whenComplete((retValue, exception) -> {
             if (exception == null) {
-                System.out.println(retValue);
+                System.out.println("return value: " + retValue);
             } else {
                 exception.printStackTrace();
             }
         });
 
         CompletableFuture<String> f = RpcContext.getContext().asyncCall(() -> asyncService.sayHello("async call request"));
-
-        System.out.println("async call ret :" + f.get());
+        System.out.println("async call returned: " + f.get());
 
 
         RpcContext.getContext().asyncCall(() -> {
-            asyncService.sayHello("oneway call request1");
+            asyncService.sayHello("one way call request1");
         });
-
-        System.in.read();
     }
 
 }

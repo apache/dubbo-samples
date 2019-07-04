@@ -17,13 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.governance.impl;
+package org.apache.dubbo.samples.async.impl;
 
-import org.apache.dubbo.samples.governance.api.AsyncService;
+import org.apache.dubbo.samples.async.api.AsyncService;
 
-/**
- * AsyncServiceImpl
- */
 public class AsyncServiceImpl implements AsyncService {
 
     @Override
