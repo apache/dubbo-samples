@@ -17,34 +17,37 @@
  *
  */
 
-package org.apache.dubbo.samples.governance.impl;
+package org.apache.dubbo.samples.async.impl;
 
 import org.apache.dubbo.rpc.AsyncContext;
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.governance.api.AsyncService;
+import org.apache.dubbo.samples.async.api.AsyncService;
 
-/**
- * AsyncServiceImpl
- */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AsyncServiceImpl implements AsyncService {
+    private static Logger logger = LoggerFactory.getLogger(AsyncServiceImpl.class);
 
     @Override
     public String sayHello(String name) {
-        System.out.println("Main sayHello() method start.");
-        final AsyncContext asyncContext = RpcContext.startAsync();
+        AsyncContext asyncContext = RpcContext.startAsync();
+        logger.info("sayHello start");
+
         new Thread(() -> {
             asyncContext.signalContextSwitch();
-            System.out.println("Attachment from consumer: " + RpcContext.getContext().getAttachment("consumer-key1"));
-            System.out.println("    -- Async start.");
+            logger.info("Attachment from consumer: " + RpcContext.getContext().getAttachment("consumer-key1"));
+            logger.info("async start");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             asyncContext.write("Hello " + name + ", response from provider.");
-            System.out.println("    -- Async end.");
+            logger.info("async end");
         }).start();
-        System.out.println("Main sayHello() method end.");
+
+        logger.info("sayHello end");
         return "hello, " + name;
     }
 

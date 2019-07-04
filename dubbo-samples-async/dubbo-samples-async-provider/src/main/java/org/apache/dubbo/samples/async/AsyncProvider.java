@@ -17,13 +17,22 @@
  *
  */
 
-package org.apache.dubbo.samples.governance.api;
+package org.apache.dubbo.samples.async;
 
-/**
- * AsyncService
- */
-public interface AsyncService {
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    String sayHello(String name);
+import java.util.concurrent.CountDownLatch;
+
+public class AsyncProvider {
+
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/async-provider.xml");
+        context.start();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
+    }
 
 }

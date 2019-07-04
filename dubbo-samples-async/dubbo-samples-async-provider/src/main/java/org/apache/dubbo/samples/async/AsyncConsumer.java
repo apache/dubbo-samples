@@ -17,17 +17,22 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.async;
+
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.async.api.AsyncService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class AsyncProvider {
+public class AsyncConsumer {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-provider.xml"});
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/async-consumer.xml");
         context.start();
-        System.in.read();
-    }
 
+        RpcContext.getContext().setAttachment("consumer-key1", "consumer-value1");
+        AsyncService asyncService = context.getBean("asyncService", AsyncService.class);
+
+        System.out.println(asyncService.sayHello("async call request"));
+    }
 }

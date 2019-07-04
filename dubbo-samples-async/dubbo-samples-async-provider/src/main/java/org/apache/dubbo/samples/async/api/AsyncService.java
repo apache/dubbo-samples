@@ -17,27 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.async.api;
 
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.governance.api.AsyncService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public interface AsyncService {
 
-/**
- * CallbackConsumer
- */
-public class AsyncConsumer {
-
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/async-consumer.xml"});
-        context.start();
-
-        RpcContext.getContext().setAttachment("consumer-key1", "consumer-value1");
-        final AsyncService asyncService = (AsyncService) context.getBean("asyncService");
-
-        System.out.println(asyncService.sayHello("async call request"));
-
-        System.in.read();
-    }
+    String sayHello(String name);
 
 }
