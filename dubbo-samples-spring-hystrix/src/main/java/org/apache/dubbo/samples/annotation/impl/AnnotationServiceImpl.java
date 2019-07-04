@@ -19,23 +19,19 @@
 
 package org.apache.dubbo.samples.annotation.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.annotation.api.AnnotationService;
+
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
-/**
- * AsyncServiceImpl
- */
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
 
-    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000") })
+    @HystrixCommand(commandProperties = {@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")})
     @Override
     public String sayHello(String name) {
-//        System.out.println("async provider received: " + name);
-//        return "annotation: hello, " + name;
         throw new RuntimeException("Exception to show hystrix enabled.");
     }
 

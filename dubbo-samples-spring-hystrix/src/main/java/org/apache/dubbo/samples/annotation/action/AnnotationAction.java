@@ -19,15 +19,12 @@
 
 package org.apache.dubbo.samples.annotation.action;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.annotation.api.AnnotationService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
 
-/**
- * AnnotationAction
- */
 @Component("annotationAction")
 public class AnnotationAction {
 

@@ -19,9 +19,6 @@
 
 package org.apache.dubbo.samples.annotation.api;
 
-/**
- * AsyncService
- */
 public interface AnnotationService {
 
     String sayHello(String name);

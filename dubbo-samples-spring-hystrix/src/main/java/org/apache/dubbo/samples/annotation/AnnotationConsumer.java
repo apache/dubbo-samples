@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.annotation;
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.annotation.action.AnnotationAction;
-import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 
+import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,23 +30,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * CallbackConsumer
- */
 public class AnnotationConsumer {
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
-        final AnnotationAction annotationAction = (AnnotationAction) context.getBean("annotationAction");
+
+        AnnotationAction annotationAction = context.getBean("annotationAction", AnnotationAction.class);
         String hello = annotationAction.doSayHello("world");
-        System.err.println("result :" + hello);
-        System.in.read();
+        System.out.println("result :" + hello);
     }
 
     @Configuration
     @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.action")
-    @PropertySource("classpath:/spring/dubbo-consumer.properties")
+    @PropertySource("classpath:/spring/hystrix-dubbo-consumer.properties")
     @ComponentScan(value = {"org.apache.dubbo.samples.annotation.action"})
     @EnableAspectJAutoProxy
     static public class ConsumerConfiguration {

@@ -19,31 +19,30 @@
 
 package org.apache.dubbo.samples.annotation;
 
-import com.alibaba.dubbo.config.ProviderConfig;
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
-import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
+import org.apache.dubbo.config.ProviderConfig;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 
+import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * MergeProvider
- */
 public class AnnotationProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
+
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
-        System.in.read();
+
+        System.out.println("dubbo service started");
     }
 
     @Configuration
     @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.impl")
-    @PropertySource("classpath:/spring/dubbo-provider.properties")
+    @PropertySource("classpath:/spring/hystrix-dubbo-provider.properties")
     @EnableAspectJAutoProxy
     static public class ProviderConfiguration {
         @Bean
