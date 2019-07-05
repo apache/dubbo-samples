@@ -37,6 +37,7 @@
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <image.name>${artifactId}:${dubbo.version}</image.name>
+        <java-image.name>openjdk:8</java-image.name>
         <servlet.port.1>8080</servlet.port.1>
         <servlet.container.1>tomcat</servlet.container.1>
         <servlet.port.2>8081</servlet.port.2>
@@ -139,7 +140,7 @@
                         <version>${jib-maven-plugin.version}</version>
                         <configuration>
                             <from>
-                                <image>openjdk:8</image>
+                                <image>${java-image.name}</image>
                             </from>
                             <to>
                                 <image>${image.name}</image>

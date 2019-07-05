@@ -41,6 +41,7 @@
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <image.name>${artifactId}:${dubbo.version}</image.name>
+        <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
         <main-class>org.apache.dubbo.samples.generic.call.GenericImplProvider</main-class>
@@ -110,7 +111,7 @@
                         <version>${jib-maven-plugin.version}</version>
                         <configuration>
                             <from>
-                                <image>openjdk:8</image>
+                                <image>${java-image.name}</image>
                             </from>
                             <to>
                                 <image>${image.name}</image>
