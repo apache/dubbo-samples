@@ -23,17 +23,20 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.samples.api.GreetingsService;
 
-import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 public class Application {
-    public static void main(String[] args) throws IOException {
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+
+    public static void main(String[] args) throws Exception {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setApplication(new ApplicationConfig("first-dubbo-provider"));
-        service.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        service.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
         service.export();
-        System.out.println("first-dubbo-provider is running.");
-        System.in.read();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }

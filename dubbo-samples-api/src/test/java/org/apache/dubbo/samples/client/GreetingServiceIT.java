@@ -26,12 +26,13 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 public class GreetingServiceIT {
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
 
     @Test
     public void test() {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
-        reference.setRegistry(new RegistryConfig("multicast://224.5.6.7:1234"));
+        reference.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
         reference.setInterface(GreetingsService.class);
         GreetingsService service = reference.get();
         String message = service.sayHi("dubbo");
