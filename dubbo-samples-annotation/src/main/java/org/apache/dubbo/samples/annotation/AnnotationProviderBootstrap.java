@@ -28,6 +28,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import java.util.concurrent.CountDownLatch;
+
 public class AnnotationProviderBootstrap {
 
     public static void main(String[] args) throws Exception {
@@ -36,8 +38,9 @@ public class AnnotationProviderBootstrap {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
+
         System.out.println("dubbo service started.");
-        System.in.read();
+        new CountDownLatch(1).await();
     }
 
     @Configuration
