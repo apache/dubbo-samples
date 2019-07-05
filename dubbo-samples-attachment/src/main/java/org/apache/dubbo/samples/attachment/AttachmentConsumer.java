@@ -30,9 +30,10 @@ public class AttachmentConsumer {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/attachment-consumer.xml");
         context.start();
-        AttachmentService attachmentService = (AttachmentService) context.getBean("demoService");
 
+        AttachmentService attachmentService = context.getBean("demoService", AttachmentService.class);
         RpcContext.getContext().setAttachment("index", "1");
+
         String hello = attachmentService.sayHello("world");
         System.out.println(hello);
 

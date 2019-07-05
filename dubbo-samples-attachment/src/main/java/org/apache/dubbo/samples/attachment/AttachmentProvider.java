@@ -21,6 +21,8 @@ package org.apache.dubbo.samples.attachment;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 
 public class AttachmentProvider {
 
@@ -30,6 +32,6 @@ public class AttachmentProvider {
         context.start();
 
         System.out.println("dubbo service started.");
-        System.in.read();
+        new CountDownLatch(1).await();
     }
 }
