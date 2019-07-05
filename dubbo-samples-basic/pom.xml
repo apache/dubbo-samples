@@ -30,14 +30,16 @@
         <target.level>1.8</target.level>
         <dubbo.version>2.7.2</dubbo.version>
         <junit.version>4.12</junit.version>
+        <spring-test.version>4.3.16.RELEASE</spring-test.version>
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <image.name>${artifactId}:${dubbo.version}</image.name>
+        <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
+        <zookeeper.port>2181</zookeeper.port>
         <main-class>org.apache.dubbo.samples.basic.BasicProvider</main-class>
-        <spring-test.version>4.3.16.RELEASE</spring-test.version>
     </properties>
 
     <dependencies>
@@ -104,10 +106,6 @@
                             </to>
                             <container>
                                 <mainClass>${main-class}</mainClass>
-                                <ports>
-                                    <port>${dubbo.port}</port>
-                                    <port>2181</port>
-                                </ports>
                                 <environment>
                                     <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
                                 </environment>
@@ -134,7 +132,7 @@
                                     <run>
                                         <ports>
                                             <port>${dubbo.port}:${dubbo.port}</port>
-                                            <port>2181:2181</port>
+                                            <port>${zookeeper.port}:${zookeeper.port}</port>
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
@@ -172,6 +170,9 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
+                                    <systemPropertyVariables>
+                                        <zookeeper.address>${dubbo-local-address}</zookeeper.address>
+                                    </systemPropertyVariables>
                                     <includes>
                                         <include>**/*IT.java</include>
                                     </includes>
