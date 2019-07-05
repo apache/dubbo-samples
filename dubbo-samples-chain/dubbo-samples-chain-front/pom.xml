@@ -31,6 +31,10 @@
 
     <artifactId>dubbo-samples-chain-front</artifactId>
 
+    <properties>
+        <zookeeper.port>2181</zookeeper.port>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -87,11 +91,42 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <external>
-                                        <type>compose</type>
-                                        <basedir>src/main/resources/docker</basedir>
-                                        <composeFile>docker-compose.yml</composeFile>
-                                    </external>
+                                    <name>zookeeper:latest</name>
+                                    <run>
+                                        <ports>
+                                            <port>${zookeeper.port}:${zookeeper.port}</port>
+                                        </ports>
+                                        <wait>
+                                            <tcp>
+                                                <host>${dubbo-local-address}</host>
+                                                <ports>
+                                                    <port>${zookeeper.port}</port>
+                                                </ports>
+                                            </tcp>
+                                        </wait>
+                                    </run>
+                                </image>
+                                <image>
+                                    <name>dubbo-samples-chain-backend:${dubbo.version}</name>
+                                    <run>
+                                        <ports>
+                                            <port>20880:20880</port>
+                                        </ports>
+                                        <wait>
+                                            <log>dubbo service started</log>
+                                        </wait>
+                                    </run>
+                                </image>
+                                <image>
+                                    <name>dubbo-samples-chain-middle:${dubbo.version}</name>
+                                    <run>
+                                        <ports>
+                                            <port>20881:20881</port>
+                                        </ports>
+                                        <wait>
+                                            <log>dubbo service started</log>
+                                        </wait>
+                                    </run>
                                 </image>
                             </images>
                         </configuration>
@@ -112,27 +147,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
-                    <!-- wait until docker instances fully start up -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <configuration>
-                            <tasks>
-                                <sleep seconds="5" />
-                            </tasks>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sleep-for-a-while</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
