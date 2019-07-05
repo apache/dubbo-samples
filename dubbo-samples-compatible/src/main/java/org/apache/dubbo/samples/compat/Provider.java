@@ -21,14 +21,18 @@ package org.apache.dubbo.samples.compat;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 public class Provider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
+
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-compat-provider.xml");
         context.start();
+
         System.out.println("dubbo service started");
-        System.in.read();
+        new CountDownLatch(1).await();
     }
 
 }
