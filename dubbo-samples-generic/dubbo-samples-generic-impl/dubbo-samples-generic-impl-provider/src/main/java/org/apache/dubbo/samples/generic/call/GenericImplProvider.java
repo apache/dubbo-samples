@@ -27,7 +27,9 @@ import org.apache.dubbo.samples.generic.call.impl.GenericImplOfHelloService;
 
 import java.util.concurrent.CountDownLatch;
 
+
 public class GenericImplProvider {
+    private static String zookeeperAddress = "zookeeper://" + System.getProperty("zookeeper.address", "127.0.0.1") + ":2181";
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
@@ -35,7 +37,7 @@ public class GenericImplProvider {
         ApplicationConfig applicationConfig = new ApplicationConfig();
         applicationConfig.setName("generic-impl-provider");
         RegistryConfig registryConfig = new RegistryConfig();
-        registryConfig.setAddress("zookeeper://127.0.0.1:2181");
+        registryConfig.setAddress(zookeeperAddress);
 
         GenericService helloService = new GenericImplOfHelloService();
         ServiceConfig<GenericService> service = new ServiceConfig<>();
