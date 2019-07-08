@@ -175,6 +175,8 @@
                         </executions>
                     </plugin>
 
+                    <!-- FIXME: https://github.com/apache/dubbo-samples/issues/101 -->
+                    <!--
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -196,6 +198,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    -->
                 </plugins>
             </build>
         </profile>
