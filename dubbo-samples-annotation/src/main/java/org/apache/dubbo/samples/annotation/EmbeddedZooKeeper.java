@@ -1,11 +1,12 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,11 +15,6 @@
  * limitations under the License.
  */
 package org.apache.dubbo.samples.annotation;
-
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.Properties;
-import java.util.UUID;
 
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
@@ -29,11 +25,16 @@ import org.springframework.context.SmartLifecycle;
 import org.springframework.util.ErrorHandler;
 import org.springframework.util.SocketUtils;
 
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Properties;
+import java.util.UUID;
+
 /**
  * from: https://github.com/spring-projects/spring-xd/blob/v1.3.1.RELEASE/spring-xd-dirt/src/main/java/org/springframework/xd/dirt/zookeeper/ZooKeeperUtils.java
- *
+ * <p>
  * Helper class to start an embedded instance of standalone (non clustered) ZooKeeper.
- *
+ * <p>
  * NOTE: at least an external standalone server (if not an ensemble) are recommended, even for
  * {@link org.springframework.xd.dirt.server.singlenode.SingleNodeApplication}
  *
@@ -90,7 +91,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * Construct an EmbeddedZooKeeper with the provided port.
      *
-     * @param clientPort  port for ZooKeeper server to bind to
+     * @param clientPort port for ZooKeeper server to bind to
      */
     public EmbeddedZooKeeper(int clientPort, boolean daemon) {
         this.clientPort = clientPort;
@@ -176,9 +177,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
                 Method shutdown = ZooKeeperServerMain.class.getDeclaredMethod("shutdown");
                 shutdown.setAccessible(true);
                 shutdown.invoke(zkServer);
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
@@ -188,8 +187,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
             try {
                 zkServerThread.join(5000);
                 zkServerThread = null;
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 logger.warn("Interrupted while waiting for embedded ZooKeeper to exit");
                 // abandoning zk thread
@@ -227,7 +225,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
             try {
                 Properties properties = new Properties();
                 File file = new File(System.getProperty("java.io.tmpdir")
-                    + File.separator + UUID.randomUUID());
+                        + File.separator + UUID.randomUUID());
                 file.deleteOnExit();
                 properties.setProperty("dataDir", file.getAbsolutePath());
                 properties.setProperty("clientPort", String.valueOf(clientPort));
@@ -240,12 +238,10 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
                 configuration.readFrom(quorumPeerConfig);
 
                 zkServer.runFromConfig(configuration);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 if (errorHandler != null) {
                     errorHandler.handleError(e);
-                }
-                else {
+                } else {
                     logger.error("Exception running embedded ZooKeeper", e);
                 }
             }
