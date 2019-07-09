@@ -34,7 +34,6 @@ public class AnnotationServiceIT {
     private AnnotationAction annotationAction;
 
     @Test
-    @Ignore("https://github.com/apache/dubbo-samples/issues/103")
     public void test() throws Exception {
         Assert.assertEquals("annotation: hello, dubbo", annotationAction.doSayHello("dubbo"));
     }

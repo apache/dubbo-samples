@@ -76,7 +76,8 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test</id>
+            <!-- https://github.com/apache/dubbo-samples/issues/103 -->
+            <id>dubbo-integration-test-disabled</id>
             <build>
                 <plugins>
                     <plugin>
