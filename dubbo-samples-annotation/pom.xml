@@ -176,6 +176,9 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
+                                    <systemPropertyVariables>
+                                        <zookeeper.address>${dubbo-local-address}</zookeeper.address>
+                                    </systemPropertyVariables>
                                     <includes>
                                         <include>**/*IT.java</include>
                                     </includes>

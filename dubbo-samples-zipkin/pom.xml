@@ -208,6 +208,7 @@
                                     <arguments>
                                         <argument>-classpath</argument>
                                         <classpath/>
+                                        <argument>-Dzookeeper.address=${dubbo-local-address}</argument>
                                         <argument>org.apache.dubbo.samples.service.hello.Application</argument>
                                     </arguments>
                                     <async>true</async>
@@ -226,6 +227,7 @@
                                     <arguments>
                                         <argument>-classpath</argument>
                                         <classpath/>
+                                        <argument>-Dzookeeper.address=${dubbo-local-address}</argument>
                                         <argument>org.apache.dubbo.samples.service.greeting.Application</argument>
                                     </arguments>
                                     <async>true</async>
