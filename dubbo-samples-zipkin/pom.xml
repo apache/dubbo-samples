@@ -244,7 +244,7 @@
                                 <configuration>
                                     <executable>sleep</executable>
                                     <arguments>
-                                        <argument>10</argument>
+                                        <argument>20</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
