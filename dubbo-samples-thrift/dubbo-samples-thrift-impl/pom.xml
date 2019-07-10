@@ -162,6 +162,20 @@
                                     <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
                                 </configuration>
                             </execution>
+
+                            <execution>
+                                <id>sleep</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>sleep</executable>
+                                    <arguments>
+                                        <argument>5</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
                         </executions>
 
                     </plugin>
