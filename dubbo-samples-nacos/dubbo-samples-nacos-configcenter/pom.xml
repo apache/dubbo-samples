@@ -87,7 +87,7 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test</id>
+            <id>dubbo-integration-test-disabled</id>
             <build>
                 <plugins>
                     <plugin>
