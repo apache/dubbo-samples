@@ -18,6 +18,7 @@ package org.apache.dubbo.samples.metrics;
 
 import org.apache.dubbo.samples.metrics.api.DemoService;
 import org.apache.dubbo.samples.metrics.model.Result;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MetricsConsumer {
@@ -25,7 +26,9 @@ public class MetricsConsumer {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
         context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService");
+
+        DemoService demoService = context.getBean("demoService", DemoService.class);
+
         while (true) {
             try {
                 Thread.sleep(3000);
