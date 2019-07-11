@@ -20,15 +20,23 @@
 package org.apache.dubbo.samples.client;
 
 import org.apache.dubbo.samples.api.GreetingService;
+
+import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.Future;
 
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/client.xml");
         context.start();
 
         GreetingService greetingService = context.getBean("greetingService", GreetingService.class);
-        System.out.println(greetingService.greeting("world"));
+
+        greetingService.greeting("world");
+        Future<?> future = RpcContext.getContext().getFuture();
+
+        System.out.println(future.get());
     }
 }
