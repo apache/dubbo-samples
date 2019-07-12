@@ -17,9 +17,7 @@ install: true
 
 script:
   - ./mvnw -B clean install -pl dubbo-maven-address-plugin
-  - ./mvnw -pl dubbo-samples-transaction -Djava-image.name=${JAVA_BASE_IMAGE} -Ddocker.showLogs -Ddubbo.version=2.7.3-SNAPSHOT -Pdubbo-integration-test -B clean verify
-
-#  - ./mvnw -B clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.3-SNAPSHOT
+  - ./mvnw -B clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.3-SNAPSHOT
 
 
 
