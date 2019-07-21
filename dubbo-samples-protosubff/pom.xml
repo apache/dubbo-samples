@@ -17,6 +17,9 @@
 		<protostuff.version>1.5.9</protostuff.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
     	<maven.compiler.target>1.8</maven.compiler.target>
+		<maven_compiler_version>3.6.0</maven_compiler_version>
+    	<java_source_version>1.8</java_source_version>
+    	<java_target_version>1.8</java_target_version>
 	</properties>
 	
 	<packaging>pom</packaging>
@@ -115,4 +118,18 @@
     <module>dubbo-samples-protosubff-provider</module>
     <module>dubbo-samples-protosubff-consumer</module>
   </modules>
+  
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven_compiler_version}</version>
+                <configuration>
+                    <source>${java_source_version}</source>
+                    <target>${java_target_version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
