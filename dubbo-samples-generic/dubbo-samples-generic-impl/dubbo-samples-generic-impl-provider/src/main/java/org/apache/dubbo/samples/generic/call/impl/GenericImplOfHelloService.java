@@ -32,9 +32,10 @@ public class GenericImplOfHelloService implements GenericService {
             return CompletableFuture.completedFuture("sayHelloAsync: hello " + args[0]);
         }
 
+        Exception bizException = new UnsupportedOperationException("method does not exist.");
         GenericException genericException = new GenericException();
-        genericException.setExceptionClass(UnsupportedOperationException.class.getName());
-        genericException.setExceptionMessage("method does not exist.");
+        genericException.setExceptionClass(bizException.getClass().getName());
+        genericException.setExceptionMessage(bizException.getMessage());
         throw genericException;
     }
 }
