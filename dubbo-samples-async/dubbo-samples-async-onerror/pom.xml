@@ -332,7 +332,7 @@
             </releases>
             <snapshots>
                 <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
+                <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
