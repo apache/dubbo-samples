@@ -9,8 +9,6 @@ import org.dubbo.samples.protosubff.domain.UserInfo;
 /**
  * 这里 dynamic 需要手动设置为true
  * 具体见  AbstractServiceConfig dynamic=false
- * @author: chenyu
- * @date:   2019年7月16日 上午10:49:50 
  *
  */
 @Service(protocol="dubbo", dynamic=true)

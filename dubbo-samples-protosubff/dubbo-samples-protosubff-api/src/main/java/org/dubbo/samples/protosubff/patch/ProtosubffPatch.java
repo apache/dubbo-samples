@@ -1,15 +1,10 @@
 package org.dubbo.samples.protosubff.patch;
 
-import java.io.IOException;
 
-import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.serialize.ObjectInput;
 import org.apache.dubbo.common.serialize.ObjectOutput;
-import org.apache.dubbo.common.serialize.protostuff.utils.WrapperUtils;
 import org.apache.dubbo.common.utils.ClassHelper;
-import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.remoting.Channel;
-import org.apache.dubbo.remoting.exchange.Request;
 
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -24,10 +19,6 @@ import javassist.LoaderClassPath;
  * protocol 使用 dubbo 序列化设置为 protosubff
  * 别的为默认
  * 
- * 
- * @author: chenyu
- * @date:   2019年7月16日 上午10:23:58 
- *
  */
 public class ProtosubffPatch {
 
