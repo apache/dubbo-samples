@@ -40,6 +40,7 @@
         <dubbo.port>20880</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
         <main-class>org.apache.dubbo.samples.basic.BasicProvider</main-class>
+        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     </properties>
 
     <dependencies>
@@ -242,6 +243,23 @@
                                 <source>build/generated/source/proto/main/java</source>
                             </sources>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>${main-class}</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
