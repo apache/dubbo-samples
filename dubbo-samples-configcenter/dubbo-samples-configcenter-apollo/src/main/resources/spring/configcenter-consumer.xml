@@ -20,15 +20,15 @@
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
 
-    <!-- optional -->
-    <dubbo:application name="dubbo-configcenter-apollo"/>
+    <dubbo:application name="dubbo-configcenter-apollo-consumer"/>
 
-    <dubbo:config-center address="apollo://106.12.25.204:8080"/>
+    <dubbo:config-center highest-priority="false" protocol="apollo" address="${apollo.address:localhost}:8080"/>
 
-    <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
-    <dubbo:service interface="org.apache.dubbo.samples.configcenter.api.DemoService" ref="demoService"/>
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.configcenter.api.DemoService"/>
+
 </beans>
