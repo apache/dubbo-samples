@@ -33,6 +33,7 @@ public class GenericImplOfHelloService implements GenericService {
         }
 
         GenericException genericException = new GenericException();
+        genericException.setExceptionClass(UnsupportedOperationException.class.getName());
         genericException.setExceptionMessage("method does not exist.");
         throw genericException;
     }
