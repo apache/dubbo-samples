@@ -22,7 +22,7 @@ package org.apache.dubbo.samples.configcenter.annotation.impl;
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.configcenter.annotation.api.AnnotationService;
 
-@Service
+@Service(version = "1.0.0")
 public class AnnotationServiceImpl implements AnnotationService {
 
     @Override

@@ -34,6 +34,7 @@
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <image.name>${artifactId}:${dubbo.version}</image.name>
+        <zookeeper.image>zookeeper:latest</zookeeper.image>
         <dubbo.port>2345</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
         <main-class>org.apache.dubbo.samples.rpc.nativethrift.ThriftProvider</main-class>
@@ -96,6 +97,48 @@
                         </executions>
                     </plugin>
 
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker-maven-plugin.version}</version>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>${zookeeper.image}</name>
+                                    <run>
+                                        <ports>
+                                            <port>${zookeeper.port}:${zookeeper.port}</port>
+                                        </ports>
+                                        <wait>
+                                            <tcp>
+                                                <host>${dubbo-local-address}</host>
+                                                <ports>
+                                                    <port>${zookeeper.port}</port>
+                                                </ports>
+                                            </tcp>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <!-- FIXME: thrift protocol cannot run within docker yet -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
@@ -119,8 +162,45 @@
                                     <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
                                 </configuration>
                             </execution>
+
+                            <execution>
+                                <id>sleep</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>sleep</executable>
+                                    <arguments>
+                                        <argument>5</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
                         </executions>
 
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>kill-process</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <target name="ending">
+                                        <echo>kill dubbo applications</echo>
+                                        <exec executable="bash" spawn="true" dir="${project.basedir}/../..">
+                                            <arg value="killall.sh"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
 
                     <plugin>

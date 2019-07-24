@@ -33,6 +33,6 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Override
     public List<URL> lookup(URL query) {
-        return collectedStatistics;
+        return new ArrayList<>(collectedStatistics);
     }
 }

@@ -49,6 +49,6 @@ public class AnnotationServicesIT {
 
     @Test
     public void testReplyGreeting() throws Exception {
-        Assert.assertEquals("Annotation, fine dubbo", annotationAction.replyGreeting("dubbo"));
+        Assert.assertEquals("Throw Exception", annotationAction.replyGreeting("dubbo"));
     }
 }

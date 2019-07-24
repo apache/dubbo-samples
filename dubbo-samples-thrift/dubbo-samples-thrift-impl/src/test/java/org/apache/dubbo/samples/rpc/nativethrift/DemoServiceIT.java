@@ -20,7 +20,6 @@ package org.apache.dubbo.samples.rpc.nativethrift;
 import org.apache.dubbo.samples.rpc.nativethrift.api.DemoService;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class DemoServiceIT {
     @Autowired
     private DemoService.Iface demoService;
-
-    @BeforeClass
-    public static void sleep() throws Exception {
-        Thread.sleep(5000);
-    }
 
     @Test
     public void test() throws Exception {

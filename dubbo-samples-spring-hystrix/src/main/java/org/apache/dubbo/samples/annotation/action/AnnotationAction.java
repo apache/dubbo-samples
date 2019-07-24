@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference
+    @Reference(version = "1.0.0")
     private AnnotationService annotationService;
 
     @HystrixCommand(fallbackMethod = "reliable")

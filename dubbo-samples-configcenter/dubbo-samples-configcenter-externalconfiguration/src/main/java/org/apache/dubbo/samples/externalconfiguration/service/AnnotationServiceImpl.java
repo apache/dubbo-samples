@@ -18,7 +18,7 @@ package org.apache.dubbo.samples.externalconfiguration.service;
 
 import org.apache.dubbo.config.annotation.Service;
 
-@Service
+@Service(version = "1.0.0")
 public class AnnotationServiceImpl implements AnnotationService {
 
     @Override

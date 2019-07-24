@@ -46,7 +46,7 @@ public class TraceIT {
     public void testTrace() throws Exception {
         Assert.assertEquals("greeting, hello, world", greetingService.greeting("world"));
 
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         OkHttpClient client = new OkHttpClient();
 

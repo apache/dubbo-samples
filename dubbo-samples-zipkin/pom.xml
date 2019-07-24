@@ -28,8 +28,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <!-- FIXME: cannot make zipkin work on 2.7.2, we may need to provide a new filter for zipkin -->
-        <dubbo.version>2.6.6</dubbo.version>
+        <dubbo.version>2.7.3</dubbo.version>
         <curator.version>2.12.0</curator.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
@@ -64,32 +63,27 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.alibaba</groupId>
+            <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.16.Final</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-            <version>${curator.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <version>${dubbo.version}</version>
+            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>io.zipkin.brave</groupId>
             <artifactId>brave-instrumentation-dubbo-rpc</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>dubbo</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -214,6 +208,7 @@
                                     <arguments>
                                         <argument>-classpath</argument>
                                         <classpath/>
+                                        <argument>-Dzookeeper.address=${dubbo-local-address}</argument>
                                         <argument>org.apache.dubbo.samples.service.hello.Application</argument>
                                     </arguments>
                                     <async>true</async>
@@ -232,6 +227,7 @@
                                     <arguments>
                                         <argument>-classpath</argument>
                                         <classpath/>
+                                        <argument>-Dzookeeper.address=${dubbo-local-address}</argument>
                                         <argument>org.apache.dubbo.samples.service.greeting.Application</argument>
                                     </arguments>
                                     <async>true</async>
@@ -248,9 +244,32 @@
                                 <configuration>
                                     <executable>sleep</executable>
                                     <arguments>
-                                        <argument>10</argument>
+                                        <argument>20</argument>
                                     </arguments>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>kill-process</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <target name="ending">
+                                        <echo>kill dubbo applications</echo>
+                                        <exec executable="bash" spawn="true" dir="${project.basedir}/..">
+                                            <arg value="killall.sh"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>

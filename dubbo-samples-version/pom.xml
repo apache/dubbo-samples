@@ -29,7 +29,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>2.7.2</dubbo.version>
+        <dubbo.version>2.7.3</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
@@ -186,6 +186,29 @@
                                         <argument>10</argument>
                                     </arguments>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <id>kill-process</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <target name="ending">
+                                        <echo>kill dubbo applications</echo>
+                                        <exec executable="bash" spawn="true" dir="${project.basedir}/..">
+                                            <arg value="killall.sh"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>

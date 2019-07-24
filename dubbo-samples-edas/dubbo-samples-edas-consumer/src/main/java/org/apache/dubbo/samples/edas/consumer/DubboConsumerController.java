@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DubboConsumerController {
 
-    @Reference
+    @Reference(version = "1.0.0.daily", check = false)
     private GreetingService demoService;
 
     @RequestMapping("/sayHello/{name}")

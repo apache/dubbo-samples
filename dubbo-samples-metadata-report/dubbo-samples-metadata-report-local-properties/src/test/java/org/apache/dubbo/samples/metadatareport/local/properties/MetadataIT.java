@@ -24,7 +24,6 @@ import org.apache.dubbo.samples.metadatareport.local.properties.api.DemoService;
 
 import com.google.gson.Gson;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,6 @@ import java.util.Map;
 public class MetadataIT {
     @Autowired
     private DemoService demoService;
-
-    @BeforeClass
-    public static void setUp() throws Exception {
-        Thread.sleep(2000);
-    }
 
     /**
      * <pre>
