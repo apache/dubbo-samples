@@ -1,0 +1,20 @@
+server:
+  port: 7000
+  servlet:
+    context-path: /demo
+
+logging:
+  config: classpath:logback.xml
+
+dubbo:
+  application:
+    compiler: javassist
+    name: org-dubbo-samples-protosubff-consumer
+  scan:
+    base-packages: org.dubbo.samples.protosubff.consumer
+  registry:
+    address: 127.0.0.1:2181
+    protocol: zookeeper
+    port: 2181
+    dynamic: true
+      
