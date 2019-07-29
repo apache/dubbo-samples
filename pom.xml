@@ -72,7 +72,7 @@
         <module>dubbo-samples-nacos</module>
         <module>dubbo-samples-metrics</module>
         <module>dubbo-samples-environment-keys</module>
-        <module>dubbo-samples-protosubff</module>
+        <module>dubbo-samples-protostuff</module>
         <module>dubbo-samples-serialization</module>
         <module>dubbo-samples-sentinel</module>
     </modules>

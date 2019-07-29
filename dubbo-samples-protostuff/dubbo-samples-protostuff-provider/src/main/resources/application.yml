@@ -1,0 +1,23 @@
+logging:
+  config: classpath:logback.xml
+
+dubbo:
+  application:
+    compiler: javassist
+    name: protostuff-demo-provider
+  scan:
+    base-packages: org.dubbo.samples.protostuff.provider
+  registry:
+    address: ${zookeeper.address:127.0.0.1}:2181
+    protocol: zookeeper
+    port: 2181
+    dynamic: true
+  protocol:
+    name: dubbo
+    charset: UTF-8
+    id: dubbo
+    serialization: protostuff
+    #serialization: fastjson
+    server: netty4
+    register: true
+
