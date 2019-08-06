@@ -45,6 +45,7 @@ public class GenericImplProvider {
         service.setRegistry(registryConfig);
         service.setInterface("org.apache.dubbo.samples.generic.call.api.HelloService");
         service.setRef(helloService);
+        service.setGeneric("true");
         service.export();
 
         System.out.println("dubbo service started");
