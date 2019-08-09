@@ -28,8 +28,8 @@ public class BasicConsumer {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/configcenter-consumer.xml");
         context.start();
-        DemoService demoService = (DemoService) context.getBean("demoService");
-        String hello = demoService.sayHello("world");
-        System.out.println(hello);
+        DemoService demoService = context.getBean("demoService", DemoService.class);
+        String hello = demoService.sayHello("nacos");
+        System.out.println("result: " + hello);
     }
 }
