@@ -36,25 +36,13 @@ public class BasicConsumer {
         DemoService demoService = context.getBean("demoService", DemoService.class);
         DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
 
-        while (true) {
-            try {
-                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
-                String hello = demoService.sayHello("world");
-                System.out.println(hello);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+        String hello = demoService.sayHello("world");
+        System.out.println(hello);
 
-            try {
-                RpcContext.getContext().setAttachment(FORCE_USE_TAG, "true");
-                RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
-                String hello2 = demoService2.sayHello("world again");
-                System.out.println(hello2);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Thread.sleep(1000);
-        }
+        RpcContext.getContext().setAttachment(FORCE_USE_TAG, "true");
+        RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
+        String hello2 = demoService2.sayHello("world again");
+        System.out.println(hello2);
     }
 }

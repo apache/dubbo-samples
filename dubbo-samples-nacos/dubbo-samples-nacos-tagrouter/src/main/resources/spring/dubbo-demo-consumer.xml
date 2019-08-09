@@ -27,6 +27,8 @@
 
     <dubbo:application name="governance-tagrouter-consumer"/>
 
+    <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848"/>
+
     <dubbo:config-center highest-priority="true" address="nacos://${nacos.address:127.0.0.1}:8848"/>
 
     <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService"/>
