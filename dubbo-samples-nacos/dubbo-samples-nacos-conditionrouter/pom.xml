@@ -81,7 +81,7 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test</id>
+            <id>dubbo-integration-test-nacos</id>
             <build>
                 <plugins>
                     <plugin>
