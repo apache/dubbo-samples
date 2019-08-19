@@ -14,6 +14,4 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Maven
-        run:
-          ./mvnw  --settings .mvn/settings.xml -B clean install -pl dubbo-maven-address-plugin
-          ./mvnw  --settings .mvn/settings.xml -B clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.4-SNAPSHOT
+        run: ./mvnw  --settings .mvn/settings.xml -B clean install -pl dubbo-maven-address-plugin && ./mvnw  --settings .mvn/settings.xml -B clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.4-SNAPSHOT
