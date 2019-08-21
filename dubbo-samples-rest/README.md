@@ -10,9 +10,9 @@ cd dubbo-samples/dubbo-samples-rest
 mvn package
 ```
 
-We will find target/dubbo-samples-rest-1.0-SNAPSHOT.war
+We will find target/dubbo-samples-rest-${revision}.war
 1. Then we modify tomcat server port to 8888, 
-2. and rename dubbo-samples-rest-1.0-SNAPSHOT.war to ROOT.war,
+2. and rename dubbo-samples-rest-${revision}.war to ROOT.war,
 3. and put ROOT.war into tomcat webapps directory, 
 4. download and start a zookeeper server,
 5. run bin/startup.sh or bin/startup.bat to start tomcat.

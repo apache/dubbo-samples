@@ -21,8 +21,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-samples-configcenter</artifactId>
+        <version>${revision}</version>
+    </parent>
     <groupId>org.apache.dubbo</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -31,7 +36,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>2.7.3</dubbo.version>
+        <dubbo.version>${revision}</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
@@ -82,7 +87,7 @@
                     <plugin>
                         <groupId>org.apache.dubbo</groupId>
                         <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
+                        <version>${revision}</version>
                         <executions>
                             <execution>
                                 <goals>

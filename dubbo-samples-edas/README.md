@@ -9,7 +9,7 @@ cd dubbo-samples-edas/dubbo-samples-edas-provider
 mvn clean package
   ```
 
-2. The generated `target/dubbo-samples-edas-provider-1.0-SNAPSHOT.jar` file can be deployed to edas
+2. The generated `target/dubbo-samples-edas-provider-${revision}.jar` file can be deployed to edas
 
 
 
@@ -21,4 +21,4 @@ mvn clean package
    mvn clean package
   ```
 
-2. The generated `target/dubbo-samples-edas-consumer-1.0-SNAPSHOT.jar` file can be deployed to edas
+2. The generated `target/dubbo-samples-edas-consumer-${revision}.jar` file can be deployed to edas

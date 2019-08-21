@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.apache.dubbo.sample</groupId>
         <artifactId>dubbo-samples-tengine</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <groupId>org.apache.dubbo.sample</groupId>
     <artifactId>dubbo-samples-tengine-provider</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>The demo provider module of dubbo tengine</description>
@@ -16,14 +16,14 @@
         <skip_maven_deploy>true</skip_maven_deploy>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <curator.version>2.12.0</curator.version>
-        <dubbo.version>2.7.3</dubbo.version>
+        <dubbo.version>${revision}</dubbo.version>
     </properties>
     
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo.sample</groupId>
             <artifactId>dubbo-samples-tengine-interface</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>

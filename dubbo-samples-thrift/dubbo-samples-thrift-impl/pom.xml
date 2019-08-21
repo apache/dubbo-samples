@@ -21,7 +21,7 @@
     <parent>
         <artifactId>dubbo-samples-thrift</artifactId>
         <groupId>org.apache.dubbo</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -83,7 +83,7 @@
                     <plugin>
                         <groupId>org.apache.dubbo</groupId>
                         <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
+                        <version>${revision}</version>
                         <executions>
                             <execution>
                                 <goals>

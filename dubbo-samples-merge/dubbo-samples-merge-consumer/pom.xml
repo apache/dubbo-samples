@@ -22,14 +22,14 @@
     <parent>
         <artifactId>dubbo-samples-merge</artifactId>
         <groupId>org.apache.dubbo</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-merge-consumer</artifactId>
 
     <properties>
-        <dubbo.version>2.7.3</dubbo.version>
+        <dubbo.version>${revision}</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
@@ -84,7 +84,7 @@
                     <plugin>
                         <groupId>org.apache.dubbo</groupId>
                         <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
+                        <version>${revision}</version>
                         <executions>
                             <execution>
                                 <goals>

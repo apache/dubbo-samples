@@ -85,7 +85,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 <plugin>
     <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-maven-address-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <executions>
         <execution>
             <goals>

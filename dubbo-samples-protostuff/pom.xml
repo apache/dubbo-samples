@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-samples-all</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>dubbo-samples-protostuff</artifactId>
     <name>dubbo-samples-protostuff</name>

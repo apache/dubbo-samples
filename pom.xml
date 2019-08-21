@@ -23,7 +23,7 @@
     <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-samples-all</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <modules>
         <module>dubbo-maven-address-plugin</module>
         <module>dubbo-samples-annotation</module>
@@ -62,6 +62,7 @@
         <module>dubbo-samples-spring-boot-hystrix</module>
         <module>dubbo-samples-stub</module>
         <module>dubbo-samples-switch-serialization-thread</module>
+        <module>dubbo-samples-tengine</module>
         <module>dubbo-samples-thrift</module>
         <module>dubbo-samples-validation</module>
         <module>dubbo-samples-version</module>
@@ -77,4 +78,8 @@
         <module>dubbo-samples-serialization</module>
         <module>dubbo-samples-sentinel</module>
     </modules>
+
+    <properties>
+        <revision>2.7.3</revision>
+    </properties>
 </project>
