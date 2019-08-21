@@ -18,7 +18,7 @@
  */
 package org.apache.dubbo.integration.swagger;
 
-import com.alibaba.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.jaxrs.listing.BaseApiListingResource;
 
