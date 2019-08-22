@@ -19,13 +19,10 @@
 
 package org.apache.dubbo.samples.annotation;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.annotation.action.AnnotationAction;
 
+import org.apache.dubbo.samples.annotation.config.ConsumerConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 public class AnnotationConsumerBootstrap {
 
@@ -40,13 +37,5 @@ public class AnnotationConsumerBootstrap {
         System.out.println("reply : " + annotationAction.replyGreeting("world"));
     }
 
-
-    @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.action")
-    @PropertySource("classpath:/spring/dubbo-consumer.properties")
-    @ComponentScan(value = {"org.apache.dubbo.samples.annotation.action"})
-    static public class ConsumerConfiguration {
-
-    }
 
 }
