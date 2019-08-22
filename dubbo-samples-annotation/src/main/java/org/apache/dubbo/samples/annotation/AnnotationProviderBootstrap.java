@@ -20,13 +20,8 @@
 package org.apache.dubbo.samples.annotation;
 
 
-import org.apache.dubbo.config.ProviderConfig;
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-
+import org.apache.dubbo.samples.annotation.config.ProviderConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -40,18 +35,6 @@ public class AnnotationProviderBootstrap {
 
         System.out.println("dubbo service started.");
         new CountDownLatch(1).await();
-    }
-
-    @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.annotation.impl")
-    @PropertySource("classpath:/spring/dubbo-provider.properties")
-    static public class ProviderConfiguration {
-        @Bean
-        public ProviderConfig providerConfig() {
-            ProviderConfig providerConfig = new ProviderConfig();
-            providerConfig.setTimeout(1000);
-            return providerConfig;
-        }
     }
 
 }
