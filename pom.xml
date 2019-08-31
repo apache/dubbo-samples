@@ -41,6 +41,8 @@
         <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <image.name>${project.artifactId}:${dubbo.version}</image.name>
         <java-image.name>openjdk:8</java-image.name>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
