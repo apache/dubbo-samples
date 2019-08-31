@@ -30,10 +30,6 @@
 
     <artifactId>dubbo-samples-generic-call-consumer</artifactId>
 
-    <properties>
-        <dubbo.version>2.7.3</dubbo.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>

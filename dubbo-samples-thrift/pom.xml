@@ -19,9 +19,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <groupId>org.apache.dubbo</groupId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-samples-all</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
 
     <modules>
         <module>dubbo-samples-thrift-api</module>
@@ -31,13 +36,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-thrift</artifactId>
-
-    <properties>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <dubbo.version>2.7.3</dubbo.version>
-        <source.level>1.8</source.level>
-        <target.level>1.8</target.level>
-    </properties>
 
     <dependencyManagement>
         <dependencies>

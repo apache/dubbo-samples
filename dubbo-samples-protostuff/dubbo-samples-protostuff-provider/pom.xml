@@ -25,15 +25,11 @@
         <artifactId>dubbo-samples-protostuff</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>dubbo-samples-protostuff-provider</artifactId>
     <name>dubbo-samples-protostuff-provider</name>
 
     <properties>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <image.name>${artifactId}:${dubbo.version}</image.name>
-        <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
         <main-class>org.dubbo.samples.protostuff.provider.ProviderApp</main-class>

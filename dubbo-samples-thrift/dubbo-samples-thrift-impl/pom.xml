@@ -28,12 +28,6 @@
     <artifactId>dubbo-samples-thrift-impl</artifactId>
 
     <properties>
-        <spring.version>4.3.16.RELEASE</spring.version>
-        <junit.version>4.12</junit.version>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <image.name>${artifactId}:${dubbo.version}</image.name>
         <zookeeper.image>zookeeper:latest</zookeeper.image>
         <dubbo.port>2345</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
