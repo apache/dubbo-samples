@@ -44,7 +44,6 @@
         <servlet.version>3.0.1</servlet.version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
         <resilience4j.version>0.13.1</resilience4j.version>
-        <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
     </properties>
 
     <dependencyManagement>
@@ -327,7 +326,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>${maven_checkstyle_version}</version>
+                        <version>${maven-checkstyle.version}</version>
                         <dependencies>
                             <dependency>
                                 <groupId>com.puppycrawl.tools</groupId>

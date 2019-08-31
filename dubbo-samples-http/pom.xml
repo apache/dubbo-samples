@@ -29,9 +29,7 @@
     </parent>
 
     <properties>
-        <servlet.port.1>8080</servlet.port.1>
         <servlet.container.1>tomcat</servlet.container.1>
-        <servlet.port.2>8081</servlet.port.2>
         <servlet.container.2>jetty</servlet.container.2>
         <zookeeper.port>2181</zookeeper.port>
         <main-class>org.apache.dubbo.samples.http.HttpProvider</main-class>
@@ -89,6 +87,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.briandilley.jsonrpc4j</groupId>
+            <artifactId>jsonrpc4j</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
@@ -108,6 +112,26 @@
             <id>dubbo-integration-test</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>reserve-network-port</id>
+                                <goals>
+                                    <goal>reserve-network-port</goal>
+                                </goals>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <portNames>
+                                        <portName>servlet.port.1</portName>
+                                        <portName>servlet.port.2</portName>
+                                    </portNames>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.dubbo</groupId>
                         <artifactId>dubbo-maven-address-plugin</artifactId>
@@ -178,6 +202,7 @@
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
+                                            <time>60000</time>
                                         </wait>
                                         <env>
                                             <servlet.container>${servlet.container.1}</servlet.container>
@@ -193,6 +218,7 @@
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
+                                            <time>60000</time>
                                         </wait>
                                         <env>
                                             <servlet.container>${servlet.container.2}</servlet.container>
@@ -233,6 +259,8 @@
                                 <configuration>
                                     <systemPropertyVariables>
                                         <zookeeper.address>${dubbo-local-address}</zookeeper.address>
+                                        <tomcat.port>${servlet.port.1}</tomcat.port>
+                                        <jetty.port>${servlet.port.2}</jetty.port>
                                     </systemPropertyVariables>
                                     <includes>
                                         <include>**/*IT.java</include>

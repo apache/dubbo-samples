@@ -41,7 +41,6 @@
     <swagger.version>1.5.19</swagger.version>
     <tomcat.version>7.0.88</tomcat.version>
     <servlet.version>3.0.1</servlet.version>
-    <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
     <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
     <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -338,7 +337,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>${maven_checkstyle_version}</version>
+            <version>${maven-checkstyle.version}</version>
             <dependencies>
               <dependency>
                 <groupId>com.puppycrawl.tools</groupId>

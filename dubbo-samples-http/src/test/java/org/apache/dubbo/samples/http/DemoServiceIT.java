@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -31,6 +32,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class DemoServiceIT {
     @Autowired
     private DemoService demoService;
+
+    @Value("${jetty.port}")
+    private String jettyPort;
+
+    @Value("${tomcat.port}")
+    private String tomcatPort;
 
     @Test
     public void test1() throws Exception {
@@ -41,12 +48,16 @@ public class DemoServiceIT {
     public void test2() throws Exception {
         boolean isFromTomcat = false;
         boolean isFromJetty = false;
+
         for (int i = 0; i < 10; i++) {
             String result = demoService.sayHello("world");
-            if (result.contains("8080")) {
+
+            System.out.println(result);
+
+            if (result.contains(tomcatPort)) {
                 isFromTomcat = true;
             }
-            if (result.contains("8081")) {
+            if (result.contains(jettyPort)) {
                 isFromJetty = true;
             }
         }
