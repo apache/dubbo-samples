@@ -73,6 +73,7 @@
         <module>dubbo-samples-metrics</module>
         <module>dubbo-samples-environment-keys</module>
         <module>dubbo-samples-grpc</module>
+        <module>dubbo-samples-cloud-native</module>
     </modules>
 
     <repositories>
