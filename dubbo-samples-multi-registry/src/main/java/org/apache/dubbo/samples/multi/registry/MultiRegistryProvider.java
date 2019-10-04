@@ -22,7 +22,6 @@ package org.apache.dubbo.samples.multi.registry;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 
 public class MultiRegistryProvider {
@@ -33,8 +32,6 @@ public class MultiRegistryProvider {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/multi-registry-provider.xml");
         context.start();
-
-        TimeUnit.SECONDS.sleep(3);
 
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();
