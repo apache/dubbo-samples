@@ -25,8 +25,8 @@
 
     <dubbo:application name="multi-registry-provider"/>
 
-    <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2181" default="false"/>
-    <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2182"/>
+    <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2181" default="false" register="true"/>
+    <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2182" register="true" />
 
     <dubbo:protocol name="dubbo" port="20890"/>
 
