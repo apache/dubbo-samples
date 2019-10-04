@@ -16,8 +16,8 @@ cache:
 install: true
 
 script:
-  - ./mvnw --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin
-  - ./mvnw --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.4-SNAPSHOT
+  - ./mvnw --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin -U
+  - ./mvnw --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.4-SNAPSHOT -U
 
 
 after_success:
