@@ -39,7 +39,7 @@
         <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
-        <main-class>org.apache.dubbo.samples.provider.Application</main-class>
+        <main-class>org.apache.dubbo.samples.provider.org.apache.dubbo.sample.protobuf.provider.ProviderStarter</main-class>
     </properties>
 
     <dependencies>

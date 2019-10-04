@@ -76,5 +76,6 @@
         <module>dubbo-samples-protostuff</module>
         <module>dubbo-samples-serialization</module>
         <module>dubbo-samples-sentinel</module>
+        <module>dubbo-samples-protobuf</module>
     </modules>
 </project>
