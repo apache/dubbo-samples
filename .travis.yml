@@ -19,6 +19,5 @@ script:
   - ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin
   - ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.5-SNAPSHOT
 
-
 after_success:
   - bash <(curl -s https://codecov.io/bash)

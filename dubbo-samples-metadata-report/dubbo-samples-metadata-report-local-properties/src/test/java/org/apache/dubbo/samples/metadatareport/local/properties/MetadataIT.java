@@ -53,7 +53,7 @@ public class MetadataIT {
      *     "async": "true",
      *     "application": "metadatareport-local-properties-provider2",
      *     "dynamic": "true",
-     *     "register": "true",
+     *     "register": null,
      *     "bean.name": "org.apache.dubbo.samples.metadatareport.local.properties.api.DemoService",
      *     "anyhost": "true"
      *   },
@@ -103,7 +103,6 @@ public class MetadataIT {
         Assert.assertEquals("false", parameters.get("generic"));
         Assert.assertEquals("metadatareport-local-properties-provider2", parameters.get("application"));
         Assert.assertEquals("true", parameters.get("dynamic"));
-        Assert.assertEquals("true", parameters.get("register"));
         Assert.assertEquals("true", parameters.get("anyhost"));
         Assert.assertEquals(DemoService.class.getCanonicalName(), definition.getCanonicalName());
         List<MethodDefinition> methods = definition.getMethods();
