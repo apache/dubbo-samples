@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         javaVersion: [1.8, 11]
-        dockerImage: [openjdk:8, openjdk:11]
+        dockerImage: ['openjdk:8', 'openjdk:11']
         include:
           - javaVersion: 1.8
             dockerImage: openjdk:8
