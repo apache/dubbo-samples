@@ -22,8 +22,7 @@ jobs:
       DUBBO_VERSION: 2.7.5-SNAPSHOT
     strategy:
       matrix:
-        javaVersion: [1.8]
-        dockerImage: ['openjdk:8']
+        javaVersion: [1.8, 11]
         include:
           - javaVersion: 1.8
             dockerImage: openjdk:8
