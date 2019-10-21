@@ -29,7 +29,10 @@ public class BasicConsumer {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
         context.start();
         DemoService demoService = (DemoService) context.getBean("demoService");
-        String hello = demoService.sayHello("world");
-        System.out.println(hello);
+//        String hello = demoService.sayHello("world");
+//        System.out.println(hello);
+
+        System.out.println("start void test...");
+        demoService.testVoid();
     }
 }

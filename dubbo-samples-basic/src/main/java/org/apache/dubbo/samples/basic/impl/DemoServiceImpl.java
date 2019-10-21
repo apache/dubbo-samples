@@ -22,7 +22,6 @@ package org.apache.dubbo.samples.basic.impl;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.basic.api.DemoService;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,4 +34,8 @@ public class DemoServiceImpl implements DemoService {
         return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
     }
 
+    @Override
+    public void testVoid() {
+
+    }
 }
