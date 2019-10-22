@@ -39,7 +39,7 @@ public class AnnotationServicesIT {
 
     @Test
     public void testSayGoodbye() throws Exception {
-        Assert.assertEquals("Goodbye, dubbo", annotationAction.doSayGoodbye("dubbo"));
+        Assert.assertEquals("Throw Exception", annotationAction.doSayGoodbye("dubbo"));
     }
 
     @Test
