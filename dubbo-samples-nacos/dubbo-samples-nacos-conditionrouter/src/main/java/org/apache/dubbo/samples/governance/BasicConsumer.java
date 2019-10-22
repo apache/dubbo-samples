@@ -21,7 +21,6 @@ package org.apache.dubbo.samples.governance;
 
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.api.DemoService2;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BasicConsumer {
@@ -33,14 +32,10 @@ public class BasicConsumer {
         DemoService demoService = context.getBean("demoService", DemoService.class);
         DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
 
-        while (true) {
-            String hello = demoService.sayHello("world");
-            System.out.println(hello);
+        String hello = demoService.sayHello("world");
+        System.out.println("result: " + hello);
 
-            String hello2 = demoService2.sayHello("world again");
-            System.out.println(hello2);
-
-            Thread.sleep(200);
-        }
+        String hello2 = demoService2.sayHello("world again");
+        System.out.println("result: " + hello2);
     }
 }

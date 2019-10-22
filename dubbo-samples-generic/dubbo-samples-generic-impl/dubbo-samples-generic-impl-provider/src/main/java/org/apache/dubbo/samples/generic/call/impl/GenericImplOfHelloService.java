@@ -30,10 +30,16 @@ public class GenericImplOfHelloService implements GenericService {
         } else if (method.equals("sayHelloAsync")) {
             System.out.print("executing sayHelloAsync.");
             return CompletableFuture.completedFuture("sayHelloAsync: hello " + args[0]);
+        } else {
+            try {
+                return defaultOperation(method, parameterTypes, args);
+            } catch (Exception e) {
+                throw new GenericException(e);
+            }
         }
+    }
 
-        GenericException genericException = new GenericException();
-        genericException.setExceptionMessage("method does not exist.");
-        throw genericException;
+    private Object defaultOperation(String method, String[] parameterTypes, Object[] args) throws Exception {
+        throw new UnsupportedOperationException("method does not exist.");
     }
 }

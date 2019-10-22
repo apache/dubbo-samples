@@ -58,7 +58,7 @@ public class MetadataIT {
      *     "revision": "1.1.1",
      *     "application": "metadatareport-configcenter-provider",
      *     "dynamic": "true",
-     *     "register": "true",
+     *     "register": null,
      *     "bean.name": "ServiceBean:org.apache.dubbo.samples.metadatareport.configcenter.api.AnnotationService:1.1.1:d-test",
      *     "group": "d-test",
      *     "anyhost": "true"
@@ -114,7 +114,6 @@ public class MetadataIT {
         Assert.assertEquals("false", parameters.get("generic"));
         Assert.assertEquals("metadatareport-configcenter-provider", parameters.get("application"));
         Assert.assertEquals("true", parameters.get("dynamic"));
-        Assert.assertEquals("true", parameters.get("register"));
         Assert.assertEquals("true", parameters.get("anyhost"));
         Assert.assertEquals(AnnotationService.class.getCanonicalName(), definition.getCanonicalName());
         List<MethodDefinition> methods = definition.getMethods();

@@ -27,9 +27,11 @@
 
     <dubbo:application name="governance-serviceoverride-provider"/>
 
+    <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848"/>
+
     <dubbo:config-center address="nacos://${nacos.address:127.0.0.1}:8848"/>
 
-    <dubbo:protocol name="dubbo" port="-1"/>
+    <dubbo:protocol name="dubbo" port="20880"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl"/>
 

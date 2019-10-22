@@ -21,9 +21,9 @@
        xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
     <context:property-placeholder/>
-    <dubbo:application name="configcenter-provider"/>
+
+    <dubbo:application name="configcenter-nacos-provider"/>
     <dubbo:config-center address="nacos://${nacos.address:127.0.0.1}:8848"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>

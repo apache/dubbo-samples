@@ -40,6 +40,7 @@
         <module>dubbo-samples-direct</module>
         <module>dubbo-samples-docker</module>
         <module>dubbo-samples-echo</module>
+        <module>dubbo-samples-gateway</module>
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
         <module>dubbo-samples-governance</module>
@@ -72,23 +73,8 @@
         <module>dubbo-samples-nacos</module>
         <module>dubbo-samples-metrics</module>
         <module>dubbo-samples-environment-keys</module>
+        <module>dubbo-samples-protostuff</module>
         <module>dubbo-samples-serialization</module>
         <module>dubbo-samples-sentinel</module>
     </modules>
-
-    <repositories>
-        <repository>
-            <id>apache.snapshots.https</id>
-            <name>Apache Development Snapshot Repository</name>
-            <url>https://repository.apache.org/content/repositories/snapshots</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>

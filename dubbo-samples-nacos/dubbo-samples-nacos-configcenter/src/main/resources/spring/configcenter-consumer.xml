@@ -26,7 +26,7 @@
 
     <context:property-placeholder/>
 
-    <dubbo:application name="configcenter-consumer"/>
+    <dubbo:application name="configcenter-nacos-consumer"/>
 
     <dubbo:config-center highest-priority="false" address="nacos://${nacos.address:127.0.0.1}:8848"/>
 

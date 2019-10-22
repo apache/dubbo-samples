@@ -30,12 +30,22 @@ import org.springframework.stereotype.Component;
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference(interfaceClass = HelloService.class, version = AnnotationConstants.VERSION)
+    @Reference(interfaceClass = HelloService.class, version = AnnotationConstants.VERSION /*,
+            methods = {
+                    @Method(
+                            name = "sayHello",
+                            oninvoke = "notify.oninvoke",
+                            onreturn = "notify.onreturn",
+                            onthrow = "notify.onthrow")
+            }
+             */
+    )
     private HelloService helloService;
 
     @Reference(interfaceClass = GreetingService.class,
             version = AnnotationConstants.VERSION,
-            methods = {@Method(name = "greeting", timeout = 250, retries = 1)})
+            timeout = 1000,
+            methods = {@Method(name = "greeting", timeout = 3000, retries = 1)})
     private GreetingService greetingService;
 
     public String doSayHello(String name) {

@@ -17,11 +17,9 @@
 
 package org.apache.dubbo.samples.generic.call;
 
-import org.apache.dubbo.rpc.service.GenericException;
 import org.apache.dubbo.samples.generic.call.api.HelloService;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +42,7 @@ public class HelloServiceIT {
         Assert.assertEquals("sayHelloAsync: hello world", helloService.sayHelloAsync("world").get());
     }
 
-    @Ignore("FIXME: https://github.com/apache/dubbo/issues/4630")
-    @Test(expected = GenericException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testNotImplementedHello() throws Exception {
         helloService.notImplementedHello("dubbo");
     }

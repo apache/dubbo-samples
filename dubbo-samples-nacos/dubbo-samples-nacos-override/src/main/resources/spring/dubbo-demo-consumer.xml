@@ -27,6 +27,8 @@
 
     <dubbo:application name="governance-serviceoverride-consumer"/>
 
+    <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848"/>
+
     <dubbo:config-center address="nacos://${nacos.address:127.0.0.1}:8848"/>
 
     <dubbo:reference timeout="1000" id="demoService" check="false"

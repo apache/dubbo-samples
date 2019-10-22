@@ -41,7 +41,7 @@
         <image.name>${artifactId}:${dubbo.version}</image.name>
         <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
-        <zookeeper.port>2181</zookeeper.port>
+        <nacos.port>8848</nacos.port>
         <main-class>org.apache.dubbo.samples.configcenter.BasicProvider</main-class>
     </properties>
 
@@ -64,13 +64,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper</artifactId>
-            <version>${dubbo.version}</version>
-            <type>pom</type>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
@@ -87,7 +80,7 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test-disabled</id>
+            <id>dubbo-integration-test-nacos</id>
             <build>
                 <plugins>
                     <plugin>
@@ -120,15 +113,11 @@
                             </to>
                             <container>
                                 <mainClass>${main-class}</mainClass>
-                                <ports>
-                                    <port>${dubbo.port}</port>
-                                    <port>${zookeeper.port}</port>
-                                </ports>
                                 <environment>
                                     <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
                                 </environment>
                                 <jvmFlags>
-                                    <jvmFlag>-Dzookeeper.address=${dubbo-local-address}</jvmFlag>
+                                    <jvmFlag>-Dnacos.address=${dubbo-local-address}</jvmFlag>
                                 </jvmFlags>
                             </container>
                         </configuration>
@@ -149,11 +138,26 @@
                         <configuration>
                             <images>
                                 <image>
+                                    <name>nacos/nacos-server:latest</name>
+                                    <run>
+                                        <ports>
+                                            <port>${nacos.port}:${nacos.port}</port>
+                                        </ports>
+                                        <wait>
+                                            <time>30000</time>
+                                            <log>Nacos started successfully in stand alone mode</log>
+                                        </wait>
+                                        <env>
+                                            <PREFER_HOST_MODE>hostname</PREFER_HOST_MODE>
+                                            <MODE>standalone</MODE>
+                                        </env>
+                                    </run>
+                                </image>
+                                <image>
                                     <name>${image.name}</name>
                                     <run>
                                         <ports>
                                             <port>${dubbo.port}:${dubbo.port}</port>
-                                            <port>${zookeeper.port}:${zookeeper.port}</port>
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
@@ -192,7 +196,7 @@
                                 </goals>
                                 <configuration>
                                     <systemPropertyVariables>
-                                        <zookeeper.address>${dubbo-local-address}</zookeeper.address>
+                                        <nacos.address>${dubbo-local-address}</nacos.address>
                                     </systemPropertyVariables>
                                     <includes>
                                         <include>**/*IT.java</include>

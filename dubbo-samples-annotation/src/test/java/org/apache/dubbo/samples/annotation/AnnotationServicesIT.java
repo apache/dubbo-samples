@@ -19,6 +19,7 @@ package org.apache.dubbo.samples.annotation;
 
 import org.apache.dubbo.samples.annotation.action.AnnotationAction;
 
+import org.apache.dubbo.samples.annotation.config.ConsumerConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AnnotationConsumerBootstrap.ConsumerConfiguration.class})
+@ContextConfiguration(classes = {ConsumerConfiguration.class})
 public class AnnotationServicesIT {
     @Autowired
     private AnnotationAction annotationAction;
@@ -44,7 +45,7 @@ public class AnnotationServicesIT {
 
     @Test
     public void testGreeting() throws Exception {
-        Assert.assertEquals("Throw Exception", annotationAction.doGreeting("dubbo"));
+        Assert.assertEquals("Annotation, greeting dubbo", annotationAction.doGreeting("dubbo"));
     }
 
     @Test

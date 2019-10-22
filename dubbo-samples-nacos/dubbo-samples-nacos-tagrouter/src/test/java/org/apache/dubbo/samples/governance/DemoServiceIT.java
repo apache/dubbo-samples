@@ -21,7 +21,8 @@ import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.cluster.Constants;
 import org.apache.dubbo.samples.governance.api.DemoService;
-
+import org.apache.dubbo.samples.governance.util.NacosUtils;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,10 +42,14 @@ public class DemoServiceIT {
     private DemoService demoService;
 
     @BeforeClass
-    public static void setUp() throws Exception {
-        RuleUtil.initClient();
-        RuleUtil.generateRule();
+    public static void setUp() throws Throwable {
+        NacosUtils.writeAppRule();
         Thread.sleep(1000);
+    }
+
+    @AfterClass
+    public static void tearDown() throws Throwable {
+        NacosUtils.clearAppRule();
     }
 
     @Test
