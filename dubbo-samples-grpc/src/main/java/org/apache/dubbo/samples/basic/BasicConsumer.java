@@ -29,12 +29,20 @@ import java.io.IOException;
 public class BasicConsumer {
 
     public static void main(String[] args) throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
+        ClassPathXmlApplicationContext context =
+                new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
         context.start();
 
         GreeterGrpc.IGreeter greeter = (GreeterGrpc.IGreeter) context.getBean("greeter");
+
         HelloReply reply = greeter.sayHello(HelloRequest.newBuilder().setName("world!").build());
-        System.out.println(reply.getMessage());
+        System.out.println("Result: " + reply.getMessage());
+
+//        while (true) {
+//            HelloReply reply = greeter.sayHello(HelloRequest.newBuilder().setName("world!").build());
+//            System.out.println("Result: " + reply.getMessage());
+//        }
+
         System.in.read();
     }
 }

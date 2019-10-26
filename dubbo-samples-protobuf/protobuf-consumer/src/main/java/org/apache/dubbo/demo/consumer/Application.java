@@ -23,11 +23,13 @@ import org.apache.dubbo.demo.HelloRequest;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Application {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
         context.start();
         IDemoService demoService = context.getBean("demoService", IDemoService.class);
-        HelloReply reply = demoService.sayHello(HelloRequest.newBuilder().setName("Hello").build());
+        HelloRequest request = HelloRequest.newBuilder().setName("Hello").build();
+        HelloReply reply = demoService.sayHello(request);
         System.out.println("result: " + reply.getMessage());
+        System.in.read();
     }
 }

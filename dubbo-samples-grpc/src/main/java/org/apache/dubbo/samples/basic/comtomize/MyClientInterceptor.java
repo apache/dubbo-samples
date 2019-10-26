@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.basic.impl;
+package org.apache.dubbo.samples.basic.comtomize;
 
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
-import io.grpc.stub.StreamObserver;
+import org.apache.dubbo.rpc.protocol.grpc.interceptors.ClientInterceptor;
 
-public class GrpcGreeterImpl extends GreeterGrpc.GreeterImplBase {
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.ClientCall;
+import io.grpc.MethodDescriptor;
 
+public class MyClientInterceptor implements ClientInterceptor {
     @Override
-    public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-        System.out.println("Received request from client.");
-        System.out.println("Executing thread is " + Thread.currentThread().getName());
-        HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + request.getName()).build();
-        responseObserver.onNext(reply);
-        responseObserver.onCompleted();
+    public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
+            MethodDescriptor<ReqT, RespT> methodDescriptor,
+            CallOptions callOptions,
+            Channel channel
+    ) {
+        return null;
     }
-
 }
