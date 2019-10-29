@@ -30,4 +30,4 @@ target/
 Thumbs.db
 
 # generated code
-*/build/
+*/build/*
