@@ -20,12 +20,12 @@
 package org.apache.dubbo.samples.governance;
 
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.rpc.cluster.Constants;
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.api.DemoService2;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import static org.apache.dubbo.common.constants.CommonConstants.TAG_KEY;
 import static org.apache.dubbo.rpc.Constants.FORCE_USE_TAG;
 
 public class BasicConsumer {
@@ -36,12 +36,12 @@ public class BasicConsumer {
         DemoService demoService = context.getBean("demoService", DemoService.class);
         DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
 
-        RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+        RpcContext.getContext().setAttachment(TAG_KEY, "tag1");
         String hello = demoService.sayHello("world");
         System.out.println(hello);
 
         RpcContext.getContext().setAttachment(FORCE_USE_TAG, "true");
-        RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
+        RpcContext.getContext().setAttachment(TAG_KEY, "tag2");
         String hello2 = demoService2.sayHello("world again");
         System.out.println(hello2);
     }

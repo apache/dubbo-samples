@@ -35,9 +35,7 @@ public class MyInvoker<T> implements Invoker<T> {
 
     @Override
     public org.apache.dubbo.rpc.Result invoke(Invocation invocation) throws org.apache.dubbo.rpc.RpcException {
-        AsyncRpcResult result = new AsyncRpcResult(invocation);
-        result.setValue("hello");
-        return result;
+        return AsyncRpcResult.newDefaultAsyncResult("hello", invocation);
     }
 
     @Override

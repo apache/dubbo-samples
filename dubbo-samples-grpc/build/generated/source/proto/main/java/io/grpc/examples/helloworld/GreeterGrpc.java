@@ -233,10 +233,10 @@ private GreeterBlockingStub blockingStub;
 private GreeterFutureStub futureStub;
 private GreeterStub stub;
 
-public DubboGreeterStub(io.grpc.Channel channel) {
-   blockingStub = GreeterGrpc.newBlockingStub(channel);
-   futureStub = GreeterGrpc.newFutureStub(channel);
-   stub = GreeterGrpc.newStub(channel);
+    public DubboGreeterStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+        blockingStub = GreeterGrpc.newBlockingStub(channel).build(channel, callOptions);
+        futureStub = GreeterGrpc.newFutureStub(channel).build(channel, callOptions);
+        stub = GreeterGrpc.newStub(channel).build(channel, callOptions);
 }
 
 public io.grpc.examples.helloworld.HelloReply sayHello(io.grpc.examples.helloworld.HelloRequest request) {
@@ -255,9 +255,10 @@ public void sayHello(io.grpc.examples.helloworld.HelloRequest request,
 
 }
 
-public static DubboGreeterStub getDubboStub(io.grpc.Channel channel) {
+    public static DubboGreeterStub getDubboStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
 
-  return new DubboGreeterStub(channel);}
+        return new DubboGreeterStub(channel, callOptions);
+    }
 
 private static final int METHODID_SAY_HELLO = 0;
 

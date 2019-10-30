@@ -19,7 +19,6 @@ package org.apache.dubbo.samples.governance;
 
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
-import org.apache.dubbo.rpc.cluster.Constants;
 import org.apache.dubbo.samples.governance.api.DemoService;
 
 import org.junit.Assert;
@@ -31,6 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.apache.dubbo.common.constants.CommonConstants.TAG_KEY;
 import static org.apache.dubbo.rpc.Constants.FORCE_USE_TAG;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,7 +51,7 @@ public class DemoServiceIT {
     public void testDemoService1() throws Exception {
         for (int i = 0; i < 10; i++) {
             RpcContext.getContext().setAttachment(FORCE_USE_TAG, "true");
-            RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+            RpcContext.getContext().setAttachment(TAG_KEY, "tag1");
             Assert.assertTrue(demoService.sayHello("world").contains("20881"));
         }
     }
@@ -60,14 +60,14 @@ public class DemoServiceIT {
     public void testDemoService2() throws Exception {
         for (int i = 0; i < 10; i++) {
             RpcContext.getContext().setAttachment(FORCE_USE_TAG, "true");
-            RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag2");
+            RpcContext.getContext().setAttachment(TAG_KEY, "tag2");
             Assert.assertTrue(demoService.sayHello("world").contains("20880"));
         }
     }
 
     @Test(expected = RpcException.class)
     public void testDemoService3() throws Exception {
-        RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag3");
+        RpcContext.getContext().setAttachment(TAG_KEY, "tag3");
         demoService.sayHello("world");
     }
 }

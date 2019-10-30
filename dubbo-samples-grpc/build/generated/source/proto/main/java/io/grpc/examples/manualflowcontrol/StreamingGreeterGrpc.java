@@ -2,18 +2,8 @@ package io.grpc.examples.manualflowcontrol;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  * <pre>
@@ -200,10 +190,10 @@ private StreamingGreeterBlockingStub blockingStub;
 private StreamingGreeterFutureStub futureStub;
 private StreamingGreeterStub stub;
 
-public DubboStreamingGreeterStub(io.grpc.Channel channel) {
-   blockingStub = StreamingGreeterGrpc.newBlockingStub(channel);
-   futureStub = StreamingGreeterGrpc.newFutureStub(channel);
-   stub = StreamingGreeterGrpc.newStub(channel);
+    public DubboStreamingGreeterStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+        blockingStub = StreamingGreeterGrpc.newBlockingStub(channel).build(channel, callOptions);
+        futureStub = StreamingGreeterGrpc.newFutureStub(channel).build(channel, callOptions);
+        stub = StreamingGreeterGrpc.newStub(channel).build(channel, callOptions);
 }
 
 public io.grpc.stub.StreamObserver<io.grpc.examples.manualflowcontrol.HelloRequest> sayHelloStreaming(
@@ -213,9 +203,10 @@ public io.grpc.stub.StreamObserver<io.grpc.examples.manualflowcontrol.HelloReque
 
 }
 
-public static DubboStreamingGreeterStub getDubboStub(io.grpc.Channel channel) {
+    public static DubboStreamingGreeterStub getDubboStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
 
-  return new DubboStreamingGreeterStub(channel);}
+        return new DubboStreamingGreeterStub(channel, callOptions);
+    }
 
 private static final int METHODID_SAY_HELLO_STREAMING = 0;
 

@@ -32,7 +32,7 @@ public class AttachmentImpl implements AttachmentService {
         RpcContext context = RpcContext.getContext();
 
         // the attachment will be remove after this
-        String index = context.getAttachment("index");
+        String index = (String) context.getAttachment("index");
         System.out.println("receive attachment index: " + index);
 
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +

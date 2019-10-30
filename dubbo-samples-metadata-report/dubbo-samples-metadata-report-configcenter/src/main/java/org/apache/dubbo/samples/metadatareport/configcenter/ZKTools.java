@@ -17,7 +17,8 @@
 package org.apache.dubbo.samples.metadatareport.configcenter;
 
 import org.apache.dubbo.common.utils.StringUtils;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
+import org.apache.dubbo.metadata.report.identifier.KeyTypeEnum;
+import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -130,7 +131,7 @@ public class ZKTools {
     }
 
     public static String getNodePath(String root, MetadataIdentifier metadataIdentifier) {
-        return toRootDir(root) + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH);
+        return toRootDir(root) + metadataIdentifier.getUniqueKey(KeyTypeEnum.PATH);
     }
 
     private static String toRootDir(String root) {

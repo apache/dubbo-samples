@@ -16,11 +16,16 @@
  */
 package org.apache.dubbo.samples.basic.spi;
 
+import org.apache.dubbo.rpc.ProtocolServer;
+
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.rpc.Exporter;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Protocol;
 import com.alibaba.dubbo.rpc.RpcException;
+
+import java.util.Collections;
+import java.util.List;
 
 public class CompatibleProtocol implements Protocol {
 
@@ -40,5 +45,10 @@ public class CompatibleProtocol implements Protocol {
     @Override
     public void destroy() {
 
+    }
+
+    @Override
+    public List<ProtocolServer> getServers() {
+        return Collections.emptyList();
     }
 }

@@ -458,10 +458,10 @@ private RouteGuideBlockingStub blockingStub;
 private RouteGuideFutureStub futureStub;
 private RouteGuideStub stub;
 
-public DubboRouteGuideStub(io.grpc.Channel channel) {
-   blockingStub = RouteGuideGrpc.newBlockingStub(channel);
-   futureStub = RouteGuideGrpc.newFutureStub(channel);
-   stub = RouteGuideGrpc.newStub(channel);
+    public DubboRouteGuideStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+        blockingStub = RouteGuideGrpc.newBlockingStub(channel).build(channel, callOptions);
+        futureStub = RouteGuideGrpc.newFutureStub(channel).build(channel, callOptions);
+        stub = RouteGuideGrpc.newStub(channel).build(channel, callOptions);
 }
 
 public io.grpc.examples.routeguide.Feature getFeature(io.grpc.examples.routeguide.Point request) {
@@ -500,9 +500,10 @@ public io.grpc.stub.StreamObserver<io.grpc.examples.routeguide.RouteNote> routeC
 
 }
 
-public static DubboRouteGuideStub getDubboStub(io.grpc.Channel channel) {
+    public static DubboRouteGuideStub getDubboStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
 
-  return new DubboRouteGuideStub(channel);}
+        return new DubboRouteGuideStub(channel, callOptions);
+    }
 
 private static final int METHODID_GET_FEATURE = 0;
 private static final int METHODID_LIST_FEATURES = 1;

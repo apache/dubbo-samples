@@ -18,7 +18,6 @@
 package org.apache.dubbo.samples.chain;
 
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.rpc.cluster.Constants;
 import org.apache.dubbo.samples.chain.api.AmericanService;
 import org.apache.dubbo.samples.chain.api.CatService;
 import org.apache.dubbo.samples.chain.api.ChineseService;
@@ -30,6 +29,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static org.apache.dubbo.common.constants.CommonConstants.TAG_KEY;
 
 public class FrontendConsumer {
 
@@ -65,7 +66,7 @@ public class FrontendConsumer {
         executorService.submit(() -> {
             while (true) {
                 try {
-                    RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+                    RpcContext.getContext().setAttachment(TAG_KEY, "tag1");
                     DogService dogService = (DogService) context.getBean("dogService");
                     System.out.println(dogService.dog());
                     Thread.sleep(interval);
@@ -100,7 +101,7 @@ public class FrontendConsumer {
         executorService.submit(() -> {
             while (true) {
                 try {
-                    RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+                    RpcContext.getContext().setAttachment(TAG_KEY, "tag1");
                     ChineseService chineseService = (ChineseService) context.getBean("chineseService");
                     System.out.println(chineseService.eat());
                     Thread.sleep(interval);
@@ -115,7 +116,7 @@ public class FrontendConsumer {
         executorService.submit(() -> {
             while (true) {
                 try {
-                    RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+                    RpcContext.getContext().setAttachment(TAG_KEY, "tag1");
                     AmericanService americanService = (AmericanService) context.getBean("americanService");
                     System.out.println(americanService.eat());
                     Thread.sleep(interval);
