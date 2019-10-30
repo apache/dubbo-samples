@@ -28,14 +28,18 @@ import static org.apache.dubbo.common.constants.CommonConstants.CONSUMER;
 
 
 @Activate(group = CONSUMER)
-public class TestClientFilter implements Filter {
+public class TestClientFilter implements Filter, Filter.Listener {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         return invoker.invoke(invocation);
     }
 
     @Override
-    public Result onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
-        return result;
+    public void onMessage(Result result, Invoker<?> invoker, Invocation invocation) {
+    }
+
+    @Override
+    public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
+
     }
 }

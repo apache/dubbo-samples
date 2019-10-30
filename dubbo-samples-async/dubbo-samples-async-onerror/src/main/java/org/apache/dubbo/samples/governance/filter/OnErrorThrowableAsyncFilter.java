@@ -18,9 +18,9 @@ package org.apache.dubbo.samples.governance.filter;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.ListenableFilter;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
 
@@ -28,10 +28,9 @@ import org.apache.dubbo.rpc.RpcException;
  *
  */
 @Activate(group = {CommonConstants.PROVIDER, CommonConstants.CONSUMER}, order = 9997)
-public class OnErrorThrowableAsyncFilter extends ListenableFilter {
+public class OnErrorThrowableAsyncFilter implements Filter, Filter.Listener {
 
     public OnErrorThrowableAsyncFilter() {
-        listener = new OnErrorListener();
     }
 
     @Override
@@ -39,19 +38,16 @@ public class OnErrorThrowableAsyncFilter extends ListenableFilter {
         return invoker.invoke(invocation);
     }
 
-    class OnErrorListener implements Listener {
+    @Override
+    public void onMessage(Result appResponse, Invoker<?> invoker, Invocation invocation) {
 
-        @Override
-        public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+    }
 
-        }
-
-        @Override
-        public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
-            System.out.println("OnErrorThrowableAsyncFilter onError executed: " + t.getMessage());
-            if (invocation != null) {
-                throw new RuntimeException("Exception from onError");
-            }
+    @Override
+    public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
+        System.out.println("OnErrorThrowableAsyncFilter onError executed: " + t.getMessage());
+        if (invocation != null) {
+            throw new RuntimeException("Exception from onError");
         }
     }
 

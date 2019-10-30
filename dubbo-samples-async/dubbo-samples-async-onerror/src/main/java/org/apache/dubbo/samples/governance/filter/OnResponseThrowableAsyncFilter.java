@@ -18,9 +18,9 @@ package org.apache.dubbo.samples.governance.filter;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.ListenableFilter;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
 
@@ -28,10 +28,9 @@ import org.apache.dubbo.rpc.RpcException;
  *
  */
 @Activate(group = {CommonConstants.PROVIDER, CommonConstants.CONSUMER}, order = 9998)
-public class OnResponseThrowableAsyncFilter extends ListenableFilter {
+public class OnResponseThrowableAsyncFilter implements Filter, Filter.Listener {
 
     public OnResponseThrowableAsyncFilter() {
-        listener = new ThrowableListener();
     }
 
     @Override
@@ -39,20 +38,17 @@ public class OnResponseThrowableAsyncFilter extends ListenableFilter {
         return invoker.invoke(invocation);
     }
 
-    class ThrowableListener implements Listener {
-
-        @Override
-        public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
-            System.out.println("onResponse received value : " + appResponse.getValue());
-            if (invocation != null) {
-                throw new RuntimeException("Exception from onResponse");
-            }
+    @Override
+    public void onMessage(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+        System.out.println("onResponse received value : " + appResponse.getValue());
+        if (invocation != null) {
+            throw new RuntimeException("Exception from onResponse");
         }
+    }
 
-        @Override
-        public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
-            System.out.println("OnResponseThrowableAsyncFilter onError executed: " + t.getMessage());
-        }
+    @Override
+    public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
+        System.out.println("OnResponseThrowableAsyncFilter onError executed: " + t.getMessage());
     }
 
 }

@@ -21,7 +21,6 @@ package org.apache.dubbo.samples.async.impl;
 
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.async.api.AsyncService;
-import org.apache.dubbo.samples.async.filter.LegacyBlockFilter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +35,11 @@ public class AsyncServiceImpl implements AsyncService {
         RpcContext savedContext = RpcContext.getContext();
         RpcContext savedServerContext = RpcContext.getServerContext();
         return CompletableFuture.supplyAsync(() -> {
-            String received = savedContext.getAttachment("consumer-key1");
+            String received = (String) savedContext.getAttachment("consumer-key1");
             logger.info("consumer-key1 from attachment: " + received);
             savedServerContext.setAttachment("server-key1", "server-" + received);
 
-            received = savedContext.getAttachment("filters");
+            received = (String) savedContext.getAttachment("filters");
             logger.info("filters from attachment: " + received);
             savedServerContext.setAttachment("filters", received);
             try {

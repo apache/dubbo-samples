@@ -30,13 +30,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
-public class AsyncPostprocessFilter implements Filter {
+public class AsyncPostprocessFilter implements Filter, Filter.Listener {
     private static Logger logger = LoggerFactory.getLogger(AsyncPostprocessFilter.class);
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcContext context = RpcContext.getContext();
-        String filters = context.getAttachment("filters");
+        String filters = (String) context.getAttachment("filters");
         if (StringUtils.isEmpty(filters)) {
             filters = "";
         }
@@ -47,9 +47,12 @@ public class AsyncPostprocessFilter implements Filter {
     }
 
     @Override
-    public Result onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
+    public void onMessage(Result result, Invoker<?> invoker, Invocation invocation) {
         logger.info("Filter get the return value: " + result.getValue());
-        return result;
     }
 
+    @Override
+    public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
+
+    }
 }

@@ -18,9 +18,9 @@ package org.apache.dubbo.samples.governance.filter;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.ListenableFilter;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
 
@@ -28,10 +28,9 @@ import org.apache.dubbo.rpc.RpcException;
  *
  */
 @Activate(group = {CommonConstants.PROVIDER, CommonConstants.CONSUMER}, order = 9991)
-public class NormalAsyncFilter extends ListenableFilter {
+public class NormalAsyncFilter implements Filter, Filter.Listener {
 
     public NormalAsyncFilter() {
-        listener = new NormalListener();
     }
 
     @Override
@@ -39,17 +38,14 @@ public class NormalAsyncFilter extends ListenableFilter {
         return invoker.invoke(invocation);
     }
 
-    class NormalListener implements Listener {
+    @Override
+    public void onMessage(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+        System.out.println("normal async received result: " + appResponse.getValue());
+    }
 
-        @Override
-        public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
-            System.out.println("normal async received result: " + appResponse.getValue());
-        }
-
-        @Override
-        public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
-            System.out.println("NormalAsyncFilter onError executed: " + t.getMessage());
-        }
+    @Override
+    public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
+        System.out.println("NormalAsyncFilter onError executed: " + t.getMessage());
     }
 
 }

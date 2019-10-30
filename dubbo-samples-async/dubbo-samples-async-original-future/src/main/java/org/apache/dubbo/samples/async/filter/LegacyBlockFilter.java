@@ -36,7 +36,7 @@ public class LegacyBlockFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcContext context = RpcContext.getContext();
-        String filters = context.getAttachment("filters");
+        String filters = (String) context.getAttachment("filters");
         if (StringUtils.isEmpty(filters)) {
             filters = "";
         }

@@ -43,7 +43,7 @@ public class AsyncConsumer {
         RpcContext savedServerContext = RpcContext.getServerContext();
         CountDownLatch latch = new CountDownLatch(1);
         future.whenComplete((v, t) -> {
-            System.out.println(savedServerContext.getAttachment("server-key1"));
+            System.out.println((String) savedServerContext.getAttachment("server-key1"));
             if (t != null) {
                 logger.warn("Exception: ", t);
             } else {
