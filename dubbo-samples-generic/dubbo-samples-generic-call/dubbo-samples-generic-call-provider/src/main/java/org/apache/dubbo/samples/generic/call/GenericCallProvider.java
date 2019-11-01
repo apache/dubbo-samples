@@ -26,7 +26,7 @@ import java.util.concurrent.CountDownLatch;
 public class GenericCallProvider {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
+//        new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/generic-provider.xml");
         context.start();
         System.out.println("dubbo service started");
