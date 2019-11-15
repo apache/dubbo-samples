@@ -25,7 +25,6 @@ public class GrpcGreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-        System.out.println("Received request from client.");
         System.out.println("Executing thread is " + Thread.currentThread().getName());
         HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + request.getName()).build();
         responseObserver.onNext(reply);

@@ -1,0 +1,1 @@
+logger=org.apache.dubbo.samples.basic.comtomize.MyClientStreamInterceptor
