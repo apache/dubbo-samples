@@ -27,6 +27,10 @@ import io.grpc.ServerCallHandler;
 
 import static org.apache.dubbo.common.constants.CommonConstants.PROVIDER;
 
+/**
+ * This interceptor works at the server side and intercepts all
+ * incoming request messages and outgoing response messages
+ */
 @Activate(group = PROVIDER)
 public class MyServerStreamInterceptor implements ServerInterceptor {
     @Override
@@ -34,11 +38,18 @@ public class MyServerStreamInterceptor implements ServerInterceptor {
             ServerCall<ReqT, RespT> serverCall,
             Metadata requestHeaders,
             ServerCallHandler<ReqT, RespT> next) {
-        ServerCall.Listener<ReqT> listener = next.startCall(new StreamResponseServerCall<>(serverCall), requestHeaders);
 
+        ServerCall.Listener<ReqT> listener = next.startCall(new StreamResponseServerCall<>(serverCall), requestHeaders);
         return new StreamRequestListener<>(listener);
+
     }
 
+    /**
+     * intercept any streaming response message or any streaming status change.
+     *
+     * @param <ReqT>
+     * @param <RespT>
+     */
     private static class StreamResponseServerCall<ReqT, RespT>
             extends ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT> {
 
@@ -62,6 +73,10 @@ public class MyServerStreamInterceptor implements ServerInterceptor {
 
     }
 
+    /**
+     * intercept any streaming request message or any streaming status change.
+     * @param <ReqT>
+     */
     private static class StreamRequestListener<ReqT>
             extends ForwardingServerCallListener.SimpleForwardingServerCallListener<ReqT> {
 

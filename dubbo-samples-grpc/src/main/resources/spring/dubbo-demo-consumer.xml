@@ -28,5 +28,7 @@
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <dubbo:reference id="greeter" interface="io.grpc.examples.helloworld.GreeterGrpc$IGreeter" protocol="grpc"/>
+    <dubbo:reference id="routeguide" interface="io.grpc.examples.routeguide.RouteGuideGrpc$IRouteGuide"
+                     protocol="grpc"/>
 
 </beans>

@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *
+ * Customize the gRPC Server, Channel and CallOptions
  */
 public class MyGrpcConfigurator implements GrpcConfigurator {
 
@@ -41,9 +41,7 @@ public class MyGrpcConfigurator implements GrpcConfigurator {
 
     @Override
     public NettyChannelBuilder configureChannelBuilder(NettyChannelBuilder builder, URL url) {
-        return builder
-                .disableRetry()
-                .directExecutor();
+        return builder.directExecutor();
     }
 
     @Override

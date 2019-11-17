@@ -29,6 +29,10 @@ import io.grpc.MethodDescriptor;
 
 import static org.apache.dubbo.common.constants.CommonConstants.CONSUMER;
 
+/**
+ * This interceptor works at the client side and intercepts all
+ * outgoing request messages and incoming response messages
+ */
 @Activate(group = CONSUMER)
 public class MyClientStreamInterceptor implements ClientInterceptor {
     @Override
@@ -42,7 +46,14 @@ public class MyClientStreamInterceptor implements ClientInterceptor {
 
     }
 
-    private static class StreamRequestClientCall<ReqT, RespT> extends ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT> {
+    /**
+     * intercept any streaming request message or any streaming status change.
+     *
+     * @param <ReqT>
+     * @param <RespT>
+     */
+    private static class StreamRequestClientCall<ReqT, RespT>
+            extends ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT> {
 
         public StreamRequestClientCall(final ClientCall<ReqT, RespT> wrappedCall) {
             super(wrappedCall);
@@ -50,17 +61,21 @@ public class MyClientStreamInterceptor implements ClientInterceptor {
 
         @Override
         public void start(final ClientCall.Listener<RespT> responseListener, Metadata headers) {
-            delegate().start(new StreamResponseListener<>(responseListener), headers);
+            super.start(new StreamResponseListener<>(responseListener), headers);
         }
 
         @Override
         public void sendMessage(ReqT reqMessage) {
             // add your logic here
             System.out.println("Sending request msg to server: " + reqMessage);
-            delegate().sendMessage(reqMessage);
+            super.sendMessage(reqMessage);
         }
     }
 
+    /**
+     * intercept any streaming response message or any streaming status change.
+     * @param <RespT>
+     */
     private static class StreamResponseListener<RespT>
             extends ForwardingClientCallListener.SimpleForwardingClientCallListener<RespT> {
 
@@ -72,7 +87,7 @@ public class MyClientStreamInterceptor implements ClientInterceptor {
         public void onMessage(RespT respMessage) {
             // add your logic here
             System.out.println("Received msg from server: " + respMessage);
-            delegate().onMessage(respMessage);
+            super.onMessage(respMessage);
         }
     }
 }
