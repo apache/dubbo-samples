@@ -13,7 +13,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Maven
-        run: ./mvnw  --settings .mvn/settings.xml clean package
+        run: java/mvnw  --settings java/.mvn/settings.xml clean package
 
   integration:
     runs-on: ubuntu-latest
@@ -37,6 +37,6 @@ jobs:
           java-version: ${{ matrix.javaVersion }}
       - name: Run integration test
         run: |
-          ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=$DUBBO_VERSION
-          ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${{ matrix.dockerImage }} -Ddubbo.version=$DUBBO_VERSION
+          java/mvnw -U --batch-mode --no-transfer-progress --settings java/.mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=$DUBBO_VERSION
+          java/mvnw -U --batch-mode --no-transfer-progress --settings java/.mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${{ matrix.dockerImage }} -Ddubbo.version=$DUBBO_VERSION
 
