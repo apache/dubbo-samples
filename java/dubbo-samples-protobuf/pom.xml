@@ -30,6 +30,7 @@
         <skip_maven_deploy>true</skip_maven_deploy>
         <proto_dubbo_plugin_version>1.19.0-SNAPSHOT</proto_dubbo_plugin_version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <dubbo.compiler.version>0.0.1-SNAPSHOT</dubbo.compiler.version>
     </properties>
 
     <modules>
@@ -49,12 +50,25 @@
         </dependencies>
     </dependencyManagement>
 
+
     <repositories>
         <repository>
             <id>apache.snapshots.https</id>
             <name>Apache Development Snapshot Repository</name>
             <url>https://repository.apache.org/content/repositories/snapshots</url>
             <layout>default</layout>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -90,20 +104,22 @@
                 <version>0.5.1</version>
                 <configuration>
                     <protocArtifact>com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}</protocArtifact>
-                    <pluginId>grpc-java</pluginId>
-                    <pluginArtifact>org.apache.dubbo:protoc-gen-dubbo-java:${proto_dubbo_plugin_version}:exe:${os.detected.classifier}</pluginArtifact>
                     <outputDirectory>build/generated/source/proto/main/java</outputDirectory>
                     <clearOutputDirectory>false</clearOutputDirectory>
-                    <!-- supports 'dubbo' and 'grpc' -->
-                    <pluginParameter>dubbo</pluginParameter>
+                    <protocPlugins>
+                        <protocPlugin>
+                            <id>dubbo</id>
+                            <groupId>org.apache.dubbo</groupId>
+                            <artifactId>dubbo-compiler</artifactId>
+                            <version>${dubbo.compiler.version}</version>
+                            <mainClass>org.apache.dubbo.gen.dubbo.DubboGenerator</mainClass>
+                        </protocPlugin>
+                    </protocPlugins>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>compile</goal>
-                            <goal>compile-custom</goal>
-                            <goal>test-compile</goal>
-                            <goal>test-compile-custom</goal>
                         </goals>
                     </execution>
                 </executions>
