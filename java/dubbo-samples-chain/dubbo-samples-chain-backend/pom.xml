@@ -33,7 +33,7 @@
 
     <properties>
         <main-class>org.apache.dubbo.samples.chain.BackendProvider</main-class>
-        <image.name>${artifactId}:${dubbo.version}</image.name>
+        <image.name>${project.artifactId}:${dubbo.version}</image.name>
         <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
     </properties>

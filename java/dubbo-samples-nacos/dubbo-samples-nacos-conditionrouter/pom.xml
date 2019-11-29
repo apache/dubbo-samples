@@ -38,7 +38,7 @@
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <image.name>${artifactId}:${dubbo.version}</image.name>
+        <image.name>${project.artifactId}:${dubbo.version}</image.name>
         <java-image.name>openjdk:8</java-image.name>
         <dubbo.port.1>20880</dubbo.port.1>
         <dubbo.port.2>20881</dubbo.port.2>
