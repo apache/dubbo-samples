@@ -185,7 +185,7 @@ find_maven_basedir() {
     fi
     # end of workaround
   done
-  echo "${basedir}"
+  echo "${basedir}/java"
 }
 
 # concatenates all lines of a file
