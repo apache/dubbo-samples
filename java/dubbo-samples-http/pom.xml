@@ -36,7 +36,7 @@
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <image.name>${artifactId}:${dubbo.version}</image.name>
+        <image.name>${project.artifactId}:${dubbo.version}</image.name>
         <java-image.name>openjdk:8</java-image.name>
         <servlet.port.1>8080</servlet.port.1>
         <servlet.container.1>tomcat</servlet.container.1>
