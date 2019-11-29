@@ -24,6 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-grpc</artifactId>
+    <packaging>pom</packaging>
 
     <modules>
         <module>dubbo-samples-original</module>
