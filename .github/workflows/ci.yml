@@ -13,7 +13,9 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Maven
-        run: java/mvnw  --settings java/.mvn/settings.xml clean package
+        run: |
+          cd java
+          ./mvnw  --settings .mvn/settings.xml clean package
 
   integration:
     runs-on: ubuntu-latest
