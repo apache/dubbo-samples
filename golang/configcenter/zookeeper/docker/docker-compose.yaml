@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+  zoo1:
+    image: zookeeper
+    container_name: zookeeper_1
+    ports:
+      - 2181:2181
