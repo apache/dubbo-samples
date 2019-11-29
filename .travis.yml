@@ -16,8 +16,8 @@ cache:
 install: true
 
 script:
-  - java/mvnw -U --batch-mode --no-transfer-progress --settings java/.mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=2.7.5-SNAPSHOT
-  - java/mvnw -U --batch-mode --no-transfer-progress --settings java/.mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.5-SNAPSHOT
+  - java/mvnw -U --batch-mode --no-transfer-progress --settings java/.mvn/settings.xml -f java/pom.xml  clean install -pl dubbo-maven-address-plugin -Ddubbo.version=2.7.5-SNAPSHOT
+  - java/mvnw -U --batch-mode --no-transfer-progress --settings java/.mvn/settings.xml -f java/pom.xml  clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.5-SNAPSHOT
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
