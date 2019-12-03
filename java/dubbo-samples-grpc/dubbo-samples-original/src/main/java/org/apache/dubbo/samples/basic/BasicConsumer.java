@@ -58,9 +58,9 @@ public class BasicConsumer {
         /**
          * greeter sample
          */
-        System.out.println("-------- Start simple unary call test -------- ");
         DubboGreeterGrpc.IGreeter greeter = (DubboGreeterGrpc.IGreeter) context.getBean("greeter");
 
+        System.out.println("-------- Start simple unary call test -------- ");
         HelloReply reply = greeter.sayHello(HelloRequest.newBuilder().setName("world!").build());
         System.out.println("Result: " + reply.getMessage());
         System.out.println("-------- End simple unary call test -------- \n\n\n");
@@ -68,9 +68,9 @@ public class BasicConsumer {
         /**
          * route guide sample
          */
-        System.out.println("-------- Start stream call test -------- ");
         DubboRouteGuideGrpc.IRouteGuide routeGuide = (DubboRouteGuideGrpc.IRouteGuide) context.getBean("routeguide");
         RouteGuideClient streamClient = new RouteGuideClient(routeGuide);
+        System.out.println("-------- Start stream call test -------- ");
         try {
             List<Feature> features;
             try {
@@ -82,14 +82,14 @@ public class BasicConsumer {
             // Looking for a valid feature
             streamClient.getFeature(409146138, -746188906);
 
-//            // Feature missing.
-//            streamClient.getFeature(0, 0);
-//
-//            // Looking for features between 40, -75 and 42, -73.
-//            streamClient.listFeatures(400000000, -750000000, 420000000, -730000000);
-//
-//            // Record a few randomly selected points from the features file.
-//            streamClient.recordRoute(features, 10);
+            // Feature missing.
+            streamClient.getFeature(0, 0);
+
+            // Looking for features between 40, -75 and 42, -73.
+            streamClient.listFeatures(400000000, -750000000, 420000000, -730000000);
+
+            // Record a few randomly selected points from the features file.
+            streamClient.recordRoute(features, 10);
 
             // Send and receive some notes.
             CountDownLatch finishLatch = streamClient.routeChat();
