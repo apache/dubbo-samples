@@ -104,6 +104,13 @@
             <version>${spring-test.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.12.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -111,89 +118,6 @@
             <id>dubbo-integration-test</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.dubbo</groupId>
-                        <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>local-address</goal>
-                                </goals>
-                                <configuration>
-                                    <localAddress>dubbo-local-address</localAddress>
-                                </configuration>
-                                <phase>initialize</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>${jib-maven-plugin.version}</version>
-                        <configuration>
-                            <from>
-                                <image>${java-image.name}</image>
-                            </from>
-                            <to>
-                                <image>${image.name}</image>
-                            </to>
-                            <container>
-                                <mainClass>${main-class}</mainClass>
-                                <environment>
-                                    <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
-                                </environment>
-                            </container>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>dockerBuild</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>${docker-maven-plugin.version}</version>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>${image.name}</name>
-                                    <run>
-                                        <ports>
-                                            <port>${dubbo.port}:${dubbo.port}</port>
-                                            <port>${zookeeper.port}:${zookeeper.port}</port>
-                                        </ports>
-                                        <wait>
-                                            <log>dubbo service started</log>
-                                        </wait>
-                                    </run>
-                                </image>
-                            </images>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -205,9 +129,6 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
-                                    <systemPropertyVariables>
-                                        <zookeeper.address>${dubbo-local-address}</zookeeper.address>
-                                    </systemPropertyVariables>
                                     <includes>
                                         <include>**/*IT.java</include>
                                     </includes>
@@ -263,6 +184,8 @@
                         <goals>
                             <goal>compile</goal>
                             <goal>compile-custom</goal>
+                            <goal>test-compile</goal>
+                            <goal>test-compile-custom</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -281,23 +204,6 @@
                                 <source>build/generated/source/proto/main/java</source>
                             </sources>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <configuration>
-                    <mainClass>${main-class}</mainClass>
-                    <layout>JAR</layout>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

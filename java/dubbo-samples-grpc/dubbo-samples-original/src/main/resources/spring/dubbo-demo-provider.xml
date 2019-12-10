@@ -27,12 +27,12 @@
 
     <dubbo:protocol id="grpc" name="grpc"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
-    <bean id="greeter" class="org.apache.dubbo.samples.basic.impl.helloworld.GrpcGreeterImpl"/>
-    <dubbo:service interface="io.grpc.examples.helloworld.DubboGreeterGrpc$IGreeter" ref="greeter" protocol="grpc"/>
+    <bean id="greeterImpl" class="org.apache.dubbo.samples.basic.impl.helloworld.GrpcGreeterImpl"/>
+    <dubbo:service interface="io.grpc.examples.helloworld.DubboGreeterGrpc$IGreeter" ref="greeterImpl" protocol="grpc"/>
 
-    <bean id="routeguide" class="org.apache.dubbo.samples.basic.impl.routeguide.RouteGuideImpl"/>
-    <dubbo:service interface="io.grpc.examples.routeguide.DubboRouteGuideGrpc$IRouteGuide" ref="routeguide" protocol="grpc"/>
+    <bean id="routeguideImpl" class="org.apache.dubbo.samples.basic.impl.routeguide.RouteGuideImpl"/>
+    <dubbo:service interface="io.grpc.examples.routeguide.DubboRouteGuideGrpc$IRouteGuide" ref="routeguideImpl" protocol="grpc"/>
 
 </beans>

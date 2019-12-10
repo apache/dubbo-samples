@@ -30,6 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:spring/dubbo-demo-consumer.xml")
 public class DemoServiceIT {
+
     @Autowired
     @Qualifier("demoService")
     private DemoService service;

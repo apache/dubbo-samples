@@ -5,24 +5,40 @@ import org.apache.dubbo.config.ReferenceConfigBase;
 
 import java.util.concurrent.TimeUnit;
 
+import static io.grpc.examples.helloworld.GreeterGrpc.getServiceDescriptor;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static org.apache.dubbo.common.constants.CommonConstants.DEFAULT_TIMEOUT;
 import static org.apache.dubbo.common.constants.CommonConstants.TIMEOUT_KEY;
 
-import static io.grpc.examples.helloworld.GreeterGrpc.getServiceDescriptor;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-
 
 @javax.annotation.Generated(
-value = "by RxDubboGrpc generator",
-comments = "Source: helloworld.proto")
+        value = "by RxDubboGrpc generator",
+        comments = "Source: helloworld.proto")
 public final class RxDubboGreeterGrpc {
-    private RxDubboGreeterGrpc() {}
+    private static final int METHODID_SAY_HELLO = 0;
+
+    private RxDubboGreeterGrpc() {
+    }
 
     public static RxDubboGreeterStub getDubboStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions, URL url, ReferenceConfigBase<?> referenceConfig) {
         return new RxDubboGreeterStub(channel, callOptions, url, referenceConfig);
+    }
+
+    public interface IRxGreeter {
+        /**
+         * <pre>
+         *  Sends a greeting
+         * </pre>
+         */
+        public io.reactivex.Single<io.grpc.examples.helloworld.HelloReply> sayHello(io.reactivex.Single<io.grpc.examples.helloworld.HelloRequest> rxRequest);
+
+        /**
+         * <pre>
+         *  Sends a greeting
+         * </pre>
+         */
+        public io.reactivex.Single<io.grpc.examples.helloworld.HelloReply> sayHello(io.grpc.examples.helloworld.HelloRequest rxRequest);
+
     }
 
     /**
@@ -50,12 +66,12 @@ public final class RxDubboGreeterGrpc {
          */
         public io.reactivex.Single<io.grpc.examples.helloworld.HelloReply> sayHello(io.reactivex.Single<io.grpc.examples.helloworld.HelloRequest> rxRequest) {
             return com.salesforce.rxgrpc.stub.ClientCalls.oneToOne(rxRequest,
-                new com.salesforce.reactivegrpc.common.BiConsumer<io.grpc.examples.helloworld.HelloRequest, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply>>() {
-                    @java.lang.Override
-                    public void accept(io.grpc.examples.helloworld.HelloRequest request, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply> observer) {
-                        stub.withDeadlineAfter(url.getParameter(TIMEOUT_KEY, DEFAULT_TIMEOUT), TimeUnit.MILLISECONDS).sayHello(request, observer);
-                    }
-                });
+                    new com.salesforce.reactivegrpc.common.BiConsumer<io.grpc.examples.helloworld.HelloRequest, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply>>() {
+                        @java.lang.Override
+                        public void accept(io.grpc.examples.helloworld.HelloRequest request, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply> observer) {
+                            stub.withDeadlineAfter(url.getParameter(TIMEOUT_KEY, DEFAULT_TIMEOUT), TimeUnit.MILLISECONDS).sayHello(request, observer);
+                        }
+                    });
         }
 
         /**
@@ -65,33 +81,15 @@ public final class RxDubboGreeterGrpc {
          */
         public io.reactivex.Single<io.grpc.examples.helloworld.HelloReply> sayHello(io.grpc.examples.helloworld.HelloRequest rxRequest) {
             return com.salesforce.rxgrpc.stub.ClientCalls.oneToOne(io.reactivex.Single.just(rxRequest),
-                new com.salesforce.reactivegrpc.common.BiConsumer<io.grpc.examples.helloworld.HelloRequest, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply>>() {
-                    @java.lang.Override
-                    public void accept(io.grpc.examples.helloworld.HelloRequest request, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply> observer) {
-                        stub.withDeadlineAfter(url.getParameter(TIMEOUT_KEY, DEFAULT_TIMEOUT), TimeUnit.MILLISECONDS).sayHello(request, observer);
-                    }
-                });
+                    new com.salesforce.reactivegrpc.common.BiConsumer<io.grpc.examples.helloworld.HelloRequest, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply>>() {
+                        @java.lang.Override
+                        public void accept(io.grpc.examples.helloworld.HelloRequest request, io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply> observer) {
+                            stub.withDeadlineAfter(url.getParameter(TIMEOUT_KEY, DEFAULT_TIMEOUT), TimeUnit.MILLISECONDS).sayHello(request, observer);
+                        }
+                    });
         }
 
     }
-
-    public interface IRxGreeter {
-            /**
-         * <pre>
-         *  Sends a greeting
-         * </pre>
-         */
-        public io.reactivex.Single<io.grpc.examples.helloworld.HelloReply> sayHello(io.reactivex.Single<io.grpc.examples.helloworld.HelloRequest> rxRequest);
-
-            /**
-         * <pre>
-         *  Sends a greeting
-         * </pre>
-         */
-        public io.reactivex.Single<io.grpc.examples.helloworld.HelloReply> sayHello(io.grpc.examples.helloworld.HelloRequest rxRequest);
-
-    }
-
 
     /**
      * <pre>
@@ -105,7 +103,8 @@ public final class RxDubboGreeterGrpc {
         public final void setProxiedImpl(IRxGreeter proxiedImpl) {
             this.proxiedImpl = proxiedImpl;
         }
-            /**
+
+        /**
          * <pre>
          *  Sends a greeting
          * </pre>
@@ -123,7 +122,8 @@ public final class RxDubboGreeterGrpc {
             throw new io.grpc.StatusRuntimeException(io.grpc.Status.UNIMPLEMENTED);
         }
 
-        @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+        @java.lang.Override
+        public final io.grpc.ServerServiceDefinition bindService() {
             return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
                     .addMethod(
                             io.grpc.examples.helloworld.GreeterGrpc.getSayHelloMethod(),
@@ -136,13 +136,16 @@ public final class RxDubboGreeterGrpc {
         }
     }
 
-    private static final int METHODID_SAY_HELLO = 0;
-
-    private static final class MethodHandlers<Req, Resp> implements
-            io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
-            io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
+    private static final class MethodHandlers
+            <Req, Resp> implements
+            io.grpc.stub.ServerCalls.UnaryMethod
+                    <Req, Resp>,
+            io.grpc.stub.ServerCalls.ServerStreamingMethod
+                    <Req, Resp>,
+            io.grpc.stub.ServerCalls.ClientStreamingMethod
+                    <Req, Resp>,
+            io.grpc.stub.ServerCalls.BidiStreamingMethod
+                    <Req, Resp> {
         private final IRxGreeter serviceImpl;
         private final int methodId;
 
@@ -153,12 +156,15 @@ public final class RxDubboGreeterGrpc {
 
         @java.lang.Override
         @java.lang.SuppressWarnings("unchecked")
-        public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
+        public void invoke(Req request, io.grpc.stub.StreamObserver
+                <Resp> responseObserver) {
             switch (methodId) {
                 case METHODID_SAY_HELLO:
                     com.salesforce.rxgrpc.stub.ServerCalls.oneToOne((io.grpc.examples.helloworld.HelloRequest) request,
                             (io.grpc.stub.StreamObserver<io.grpc.examples.helloworld.HelloReply>) responseObserver,
-                            new com.salesforce.reactivegrpc.common.Function<io.reactivex.Single<io.grpc.examples.helloworld.HelloRequest>, io.reactivex.Single<io.grpc.examples.helloworld.HelloReply>>() {
+                            new com.salesforce.reactivegrpc.common.Function
+                                    <io.reactivex.Single
+                                            <io.grpc.examples.helloworld.HelloRequest>, io.reactivex.Single<io.grpc.examples.helloworld.HelloReply>>() {
                                 @java.lang.Override
                                 public io.reactivex.Single<io.grpc.examples.helloworld.HelloReply> apply(io.reactivex.Single<io.grpc.examples.helloworld.HelloRequest> single) {
                                     return serviceImpl.sayHello(single);
@@ -172,7 +178,9 @@ public final class RxDubboGreeterGrpc {
 
         @java.lang.Override
         @java.lang.SuppressWarnings("unchecked")
-        public io.grpc.stub.StreamObserver<Req> invoke(io.grpc.stub.StreamObserver<Resp> responseObserver) {
+        public io.grpc.stub.StreamObserver
+                <Req> invoke(io.grpc.stub.StreamObserver
+                                     <Resp> responseObserver) {
             switch (methodId) {
                 default:
                     throw new java.lang.AssertionError();

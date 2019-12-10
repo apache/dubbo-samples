@@ -25,10 +25,10 @@
 
     <dubbo:application name="demo-consumer"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
-    <dubbo:reference id="greeter" interface="io.grpc.examples.helloworld.DubboGreeterGrpc$IGreeter" protocol="grpc"/>
-    <dubbo:reference id="routeguide" interface="io.grpc.examples.routeguide.DubboRouteGuideGrpc$IRouteGuide"
+    <dubbo:reference scope="remote" id="greeter" interface="io.grpc.examples.helloworld.DubboGreeterGrpc$IGreeter" protocol="grpc"/>
+    <dubbo:reference scope="remote" id="routeguide" interface="io.grpc.examples.routeguide.DubboRouteGuideGrpc$IRouteGuide"
                      protocol="grpc"/>
 
 </beans>

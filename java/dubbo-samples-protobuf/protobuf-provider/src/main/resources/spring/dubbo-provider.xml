@@ -27,9 +27,9 @@
 
     <dubbo:protocol name="dubbo"/>
 
-    <bean id="demoService" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
+    <bean id="demoServiceImpl" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
 
     <dubbo:service serialization="protobuf" interface="org.apache.dubbo.demo.DemoServiceDubbo$IDemoService"
-                   ref="demoService"/>
+                   ref="demoServiceImpl"/>
 
 </beans>

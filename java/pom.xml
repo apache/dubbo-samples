@@ -79,6 +79,7 @@
         <module>dubbo-samples-grpc</module>
         <module>dubbo-samples-cloud-native</module>
         <module>dubbo-samples-protobuf</module>
+        <module>dubbo-samples-ssl</module>
     </modules>
 
     <repositories>
