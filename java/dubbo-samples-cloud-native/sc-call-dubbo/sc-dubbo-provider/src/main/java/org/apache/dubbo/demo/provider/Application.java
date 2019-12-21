@@ -28,7 +28,7 @@ import org.apache.dubbo.demo.provider.rest.UserServiceImpl;
 
 public class Application {
     public static void main(String[] args) throws Exception {
-        ServiceConfig<UserService> service = new ServiceConfig<UserService>();
+        ServiceConfig<UserService> service = new ServiceConfig<>();
         service.setInterface(UserService.class);
         service.setRef(new UserServiceImpl());
 
@@ -40,8 +40,7 @@ public class Application {
                 .registry(new RegistryConfig("consul://127.0.0.1:8500?registry-type=service"))
                 .protocol(protocolConfig)
                 .service(service)
-                .start();
-
-        System.in.read();
+                .start()
+                .await();
     }
 }

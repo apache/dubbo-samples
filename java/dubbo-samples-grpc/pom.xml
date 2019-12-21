@@ -29,6 +29,7 @@
         <module>dubbo-samples-original</module>
         <module>dubbo-samples-reactor</module>
         <module>dubbo-samples-rxjava</module>
+        <module>dubbo-samples-ssl</module>
     </modules>
 
     <repositories>

@@ -20,15 +20,24 @@ package org.apache.dubbo.samples.context;
 import org.apache.dubbo.samples.context.api.ContextService;
 
 import org.junit.Assert;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.testcontainers.containers.FixedHostPortGenericContainer;
+import org.testcontainers.containers.GenericContainer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:/spring/dubbo-context-consumer.xml"})
+@ContextConfiguration(locations = {"classpath*:/spring/dubbo-context-consumer.xml", "classpath*:/spring/dubbo-context-provider.xml"})
 public class ContextServiceIT {
+
+    @ClassRule
+    public static GenericContainer zookeeper = new FixedHostPortGenericContainer("zookeeper:3.4.9")
+            .withFixedExposedPort(2181, 2181);
+
+
     @Autowired
     private ContextService contextService;
 
@@ -37,7 +46,7 @@ public class ContextServiceIT {
         String result = contextService.sayHello("dubbo");
         Assert.assertTrue(result.startsWith("Hello dubbo, response from"));
         Assert.assertTrue(result.contains("isProviderSide: true"));
-        Assert.assertTrue(result.contains("local: context-provider"));
+        Assert.assertTrue(result.contains("local: context-"));
 //        Assert.assertTrue(result.contains("remote: context-consumer"));
     }
 }

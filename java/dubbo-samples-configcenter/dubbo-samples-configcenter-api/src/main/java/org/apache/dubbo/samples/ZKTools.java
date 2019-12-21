@@ -32,7 +32,7 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2181\n";
+        String str = "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2182\n";
 
         System.out.println(str);
 

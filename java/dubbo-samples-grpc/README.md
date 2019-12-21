@@ -1,1 +1,1 @@
-Run `mvn clean compile` first to call protobuf to generate the Dubbo customized Java stubs before run any samples.
+Please run `mvn clean compile` first before starting Provider or Consumer process.

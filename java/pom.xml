@@ -52,6 +52,7 @@
         <module>dubbo-samples-mock</module>
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-multi-registry</module>
+        <module>dubbo-samples-default-config</module>
         <module>dubbo-samples-notify</module>
         <module>dubbo-samples-resilience4j</module>
         <module>dubbo-samples-rest</module>
@@ -79,6 +80,7 @@
         <module>dubbo-samples-grpc</module>
         <module>dubbo-samples-cloud-native</module>
         <module>dubbo-samples-protobuf</module>
+        <module>dubbo-samples-ssl</module>
     </modules>
 
     <repositories>
