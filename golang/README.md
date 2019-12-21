@@ -11,7 +11,7 @@ Examples of dubbo-go
 * general
 
     A general example. It had validated zookeeper registry and different parameter lists of service. 
-  And it has a comprehensive testing with dubbo/jsonrpc protocol. You can refer to it to create your first complete dubbo-go project.
+  And it has a comprehensive testing with dubbo/jsonrpc protocol, async also. You can refer to it to create your first complete dubbo-go project.
 
 * generic
 
@@ -19,7 +19,7 @@ Examples of dubbo-go
 
 * configcenter
 
-    Some examples of different config center. There is only one -- zookeeper at present.
+    Some examples of different config center. There is only two -- zookeeper ,apollo at present.
 
 ## How to build and run
 

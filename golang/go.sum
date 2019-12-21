@@ -22,16 +22,8 @@ github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRF
 github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190802083043-4cd0c391755e h1:MSuLXx/mveDbpDNhVrcWTMeV4lbYWKcyO4rH+jAxmX0=
 github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190802083043-4cd0c391755e/go.mod h1:myCDvQSzCW+wB1WAlocEru4wMGJxy+vlxHdhegi1CDQ=
 github.com/aliyun/aliyun-oss-go-sdk v0.0.0-20190307165228-86c17b95fcd5/go.mod h1:T/Aws4fEfogEE9v+HPhhw+CntffsBHJ8nXQCwKr0/g8=
-github.com/apache/dubbo-go v0.1.2-0.20191017063319-6221170b0746 h1:7k0jeEjj+F4xR0pTT+pDNQA2Ojs7yiGni1+qRQDfdEc=
-github.com/apache/dubbo-go v0.1.2-0.20191017063319-6221170b0746/go.mod h1:NLl4VKDx4s2lUF6WM11q+jOcnP6VfxbNVV89pvXJw+w=
 github.com/apache/dubbo-go v0.1.2-0.20191126125315-d77b772afb74 h1:V9WkrEZe30XWvm1wCeqMoCR31ph7lKgkA2kiDmYRJjs=
 github.com/apache/dubbo-go v0.1.2-0.20191126125315-d77b772afb74/go.mod h1:SVerp5GLubzSB6F+t5EcJECOSwwI0Do26XNNLhfwLa0=
-github.com/apache/dubbo-go v1.0.1-0.20190930145926-02d871848026 h1:QlTJpp2BmX8BPCuE6ejtzXxuf6aLlhyZWajYeFLyrNg=
-github.com/apache/dubbo-go v1.0.1-0.20190930145926-02d871848026/go.mod h1:NLl4VKDx4s2lUF6WM11q+jOcnP6VfxbNVV89pvXJw+w=
-github.com/apache/dubbo-go v1.1.0 h1:L3BaAvMyI0pCFJRs5ULqrIQnmlEAxWepaTC3CZeBj2k=
-github.com/apache/dubbo-go v1.2.0 h1:TjWK0GhJaJ1f3wpyFypWFb5fBYhbYIv5i3WFYvMYTXg=
-github.com/apache/dubbo-go-hessian2 v1.2.5-0.20190923055845-e3dd5d131df5 h1:p85EqnwOfcqqayW7OPREn0YJxIPIuEmuBJPezzhtO/M=
-github.com/apache/dubbo-go-hessian2 v1.2.5-0.20190923055845-e3dd5d131df5/go.mod h1:LWnndnrFXZmJLAzoyNAPNHSIJ1KOHVkTSsHgC3YYWlo=
 github.com/apache/dubbo-go-hessian2 v1.2.5-0.20191029001541-894e45c9aaaa h1:11TO1wiM5bvGAVrmfN5atD8gZqUSPE1TBoIs8sI6Abk=
 github.com/apache/dubbo-go-hessian2 v1.2.5-0.20191029001541-894e45c9aaaa/go.mod h1:LWnndnrFXZmJLAzoyNAPNHSIJ1KOHVkTSsHgC3YYWlo=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
@@ -69,6 +61,7 @@ github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f h1:lBNOc5arjvs8E5mO2tbp
 github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f/go.mod h1:E3G3o1h8I7cfcXa63jLwjI0eiQQMgzzUDFVpN/nH/eA=
 github.com/creasty/defaults v1.3.0 h1:uG+RAxYbJgOPCOdKEcec9ZJXeva7Y6mj/8egdzwmLtw=
 github.com/creasty/defaults v1.3.0/go.mod h1:CIEEvs7oIVZm30R8VxtFJs+4k201gReYyuYHJxZc68I=
+github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -80,8 +73,6 @@ github.com/digitalocean/godo v1.1.1/go.mod h1:h6faOIcZ8lWIwNQ+DN7b3CgX4Kwby5T+nb
 github.com/digitalocean/godo v1.10.0/go.mod h1:h6faOIcZ8lWIwNQ+DN7b3CgX4Kwby5T+nbpNqkUIozU=
 github.com/docker/go-connections v0.3.0/go.mod h1:Gbd7IOopHjR8Iph03tsViu4nIes5XhDvyHbTtUxmeec=
 github.com/docker/go-units v0.3.3/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
-github.com/dubbogo/getty v1.3.0 h1:GImOCANdts7dlRqi9GMVsZJnfst9EPyjTVTR1AesOD8=
-github.com/dubbogo/getty v1.3.0/go.mod h1:K4b3MkGLf7T+lMgQNFgpg0dI1Wvv1PTisFs1Psf86kU=
 github.com/dubbogo/getty v1.3.1 h1:9fehwTo/D6+z6/+kADMbhbKeMkP80o/3g+XwV5lFLTY=
 github.com/dubbogo/getty v1.3.1/go.mod h1:dtLOEb1v6EMHsQNYRWEACiRLmTWB2kJGUAj1aXayPOg=
 github.com/dubbogo/gost v1.1.1 h1:JCM7vx5edPIjDA5ovJTuzEEXuw2t7xLyrlgi2mi5jHI=
@@ -333,6 +324,7 @@ github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0Q=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
+github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/tebeka/strftime v0.1.3 h1:5HQXOqWKYRFfNyBMNVc9z5+QzuBtIXy03psIhtdJYto=
 github.com/tebeka/strftime v0.1.3/go.mod h1:7wJm3dZlpr4l/oVK0t1HYIc4rMzQ2XJlOMIUJUJH6XQ=

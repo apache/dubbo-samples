@@ -1,4 +1,4 @@
-module github.com/dubbogo/dubbogo-samples
+module github.com/dubbogo/dubbo-samples/golang
 
 require (
 	github.com/apache/dubbo-go v0.1.2-0.20190923162929-95f857c89fd2
