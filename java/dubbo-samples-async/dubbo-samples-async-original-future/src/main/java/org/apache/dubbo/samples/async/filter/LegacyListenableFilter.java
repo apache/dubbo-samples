@@ -21,6 +21,7 @@ import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.ListenableFilter;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
@@ -30,8 +31,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
-public class LegacyBlockFilter implements Filter {
-    private static Logger logger = LoggerFactory.getLogger(LegacyBlockFilter.class);
+public class LegacyListenableFilter extends ListenableFilter {
+    private static Logger logger = LoggerFactory.getLogger(LegacyListenableFilter.class);
+
+    public LegacyListenableFilter() {
+        super.listener = new CallbackListener();
+    }
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
@@ -43,22 +48,21 @@ public class LegacyBlockFilter implements Filter {
         filters += " legacy-block-filter";
         context.setAttachment("filters", filters);
 
-        Result result = invoker.invoke(invocation);
+        return invoker.invoke(invocation);
+    }
 
-        logger.info("This is the default return value: " + result.getValue());
 
-        if (result.hasException()) {
-            System.out.println("LegacyBlockFilter: This will only happen when the real exception returns: " + result.getException());
-            logger.warn("This will only happen when the real exception returns", result.getException());
+    private static class CallbackListener implements Filter.Listener {
+
+        @Override
+        public void onMessage(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+            System.out.println("Callback received in ListenableFilter.onResponse .");
         }
 
-        logger.info("LegacyBlockFilter: This msg should not be blocked.");
-        return result;
+        @Override
+        public void onError(Throwable t, Invoker<?> invoker, Invocation invocation) {
+
+        }
     }
 
-    @Override
-    public Result onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
-        System.out.println("Callback received on Filter.onResponse .");
-        return appResponse;
-    }
 }
