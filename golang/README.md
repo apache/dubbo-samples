@@ -11,7 +11,7 @@ Examples of dubbo-go
 * general
 
     A general example. It had validated zookeeper registry and different parameter lists of service. 
-  And it has a comprehensive testing with dubbo/jsonrpc protocol, async also. You can refer to it to create your first complete dubbo-go project.
+  And it has a comprehensive testing with dubbo/jsonrpc protocol. You can refer to it to create your first complete dubbo-go project.
 
 * generic
 
@@ -19,7 +19,7 @@ Examples of dubbo-go
 
 * configcenter
 
-    Some examples of different config center. There is only two -- zookeeper ,apollo at present.
+    Some examples of different config center. There is only one -- zookeeper at present.
 
 ## How to build and run
 
@@ -72,4 +72,34 @@ cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
 # such as client_zookeeper.yml when $SUFFIX = zookeeper", 
 # if $SUFFIX = "", config file is client.yml
 sh ./bin/load_user_info_client.sh start $SUFFIX
+```
+
+kubernetes 
+
+```bash 
+
+# create service-account
+kubectl create -f ./registry/kubernetes/sa.yaml
+
+# create role 
+kubectl create -f ./registry/kubernetes/role.yaml
+
+# bind role and service-account
+kubectl create -f ./registry/kubernetes/role-binding.yaml
+
+# create server
+kubectl create -f ./registry/kubernetes/server.yaml
+
+# create client
+kubectl create -f ./registry/kubernetes/client.yaml
+
+# read the client log
+kubectl logs -f client
+
+## uninstall 
+kubectl delete -f ./registry/kubernetes/sa.yaml
+kubectl delete -f ./registry/kubernetes/role.yaml
+kubectl delete -f ./registry/kubernetes/role-binding.yaml
+kubectl delete -f ./registry/kubernetes/server.yaml
+kubectl delete -f ./registry/kubernetes/client.yaml
 ```
