@@ -17,11 +17,10 @@ install: true
 
 before_script: 
   - cd java
-  - while travis_wait 50 sleep 300 &> /tmp/build.log || (tail -n 100 /tmp/build.log && exit 1); do echo "=====[ $SECONDS seconds, buildroot still building... ]====="; done
 
 script:
   - ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=2.7.5-SNAPSHOT
-  - while sleep 5m; do echo "=====[ $SECONDS seconds, buildroot still building... ]====="; done &
+  - while sleep 8m; do echo "=====[ $SECONDS seconds, buildroot still building... ]====="; done &
   - travis_wait 30 ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.5-SNAPSHOT -Ddocker.showLogs -pl !dubbo-samples-merge > output.log
 
 after_failure:
