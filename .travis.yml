@@ -25,3 +25,7 @@ after_failure:
   - tail -n 5000 output.log
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+jobs:
+  allow_failures:
+  - jdk: openjdk11
