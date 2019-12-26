@@ -1,3 +1,5 @@
+package org.apache.dubbo.samples.perf.registry;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -35,12 +37,13 @@ public class ZookeeperNotificationMock {
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
-
         initClient();
-//        deleteProviders();
-
-        initProviders();
-        mockProvidersChange();
+        if (args.length == 1) {
+            deleteProviders();
+        } else {
+            initProviders();
+            mockProvidersChange();
+        }
     }
 
     public static void initClient() throws Exception {
