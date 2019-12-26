@@ -4,7 +4,7 @@ env
 if [[ -z "${RELEASE_BRANCH}" ]]; then
   export INTERGARTION_TEST_VERSION = '2.7.6-SNAPSHOT'
 else
-  git clone --depth 1 git@github.com:apache/dubbo.git
+  git clone https://github.com/apache/dubbo.git
   cd dubbo
   git checkout ${RELEASE_BRANCH}
   ./mwnw clean install -DskipTests -Drevision=${RELEASE_BRANCH}
