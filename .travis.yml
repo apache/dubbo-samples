@@ -19,7 +19,7 @@ before_script: cd java
 
 script:
   - ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=2.7.5-SNAPSHOT
-  - travis_wait 30 ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.5-SNAPSHOT -Ddocker.showLogs > output.log
+  - travis_wait 30 ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=2.7.5-SNAPSHOT -Ddocker.showLogs -pl !dubbo-samples-merge > output.log
 
 after_failure:
   - tail -n 5000 output.log
