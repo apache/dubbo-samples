@@ -16,7 +16,7 @@ cache:
 install: true
 
 before_script: 
-  - bash ./travis/prepare-artifact.sh
+  - bash .travis/prepare-artifact.sh
   - cd java
 
 script:
