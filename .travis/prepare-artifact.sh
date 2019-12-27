@@ -7,8 +7,10 @@ else
   git clone https://github.com/apache/dubbo.git
   cd dubbo
   git checkout ${RELEASE_BRANCH}
-  ./mwnw clean install -DskipTests -Drevision=${RELEASE_BRANCH}
+  ls
+  ./mvnw clean install -DskipTests -Drevision=${RELEASE_BRANCH}
   export INTERGARTION_TEST_VERSION=${RELEASE_BRANCH}
+  cd ..
 fi
 
 env|grep INTERGARTION_TEST_VERSION
