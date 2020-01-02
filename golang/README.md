@@ -19,7 +19,20 @@ Examples of dubbo-go
 
 * configcenter
 
-    Some examples of different config center. There is only one -- zookeeper at present.
+    Some examples of different config center. There are only two -- zookeeper and apollo at present.
+
+
+* multi_registry
+
+    An example of multiple registries.
+
+* registry
+
+    Some examples of different registry. There is only kubernetes at present.
+
+* filter
+
+    Some examples of different filter. Including custom_filter and tpslimit
 
 ## How to build and run
 
