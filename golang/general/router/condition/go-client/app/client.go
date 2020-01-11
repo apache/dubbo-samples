@@ -53,6 +53,7 @@ func println(format string, args ...interface{}) {
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
+// 		export CONF_ROUTER_FILE_PATH="xxx"
 func main() {
 	hessian.RegisterPOJO(&User{})
 	config.Load()
