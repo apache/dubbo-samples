@@ -28,6 +28,7 @@ import (
 
 import (
 	hessian "github.com/apache/dubbo-go-hessian2"
+	"github.com/apache/dubbo-go/common"
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
@@ -45,13 +46,17 @@ var (
 	survivalTimeout int = 10e9
 )
 
+func println(format string, args ...interface{}) {
+	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
+}
+
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
 	hessian.RegisterPOJO(&User{})
 	config.Load()
-	time.Sleep(3e9)
+	time.Sleep(1e9)
 
 	println("\n\n\nstart to test dubbo")
 	user := &User{}
@@ -87,6 +92,32 @@ func initSignal() {
 	}
 }
 
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
+var userProvider = new(UserProvider)
+
+func init() {
+	config.SetConsumerService(userProvider)
+	hessian.RegisterPOJO(&User{})
+}
+
+type User struct {
+	Id   string
+	Name string
+	Age  int32
+	Time time.Time
+}
+
+type UserProvider struct {
+	GetUser func(ctx context.Context, req []interface{}, rsp *User) error
+}
+
+func (u *UserProvider) Reference() string {
+	return "UserProvider"
+}
+
+func (User) JavaClassName() string {
+	return "com.ikurento.user.User"
+}
+
+func (u *UserProvider) CallBack(res common.CallbackResponse) {
+	println("CallBack res: %v", res)
 }

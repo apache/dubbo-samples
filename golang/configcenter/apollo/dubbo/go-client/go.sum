@@ -23,8 +23,10 @@ github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190802083043-4cd0c391755e/go.mod
 github.com/aliyun/aliyun-oss-go-sdk v0.0.0-20190307165228-86c17b95fcd5/go.mod h1:T/Aws4fEfogEE9v+HPhhw+CntffsBHJ8nXQCwKr0/g8=
 github.com/apache/dubbo-go v0.1.2-0.20191115170606-d82e97f3 h1:x9G6ccy18CJB41J7RePC4TueswWRC3PO9r5/CA9pMHI=
 github.com/apache/dubbo-go v0.1.2-0.20191115170606-d82e97f3/go.mod h1:Od8opvHIWIyGDt6xmL+uWdNu7HCNPON3zGKgYJa5NGM=
+github.com/apache/dubbo-go v1.0.1-0.20200109172830-4bd28510f3a0/go.mod h1:rganPwIqNZKd10Bu1q3z6VVAYex628JTeQ0JImtQC9w=
 github.com/apache/dubbo-go-hessian2 v1.2.5-0.20191029001541-894e45c9aaaa h1:11TO1wiM5bvGAVrmfN5atD8gZqUSPE1TBoIs8sI6Abk=
 github.com/apache/dubbo-go-hessian2 v1.2.5-0.20191029001541-894e45c9aaaa/go.mod h1:LWnndnrFXZmJLAzoyNAPNHSIJ1KOHVkTSsHgC3YYWlo=
+github.com/apache/dubbo-go-hessian2 v1.3.1-0.20200106042936-0e1fc43955b2/go.mod h1:VwEnsOMidkM1usya2uPfGpSLO9XUF//WQcWn3y+jFz8=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmVTwzkszR9V5SSuryQ31EELlFMUz1kKyl939pY=
 github.com/armon/go-metrics v0.0.0-20190430140413-ec5e00d3c878/go.mod h1:3AMJUQhVx52RsWOnlkpikZr01T/yAVN2gn0861vByNg=
@@ -67,6 +69,7 @@ github.com/dubbogo/getty v1.3.1/go.mod h1:dtLOEb1v6EMHsQNYRWEACiRLmTWB2kJGUAj1aX
 github.com/dubbogo/gost v1.1.1/go.mod h1:R7wZm1DrmrKGr50mBZVcg6C9ekG8aL5hP+sgWcIDwQg=
 github.com/dubbogo/gost v1.3.0 h1:n90mIUWCPD69BqW8wJ43NDy0RgNxx02aAG4QJcJ785U=
 github.com/dubbogo/gost v1.3.0/go.mod h1:R7wZm1DrmrKGr50mBZVcg6C9ekG8aL5hP+sgWcIDwQg=
+github.com/dubbogo/gost v1.5.1/go.mod h1:pPTjVyoJan3aPxBPNUX0ADkXjPibLo+/Ib0/fADXSG8=
 github.com/duosecurity/duo_api_golang v0.0.0-20190308151101-6c680f768e74/go.mod h1:UqXY1lYT/ERa4OEAywUqdok1T4RCRdArkhic1Opuavo=
 github.com/elazarl/go-bindata-assetfs v0.0.0-20160803192304-e1a2a7ec64b0/go.mod h1:v+YaWX3bdea5J/mo8dSETolEo7R71Vk1u8bnjau5yw4=
 github.com/envoyproxy/go-control-plane v0.8.0/go.mod h1:GSSbY9P1neVhdY7G4wu+IK1rk/dqhiCC/4ExuWJZVuk=

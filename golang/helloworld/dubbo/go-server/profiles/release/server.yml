@@ -45,7 +45,7 @@ protocols:
 protocol_conf:
   dubbo:
     session_number: 700
-    session_timeout: "20s"
+    session_timeout: "180s"
     getty_session_param:
       compress_encoding: false
       tcp_no_delay: true
