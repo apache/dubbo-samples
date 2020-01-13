@@ -33,7 +33,9 @@ services:
       - name: "GetUser"
         retries: 1
         loadbalance: "random"
-
+      - name: "queryUser"
+        retries: 1
+        loadbalance: "random"
 
 protocols:
   "dubbo":
