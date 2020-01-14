@@ -29,6 +29,7 @@
         <target.level>1.8</target.level>
         <skip_maven_deploy>true</skip_maven_deploy>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <dubbo.version>2.7.5</dubbo.version>
     </properties>
 
     <modules>
@@ -45,7 +46,7 @@
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-bom</artifactId>
-                <version>2.7.5</version>
+                <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

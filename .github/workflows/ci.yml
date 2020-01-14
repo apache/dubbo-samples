@@ -16,30 +16,3 @@ jobs:
         run: |
           cd java
           ./mvnw  --settings .mvn/settings.xml clean package
-
-  integration:
-    runs-on: ubuntu-latest
-    needs: build
-    env:
-      DUBBO_VERSION: 2.7.5-SNAPSHOT
-    strategy:
-      matrix:
-        javaVersion: [1.8, 11]
-        include:
-          - javaVersion: 1.8
-            dockerImage: openjdk:8
-          - javaVersion: 11
-            dockerImage: openjdk:11
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK ${{ matrix.javaVersion }}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{ matrix.javaVersion }}
-      - name: Run integration test
-        run: |
-          cd java
-          ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=$DUBBO_VERSION
-          ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${{ matrix.dockerImage }} -Ddubbo.version=$DUBBO_VERSION
-

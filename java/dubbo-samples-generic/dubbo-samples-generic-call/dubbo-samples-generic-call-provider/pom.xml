@@ -117,13 +117,12 @@
                             </to>
                             <container>
                                 <mainClass>${main-class}</mainClass>
-                                <ports>
-                                    <port>${dubbo.port}</port>
-                                    <port>${zookeeper.port}</port>
-                                </ports>
                                 <environment>
                                     <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
                                 </environment>
+                                <jvmFlags>
+                                    <jvmFlag>-Dzookeeper.address=${dubbo-local-address}</jvmFlag>
+                                </jvmFlags>
                             </container>
                         </configuration>
                         <executions>
@@ -143,11 +142,26 @@
                         <configuration>
                             <images>
                                 <image>
+                                    <name>zookeeper:3.5</name>
+                                    <run>
+                                        <ports>
+                                            <port>${zookeeper.port}:${zookeeper.port}</port>
+                                        </ports>
+                                        <wait>
+                                            <tcp>
+                                                <host>${dubbo-local-address}</host>
+                                                <ports>
+                                                    <port>${zookeeper.port}</port>
+                                                </ports>
+                                            </tcp>
+                                        </wait>
+                                    </run>
+                                </image>
+                                <image>
                                     <name>${image.name}</name>
                                     <run>
                                         <ports>
                                             <port>${dubbo.port}:${dubbo.port}</port>
-                                            <port>${zookeeper.port}:${zookeeper.port}</port>
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
