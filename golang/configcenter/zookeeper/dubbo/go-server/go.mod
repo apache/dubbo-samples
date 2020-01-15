@@ -1,8 +1,8 @@
 module github.com/dubbogo/dubbo-samples/golang
 
 require (
-	github.com/apache/dubbo-go v1.0.1-0.20200109172830-4bd28510f3a0
-	github.com/apache/dubbo-go-hessian2 v1.3.1-0.20200106042936-0e1fc43955b2
+	github.com/apache/dubbo-go v1.0.1-0.20200112062039-932e14956a1f
+	github.com/apache/dubbo-go-hessian2 v1.3.1-0.20200111150223-4ce8c8d0d7ac
 )
 
 go 1.13
