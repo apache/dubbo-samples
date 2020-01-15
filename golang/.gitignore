@@ -16,7 +16,7 @@ coverage.txt
 *.iml
 target/
 classes
-
+dubbo.json
 
 # Gopkg.lock
 vendor/
