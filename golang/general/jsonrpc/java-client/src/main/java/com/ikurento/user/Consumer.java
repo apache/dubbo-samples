@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import com.alibaba.dubbo.rpc.service.EchoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.util.List;
 
 public class Consumer {
@@ -38,6 +40,12 @@ public class Consumer {
     }
     public void setUserProvider2(UserProvider u) {
         this.userProvider2 = u;
+    }
+
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/dubbo.consumer.xml","META-INF/spring/service.xml");
+        context.start();
+        context.getBean(Consumer.class).start();
     }
 
     // Start the entry function for consumer (Specified in the configuration file)
