@@ -59,9 +59,8 @@ func main() {
 
 	println("\n\n\nstart to test jsonrpc")
 	user := &JsonRPCUser{}
-	ctx := context.WithValue(context.Background(), "TracingID", "Tracing123")
+	ctx := context.WithValue(context.Background(), "MyTracing", "Tracing123")
 	span, spanCtx := opentracing.StartSpanFromContext(ctx, "User-Test-Service")
-	time.Sleep(time.Second)
 	err := userProvider.GetUser(spanCtx, []interface{}{"A003"}, user)
 	span.Finish()
 	if err != nil {

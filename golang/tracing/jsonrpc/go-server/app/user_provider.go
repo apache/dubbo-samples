@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/apache/dubbo-go/common/constant"
 	"github.com/opentracing/opentracing-go"
 )
 
@@ -36,14 +35,13 @@ func (u *UserProvider) GetUser(ctx context.Context, req []interface{}, rsp *User
 		user *User
 	)
 
-	spanCtx := ctx.Value(constant.TRACING_CURRENT_SPAN_CTX)
-	var span opentracing.Span
-	if spanCtx != nil {
-		span = opentracing.StartSpan("User-Provider",
-			opentracing.ChildOf(spanCtx.(opentracing.SpanContext)))
-	} else {
-		span, _ = opentracing.StartSpanFromContext(ctx, "User-Provider-non")
+	if ctx == nil {
+		println("ctx is nil %v")
+		ctx = context.Background()
 	}
+	span, _ := opentracing.StartSpanFromContext(ctx, "User-Provider-non")
+	res, err := aUserProvider.GetUser0("A003", "My Name")
+	println("res:%#v", res)
 	defer span.Finish()
 	println("req:%#v", req)
 	if ctx != nil {

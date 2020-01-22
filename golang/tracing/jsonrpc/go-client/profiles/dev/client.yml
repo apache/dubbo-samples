@@ -58,3 +58,5 @@ references:
     methods:
     - name: "GetUser"
       retries: 3
+
+filter: "tracing"
