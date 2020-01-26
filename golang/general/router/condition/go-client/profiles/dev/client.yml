@@ -7,6 +7,10 @@ request_timeout : "3s"
 # connect timeout
 connect_timeout : "3s"
 
+config_center:
+  protocol: "zookeeper"
+  address: "127.0.0.1:2181"
+
 # application config
 application:
   organization : "ikurento.com"
@@ -34,7 +38,6 @@ references:
     methods :
       - name: "GetUser"
         retries: 3
-    async : true
 
 protocol_conf:
   dubbo:
@@ -57,11 +60,3 @@ protocol_conf:
       wait_timeout: "1s"
       max_msg_len: 10240
       session_name: "client"
-
-application_config:
-  organization: "demo"
-  name: "demo"
-  module: "demo"
-  version: "0.0.1"
-  owner: "demo"
-  environment: "dev"
