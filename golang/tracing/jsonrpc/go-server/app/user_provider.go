@@ -40,8 +40,6 @@ func (u *UserProvider) GetUser(ctx context.Context, req []interface{}, rsp *User
 		ctx = context.Background()
 	}
 	span, _ := opentracing.StartSpanFromContext(ctx, "User-Provider-non")
-	res, err := aUserProvider.GetUser0("A003", "My Name")
-	println("res:%#v", res)
 	defer span.Finish()
 	println("req:%#v", req)
 	if ctx != nil {
