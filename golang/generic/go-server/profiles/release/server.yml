@@ -1,5 +1,6 @@
 # dubbo server yaml configure file
 
+
 # application config
 application:
   organization : "ikurento.com"
@@ -26,16 +27,15 @@ services:
     # 相当于dubbo.xml中的interface
     interface : "com.ikurento.user.UserProvider"
     loadbalance: "random"
-    tps.limiter: "method-service"
-    tps.limit.strategy: "RandomLimitStrategy"
-    tps.limit.rejected.handler: "DefaultValueHandler"
     warmup: "100"
     cluster: "failover"
     methods:
       - name: "GetUser"
         retries: 1
         loadbalance: "random"
-
+      - name: "queryUser"
+        retries: 1
+        loadbalance: "random"
 
 protocols:
   "dubbo":

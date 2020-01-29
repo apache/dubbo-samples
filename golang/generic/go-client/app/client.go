@@ -121,7 +121,6 @@ func test2() {
 		Name: "panty",
 		Age:  25,
 		Time: time.Now(),
-		Sex:  Gender(MAN),
 	}
 	resp, err := referenceConfig.GetRPCService().(*config.GenericService).Invoke([]interface{}{"queryUser", []string{"com.ikurento.user.User"}, []interface{}{user}})
 	if err != nil {
