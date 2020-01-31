@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/apache/dubbo-go-hessian2"
 	"github.com/apache/dubbo-go/config"
@@ -27,6 +28,9 @@ func NewCallbackService() *CallbackService {
 }
 
 func (c *CallbackService) AddListener(ctx context.Context, req []interface{}) (*CallbackListener, error) {
+	if len(req) == 0 {
+		return nil, errors.New("req params len need > 0")
+	}
 	key := req[0].(string)
 	listener := new(CallbackListener)
 	c.listeners.Store(key, listener)
