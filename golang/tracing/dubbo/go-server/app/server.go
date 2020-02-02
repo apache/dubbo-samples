@@ -84,7 +84,6 @@ func initSignal() {
 	}
 }
 
-
 func initZipkin() {
 	// set up a span reporter
 	reporter := zipkinhttp.NewReporter("http://localhost:9411/api/v2/spans")

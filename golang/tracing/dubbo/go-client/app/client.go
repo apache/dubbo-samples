@@ -64,7 +64,7 @@ func main() {
 	initZipkin()
 	println("\n\n\nstart to test dubbo")
 	user := &User{}
-	span, ctx:= opentracing.StartSpanFromContext(context.Background(), "Test-Client-Service")
+	span, ctx := opentracing.StartSpanFromContext(context.Background(), "Test-Client-Service")
 	err := userProvider.GetUser(ctx, []interface{}{"A001"}, user)
 	span.Finish()
 	if err != nil {

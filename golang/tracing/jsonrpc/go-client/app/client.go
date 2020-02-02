@@ -133,7 +133,6 @@ func test() {
 
 	time.Sleep(3e9)
 
-
 	ctx := context.WithValue(context.Background(), "TracingID", "Tracing123")
 	println("\n\n\nstart to test jsonrpc - GetUser0")
 	ret, err := userProvider.GetUser0("A003", "Moorse")
