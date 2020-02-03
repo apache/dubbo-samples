@@ -55,4 +55,10 @@ public class LegacyBlockFilter implements Filter {
         logger.info("LegacyBlockFilter: This msg should not be blocked.");
         return result;
     }
+
+    @Override
+    public Result onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+        System.out.println("Callback received on Filter.onResponse .");
+        return appResponse;
+    }
 }

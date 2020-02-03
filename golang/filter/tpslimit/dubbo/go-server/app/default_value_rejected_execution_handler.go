@@ -26,7 +26,7 @@ import (
 	"github.com/apache/dubbo-go/common"
 	"github.com/apache/dubbo-go/common/extension"
 	"github.com/apache/dubbo-go/common/logger"
-	filterCommon "github.com/apache/dubbo-go/filter/common"
+	"github.com/apache/dubbo-go/filter"
 	"github.com/apache/dubbo-go/protocol"
 )
 
@@ -80,19 +80,19 @@ func (mh *DefaultValueRejectedExecutionHandler) RejectedExecution(url common.URL
 	return result.(*protocol.RPCResult)
 }
 
-func GetCustomRejectedExecutionHandler() filterCommon.RejectedExecutionHandler {
+func GetCustomRejectedExecutionHandler() filter.RejectedExecutionHandler {
 	return &DefaultValueRejectedExecutionHandler{}
 }
 
 var (
-	customHandlerOnce sync.Once
+	customHandlerOnce     sync.Once
 	customHandlerInstance *DefaultValueRejectedExecutionHandler
 )
 
 /**
  * the better way is designing the RejectedExecutionHandler as singleton.
  */
-func GetDefaultValueRejectedExecutionHandlerSingleton() filterCommon.RejectedExecutionHandler {
+func GetDefaultValueRejectedExecutionHandlerSingleton() filter.RejectedExecutionHandler {
 	customHandlerOnce.Do(func() {
 		customHandlerInstance = &DefaultValueRejectedExecutionHandler{}
 	})

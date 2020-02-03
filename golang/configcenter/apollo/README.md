@@ -8,7 +8,7 @@
 
 ```docker-compose up```
 
-### 2.Run java server & java client following [README](https://github.com/dubbogo/dubbogo-samples/blob/master/README.md)
+### 2.Run java server & java client following [README](https://github.com/dubbogo/dubbo-samples/blob/master/golang/README.md)
 
 * Set config item **app.id**  in /resources/META-INF/app.properties like
 
@@ -29,10 +29,10 @@ Build and run it , enjoy.
 Stop java client. Copy go client configuration file [dubbo.properties](https://github.com/dubbogo/dubbo-samples/golang/blob/master/configcenter/apollo/dubbo/go-client/profiles/dev/dubbo/config/user-info-client/dubbo.properties) as 
 namespace dubbo.properties in apollo.
 
-Then start go client following [README](https://github.com/dubbogo/dubbogo-samples/blob/master/README.md).
+Then start go client following [README](https://github.com/dubbogo/dubbo-samples/blob/master/golang/README.md).
 
 ### 4.Run go server
 
-The same as step 3. Copy go server configuration file [dubbo.properties](https://github.com/dubbogo/dubbogo-samples/blob/master/configcenter/apollo/dubbo/go-server/profiles/dev/dubbo/config/user-info-server/dubbo.properties) as 
+The same as step 3. Copy go server configuration file [dubbo.properties](https://github.com/dubbogo/dubbo-samples/blob/master/golang/configcenter/apollo/dubbo/go-server/profiles/dev/dubbo/config/user-info-server/dubbo.properties) as 
 namespace dubbo.properties in apollo.
 

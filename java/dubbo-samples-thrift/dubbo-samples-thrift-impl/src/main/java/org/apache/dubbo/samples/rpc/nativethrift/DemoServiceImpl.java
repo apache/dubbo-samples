@@ -41,7 +41,7 @@ public class DemoServiceImpl implements DemoService.Iface {
 
     @Override
     public int echoI32(int arg) throws TException {
-        Map<String, Object> attachments = RpcContext.getContext().getAttachments();
+        Map<String, String> attachments = RpcContext.getContext().getAttachments();
         String parm = (String) attachments.get("parm");
         System.out.println("parm：" + parm);
         return arg;

@@ -32,7 +32,7 @@ import (
 	_ "github.com/apache/dubbo-go/protocol/jsonrpc"
 	_ "github.com/apache/dubbo-go/registry/protocol"
 
-	_ "github.com/apache/dubbo-go/filter/impl"
+	_ "github.com/apache/dubbo-go/filter/filter_impl"
 
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"

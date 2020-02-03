@@ -37,7 +37,7 @@ protocol_conf:
     reconnect_interval: 0
     connection_number: 2
     heartbeat_period: "5s"
-    session_timeout: "20s"
+    session_timeout: "180s"
     pool_size: 64
     pool_ttl: 600
     getty_session_param:

@@ -23,7 +23,6 @@ import (
 
 import (
 	"github.com/apache/dubbo-go/common/extension"
-	"github.com/apache/dubbo-go/common/logger"
 	"github.com/apache/dubbo-go/filter"
 	"github.com/apache/dubbo-go/protocol"
 )
@@ -49,20 +48,20 @@ func init() {
 	// filter.SetFilter("MyCustomFilter", GetMyCustomFilterSingleton)
 }
 
-type myCustomFilter struct {}
+type myCustomFilter struct{}
 
 func (mf myCustomFilter) Invoke(invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
 	// the logic put here...
 	// you can get many params in url. And the invocation provides more information about
 	url := invoker.GetUrl()
 	serviceKey := url.ServiceKey()
-	logger.Infof("Here is the my custom filter. The service is invoked: %s", serviceKey)
+	println("Here is the my custom filter. The service is invoked: %s", serviceKey)
 	return invoker.Invoke(invocation)
 }
 
 func (mf myCustomFilter) OnResponse(result protocol.Result, invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
 	// you can do something here with result
-	logger.Info("Got result!")
+	println("Got result!")
 	return result
 }
 
@@ -72,7 +71,7 @@ func GetMyCustomFilter() filter.Filter {
 
 var (
 	myFilterOnce sync.Once
-	myFilter *myCustomFilter
+	myFilter     *myCustomFilter
 )
 
 /**

@@ -23,7 +23,7 @@ import (
 
 import (
 	"github.com/apache/dubbo-go/common/extension"
-	"github.com/apache/dubbo-go/filter/impl/tps"
+	"github.com/apache/dubbo-go/filter/filter_impl/tps"
 )
 
 func init() {
