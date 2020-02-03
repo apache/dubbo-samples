@@ -34,7 +34,7 @@ import (
 	_ "github.com/apache/dubbo-go/protocol/dubbo"
 	_ "github.com/apache/dubbo-go/registry/protocol"
 
-	_ "github.com/apache/dubbo-go/filter/impl"
+	_ "github.com/apache/dubbo-go/filter/filter_impl"
 
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
@@ -85,4 +85,8 @@ func initSignal() {
 			return
 		}
 	}
+}
+
+func println(format string, args ...interface{}) {
+	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
 }

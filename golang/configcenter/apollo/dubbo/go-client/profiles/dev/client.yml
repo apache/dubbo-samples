@@ -9,7 +9,7 @@ connect_timeout : "3s"
 
 config_center:
   protocol: apollo
-  address: 127.0.0.1:8080
+  address: 106.54.227.205:8080
   app_id: testApplication_yang
   cluster: dev
 
@@ -38,8 +38,9 @@ references:
     interface : "com.ikurento.user.UserProvider"
     cluster: "failover"
     methods :
-      - name: "GetUser"
-        retries: 3
+    - name: "GetUser"
+      retries: 3
+
 
 protocol_conf:
   dubbo:
@@ -56,17 +57,10 @@ protocol_conf:
       keep_alive_period: "120s"
       tcp_r_buf_size: 262144
       tcp_w_buf_size: 65536
+      pkg_rq_size: 1024
       pkg_wq_size: 512
       tcp_read_timeout: "1s"
       tcp_write_timeout: "5s"
       wait_timeout: "1s"
       max_msg_len: 10240
       session_name: "client"
-
-application_config:
-  organization: "demo"
-  name: "demo"
-  module: "demo"
-  version: "0.0.1"
-  owner: "demo"
-  environment: "dev"
