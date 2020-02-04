@@ -17,16 +17,10 @@
 
 package com.ikurento.user;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 import com.alibaba.dubbo.rpc.service.GenericService;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 
 public class Consumer {
     public static void main(String[] args) {
