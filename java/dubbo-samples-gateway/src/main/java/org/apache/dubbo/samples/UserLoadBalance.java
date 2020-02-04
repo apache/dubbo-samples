@@ -21,16 +21,11 @@ import org.apache.dubbo.common.URL;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.RpcException;
-import org.apache.dubbo.rpc.cluster.LoadBalance;
 import org.apache.dubbo.rpc.cluster.loadbalance.RandomLoadBalance;
 
 import java.net.InetAddress;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 
 public class UserLoadBalance extends RandomLoadBalance {
