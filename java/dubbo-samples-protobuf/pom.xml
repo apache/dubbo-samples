@@ -30,8 +30,8 @@
         <skip_maven_deploy>true</skip_maven_deploy>
         <proto_dubbo_plugin_version>1.19.0-SNAPSHOT</proto_dubbo_plugin_version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <dubbo.compiler.version>0.0.1-SNAPSHOT</dubbo.compiler.version>
-        <dubbo.version>2.7.5-SNAPSHOT</dubbo.version>
+        <dubbo.compiler.version>0.0.1</dubbo.compiler.version>
+        <dubbo.version>2.7.5</dubbo.version>
     </properties>
 
     <modules>

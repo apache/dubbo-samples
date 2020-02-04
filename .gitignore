@@ -30,7 +30,7 @@ target/
 Thumbs.db
 
 # generated code
-*/build/*
+**/build/*
 
 
 # Binaries for programs and plugins

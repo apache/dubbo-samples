@@ -81,6 +81,7 @@
         <module>dubbo-samples-cloud-native</module>
         <module>dubbo-samples-protobuf</module>
         <module>dubbo-samples-ssl</module>
+        <module>dubbo-samples-perf</module>
     </modules>
 
     <repositories>

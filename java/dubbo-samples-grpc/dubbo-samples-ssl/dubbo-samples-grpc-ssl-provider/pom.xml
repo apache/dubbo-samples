@@ -28,7 +28,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>2.7.5-SNAPSHOT</dubbo.version>
+        <dubbo.version>2.7.5</dubbo.version>
         <junit.version>4.12</junit.version>
         <spring-test.version>4.3.16.RELEASE</spring-test.version>
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
@@ -42,7 +42,7 @@
         <main-class>org.apache.dubbo.samples.basic.BasicProvider</main-class>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <grpc.version>1.19.0</grpc.version>
-        <dubbo.compiler.version>0.0.1-SNAPSHOT</dubbo.compiler.version>
+        <dubbo.compiler.version>0.0.1</dubbo.compiler.version>
     </properties>
 
     <dependencies>
@@ -222,32 +222,4 @@
 
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>apache.snapshots.https</id>
-            <name>Apache Development Snapshot Repository</name>
-            <url>https://repository.apache.org/content/repositories/snapshots</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
