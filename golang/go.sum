@@ -29,6 +29,7 @@ github.com/apache/dubbo-go v1.0.1-0.20200118131856-ff410ac2a410/go.mod h1:rA9PEn
 github.com/apache/dubbo-go v1.0.1-0.20200129052842-4de49efd0b55/go.mod h1:iE0l+5cYy41JG3mL5iQu4/7FCvAONOENm7Q0JsCNZEE=
 github.com/apache/dubbo-go v1.0.1-0.20200131052032-c291d2c14886 h1:0vxIOjjR78+NtTLqD9TRmUvZplDTz8DgrYVH9fArpS0=
 github.com/apache/dubbo-go v1.0.1-0.20200131052032-c291d2c14886/go.mod h1:iE0l+5cYy41JG3mL5iQu4/7FCvAONOENm7Q0JsCNZEE=
+github.com/apache/dubbo-go v1.0.1-0.20200205040945-bfef9d27f99c/go.mod h1:WD4X+Coo7HiKMVkkjrymFwp8ZFfAztBfKXAgGgJRH90=
 github.com/apache/dubbo-go v1.3.0-rc1/go.mod h1:rA9PEnWRG2fPI6x0dVtRVXNO8x2yGtiJbwAV5y/Wg+8=
 github.com/apache/dubbo-go-hessian2 v1.3.1-0.20200111150223-4ce8c8d0d7ac h1:QKRMidg/RbdI5oaQWMb8Lxo63S+fLmsgMxsFoOCftKw=
 github.com/apache/dubbo-go-hessian2 v1.3.1-0.20200111150223-4ce8c8d0d7ac/go.mod h1:VwEnsOMidkM1usya2uPfGpSLO9XUF//WQcWn3y+jFz8=
@@ -74,6 +75,7 @@ github.com/docker/go-units v0.3.3/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDD
 github.com/dubbogo/dubbo-samples v0.0.0-20200204120750-1369e2f91973 h1:7Yln9U4BTEAQMAn5J7Z5msenCwQQ73FcIhLPfH7bu3Y=
 github.com/dubbogo/getty v1.3.2 h1:l1KVSs/1CtTKbIPTrkTtBT6S9ddvmswDGoAnnl2CDpM=
 github.com/dubbogo/getty v1.3.2/go.mod h1:ANbVQ9tbpZ2b0xdR8nRrgS/oXIsZAeRxzvPSOn/7mbk=
+github.com/dubbogo/go-zookeeper v1.0.0/go.mod h1:fn6n2CAEer3novYgk9ULLwAjuV8/g4DdC2ENwRb6E+c=
 github.com/dubbogo/gost v1.5.1 h1:oG5dzaWf1KYynBaBoUIOkgT+YD0niHV6xxI0Odq7hDg=
 github.com/dubbogo/gost v1.5.1/go.mod h1:pPTjVyoJan3aPxBPNUX0ADkXjPibLo+/Ib0/fADXSG8=
 github.com/dubbogo/gost v1.5.2 h1:ri/03971hdpnn3QeCU+4UZgnRNGDXLDGDucR/iozZm8=
