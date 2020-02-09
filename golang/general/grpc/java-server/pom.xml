@@ -26,7 +26,7 @@
     <properties>
         <skip_maven_deploy>false</skip_maven_deploy>
 
-        <dubbo-version>2.7.5-SNAPSHOT</dubbo-version>
+        <dubbo-version>2.7.5</dubbo-version>
     </properties>
 
     <dependencyManagement>
