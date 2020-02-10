@@ -28,7 +28,7 @@ Examples of dubbo-go
 
 * registry
 
-    Some examples of different registry. There is only kubernetes at present.
+    Some examples of different registry. There are kubernetes and nacos at present.
 
 * filter
 
@@ -86,42 +86,3 @@ cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
 # if $SUFFIX = "", config file is client.yml
 sh ./bin/load_user_info_client.sh start $SUFFIX
 ```
-
-kubernetes 
-
-```bash 
-
-# create service-account
-kubectl create -f ./registry/kubernetes/sa.yaml
-
-# create role 
-kubectl create -f ./registry/kubernetes/role.yaml
-
-# bind role and service-account
-kubectl create -f ./registry/kubernetes/role-binding.yaml
-
-# create server
-kubectl create -f ./registry/kubernetes/server.yaml
-
-# create client
-kubectl create -f ./registry/kubernetes/client.yaml
-
-# read the client log
-kubectl logs -f client
-
-## uninstall 
-kubectl delete -f ./registry/kubernetes/sa.yaml
-kubectl delete -f ./registry/kubernetes/role.yaml
-kubectl delete -f ./registry/kubernetes/role-binding.yaml
-kubectl delete -f ./registry/kubernetes/server.yaml
-kubectl delete -f ./registry/kubernetes/client.yaml
-```
-
-nacos
-
-You should install the Docker before you run `docker-compose up` to start the nacos, prometheus and grafana.
-
-And the directory you run `docker-compose up` could be bind mounted into containers(If you are macOS user, take care of it).
-
-And then you should create the file which will be mounted into container manually, including ./init.d/custom.properties
-and ./prometheus/prometheus-standalone.yaml. In fact, all files(not directory) mentioned in docker-compose.yml should be created manually. 

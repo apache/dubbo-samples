@@ -29,6 +29,8 @@ services:
     tps.limiter: "method-service"
     tps.limit.strategy: "RandomLimitStrategy"
     tps.limit.rejected.handler: "DefaultValueHandler"
+    tps.limit.interval: 5000
+    tps.limit.rate: 300
     warmup: "100"
     cluster: "failover"
     methods:
