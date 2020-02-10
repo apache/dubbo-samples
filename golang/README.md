@@ -86,3 +86,7 @@ cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
 # if $SUFFIX = "", config file is client.yml
 sh ./bin/load_user_info_client.sh start $SUFFIX
 ```
+
+## How to contribute
+
+Please make pr to https://github.com/dubbogo/dubbo-samples instead of https://github.com/apache/dubbo-samples. We will synchronize to apache/dubbo-samples regularly.
