@@ -120,7 +120,7 @@
     <repositories>
 		<repository>
             <id>nexus-aliyu</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
 		<releases>
 			<enabled>true</enabled>
 		</releases>
@@ -132,7 +132,7 @@
     <pluginRepositories>
 		  <pluginRepository>
               <id>nexus-aliyu</id>
-              <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+              <url>https://maven.aliyun.com/nexus/content/groups/public</url>
 			<releases>
 			<enabled>true</enabled>
 			</releases>
