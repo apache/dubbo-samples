@@ -7,6 +7,10 @@ request_timeout : "3s"
 # connect timeout
 connect_timeout : "3s"
 
+config_center:
+  protocol: "zookeeper"
+  address: "127.0.0.1:2181"
+
 # application config
 application:
   organization : "ikurento.com"
@@ -14,7 +18,7 @@ application:
   module : "dubbogo say-hello client"
   version : "0.0.1"
   owner : "ZX"
-  environment : "release"
+  environment : "dev"
 
 registries :
   "demoZk":
@@ -23,7 +27,6 @@ registries :
     address: "127.0.0.1:2181"
     username: ""
     password: ""
-
 
 references:
   "GrpcGreeterImpl":
@@ -52,7 +55,6 @@ protocol_conf:
       keep_alive_period: "120s"
       tcp_r_buf_size: 262144
       tcp_w_buf_size: 65536
-      pkg_rq_size: 1024
       pkg_wq_size: 512
       tcp_read_timeout: "1s"
       tcp_write_timeout: "5s"

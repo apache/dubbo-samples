@@ -18,12 +18,12 @@
 package main
 
 import (
+	"github.com/apache/dubbo-go/filter"
 	"math/rand"
 )
 
 import (
 	"github.com/apache/dubbo-go/common/extension"
-	"github.com/apache/dubbo-go/filter/filter_impl/tps"
 )
 
 func init() {
@@ -38,7 +38,7 @@ func init() {
 	 *   tps.limiter: "method-service" # the name of limiter
 	 *   tps.limit.strategy: "RandomLimitStrategy"
 	 */
-	extension.SetTpsLimitStrategy("RandomLimitStrategy", GetRandomTpsLimitStrategy)
+	extension.SetTpsLimitStrategy("RandomLimitStrategy", &RandomTpsLimitStrategyCreator{})
 }
 
 /**
@@ -52,11 +52,14 @@ type RandomTpsLimitStrategy struct {
 
 func (r RandomTpsLimitStrategy) IsAllowable() bool {
 	// this is a simple demo.
+	println("Random IsAllowable!")
 	randNum := rand.Int63n(2)
 	return randNum == 0
 }
 
-func GetRandomTpsLimitStrategy(rate int, interval int) tps.TpsLimitStrategy {
+type RandomTpsLimitStrategyCreator struct{}
+
+func (creator *RandomTpsLimitStrategyCreator) Create(rate int, interval int) filter.TpsLimitStrategy {
 	return &RandomTpsLimitStrategy{
 		rate:     rate,
 		interval: interval,

@@ -1,14 +1,11 @@
 # dubbo server yaml configure file
-
-
-# application config
 application:
   organization : "ikurento.com"
   name : "BDTService"
   module : "dubbogo say-hello client"
   version : "0.0.1"
   owner : "ZX"
-  environment : "release"
+  environment : "dev"
 
 registries :
   "demoZk":
