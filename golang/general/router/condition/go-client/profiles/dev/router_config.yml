@@ -1,4 +1,4 @@
 # dubbo router yaml configure file
 priority: 1
 force: true
-conditions : ["host = 192.168.199.214 => host = 192.168.199.214"]
+conditions : ["host = 192.168.199.208 => host = 192.168.199.208 "]

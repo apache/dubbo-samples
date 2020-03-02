@@ -38,9 +38,9 @@ import (
 
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
-	_ "github.com/apache/dubbo-go/registry/zookeeper"
-	_ "github.com/apache/dubbo-go/config_center/zookeeper"
 	_ "github.com/apache/dubbo-go/cluster/router/condition"
+	_ "github.com/apache/dubbo-go/config_center/zookeeper"
+	_ "github.com/apache/dubbo-go/registry/zookeeper"
 )
 
 var (
