@@ -75,7 +75,7 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test</id>
+            <id>dubbo-integration-test-skip</id>
             <build>
                 <plugins>
                     <plugin>
