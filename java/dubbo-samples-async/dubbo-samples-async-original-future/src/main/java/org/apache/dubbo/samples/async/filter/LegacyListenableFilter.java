@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.samples.async.filter;
 
+import com.alibaba.dubbo.common.Constants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.rpc.Filter;
@@ -25,8 +26,6 @@ import org.apache.dubbo.rpc.ListenableFilter;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
-
-import com.alibaba.dubbo.common.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,9 +52,8 @@ public class LegacyListenableFilter extends ListenableFilter {
 
 
     private static class CallbackListener implements Filter.Listener {
-
         @Override
-        public void onMessage(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+        public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
             System.out.println("Callback received in ListenableFilter.onResponse .");
         }
 
