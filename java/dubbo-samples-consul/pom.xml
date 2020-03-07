@@ -97,7 +97,7 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test</id>
+            <id>dubbo-integration-test-fix</id>
             <build>
                 <plugins>
                     <plugin>
