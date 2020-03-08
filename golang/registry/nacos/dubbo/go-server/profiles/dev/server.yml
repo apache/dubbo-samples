@@ -20,6 +20,9 @@ services:
   "UserProvider":
     protocol : "dubbo"
     # 相当于dubbo.xml中的interface
+    # If you use the nacos as the registry, the interface can only have 0-9a-zA-Z-._:
+    # So the interface like 'com.ikurento.user.UserProvider$UserService' which is the name of java's inner class
+    # is invalid.
     interface : "com.ikurento.user.UserProvider"
     loadbalance: "random"
     warmup: "100"
@@ -38,7 +41,7 @@ protocols:
 protocol_conf:
   dubbo:
     session_number: 700
-    session_timeout: "180"
+    session_timeout: "180s"
     getty_session_param:
       compress_encoding: false
       tcp_no_delay: true
