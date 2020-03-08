@@ -44,7 +44,7 @@ references:
 protocol_conf:
   dubbo:
     reconnect_interval: 0
-    connection_number: 2
+    connection_number: 1
     heartbeat_period: "5s"
     session_timeout: "180s"
     pool_size: 64
@@ -61,5 +61,5 @@ protocol_conf:
       tcp_read_timeout: "1s"
       tcp_write_timeout: "5s"
       wait_timeout: "1s"
-      max_msg_len: 10240
+      max_msg_len: 1024000
       session_name: "client"
