@@ -68,7 +68,7 @@ protocols:
   #-   name: "dubbo"
   #    ip : "127.0.0.1"
   #    port : 20000
-  "jsonrpc1":
+  "jsonrpc":
     name: "jsonrpc"
     ip: "127.0.0.1"
     port: 20001

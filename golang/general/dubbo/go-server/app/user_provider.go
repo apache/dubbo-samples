@@ -20,16 +20,14 @@ package main
 import (
 	"context"
 	"fmt"
+	hessian "github.com/apache/dubbo-go-hessian2"
 	"strconv"
-)
-
-import (
-	perrors "github.com/pkg/errors"
 )
 
 import (
 	"github.com/apache/dubbo-go-hessian2/java_exception"
 	"github.com/apache/dubbo-go/config"
+	perrors "github.com/pkg/errors"
 )
 
 func init() {
@@ -109,6 +107,10 @@ func (u *UserProvider) GetUsers(req []interface{}) ([]interface{}, error) {
 	println("user1:%v", user1)
 
 	return []interface{}{user, user1}, err
+}
+
+func (s *UserProvider) GetGender(i int32) (hessian.JavaEnum, error) {
+	return hessian.JavaEnum(i), nil
 }
 
 func (s *UserProvider) MethodMapper() map[string]string {

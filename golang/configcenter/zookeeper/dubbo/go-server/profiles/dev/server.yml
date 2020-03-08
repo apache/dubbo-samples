@@ -10,8 +10,15 @@ config_center:
   protocol: "zookeeper"
   address: "127.0.0.1:2181"
 
+registries :
+  "demoZk":
+    protocol: "zookeeper"
+    timeout	: "3s"
+    address: "127.0.0.1:2181"
+
 services:
   "UserProvider":
+    registry: "demoZk"
     interface : "com.ikurento.user.UserProvider"
 
 protocol_conf:

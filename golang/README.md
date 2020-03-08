@@ -19,7 +19,20 @@ Examples of dubbo-go
 
 * configcenter
 
-    Some examples of different config center. There is only one -- zookeeper at present.
+    Some examples of different config center. There are only two -- zookeeper and apollo at present.
+
+
+* multi_registry
+
+    An example of multiple registries.
+
+* registry
+
+    Some examples of different registry. There are kubernetes and nacos at present.
+
+* filter
+
+    Some examples of different filter. Including custom_filter and tpslimit
 
 ## How to build and run
 
@@ -73,3 +86,7 @@ cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
 # if $SUFFIX = "", config file is client.yml
 sh ./bin/load_user_info_client.sh start $SUFFIX
 ```
+
+## How to contribute
+
+Please make pr to https://github.com/dubbogo/dubbo-samples instead of https://github.com/apache/dubbo-samples. We will synchronize to apache/dubbo-samples regularly.
