@@ -176,7 +176,6 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
-                                    <testFailureIgnore>true</testFailureIgnore>
                                     <systemPropertyVariables>
                                         <zookeeper.address>${dubbo-local-address}</zookeeper.address>
                                     </systemPropertyVariables>
