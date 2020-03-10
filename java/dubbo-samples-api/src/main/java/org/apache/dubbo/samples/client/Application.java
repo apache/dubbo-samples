@@ -21,18 +21,24 @@ package org.apache.dubbo.samples.client;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.utils.ReferenceConfigCache;
 import org.apache.dubbo.samples.api.GreetingsService;
 
 public class Application {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
 
+
     public static void main(String[] args) {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
-        reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
-        reference.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
         reference.setInterface(GreetingsService.class);
-        GreetingsService service = reference.get();
-        String message = service.sayHi("dubbo");
+        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        bootstrap.application(new ApplicationConfig("dubbo-demo-api-consumer"))
+                .registry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"))
+                .reference(reference)
+                .start();
+        GreetingsService demoService = ReferenceConfigCache.getCache().get(reference);
+        String message = demoService.sayHi("dubbo");
         System.out.println(message);
     }
 }
