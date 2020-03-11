@@ -39,7 +39,7 @@ public class OnResponseThrowableAsyncFilter implements Filter, Filter.Listener {
     }
 
     @Override
-    public void onMessage(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+    public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
         System.out.println("onResponse received value : " + appResponse.getValue());
         if (invocation != null) {
             throw new RuntimeException("Exception from onResponse");
