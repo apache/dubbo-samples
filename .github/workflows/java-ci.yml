@@ -6,7 +6,7 @@ on:
       - "java/**"
   push:
     paths:
-    - 'java/**'
+      - 'java/**'
 
 jobs:
   build:
