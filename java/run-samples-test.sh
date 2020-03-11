@@ -1,4 +1,4 @@
-allTestFolders=`ls | grep dubbo-samples`
+allTestFolders=`find . |grep dubbo-samples|grep pom.xml|awk '{gsub("/pom.xml","");print}'`
 
 echo "extra params: $*"
 
