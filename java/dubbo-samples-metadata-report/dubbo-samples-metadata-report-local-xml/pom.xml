@@ -75,7 +75,7 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test-skip</id>
+            <id>dubbo-integration-test</id>
             <build>
                 <plugins>
                     <plugin>
@@ -196,7 +196,6 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
-                                    <testFailureIgnore>true</testFailureIgnore>
                                     <systemPropertyVariables>
                                         <zookeeper.address>${dubbo-local-address}</zookeeper.address>
                                     </systemPropertyVariables>

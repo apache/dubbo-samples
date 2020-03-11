@@ -97,7 +97,7 @@
 
     <profiles>
         <profile>
-            <id>dubbo-integration-test-fix</id>
+            <id>dubbo-integration-test</id>
             <build>
                 <plugins>
                     <plugin>
@@ -217,7 +217,6 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
-                                    <testFailureIgnore>true</testFailureIgnore>
                                     <systemPropertyVariables>
                                         <consul.address>${dubbo-local-address}</consul.address>
                                     </systemPropertyVariables>

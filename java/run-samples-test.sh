@@ -1,6 +1,6 @@
 allTestFolders=`ls | grep dubbo-samples`
 
-echo "extra params: $* \n"
+echo "extra params: $*"
 
 allTest=0
 allSuccess=0
@@ -10,13 +10,13 @@ for testFolder in $allTestFolders
 do
 
 
-echo "Running test for $testFolder\n"
+echo "Running test for $testFolder"
 
 ./mvnw -pl $testFolder $*
 
 testResult=$?
 
-echo "testResult is $testResult for $testFolder\n"
+echo "testResult is $testResult for $testFolder"
 allTest=$((allTest + 1))
 
 if [ $testResult == 0 ]
