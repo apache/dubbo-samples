@@ -27,6 +27,6 @@
 
     <dubbo:registry address="consul://${consul.address:127.0.0.1}:8500"/>
 
-    <dubbo:reference id="demoService" check="true" interface="org.apache.dubbo.samples.consul.api.DemoService"/>
+    <dubbo:reference scope="remote" id="demoService" check="true" interface="org.apache.dubbo.samples.consul.api.DemoService"/>
 
 </beans>

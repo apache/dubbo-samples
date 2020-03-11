@@ -26,6 +26,7 @@ import org.apache.dubbo.monitor.MonitorService;
 import org.apache.dubbo.samples.monitor.api.DemoService;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,8 +45,8 @@ public class MonitorServiceIT {
     @Autowired
     private DemoService demoService;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         ServiceConfig<MonitorService> service = new ServiceConfig<>();
         // FIXME: has to set application name to "demo-consumer"
         service.setApplication(new ApplicationConfig("demo-consumer"));
