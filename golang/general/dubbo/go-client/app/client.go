@@ -25,17 +25,15 @@ import (
 	"syscall"
 	"time"
 )
-import (
-	hessian "github.com/apache/dubbo-go-hessian2"
-)
 
 import (
+	hessian "github.com/apache/dubbo-go-hessian2"
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
+	_ "github.com/apache/dubbo-go/filter/filter_impl"
 	_ "github.com/apache/dubbo-go/protocol/dubbo"
 	_ "github.com/apache/dubbo-go/registry/protocol"
-	_ "github.com/apache/dubbo-go/filter/impl"
 
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
@@ -111,6 +109,14 @@ func test() {
 		panic(err)
 	}
 	println("response result: %v", user)
+
+	println("\n\n\nstart to test dubbo - enum")
+	gender, err := userProvider.GetGender(1)
+	if err != nil {
+		println("error: %v", err)
+	} else {
+		println("response result: %v", gender)
+	}
 
 	println("\n\n\nstart to test dubbo - GetUser0")
 	ret, err := userProvider.GetUser0("A003", "Moorse")

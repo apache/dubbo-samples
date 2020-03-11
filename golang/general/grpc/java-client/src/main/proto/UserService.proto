@@ -1,0 +1,56 @@
+// Copyright 2015 The gRPC Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+syntax = "proto3";
+import public "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.ikurento.user";
+option java_outer_classname = "UserProviderProto";
+option objc_class_prefix = "UP";
+
+package helloworld;
+
+// The UserProvider service definition.
+service UserProvider {
+  rpc getUser (UserId) returns (User) {}
+  rpc getUserList (UserIdList) returns (UserList) {}
+  rpc getErr(UserId) returns (User) {}
+  rpc getUserByStream(UserId) returns (stream User){}
+}
+
+// The request message containing the user's information.
+message User {
+  string id = 1;
+  string name = 2;
+  int32  age = 3;
+  google.protobuf.Timestamp time = 4;
+  Gender sex = 5;
+}
+
+enum Gender{
+  MAN = 0;
+  WOMAN = 1;
+}
+
+message UserId{
+  string id = 1;
+}
+
+message UserIdList{
+  repeated string id = 1;
+}
+
+message UserList{
+  repeated User user = 1;
+}

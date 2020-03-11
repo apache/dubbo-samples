@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client
+spec:
+  restartPolicy: Never
+  containers:
+  - image: registry.cn-hangzhou.aliyuncs.com/scottwang/dubbogo-client
+    name: client
+    env:
+     - name: NAMESPACE
+       valueFrom:
+        fieldRef:
+          fieldPath: metadata.namespace
+  serviceAccountName: dubbo-sa

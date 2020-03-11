@@ -26,9 +26,6 @@ import (
 
 import (
 	hessian "github.com/apache/dubbo-go-hessian2"
-)
-
-import (
 	"github.com/apache/dubbo-go/config"
 )
 
@@ -104,14 +101,15 @@ func (User) JavaClassName() string {
 }
 
 type UserProvider struct {
-	GetUsers func(req []interface{}) ([]interface{}, error)
-	GetErr   func(ctx context.Context, req []interface{}, rsp *User) error
-	GetUser  func(ctx context.Context, req []interface{}, rsp *User) error
-	GetUser0 func(id string, name string) (User, error)
-	GetUser1 func(ctx context.Context, req []interface{}, rsp *User) error
-	GetUser2 func(ctx context.Context, req []interface{}, rsp *User) error `dubbo:"getUser"`
-	GetUser3 func() error
-	Echo     func(ctx context.Context, req interface{}) (interface{}, error) // Echo represent EchoFilter will be used
+	GetUsers  func(req []interface{}) ([]interface{}, error)
+	GetErr    func(ctx context.Context, req []interface{}, rsp *User) error
+	GetUser   func(ctx context.Context, req []interface{}, rsp *User) error
+	GetUser0  func(id string, name string) (User, error)
+	GetUser1  func(ctx context.Context, req []interface{}, rsp *User) error
+	GetUser2  func(ctx context.Context, req []interface{}, rsp *User) error `dubbo:"getUser"`
+	GetUser3  func() error
+	GetGender func(i int32) (Gender, error)
+	Echo      func(ctx context.Context, req interface{}) (interface{}, error) // Echo represent EchoFilter will be used
 }
 
 func (u *UserProvider) Reference() string {

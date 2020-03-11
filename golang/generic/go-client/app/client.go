@@ -32,7 +32,7 @@ import (
 	"github.com/apache/dubbo-go/protocol/dubbo"
 	_ "github.com/apache/dubbo-go/registry/protocol"
 
-	_ "github.com/apache/dubbo-go/filter/impl"
+	_ "github.com/apache/dubbo-go/filter/filter_impl"
 
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
@@ -121,7 +121,6 @@ func test2() {
 		Name: "panty",
 		Age:  25,
 		Time: time.Now(),
-		Sex:  Gender(MAN),
 	}
 	resp, err := referenceConfig.GetRPCService().(*config.GenericService).Invoke([]interface{}{"queryUser", []string{"com.ikurento.user.User"}, []interface{}{user}})
 	if err != nil {

@@ -42,7 +42,7 @@ protocol_conf:
     connection_number: 1
     heartbeat_period: "5s"
     session_timeout: "180s"
-    pool_size: 4
+    pool_size: 64
     pool_ttl: 600
     getty_session_param:
       compress_encoding: false
