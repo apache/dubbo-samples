@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,7 +46,7 @@ public class ValidationServiceIT {
         validationService.save(parameter);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = ValidationException.class)
     public void testSaveFail() throws Exception {
         ValidationParameter parameter = new ValidationParameter();
         validationService.save(parameter);
@@ -57,7 +57,7 @@ public class ValidationServiceIT {
         validationService.delete(2, "abc");
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = ValidationException.class)
     public void testDeleteFail() throws Exception {
         validationService.delete(0, "abc");
     }
