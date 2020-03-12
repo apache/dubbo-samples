@@ -16,18 +16,32 @@
  *
  */
 
-package org.apache.dubbo.samples.edas.provider;
+package org.apache.dubbo.samples.edas;
 
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.samples.edas.provider.DubboProvider;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.stereotype.Service;
 
-@EnableAutoConfiguration
+@SpringBootApplication
+@Service
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.samples.edas"})
-public class DubboProvider {
+@ConditionalOnBean(DubboProvider.class)
+public class DubboConsumer {
+
+    @Reference(version = "1.0.0.daily", injvm = false, check = false)
+    private GreetingService demoService;
 
     public static void main(String[] args) {
-        SpringApplication.run(DubboProvider.class, args);
+        SpringApplication.run(DubboConsumer.class);
     }
+
+    public String callDemoService() {
+        return demoService.sayHello("world");
+    }
+
 }
