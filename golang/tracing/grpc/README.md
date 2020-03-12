@@ -1,38 +1,46 @@
-### 1.Run apollo as config center
+### 1.Run jaeger with docker
 
-* download this folder as below
+[jaeger-getting-started](https://www.jaegertracing.io/docs/1.17/getting-started/)
 
-[docker-quick-start](https://github.com/ctripcorp/apollo/tree/master/scripts/docker-quick-start)
+use [all-in-one](https://hub.docker.com/r/jaegertracing/all-in-one) image
 
-* enter docker-quick-start folder and run
+### 2.Start zookeeper
 
-```docker-compose up```
+### 3.Run go server
 
-### 2.Run java server & java client following [README](https://github.com/dubbogo/dubbo-samples/blob/master/golang/README.md)
-
-* Set config item **app.id**  in /resources/META-INF/app.properties like
-
+Set Jaeger ENV variable
 ```
-app.id=application
-```
-
-* Set apollo meta url in  /resources/META-INF/spring/dubbo.provider.xml and /resources/META-INF/spring/dubbo.consumer.xml like
-
-```
-<dubbo:config-center protocol="apollo" address="1.1.1.1:8080"/>
+CONF_PROVIDER_FILE_PATH=xxxxxxxxxxxxx
+JAEGER_AGENT_PORT=32769
+JAEGER_AGENT_HOST=localhost
+JAEGER_SERVICE_NAME=GrpcServer
+JAEGER_SAMPLER_PARAM=1
 ```
 
-Build and run it , enjoy.
- 
-### 3.Run java server & go client 
+Detail: [jaeger-environment-variables](https://github.com/jaegertracing/jaeger-client-go#environment-variables)
 
-Stop java client. Copy go client configuration file [dubbo.properties](https://github.com/dubbogo/dubbo-samples/golang/blob/master/configcenter/apollo/dubbo/go-client/profiles/dev/dubbo/config/user-info-client/dubbo.properties) as 
-namespace dubbo.properties in apollo.
+PS:
+* JAEGER_SAMPLER_PARAM must set ```1``` , it means 100% requests will be used for sample. Set ```0.9``` means 90% requests.
+* JAEGER_AGENT_PORT=32769. ```32769``` is docker published port, it map to ```6831```, golang client will use ```6831``` for send tracing data.
+
+Then run go server.
+
+### 4.Run go client
+
+Set Jaeger ENV variable
+```
+CONF_CONSUMER_FILE_PATH=xxxxxxxxxxxxx
+JAEGER_AGENT_PORT=32769
+JAEGER_AGENT_HOST=localhost
+JAEGER_SERVICE_NAME=GrpcClient
+JAEGER_SAMPLER_PARAM=1
+```
+
+Detail: [jaeger-environment-variables](https://github.com/jaegertracing/jaeger-client-go#environment-variables).
 
 Then start go client following [README](https://github.com/dubbogo/dubbo-samples/blob/master/golang/README.md).
 
-### 4.Run go server
+### 5.Check tracing data on Jeager-UI
 
-The same as step 3. Copy go server configuration file [dubbo.properties](https://github.com/dubbogo/dubbo-samples/blob/master/golang/configcenter/apollo/dubbo/go-server/profiles/dev/dubbo/config/user-info-server/dubbo.properties) as 
-namespace dubbo.properties in apollo.
+Open [http://localhost:32768/search](http://localhost:32768/search)
 
