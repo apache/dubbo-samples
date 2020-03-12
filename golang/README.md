@@ -2,13 +2,6 @@
 
 Examples of dubbo-go
 
-## How to contribute
-
-If you want to add some samples, we hope that you can do this:
-1. Adding samples in appropriate directory. If you dont' know which directory you should put your samples into, you can get some advices from dubbo-go community.
-2. You must run the samples locally and there must be no any error;
-3. If your samples have some third party dependency, including another framework, we hope that you can provide some docs, script is better.
-
 ## What does this contain
 
 * helloworld
@@ -96,4 +89,8 @@ sh ./bin/load_user_info_client.sh start $SUFFIX
 
 ## How to contribute
 
-Please make pr to https://github.com/dubbogo/dubbo-samples instead of https://github.com/apache/dubbo-samples. We will synchronize to apache/dubbo-samples regularly.
+If you want to add some samples, we hope that you can do this:
+1. Adding samples in appropriate directory. If you dont' know which directory you should put your samples into, you can get some advices from dubbo-go community.
+2. You must run the samples locally and there must be no any error.
+3. If your samples have some third party dependency, including another framework, we hope that you can provide some docs, script is better.
+4. Please make pr to https://github.com/dubbogo/dubbo-samples instead of https://github.com/apache/dubbo-samples. We will synchronize to apache/dubbo-samples regularly.
