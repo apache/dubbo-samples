@@ -35,7 +35,8 @@ public class TestClientFilter implements Filter, Filter.Listener {
     }
 
     @Override
-    public void onMessage(Result result, Invoker<?> invoker, Invocation invocation) {
+    public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invocation) {
+
     }
 
     @Override

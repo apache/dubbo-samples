@@ -57,7 +57,7 @@ public class ZKTools {
                 "dubbo.consumer.timeout=6000\n" +
                 "#global config for provider\n" +
                 "dubbo.protocol.port=20831\n" +
-                "dubbo.provider.timeout=5000";
+                "dubbo.provider.id.timeout=5000";
 
         System.out.println(str);
 

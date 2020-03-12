@@ -22,7 +22,7 @@ before_script:
 script:
   - ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=${INTERGARTION_TEST_VERSION}
   - while sleep 8m; do echo "=====[ $SECONDS seconds, buildroot still building... ]====="; done &
-  - travis_wait 30 ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=${INTERGARTION_TEST_VERSION} -Ddocker.showLogs > output.log
+  - travis_wait 30 ./mvnw -fae -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean verify -Pdubbo-integration-test -Djava-image.name=${JAVA_BASE_IMAGE} -Ddubbo.version=${INTERGARTION_TEST_VERSION} -Ddocker.showLogs > output.log
 
 after_failure:
   - tail -n 5000 output.log

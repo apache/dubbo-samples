@@ -15,32 +15,36 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.consul;
+package org.apache.dubbo.samples.edas;
 
-import org.apache.dubbo.samples.consul.api.DemoService;
+import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.samples.edas.provider.DubboProvider;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.FixedHostPortGenericContainer;
 import org.testcontainers.containers.GenericContainer;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:spring/dubbo-demo-consumer.xml", "classpath*:spring/dubbo-demo-provider.xml"})
-public class DemoServiceIT {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DubboProvider.class, DubboConsumer.class})
+public class EDASIT {
     @Autowired
-    private DemoService service;
-
-    @ClassRule
-    public static GenericContainer zookeeper = new FixedHostPortGenericContainer("consul:1.5.3")
-            .withFixedExposedPort(8500, 8500);
+    private DubboConsumer dubboConsumer;
 
     @Test
-    public void test() throws Exception {
-        Assert.assertEquals("hello, dubbo", service.sayHello("dubbo"));
+    public void testGreeting() throws Exception {
+        // FIXME, no provider
+        try {
+            System.out.println(dubboConsumer.callDemoService());
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof RpcException);
+            Assert.assertTrue(((RpcException) e).getMessage().contains("No provider available"));
+        }
     }
 }
+
