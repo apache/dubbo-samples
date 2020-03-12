@@ -105,7 +105,7 @@ public class MetadataIT {
         Map<String, String> parameters = definition.getParameters();
         Assert.assertEquals("provider", parameters.get("side"));
         Assert.assertEquals("sayHello", parameters.get("methods"));
-        Assert.assertEquals("5000", parameters.get("timeout"));
+        Assert.assertEquals("1000", parameters.get("timeout"));
         Assert.assertEquals("1.1.1", parameters.get("version"));
         Assert.assertEquals("d-test", parameters.get("group"));
         Assert.assertEquals("100", parameters.get("threads"));
