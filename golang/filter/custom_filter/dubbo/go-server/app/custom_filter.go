@@ -18,6 +18,7 @@
 package main
 
 import (
+	"context"
 	"sync"
 )
 
@@ -50,16 +51,16 @@ func init() {
 
 type myCustomFilter struct{}
 
-func (mf myCustomFilter) Invoke(invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
+func (mf myCustomFilter) Invoke(ctx context.Context, invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
 	// the logic put here...
 	// you can get many params in url. And the invocation provides more information about
 	url := invoker.GetUrl()
 	serviceKey := url.ServiceKey()
 	println("Here is the my custom filter. The service is invoked: %s", serviceKey)
-	return invoker.Invoke(invocation)
+	return invoker.Invoke(ctx, invocation)
 }
 
-func (mf myCustomFilter) OnResponse(result protocol.Result, invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
+func (mf myCustomFilter) OnResponse(ctx context.Context, result protocol.Result, invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
 	// you can do something here with result
 	println("Got result!")
 	return result
