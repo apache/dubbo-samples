@@ -47,7 +47,7 @@ Pls. note integration test relies on docker environment, make sure docker enviro
 
 > The test may not stable enough at this moment, please enable failure skip to run the whole test suite
 > ```bash
->  mvn -Pdubbo-integration-test clean verify -Dmaven.test.failure.ignore=true
+>  mvn -Pdubbo-integration-test clean verify -fae
 >  ```
 
 **How to add more integration test**
