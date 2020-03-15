@@ -15,13 +15,13 @@ config_center:
 application:
   organization : "ikurento.com"
   name  : "BDTService"
-  module : "dubbogo say-hello client"
+  module : "dubbogo user-info client"
   version : "0.0.1"
   owner : "ZX"
   environment : "dev"
 
 registries :
-  "demoZk":
+  "hangzhouzk":
     protocol: "zookeeper"
     timeout	: "3s"
     address: "127.0.0.1:2181"
@@ -29,19 +29,18 @@ registries :
     password: ""
 
 references:
-  "GrpcGreeterImpl":
+  "UserProvider":
     # 可以指定多个registry，使用逗号隔开;不指定默认向所有注册中心注册
-    registry: "demoZk"
-    protocol : "grpc"
-    interface : "io.grpc.examples.helloworld.GreeterGrpc$IGreeter"
+    registry: "hangzhouzk"
+    protocol : "dubbo"
+    interface : "com.ikurento.user.UserProvider"
     cluster: "failover"
     methods :
-      - name: "SayHello"
+      - name: "GetUser"
         retries: 3
 
-
 protocol_conf:
-  grpc:
+  dubbo:
     reconnect_interval: 0
     connection_number: 2
     heartbeat_period: "5s"
