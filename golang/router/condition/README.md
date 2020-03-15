@@ -8,7 +8,7 @@
  
 Modify [router_config.yml](/go-client/profiles/dev/router_config.yml) what you want to config
  
-Ref: [routing-rule](http://dubbo.apache.org/en-us/docs/user/demos/routing-rule.html)
+[How to write router_config.yml](http://dubbo.apache.org/en-us/docs/user/demos/routing-rule.html)
 
 ### 2.2.with config center
 
