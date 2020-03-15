@@ -24,10 +24,6 @@ config_center:
 ```
 
 Make sure dubbo-admin, dubbo-server and dubbo-client use the same zookeeper.
-
-#### apollo
-
-Use apollo-portal to set condition router file.
  
 ## 3.go client 
 
