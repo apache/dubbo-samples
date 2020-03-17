@@ -54,6 +54,9 @@ references:
         rest_path: "/GetUsers"
         rest_method: "POST"
         rest_body: 0
+      - name: "GetUser1"
+        rest_path: "/GetUser1"
+        rest_method: "GET"
 
   "UserProvider1":
     registry: "hangzhouzk"
@@ -79,6 +82,9 @@ references:
         rest_path: "/GetUsers"
         rest_method: "POST"
         rest_body: 0
+      - name: "GetUser1"
+        rest_path: "/GetUser1"
+        rest_method: "GET"
 
   "UserProvider2":
     registry: "hangzhouzk"
@@ -86,8 +92,7 @@ references:
     version : "2.0"
     group: "as"
     interface: "com.ikurento.user.UserProvider"
-    cluster: "failover"
-    rest_path: "/UserProvider2"
+    rest_path: "/UserProvider1"
     methods:
       - name: "GetUser"
         rest_path: "/GetUser"
@@ -98,6 +103,9 @@ references:
         rest_method: "POST"
         rest_query_params: "1:name,2:age"
         rest_path_params: "0:id"
+        rest_produces: "application/json"
+        rest_consumes: "application/json"
+
       - name: "GetUser3"
         rest_path: "/GetUser3"
         rest_method: "GET"
@@ -105,4 +113,7 @@ references:
         rest_path: "/GetUsers"
         rest_method: "POST"
         rest_body: 0
+      - name: "GetUser1"
+        rest_path: "/GetUser1"
+        rest_method: "GET"
 

@@ -43,21 +43,21 @@ func (u *UserProvider) GetUser(ctx context.Context, req []interface{}, rsp *User
 	return err
 }
 
-func (u *UserProvider) GetUser0(id string, name string, age int) (User, error) {
+func (u *UserProvider) GetUser0(id string, name string, age int) (*User, error) {
 	var err error
 
 	println("id:%s, name:%s, age:%d", id, name, age)
 	user, err := u.getUser(id)
 	if err != nil {
-		return User{}, err
+		return &User{}, err
 	}
 	if user.Name != name {
-		return User{}, perrors.New("name is not " + user.Name)
+		return &User{}, perrors.New("name is not " + user.Name)
 	}
 	if user.Age != age {
-		return User{}, perrors.New(fmt.Sprintf("age is not %d", user.Age))
+		return &User{}, perrors.New(fmt.Sprintf("age is not %d", user.Age))
 	}
-	return *user, err
+	return user, err
 }
 
 func (u *UserProvider) GetUser3() error {
@@ -76,6 +76,11 @@ func (u *UserProvider) GetUsers(req []interface{}) ([]User, error) {
 	println("user:%v", user)
 
 	return []User{*user}, err
+}
+
+func (u *UserProvider) GetUser1(req []interface{}) (*User, error) {
+	err := perrors.New("test error")
+	return nil, err
 }
 
 func (u *UserProvider) Reference() string {

@@ -30,8 +30,9 @@ import (
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
 	_ "github.com/apache/dubbo-go/protocol/rest"
-	_ "github.com/apache/dubbo-go/protocol/rest/rest_server"
+	"github.com/apache/dubbo-go/protocol/rest/server/server_impl"
 	_ "github.com/apache/dubbo-go/registry/protocol"
+	"github.com/emicklei/go-restful/v3"
 
 	_ "github.com/apache/dubbo-go/filter/filter_impl"
 
@@ -48,7 +49,14 @@ var (
 // 		export CONF_PROVIDER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
-
+	server_impl.AddGoRestfulServerFilter(func(request *restful.Request, response *restful.Response, chain *restful.FilterChain) {
+		println(request.SelectedRoutePath())
+		chain.ProcessFilter(request, response)
+	})
+	server_impl.AddGoRestfulServerFilter(func(request *restful.Request, response *restful.Response, chain *restful.FilterChain) {
+		println("filter2")
+		chain.ProcessFilter(request, response)
+	})
 	config.Load()
 
 	initSignal()

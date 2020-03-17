@@ -57,7 +57,7 @@ func (u User) String() string {
 type UserProvider struct {
 	GetUsers func(req []interface{}) ([]User, error)
 	GetUser  func(ctx context.Context, req []interface{}, rsp *User) error
-	GetUser0 func(id string, name string, age int) (User, error)
+	GetUser0 func(id string, name string, age int) (*User, error)
 	GetUser1 func(ctx context.Context, req []interface{}, rsp *User) error
 	GetUser2 func(ctx context.Context, req []interface{}, rsp *User) error `dubbo:"getUser"`
 	GetUser3 func() error

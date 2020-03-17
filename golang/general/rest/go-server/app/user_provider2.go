@@ -78,6 +78,11 @@ func (u *UserProvider2) GetUsers(req []interface{}) ([]User, error) {
 	return []User{*user}, err
 }
 
+func (u *UserProvider2) GetUser1(req []interface{}) (*User, error) {
+	err := perrors.New("test error")
+	return nil, err
+}
+
 func (u *UserProvider2) Reference() string {
 	return "UserProvider2"
 }

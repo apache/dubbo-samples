@@ -31,7 +31,6 @@ import (
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
 	_ "github.com/apache/dubbo-go/protocol/rest"
-	_ "github.com/apache/dubbo-go/protocol/rest/rest_client"
 	_ "github.com/apache/dubbo-go/registry/protocol"
 
 	_ "github.com/apache/dubbo-go/filter/filter_impl"
@@ -101,7 +100,7 @@ func test() {
 	println("response result: %v", user)
 
 	println("\n\n\nstart to test rest - GetUser0")
-	ret, err := userProvider.GetUser0("A003", "Moorse", 30)
+	ret, err := userProvider.GetUser0("A003", "Moorse中文", 30)
 	if err != nil {
 		panic(err)
 	}
@@ -142,7 +141,7 @@ func test1() {
 	println("response result: %v", user)
 
 	println("\n\n\nstart to test rest - GetUser0")
-	ret, err := userProvider1.GetUser0("A003", "Moorse", 30)
+	ret, err := userProvider1.GetUser0("A003", "Moorse中文", 30)
 	if err != nil {
 		panic(err)
 	}
@@ -181,7 +180,7 @@ func test2() {
 	println("response result: %v", user)
 
 	println("\n\n\nstart to test rest - GetUser0")
-	ret, err := userProvider2.GetUser0("A003", "Moorse", 30)
+	ret, err := userProvider2.GetUser0("A003", "Moorse中文", 30)
 	if err != nil {
 		panic(err)
 	}
