@@ -138,7 +138,7 @@ public class MetadataIT {
         Assert.assertEquals("consumer", map.get("side"));
         Assert.assertEquals("metadatareport-local-properties-consumer", map.get("application"));
         Assert.assertEquals("sayHello", map.get("methods"));
-        Assert.assertEquals("false", map.get("lazy"));
+        Assert.assertNull(map.get("lazy"));
         Assert.assertEquals("false", map.get("sticky"));
         Assert.assertEquals(DemoService.class.getName(), map.get("interface"));
     }

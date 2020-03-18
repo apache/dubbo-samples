@@ -19,6 +19,7 @@ package org.apache.dubbo.samples.monitor;
 
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.MonitorConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
@@ -26,6 +27,7 @@ import org.apache.dubbo.monitor.MonitorService;
 import org.apache.dubbo.samples.monitor.api.DemoService;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,13 +46,18 @@ public class MonitorServiceIT {
     @Autowired
     private DemoService demoService;
 
-    @BeforeClass
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         ServiceConfig<MonitorService> service = new ServiceConfig<>();
         // FIXME: has to set application name to "demo-consumer"
         service.setApplication(new ApplicationConfig("demo-consumer"));
         service.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
+//        MonitorConfig monitorConfig = new MonitorConfig();
+//        monitorConfig.setProtocol("registry");
+//        monitorConfig.setInterval("100");
+//        service.setMonitor(monitorConfig);
         service.setInterface(MonitorService.class);
+        service.setFilter("-monitor");
         service.setRef(new MonitorServiceImpl());
         service.export();
     }
@@ -66,6 +73,7 @@ public class MonitorServiceIT {
         reference.setApplication(new ApplicationConfig("demo-consumer"));
         reference.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
         reference.setInterface(MonitorService.class);
+        reference.setFilter("-monitor");
         MonitorService service = reference.get();
         List<URL> stats = service.lookup(null);
 

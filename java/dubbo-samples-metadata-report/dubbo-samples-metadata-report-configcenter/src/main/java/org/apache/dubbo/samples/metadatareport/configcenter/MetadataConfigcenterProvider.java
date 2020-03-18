@@ -54,6 +54,7 @@ public class MetadataConfigcenterProvider {
         @Bean
         public ProviderConfig providerConfig() {
             ProviderConfig providerConfig = new ProviderConfig();
+            providerConfig.setId("id"); //FIXME, spring bean id 'providerConfig' should not be used as dubbo id.
             providerConfig.setTimeout(1000);
             return providerConfig;
         }

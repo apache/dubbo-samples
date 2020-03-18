@@ -82,6 +82,7 @@
         <module>dubbo-samples-protobuf</module>
         <module>dubbo-samples-ssl</module>
         <module>dubbo-samples-perf</module>
+        <module>dubbo-samples-tengine</module>
     </modules>
 
     <repositories>

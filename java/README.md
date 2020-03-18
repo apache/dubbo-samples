@@ -45,6 +45,11 @@ mvn -Ddocker.showLogs -Pdubbo-integration-test clean verify
 
 Pls. note integration test relies on docker environment, make sure docker environment is available before run it.
 
+> The test may not stable enough at this moment, please enable failure skip to run the whole test suite
+> ```bash
+>  mvn -Pdubbo-integration-test clean verify -fae
+>  ```
+
 **How to add more integration test**
 
 If you are interested in contributing more integration test for dubbo, pls. read further to understand how to enable integration test for one particular sample from the scratch.

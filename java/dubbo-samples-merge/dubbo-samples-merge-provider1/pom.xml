@@ -29,7 +29,7 @@
     <artifactId>dubbo-samples-merge-provider1</artifactId>
 
     <properties>
-        <dubbo.version>2.7.5</dubbo.version>
+        <dubbo.version>2.7.6-SNAPSHOT</dubbo.version>
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <image.name>${project.artifactId}:${dubbo.version}</image.name>
         <java-image.name>openjdk:8</java-image.name>
