@@ -34,14 +34,8 @@
         <dubbo.version>2.7.5</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <image.name>${project.artifactId}:${dubbo.version}</image.name>
-        <java-image.name>openjdk:8</java-image.name>
-        <dubbo.port>20880</dubbo.port>
-        <main-class>org.apache.dubbo.samples.consul.ConsulProvider</main-class>
     </properties>
 
     <dependencyManagement>
@@ -76,6 +70,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.orbitz.consul</groupId>
+            <artifactId>consul-client</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
@@ -88,6 +87,13 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.12.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -95,112 +101,6 @@
             <id>dubbo-integration-test</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.dubbo</groupId>
-                        <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>local-address</goal>
-                                </goals>
-                                <configuration>
-                                    <localAddress>dubbo-local-address</localAddress>
-                                </configuration>
-                                <phase>initialize</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>${jib-maven-plugin.version}</version>
-                        <configuration>
-                            <from>
-                                <image>${java-image.name}</image>
-                            </from>
-                            <to>
-                                <image>${image.name}</image>
-                            </to>
-                            <container>
-                                <mainClass>${main-class}</mainClass>
-                                <ports>
-                                    <port>${dubbo.port}</port>
-                                </ports>
-                                <environment>
-                                    <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
-                                </environment>
-                                <jvmFlags>
-                                    <jvmFlag>-Dconsul.address=${dubbo-local-address}</jvmFlag>
-                                </jvmFlags>
-                            </container>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>dockerBuild</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>${docker-maven-plugin.version}</version>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>consul:latest</name>
-                                    <run>
-                                        <ports>
-                                            <port>8500:8500</port>
-                                            <port>8600:8600</port>
-                                        </ports>
-                                        <wait>
-                                            <tcp>
-                                                <host>${dubbo-local-address}</host>
-                                                <ports>
-                                                    <port>8500</port>
-                                                    <port>8600</port>
-                                                </ports>
-                                            </tcp>
-                                        </wait>
-                                    </run>
-                                </image>
-                                <image>
-                                    <name>${image.name}</name>
-                                    <run>
-                                        <ports>
-                                            <port>${dubbo.port}:${dubbo.port}</port>
-                                        </ports>
-                                        <wait>
-                                            <log>dubbo service started</log>
-                                        </wait>
-                                    </run>
-                                </image>
-                            </images>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -212,9 +112,6 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
-                                    <systemPropertyVariables>
-                                        <consul.address>${dubbo-local-address}</consul.address>
-                                    </systemPropertyVariables>
                                     <includes>
                                         <include>**/*IT.java</include>
                                     </includes>

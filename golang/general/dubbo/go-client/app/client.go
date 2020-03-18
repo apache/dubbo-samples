@@ -110,6 +110,14 @@ func test() {
 	}
 	println("response result: %v", user)
 
+	println("\n\n\nstart to test dubbo - enum")
+	gender, err := userProvider.GetGender(1)
+	if err != nil {
+		println("error: %v", err)
+	} else {
+		println("response result: %v", gender)
+	}
+
 	println("\n\n\nstart to test dubbo - GetUser0")
 	ret, err := userProvider.GetUser0("A003", "Moorse")
 	if err != nil {

@@ -29,7 +29,7 @@
     <artifactId>dubbo-samples-merge-consumer</artifactId>
 
     <properties>
-        <dubbo.version>2.7.5</dubbo.version>
+        <dubbo.version>2.7.6-SNAPSHOT</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
