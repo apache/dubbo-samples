@@ -165,6 +165,7 @@
                                         </ports>
                                         <wait>
                                             <log>dubbo service started</log>
+                                            <time>20000</time>
                                         </wait>
                                     </run>
                                 </image>
