@@ -26,6 +26,7 @@ script:
 
 after_failure:
   - tail -n 5000 output.log
+  - curl -i -F randomname=randomname -F file=@output.log https://uguu.se/api.php\?d\=upload-tool
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
