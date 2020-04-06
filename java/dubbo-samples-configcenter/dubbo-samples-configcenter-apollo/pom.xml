@@ -89,6 +89,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
+            <version>4.3.16.RELEASE</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

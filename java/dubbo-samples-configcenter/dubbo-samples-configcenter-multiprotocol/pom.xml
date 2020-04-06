@@ -75,16 +75,19 @@
         <dependency>
             <groupId>com.caucho</groupId>
             <artifactId>hessian</artifactId>
+            <version>4.0.63</version>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
+            <version>9.4.11.v20180605</version>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
+            <version>9.4.11.v20180605</version>
         </dependency>
 
         <dependency>
@@ -97,6 +100,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
+            <version>4.3.16.RELEASE</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
