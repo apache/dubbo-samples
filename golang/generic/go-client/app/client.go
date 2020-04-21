@@ -18,6 +18,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/signal"
@@ -95,7 +96,7 @@ func test() {
 
 	time.Sleep(3 * time.Second)
 	println("\n\n\nstart to generic invoke")
-	resp, err := referenceConfig.GetRPCService().(*config.GenericService).Invoke([]interface{}{"GetUser", []string{"java.lang.String"}, []interface{}{"A003"}})
+	resp, err := referenceConfig.GetRPCService().(*config.GenericService).Invoke(context.TODO(), []interface{}{"GetUser", []string{"java.lang.String"}, []interface{}{"A003"}})
 	if err != nil {
 		panic(err)
 	}
@@ -122,7 +123,7 @@ func test2() {
 		Age:  25,
 		Time: time.Now(),
 	}
-	resp, err := referenceConfig.GetRPCService().(*config.GenericService).Invoke([]interface{}{"queryUser", []string{"com.ikurento.user.User"}, []interface{}{user}})
+	resp, err := referenceConfig.GetRPCService().(*config.GenericService).Invoke(context.TODO(), []interface{}{"queryUser", []string{"com.ikurento.user.User"}, []interface{}{user}})
 	if err != nil {
 		panic(err)
 	}
