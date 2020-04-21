@@ -29,9 +29,12 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>2.7.6-SNAPSHOT</dubbo.version>
+        <dubbo.version>2.7.7-SNAPSHOT</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
+        <validation.api.version>2.0.1.Final</validation.api.version>
+        <hibernate.validator.version>6.1.2.Final</hibernate.validator.version>
+        <javax.el.version>3.0.0</javax.el.version>
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -72,16 +75,19 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+            <version>${validation.api.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
+            <version>${javax.el.version}</version>
         </dependency>
 
         <dependency>

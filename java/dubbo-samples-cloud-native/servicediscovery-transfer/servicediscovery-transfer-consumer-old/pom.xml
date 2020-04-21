@@ -28,6 +28,7 @@
     <description>The demo consumer module of dubbo project</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
+        <dubbo.configcenter.zookeeper.version>2.7.4</dubbo.configcenter.zookeeper.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,6 +55,7 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-configcenter-zookeeper</artifactId>
+            <version>${dubbo.configcenter.zookeeper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
