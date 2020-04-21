@@ -34,6 +34,7 @@
     <dubbo.version>2.7.5</dubbo.version>
     <dubbo.rpc.version>2.7.5</dubbo.rpc.version>
     <zookeeper.version>3.4.13</zookeeper.version>
+    <dubbo.configcenter.zookeeper.version>2.7.4</dubbo.configcenter.zookeeper.version>
     <curator.version>4.0.1</curator.version>
     <validation-api.version>1.1.0.Final</validation-api.version>
     <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
@@ -192,6 +193,7 @@
     <dependency>
       <groupId>org.apache.dubbo</groupId>
       <artifactId>dubbo-configcenter-zookeeper</artifactId>
+      <version>${dubbo.configcenter.zookeeper.version}</version>
     </dependency>
     <dependency>
       <groupId>io.netty</groupId>
