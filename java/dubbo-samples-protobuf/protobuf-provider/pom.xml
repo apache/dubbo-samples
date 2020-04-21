@@ -31,6 +31,8 @@
         <spring-test.version>4.3.16.RELEASE</spring-test.version>
         <skip_maven_deploy>true</skip_maven_deploy>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
+        <zookeeper.version>3.4.3</zookeeper.version>
+        <dubbo.configcenter.zookeeper.version>2.7.4</dubbo.configcenter.zookeeper.version>
     </properties>
 
     <dependencies>
@@ -65,6 +67,7 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-configcenter-zookeeper</artifactId>
+            <version>${dubbo.configcenter.zookeeper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
