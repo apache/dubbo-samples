@@ -40,4 +40,10 @@
     <dubbo:reference id="tigerService" check="false" interface="org.apache.dubbo.samples.chain.api.TigerService"/>
     <dubbo:reference id="chineseService" check="false" interface="org.apache.dubbo.samples.chain.api.ChineseService"/>
     <dubbo:reference id="americanService" check="false" interface="org.apache.dubbo.samples.chain.api.AmericanService"/>
+
+    <dubbo:reference id="timeoutCountdownService1" timeout="5000" check="true"
+                     interface="org.apache.dubbo.samples.chain.api.TimeoutCountDownService1"/>
+    <!--    <dubbo:reference id="timeoutCountdownService1" check="false" interface="org.apache.dubbo.samples.chain.api.TimeoutCountDownService1">-->
+    <!--        <dubbo:parameter key="enable-timeout-coutdown" value="true"/>-->
+    <!--    </dubbo:reference>-->
 </beans>

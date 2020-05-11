@@ -46,4 +46,11 @@
     <bean id="americanService" class="org.apache.dubbo.samples.chain.impl.AmericanServiceImpl"/>
     <dubbo:service interface="org.apache.dubbo.samples.chain.api.AmericanService" ref="americanService"/>
 
+
+    <dubbo:reference id="timeCountDownService11" timeout="10000" check="false"
+                     interface="org.apache.dubbo.samples.chain.api.TimeoutCountDownService11"/>
+    <bean id="timeoutCountDownService1" class="org.apache.dubbo.samples.chain.impl.TimeoutCountDownService1Impl"/>
+    <dubbo:service interface="org.apache.dubbo.samples.chain.api.TimeoutCountDownService1"
+                   ref="timeoutCountDownService1"/>
+
 </beans>

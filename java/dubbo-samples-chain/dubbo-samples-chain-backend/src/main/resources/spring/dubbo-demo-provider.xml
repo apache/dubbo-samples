@@ -44,4 +44,8 @@
     <bean id="tigerService" class="org.apache.dubbo.samples.chain.impl.TigerServiceImpl"/>
     <dubbo:service interface="org.apache.dubbo.samples.chain.api.TigerService" ref="tigerService"/>
 
+    <bean id="timeoutCountDownService11" class="org.apache.dubbo.samples.chain.impl.TimeoutCountDownService11Impl"/>
+    <dubbo:service timeout="2000" interface="org.apache.dubbo.samples.chain.api.TimeoutCountDownService11"
+                   ref="timeoutCountDownService11"/>
+
 </beans>
