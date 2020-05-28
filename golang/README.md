@@ -110,7 +110,7 @@ sh ./bin/load_user_info_client.sh start $SUFFIX
 
 ### Edit Configurations
 
-![](.images/edit_configrations.png)
+![](.images/edit_configuratios.png)
 
 ### Configure `Environment Variable`
 
