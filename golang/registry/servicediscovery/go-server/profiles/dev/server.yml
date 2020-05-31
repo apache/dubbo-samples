@@ -9,23 +9,28 @@ application:
   version: "0.0.1"
   owner: "ZX"
   environment: "dev"
+  metadataType: "remote"
+
 
 registries:
   "demoServiceDiscovery":
     protocol: "service-discovery"
     params:
-      service_discovery: "nacos"
-      name_mapping: "in-memory"
+      service_discovery: "nacos1"
+      name_mapping: "dynamic"
       metadata: "default"
-
 
 remote:
   nacos:
-    address: "console.nacos.io:80"
+    address: "127.0.0.1:8848"
 
+metadata_report:
+  protocol: "nacos"
+  remote_ref: "nacos"
 
 service_discovery:
   nacos1:
+    protocol: "nacos"
     remote_ref: "nacos"
 
 

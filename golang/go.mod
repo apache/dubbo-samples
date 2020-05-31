@@ -17,4 +17,4 @@ require (
 
 go 1.13
 
-replace github.com/apache/dubbo-go => /Users/mindeng/git/apache-dubbo/dubbo-go
+replace github.com/apache/dubbo-go => /Users/mindeng/go-workspace/src/dubbo-go
