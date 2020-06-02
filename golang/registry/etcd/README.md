@@ -23,7 +23,7 @@ registries :
   "etcd":
     protocol: "etcdv3"
     timeout	: "3s"
-    address: "127.0.0.1:2380"
+    address: "127.0.0.1:2379"
 
 services:
   "UserProvider":
@@ -91,7 +91,7 @@ registries :
   "etcd":
     protocol: "etcdv3"
     timeout	: "3s"
-    address: "127.0.0.1:2380"
+    address: "127.0.0.1:2379"
     username: ""
     password: ""
 
