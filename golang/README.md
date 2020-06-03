@@ -35,7 +35,11 @@ Examples of dubbo-go
 
 * registry
 
-    Some examples of different registry. There are kubernetes and nacos at present.
+    Some examples of different registry. There are kubernetes, nacos and etcd at present.
+
+	**Note**:
+
+	When use different registry, you need update config file, but also must import the registry package. see the etcd `README`
 
 * filter
 
@@ -101,6 +105,22 @@ cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
 # if $SUFFIX = "", config file is client.yml
 sh ./bin/load_user_info_client.sh start $SUFFIX
 ```
+
+## How to debug with Goland
+
+### Edit Configurations
+
+![](.images/edit_configuratios.png)
+
+### Configure `Environment Variable`
+
+1. Add `APP_LOG_CONF_FILE`. eg: `/home/xx/dubbogo-samples/helloworld/client/conf/log.yml`
+2. Add `CONF_CONSUMER_FILE_PATH` eg: `/home/xx/dubbogo-samples/helloworld/client/conf/client.yml`
+3. Add `CONF_PROVIDER_FILE_PATH` eg: `/home/xx/dubbogo-samples/helloworld/server/conf/server.yml`
+
+![](.images/edit_env.png)
+	
+### Apply & Run
 
 ## How to contribute
 
