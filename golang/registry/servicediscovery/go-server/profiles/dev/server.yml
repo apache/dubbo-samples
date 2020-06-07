@@ -9,7 +9,7 @@ application:
   version: "0.0.1"
   owner: "ZX"
   environment: "dev"
-  metadataType: "remote"
+  metadataType: "local"
 
 
 registries:
@@ -23,6 +23,7 @@ registries:
 remote:
   nacos:
     address: "127.0.0.1:8848"
+    timeout: "5s"
 
 metadata_report:
   protocol: "nacos"
@@ -33,6 +34,9 @@ service_discovery:
     protocol: "nacos"
     remote_ref: "nacos"
 
+config_center:
+  protocol: "nacos"
+  address: "127.0.0.1:8848"
 
 services:
   "UserProvider":

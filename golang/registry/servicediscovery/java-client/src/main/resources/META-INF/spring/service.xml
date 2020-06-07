@@ -19,9 +19,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-	<bean class="com.ikurento.user.Consumer" init-method="start">
-		<!-- 声明这个类 要使用的服务名-->
-		<property name="userProvider" ref="userProvider" />
-	</bean>
+<!--	<bean class="com.ikurento.user.Consumer" init-method="start">-->
+<!--		&lt;!&ndash; 声明这个类 要使用的服务名&ndash;&gt;-->
+<!--		<property name="userProvider" ref="userProvider" />-->
+<!--	</bean>-->
 
 </beans>

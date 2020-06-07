@@ -17,44 +17,20 @@
 
 package com.ikurento.user;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 public class Consumer {
-    // Define a private variable (Required in Spring)
-    private UserProvider userProvider;
-
-    // Spring DI (Required in Spring)
-    public void setUserProvider(UserProvider u) {
-        this.userProvider = u;
-    }
-
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/dubbo.consumer.xml","META-INF/spring/service.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/dubbo.consumer.xml");
         context.start();
-        context.getBean(Consumer.class).start();
-    }
-
-    // Start the entry function for consumer (Specified in the configuration file)
-    public void start() {
-        System.out.println("\n\ntest");
-        testGetUser();
-    }
-
-    private void testGetUser() {
-        try {
-            User user1 = userProvider.GetUser("A003");
-            System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " +
-                    " UserInfo, Id:" + user1.getId() + ", name:" + user1.getName()
-                    + ", age:" + user1.getAge() + ", time:" + user1.getTime().toString());
-
-        } catch (Exception e) {
-            System.out.println("*************exception***********");
-            e.printStackTrace();
-        }
+        UserProvider userProvider = context.getBean("demoService", UserProvider.class);
+//        try {
+//            Thread.sleep(100000);
+//        } catch (Exception e) {
+//        }
+        User hello = userProvider.GetUser("mindeng");
+        System.out.println("result: " + hello);
     }
 
 }
