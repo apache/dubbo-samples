@@ -32,6 +32,7 @@ import (
 	"github.com/apache/dubbo-go/config"
 	_ "github.com/apache/dubbo-go/config_center/nacos"
 	_ "github.com/apache/dubbo-go/protocol/dubbo"
+	_ "github.com/apache/dubbo-go/protocol/jsonrpc"
 	_ "github.com/apache/dubbo-go/registry/protocol"
 
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"

@@ -4,7 +4,7 @@
 # application config
 application:
   organization: "ikurento.com"
-  name: "BDTService"
+  name: "user-info-server"
   module: "dubbogo user-info server"
   version: "0.0.1"
   owner: "ZX"

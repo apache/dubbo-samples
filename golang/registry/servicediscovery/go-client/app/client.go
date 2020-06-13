@@ -28,6 +28,7 @@ import (
 
 import (
 	hessian "github.com/apache/dubbo-go-hessian2"
+
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
@@ -39,6 +40,14 @@ import (
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
 	_ "github.com/apache/dubbo-go/registry/zookeeper"
+
+	_ "github.com/apache/dubbo-go/config_center/nacos"
+
+	_ "github.com/apache/dubbo-go/metadata/mapping/dynamic"
+	_ "github.com/apache/dubbo-go/metadata/report/nacos"
+	_ "github.com/apache/dubbo-go/metadata/service/remote"
+	_ "github.com/apache/dubbo-go/registry/nacos"
+	_ "github.com/apache/dubbo-go/registry/servicediscovery"
 )
 
 var (

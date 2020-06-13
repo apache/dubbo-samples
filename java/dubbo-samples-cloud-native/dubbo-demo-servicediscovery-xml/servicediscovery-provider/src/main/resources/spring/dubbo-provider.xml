@@ -24,9 +24,9 @@
     <dubbo:application name="demo-provider"/>
 
 <!--    <dubbo:registry address="zookeeper://127.0.0.1:2181?registry-type=service"/>-->
-    <dubbo:registry address="nacos://127.0.0.1:8848?registry-type=service"/>
+    <dubbo:registry address="zookeeper://127.0.0.1:2181?registry-type=service"/>
 
-    <dubbo:protocol name="dubbo"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
 
     <bean id="demoService" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
 
