@@ -85,7 +85,7 @@ go server
 ```bash
 cd helloworld/dubbo/go-server
 sh ./assembly/$ARCH/$ENV.sh
-cd ./target/linux/user_info_server-0.3.1-20190517-0930-release
+cd ./target/$ARCH/user_info_server-0.3.1-20190517-0930-release
 # $SUFFIX is a suffix of config file,
 # such as server_zookeeper.yml when $SUFFIX is "zookeeper", 
 # if $SUFFIX = "", default server.yml
@@ -99,7 +99,7 @@ go client
 ```bash
 cd helloworld/dubbo/go-client
 sh ./assembly/$ARCH/$ENV.sh
-cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
+cd ./target/$ARCH/user_info_client-0.3.1-20190517-0921-release
 # $SUFFIX is a suffix of config file,
 # such as client_zookeeper.yml when $SUFFIX = zookeeper", 
 # if $SUFFIX = "", config file is client.yml
