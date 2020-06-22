@@ -2,7 +2,7 @@ module github.com/apache/dubbo-samples/golang
 
 require (
 	github.com/apache/dubbo-go v1.4.1
-	github.com/apache/dubbo-go-hessian2 v1.5.0
+	github.com/apache/dubbo-go-hessian2 v1.6.1-0.20200623062814-707fde850279
 	github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd // indirect
 	github.com/emicklei/go-restful/v3 v3.0.0
 	github.com/golang/protobuf v1.3.2
@@ -16,5 +16,3 @@ require (
 )
 
 go 1.13
-
-replace github.com/apache/dubbo-go => /Users/mindeng/go-workspace/src/dubbo-go
