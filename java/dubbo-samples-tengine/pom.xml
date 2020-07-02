@@ -8,7 +8,7 @@
     <description>The demo module of tengine dubbo</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
-        <dubbo.version>2.7.5</dubbo.version>
+        <dubbo.version>2.7.7</dubbo.version>
     </properties>
     <modules>
         <module>dubbo-samples-tengine-interface</module>

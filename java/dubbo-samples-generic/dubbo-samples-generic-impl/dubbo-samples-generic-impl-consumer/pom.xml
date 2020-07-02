@@ -31,7 +31,7 @@
     <artifactId>dubbo-samples-generic-impl-consumer</artifactId>
 
     <properties>
-        <dubbo.version>2.7.5</dubbo.version>
+        <dubbo.version>2.7.7</dubbo.version>
     </properties>
 
     <dependencies>
