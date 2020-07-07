@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	SEATA = "seata"
+	SEATA     = "seata"
 	SEATA_XID = "seata_xid"
 )
 
@@ -21,16 +21,15 @@ func init() {
 
 // SeataFilter ...
 type SeataFilter struct {
-
 }
 
 // Invoke ...
 func (sf *SeataFilter) Invoke(ctx context.Context, invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
-	xid := invocation.AttachmentsByKey(SEATA_XID,"")
+	xid := invocation.AttachmentsByKey(SEATA_XID, "")
 	if xid != "" {
-		return invoker.Invoke(context.WithValue(ctx,SEATA_XID, xid), invocation)
+		return invoker.Invoke(context.WithValue(ctx, SEATA_XID, xid), invocation)
 	}
-	return invoker.Invoke(ctx,invocation)
+	return invoker.Invoke(ctx, invocation)
 }
 
 // OnResponse ...

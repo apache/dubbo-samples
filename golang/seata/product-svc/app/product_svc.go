@@ -34,21 +34,20 @@ type ProductSvc struct {
 	dao *dao2.Dao
 }
 
-func (svc *ProductSvc) AllocateInventory(ctx context.Context, reqs []*dao2.AllocateInventoryReq) (*dao2.AllocateInventoryResult,error) {
+func (svc *ProductSvc) AllocateInventory(ctx context.Context, reqs []*dao2.AllocateInventoryReq) (*dao2.AllocateInventoryResult, error) {
 	val := ctx.Value(filter.SEATA_XID)
 	xid := val.(string)
 
-	rootContext := &context2.RootContext{Context:ctx}
+	rootContext := &context2.RootContext{Context: ctx}
 	rootContext.Bind(xid)
 
-	err := svc.dao.AllocateInventory(rootContext,reqs)
+	err := svc.dao.AllocateInventory(rootContext, reqs)
 	if err == nil {
-		return &dao2.AllocateInventoryResult{true},nil
+		return &dao2.AllocateInventoryResult{true}, nil
 	}
-	return &dao2.AllocateInventoryResult{false},err
+	return &dao2.AllocateInventoryResult{false}, err
 }
 
 func (svc *ProductSvc) Reference() string {
 	return "ProductSvc"
 }
-

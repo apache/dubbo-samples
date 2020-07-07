@@ -34,7 +34,7 @@ type Dao struct {
 
 type AllocateInventoryReq struct {
 	ProductSysNo int64
-	Qty int32
+	Qty          int32
 }
 
 type AllocateInventoryResult struct {
@@ -49,7 +49,6 @@ func (result AllocateInventoryResult) JavaClassName() string {
 	return "com.dubbogo.seata.AllocateInventoryResult"
 }
 
-
 func init() {
 	// ------for hessian2------
 	hessian.RegisterPOJO(&AllocateInventoryReq{})
@@ -57,12 +56,12 @@ func init() {
 }
 
 func (dao *Dao) AllocateInventory(ctx *context.RootContext, reqs []*AllocateInventoryReq) error {
-	tx,err := dao.Begin(ctx)
+	tx, err := dao.Begin(ctx)
 	if err != nil {
 		return err
 	}
-	for _,req := range reqs {
-		_,err := tx.Exec(allocateInventorySql,req.Qty,req.Qty,req.ProductSysNo,req.Qty)
+	for _, req := range reqs {
+		_, err := tx.Exec(allocateInventorySql, req.Qty, req.Qty, req.ProductSysNo, req.Qty)
 		if err != nil {
 			tx.Rollback()
 			return err
@@ -74,4 +73,3 @@ func (dao *Dao) AllocateInventory(ctx *context.RootContext, reqs []*AllocateInve
 	}
 	return nil
 }
-

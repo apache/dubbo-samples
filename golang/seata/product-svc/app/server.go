@@ -65,7 +65,7 @@ func main() {
 	client.NewRpcClient()
 	exec.InitDataResourceManager()
 
-	sqlDB, err := sql.Open("mysql",config2.GetATConfig().DSN)
+	sqlDB, err := sql.Open("mysql", config2.GetATConfig().DSN)
 	if err != nil {
 		panic(err)
 	}
@@ -73,7 +73,7 @@ func main() {
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetConnMaxLifetime(4 * time.Hour)
 
-	db,err := exec.NewDB(config2.GetATConfig(),sqlDB)
+	db, err := exec.NewDB(config2.GetATConfig(), sqlDB)
 	if err != nil {
 		panic(err)
 	}
@@ -82,7 +82,7 @@ func main() {
 	}
 
 	svc := &ProductSvc{
-		dao:d,
+		dao: d,
 	}
 	config.SetProviderService(svc)
 
