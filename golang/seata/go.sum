@@ -88,6 +88,7 @@ github.com/digitalocean/godo v1.1.1/go.mod h1:h6faOIcZ8lWIwNQ+DN7b3CgX4Kwby5T+nb
 github.com/digitalocean/godo v1.10.0/go.mod h1:h6faOIcZ8lWIwNQ+DN7b3CgX4Kwby5T+nbpNqkUIozU=
 github.com/dk-lockdown/seata-golang v0.0.2 h1:XqGLYHD6CD9Oz+wgmrcsB+8VSnzImmIWZVqfsgzdEDY=
 github.com/dk-lockdown/seata-golang v0.0.2/go.mod h1:wmwgWu+qxozD+L2FQKODreCvCFpK0pfDgat60gzO1H4=
+github.com/dk-lockdown/seata-golang v0.1.0-fix/go.mod h1:wmwgWu+qxozD+L2FQKODreCvCFpK0pfDgat60gzO1H4=
 github.com/docker/go-connections v0.3.0/go.mod h1:Gbd7IOopHjR8Iph03tsViu4nIes5XhDvyHbTtUxmeec=
 github.com/docker/go-units v0.3.3/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
 github.com/dubbogo/getty v1.3.3 h1:8m4zZBqFHO+NmhH7rMPlFuuYRVjcPD7cUhumevqMZZs=
