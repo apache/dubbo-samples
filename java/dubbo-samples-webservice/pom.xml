@@ -31,8 +31,4 @@
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-webservice</artifactId>
 
-<!--    <modules>-->
-<!--        <module>dubbo-samples-ssl-provider</module>-->
-<!--        <module>dubbo-samples-ssl-consumer</module>-->
-<!--    </modules>-->
 </project>
