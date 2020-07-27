@@ -29,8 +29,3 @@ after_failure:
   - curl -i -F randomname=randomname -F file=@output.log https://uguu.se/api.php\?d\=upload-tool
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
-jobs:
-  allow_failures:
-  - jdk: openjdk11
-    env: JAVA_BASE_IMAGE=openjdk:11

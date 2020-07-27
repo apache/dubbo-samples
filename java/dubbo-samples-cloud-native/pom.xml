@@ -29,7 +29,7 @@
         <target.level>1.8</target.level>
         <skip_maven_deploy>true</skip_maven_deploy>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <dubbo.version>2.7.5</dubbo.version>
+        <dubbo.version>2.7.7</dubbo.version>
     </properties>
 
     <modules>
