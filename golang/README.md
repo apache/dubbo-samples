@@ -7,20 +7,27 @@ Examples of dubbo-go
 * helloworld
 
     A simplest example. It contain 'go-client', 'go-server', 'java-server' of dubbo protocol. 
+    
+* direct
+
+    A direct example. This feature make start of dubbo-go get easy. 
+    
+* async
+
+    An async example. dubbo-go supports client to call server asynchronously. 
 
 * general
 
     A general example. It had validated zookeeper registry and different parameter lists of service. 
-  And it has a comprehensive testing with dubbo/jsonrpc protocol. You can refer to it to create your first complete dubbo-go project.
+  And it has a comprehensive testing with dubbo/jsonrpc/grpc/rest protocol. You can refer to it to create your first complete dubbo-go project.
 
 * generic
 
-    A generic reference example. It show how to use generic reference of dubbo-go.
+    A generic example. It show how to use generic feature of dubbo-go.
 
 * configcenter
 
-    Some examples of different config center. There are only two -- zookeeper and apollo at present.
-
+    Some examples of different config center. There are three -- zookeeper, apollo and nacos at present.
 
 * multi_registry
 
@@ -28,11 +35,23 @@ Examples of dubbo-go
 
 * registry
 
-    Some examples of different registry. There are kubernetes and nacos at present.
+    Some examples of different registry. There are kubernetes, nacos and etcd at present.
+
+	**Note**:
+
+	When use different registry, you need update config file, but also must import the registry package. see the etcd `README`
 
 * filter
 
     Some examples of different filter. Including custom_filter and tpslimit
+    
+* router
+
+    Some router examples. Now, a condition router example is existing. 
+    
+* tracing
+
+    Some tracing examples. We have tracing support of dubbo/grpc/jsonrpc protocol at present. 
 
 ## How to build and run
 
@@ -87,6 +106,26 @@ cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
 sh ./bin/load_user_info_client.sh start $SUFFIX
 ```
 
+## How to debug with Goland
+
+### Edit Configurations
+
+![](.images/edit_configuratios.png)
+
+### Configure `Environment Variable`
+
+1. Add `APP_LOG_CONF_FILE`. eg: `/home/xx/dubbogo-samples/helloworld/client/conf/log.yml`
+2. Add `CONF_CONSUMER_FILE_PATH` eg: `/home/xx/dubbogo-samples/helloworld/client/conf/client.yml`
+3. Add `CONF_PROVIDER_FILE_PATH` eg: `/home/xx/dubbogo-samples/helloworld/server/conf/server.yml`
+
+![](.images/edit_env.png)
+	
+### Apply & Run
+
 ## How to contribute
 
-Please make pr to https://github.com/dubbogo/dubbo-samples instead of https://github.com/apache/dubbo-samples. We will synchronize to apache/dubbo-samples regularly.
+If you want to add some samples, we hope that you can do this:
+1. Adding samples in appropriate directory. If you dont' know which directory you should put your samples into, you can get some advices from dubbo-go community.
+2. You must run the samples locally and there must be no any error.
+3. If your samples have some third party dependency, including another framework, we hope that you can provide some docs, script is better.
+4. Please make pr to https://github.com/dubbogo/dubbo-samples instead of https://github.com/apache/dubbo-samples. We will synchronize to apache/dubbo-samples regularly.

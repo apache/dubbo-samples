@@ -1,0 +1,112 @@
+# dubbo client yaml configure file
+
+check: true
+# client
+request_timeout : "3s"
+# connect timeout
+connect_timeout : "3s"
+
+# application config
+application:
+  organization : "ikurento.com"
+  name  : "BDTService"
+  module : "dubbogo user-info client"
+  version : "0.0.1"
+  owner : "ZX"
+  environment : "test"
+
+registries :
+  "hangzhouzk":
+    protocol: "zookeeper"
+    timeout	: "3s"
+    address: "127.0.0.1:2181"
+    username: ""
+    password: ""
+
+references:
+  "UserProvider":
+    # 可以指定多个registry，使用逗号隔开;不指定默认向所有注册中心注册
+    registry: "hangzhouzk"
+    protocol : "rest"
+    interface : "com.ikurento.user.UserProvider"
+    cluster: "failover"
+    rest_path: "/UserProvider"
+    methods:
+      - name: "GetUser"
+        rest_path: "/GetUser"
+        rest_method: "GET"
+        rest_query_params: "0:id"
+      - name: "GetUser0"
+        rest_path: "/GetUser0/{id}"
+        rest_method: "POST"
+        rest_query_params: "1:name,2:age"
+        rest_path_params: "0:id"
+      - name: "GetUser3"
+        rest_path: "/GetUser3"
+        rest_method: "GET"
+      - name: "GetUsers"
+        rest_path: "/GetUsers"
+        rest_method: "POST"
+        rest_body: 0
+      - name: "GetUser1"
+        rest_path: "/GetUser1"
+        rest_method: "GET"
+
+  "UserProvider1":
+    registry: "hangzhouzk"
+    protocol: "rest"
+    version : "2.0"
+    interface: "com.ikurento.user.UserProvider"
+    cluster: "failover"
+    rest_path: "/UserProvider1"
+    methods:
+      - name: "GetUser"
+        rest_path: "/GetUser"
+        rest_method: "GET"
+        rest_query_params: "0:id"
+      - name: "GetUser0"
+        rest_path: "/GetUser0/{id}"
+        rest_method: "POST"
+        rest_query_params: "1:name,2:age"
+        rest_path_params: "0:id"
+      - name: "GetUser3"
+        rest_path: "/GetUser3"
+        rest_method: "GET"
+      - name: "GetUsers"
+        rest_path: "/GetUsers"
+        rest_method: "POST"
+        rest_body: 0
+      - name: "GetUser1"
+        rest_path: "/GetUser1"
+        rest_method: "GET"
+
+  "UserProvider2":
+    registry: "hangzhouzk"
+    protocol: "rest"
+    version : "2.0"
+    group: "as"
+    interface: "com.ikurento.user.UserProvider"
+    rest_path: "/UserProvider1"
+    methods:
+      - name: "GetUser"
+        rest_path: "/GetUser"
+        rest_method: "GET"
+        rest_query_params: "0:id"
+      - name: "GetUser0"
+        rest_path: "/GetUser0/{id}"
+        rest_method: "POST"
+        rest_query_params: "1:name,2:age"
+        rest_path_params: "0:id"
+        rest_produces: "application/json"
+        rest_consumes: "application/json"
+
+      - name: "GetUser3"
+        rest_path: "/GetUser3"
+        rest_method: "GET"
+      - name: "GetUsers"
+        rest_path: "/GetUsers"
+        rest_method: "POST"
+        rest_body: 0
+      - name: "GetUser1"
+        rest_path: "/GetUser1"
+        rest_method: "GET"
