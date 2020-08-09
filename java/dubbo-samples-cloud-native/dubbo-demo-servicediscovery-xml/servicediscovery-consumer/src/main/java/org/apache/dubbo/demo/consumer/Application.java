@@ -25,7 +25,13 @@ public class Application {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
         context.start();
         DemoService demoService = context.getBean("demoService", DemoService.class);
+//        try {
+//            Thread.sleep(100000);
+//        } catch (Exception e) {
+//        }
         String hello = demoService.sayHello("world");
+
+
         System.out.println("result: " + hello);
     }
 }
