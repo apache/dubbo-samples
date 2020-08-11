@@ -27,23 +27,24 @@ import (
 )
 
 import (
-	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
-	_ "github.com/apache/dubbo-go/cluster/loadbalance"
+	hessian "github.com/apache/dubbo-go-hessian2"
+	"github.com/apache/dubbo-go/common/constant"
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
-	_ "github.com/apache/dubbo-go/filter/filter_impl"
 	_ "github.com/apache/dubbo-go/protocol/dubbo"
-	_ "github.com/apache/dubbo-go/protocol/grpc"
 	_ "github.com/apache/dubbo-go/registry/protocol"
-	_ "github.com/apache/dubbo-go/registry/zookeeper"
 
-	opentracing "github.com/opentracing/opentracing-go"
-	jaegercfg "github.com/uber/jaeger-client-go/config"
+	_ "github.com/apache/dubbo-go/filter/filter_impl"
+
+	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
+	_ "github.com/apache/dubbo-go/cluster/loadbalance"
+	_ "github.com/apache/dubbo-go/registry/zookeeper"
 )
 
 var (
-	survivalTimeout int = 10e9
+	//survivalTimeout int = 10e9
+	survivalTimeout int = 60 * 1000
 )
 
 func println(format string, args ...interface{}) {
@@ -54,32 +55,37 @@ func println(format string, args ...interface{}) {
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
-	cfg, err := jaegercfg.FromEnv()
-	if err != nil {
-		// parsing errors might happen here, such as when we get a string where we expect a number
-		return
-	}
-
-	tracer, closer, err := cfg.NewTracer()
-	if err != nil {
-		return
-	}
-	defer closer.Close()
-
-	opentracing.SetGlobalTracer(tracer)
+	hessian.RegisterPOJO(&User{})
 	config.Load()
-	time.Sleep(time.Second)
+	time.Sleep(3e9)
 
 	println("\n\n\nstart to test dubbo")
-	reply := &HelloReply{}
-	req := &HelloRequest{
-		Name: "xujianhai",
+
+	// context zone hangzhou,
+	ctx := context.Background()
+	// if set zoneForce, must have zone tag
+	ctx = context.WithValue(ctx, constant.REGISTRY_KEY+"."+constant.ZONE_FORCE_KEY, true)
+
+	var hz, sh int
+	loop := 50
+	user := &User{}
+	for i := 0; i < loop; i++ {
+		err := userProvider.GetUser(ctx, []interface{}{i}, user)
+		if err != nil {
+			panic(err)
+		}
+		if "dev-hz" == user.Id {
+			hz++
+		}
+		if "dev-sh" == user.Id {
+			sh++
+		}
+		println("response %d result: %v\n", i, user)
 	}
-	err = grpcGreeterImpl.SayHello(context.TODO(), req, reply)
-	if err != nil {
-		panic(err)
-	}
-	println("client response result: %v\n", reply)
+
+	println("loop count : %d, hangzhou count : %d, shanghai count : %d", loop,
+		hz, sh)
+
 	initSignal()
 }
 

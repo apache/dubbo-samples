@@ -68,7 +68,7 @@ func main() {
 
 	println("\n\n\nstart to test dubbo")
 	user := &User{}
-	for i := 0; i< 5; i++  {
+	for i := 0; i < 5; i++ {
 		err := userProvider.GetUser(context.TODO(), []interface{}{"A001"}, user)
 		if err != nil {
 			panic(err)
