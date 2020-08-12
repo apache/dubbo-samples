@@ -1,7 +1,7 @@
 module github.com/apache/dubbo-samples/golang
 
 require (
-	github.com/apache/dubbo-go v1.5.1-0.20200809055513-4dfc8aac0561
+	github.com/apache/dubbo-go v1.5.1-0.20200810105533-30c587ebc7c5
 	github.com/apache/dubbo-go-hessian2 v1.6.1
 	github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd // indirect
 	github.com/emicklei/go-restful/v3 v3.0.0
