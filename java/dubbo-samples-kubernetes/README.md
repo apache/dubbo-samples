@@ -120,11 +120,8 @@ There are two ways to use Kubernetes as registry in dubbo.
    
 In this demo, use nacos as config center and metedata report as default.
 
-    ```
-    cd src/main/resources/docker
-    docker-compose up
-    ```
-    
+You can deploy nacos to Kubernetes with this [tutorial](https://nacos.io/en-us/docs/use-nacos-with-kubernetes.html).
+
 Config your nacos server ip in properties file.
     
 ### Start demo
