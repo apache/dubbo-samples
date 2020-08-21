@@ -139,10 +139,11 @@ Config your nacos server ip in properties file.
       replicas: 3
       selector:
         matchLabels:
-          tier: server
+          tier: apiserver-demo-provider
       template:
         metadata:
           labels:
+            tier: apiserver-demo-provider
             io.dubbo: MyTest
         spec:
           containers:
