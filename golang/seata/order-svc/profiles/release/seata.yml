@@ -1,0 +1,37 @@
+application_id: "order-svc"
+transaction_service_group: "127.0.0.1:8091"
+seata_version: "1.1.0"
+# tcp
+getty:
+  reconnect_interval: 0
+  connection_number: 1
+  heartbeat_period: "10s"
+  session_timeout: "180s"
+  pool_size: 4
+  pool_ttl: 600
+  gr_pool_size: 200
+  queue_len: 64
+  queue_number: 10
+  getty_session_param:
+    compress_encoding : false
+    tcp_no_delay : true
+    tcp_keep_alive : true
+    keep_alive_period : "180s"
+    tcp_r_buf_size : 262144
+    tcp_w_buf_size : 65536
+    pkg_rq_size : 512
+    pkg_wq_size : 256
+    tcp_read_timeout : "1s"
+    tcp_write_timeout : "5s"
+    wait_timeout : "1s"
+    max_msg_len : 4096
+    session_name : "client"
+tm:
+  commit_retry_count: 5
+  rollback_retry_count: 5
+at:
+  dsn: "root:123456@tcp(127.0.0.1:3306)/seata_order?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"
+  report_retry_count: 5
+  report_success_enable: false
+  lock_retry_interval: 10ms
+  lock_retry_times: 30
