@@ -134,7 +134,7 @@ Config your nacos server ip in properties file.
     apiVersion: apps/v1
     kind: ReplicaSet
     metadata:
-      name: server
+      name: kubernetes-apiserver-demo-provider
     spec:
       replicas: 3
       selector:
@@ -172,7 +172,7 @@ Config your nacos server ip in properties file.
     apiVersion: v1
     kind: Service
     metadata:
-      name: zookeeper-demo-provider
+      name: kubernetes-apiserver-demo-provider
     spec:
       clusterIP: None
       selector:
