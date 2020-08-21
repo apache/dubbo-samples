@@ -57,11 +57,8 @@ github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 h1:zOVTBdCKFd9JbCKz9/nt+FovbjPFm
 github.com/aliyun/alibaba-cloud-sdk-go v1.61.18/go.mod h1:v8ESoHo4SyHmuB4b1tJqDHxfTGEciD+yhvOU/5s1Rfk=
 github.com/apache/dubbo-getty v1.3.10 h1:ys5mwjPdxG/KwkPjS6EI0RzQtU6p6FCPoKpaFEzpAL0=
 github.com/apache/dubbo-getty v1.3.10/go.mod h1:x6rraK01BL5C7jUM2fPl5KMkAxLVIx54ZB8/XEOik9Y=
-github.com/apache/dubbo-go v1.4.0-rc1.0.20200820104301-6657d27e052d/go.mod h1:lxwgtF+27mSFQsSrBLaVbdQpwCp+pBN/mHP4w4/N2Qc=
-github.com/apache/dubbo-go v1.5.1-0.20200816140509-5a135e6cbba1 h1:zz/Nk5VIfDlmrlCwypMtIDZ7X+tK5h5IgOs8oxeqbg4=
-github.com/apache/dubbo-go v1.5.1-0.20200816140509-5a135e6cbba1/go.mod h1:K0LN6ZwVCUSJjDgJPnDDaJYekEgR6L86AbaFoPot5G4=
-github.com/apache/dubbo-go v1.5.1-0.20200820104301-6657d27e052d h1:EsoOS+qRXISMh+cpYLa1X+aHDXUTMZclpeIE+0SmC0I=
-github.com/apache/dubbo-go v1.5.1-0.20200820104301-6657d27e052d/go.mod h1:lxwgtF+27mSFQsSrBLaVbdQpwCp+pBN/mHP4w4/N2Qc=
+github.com/apache/dubbo-go v1.5.1-0.20200821144431-0b81ef4d7a89 h1:wsKUIAXSVIyF6Eo4vah3GFLRTKEL9CTQE0TVVSONaq4=
+github.com/apache/dubbo-go v1.5.1-0.20200821144431-0b81ef4d7a89/go.mod h1:lxwgtF+27mSFQsSrBLaVbdQpwCp+pBN/mHP4w4/N2Qc=
 github.com/apache/dubbo-go-hessian2 v1.6.2 h1:i7F5GjVaUatLQz1x9vUmmSIFj49L8J6rVICdF6xw4qw=
 github.com/apache/dubbo-go-hessian2 v1.6.2/go.mod h1:7rEw9guWABQa6Aqb8HeZcsYPHsOS7XT1qtJvkmI6c5w=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
@@ -123,8 +120,6 @@ github.com/dnaeon/go-vcr v1.0.1/go.mod h1:aBB1+wY4s93YsC3HHjMBMrwTj2R9FHDzUr9KyG
 github.com/docker/go-connections v0.3.0/go.mod h1:Gbd7IOopHjR8Iph03tsViu4nIes5XhDvyHbTtUxmeec=
 github.com/docker/go-connections v0.4.0/go.mod h1:Gbd7IOopHjR8Iph03tsViu4nIes5XhDvyHbTtUxmeec=
 github.com/docker/spdystream v0.0.0-20160310174837-449fdfce4d96/go.mod h1:Qh8CwZgvJUkLughtfhJv5dyTYa91l1fOUCrgjqmcifM=
-github.com/dubbogo/getty v1.3.9 h1:Ip/4Yl7GyDzt3ddZhjXN1Vmxvo9y/hdtoJ4yFc7czLk=
-github.com/dubbogo/getty v1.3.9/go.mod h1:JIN5lNZznGnBuoYjlEe/yjNmq7eSjKaawHdnBAdtiEo=
 github.com/dubbogo/go-zookeeper v1.0.1 h1:irLzvOsDOTNsN8Sv9tvYYxVu6DCQfLtziZQtUHmZgz8=
 github.com/dubbogo/go-zookeeper v1.0.1/go.mod h1:fn6n2CAEer3novYgk9ULLwAjuV8/g4DdC2ENwRb6E+c=
 github.com/dubbogo/gost v1.9.0 h1:UT+dWwvLyJiDotxJERO75jB3Yxgsdy10KztR5ycxRAk=
