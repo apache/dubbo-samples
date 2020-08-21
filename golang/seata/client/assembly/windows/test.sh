@@ -22,8 +22,8 @@ set -e
 export GOOS=windows
 export GOARCH=amd64
 
-export PROFILE="dev"
-PROJECT_HOME=`pwd`
+export PROFILE="test"
+export PROJECT_HOME=`pwd`
 
 if [ -f "${PROJECT_HOME}/assembly/common/app.properties" ]; then
   . ${PROJECT_HOME}/assembly/common/app.properties

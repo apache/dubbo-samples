@@ -19,11 +19,11 @@
 
 set -e
 
-export GOOS=windows
+export GOOS=darwin
 export GOARCH=amd64
 
-export PROFILE="dev"
-PROJECT_HOME=`pwd`
+export PROFILE="release"
+export PROJECT_HOME=`pwd`
 
 if [ -f "${PROJECT_HOME}/assembly/common/app.properties" ]; then
   . ${PROJECT_HOME}/assembly/common/app.properties
