@@ -2,7 +2,7 @@
 
 [README](https://github.com/dubbogo/dubbogo-samples/blob/master/README.md)（You must run java program to initialize configuration in zookeeper）
  
-## 2.Use condition router feature 
+## 2.Use router feature 
 
 ### 2.1.with config file 
  
