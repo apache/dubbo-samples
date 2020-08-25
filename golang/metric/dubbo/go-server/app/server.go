@@ -18,11 +18,18 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+)
+
+import (
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 import (
@@ -49,6 +56,11 @@ var (
 // 		export CONF_PROVIDER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
+
+	var addr = flag.String("listen-address", ":8080", "The address to listen on for HTTP requests.")
+	flag.Parse()
+	http.Handle("/metrics", promhttp.Handler())
+	go http.ListenAndServe(*addr, nil)
 
 	hessian.RegisterPOJO(&User{})
 	config.Load()
