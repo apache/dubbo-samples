@@ -1,5 +1,8 @@
 # dubbo client yaml configure file
-
+filter: "metrics"
+metrics:
+  reporter:
+    - "prometheus" # here you should specify the reporter, for example 'prometheus'
 
 check: true
 # client

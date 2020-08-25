@@ -1,6 +1,9 @@
 # dubbo server yaml configure file
 
-filter: "tracing"
+filter: "metrics"
+metrics:
+  reporters:
+    - "prometheus"
 
 # application config
 application:
