@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <profiles>
+        <profile>
+            <id>apache</id>
+            <repositories>
+                <repository>
+                    <id>apache.snapshots.https</id>
+                    <name>Apache Development Snapshot Repository</name>
+                    <url>https://repository.apache.org/content/repositories/snapshots</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+
+                <repository>
+                    <id>apache.releases.https</id>
+                    <name>Apache Release Distribution Repository</name>
+                    <url>https://repository.apache.org/service/local/staging/deploy/maven2</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>apache</activeProfile>
+    </activeProfiles>
+</settings>
