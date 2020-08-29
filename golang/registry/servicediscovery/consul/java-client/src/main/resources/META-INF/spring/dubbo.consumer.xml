@@ -30,12 +30,12 @@
 <!--	<dubbo:protocol id="dubbo" name="dubbo" />-->
 <!--	<dubbo:protocol id="jsonrpc" name="jsonrpc" />-->
 
-	<dubbo:registry address="nacos://127.0.0.1:8848?registry-type=service"/>
+	<dubbo:registry address="consul://localhost:8500?registry-type=service"/>
 
 	<!-- 声明需要使用的服务接口 -->
 <!--	<dubbo:reference registry="ikurento" check="false" id="userProvider" protocol="dubbo" interface="">-->
 		<!--<dubbo:parameter key="heartbeat" value="10000"/ -->
 <!--    </dubbo:reference>-->
 
-	<dubbo:reference id="demoService" check="false" interface="com.ikurento.user.UserProvider" provided-by="BDTService"/>
+	<dubbo:reference id="demoService" check="false" interface="com.ikurento.user.UserProvider" provided-by="user-info-server"/>
 </beans>

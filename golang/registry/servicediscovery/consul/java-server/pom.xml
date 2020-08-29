@@ -52,19 +52,19 @@
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-configcenter-nacos</artifactId>
+            <artifactId>dubbo-configcenter-consul</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-registry-nacos</artifactId>
+            <artifactId>dubbo-registry-consul</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-registry-nacos</artifactId>
+            <artifactId>dubbo-registry-consul</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
         <!--        <dependency>-->
@@ -73,12 +73,12 @@
         <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-configcenter-nacos</artifactId>
+            <artifactId>dubbo-configcenter-consul</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-metadata-report-nacos</artifactId>
+            <artifactId>dubbo-metadata-report-consul</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
         <dependency>
