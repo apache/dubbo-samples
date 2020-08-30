@@ -27,7 +27,7 @@ registries:
 
 remote:
   consul1:
-    address: "10.13.0.222:8500"
+    address: "localhost:8500"
     timeout: "5s"
 
 metadata_report:
