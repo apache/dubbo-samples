@@ -51,10 +51,6 @@ var (
 	survivalTimeout int = 10e9
 )
 
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}
-
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
@@ -63,14 +59,14 @@ func main() {
 	config.Load()
 	time.Sleep(3e9)
 
-	println("\n\n\nstart to test dubbo")
+	fmt.Printf("\033[32;40m" + "\n\n\nstart to test dubbo" + "\033[0m\n")
 	user := &User{}
 	for i := 0; i < 5; i++ {
 		err := userProvider.GetUser(context.TODO(), []interface{}{"A001"}, user)
 		if err != nil {
 			panic(err)
 		}
-		println("response result: %v\n", user)
+		fmt.Printf("\033[32;40m"+"response result: %v\n"+"\033[0m\n", user)
 	}
 	initSignal()
 }

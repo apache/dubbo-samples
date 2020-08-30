@@ -45,9 +45,9 @@ type UserProvider struct {
 }
 
 func (u *UserProvider) GetUser(ctx context.Context, req []interface{}) (*User, error) {
-	println("req:%#v", req)
+	fmt.Printf("\033[32;40m"+"req:%#v"+"\033[0m\n", req)
 	rsp := User{"A001", "Alex Stocks", 18, time.Now()}
-	println("rsp:%#v", rsp)
+	fmt.Printf("\033[32;40m"+"rsp:%#v"+"\033[0m\n", rsp)
 	return &rsp, nil
 }
 
@@ -57,8 +57,4 @@ func (u *UserProvider) Reference() string {
 
 func (u User) JavaClassName() string {
 	return "com.ikurento.user.User"
-}
-
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
 }
