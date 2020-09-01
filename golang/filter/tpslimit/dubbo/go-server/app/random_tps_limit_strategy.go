@@ -18,11 +18,15 @@
 package main
 
 import (
-	"github.com/apache/dubbo-go/filter"
 	"math/rand"
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+)
+
+import (
+	"github.com/apache/dubbo-go/filter"
 	"github.com/apache/dubbo-go/common/extension"
 )
 
@@ -52,7 +56,7 @@ type RandomTpsLimitStrategy struct {
 
 func (r RandomTpsLimitStrategy) IsAllowable() bool {
 	// this is a simple demo.
-	println("Random IsAllowable!")
+	gxlog.CInfo("Random IsAllowable!")
 	randNum := rand.Int63n(2)
 	return randNum == 0
 }

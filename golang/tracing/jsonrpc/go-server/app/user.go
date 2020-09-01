@@ -18,7 +18,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -71,8 +70,4 @@ func init() {
 		v.Sex = userMap[k].sex.String()
 		userMap[k] = v
 	}
-}
-
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
 }

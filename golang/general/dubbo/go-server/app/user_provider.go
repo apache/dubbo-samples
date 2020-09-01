@@ -25,6 +25,10 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+)
+
+import (
 	"github.com/apache/dubbo-go-hessian2/java_exception"
 	"github.com/apache/dubbo-go/config"
 	perrors "github.com/pkg/errors"
@@ -51,11 +55,11 @@ func (u *UserProvider) GetUser(ctx context.Context, req []interface{}, rsp *User
 		user *User
 	)
 
-	println("req:%#v", req)
+	gxlog.CInfo("req:%#v", req)
 	user, err = u.getUser(req[0].(string))
 	if err == nil {
 		*rsp = *user
-		println("rsp:%#v", rsp)
+		gxlog.CInfo("rsp:%#v", rsp)
 	}
 	return err
 }
@@ -63,7 +67,7 @@ func (u *UserProvider) GetUser(ctx context.Context, req []interface{}, rsp *User
 func (u *UserProvider) GetUser0(id string, name string) (User, error) {
 	var err error
 
-	println("id:%s, name:%s", id, name)
+	gxlog.CInfo("id:%s, name:%s", id, name)
 	user, err := u.getUser(id)
 	if err != nil {
 		return User{}, err
@@ -77,7 +81,7 @@ func (u *UserProvider) GetUser0(id string, name string) (User, error) {
 func (u *UserProvider) GetUser2(ctx context.Context, req []interface{}, rsp *User) error {
 	var err error
 
-	println("req:%#v", req)
+	gxlog.CInfo("req:%#v", req)
 	rsp.Id = strconv.Itoa(int(req[0].(int32)))
 	return err
 }
@@ -93,18 +97,18 @@ func (u *UserProvider) GetErr(ctx context.Context, req []interface{}, rsp *User)
 func (u *UserProvider) GetUsers(req []interface{}) ([]interface{}, error) {
 	var err error
 
-	println("req:%s", req)
+	gxlog.CInfo("req:%s", req)
 	t := req[0].([]interface{})
 	user, err := u.getUser(t[0].(string))
 	if err != nil {
 		return nil, err
 	}
-	println("user:%v", user)
+	gxlog.CInfo("user:%v", user)
 	user1, err := u.getUser(t[1].(string))
 	if err != nil {
 		return nil, err
 	}
-	println("user1:%v", user1)
+	gxlog.CInfo("user1:%v", user1)
 
 	return []interface{}{user, user1}, err
 }

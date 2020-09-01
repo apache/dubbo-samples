@@ -7,6 +7,7 @@ import (
 
 import (
 	perrors "github.com/pkg/errors"
+	"github.com/dubbogo/gost/log"
 )
 
 import (
@@ -34,11 +35,11 @@ func (u *UserProvider1) GetUser(ctx context.Context, req []interface{}, rsp *Use
 		user *User
 	)
 
-	println("req:%#v", req)
+	gxlog.CInfo("req:%#v", req)
 	user, err = u.getUser(req[0].(string))
 	if err == nil {
 		*rsp = *user
-		println("rsp:%#v", rsp)
+		gxlog.CInfo("rsp:%#v", rsp)
 	}
 	return err
 }
@@ -46,7 +47,7 @@ func (u *UserProvider1) GetUser(ctx context.Context, req []interface{}, rsp *Use
 func (u *UserProvider1) GetUser0(id string, name string, age int) (User, error) {
 	var err error
 
-	println("id:%s, name:%s, age:%d", id, name, age)
+	gxlog.CInfo("id:%s, name:%s, age:%d", id, name, age)
 	user, err := u.getUser(id)
 	if err != nil {
 		return User{}, err

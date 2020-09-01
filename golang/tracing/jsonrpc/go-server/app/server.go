@@ -23,7 +23,9 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+)
 
+import (
 	"github.com/opentracing/opentracing-go"
 	zipkinot "github.com/openzipkin-contrib/zipkin-go-opentracing"
 	"github.com/openzipkin/zipkin-go"

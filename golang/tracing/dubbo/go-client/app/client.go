@@ -24,15 +24,18 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+)
 
+import (
+	"github.com/dubbogo/gost/log"
 	"github.com/opentracing/opentracing-go"
 	zipkinot "github.com/openzipkin-contrib/zipkin-go-opentracing"
 	"github.com/openzipkin/zipkin-go"
 	zipkinhttp "github.com/openzipkin/zipkin-go/reporter/http"
+	hessian "github.com/apache/dubbo-go-hessian2"
 )
 
 import (
-	hessian "github.com/apache/dubbo-go-hessian2"
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
@@ -50,10 +53,6 @@ var (
 	survivalTimeout int = 10e9
 )
 
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}
-
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
@@ -62,7 +61,7 @@ func main() {
 	config.Load()
 
 	initZipkin()
-	println("\n\n\nstart to test dubbo")
+	gxlog.CInfo("\n\n\nstart to test dubbo")
 	user := &User{}
 	span, ctx := opentracing.StartSpanFromContext(context.Background(), "Test-Client-Service")
 	err := userProvider.GetUser(ctx, []interface{}{"A001"}, user)
@@ -70,7 +69,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v\n", user)
+	gxlog.CInfo("response result: %v\n", user)
 	initSignal()
 }
 
