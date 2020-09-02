@@ -18,7 +18,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -72,7 +71,7 @@ func initSignal() {
 			})
 
 			// The program exits normally or timeout forcibly exits.
-			fmt.Println("provider app exit now...")
+			logger.Info("provider app exit now...")
 			return
 		}
 	}

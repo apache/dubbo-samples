@@ -20,7 +20,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/apache/dubbo-go/common/constant"
 	"os"
 	"os/signal"
 	"syscall"
@@ -35,12 +34,14 @@ import (
 	_ "github.com/apache/dubbo-go/protocol/dubbo"
 	_ "github.com/apache/dubbo-go/registry/directory"
 	_ "github.com/apache/dubbo-go/registry/protocol"
+	gxlog "github.com/dubbogo/gost/log"
 
 	_ "github.com/apache/dubbo-go/filter/filter_impl"
 
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
 	_ "github.com/apache/dubbo-go/cluster/router/tag"
+	"github.com/apache/dubbo-go/common/constant"
 	_ "github.com/apache/dubbo-go/config_center/zookeeper"
 	_ "github.com/apache/dubbo-go/registry/zookeeper"
 )
@@ -48,10 +49,6 @@ import (
 var (
 	survivalTimeout int = 10e9
 )
-
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}
 
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
@@ -62,18 +59,19 @@ func main() {
 	config.Load()
 	time.Sleep(1e9)
 
-	println("\n\n\nstart to test dubbo")
+	gxlog.CInfo("\n\n\nstart to test dubbo")
 	user := &User{}
 	ctx := context.Background()
 	atm := make(map[string]string)
 	atm["dubbo.tag"] = "beijing"
+	atm["dubbo.force.tag"] = "true"
 	ctx = context.WithValue(ctx, constant.AttachmentKey, atm)
 	err := userProvider.GetUser(ctx, []interface{}{"A001"}, user)
 	if err != nil {
 		panic(err)
 	}
 
-	println("response result: %v\n", user)
+	gxlog.CInfo(fmt.Sprintf("response result: %v\n", user))
 	initSignal()
 }
 
