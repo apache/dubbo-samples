@@ -1,7 +1,5 @@
 module github.com/apache/dubbo-samples/golang
 
-replace github.com/apache/dubbo-go => /Users/hequn/zyb/dubbo-go
-
 require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.69 // indirect
 	github.com/apache/dubbo-go v1.5.1

@@ -82,6 +82,7 @@ github.com/aliyun/alibaba-cloud-sdk-go v1.61.69 h1:vRSiGDSUZGOJBaYE81wKdONsvuCoS
 github.com/aliyun/alibaba-cloud-sdk-go v1.61.69/go.mod h1:v8ESoHo4SyHmuB4b1tJqDHxfTGEciD+yhvOU/5s1Rfk=
 github.com/apache/dubbo-getty v1.3.10 h1:ys5mwjPdxG/KwkPjS6EI0RzQtU6p6FCPoKpaFEzpAL0=
 github.com/apache/dubbo-getty v1.3.10/go.mod h1:x6rraK01BL5C7jUM2fPl5KMkAxLVIx54ZB8/XEOik9Y=
+github.com/apache/dubbo-go v1.5.1/go.mod h1:lxwgtF+27mSFQsSrBLaVbdQpwCp+pBN/mHP4w4/N2Qc=
 github.com/apache/dubbo-go-hessian2 v1.6.2 h1:i7F5GjVaUatLQz1x9vUmmSIFj49L8J6rVICdF6xw4qw=
 github.com/apache/dubbo-go-hessian2 v1.6.2/go.mod h1:7rEw9guWABQa6Aqb8HeZcsYPHsOS7XT1qtJvkmI6c5w=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
