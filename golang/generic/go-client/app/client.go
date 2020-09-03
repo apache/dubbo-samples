@@ -27,6 +27,10 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+)
+
+import (
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
@@ -48,15 +52,11 @@ var (
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
-	println("\n\ntest")
+	gxlog.CInfo("\n\ntest")
 	test()
-	println("\n\ntest2")
+	gxlog.CInfo("\n\ntest2")
 	test2()
 	initSignal()
-}
-
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
 }
 
 func initSignal() {
@@ -95,13 +95,13 @@ func test() {
 	referenceConfig.GenericLoad(appName) //appName is the unique identification of RPCService
 
 	time.Sleep(3 * time.Second)
-	println("\n\n\nstart to generic invoke")
+	gxlog.CInfo("\n\n\nstart to generic invoke")
 	resp, err := referenceConfig.GetRPCService().(*config.GenericService).Invoke(context.TODO(), []interface{}{"GetUser", []string{"java.lang.String"}, []interface{}{"A003"}})
 	if err != nil {
 		panic(err)
 	}
-	println("res: %+v\n", resp)
-	println("succ!")
+	gxlog.CInfo("res: %+v\n", resp)
+	gxlog.CInfo("succ!")
 
 }
 func test2() {
@@ -116,7 +116,7 @@ func test2() {
 	referenceConfig.GenericLoad(appName) //appName is the unique identification of RPCService
 
 	time.Sleep(3 * time.Second)
-	println("\n\n\nstart to generic invoke")
+	gxlog.CInfo("\n\n\nstart to generic invoke")
 	user := User{
 		Id:   "3213",
 		Name: "panty",
@@ -127,7 +127,7 @@ func test2() {
 	if err != nil {
 		panic(err)
 	}
-	println("res: %+v\n", resp)
-	println("succ!")
+	gxlog.CInfo("res: %+v\n", resp)
+	gxlog.CInfo("succ!")
 
 }

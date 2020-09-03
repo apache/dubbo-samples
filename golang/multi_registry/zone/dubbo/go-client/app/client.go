@@ -27,6 +27,10 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+)
+
+import (
 	hessian "github.com/apache/dubbo-go-hessian2"
 	"github.com/apache/dubbo-go/common/constant"
 	"github.com/apache/dubbo-go/common/logger"
@@ -47,10 +51,6 @@ var (
 	survivalTimeout int = 60 * 1000
 )
 
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}
-
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
@@ -59,7 +59,7 @@ func main() {
 	config.Load()
 	time.Sleep(3e9)
 
-	println("\n\n\nstart to test dubbo")
+	gxlog.CInfo("\n\n\nstart to test dubbo")
 
 	// context zone hangzhou,
 	ctx := context.Background()
@@ -80,10 +80,10 @@ func main() {
 		if "dev-sh" == user.Id {
 			sh++
 		}
-		println("response %d result: %v\n", i, user)
+		gxlog.CInfo("response %d result: %v\n", i, user)
 	}
 
-	println("loop count : %d, hangzhou count : %d, shanghai count : %d", loop,
+	gxlog.CInfo("loop count : %d, hangzhou count : %d, shanghai count : %d", loop,
 		hz, sh)
 
 	initSignal()

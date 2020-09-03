@@ -27,6 +27,10 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+)
+
+import (
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
@@ -51,11 +55,11 @@ func main() {
 
 	config.Load()
 
-	println("\n\ntest")
+	gxlog.CInfo("\n\ntest")
 	test()
-	println("\n\ntest1")
+	gxlog.CInfo("\n\ntest1")
 	test1()
-	println("\n\ntest2")
+	gxlog.CInfo("\n\ntest2")
 	test2()
 
 	initSignal()
@@ -85,125 +89,121 @@ func initSignal() {
 	}
 }
 
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}
-
 func test() {
 
-	println("\n\n\nstart to test rest")
+	gxlog.CInfo("\n\n\nstart to test rest")
 	user := &User{}
 	err := userProvider.GetUser(context.TODO(), []interface{}{"A003"}, user)
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", user)
+	gxlog.CInfo("response result: %v", user)
 
-	println("\n\n\nstart to test rest - GetUser0")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUser0")
 	ret, err := userProvider.GetUser0("A003", "Moorse中文", 30)
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", ret)
+	gxlog.CInfo("response result: %v", ret)
 
-	println("\n\n\nstart to test rest - GetUsers")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUsers")
 	ret1, err := userProvider.GetUsers([]interface{}{&User{ID: "A002"}})
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", ret1)
+	gxlog.CInfo("response result: %v", ret1)
 
-	println("\n\n\nstart to test rest - GetUser3")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUser3")
 	err = userProvider.GetUser3()
 	if err != nil {
 		panic(err)
 	}
-	println("succ!")
+	gxlog.CInfo("succ!")
 
-	println("\n\n\nstart to test rest illegal method")
+	gxlog.CInfo("\n\n\nstart to test rest illegal method")
 	err = userProvider.GetUser1(context.TODO(), []interface{}{"A003"}, user)
 	if err == nil {
 		panic("err is nil")
 	}
-	println("error: %v", err)
+	gxlog.CInfo("error: %v", err)
 }
 
 func test1() {
 
 	time.Sleep(3e9)
 
-	println("\n\n\nstart to test rest")
+	gxlog.CInfo("\n\n\nstart to test rest")
 	user := &User{}
 	err := userProvider1.GetUser(context.TODO(), []interface{}{"A003"}, user)
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", user)
+	gxlog.CInfo("response result: %v", user)
 
-	println("\n\n\nstart to test rest - GetUser0")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUser0")
 	ret, err := userProvider1.GetUser0("A003", "Moorse中文", 30)
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", ret)
+	gxlog.CInfo("response result: %v", ret)
 
-	println("\n\n\nstart to test rest - GetUsers")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUsers")
 	ret1, err := userProvider1.GetUsers([]interface{}{&User{ID: "A002"}})
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", ret1)
+	gxlog.CInfo("response result: %v", ret1)
 
-	println("\n\n\nstart to test rest - GetUser3")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUser3")
 	err = userProvider1.GetUser3()
 	if err != nil {
 		panic(err)
 	}
-	println("succ!")
+	gxlog.CInfo("succ!")
 
-	println("\n\n\nstart to test rest illegal method")
+	gxlog.CInfo("\n\n\nstart to test rest illegal method")
 	err = userProvider1.GetUser1(context.TODO(), []interface{}{"A003"}, user)
 	if err == nil {
 		panic("err is nil")
 	}
-	println("error: %v", err)
+	gxlog.CInfo("error: %v", err)
 }
 
 func test2() {
 
-	println("\n\n\nstart to test rest")
+	gxlog.CInfo("\n\n\nstart to test rest")
 	user := &User{}
 	err := userProvider2.GetUser(context.TODO(), []interface{}{"A003"}, user)
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", user)
+	gxlog.CInfo("response result: %v", user)
 
-	println("\n\n\nstart to test rest - GetUser0")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUser0")
 	ret, err := userProvider2.GetUser0("A003", "Moorse中文", 30)
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", ret)
+	gxlog.CInfo("response result: %v", ret)
 
-	println("\n\n\nstart to test rest - GetUsers")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUsers")
 	ret1, err := userProvider2.GetUsers([]interface{}{&User{ID: "A002"}})
 	if err != nil {
 		panic(err)
 	}
-	println("response result: %v", ret1)
+	gxlog.CInfo("response result: %v", ret1)
 
-	println("\n\n\nstart to test rest - GetUser3")
+	gxlog.CInfo("\n\n\nstart to test rest - GetUser3")
 	err = userProvider2.GetUser3()
 	if err != nil {
 		panic(err)
 	}
-	println("succ!")
+	gxlog.CInfo("succ!")
 
-	println("\n\n\nstart to test rest illegal method")
+	gxlog.CInfo("\n\n\nstart to test rest illegal method")
 	err = userProvider2.GetUser1(context.TODO(), []interface{}{"A003"}, user)
 	if err == nil {
 		panic("err is nil")
 	}
-	println("error: %v", err)
+	gxlog.CInfo("error: %v", err)
 }

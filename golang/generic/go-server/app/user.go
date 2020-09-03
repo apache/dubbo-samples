@@ -19,8 +19,11 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"time"
+)
+
+import (
+	"github.com/dubbogo/gost/log"
 )
 
 import (
@@ -45,16 +48,16 @@ type UserProvider struct {
 }
 
 func (u *UserProvider) GetUser(ctx context.Context, userId string) (*User, error) {
-	println("req:%#v", userId)
+	gxlog.CInfo("req:%#v", userId)
 	rsp := User{"A001", "Alex Stocks", 18, time.Now()}
-	println("rsp:%#v", rsp)
+	gxlog.CInfo("rsp:%#v", rsp)
 	return &rsp, nil
 }
 
 func (u *UserProvider) QueryUser(ctx context.Context, user *User) (*User, error) {
-	println("req1:%#v", user)
+	gxlog.CInfo("req1:%#v", user)
 	rsp := User{user.Id, user.Name, user.Age, time.Now()}
-	println("rsp1:%#v", rsp)
+	gxlog.CInfo("rsp1:%#v", rsp)
 	return &rsp, nil
 }
 
@@ -70,8 +73,4 @@ func (u *UserProvider) Reference() string {
 
 func (u User) JavaClassName() string {
 	return "com.ikurento.user.User"
-}
-
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
 }

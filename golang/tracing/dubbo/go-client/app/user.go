@@ -27,7 +27,9 @@ import (
 	"github.com/apache/dubbo-go/config"
 )
 
-var userProvider = new(UserProvider)
+var (
+	userProvider = &UserProvider{}
+)
 
 func init() {
 	config.SetConsumerService(userProvider)

@@ -107,7 +107,3 @@ func (u User) String() string {
 func (u User) JavaClassName() string {
 	return "com.ikurento.user.User"
 }
-
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}

@@ -27,6 +27,10 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+)
+
+import (
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
 	"github.com/apache/dubbo-go/common/logger"
@@ -43,10 +47,6 @@ var (
 	survivalTimeout int = 10e9
 )
 
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}
-
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
@@ -54,7 +54,7 @@ func main() {
 	config.Load()
 	time.Sleep(time.Second)
 
-	println("\n\n\nstart to test dubbo")
+	gxlog.CInfo("\n\n\nstart to test dubbo")
 	reply := &HelloReply{}
 	req := &HelloRequest{
 		Name: "xujianhai",
@@ -63,7 +63,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	println("client response result: %v\n", reply)
+	gxlog.CInfo("client response result: %v\n", reply)
 	initSignal()
 }
 
