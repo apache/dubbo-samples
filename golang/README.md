@@ -106,6 +106,14 @@ cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
 sh ./bin/load_user_info_client.sh start $SUFFIX
 ```
 
+docker env
+
+```bash
+docker run -d --name zk zookeeper
+docker run -d --network container:zk registry.cn-hangzhou.aliyuncs.com/scottwang/go-server
+docker run -d --network container:zk registry.cn-hangzhou.aliyuncs.com/scottwang/go-client
+```
+
 ## How to debug with Goland
 
 ### Edit Configurations
