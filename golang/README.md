@@ -48,7 +48,15 @@ Examples of dubbo-go
 * router
 
     Some router examples. Now, a condition router example is existing. 
-    
+
+* seata
+
+    Transaction system examples by seata.
+
+* shop    
+
+    Shop sample, make consumer and provider run in a go program.
+        
 * tracing
 
     Some tracing examples. We have tracing support of dubbo/grpc/jsonrpc protocol at present. 

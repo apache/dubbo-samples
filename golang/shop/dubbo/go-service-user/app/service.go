@@ -45,7 +45,6 @@ var (
 )
 
 // they are necessary:
-// 		export CONF_PROVIDER_FILE_PATH="xxx"
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
