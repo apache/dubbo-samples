@@ -27,7 +27,6 @@ import (
 
 import (
 	"github.com/dubbogo/gost/log"
-	"github.com/emicklei/go-restful"
 	"github.com/emicklei/go-restful/v3"
 )
 
