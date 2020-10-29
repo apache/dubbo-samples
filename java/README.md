@@ -15,15 +15,15 @@ To compile all samples, run the following command in the top directory of this p
 mvn clean package
 ```
 
-You may need to read each individual README under the sub directories if it has to understand how to build and run.
+You may need to read each individual README under the sub directories if you have to understand how to build and run.
 
 ## Integration Test
 
-This project is also used for integration test for dubbo. 
+This project is also used for integration tests for dubbo. 
 
 **How to build and run a integration test**
 
-Most of integration tests will reply on a home-brew maven plugin to perform correctly when dubbo service is deployed in docker environment. This maven plugin is provided in 'dubbo-maven-address-plugin' module and should be installed before running any integration test:
+Most of the integration tests will rely on a home-brew maven plugin to perform correctly when dubbo service is deployed in docker environment. This maven plugin is provided in 'dubbo-maven-address-plugin' module and should be installed before running any integration test:
 
 ```bash
 cd dubbo-maven-address-plugin
@@ -43,7 +43,7 @@ If docker container fails to startup successfully in any case, you can use *-Ddo
 mvn -Ddocker.showLogs -Pdubbo-integration-test clean verify
 ```
 
-Pls. note integration test relies on docker environment, make sure docker environment is available before run it.
+Pls. note integration tests rely on a Docker environment, make sure the docker environment is available before running them.
 
 > The test may not stable enough at this moment, please enable failure skip to run the whole test suite
 > ```bash

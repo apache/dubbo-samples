@@ -23,6 +23,10 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+)
+
+import (
 	"github.com/apache/dubbo-go/common/extension"
 	"github.com/apache/dubbo-go/filter"
 	"github.com/apache/dubbo-go/protocol"
@@ -56,13 +60,13 @@ func (mf myCustomFilter) Invoke(ctx context.Context, invoker protocol.Invoker, i
 	// you can get many params in url. And the invocation provides more information about
 	url := invoker.GetUrl()
 	serviceKey := url.ServiceKey()
-	println("Here is the my custom filter. The service is invoked: %s", serviceKey)
+	gxlog.CInfo("Here is the my custom filter. The service is invoked: %s", serviceKey)
 	return invoker.Invoke(ctx, invocation)
 }
 
 func (mf myCustomFilter) OnResponse(ctx context.Context, result protocol.Result, invoker protocol.Invoker, invocation protocol.Invocation) protocol.Result {
 	// you can do something here with result
-	println("Got result!")
+	gxlog.CInfo("Got result!")
 	return result
 }
 

@@ -48,7 +48,15 @@ Examples of dubbo-go
 * router
 
     Some router examples. Now, a condition router example is existing. 
-    
+
+* seata
+
+    Transaction system examples by seata.
+
+* shop    
+
+    Shop sample, make consumer and provider run in a go program.
+        
 * tracing
 
     Some tracing examples. We have tracing support of dubbo/grpc/jsonrpc protocol at present. 
@@ -85,7 +93,7 @@ go server
 ```bash
 cd helloworld/dubbo/go-server
 sh ./assembly/$ARCH/$ENV.sh
-cd ./target/linux/user_info_server-0.3.1-20190517-0930-release
+cd ./target/$ARCH/user_info_server-0.3.1-20190517-0930-release
 # $SUFFIX is a suffix of config file,
 # such as server_zookeeper.yml when $SUFFIX is "zookeeper", 
 # if $SUFFIX = "", default server.yml
@@ -99,11 +107,19 @@ go client
 ```bash
 cd helloworld/dubbo/go-client
 sh ./assembly/$ARCH/$ENV.sh
-cd ./target/linux/user_info_client-0.3.1-20190517-0921-release
+cd ./target/$ARCH/user_info_client-0.3.1-20190517-0921-release
 # $SUFFIX is a suffix of config file,
 # such as client_zookeeper.yml when $SUFFIX = zookeeper", 
 # if $SUFFIX = "", config file is client.yml
 sh ./bin/load_user_info_client.sh start $SUFFIX
+```
+
+docker env
+
+```bash
+docker run -d --name zk zookeeper
+docker run -d --network container:zk registry.cn-hangzhou.aliyuncs.com/scottwang/go-server
+docker run -d --network container:zk registry.cn-hangzhou.aliyuncs.com/scottwang/go-client
 ```
 
 ## How to debug with Goland

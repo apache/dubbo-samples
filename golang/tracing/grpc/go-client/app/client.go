@@ -27,6 +27,12 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+	opentracing "github.com/opentracing/opentracing-go"
+	jaegercfg "github.com/uber/jaeger-client-go/config"
+)
+
+import (
 	_ "github.com/apache/dubbo-go/cluster/cluster_impl"
 	_ "github.com/apache/dubbo-go/cluster/loadbalance"
 	"github.com/apache/dubbo-go/common/logger"
@@ -37,18 +43,12 @@ import (
 	_ "github.com/apache/dubbo-go/protocol/grpc"
 	_ "github.com/apache/dubbo-go/registry/protocol"
 	_ "github.com/apache/dubbo-go/registry/zookeeper"
-
-	opentracing "github.com/opentracing/opentracing-go"
-	jaegercfg "github.com/uber/jaeger-client-go/config"
 )
 
 var (
 	survivalTimeout int = 10e9
 )
 
-func println(format string, args ...interface{}) {
-	fmt.Printf("\033[32;40m"+format+"\033[0m\n", args...)
-}
 
 // they are necessary:
 // 		export CONF_CONSUMER_FILE_PATH="xxx"
@@ -70,7 +70,7 @@ func main() {
 	config.Load()
 	time.Sleep(time.Second)
 
-	println("\n\n\nstart to test dubbo")
+	gxlog.CInfo("\n\n\nstart to test dubbo")
 	reply := &HelloReply{}
 	req := &HelloRequest{
 		Name: "xujianhai",
@@ -79,7 +79,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	println("client response result: %v\n", reply)
+	gxlog.CInfo("client response result: %v\n", reply)
 	initSignal()
 }
 
@@ -106,4 +106,3 @@ func initSignal() {
 		}
 	}
 }
-

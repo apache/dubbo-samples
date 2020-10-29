@@ -27,7 +27,9 @@ import (
 
 import (
 	hessian "github.com/apache/dubbo-go-hessian2"
+)
 
+import (
 	"github.com/apache/dubbo-go/common/logger"
 	"github.com/apache/dubbo-go/config"
 	_ "github.com/apache/dubbo-go/protocol/dubbo"

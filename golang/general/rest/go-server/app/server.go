@@ -26,13 +26,17 @@ import (
 )
 
 import (
+	"github.com/dubbogo/gost/log"
+	"github.com/emicklei/go-restful/v3"
+)
+
+import (
 	"github.com/apache/dubbo-go/common/logger"
 	_ "github.com/apache/dubbo-go/common/proxy/proxy_factory"
 	"github.com/apache/dubbo-go/config"
 	_ "github.com/apache/dubbo-go/protocol/rest"
 	"github.com/apache/dubbo-go/protocol/rest/server/server_impl"
 	_ "github.com/apache/dubbo-go/registry/protocol"
-	"github.com/emicklei/go-restful/v3"
 
 	_ "github.com/apache/dubbo-go/filter/filter_impl"
 
@@ -50,11 +54,11 @@ var (
 // 		export APP_LOG_CONF_FILE="xxx"
 func main() {
 	server_impl.AddGoRestfulServerFilter(func(request *restful.Request, response *restful.Response, chain *restful.FilterChain) {
-		println(request.SelectedRoutePath())
+		gxlog.CInfo(request.SelectedRoutePath())
 		chain.ProcessFilter(request, response)
 	})
 	server_impl.AddGoRestfulServerFilter(func(request *restful.Request, response *restful.Response, chain *restful.FilterChain) {
-		println("filter2")
+		gxlog.CInfo("filter2")
 		chain.ProcessFilter(request, response)
 	})
 	config.Load()

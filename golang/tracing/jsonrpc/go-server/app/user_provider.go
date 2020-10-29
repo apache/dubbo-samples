@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+)
 
+import (
+	"github.com/dubbogo/gost/log"
 	"github.com/opentracing/opentracing-go"
 )
 
@@ -36,20 +39,20 @@ func (u *UserProvider) GetUser(ctx context.Context, req []interface{}, rsp *User
 	)
 
 	if ctx == nil {
-		println("ctx is nil %v")
+		gxlog.CInfo("ctx is nil %v")
 		ctx = context.Background()
 	}
 	span, _ := opentracing.StartSpanFromContext(ctx, "User-Provider-non")
 	defer span.Finish()
-	println("req:%#v", req)
+	gxlog.CInfo("req:%#v", req)
 	if ctx != nil {
-		println("tracing Id: %v", ctx.Value("TracingId"))
+		gxlog.CInfo("tracing Id: %v", ctx.Value("TracingId"))
 	}
 	time.Sleep(10 * time.Millisecond)
 	user, err = u.getUser(req[0].(string))
 	if err == nil {
 		*rsp = *user
-		println("rsp:%#v", rsp)
+		gxlog.CInfo("rsp:%#v", rsp)
 	}
 	return err
 }
@@ -57,7 +60,7 @@ func (u *UserProvider) GetUser(ctx context.Context, req []interface{}, rsp *User
 func (u *UserProvider) GetUser0(id string, name string) (User, error) {
 	var err error
 
-	println("id:%s, name:%s", id, name)
+	gxlog.CInfo("id:%s, name:%s", id, name)
 	user, err := u.getUser(id)
 	if err != nil {
 		return User{}, err
@@ -71,7 +74,7 @@ func (u *UserProvider) GetUser0(id string, name string) (User, error) {
 func (u *UserProvider) GetUser2(ctx context.Context, req []interface{}, rsp *User) error {
 	var err error
 
-	println("req:%#v", req)
+	gxlog.CInfo("req:%#v", req)
 	rsp.Id = strconv.FormatFloat(req[0].(float64), 'f', 0, 64)
 	rsp.Sex = Gender(MAN).String()
 	return err
@@ -84,18 +87,18 @@ func (u *UserProvider) GetUser3() error {
 func (u *UserProvider) GetUsers(req []interface{}) ([]User, error) {
 	var err error
 
-	println("req:%s", req)
+	gxlog.CInfo("req:%s", req)
 	t := req[0].([]interface{})
 	user, err := u.getUser(t[0].(string))
 	if err != nil {
 		return nil, err
 	}
-	println("user:%v", user)
+	gxlog.CInfo("user:%v", user)
 	user1, err := u.getUser(t[1].(string))
 	if err != nil {
 		return nil, err
 	}
-	println("user1:%v", user1)
+	gxlog.CInfo("user1:%v", user1)
 
 	return []User{*user, *user1}, err
 }
