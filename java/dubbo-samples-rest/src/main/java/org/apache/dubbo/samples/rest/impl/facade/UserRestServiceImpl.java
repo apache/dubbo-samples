@@ -23,8 +23,8 @@ import org.apache.dubbo.samples.rest.api.UserService;
 import org.apache.dubbo.samples.rest.api.facade.RegistrationResult;
 import org.apache.dubbo.samples.rest.api.facade.UserRestService;
 
-import com.alibaba.dubbo.rpc.RpcContext;
-import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.protocol.rest.support.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
