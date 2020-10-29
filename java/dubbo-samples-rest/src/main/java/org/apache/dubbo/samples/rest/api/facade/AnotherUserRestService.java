@@ -20,7 +20,7 @@ package org.apache.dubbo.samples.rest.api.facade;
 
 import org.apache.dubbo.samples.rest.api.User;
 
-import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
+import org.apache.dubbo.rpc.protocol.rest.support.ContentType;
 
 import javax.validation.constraints.Min;
 import javax.ws.rs.Consumes;

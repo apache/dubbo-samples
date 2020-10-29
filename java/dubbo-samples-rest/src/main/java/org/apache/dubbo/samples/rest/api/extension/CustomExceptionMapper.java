@@ -18,7 +18,7 @@
  */
 package org.apache.dubbo.samples.rest.api.extension;
 
-import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcContext;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;

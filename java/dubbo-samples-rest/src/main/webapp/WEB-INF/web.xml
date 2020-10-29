@@ -21,12 +21,12 @@
 <web-app>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/classes/spring/rest-provider.xml</param-value>
+        <param-value>classpath:/spring/rest-provider.xml</param-value>
     </context-param>
 
     <!--this listener must be defined before the spring listener-->
     <listener>
-        <listener-class>com.alibaba.dubbo.remoting.http.servlet.BootstrapListener</listener-class>
+        <listener-class>org.apache.dubbo.remoting.http.servlet.BootstrapListener</listener-class>
     </listener>
 
     <listener>
@@ -35,7 +35,7 @@
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
-        <servlet-class>com.alibaba.dubbo.remoting.http.servlet.DispatcherServlet</servlet-class>
+        <servlet-class>org.apache.dubbo.remoting.http.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
