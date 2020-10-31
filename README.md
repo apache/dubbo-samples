@@ -2,10 +2,12 @@
 
 Samples for Apache Dubbo
 
-[![Build Status](https://travis-ci.org/apache/dubbo-samples.svg?branch=master)](https://travis-ci.org/apache/dubbo-samples) 
+[![Build Status](https://travis-ci.org/apache/dubbo-samples.svg?branch=master)](https://travis-ci.org/apache/dubbo-samples)
 ![license](https://img.shields.io/github/license/apache/dubbo-samples.svg)
 
 This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, pls. check README in each individual sub projects. It is also helpful to cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/user/quick-start.html) to understand the features demoed in this project.
+
+What's more, [dubbo-go](https://github.com/apache/dubbo-go) samples are kept in [golang](https://github.com/apache/dubbo-go-samples).
 
 ## Build and Run Samples
 
@@ -19,7 +21,7 @@ You may need to read each individual README under the sub directories if you hav
 
 ## Integration Test
 
-This project is also used for integration tests for dubbo. 
+This project is also used for integration tests for dubbo.
 
 **How to build and run a integration test**
 
@@ -79,7 +81,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
     <id>dubbo-integration-test</id>
     <build>
         <plugins><!-- declare maven plugins here --></plugins>
-    </build> 
+    </build>
     </profile>
 </profiles>
 ```
@@ -105,7 +107,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 </plugin>
 ```
 
-'dubbo-local-address' is a maven property in which dubbo provider's IP address is stored. 
+'dubbo-local-address' is a maven property in which dubbo provider's IP address is stored.
 
 4. Configure jib-maven-plugin
 
@@ -143,7 +145,7 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
 </plugin>
 ```
 
-'<DUBBO_IP_TO_REGISTRY>' is an environment variable to instruct dubbo provider the IP address used for registering to service registration center. Since the dubbo provider will run within a docker instance, a host's IP address (detected from dubbo-maven-address-plugin) must be used in order to allow it discovered by the dubbo client running outside docker instance. 
+'<DUBBO_IP_TO_REGISTRY>' is an environment variable to instruct dubbo provider the IP address used for registering to service registration center. Since the dubbo provider will run within a docker instance, a host's IP address (detected from dubbo-maven-address-plugin) must be used in order to allow it discovered by the dubbo client running outside docker instance.
 
 5. Configure docker-maven-plugin
 
@@ -162,9 +164,9 @@ Since we use profile 'dubbo-integration-test' to enable integration test, make s
                         <port>2181:2181</port> <!-- expose zookeeper port -->
                     </ports>
                     <wait>
-                        <!-- wait until the message output in stdout, and it requires dubbo's provider 
+                        <!-- wait until the message output in stdout, and it requires dubbo's provider
                         explicitly prints out this message at the very end of main() -->
-                        <log>dubbo service started</log> 
+                        <log>dubbo service started</log>
                     </wait>
                 </run>
             </image>
