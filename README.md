@@ -7,7 +7,7 @@ Samples for Apache Dubbo
 
 This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, pls. check README in each individual sub projects. It is also helpful to cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/user/quick-start.html) to understand the features demoed in this project.
 
-What's more, [dubbo-go](https://github.com/apache/dubbo-go) samples are kept in [golang](https://github.com/apache/dubbo-go-samples).
+What's more, [dubbo-go](https://github.com/apache/dubbo-go) samples are moved to [dubbo-go-samples](https://github.com/apache/dubbo-go-samples).
 
 ## Build and Run Samples
 
