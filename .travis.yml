@@ -17,7 +17,6 @@ install: true
 
 before_script: 
   - . .travis/prepare-artifact.sh
-  - cd java
 
 script:
   - ./mvnw -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean install -pl dubbo-maven-address-plugin -Ddubbo.version=${INTERGARTION_TEST_VERSION}

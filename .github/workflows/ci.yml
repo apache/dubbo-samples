@@ -1,12 +1,6 @@
 name: Java CI
 
-on:
-  pull_request:
-    paths:
-      - "java/**"
-  push:
-    paths:
-      - 'java/**'
+on: [push, pull_request]
 
 jobs:
   build:
@@ -20,5 +14,4 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          cd java
           ./mvnw  --settings .mvn/settings.xml clean package
