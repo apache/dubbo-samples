@@ -2,7 +2,7 @@
 env
 
 if [[ -z "${RELEASE_BRANCH}" ]]; then
-  export INTERGARTION_TEST_VERSION=2.7.8-SNAPSHOT
+  export INTERGARTION_TEST_VERSION=2.7.9-SNAPSHOT
 else
   git clone https://github.com/apache/dubbo.git
   cd dubbo

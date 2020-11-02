@@ -39,7 +39,7 @@
         <jstl.version>1.2</jstl.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <dubbo.version>2.7.7</dubbo.version>
+        <dubbo.version>2.7.8</dubbo.version>
         <cxf.version>3.3.7</cxf.version>
         <zookeeper.version>3.4.13</zookeeper.version>
         <curator-recipes.version>4.0.1</curator-recipes.version>
