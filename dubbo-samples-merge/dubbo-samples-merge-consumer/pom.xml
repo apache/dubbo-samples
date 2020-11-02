@@ -29,8 +29,8 @@
     <artifactId>dubbo-samples-merge-consumer</artifactId>
 
     <properties>
-        <dubbo.version>2.7.8</dubbo.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <dubbo.version>2.7.9-SNAPSHOT</dubbo.version>
+        <spring.version>5.2.8.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>

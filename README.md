@@ -59,7 +59,7 @@ If you are interested in contributing more integration test for dubbo, pls. read
 1. Related maven properties relevant to integration test:
 
 ```xml
-<spring.version>4.3.16.RELEASE</spring.version>
+<spring.version>5.2.8.RELEASE</spring.version>
 <junit.version>4.12</junit.version>
 <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
 <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
