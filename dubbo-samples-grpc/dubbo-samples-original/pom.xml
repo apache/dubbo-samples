@@ -30,7 +30,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>2.7.9-SNAPSHOT</dubbo.version>
         <junit.version>4.12</junit.version>
-        <spring-test.version>4.3.16.RELEASE</spring-test.version>
+        <spring-test.version>5.2.8.RELEASE</spring-test.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>

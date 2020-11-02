@@ -41,7 +41,7 @@
         <dubbo.port>20880</dubbo.port>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <main-class>org.apache.dubbo.samples.mock.MockProvider</main-class>
-        <spring-test.version>4.3.16.RELEASE</spring-test.version>
+        <spring-test.version>5.2.8.RELEASE</spring-test.version>
     </properties>
 
     <dependencyManagement>

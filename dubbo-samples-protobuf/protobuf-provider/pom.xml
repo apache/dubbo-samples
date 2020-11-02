@@ -28,7 +28,7 @@
     <name>${project.artifactId}</name>
     <description>The demo provider module of dubbo project</description>
     <properties>
-        <spring-test.version>4.3.16.RELEASE</spring-test.version>
+        <spring-test.version>5.2.8.RELEASE</spring-test.version>
         <skip_maven_deploy>true</skip_maven_deploy>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <zookeeper.version>3.4.3</zookeeper.version>

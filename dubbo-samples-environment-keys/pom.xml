@@ -37,7 +37,7 @@
         <image.name>${project.artifactId}:${dubbo.version}</image.name>
         <dubbo.port>20880</dubbo.port>
         <main-class>org.apache.dubbo.samples.basic.BasicProvider</main-class>
-        <spring-test.version>4.3.16.RELEASE</spring-test.version>
+        <spring-test.version>5.2.8.RELEASE</spring-test.version>
     </properties>
 
     <dependencies>
