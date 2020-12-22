@@ -190,7 +190,7 @@ services:
 
 ### Some tricks
 
-#### scenario
+#### Scenario
 
 A scenario is a complete test environment, including docker-compose.yml, scenario.sh, app classes, test classes and dependency jars. You can test the scenario separately, just run scenario.sh.
 
@@ -224,7 +224,7 @@ A scenario is a complete test environment, including docker-compose.yml, scenari
   timeout=120 bash ${scenario_home}/scenario.sh 
  ```
 
-#### logs
+#### Logs
 
 * App service log: `${scenario_home}/logs/app.log`
 
@@ -242,17 +242,36 @@ A scenario is a complete test environment, including docker-compose.yml, scenari
   
   log of scenario script.
 
-#### test reports
+#### Test reports
 
 The test reports is in directory: `${scenario_home}/test-reports`
 
-#### fork run
+#### Fork run
 
 The fork count is 2 by default, you can modify it by setting env `FORK_COUNT=n`. 
-Increasing the fork count may cause the container to run very slowly, please set it according to the CPU/IO performance of the operating system.
+Increasing the fork count may cause the container to run very slowly, 
+please set it according to the CPU/IO performance of the operating system.
 
 ```
 FORK_COUNT=2 bash run-tests.sh
+```
+
+#### Fail-fast
+
+Run tests in fail-fast mode, abort testing when any case is failed. 
+It's useful when running tests in CI server, such as: Jenkins, Github actions.
+
+```
+FAIL_FAST=1 bash run-tests.sh
+```
+
+#### Show error detail
+
+Show log detail of failed testcase, including app log and test container log. 
+It's useful when running tests in CI server, such as: Jenkins, Github actions.
+
+```
+SHOW_ERROR_DETAIL=1 bash run-tests.sh
 ```
 
 ### Develop

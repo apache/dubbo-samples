@@ -4,6 +4,13 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 DUBBO_VERSION=2.7.9-SNAPSHOT
 
+FAIL_FAST=${FAIL_FAST:-0}
+echo "FAIL_FAST: $FAIL_FAST"
+
+SHOW_ERROR_DETAIL=${SHOW_ERROR_DETAIL:-0}
+export SHOW_ERROR_DETAIL=$SHOW_ERROR_DETAIL
+echo "SHOW_ERROR_DETAIL: $SHOW_ERROR_DETAIL"
+
 # build scenario-builder
 SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
 echo "Building scenario builder .."
@@ -88,7 +95,7 @@ function process_case() {
   # run test
   echo "$log_prefix Running test case .."
   running_time=$SECONDS
-  bash $project_home/target/scenario.sh
+  bash $scenario_home/scenario.sh
   result=$?
   result_string="$TEST_FAILURE"
   if [ $result == 0 ]; then
@@ -99,6 +106,22 @@ function process_case() {
   echo "$log_prefix $result_string: total cost: $((end_time - building_time)) s "\
     "(build: $((config_time - building_time)), config: $((running_time - config_time)), test: $((end_time - running_time)) )" | \
     tee -a $testResultFile
+
+  if [ $result != 0 ] && [ "$SHOW_ERROR_DETAIL" == "1" ]; then
+    if [ -f $scenario_home/logs/container.log ]; then
+      echo ""
+      echo "----------------------------------------------------------"
+      echo "app log of $scenario_name :"
+      echo "----------------------------------------------------------"
+      cat $scenario_home/logs/app.log
+      echo ""
+      echo "----------------------------------------------------------"
+      echo "container log of $scenario_name :"
+      echo "----------------------------------------------------------"
+      cat $scenario_home/logs/container.log
+      echo ""
+    fi
+  fi
 }
 
 # start run tests
@@ -125,7 +148,23 @@ do
   while [ $finishedTest -lt $caseCount ] && [ $((allTest - finishedTest)) -ge $delta ]
   do
     sleep 1
-    [ -f $testResultFile ] && finishedTest=`grep "" -c $testResultFile`
+    if [ -f $testResultFile ]; then
+      finishedTest=`grep "" -c $testResultFile`
+      # check fail fast
+      if [ "$FAIL_FAST" == "1" ]; then
+        failedTest=`grep "$TEST_FAILURE" -c $testResultFile`
+        if [ $failedTest -ne 0 ]; then
+          echo "Aborting, wait for subprocess finished .."
+          wait
+          echo "----------------------------------------------------------"
+          echo "Test is aborted cause some testcase is failed (fail-fast mode). "
+          echo "Fail tests:"
+          grep "$TEST_FAILURE" $testResultFile
+          echo "----------------------------------------------------------"
+          exit 1
+        fi
+      fi
+    fi
   done
 
 done < $testListFile
@@ -142,10 +181,13 @@ echo "Success tests count: $successTest"
 if [ $successTest == $allTest ]
 then
    echo "All tests pass"
+   echo "----------------------------------------------------------"
    exit 0
 else
    echo "Some tests fail: $failedTest"
+   echo "Fail tests:"
    grep "$TEST_FAILURE" $testResultFile
+   echo "----------------------------------------------------------"
    exit 1
 fi
 
