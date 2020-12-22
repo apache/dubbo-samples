@@ -39,6 +39,59 @@ cd dubbo-samples/test
 ./run-tests.sh
 ```
 
+### Builtin parent configuration
+
+Use `from` directive can import parent configuration, merge into current configuration.
+
+Builtin parent configurations is in directory: `test/dubbo-scenario-builder/src/main/resources/configs`. 
+
+* `app-builtin-zookeeper.yml` 
+  
+  Applicable scenario: single dubbo provider application with builtin zookeeper
+and test case.
+
+* `app-external-zookeeper.yml`
+  Applicable scenario: single dubbo provider application, external zookeeper
+and test case.
+
+
+**Usages:** 
+
+* `dubbo-samples-annotation` configuration:
+
+```
+from: app-builtin-zookeeper.yml
+props:
+  project_name: dubbo-samples-annotation
+  main_class: org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
+  zookeeper_port: 2181
+  service_port: 20880
+```
+
+`project_name` : project name of dubbo sample
+
+`main_class` : main class of dubbo provider application
+
+`service_port` : dubbo provider service port
+
+`zookeeper_port` : builtin zookeeper port
+
+
+* `dubbo-samples-api` configuration:
+
+```
+from: app-external-zookeeper.yml
+
+props:
+  project_name: dubbo-samples-api
+  main_class: org.apache.dubbo.samples.provider.Application
+  service_port: 20880
+  zookeeper_version: latest
+```
+
+`zookeeper_version` : external zookeeper version
+
+External zookeeper service is a fixed port 2181, cause cannot change port unless expose it.
 
 
 ### Case configuration details
@@ -80,15 +133,27 @@ Service directives compatible with `docker-compose`:
 | `entrypoint` | |
 | `healthcheck` | |
 
-for example:
 
+#### Configuration example
 
-`app-builtin-zookeeper.yml`: 
+`app-external-zookeeper.yml` includes :
+
+* External zookeeper 
+* Dubbo provider application
+* Dubbo testcase
+
+**Note:**  
+
+* app/test service connect to zookeeper by system property `zookeeper.address` and `zookeeper.port`
+
+* wait zookeeper port before run dubbo provider application
+
+* wait zookeeper port and dubbo provider service port before run dubbo test
 
 ```
 props:
-  project_name: dubbo-samples-xxx
-  main_class: org.apache.dubbo.samples.xxx.XxxProviderBootstrap
+#  project_name: dubbo-samples-xxx
+#  main_class: org.apache.dubbo.samples.xxx.XxxProviderBootstrap
   service_port: 20880
   zookeeper_version: latest
 
@@ -119,35 +184,85 @@ services:
       - ${project_name}:${service_port}
     depends_on:
       - ${project_name}
-```
-
-`dubbo-samples-annotation` configuration:
 
 ```
-from: app-builtin-zookeeper.yml
-props:
-  project_name: dubbo-samples-annotation
-  main_class: org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
-  zookeeper_port: 2181
-  service_port: 20880
 
-```
 
 ### Some tricks
 
+#### scenario
+
+A scenario is a complete test environment, including docker-compose.yml, scenario.sh, app classes, test classes and dependency jars. You can test the scenario separately, just run scenario.sh.
+
+* Scenario home
+
+ `${scenario_home}` default location is: `${project.basedir/target}`.
+ 
+ App / test service automatically mounts directory: `${scenario_home}:/usr/local/dubbo/app`
+
+* Enable debug mode
+
+ ```
+ debug_mode=1 bash ${scenario_home}/scenario.sh
+
+ ```
+
+* Scenario running timeout
+ 
+ Default running timeout is 90s. Some test cases require more time, you can modify it in the following way. 
+ 
+ 1) Change timeout in `case-configuration.yml`:
+ 
+   ```
+   props:
+     timeout: 120
+   ```
+   
+ 2) Change timeout in command line
+ 
+ ```
+  timeout=120 bash ${scenario_home}/scenario.sh 
+ ```
 
 #### logs
 
+* App service log: `${scenario_home}/logs/app.log`
 
-#### forks
+  log of dubbo application.
 
+* Test service log: `${scenario_home}/logs/test.log`
+  
+  log of testcase.
 
-### dubbo-scenario-builder
+* Test container log: `${scenario_home}/logs/container.log`
+
+  log of test container.
+
+* Scenario log: `${scenario_home}/logs/scenario.log`
+  
+  log of scenario script.
+
+#### test reports
+
+The test reports is in directory: `${scenario_home}/test-reports`
+
+#### fork run
+
+The fork count is 2 by default, you can modify it by setting env `FORK_COUNT=n`. 
+Increasing the fork count may cause the container to run very slowly, please set it according to the CPU/IO performance of the operating system.
+
+```
+FORK_COUNT=2 bash run-tests.sh
+```
+
+### Develop
+
+#### dubbo-scenario-builder
 Build dubbo test scenario, generating docker/docker-compose script files and 
 start script files. 
 
 
-### dubbo-test-runner
+#### dubbo-test-runner
 A Junit test runner, execute a set of testcases, replacement for maven-safefail-plugin. 
 Also include files for `dubbo-test-image`.
 

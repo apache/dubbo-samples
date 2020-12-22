@@ -103,8 +103,8 @@ function process_case() {
 
 # start run tests
 testStartTime=$SECONDS
-maxForks=${FORKS_COUNT:-2}
-echo "Forks count: $maxForks"
+maxForks=${FORK_COUNT:-2}
+echo "Fork count: $maxForks"
 
 #counter
 allTest=0
