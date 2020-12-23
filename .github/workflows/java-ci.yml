@@ -31,8 +31,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      FORK_COUNT: 3
-      FAIL_FAST: 1
+      FORK_COUNT: 2
+      FAIL_FAST: 0
       SHOW_ERROR_DETAIL: 1
     steps:
       - uses: actions/checkout@v1

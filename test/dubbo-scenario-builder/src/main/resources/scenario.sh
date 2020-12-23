@@ -34,7 +34,6 @@ start=$SECONDS
 mkdir -p ${SCENARIO_HOME}/logs
 scenario_log=${SCENARIO_HOME}/logs/scenario.log
 rm -f $scenario_log
-echo "[$scenario_name] scenario log: $scenario_log" | tee -a $scenario_log
 
 # overrite configs
 debug_mode=${debug_mode:-$config_debug_mode}

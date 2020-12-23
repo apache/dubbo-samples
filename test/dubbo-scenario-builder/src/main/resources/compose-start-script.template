@@ -52,16 +52,11 @@ else
         echo "[$scenario_name] Run tests timeout" | tee -a $scenario_log
     fi
 
-    docker logs ${container_name} &> ${SCENARIO_HOME}/logs/container.log
-
-    echo "[$scenario_name] Test reports: ${SCENARIO_HOME}/test-reports" | tee -a $scenario_log
-    echo "[$scenario_name] Test logs: ${SCENARIO_HOME}/logs" | tee -a $scenario_log
-
     echo "[$scenario_name] Stopping test containers .." | tee -a $scenario_log
     docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
-fi
+    docker logs ${container_name} &> ${SCENARIO_HOME}/logs/container.log
 
-# copy app.log here of all app services?
+fi
 
 if [[ "${debug_mode}" != "1" && $status == 0 ]];then
     docker-compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenario_log > /dev/null

@@ -7,9 +7,15 @@ DUBBO_VERSION=2.7.9-SNAPSHOT
 FAIL_FAST=${FAIL_FAST:-0}
 echo "FAIL_FAST: $FAIL_FAST"
 
-SHOW_ERROR_DETAIL=${SHOW_ERROR_DETAIL:-0}
+SHOW_ERROR_DETAIL=${SHOW_ERROR_DETAIL:-1}
 export SHOW_ERROR_DETAIL=$SHOW_ERROR_DETAIL
 echo "SHOW_ERROR_DETAIL: $SHOW_ERROR_DETAIL"
+
+maxForks=${FORK_COUNT:-2}
+echo "Fork count: $maxForks"
+
+echo "Test logs dir: \${project.basedir}/target/logs"
+echo "Test reports dir: \${project.basedir}/target/test-reports"
 
 # build scenario-builder
 SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
@@ -97,18 +103,18 @@ function process_case() {
   running_time=$SECONDS
   bash $scenario_home/scenario.sh
   result=$?
-  result_string="$TEST_FAILURE"
-  if [ $result == 0 ]; then
-    result_string="$TEST_SUCCESS"
-  fi
-
   end_time=$SECONDS
-  echo "$log_prefix $result_string: total cost: $((end_time - building_time)) s "\
-    "(build: $((config_time - building_time)), config: $((running_time - config_time)), test: $((end_time - running_time)) )" | \
-    tee -a $testResultFile
 
-  if [ $result != 0 ] && [ "$SHOW_ERROR_DETAIL" == "1" ]; then
-    if [ -f $scenario_home/logs/container.log ]; then
+  if [ $result == 0 ]; then
+    echo "$log_prefix $TEST_SUCCESS: total cost $((end_time - building_time)) s "\
+      "(build: $((running_time - building_time)), test: $((end_time - running_time)) )" | \
+      tee -a $testResultFile
+  else
+    echo "$log_prefix $TEST_FAILURE, please check logs: $scenario_home/logs" | \
+      tee -a $testResultFile
+
+    # show test log
+    if [ "$SHOW_ERROR_DETAIL" == "1" ] && [ -f $scenario_home/logs/container.log ]; then
       echo ""
       echo "----------------------------------------------------------"
       echo "app log of $scenario_name :"
@@ -126,8 +132,6 @@ function process_case() {
 
 # start run tests
 testStartTime=$SECONDS
-maxForks=${FORK_COUNT:-2}
-echo "Fork count: $maxForks"
 
 #counter
 allTest=0
@@ -173,6 +177,8 @@ successTest=`grep "$TEST_SUCCESS" -c $testResultFile`
 failedTest=`grep "$TEST_FAILURE" -c $testResultFile`
 
 echo "----------------------------------------------------------"
+echo "Test logs dir: \${project.basedir}/target/logs"
+echo "Test reports dir: \${project.basedir}/target/test-reports"
 echo "Test results: $testResultFile"
 echo "Total cost: $((SECONDS - testStartTime)) seconds"
 echo "All tests count: $allTest"
@@ -185,6 +191,7 @@ then
    exit 0
 else
    echo "Some tests fail: $failedTest"
+   echo "----------------------------------------------------------"
    echo "Fail tests:"
    grep "$TEST_FAILURE" $testResultFile
    echo "----------------------------------------------------------"
