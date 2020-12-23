@@ -45,6 +45,7 @@ jobs:
           path: test/jobs
 
   test_job_1:
+    needs: prepare_test
     runs-on: ubuntu-latest
     env:
       FORK_COUNT: 2
@@ -78,6 +79,7 @@ jobs:
           bash ./run-tests.sh
 
   test_job_2:
+    needs: prepare_test
     runs-on: ubuntu-latest
     env:
       FORK_COUNT: 2
@@ -111,6 +113,7 @@ jobs:
           bash ./run-tests.sh
 
   test_job_3:
+    needs: prepare_test
     runs-on: ubuntu-latest
     env:
       FORK_COUNT: 2
