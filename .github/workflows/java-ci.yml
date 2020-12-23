@@ -73,6 +73,9 @@ jobs:
           name: test-list-result
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
+        with:
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: ${{ runner.os }}-docker-layer-
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -104,6 +107,9 @@ jobs:
           name: test-list-result
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
+        with:
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: ${{ runner.os }}-docker-layer-
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -135,6 +141,9 @@ jobs:
           name: test-list-result
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
+        with:
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: ${{ runner.os }}-docker-layer-
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -166,6 +175,9 @@ jobs:
           name: test-list-result
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
+        with:
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: ${{ runner.os }}-docker-layer-
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -197,6 +209,9 @@ jobs:
           name: test-list-result
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
+        with:
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: ${{ runner.os }}-docker-layer-
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -228,6 +243,9 @@ jobs:
           name: test-list-result
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
+        with:
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: ${{ runner.os }}-docker-layer-
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
