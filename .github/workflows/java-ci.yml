@@ -36,7 +36,7 @@ jobs:
   prepare_test:
     runs-on: ubuntu-latest
     env:
-      JOB_COUNT: 3
+      JOB_COUNT: 18
     steps:
       - uses: actions/checkout@v1
       - name: Prepare test list
@@ -60,7 +60,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 1.8
@@ -72,6 +72,7 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
         run: |
           cd test
@@ -92,7 +93,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 1.8
@@ -104,6 +105,7 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
         run: |
           cd test
@@ -124,7 +126,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 1.8
@@ -136,6 +138,7 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
         run: |
           cd test
