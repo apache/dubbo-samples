@@ -14,6 +14,15 @@ echo "SHOW_ERROR_DETAIL: $SHOW_ERROR_DETAIL"
 maxForks=${FORK_COUNT:-2}
 echo "Fork count: $maxForks"
 
+#TEST_CASES_FILE
+if [ "$TEST_CASES_FILE" != "" ]; then
+  # convert relative path to absolute path
+  if [[ $TEST_CASES_FILE != /* ]]; then
+    TEST_CASES_FILE=$DIR/$TEST_CASES_FILE
+  fi
+  echo "TEST_CASES_FILE: $TEST_CASES_FILE"
+fi
+
 echo "Test logs dir: \${project.basedir}/target/logs"
 echo "Test reports dir: \${project.basedir}/target/test-reports"
 
@@ -29,35 +38,47 @@ if [ $result -ne 0 ]; then
 fi
 
 # find jar
-TEST_BUILDER_JAR=`ls $SCENARIO_BUILDER_DIR/target/dubbo-scenario-builder*-with-dependencies.jar`
-if [ "$TEST_BUILDER_JAR" == "" ]; then
+test_builder_jar=`ls $SCENARIO_BUILDER_DIR/target/dubbo-scenario-builder*-with-dependencies.jar`
+if [ "$test_builder_jar" == "" ]; then
   echo "dubbo-scenario-builder jar not found"
   exit 1
 else
-  echo "Found test builder : $TEST_BUILDER_JAR"
+  echo "Found test builder : $test_builder_jar"
 fi
 
 cd $DIR
 
-testListFile=$DIR/testcases.txt
+CONFIG_FILE="case-configuration.yml"
 
 targetTestcases=$1
 if [ "$targetTestcases" != "" ];then
   echo "Target testcase: $targetTestcases"
   echo $targetTestcases > $testListFile
 else
-  # find all case-configuration.yml
-  TEST_BASE_DIR="$( cd $DIR/.. && pwd )"
-  echo "Searching all 'case-configuration.yml' under dir $TEST_BASE_DIR .."
-  find $TEST_BASE_DIR -name 'case-configuration.yml' | grep -v "$DIR" > $testListFile
+  # use input testcases file
+  if [ "$TEST_CASES_FILE" != "" ]; then
+    testListFile=$TEST_CASES_FILE
+    if [ ! -f $testListFile ]; then
+      echo "Testcases file not found: $testListFile"
+      exit 1
+    fi
+  else
+    # find all case-configuration.yml
+    test_base_dir="$( cd $DIR/.. && pwd )"
+    testListFile=$DIR/testcases.txt
+    rm -f $testListFile
+    echo "Searching all '$CONFIG_FILE' under dir $test_base_dir .."
+    find $test_base_dir -name $CONFIG_FILE | grep -v "$DIR" > $testListFile
+  fi
 fi
 
 caseCount=`grep "" -c $testListFile`
 echo "Total test cases : $caseCount"
 
 #clear test results
-testResultFile=$DIR/testcases-result.txt
+testResultFile=${testListFile%.*}-result.txt
 rm -f $testResultFile
+echo "Test results: $testResultFile"
 
 # constant
 TEST_SUCCESS="TEST SUCCESS"
@@ -66,6 +87,16 @@ TEST_FAILURE="TEST FAILURE"
 function process_case() {
   file=$1
   case_no=$2
+
+  if [ -d $file ]; then
+    file=$file/$CONFIG_FILE
+  fi
+
+  if [ ! -f $file ]; then
+    echo "$TEST_FAILURE: case config not found: $file" | tee -a $testResultFile
+    return 1
+  fi
+
   project_home=`dirname $file`
   scenario_home=$project_home/target
   scenario_name=`basename $project_home`
@@ -80,7 +111,7 @@ function process_case() {
   result=$?
   if [ $result -ne 0 ]; then
     echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
-    return
+    return 1
   fi
 
   # generate case configuration
@@ -91,11 +122,11 @@ function process_case() {
     -Dscenario.home=$scenario_home \
     -Dscenario.name=$scenario_name \
     -Dscenario.version=$DUBBO_VERSION \
-    -jar $TEST_BUILDER_JAR  &> $scenario_home/scenario-builder.log
+    -jar $test_builder_jar  &> $scenario_home/scenario-builder.log
   result=$?
   if [ $result -ne 0 ]; then
     echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $scenario_home/scenario-builder.log" | tee -a $testResultFile
-    return
+    return 1
   fi
 
   # run test
@@ -127,6 +158,7 @@ function process_case() {
       cat $scenario_home/logs/container.log
       echo ""
     fi
+    return 1
   fi
 }
 
