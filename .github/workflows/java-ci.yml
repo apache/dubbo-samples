@@ -72,18 +72,13 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          image_name: openjdk:8
-          push_image_and_stages: false
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
-        run: |
-          cd test
-          bash ./build-test-image.sh
+        run: cd test && bash ./build-test-image.sh
       - name: Run tests
-        run: |
-          cd test
-          bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-test-image.sh
 
   test_job_2:
     needs: prepare_test
@@ -108,18 +103,13 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          image_name: openjdk:8
-          push_image_and_stages: false
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
-        run: |
-          cd test
-          bash ./build-test-image.sh
+        run: cd test && bash ./build-test-image.sh
       - name: Run tests
-        run: |
-          cd test
-          bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-test-image.sh
 
   test_job_3:
     needs: prepare_test
@@ -144,18 +134,13 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          image_name: openjdk:8
-          push_image_and_stages: false
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
-        run: |
-          cd test
-          bash ./build-test-image.sh
+        run: cd test && bash ./build-test-image.sh
       - name: Run tests
-        run: |
-          cd test
-          bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-test-image.sh
 
   test_job_4:
     needs: prepare_test
@@ -180,18 +165,13 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          image_name: openjdk:8
-          push_image_and_stages: false
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
-        run: |
-          cd test
-          bash ./build-test-image.sh
+        run: cd test && bash ./build-test-image.sh
       - name: Run tests
-        run: |
-          cd test
-          bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-test-image.sh
 
   test_job_5:
     needs: prepare_test
@@ -216,18 +196,13 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          image_name: openjdk:8
-          push_image_and_stages: false
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
-        run: |
-          cd test
-          bash ./build-test-image.sh
+        run: cd test && bash ./build-test-image.sh
       - name: Run tests
-        run: |
-          cd test
-          bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-test-image.sh
 
   test_job_6:
     needs: prepare_test
@@ -252,15 +227,10 @@ jobs:
         with:
           name: test-list-result
           path: test/jobs/
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          image_name: openjdk:8
-          push_image_and_stages: false
+      - uses: satackey/action-docker-layer-caching@v0.0.11
       - name: Build test image
-        run: |
-          cd test
-          bash ./build-test-image.sh
+        run: cd test && bash ./build-test-image.sh
       - name: Run tests
-        run: |
-          cd test
-          bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-test-image.sh
