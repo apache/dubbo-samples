@@ -74,8 +74,8 @@ jobs:
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
         with:
-          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
-          restore-keys: ${{ runner.os }}-docker-layer-
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
+          restore-keys: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -94,7 +94,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/build-test-image.sh') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 1.8
@@ -108,8 +108,8 @@ jobs:
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
         with:
-          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
-          restore-keys: ${{ runner.os }}-docker-layer-
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
+          restore-keys: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -142,8 +142,8 @@ jobs:
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
         with:
-          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
-          restore-keys: ${{ runner.os }}-docker-layer-
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
+          restore-keys: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -162,7 +162,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/build-test-image.sh') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 1.8
@@ -176,8 +176,8 @@ jobs:
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
         with:
-          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
-          restore-keys: ${{ runner.os }}-docker-layer-
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
+          restore-keys: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -196,7 +196,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/build-test-image.sh') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 1.8
@@ -210,8 +210,8 @@ jobs:
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
         with:
-          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
-          restore-keys: ${{ runner.os }}-docker-layer-
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
+          restore-keys: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
@@ -230,7 +230,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/build-test-image.sh') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 1.8
@@ -244,8 +244,8 @@ jobs:
           path: test/jobs/
       - uses: satackey/action-docker-layer-caching@v0.0.11
         with:
-          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/pom.xml') }}
-          restore-keys: ${{ runner.os }}-docker-layer-
+          key: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
+          restore-keys: ${{ runner.os }}-docker-layer-${{ hashFiles('**/test/build-test-image.sh') }}
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
       - name: Run tests
