@@ -26,6 +26,17 @@ fi
 echo "Test logs dir: \${project.basedir}/target/logs"
 echo "Test reports dir: \${project.basedir}/target/test-reports"
 
+
+#check dubbo-sample-test image and version
+test_image="dubbo-sample-test"
+echo "Checking test image [$test_image] .. "
+docker images --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | grep $test_image
+result=$?
+if [ $result != 0 ];then
+  echo "Test image not found: $test_image, please run 'bash ./build-test-image.sh' first."
+  exit 1
+fi
+
 # build scenario-builder
 SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
 echo "Building scenario builder .."
@@ -83,6 +94,20 @@ echo "Test results: $testResultFile"
 # constant
 TEST_SUCCESS="TEST SUCCESS"
 TEST_FAILURE="TEST FAILURE"
+
+function print_log_file() {
+  scenario_name=$1
+  file=$2
+
+  if [ -f $file ]; then
+    echo ""
+    echo "----------------------------------------------------------"
+    echo " $scenario_name log file : $file"
+    echo "----------------------------------------------------------"
+    cat $file
+    echo ""
+  fi
+}
 
 function process_case() {
   file=$1
@@ -145,18 +170,10 @@ function process_case() {
       tee -a $testResultFile
 
     # show test log
-    if [ "$SHOW_ERROR_DETAIL" == "1" ] && [ -f $scenario_home/logs/container.log ]; then
-      echo ""
-      echo "----------------------------------------------------------"
-      echo "app log of $scenario_name :"
-      echo "----------------------------------------------------------"
-      cat $scenario_home/logs/app.log
-      echo ""
-      echo "----------------------------------------------------------"
-      echo "container log of $scenario_name :"
-      echo "----------------------------------------------------------"
-      cat $scenario_home/logs/container.log
-      echo ""
+    if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
+      print_log_file $scenario_name $scenario_home/logs/scenario.log
+      print_log_file $scenario_name $scenario_home/logs/app.log
+      print_log_file $scenario_name $scenario_home/logs/container.log
     fi
     return 1
   fi
@@ -169,11 +186,11 @@ testStartTime=$SECONDS
 allTest=0
 finishedTest=0
 
-while read file
+while IFS= read -r line
 do
   allTest=$((allTest + 1))
   # fork process testcase
-  process_case $file $allTest &
+  process_case $line $allTest &
   sleep 1
 
   #wait for tests finished
@@ -213,10 +230,10 @@ echo "Test logs dir: \${project.basedir}/target/logs"
 echo "Test reports dir: \${project.basedir}/target/test-reports"
 echo "Test results: $testResultFile"
 echo "Total cost: $((SECONDS - testStartTime)) seconds"
-echo "All tests count: $allTest"
+echo "All tests count: $caseCount"
 echo "Success tests count: $successTest"
 
-if [ $successTest == $allTest ]
+if [ $successTest == $caseCount ]
 then
    echo "All tests pass"
    echo "----------------------------------------------------------"

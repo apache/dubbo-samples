@@ -28,7 +28,8 @@ container_name="${project_name}_${test_service_name}"
 docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 docker-compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenario_log > /dev/null
 
-docker-compose -p ${project_name} -f ${compose_file} up -d 2>&1 | tee -a $scenario_log > /dev/null
+# complete pull fail interactive by <<< "NN"
+docker-compose -p ${project_name} -f ${compose_file} up -d --no-build 2>&1 <<< "NN" | tee -a $scenario_log > /dev/null
 
 container_id=`docker ps -qf "name=${container_name}"`
 if [[ -z "${container_id}" ]]; then
