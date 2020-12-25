@@ -129,7 +129,8 @@ Service directives compatible with `docker-compose`:
 | `hostname` | container hostname | app/test service is implicitly set to service id |
 | `volumes` | container mount points | app/test service automatically mounts directory: `$basedir/target:/usr/local/dubbo/app`  |
 | `links` | |
-| `expose` | |
+| `expose` | expose ports between containers |
+| `ports` | mapping ports to host os |
 | `entrypoint` | |
 | `healthcheck` | |
 
@@ -200,25 +201,18 @@ A scenario is a complete test environment, including docker-compose.yml, scenari
  
  App / test service automatically mounts directory: `${scenario_home}:/usr/local/dubbo/app`
 
-* Enable debug mode
-
- ```
- debug_mode=1 bash ${scenario_home}/scenario.sh
-
- ```
 
 * Scenario running timeout
  
  Default running timeout is 90s. Some test cases require more time, you can modify it in the following way. 
  
- 1) Change timeout in `case-configuration.yml`:
+ (1) Change timeout in `case-configuration.yml`:
  
    ```
-   props:
-     timeout: 120
+   timeout: 120
    ```
    
- 2) Change timeout in command line
+ (2) Change timeout in command line
  
  ```
   timeout=120 bash ${scenario_home}/scenario.sh 
@@ -226,21 +220,15 @@ A scenario is a complete test environment, including docker-compose.yml, scenari
 
 #### Logs
 
-* App service log: `${scenario_home}/logs/app.log`
+* Container log
+  Container log location is: `${scenario_home}/logs/${serviceName}.log`, include of dubbo app/test 
+  service and external service. 
 
-  log of dubbo application.
-
-* Test service log: `${scenario_home}/logs/test.log`
+* Scenario log  
+  Script `scenario.sh` log location: `${scenario_home}/logs/scenario.log`.
   
-  log of testcase.
-
-* Test container log: `${scenario_home}/logs/container.log`
-
-  log of test container.
-
-* Scenario log: `${scenario_home}/logs/scenario.log`
-  
-  log of scenario script.
+* Scenario builder log
+  Scenario builder log location: `$scenario_home/logs/scenario-builder.log`
 
 #### Test reports
 
@@ -260,6 +248,7 @@ FORK_COUNT=2 bash run-tests.sh
 
 Run tests in fail-fast mode, abort testing when any case is failed. 
 It's useful when running tests in CI server, such as: Jenkins, Github actions.
+Default value: `FAIL_FAST=0`.
 
 ```
 FAIL_FAST=1 bash run-tests.sh
@@ -269,6 +258,7 @@ FAIL_FAST=1 bash run-tests.sh
 
 Show log detail of failed testcase, including app log and test container log. 
 It's useful when running tests in CI server, such as: Jenkins, Github actions.
+Default value: `SHOW_ERROR_DETAIL=0`.
 
 ```
 SHOW_ERROR_DETAIL=1 bash run-tests.sh

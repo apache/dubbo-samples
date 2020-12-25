@@ -181,6 +181,7 @@ function process_case() {
   fi
 
   # generate case configuration
+  mkdir -p $scenario_home/logs
   echo "$log_prefix Generating test case configuration .."
   config_time=$SECONDS
   mkdir -p $scenario_home
@@ -190,10 +191,10 @@ function process_case() {
     -Dscenario.version=$DUBBO_VERSION \
     -Ddebug.mode=$DEBUG \
     -Ddebug.suspend=$DEBUG_SUSPEND \
-    -jar $test_builder_jar  &> $scenario_home/scenario-builder.log
+    -jar $test_builder_jar  &> $scenario_home/logs/scenario-builder.log
   result=$?
   if [ $result -ne 0 ]; then
-    echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $scenario_home/scenario-builder.log" | tee -a $testResultFile
+    echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $scenario_home/logs/scenario-builder.log" | tee -a $testResultFile
     return 1
   fi
 

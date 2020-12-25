@@ -29,6 +29,7 @@ scenario_name=${scenario_name}
 compose_file="${docker_compose_file}"
 project_name=$(echo "${scenario_name}_${scenario_version}" |sed -e "s/\.//g" |awk '{print tolower($0)}')
 test_service_name="${test_service_name}_1"
+network_name="${network_name}"
 
 <#noparse>
 status=1
@@ -132,7 +133,7 @@ if [[ "$debug_mode" != "1" && $status == 0 ]];then
 fi
 
 # clear network
-docker network prune -f 2>&1 | tee -a $scenario_log > /dev/null
+docker network rm $network_name 2>&1 | tee -a $scenario_log > /dev/null
 
 exit $status
 
