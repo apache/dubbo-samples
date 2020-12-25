@@ -20,5 +20,5 @@ props:
   project_name: dubbo-samples-generic-type
   main_class: org.apache.dubbo.samples.generic.GenericProvider
   zookeeper_port: 2181
-  service_port: 20880
+  dubbo_port: 20880
 

@@ -20,5 +20,5 @@ props:
   project_name: dubbo-samples-compatible
   main_class: org.apache.dubbo.samples.compat.Provider
   zookeeper_port: 2181
-  service_port: 20880
+  dubbo_port: 20890
 

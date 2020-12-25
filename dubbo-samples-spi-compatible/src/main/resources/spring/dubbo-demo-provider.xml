@@ -25,7 +25,7 @@
 
     <dubbo:application name="compatibility-provider"/>
 
-    <dubbo:registry protocol="compatible" address="127.0.0.1:2181"/>
+    <dubbo:registry protocol="compatible" address="${zookeeper.address:127.0.0.1}:2181"/>
 
     <dubbo:protocol name="compatible" port="20880"/>
 

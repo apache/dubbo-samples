@@ -20,5 +20,5 @@ props:
   project_name: dubbo-samples-echo
   main_class: org.apache.dubbo.samples.echo.EchoProvider
   zookeeper_port: 2181
-  service_port: 20880
+  dubbo_port: 20880
 

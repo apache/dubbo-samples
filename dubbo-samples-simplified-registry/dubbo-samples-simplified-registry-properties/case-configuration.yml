@@ -20,5 +20,5 @@ props:
   project_name: dubbo-samples-simplified-registry-properties
   main_class: org.apache.dubbo.samples.simplified.registry.properties.SimpleRegistryPropertiesProvider
   zookeeper_port: 2181
-  service_port: 20880
+  dubbo_port: 20880
 
