@@ -53,3 +53,6 @@ vendor/
 logs/
 .vscode/
 coverage.txt
+
+test/jobs
+testcases*.txt

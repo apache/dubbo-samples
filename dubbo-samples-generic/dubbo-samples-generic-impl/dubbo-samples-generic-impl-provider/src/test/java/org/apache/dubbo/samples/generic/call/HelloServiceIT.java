@@ -17,6 +17,7 @@
 
 package org.apache.dubbo.samples.generic.call;
 
+import org.apache.dubbo.rpc.service.GenericException;
 import org.apache.dubbo.samples.generic.call.api.HelloService;
 
 import org.junit.Assert;
@@ -42,8 +43,13 @@ public class HelloServiceIT {
         Assert.assertEquals("sayHelloAsync: hello world", helloService.sayHelloAsync("world").get());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testNotImplementedHello() throws Exception {
-        helloService.notImplementedHello("dubbo");
+    @Test
+    public void testNotImplementedHello() throws Throwable {
+        try {
+            helloService.notImplementedHello("dubbo");
+            Assert.fail("expect java.lang.UnsupportedOperationException");
+        } catch (GenericException e) {
+            Assert.assertEquals("java.lang.UnsupportedOperationException", e.getExceptionClass());
+        }
     }
 }
