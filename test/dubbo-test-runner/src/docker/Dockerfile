@@ -21,15 +21,19 @@ RUN apt-get update && \
     apt-get clean
 
 VOLUME /usr/local/dubbo/app
+VOLUME /usr/local/dubbo/logs
 
-# scenario home dir in host os, such as 'some_project/target'
-ENV SCENARIO_HOME=""
+# service name
+ENV SERVICE_NAME=""
 
 # classpath
-# assert mounting $SCENARIO_HOME:/usr/local/dubbo/app/
-ENV TEST_CLASSES_DIR="app/test-classes"
-ENV APP_CLASSES_DIR="app/classes"
-ENV APP_DEPENDENCY_DIR="app/dependency"
+# assert mounting $project_dir/target:/usr/local/dubbo/app/
+ENV TEST_CLASSES_DIR="/usr/local/dubbo/app/test-classes"
+ENV APP_CLASSES_DIR="/usr/local/dubbo/app/classes"
+ENV APP_DEPENDENCY_DIR="/usr/local/dubbo/app/dependency"
+
+# check ports/log timeout
+ENV CHECK_TIMEOUT=60
 
 # service type: app, test
 ENV SERVICE_TYPE="app"

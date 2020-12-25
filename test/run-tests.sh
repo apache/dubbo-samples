@@ -2,33 +2,53 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-DUBBO_VERSION=2.7.9-SNAPSHOT
-
 FAIL_FAST=${FAIL_FAST:-0}
 echo "FAIL_FAST: $FAIL_FAST"
 
-SHOW_ERROR_DETAIL=${SHOW_ERROR_DETAIL:-1}
+SHOW_ERROR_DETAIL=${SHOW_ERROR_DETAIL:-0}
 export SHOW_ERROR_DETAIL=$SHOW_ERROR_DETAIL
 echo "SHOW_ERROR_DETAIL: $SHOW_ERROR_DETAIL"
 
 maxForks=${FORK_COUNT:-2}
-echo "Fork count: $maxForks"
+echo "FORK_COUNT: $maxForks"
 
-#TEST_CASES_FILE
-if [ "$TEST_CASES_FILE" != "" ]; then
+#Build mode: all, case, no
+BUILD=${BUILD:-all}
+export BUILD=$BUILD
+echo "BUILD: $BUILD"
+
+#DUBBO_VERSION=
+echo "DUBBO_VERSION: $DUBBO_VERSION"
+
+BUILD_OPTS="clean package dependency:copy-dependencies -DskipTests"
+if [ "$DUBBO_VERSION" != "" ]; then
+  BUILD_OPTS="$BUILD_OPTS -Ddubbo.version=$DUBBO_VERSION"
+fi
+export BUILD_OPTS=$BUILD_OPTS
+echo "BUILD_OPTS: $BUILD_OPTS"
+
+#debug
+DEBUG=${DEBUG:-0}
+DEBUG_SUSPEND=${DEBUG_SUSPEND:-y}
+export DEBUG=$DEBUG
+export DEBUG_SUSPEND=$DEBUG_SUSPEND
+echo "DEBUG=$DEBUG, DEBUG_SUSPEND=$DEBUG_SUSPEND"
+
+#TEST_CASE_FILE
+if [ "$TEST_CASE_FILE" != "" ]; then
   # convert relative path to absolute path
-  if [[ $TEST_CASES_FILE != /* ]]; then
-    TEST_CASES_FILE=$DIR/$TEST_CASES_FILE
+  if [[ $TEST_CASE_FILE != /* ]]; then
+    TEST_CASE_FILE=$DIR/$TEST_CASE_FILE
   fi
-  echo "TEST_CASES_FILE: $TEST_CASES_FILE"
+  echo "TEST_CASE_FILE: $TEST_CASE_FILE"
 fi
 
 echo "Test logs dir: \${project.basedir}/target/logs"
 echo "Test reports dir: \${project.basedir}/target/test-reports"
 
 
-#check dubbo-sample-test image and version
-test_image="dubbo-sample-test"
+#check dubbo/sample-test image and version
+test_image="dubbo/sample-test"
 echo "Checking test image [$test_image] .. "
 docker images --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | grep $test_image
 result=$?
@@ -41,10 +61,10 @@ fi
 SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
 echo "Building scenario builder .."
 cd $SCENARIO_BUILDER_DIR
-mvn clean package &> $SCENARIO_BUILDER_DIR/mvn.log
+mvn clean package -DskipTests &> $SCENARIO_BUILDER_DIR/mvn.log
 result=$?
 if [ $result -ne 0 ]; then
-  echo "Build dubbo-scenario-builder failure"
+  echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"
   exit $result
 fi
 
@@ -57,18 +77,31 @@ else
   echo "Found test builder : $test_builder_jar"
 fi
 
+if [ "$BUILD" == "all" ]; then
+  echo "Building dubbo-samples .."
+  cd $DIR/..
+  mvn $BUILD_OPTS
+  result=$?
+  if [ $result -ne 0 ]; then
+    echo "Build dubbo-samples failure, please check logs"
+    exit $result
+  fi
+fi
+
+# prepare testcases
 cd $DIR
 
 CONFIG_FILE="case-configuration.yml"
 
+testListFile=$DIR/testcases.txt
 targetTestcases=$1
 if [ "$targetTestcases" != "" ];then
   echo "Target testcase: $targetTestcases"
   echo $targetTestcases > $testListFile
 else
   # use input testcases file
-  if [ "$TEST_CASES_FILE" != "" ]; then
-    testListFile=$TEST_CASES_FILE
+  if [ "$TEST_CASE_FILE" != "" ]; then
+    testListFile=$TEST_CASE_FILE
     if [ ! -f $testListFile ]; then
       echo "Testcases file not found: $testListFile"
       exit 1
@@ -76,7 +109,6 @@ else
   else
     # find all case-configuration.yml
     test_base_dir="$( cd $DIR/.. && pwd )"
-    testListFile=$DIR/testcases.txt
     rm -f $testListFile
     echo "Searching all '$CONFIG_FILE' under dir $test_base_dir .."
     find $test_base_dir -name $CONFIG_FILE | grep -v "$DIR" > $testListFile
@@ -96,13 +128,13 @@ TEST_SUCCESS="TEST SUCCESS"
 TEST_FAILURE="TEST FAILURE"
 
 function print_log_file() {
-  scenario_name=$1
+  title=$1
   file=$2
 
   if [ -f $file ]; then
     echo ""
     echo "----------------------------------------------------------"
-    echo " $scenario_name log file : $file"
+    echo " $title"
     echo "----------------------------------------------------------"
     cat $file
     echo ""
@@ -126,16 +158,25 @@ function process_case() {
   scenario_home=$project_home/target
   scenario_name=`basename $project_home`
   log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
+  start_time=$SECONDS
   echo "$log_prefix Processing : $project_home .."
 
   # mvn build
-  echo "$log_prefix Building project .."
-  building_time=$SECONDS
-  cd $project_home
-  mvn package dependency:copy-dependencies &> $project_home/mvn.log
-  result=$?
-  if [ $result -ne 0 ]; then
-    echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
+  if [ "$BUILD" == "case" ]; then
+    echo "$log_prefix Building project : $scenario_name .."
+    cd $project_home
+    mvn $BUILD_OPTS &> $project_home/mvn.log
+    result=$?
+    if [ $result -ne 0 ]; then
+      echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
+      return 1
+    fi
+  fi
+
+  #check build
+  echo "$log_prefix Checking project artifacts .."
+  if [ ! -d "$project_home/target" ]; then
+    echo "$log_prefix $TEST_FAILURE: Missing artifacts" | tee -a $testResultFile
     return 1
   fi
 
@@ -147,6 +188,8 @@ function process_case() {
     -Dscenario.home=$scenario_home \
     -Dscenario.name=$scenario_name \
     -Dscenario.version=$DUBBO_VERSION \
+    -Ddebug.mode=$DEBUG \
+    -Ddebug.suspend=$DEBUG_SUSPEND \
     -jar $test_builder_jar  &> $scenario_home/scenario-builder.log
   result=$?
   if [ $result -ne 0 ]; then
@@ -162,18 +205,15 @@ function process_case() {
   end_time=$SECONDS
 
   if [ $result == 0 ]; then
-    echo "$log_prefix $TEST_SUCCESS: total cost $((end_time - building_time)) s "\
-      "(build: $((running_time - building_time)), test: $((end_time - running_time)) )" | \
-      tee -a $testResultFile
+    echo "$log_prefix $TEST_SUCCESS: total cost $((end_time - start_time)) s" | tee -a $testResultFile
   else
-    echo "$log_prefix $TEST_FAILURE, please check logs: $scenario_home/logs" | \
-      tee -a $testResultFile
+    echo "$log_prefix $TEST_FAILURE, please check logs: $scenario_home/logs" | tee -a $testResultFile
 
     # show test log
     if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
-      print_log_file $scenario_name $scenario_home/logs/scenario.log
-      print_log_file $scenario_name $scenario_home/logs/app.log
-      print_log_file $scenario_name $scenario_home/logs/container.log
+      for log_file in $scenario_home/logs/*.log; do
+        print_log_file "$scenario_name : `basename $log_file`" $log_file
+      done
     fi
     return 1
   fi
@@ -186,7 +226,7 @@ testStartTime=$SECONDS
 allTest=0
 finishedTest=0
 
-while IFS= read -r line
+while read line
 do
   allTest=$((allTest + 1))
   # fork process testcase

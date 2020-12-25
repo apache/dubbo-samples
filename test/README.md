@@ -23,7 +23,7 @@ props:
   project_name: dubbo-samples-annotation
   main_class: org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
   zookeeper_port: 2181
-  service_port: 20880
+  dubbo_port: 20880
 
 ```
 
@@ -65,14 +65,14 @@ props:
   project_name: dubbo-samples-annotation
   main_class: org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
   zookeeper_port: 2181
-  service_port: 20880
+  dubbo_port: 20880
 ```
 
 `project_name` : project name of dubbo sample
 
 `main_class` : main class of dubbo provider application
 
-`service_port` : dubbo provider service port
+`dubbo_port` : dubbo provider service port
 
 `zookeeper_port` : builtin zookeeper port
 
@@ -85,7 +85,7 @@ from: app-external-zookeeper.yml
 props:
   project_name: dubbo-samples-api
   main_class: org.apache.dubbo.samples.provider.Application
-  service_port: 20880
+  dubbo_port: 20880
   zookeeper_version: latest
 ```
 
@@ -123,7 +123,7 @@ Service directives compatible with `docker-compose`:
 
 | Name | Description |  Defaults |
 | ---- | ----------- | -------- | 
-| `image` | docker image name of container | app/test service is implicitly set to `dubbo-sample-test`. |
+| `image` | docker image name of container | app/test service is implicitly set to `dubbo/sample-test`. |
 | `environment` |  |
 | `depends_on` | | 
 | `hostname` | container hostname | app/test service is implicitly set to service id |
@@ -154,7 +154,7 @@ Service directives compatible with `docker-compose`:
 props:
 #  project_name: dubbo-samples-xxx
 #  main_class: org.apache.dubbo.samples.xxx.XxxProviderBootstrap
-  service_port: 20880
+  dubbo_port: 20880
   zookeeper_version: latest
 
 services:
@@ -181,7 +181,7 @@ services:
       - zookeeper.port=2181
     waitPortsBeforeRun:
       - zookeeper:2181
-      - ${project_name}:${service_port}
+      - ${project_name}:${dubbo_port}
     depends_on:
       - ${project_name}
 

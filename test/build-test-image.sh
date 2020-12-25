@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Note: modify follow comment when need refresh github actions docker layer caching
-# Docker layer caching updated: 2020.12.23
+# dubbo/sample-test updated: 2020.12.25
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

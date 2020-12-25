@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,22 +42,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConfigurationImpl implements IConfiguration {
-    public static final String DUBBO_APP_PATH = "/usr/local/dubbo/app";
+    public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
+    public static final String DUBBO_APP_DIR = "/usr/local/dubbo/app";
+    public static final String DUBBO_LOG_DIR = "/usr/local/dubbo/logs";
+    public static final String ENV_SERVICE_NAME = "SERVICE_NAME";
     public static final String ENV_SERVICE_TYPE = "SERVICE_TYPE";
     public static final String ENV_APP_MAIN_CLASS = "APP_MAIN_CLASS";
-    public static final String ENV_CHECK_LOG = "CHECK_LOG";
     public static final String ENV_WAIT_PORTS_BEFORE_RUN = "WAIT_PORTS_BEFORE_RUN";
     public static final String ENV_CHECK_PORTS_AFTER_RUN = "CHECK_PORTS_AFTER_RUN";
+    public static final String ENV_CHECK_LOG = "CHECK_LOG";
+    public static final String ENV_CHECK_TIMEOUT = "CHECK_TIMEOUT";
     public static final String ENV_TEST_PATTERNS = "TEST_PATTERNS";
     public static final String ENV_JAVA_OPTS = "JAVA_OPTS";
     public static final String ENV_SCENARIO_HOME = "SCENARIO_HOME";
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationImpl.class);
     private final CaseConfiguration configuration;
-    private Map<String, String> props;
     private String scenarioHome;
     private String configBasedir;
     private String scenarioName;
+    private final String scenarioLogDir;
+    private int scenarioTimeout = 90;
+    private int javaDebugPort=20660;
+    private int debugTimeout=36000;
+    private String debugSuspend="y";
 
     public ConfigurationImpl() throws IOException, ConfigureFileNotFoundException {
         String configureFile = System.getProperty("configure.file");
@@ -70,6 +79,7 @@ public class ConfigurationImpl implements IConfiguration {
         if (StringUtils.isBlank(scenarioHome)) {
             scenarioHome = configBasedir + "/target";
         }
+        scenarioLogDir = new File(scenarioHome, "logs").getCanonicalPath();
 
         //set default scenarioName
         scenarioName = System.getProperty("scenario.name");
@@ -78,13 +88,24 @@ public class ConfigurationImpl implements IConfiguration {
         }
 
         this.configuration = loadCaseConfiguration(configureFile);
+        if (this.configuration.getTimeout() > 0) {
+            scenarioTimeout = this.configuration.getTimeout();
+        }
+        String timeout = System.getProperty("timeout");
+        if (StringUtils.isNotBlank(timeout)) {
+            scenarioTimeout = Integer.parseInt(timeout);
+        }
+        if (isDebug()) {
+            scenarioTimeout=debugTimeout;
+            debugSuspend=System.getProperty("debug.suspend", debugSuspend);
+        }
     }
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
         // read 'props'
         String configYaml = readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
-        this.props = tmpConfiguration.getProps();
+        Map<String, String> props = tmpConfiguration.getProps();
 
         // process 'from', load parent config
         CaseConfiguration parentConfiguration = null;
@@ -92,7 +113,7 @@ public class ConfigurationImpl implements IConfiguration {
             String parentConfigYaml = loadParentConfigYaml(tmpConfiguration);
             CaseConfiguration tmpParentConfiguration = parseConfiguration(parentConfigYaml);
 
-            //merge props
+            //merge props, overwrite parent props
             Map<String, String> newProps = new HashMap<>(tmpParentConfiguration.getProps());
             newProps.putAll(props);
             props = newProps;
@@ -106,6 +127,12 @@ public class ConfigurationImpl implements IConfiguration {
         String newConfigYaml = replaceHolders(configYaml, props);
         CaseConfiguration caseConfiguration = parseConfiguration(newConfigYaml);
 
+        //merge globalSystemProps, overwrite parent
+        if (parentConfiguration != null) {
+            List<String> systemProps = mergeSystemProps(parentConfiguration.getSystemProps(), caseConfiguration.getSystemProps());
+            caseConfiguration.setSystemProps(systemProps);
+        }
+
         //merge services
         if (parentConfiguration != null && parentConfiguration.getServices() != null) {
             Map<String, ServiceComponent> newServices = new LinkedHashMap<>(parentConfiguration.getServices());
@@ -117,6 +144,17 @@ public class ConfigurationImpl implements IConfiguration {
 
         fillupServices(caseConfiguration);
         return caseConfiguration;
+    }
+
+    private List<String> mergeSystemProps(List<String> parentSystemProps, List<String> childSystemProps) {
+        List<String> newSystemProps = new ArrayList<>(parentSystemProps != null ? parentSystemProps : Collections.emptyList());
+        if (childSystemProps != null) {
+            childSystemProps.forEach(entry -> {
+                String[] strs = entry.split("=");
+                addOrReplaceKVEntry(newSystemProps, strs[0].trim(), strs.length > 1 ? strs[1].trim() : "");
+            });
+        }
+        return newSystemProps;
     }
 
     private String loadParentConfigYaml(CaseConfiguration caseConfiguration) throws IOException {
@@ -135,33 +173,60 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     private void fillupServices(CaseConfiguration caseConfiguration) throws IOException {
+        List<String> caseSystemProps = caseConfiguration.getSystemProps();
         for (Map.Entry<String, ServiceComponent> entry : caseConfiguration.getServices().entrySet()) {
-            String serviceId = entry.getKey();
+            String serviceName = entry.getKey();
             ServiceComponent service = entry.getValue();
             String type = service.getType();
             if (isAppService(type)) {
-                service.setImage("dubbo-sample-test");
+                service.setImage(SAMPLE_TEST_IMAGE);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
                 if (service.getVolumes() == null) {
                     service.setVolumes(new ArrayList<>());
                 }
-                //mount ${basedir}/target : DUBBO_APP_PATH
+                //mount ${project.basedir}/target : DUBBO_APP_DIR
                 String targetPath = new File(service.getBasedir(), "target").getCanonicalPath();
-                service.getVolumes().add(targetPath + ":" + DUBBO_APP_PATH);
+                service.getVolumes().add(targetPath + ":" + DUBBO_APP_DIR);
+
+                //mount ${scenario_home}/logs : DUBBO_LOG_DIR
+                service.getVolumes().add(scenarioLogDir + ":" + DUBBO_LOG_DIR);
 
                 if (service.getEnvironment() == null) {
                     service.setEnvironment(new ArrayList<>());
                 }
+                // set service name
+                setEnv(service, ENV_SERVICE_NAME, serviceName);
+
                 //set wait ports
                 if (isNotEmpty(service.getWaitPortsBeforeRun())) {
                     String str = convertAddrPortsToString(service.getWaitPortsBeforeRun());
                     setEnv(service, ENV_WAIT_PORTS_BEFORE_RUN, str);
                 }
 
+                //set check timeout
+                if (isDebug()) {
+                    service.setCheckTimeout(debugTimeout);
+
+                    //set java remote debug opts
+                    //-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+                    int debugPort = nextDebugPort();
+                    String debugOpts=String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=%s,address=%s", debugSuspend, debugPort);
+                    appendEnv(service, ENV_JAVA_OPTS, debugOpts);
+
+                    //mapping debug port
+                    if (service.getPorts() == null) {
+                        service.setPorts(new ArrayList<>());
+                    }
+                    service.getPorts().add(debugPort + ":" + debugPort);
+                }
+                if (service.getCheckTimeout() > 0) {
+                    setEnv(service, ENV_CHECK_TIMEOUT, service.getCheckTimeout()+"");
+                }
+
                 if ("app".equals(type)) {
                     String mainClass = service.getMainClass();
                     if (StringUtils.isBlank(mainClass)) {
-                        throw new RuntimeException("Missing 'mainClass' for app service [" + serviceId + "]");
+                        throw new RuntimeException("Missing 'mainClass' for app service [" + serviceName + "]");
                     }
                     //set SERVICE_TYPE
                     setEnv(service, ENV_SERVICE_TYPE, type);
@@ -183,7 +248,7 @@ public class ConfigurationImpl implements IConfiguration {
                 } else if ("test".equals(type)) {
                     String mainClass = service.getMainClass();
                     if (StringUtils.isNotBlank(mainClass)) {
-                        throw new RuntimeException("Illegal attribute 'mainClass' for test service [" + serviceId + "]");
+                        throw new RuntimeException("Illegal attribute 'mainClass' for test service [" + serviceName + "]");
                     }
                     //set SERVICE_TYPE
                     setEnv(service, ENV_SERVICE_TYPE, type);
@@ -200,7 +265,7 @@ public class ConfigurationImpl implements IConfiguration {
 
             // set hostname to serviceId if absent
             if (StringUtils.isBlank(service.getHostname())) {
-                service.setHostname(serviceId);
+                service.setHostname(serviceName);
             }
 
             //set jvmFlags
@@ -210,8 +275,9 @@ public class ConfigurationImpl implements IConfiguration {
             }
 
             //set systemProps
-            if (isNotEmpty(service.getSystemProps())) {
-                String str = convertSystemPropsToJvmFlags(service.getSystemProps());
+            List<String> systemProps = mergeSystemProps(caseSystemProps, service.getSystemProps());
+            if (isNotEmpty(systemProps)) {
+                String str = convertSystemPropsToJvmFlags(systemProps);
                 appendEnv(service, ENV_JAVA_OPTS, str);
             }
 
@@ -221,6 +287,10 @@ public class ConfigurationImpl implements IConfiguration {
     private void appendEnv(ServiceComponent service, String name, String value) {
         String prefix = name + "=";
         List<String> environments = service.getEnvironment();
+        if (environments == null) {
+            environments = new ArrayList<>();
+            service.setEnvironment(environments);
+        }
         for (int i = 0; i < environments.size(); i++) {
             String env = environments.get(i);
             if (env.startsWith(prefix)) {
@@ -234,18 +304,22 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     private void setEnv(ServiceComponent service, String name, String value) {
-        String prefix = name + "=";
         List<String> environments = service.getEnvironment();
-        for (int i = 0; i < environments.size(); i++) {
-            String env = environments.get(i);
+        addOrReplaceKVEntry(environments, name, value);
+    }
+
+    private void addOrReplaceKVEntry(List<String> map, String name, String value) {
+        String prefix = name + "=";
+        for (int i = 0; i < map.size(); i++) {
+            String env = map.get(i);
             if (env.startsWith(prefix)) {
                 //replace old env
                 env = name + "=" + value;
-                environments.set(i, env);
+                map.set(i, env);
                 return;
             }
         }
-        environments.add(name + "=" + value);
+        map.add(name + "=" + value);
     }
 
     //convert systemProp key=value to -Dkey=value
@@ -306,7 +380,7 @@ public class ConfigurationImpl implements IConfiguration {
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
-    private Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
+    private Pattern pattern = Pattern.compile("\\$\\{(.+?)}");
 
     private String replaceHolders(String str, Map<String, String> props) {
         StringBuffer buf = new StringBuffer(str.length());
@@ -375,15 +449,12 @@ public class ConfigurationImpl implements IConfiguration {
         return System.getProperty("debug.mode", "0");
     }
 
-    public String getTimeoutInSeconds() {
-        String timeout = System.getProperty("timeout");
-        if (StringUtils.isBlank(timeout)) {
-            Map<String, String> props = this.caseConfiguration().getProps();
-            if (props != null) {
-                timeout = props.get("timeout");
-            }
-        }
-        return StringUtils.isNotBlank(timeout) ? timeout : "90";
+    private boolean isDebug() {
+        return "1".equals(debugMode());
+    }
+
+    private int nextDebugPort() {
+        return javaDebugPort++;
     }
 
     @Override
@@ -399,7 +470,7 @@ public class ConfigurationImpl implements IConfiguration {
         root.put("debug_mode", debugMode());
         root.put("docker_compose_file", outputDir() + File.separator + "docker-compose.yml");
         root.put("network_name", dockerNetworkName());
-        root.put("timeout", getTimeoutInSeconds());
+        root.put("timeout", scenarioTimeout);
 
         final StringBuilder removeImagesScript = new StringBuilder();
         List<String> links = new ArrayList<>();
@@ -461,6 +532,7 @@ public class ConfigurationImpl implements IConfiguration {
             service.setImageName(imageName);
             service.setHostname(dependency.getHostname());
             service.setExpose(dependency.getExpose());
+            service.setPorts(dependency.getPorts());
             service.setDepends_on(dependency.getDepends_on());
             service.setLinks(dependency.getDepends_on());
             service.setEntrypoint(dependency.getEntrypoint());

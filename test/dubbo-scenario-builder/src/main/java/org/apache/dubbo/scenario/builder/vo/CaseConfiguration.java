@@ -18,12 +18,15 @@
 package org.apache.dubbo.scenario.builder.vo;
 
 
+import java.util.List;
 import java.util.Map;
 
 public class CaseConfiguration {
     private String from;
     private Map<String, String> props;
+    private List<String> systemProps;
     private Map<String, ServiceComponent> services;
+    private int timeout;
 
     public String getFrom() {
         return from;
@@ -47,5 +50,21 @@ public class CaseConfiguration {
 
     public void setProps(Map<String, String> props) {
         this.props = props;
+    }
+
+    public List<String> getSystemProps() {
+        return systemProps;
+    }
+
+    public void setSystemProps(List<String> systemProps) {
+        this.systemProps = systemProps;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }

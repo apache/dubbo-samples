@@ -16,4 +16,4 @@ cp -r $DIR/src/docker/* $DOCKER_DIR/
 cp $DIR/target/dubbo-test-runner-*-jar-with-dependencies.jar $DOCKER_DIR/
 
 cd $DOCKER_DIR
-docker build -t dubbo-sample-test .
+docker build -t dubbo/sample-test .

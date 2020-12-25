@@ -3,23 +3,43 @@
 DIR=/usr/local/dubbo/
 cd $DIR
 
+LOG_DIR=/usr/local/dubbo/logs
+if [ ! -d $LOG_DIR ];then
+  mkdir -p $LOG_DIR
+fi
+LOG_FILE=$LOG_DIR/$SERVICE_NAME.log
+rm -f $LOG_FILE
+
 source $DIR/utils.sh
 
+function print_log() {
+    msg=$1
+    echo $msg | tee -a $LOG_FILE
+}
+
+if [ "$SERVICE_NAME" == "" ]; then
+  print_log "Missing env 'SERVICE_NAME'"
+  return 1
+fi
+
 if [ "$APP_CLASSES_DIR" == "" ]; then
-  echo "Missing env 'APP_CLASSES_DIR'"
+  print_log "Missing env 'APP_CLASSES_DIR'"
   return 1
 fi
 
 if [ "$APP_DEPENDENCY_DIR" == "" ]; then
-  echo "Missing env 'APP_DEPENDENCY_DIR'"
+  print_log "Missing env 'APP_DEPENDENCY_DIR'"
   return 1
 fi
 
+
 if [ "$SERVICE_TYPE" == "app"  ]; then
-  /bin/bash -x $DIR/run-dubbo-app.sh
-  #/bin/bash $DIR/run-dubbo-app.sh | while IFS= read -r line; do printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$line"; done
+  script_file=$DIR/run-dubbo-app.sh
 elif [ "$SERVICE_TYPE" == "test"  ]; then
-  /bin/bash -x $DIR/run-dubbo-test.sh
-  #/bin/bash $DIR/run-dubbo-test.sh | while IFS= read -r line; do printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$line"; done
+  script_file=$DIR/run-dubbo-test.sh
 fi
 
+/bin/bash -x $script_file 2>&1 | tee -a $LOG_FILE
+# get proc exitcode before tee, use $PIPESTATUS variable instead of $? (https://stackoverflow.com/a/6871917)
+result=${PIPESTATUS[0]}
+exit $result

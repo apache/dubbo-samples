@@ -47,6 +47,7 @@ public class DockerComposeRunningGenerator extends AbstractRunningGenerator {
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             cfg.setLogTemplateExceptions(false);
             cfg.setWrapUncheckedExceptions(true);
+            cfg.setNumberFormat("computer");
         } catch (Exception e) {
             // never to do this
         }

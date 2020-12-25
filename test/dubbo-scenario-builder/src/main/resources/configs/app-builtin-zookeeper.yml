@@ -21,14 +21,14 @@
 #  project_name: dubbo-samples-annotation
 #  main_class: org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
 #  zookeeper_port: 2181
-#  service_port: 20880
+#  dubbo_port: 20880
 
 
 props:
 #  project_name: dubbo-samples-xxx
 #  main_class: org.apache.dubbo.samples.xxx.XxxProviderBootstrap
   zookeeper_port: 2181
-  service_port: 20880
+  dubbo_port: 20880
 
 services:
   ${project_name}:
@@ -37,7 +37,7 @@ services:
     mainClass: ${main_class}
 #    checkPortsAfterRun:
 #      - ${zookeeper_port}
-#      - ${service_port}
+#      - ${dubbo_port}
 #    checkLog: "dubbo service started"
 
   ${project_name}-test:
@@ -48,8 +48,10 @@ services:
     systemProps:
       - zookeeper.address=${project_name}
       - zookeeper.port=${zookeeper_port}
+      - dubbo.address=${project_name}
+      - dubbo.port=${dubbo_port}
     waitPortsBeforeRun:
       - ${project_name}:${zookeeper_port}
-      - ${project_name}:${service_port}
+      - ${project_name}:${dubbo_port}
     depends_on:
       - ${project_name}

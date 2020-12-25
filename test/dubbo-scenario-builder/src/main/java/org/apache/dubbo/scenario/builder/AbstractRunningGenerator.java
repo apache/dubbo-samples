@@ -40,6 +40,7 @@ public abstract class AbstractRunningGenerator implements ScenarioRunningScriptG
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             cfg.setLogTemplateExceptions(false);
             cfg.setWrapUncheckedExceptions(true);
+            cfg.setNumberFormat("computer");
         } catch (Exception e) {
             // never to do this
         }

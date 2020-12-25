@@ -27,9 +27,11 @@ public class ServiceComponent {
     private boolean removeOnExit = false;
     private List<String> links;
     private List<String> expose;
+    private List<String> ports;
     private List<String> entrypoint;
     private List<String> environment;
     private List<String> volumes;
+    private List<String> volumes_from;
     private List<String> depends_on;
     private List<String> healthcheck;
 
@@ -40,9 +42,11 @@ public class ServiceComponent {
     private List<String> waitPortsBeforeRun;
     private List<String> checkPortsAfterRun;
     private String checkLog;
+    private int checkTimeout;
     private List<String> tests;
     private List<String> systemProps;
     private List<String> jvmFlags;
+    private JavaDebugOption javaDebug;
 
     public String getImage() {
         return image;
@@ -172,6 +176,14 @@ public class ServiceComponent {
         this.checkLog = checkLog;
     }
 
+    public int getCheckTimeout() {
+        return checkTimeout;
+    }
+
+    public void setCheckTimeout(int checkTimeout) {
+        this.checkTimeout = checkTimeout;
+    }
+
     public List<String> getTests() {
         return tests;
     }
@@ -202,5 +214,29 @@ public class ServiceComponent {
 
     public void setVolumes(List<String> volumes) {
         this.volumes = volumes;
+    }
+
+    public List<String> getVolumes_from() {
+        return volumes_from;
+    }
+
+    public void setVolumes_from(List<String> volumes_from) {
+        this.volumes_from = volumes_from;
+    }
+
+    public JavaDebugOption getJavaDebug() {
+        return javaDebug;
+    }
+
+    public void setJavaDebug(JavaDebugOption javaDebug) {
+        this.javaDebug = javaDebug;
+    }
+
+    public List<String> getPorts() {
+        return ports;
+    }
+
+    public void setPorts(List<String> ports) {
+        this.ports = ports;
     }
 }

@@ -13,4 +13,3 @@ docker ps -a | grep dubbo | awk '{ print $1}' | xargs -I {} docker rm {}
 
 echo "Removing damaged images .."
 docker image prune -f
-

@@ -31,6 +31,12 @@ services:
             - ${volume}
         </#list>
         </#if>
+        <#if service.volumes_from??>
+        volumes_from:
+        <#list service.volumes_from as volume>
+            - ${volume}
+        </#list>
+        </#if>
         <#if service.environment??>
         environment:
         <#list service.environment as environment>
@@ -41,6 +47,12 @@ services:
         expose:
         <#list service.expose as expose>
             - ${expose}
+        </#list>
+        </#if>
+        <#if service.ports??>
+        ports:
+        <#list service.ports as port>
+            - ${port}
         </#list>
         </#if>
         <#if service.startScript??>

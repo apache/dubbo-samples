@@ -26,6 +26,7 @@ public class DockerService {
     private boolean removeOnExit;
     private List<String> links;
     private List<String> expose;
+    private List<String> ports;
     private List<String> entrypoint;
     private List<String> healthcheck;
     private List<String> depends_on;
@@ -118,5 +119,13 @@ public class DockerService {
 
     public void setVolumes(List<String> volumes) {
         this.volumes = volumes;
+    }
+
+    public List<String> getPorts() {
+        return ports;
+    }
+
+    public void setPorts(List<String> ports) {
+        this.ports = ports;
     }
 }
