@@ -27,6 +27,8 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
+    <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+
     <bean id="demoService" class="org.apache.dubbo.samples.metadatareport.local.properties.impl.DemoServiceImpl"/>
     <dubbo:service interface="org.apache.dubbo.samples.metadatareport.local.properties.api.DemoService"
                    ref="demoService"/>

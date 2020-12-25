@@ -28,7 +28,7 @@ public class GreetingsServiceImpl implements GreetingService {
     public String greeting(String name) {
         System.out.println("provider received: " + name);
         try {
-            Thread.sleep(500);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

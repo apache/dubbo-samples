@@ -41,8 +41,7 @@
         <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
-        <main-class>org.apache.dubbo.samples.metadatareport.local.properties.MetadataLocalPropertiesProvider
-        </main-class>
+        <main-class>org.apache.dubbo.samples.metadatareport.local.properties.MetadataLocalPropertiesProvider</main-class>
     </properties>
 
     <dependencies>
