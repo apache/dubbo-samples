@@ -34,7 +34,28 @@ cd dubbo-samples/test
 
 * `BUILD=n`  
   不自动编译测试工程，需要先手工编译成功后，再运行测试。
+  
   Maven编译参数： mvn clean package dependency:copy-dependencies -DskipTests
+
+#### 测试步骤
+
+* 编译测试工程
+
+  `mvn clean package dependency:copy-dependencies -DskipTests`
+  
+* 生成测试场景
+
+  测试场景`scenario_home`的位置位于`${project.basedir}/target`
+  
+  `$scenario_home/scenario.sh`: 运行测试的脚本
+  
+  `$scenario_home/docker-compose.yml` : 生成的容器配置文件
+  
+  `$scenario_home/logs` : 测试相关日志
+   
+* 运行测试
+
+  `$scenario_home/scenario.sh`
 
 #### 运行方式
 
@@ -62,12 +83,18 @@ cd dubbo-samples/test
   BUILD=case DEBUG=1 ./run-tests.sh <project.basedir>
   ```
 
+  默认`suspend=y`，可以用`DEBUG_SUSPEND=n`修改为不等待连接调试端口:
+  
+  ```
+  BUILD=case DEBUG=1 DEBUG_SUSPEND=n ./run-tests.sh <project.basedir>
+  ```
+
 * 运行指定的测试案例列表
 
   ```
   BUILD=case TEST_CASE_FILE=testcases1.txt ./run-tests.sh
   ```
-  
+    
 ### 定义测试用例
 
  测试用例配置文件为：`case-configuration.yml`，放在每个需要测试的工程basedir下。 
