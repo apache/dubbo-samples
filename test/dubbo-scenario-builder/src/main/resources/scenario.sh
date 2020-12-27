@@ -23,28 +23,41 @@ cd $SCENARIO_HOME
 
 # set vars from freemarker
 testcase_name=${scenario_name}-${scenario_version}
-config_debug_mode=${debug_mode}
-config_timeout=${timeout}
+debug_mode=${debug_mode}
+timeout=${timeout}
 scenario_name=${scenario_name}
+scenario_version=${scenario_version}
 compose_file="${docker_compose_file}"
 project_name=$(echo "${scenario_name}_${scenario_version}" |sed -e "s/\.//g" |awk '{print tolower($0)}')
 test_service_name="${test_service_name}_1"
 network_name="${network_name}"
 
+function redirect_container_logs() {
+  #copy logs
+  echo "Redirecting container logs .." >> $scenario_log
+
+  if [ "$debug_mode" == "1" ]; then
+    # redirect container logs to file and display debug message
+    <#list services as service>
+    service_name="${service.name}"
+    <#noparse>
+    docker logs -f ${project_name}_${service_name}_1 2>&1 | tee $SCENARIO_HOME/logs/${service_name}.log | grep "dt_socket" &
+    </#noparse>
+
+    </#list>
+  else
+    # redirect container logs to file
+    <#list services as service>
+    service_name="${service.name}"
+    <#noparse>
+    docker logs -f ${project_name}_${service_name}_1 &> $SCENARIO_HOME/logs/${service_name}.log &
+    </#noparse>
+
+    </#list>
+  fi
+}
+
 <#noparse>
-status=1
-start=$SECONDS
-
-mkdir -p ${SCENARIO_HOME}/logs
-scenario_log=${SCENARIO_HOME}/logs/scenario.log
-rm -f $scenario_log
-
-# overrite configs
-debug_mode=${debug_mode:-$config_debug_mode}
-timeout=${timeout:-$config_timeout}
-echo "[$scenario_name] debug_mode: $debug_mode" >> $scenario_log
-echo "[$scenario_name] timeout: $timeout" >> $scenario_log
-
 function wait_container_exit() {
   container_name=$1
   start=$2
@@ -72,25 +85,39 @@ function wait_container_exit() {
   done
 }
 
+status=1
+start=$SECONDS
+
+mkdir -p ${SCENARIO_HOME}/logs
+scenario_log=${SCENARIO_HOME}/logs/scenario.log
+rm -f $scenario_log
+
+echo "[$scenario_name] debug_mode: $debug_mode" >> $scenario_log
+echo "[$scenario_name] timeout: $timeout" >> $scenario_log
+
 #Starting test containers
 container_name="${project_name}_${test_service_name}"
 
 #kill and clean first
-echo "[$scenario_name] Killing test containers .." | tee -a $scenario_log
+echo "[$scenario_name] Killing containers .." | tee -a $scenario_log
 docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 
-echo "[$scenario_name] Removing test containers .." | tee -a $scenario_log
+echo "[$scenario_name] Removing containers .." | tee -a $scenario_log
 docker-compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenario_log > /dev/null
 
 # complete pull fail interactive by <<< "NN"
-echo "[$scenario_name] Starting test containers .." | tee -a $scenario_log
+echo "[$scenario_name] Starting containers .." | tee -a $scenario_log
 docker-compose -p ${project_name} -f ${compose_file} up -d --no-build 2>&1 <<< "NN" | tee -a $scenario_log > /dev/null
+
+sleep 2
+redirect_container_logs
 
 container_id=`docker ps -qf "name=${container_name}"`
 if [[ -z "${container_id}" ]]; then
     echo "[$scenario_name] docker startup failure!" | tee -a $scenario_log
     status=1
 else
+    echo "[$scenario_name] Waiting for test container .." | tee -a $scenario_log
     # check and get exit code
     wait_container_exit ${container_name} $start $timeout
     result=$?
@@ -108,31 +135,17 @@ else
         echo "[$scenario_name] Run tests timeout" | tee -a $scenario_log
     fi
 
-    echo "[$scenario_name] Stopping test containers .." | tee -a $scenario_log
+    echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log
     docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 
 fi
 
-</#noparse>
-
-#copy logs
-echo "Copying container logs .." >> $scenario_log
-
-<#list services as service>
-service_name="${service.name}"
-<#noparse>
-docker logs ${project_name}_${service_name}_1 &> $SCENARIO_HOME/logs/${service_name}.log
-</#noparse>
-
-</#list>
-
-<#noparse>
-if [[ "$debug_mode" != "1" && $status == 0 ]];then
+if [[ $status == 0 ]];then
     docker-compose -p $project_name -f $compose_file rm -f 2>&1 | tee -a $scenario_log > /dev/null
     ${removeImagesScript}
 fi
 
-# clear network
+# rm network
 docker network rm $network_name 2>&1 | tee -a $scenario_log > /dev/null
 
 exit $status
