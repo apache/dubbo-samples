@@ -192,7 +192,10 @@ function process_case() {
     # show test log
     if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
       for log_file in $scenario_home/logs/*.log; do
-        print_log_file "$scenario_name : `basename $log_file`" $log_file
+        # ignore scenario-builder.log
+        if [[ $log_file != *scenario-builder.log ]]; then
+          print_log_file "$scenario_name : `basename $log_file`" $log_file
+        fi
       done
     fi
     return 1
