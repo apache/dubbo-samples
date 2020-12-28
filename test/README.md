@@ -13,7 +13,7 @@ cd dubbo-samples/test
 ./build-test-image.sh
 ```
 
-Use debian mirror through env `DEBIAN_MIRROR`, 
+Use a debian mirror through env `DEBIAN_MIRROR` if apt download files slowly, 
 the following example uses aliyun mirror server [http://mirrors.aliyun.com/ubuntu/](http://mirrors.aliyun.com/ubuntu/) :
 
 ```
@@ -39,13 +39,23 @@ props:
 Some example projects: 
 
  * [dubbo-samples-annotation](../dubbo-samples-annotation/case-configuration.yml) : A simple provider service with builtin zookeeper.
+ * [dubbo-samples-api](../dubbo-samples-api/case-configuration.yml) : A simple provider service with external zookeeper.
  * [dubbo-samples-chain](../dubbo-samples-chain/case-configuration.yml) : A multiple services with external zookeeper.
 
 #### Step 3 - Generate and test scenario
 
+Run single test project:
+
 ```
 cd dubbo-samples/test
 ./run-tests.sh <project.basedir>
+```
+
+Run all tests:
+
+```
+cd dubbo-samples/test
+BUILD=all ./run-tests.sh
 ```
 
 ### Builtin parent configuration
