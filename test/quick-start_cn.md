@@ -40,7 +40,11 @@ cd dubbo-samples/test
 
 ### 运行测试案例
 
-通过`run-tests.sh`运行单个测试案例、测试案例列表或者全部测试案例。
+`run-tests.sh` 运行单个测试案例、测试案例列表或者全部测试案例。  
+
+`kill-tests.sh` 强制停止所有测试用例，停止所有dubbo containers及全部run-tests.sh/scenario.sh进程。
+
+注意：`Ctrl+C`中断执行`run-tests.sh`后，需要执行`kill-tests.sh`脚本。
 
 #### 编译方式(BUILD)
 
@@ -106,20 +110,20 @@ cd dubbo-samples/test
     
   下面以`dubbo-samples-annotation`举例说明如何调试运行测试案例。
     
-  先用普通方式执行一次测试案例，查看生成的`docker-compose.yml`，可知AnnotationProviderBootstrap的服务名称为`dubbo-samples-annotation`，
+  先用普通方式执行一次测试案例:
+  
+  ```
+  ./run-tests.sh ../dubbo-samples-annotation
+  ```
+  
+  查看生成的`dubbo-samples-annotation/target/docker-compose.yml`，可知AnnotationProviderBootstrap的服务名称为`dubbo-samples-annotation`，
   test类的服务名为`dubbo-samples-annotation-test`。
   
   * 调试provider类：AnnotationProviderBootstrap
   
     执行启动命令，以suspend模式启动AnnotationProviderBootstrap：
     ```
-    DEBUG=dubbo-sampes-annotation ./run-tests.sh ../dubbo-samples-annotation
-    ```
-    
-    用命令查看日志：
-     
-    ```
-    tail -f dubbo-sampes-annotation/target/logs/dubbo-sampes-annotation.log
+    DEBUG=dubbo-samples-annotation ./run-tests.sh ../dubbo-samples-annotation
     ```
     
     直到可以看到下面的日志信息：
@@ -139,31 +143,42 @@ cd dubbo-samples/test
     
     执行启动命令，以suspend模式启动test：
     ```
-    DEBUG=dubbo-sampes-annotation-test ./run-tests.sh ../dubbo-samples-annotation
-    ```
-        
-    用命令查看日志：
-     
-    ```
-    tail -f dubbo-sampes-annotation/target/logs/dubbo-sampes-annotation-test.log
+    DEBUG=dubbo-samples-annotation-test ./run-tests.sh ../dubbo-samples-annotation
     ```
     
     直到可以看到下面的日志信息：
   
     ```
-    + java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=20661 -Dzookeeper.address=dubbo-samples-annotation -Dzookeeper.port=2181 -Ddubbo.address=dubbo-samples-annotation -Ddubbo.port=20880 -jar dubbo-test-runner.jar /usr/local/dubbo/app/test-classes /usr/local/dubbo/app/classes /usr/local/dubbo/app/dependency /usr/local/dubbo//app/test-reports '**/*IT.class'
-    Listening for transport dt_socket at address: 20661
+    + java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=20660 -Dzookeeper.address=dubbo-samples-annotation -Dzookeeper.port=2181 -Ddubbo.address=dubbo-samples-annotation -Ddubbo.port=20880 -jar dubbo-test-runner.jar /usr/local/dubbo/app/test-classes /usr/local/dubbo/app/classes /usr/local/dubbo/app/dependency /usr/local/dubbo//app/test-reports '**/*IT.class'
+    Listening for transport dt_socket at address: 20660
     ```
-    用上面的方法，先断点，然后再连接调试端口20661。
+    用上面的方法，先断点，然后再连接调试端口20660。
    
   * 同时调试provider和test类
   
     执行调试启动命令
     ```
-    DEBUG=dubbo-sampes-annotation,dubbo-sampes-annotation-test ./run-tests.sh ../dubbo-samples-annotation
+    DEBUG=dubbo-samples-annotation,dubbo-samples-annotation-test ./run-tests.sh ../dubbo-samples-annotation
     ```
     
-    如果同时调试多个suspend方式启动的app/test服务，需要按照依赖顺序连接调试端口，保证前置服务启动成功后，才能继续调试后一个服务。
+    同时调试多个suspend方式启动的app/test服务，需要按照依赖顺序连接调试端口，保证前置服务启动成功后，才能继续调试后一个服务。
+    
+    首先看到`AnnotationProviderBootstrap`的调试端口：
+    
+    ```
+    + java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=20660 -cp '/usr/local/dubbo/app/classes:/usr/local/dubbo/app/dependency/*' org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
+    Listening for transport dt_socket at address: 20660
+    ```
+    
+    使用IDEA/eclipse 连接远程调试端口`localhost:20660`，连接上后测试继续运行，然后看到test类的调试端口：
+    
+    ```
+    + java -Dzookeeper.address=dubbo-samples-annotation -Dzookeeper.port=2181 -Ddubbo.address=dubbo-samples-annotation -Ddubbo.port=20880 -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=20661 -jar dubbo-test-runner.jar /usr/local/dubbo/app/test-classes /usr/local/dubbo/app/classes /usr/local/dubbo/app/dependency /usr/local/dubbo//app/test-reports '**/*IT.class'
+    Listening for transport dt_socket at address: 20661
+    ```
+    
+    再次连接调试端口`localhost:20661`，test类继续执行。
+    
 
 **注意：**
   

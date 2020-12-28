@@ -46,7 +46,6 @@ public class ServiceComponent {
     private List<String> tests;
     private List<String> systemProps;
     private List<String> jvmFlags;
-    private JavaDebugOption javaDebug;
 
     public String getImage() {
         return image;
@@ -224,19 +223,40 @@ public class ServiceComponent {
         this.volumes_from = volumes_from;
     }
 
-    public JavaDebugOption getJavaDebug() {
-        return javaDebug;
-    }
-
-    public void setJavaDebug(JavaDebugOption javaDebug) {
-        this.javaDebug = javaDebug;
-    }
-
     public List<String> getPorts() {
         return ports;
     }
 
     public void setPorts(List<String> ports) {
         this.ports = ports;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceComponent{" +
+                "image='" + image + '\'' +
+                ", hostname='" + hostname + '\'' +
+                ", version='" + version + '\'' +
+                ", removeOnExit=" + removeOnExit +
+                ", links=" + links +
+                ", expose=" + expose +
+                ", ports=" + ports +
+                ", entrypoint=" + entrypoint +
+                ", environment=" + environment +
+                ", volumes=" + volumes +
+                ", volumes_from=" + volumes_from +
+                ", depends_on=" + depends_on +
+                ", healthcheck=" + healthcheck +
+                ", type='" + type + '\'' +
+                ", basedir='" + basedir + '\'' +
+                ", mainClass='" + mainClass + '\'' +
+                ", waitPortsBeforeRun=" + waitPortsBeforeRun +
+                ", checkPortsAfterRun=" + checkPortsAfterRun +
+                ", checkLog='" + checkLog + '\'' +
+                ", checkTimeout=" + checkTimeout +
+                ", tests=" + tests +
+                ", systemProps=" + systemProps +
+                ", jvmFlags=" + jvmFlags +
+                '}';
     }
 }
