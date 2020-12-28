@@ -24,7 +24,7 @@ fi
 
 echo "Running app : [$APP_MAIN_CLASS] ..."
 start=$SECONDS
-java $JAVA_OPTS -cp "$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*" $APP_MAIN_CLASS 2>&1 &
+java $JAVA_OPTS $DEBUG_OPTS -cp "$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*" $APP_MAIN_CLASS 2>&1 &
 pid=$!
 
 sleep 20

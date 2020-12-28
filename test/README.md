@@ -12,6 +12,15 @@ Please install `docker` and `docker-compose` first, then build the test image.
 cd dubbo-samples/test
 ./build-test-image.sh
 ```
+
+Use debian mirror through env `DEBIAN_MIRROR`, 
+the following example uses aliyun mirror server [http://mirrors.aliyun.com/ubuntu/](http://mirrors.aliyun.com/ubuntu/) :
+
+```
+cd dubbo-samples/test
+DEBIAN_MIRROR=http://mirrors.aliyun.com ./build-test-image.sh
+```
+
 Rebuild the image after modify any file of the `dubbo-test-runner` project.
 
 #### Step 2 - Add case configuration
@@ -36,7 +45,7 @@ Some example projects:
 
 ```
 cd dubbo-samples/test
-./run-tests.sh
+./run-tests.sh <project.basedir>
 ```
 
 ### Builtin parent configuration
@@ -55,7 +64,7 @@ and test case.
 and test case.
 
 
-**Usages:** 
+**Examples:** 
 
 * `dubbo-samples-annotation` configuration:
 
@@ -206,18 +215,12 @@ A scenario is a complete test environment, including docker-compose.yml, scenari
  
  Default running timeout is 90s. Some test cases require more time, you can modify it in the following way. 
  
- (1) Change timeout in `case-configuration.yml`:
+ Change timeout in `case-configuration.yml`:
  
    ```
    timeout: 120
    ```
    
- (2) Change timeout in command line
- 
- ```
-  timeout=120 bash ${scenario_home}/scenario.sh 
- ```
-
 #### Logs
 
 * Container log

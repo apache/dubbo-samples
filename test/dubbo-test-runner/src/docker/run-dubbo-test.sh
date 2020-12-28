@@ -26,7 +26,7 @@ fi
 # run testcase
 echo "Running tests ..."
 report_dir=$DIR/app/test-reports
-java $JAVA_OPTS -jar dubbo-test-runner.jar "$TEST_CLASSES_DIR" "$APP_CLASSES_DIR" "$APP_DEPENDENCY_DIR" "$report_dir" "$TEST_PATTERNS" 2>&1
+java $JAVA_OPTS $DEBUG_OPTS -jar dubbo-test-runner.jar "$TEST_CLASSES_DIR" "$APP_CLASSES_DIR" "$APP_DEPENDENCY_DIR" "$report_dir" "$TEST_PATTERNS" 2>&1
 result=$?
 if [ $result -ne 0 ]; then
   echo "Run tests failure"

@@ -2,6 +2,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+abspath () { case "$1" in /*)printf "%s\n" "$1";; *)printf "%s\n" "$PWD/$1";; esac; }
+
 FAIL_FAST=${FAIL_FAST:-0}
 echo "FAIL_FAST: $FAIL_FAST"
 
@@ -13,32 +15,22 @@ maxForks=${FORK_COUNT:-2}
 echo "FORK_COUNT: $maxForks"
 
 #Build mode: all, case, no
-BUILD=${BUILD:-all}
+BUILD=${BUILD:-case}
 export BUILD=$BUILD
 echo "BUILD: $BUILD"
 
 #DUBBO_VERSION=
 echo "DUBBO_VERSION: $DUBBO_VERSION"
 
-BUILD_OPTS="clean package dependency:copy-dependencies -DskipTests"
-if [ "$DUBBO_VERSION" != "" ]; then
-  BUILD_OPTS="$BUILD_OPTS -Ddubbo.version=$DUBBO_VERSION"
-fi
-export BUILD_OPTS=$BUILD_OPTS
-echo "BUILD_OPTS: $BUILD_OPTS"
-
-#debug
-DEBUG=${DEBUG:-0}
-DEBUG_SUSPEND=${DEBUG_SUSPEND:-y}
+#debug DEBUG=service1,service2
 export DEBUG=$DEBUG
-export DEBUG_SUSPEND=$DEBUG_SUSPEND
-echo "DEBUG=$DEBUG, DEBUG_SUSPEND=$DEBUG_SUSPEND"
+echo "DEBUG=$DEBUG"
 
 #TEST_CASE_FILE
 if [ "$TEST_CASE_FILE" != "" ]; then
   # convert relative path to absolute path
   if [[ $TEST_CASE_FILE != /* ]]; then
-    TEST_CASE_FILE=$DIR/$TEST_CASE_FILE
+    TEST_CASE_FILE=`abspath $TEST_CASE_FILE`
   fi
   echo "TEST_CASE_FILE: $TEST_CASE_FILE"
 fi
@@ -57,36 +49,6 @@ if [ $result != 0 ];then
   exit 1
 fi
 
-# build scenario-builder
-SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
-echo "Building scenario builder .."
-cd $SCENARIO_BUILDER_DIR
-mvn clean package -DskipTests &> $SCENARIO_BUILDER_DIR/mvn.log
-result=$?
-if [ $result -ne 0 ]; then
-  echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"
-  exit $result
-fi
-
-# find jar
-test_builder_jar=`ls $SCENARIO_BUILDER_DIR/target/dubbo-scenario-builder*-with-dependencies.jar`
-if [ "$test_builder_jar" == "" ]; then
-  echo "dubbo-scenario-builder jar not found"
-  exit 1
-else
-  echo "Found test builder : $test_builder_jar"
-fi
-
-if [ "$BUILD" == "all" ]; then
-  echo "Building dubbo-samples .."
-  cd $DIR/..
-  mvn $BUILD_OPTS
-  result=$?
-  if [ $result -ne 0 ]; then
-    echo "Build dubbo-samples failure, please check logs"
-    exit $result
-  fi
-fi
 
 # prepare testcases
 cd $DIR
@@ -96,8 +58,14 @@ CONFIG_FILE="case-configuration.yml"
 testListFile=$DIR/testcases.txt
 targetTestcases=$1
 if [ "$targetTestcases" != "" ];then
-  echo "Target testcase: $targetTestcases"
-  echo $targetTestcases > $testListFile
+  targetTestcases=`abspath $targetTestcases`
+  if [ -d "$targetTestcases" ] || [ -f "$targetTestcases" ]; then
+    echo "Target testcase: $targetTestcases"
+    echo $targetTestcases > $testListFile
+  else
+    echo "Testcase not exist: $targetTestcases"
+    exit 1
+  fi
 else
   # use input testcases file
   if [ "$TEST_CASE_FILE" != "" ]; then
@@ -118,10 +86,22 @@ fi
 caseCount=`grep "" -c $testListFile`
 echo "Total test cases : $caseCount"
 
+if [ "$DEBUG" != "" ] && [ $caseCount -gt 1 ]; then
+  echo "Only one case can be debugged"
+  exit 1
+fi
+
 #clear test results
 testResultFile=${testListFile%.*}-result.txt
 rm -f $testResultFile
 echo "Test results: $testResultFile"
+
+BUILD_OPTS="clean package dependency:copy-dependencies -DskipTests"
+if [ "$DUBBO_VERSION" != "" ]; then
+  BUILD_OPTS="$BUILD_OPTS -Ddubbo.version=$DUBBO_VERSION"
+fi
+export BUILD_OPTS=$BUILD_OPTS
+echo "BUILD_OPTS: $BUILD_OPTS"
 
 # constant
 TEST_SUCCESS="TEST SUCCESS"
@@ -189,8 +169,7 @@ function process_case() {
     -Dscenario.home=$scenario_home \
     -Dscenario.name=$scenario_name \
     -Dscenario.version=$DUBBO_VERSION \
-    -Ddebug.mode=$DEBUG \
-    -Ddebug.suspend=$DEBUG_SUSPEND \
+    -Ddebug.service=$DEBUG \
     -jar $test_builder_jar  &> $scenario_home/logs/scenario-builder.log
   result=$?
   if [ $result -ne 0 ]; then
@@ -213,14 +192,51 @@ function process_case() {
     # show test log
     if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
       for log_file in $scenario_home/logs/*.log; do
-        print_log_file "$scenario_name : `basename $log_file`" $log_file
+        # ignore scenario-builder.log
+        if [[ $log_file != *scenario-builder.log ]]; then
+          print_log_file "$scenario_name : `basename $log_file`" $log_file
+        fi
       done
     fi
     return 1
   fi
 }
 
+# build scenario-builder
+SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
+echo "Building scenario builder .."
+cd $SCENARIO_BUILDER_DIR
+mvn clean package -DskipTests &> $SCENARIO_BUILDER_DIR/mvn.log
+result=$?
+if [ $result -ne 0 ]; then
+  echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"
+  exit $result
+fi
+
+# find jar
+test_builder_jar=`ls $SCENARIO_BUILDER_DIR/target/dubbo-scenario-builder*-with-dependencies.jar`
+if [ "$test_builder_jar" == "" ]; then
+  echo "dubbo-scenario-builder jar not found"
+  exit 1
+else
+  echo "Found test builder : $test_builder_jar"
+fi
+
+# build all samples
+if [ "$BUILD" == "all" ]; then
+  echo "Building dubbo-samples .."
+  cd $DIR/..
+  mvn $BUILD_OPTS
+  result=$?
+  if [ $result -ne 0 ]; then
+    echo "Build dubbo-samples failure, please check logs"
+    exit $result
+  fi
+fi
+
+
 # start run tests
+cd $DIR
 testStartTime=$SECONDS
 
 #counter

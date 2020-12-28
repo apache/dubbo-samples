@@ -35,9 +35,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,6 +56,7 @@ public class ConfigurationImpl implements IConfiguration {
     public static final String ENV_CHECK_TIMEOUT = "CHECK_TIMEOUT";
     public static final String ENV_TEST_PATTERNS = "TEST_PATTERNS";
     public static final String ENV_JAVA_OPTS = "JAVA_OPTS";
+    public static final String ENV_DEBUG_OPTS = "DEBUG_OPTS";
     public static final String ENV_SCENARIO_HOME = "SCENARIO_HOME";
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationImpl.class);
@@ -63,9 +66,9 @@ public class ConfigurationImpl implements IConfiguration {
     private String scenarioName;
     private final String scenarioLogDir;
     private int scenarioTimeout = 90;
-    private int javaDebugPort=20660;
-    private int debugTimeout=36000;
-    private String debugSuspend="y";
+    private int javaDebugPort = 20660;
+    private int debugTimeout = 36000;
+    private Set<String> debugServices = new HashSet<>();
 
     public ConfigurationImpl() throws IOException, ConfigureFileNotFoundException {
         String configureFile = System.getProperty("configure.file");
@@ -87,7 +90,18 @@ public class ConfigurationImpl implements IConfiguration {
             scenarioName = new File(configBasedir).getName();
         }
 
+        String debugService = System.getProperty("debug.service");
+        String[] strs = debugService.split(",");
+        for (String str : strs) {
+            str = str.trim();
+            if (StringUtils.isNotBlank(str)) {
+                debugServices.add(str);
+            }
+        }
+
         this.configuration = loadCaseConfiguration(configureFile);
+
+        //set scenario timeout
         if (this.configuration.getTimeout() > 0) {
             scenarioTimeout = this.configuration.getTimeout();
         }
@@ -96,9 +110,12 @@ public class ConfigurationImpl implements IConfiguration {
             scenarioTimeout = Integer.parseInt(timeout);
         }
         if (isDebug()) {
-            scenarioTimeout=debugTimeout;
-            debugSuspend=System.getProperty("debug.suspend", debugSuspend);
+            scenarioTimeout = debugTimeout;
         }
+    }
+
+    private boolean isDebug() {
+        return debugServices != null && debugServices.size() > 0;
     }
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
@@ -207,20 +224,22 @@ public class ConfigurationImpl implements IConfiguration {
                 if (isDebug()) {
                     service.setCheckTimeout(debugTimeout);
 
-                    //set java remote debug opts
-                    //-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
-                    int debugPort = nextDebugPort();
-                    String debugOpts=String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=%s,address=%s", debugSuspend, debugPort);
-                    appendEnv(service, ENV_JAVA_OPTS, debugOpts);
+                    if (debugServices.contains(serviceName)) {
+                        //set java remote debug opts
+                        //-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+                        int debugPort = nextDebugPort();
+                        String debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=%s", debugPort);
+                        appendEnv(service, ENV_DEBUG_OPTS, debugOpts);
 
-                    //mapping debug port
-                    if (service.getPorts() == null) {
-                        service.setPorts(new ArrayList<>());
+                        //mapping debug port
+                        if (service.getPorts() == null) {
+                            service.setPorts(new ArrayList<>());
+                        }
+                        service.getPorts().add(debugPort + ":" + debugPort);
                     }
-                    service.getPorts().add(debugPort + ":" + debugPort);
                 }
                 if (service.getCheckTimeout() > 0) {
-                    setEnv(service, ENV_CHECK_TIMEOUT, service.getCheckTimeout()+"");
+                    setEnv(service, ENV_CHECK_TIMEOUT, service.getCheckTimeout() + "");
                 }
 
                 if ("app".equals(type)) {
@@ -446,11 +465,7 @@ public class ConfigurationImpl implements IConfiguration {
 
     @Override
     public String debugMode() {
-        return System.getProperty("debug.mode", "0");
-    }
-
-    private boolean isDebug() {
-        return "1".equals(debugMode());
+        return isDebug() ? "1" : "0";
     }
 
     private int nextDebugPort() {

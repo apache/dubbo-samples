@@ -15,13 +15,22 @@
 
 FROM openjdk:8
 
+ARG DEBIAN_MIRROR
+RUN if [ -n "$DEBIAN_MIRROR" ]; then \
+  sed -i "s@http://deb.debian.org@${DEBIAN_MIRROR}@g" /etc/apt/sources.list && \
+  sed -i "s@http://security.debian.org@${DEBIAN_MIRROR}@g" /etc/apt/sources.list && \
+  cat /etc/apt/sources.list ; fi
+
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y telnet && \
-    apt-get clean
+  apt-get install -y telnet && \
+  rm -rf /var/lib/apt/lists/*
 
 VOLUME /usr/local/dubbo/app
 VOLUME /usr/local/dubbo/logs
+
+# Jvm flags
+ENV JAVA_OPTS=""
+ENV DEBUG_OPTS=""
 
 # service name
 ENV SERVICE_NAME=""
@@ -46,9 +55,6 @@ ENV CHECK_LOG=""
 
 # test envs
 ENV TEST_PATTERNS="**/*IT.class"
-
-# Jvm flags
-ENV JAVA_OPTS=""
 
 
 ADD *.sh /usr/local/dubbo/
