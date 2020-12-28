@@ -67,4 +67,15 @@ public class CaseConfiguration {
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
+
+    @Override
+    public String toString() {
+        return "CaseConfiguration{" +
+                "from='" + from + '\'' +
+                ", props=" + props +
+                ", systemProps=" + systemProps +
+                ", services=" + services +
+                ", timeout=" + timeout +
+                '}';
+    }
 }

@@ -128,4 +128,22 @@ public class DockerService {
     public void setPorts(List<String> ports) {
         this.ports = ports;
     }
+
+    @Override
+    public String toString() {
+        return "DockerService{" +
+                "name='" + name + '\'' +
+                ", imageName='" + imageName + '\'' +
+                ", hostname='" + hostname + '\'' +
+                ", removeOnExit=" + removeOnExit +
+                ", links=" + links +
+                ", expose=" + expose +
+                ", ports=" + ports +
+                ", entrypoint=" + entrypoint +
+                ", healthcheck=" + healthcheck +
+                ", depends_on=" + depends_on +
+                ", environment=" + environment +
+                ", volumes=" + volumes +
+                '}';
+    }
 }

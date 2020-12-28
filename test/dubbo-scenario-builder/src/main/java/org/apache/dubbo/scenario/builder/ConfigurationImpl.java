@@ -91,11 +91,13 @@ public class ConfigurationImpl implements IConfiguration {
         }
 
         String debugService = System.getProperty("debug.service");
-        String[] strs = debugService.split(",");
-        for (String str : strs) {
-            str = str.trim();
-            if (StringUtils.isNotBlank(str)) {
-                debugServices.add(str);
+        if (StringUtils.isNotBlank(debugService)) {
+            String[] strs = debugService.split(",");
+            for (String str : strs) {
+                str = str.trim();
+                if (StringUtils.isNotBlank(str)) {
+                    debugServices.add(str);
+                }
             }
         }
 
@@ -111,6 +113,15 @@ public class ConfigurationImpl implements IConfiguration {
         }
         if (isDebug()) {
             scenarioTimeout = debugTimeout;
+        }
+
+        logger.info("scenarioName:{}, timeout: {}, debugServices:{}, config: {}",
+                scenarioName, scenarioTimeout, debugServices, configuration);
+
+        for (String service : debugServices) {
+            if (!configuration.getServices().containsKey(service)) {
+                logger.warn("debug service not found: {}", service);
+            }
         }
     }
 
