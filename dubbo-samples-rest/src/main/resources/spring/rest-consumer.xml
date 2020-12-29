@@ -24,7 +24,7 @@
 
     <dubbo:application name="rest-consumer" owner="programmer" organization="dubbo"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <dubbo:reference id="anotherUserRestService"
                      interface="org.apache.dubbo.samples.rest.api.facade.AnotherUserRestService"/>
