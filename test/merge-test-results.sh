@@ -8,8 +8,8 @@ TEST_FAILURE="TEST FAILURE"
 
 testResultFile=jobs/merged-test-result.txt
 cat jobs/*-result.txt > $testResultFile
-successTest=`grep -c $TEST_SUCCESS $testResultFile`
-failedTest=`grep -c $TEST_FAILURE $testResultFile`
+successTest=`grep -c "$TEST_SUCCESS" $testResultFile`
+failedTest=`grep -c "$TEST_FAILURE" $testResultFile`
 totalCount=`grep -c "" $testResultFile`
 
 echo "All tests count: $totalCount"
