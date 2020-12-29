@@ -34,7 +34,34 @@ Provider Application 和Test类中需要检查配置，参考下面的配置方�
   ```
 
 除了`registry`，还有其它使用到zookeeper的配置，如`config-center`, `metadata-report` 等。
+
   
+### 使用2个zookeeper
+
+如果测试案例使用到两个zk，则需要分别定义不同的系统变量，约定如下：
+
+```
+service:
+  zookeeper1:
+    image: zookeeper
+  zookeeper2:
+    image: zookeeper
+
+  xxx-test:
+    systemProps:
+      - zookeeper.address.1=zookeeper1
+      - zookeeper.port.1=2181
+      - zookeeper.address.2=zookeeper2
+      - zookeeper.port.2=2181
+```
+
+代码或者xml配置要分别处理两个zk的address和port，zookeeper.port.2属性为空时，使用2182 ，以便统一本地运行和在容器中运行。
+
+* 本地的两个zk地址为：127.0.0.1:2181, 127.0.0.1:2182
+* 容器中的两个zk地址为：zookeeper1:2181, zookeeper2:2181
+
+如果代码中使用到`ZKTools`，请查找`ZKTools2.java`，可以直接复制使用。
+`ZKTools2`是使用到2个zk的意思，`ZKTools`就是单个zk，方便查找重用。
 
 ### 删除testcontainers
 
