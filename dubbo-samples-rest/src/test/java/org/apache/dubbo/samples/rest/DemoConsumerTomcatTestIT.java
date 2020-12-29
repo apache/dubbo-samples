@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/rest-consumer.xml"})
-public class TestConsumerTomcatIT {
+public class DemoConsumerTomcatTestIT {
     @Autowired
     AnotherUserRestService userService;
 
