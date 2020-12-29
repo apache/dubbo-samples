@@ -26,7 +26,7 @@ if [ $successTest == $totalCount ]; then
     exit 1
   fi
 else
-  echo "Some tests fail: $failedTest"
+  echo "Exception : some tests fail: $failedTest"
   echo "----------------------------------------------------------"
   echo "Fail tests:"
   grep "$TEST_FAILURE" jobs/testcases-*-result.txt
