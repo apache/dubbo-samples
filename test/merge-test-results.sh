@@ -29,7 +29,7 @@ else
   echo "Some tests fail: $failedTest"
   echo "----------------------------------------------------------"
   echo "Fail tests:"
-  grep "$TEST_FAILURE" jobs/*-result.txt
+  grep "$TEST_FAILURE" jobs/testcases-*-result.txt
   echo "----------------------------------------------------------"
   exit 1
 fi
