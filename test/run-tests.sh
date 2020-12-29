@@ -19,9 +19,6 @@ BUILD=${BUILD:-case}
 export BUILD=$BUILD
 echo "BUILD: $BUILD"
 
-#DUBBO_VERSION=
-echo "DUBBO_VERSION: $DUBBO_VERSION"
-
 #debug DEBUG=service1,service2
 export DEBUG=$DEBUG
 echo "DEBUG=$DEBUG"
@@ -96,7 +93,17 @@ testResultFile=${testListFile%.*}-result.txt
 rm -f $testResultFile
 echo "Test results: $testResultFile"
 
-BUILD_OPTS="clean package dependency:copy-dependencies -DskipTests"
+if [ "$DUBBO_VERSION" != "" ];then
+  echo "DUBBO_VERSION: $DUBBO_VERSION"
+fi
+export DUBBO_VERSION=$DUBBO_VERSION
+
+if [ "$MVN_OPTS" != "" ];then
+  echo "MVN_OPTS: $MVN_OPTS"
+fi
+export MVN_OPTS=$MVN_OPTS
+
+BUILD_OPTS="$MVN_OPTS clean package dependency:copy-dependencies -DskipTests"
 if [ "$DUBBO_VERSION" != "" ]; then
   BUILD_OPTS="$BUILD_OPTS -Ddubbo.version=$DUBBO_VERSION"
 fi
@@ -206,7 +213,8 @@ function process_case() {
 SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
 echo "Building scenario builder .."
 cd $SCENARIO_BUILDER_DIR
-mvn clean package -DskipTests &> $SCENARIO_BUILDER_DIR/mvn.log
+scenario_mvn_opts="$MVN_OPTS clean package -DskipTests"
+mvn $BUILD_OPTS &> $SCENARIO_BUILDER_DIR/mvn.log
 result=$?
 if [ $result -ne 0 ]; then
   echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"

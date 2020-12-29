@@ -43,11 +43,23 @@ jobs:
         run: |
           cd test
           bash ./prepare-test.sh
-      - name: Upload test list result
+      - name: Upload test list
         uses: actions/upload-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs
+
+  test_result:
+    needs: [test_job_1, test_job_2, test_job_3, test_job_4, test_job_5, test_job_6]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download test result
+        uses: actions/download-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/
+      - name: Merge test result
+        run: ./test/merge-test-results.sh
 
   test_job_1:
     needs: prepare_test
@@ -70,10 +82,10 @@ jobs:
       - name: Build with Maven
         run: |
           ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -81,6 +93,11 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_2:
     needs: prepare_test
@@ -103,10 +120,10 @@ jobs:
       - name: Build with Maven
         run: |
           ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -114,6 +131,11 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_3:
     needs: prepare_test
@@ -136,10 +158,10 @@ jobs:
       - name: Build with Maven
         run: |
           ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -147,6 +169,11 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_4:
     needs: prepare_test
@@ -169,10 +196,10 @@ jobs:
       - name: Build with Maven
         run: |
           ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -180,6 +207,11 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_5:
     needs: prepare_test
@@ -202,10 +234,10 @@ jobs:
       - name: Build with Maven
         run: |
           ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -213,6 +245,11 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_6:
     needs: prepare_test
@@ -235,10 +272,10 @@ jobs:
       - name: Build with Maven
         run: |
           ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -246,3 +283,8 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
