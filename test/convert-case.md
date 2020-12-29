@@ -64,6 +64,96 @@ public static GenericContainer zookeeper = new FixedHostPortGenericContainer("zo
 
 ```
 
+### 转换docker-maven-plugin的容器配置
+
+将<images>配置的内容转换为新的case-configuration.yml。
+
+下面的样例为单服务配置，可以用`app-builtin-zookeeper.yml`模板：
+
+```
+<plugin>
+    <groupId>io.fabric8</groupId>
+    <artifactId>docker-maven-plugin</artifactId>
+    <version>${docker-maven-plugin.version}</version>
+    <configuration>
+        <images>
+            <image>
+                <name>${image.name}</name>
+                <run>
+                    <ports>
+                        <port>${dubbo.port}:${dubbo.port}</port>
+                        <port>${zookeeper.port}:${zookeeper.port}</port>
+                    </ports>
+                    <wait>
+                        <log>dubbo service started</log>
+                    </wait>
+                </run>
+            </image>
+        </images>
+    </configuration>
+</plugin>
+```
+
+下面的样例为provider + 外部zookeeper，可以用`app-external-zookeeper.yml`模板：
+
+```
+<configuration>
+    <images>
+        <image>
+            <name>zookeeper:latest</name>
+            <run>
+                <ports>
+                    <port>${zookeeper.port}:${zookeeper.port}</port>
+                </ports>
+                <wait>
+                    <tcp>
+                        <host>${dubbo-local-address}</host>
+                        <ports>
+                            <port>${zookeeper.port}</port>
+                        </ports>
+                    </tcp>
+                </wait>
+            </run>
+        </image>
+        <image>
+            <name>${image.name}</name>
+            <run>
+                <ports>
+                    <port>${dubbo.port}:${dubbo.port}</port>
+                </ports>
+                <wait>
+                    <log>dubbo service started</log>
+                </wait>
+            </run>
+        </image>
+    </images>
+</configuration>
+```
+
+可能使用了外部docker配置，需要同时将外部docker配置内容也转换掉。
+比如下面的配置使用了`src/main/resources/docker/docker-compose.yml`：
+
+```
+<plugin>
+    <groupId>io.fabric8</groupId>
+    <artifactId>docker-maven-plugin</artifactId>
+    <version>${docker-maven-plugin.version}</version>
+    <configuration>
+        <images>
+            <image>
+                <external>
+                    <type>compose</type>
+                    <basedir>src/main/resources/docker</basedir>
+                    <composeFile>docker-compose.yml</composeFile>
+                </external>
+            </image>
+            ...
+        </images>
+    </configuration>
+</plugin>
+```
+
+
 ### Maven配置优化
 
 #### 统一命名的属性
