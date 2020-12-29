@@ -41,6 +41,7 @@
         <swagger.version>1.5.19</swagger.version>
         <tomcat.version>8.0.53</tomcat.version>
         <servlet.version>3.0.1</servlet.version>
+        <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     </properties>
