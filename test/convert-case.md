@@ -1,0 +1,240 @@
+
+## How to convert test cases
+
+下面整理一些常见的修改项
+
+### 如何设置zookeeper地址
+
+某些测试工程在本地开发环境可以正常运行，但在测试框架运行上会出现`zookeeper not connected`错误，原因是在容器网络中运行，访问zookeeper地址发生变化。
+
+本地开发习惯设置zookeeper地址为`127.0.0.1:2181`或`localhost:2181`，这在本地运行是没问题的，但放到容器中就访问不到了。
+因为不同的服务组件在不同的容器内，不能简单通过本地地址来访问，而是要改成通过hostname来访问。
+
+**作为全局的一个约定，zookeeper的地址和端口分别使用系统属性`zookeeper.address`和`zookeeper.port`。**
+
+Provider Application 和Test类中需要检查配置，参考下面的配置方式：
+
+  xml 配置：
+
+  ```
+  <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
+  ```
+  
+  application.properties配置：
+
+  ```
+  dubbo.registry.address=zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}
+  ```
+
+  Java代码中获取zk地址端口：
+  
+  ```
+  String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1"); 
+  String zookeeperPort = System.getProperty("zookeeper.port", "2181");
+  ```
+
+除了`registry`，还有其它使用到zookeeper的配置，如`config-center`, `metadata-report` 等。
+  
+
+### 删除testcontainers
+
+新的测试框架不需要使用testcontainers，将相关的配置及代码删除掉。
+
+删除pom.xml中的依赖：
+
+```xml
+    <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers</artifactId>
+        <version>1.12.3</version>
+        <scope>test</scope>
+    </dependency>
+
+```
+
+删除Java test类中的调用：
+
+```
+import org.testcontainers.containers.FixedHostPortGenericContainer;
+import org.testcontainers.containers.GenericContainer;
+
+@ClassRule
+public static GenericContainer zookeeper = new FixedHostPortGenericContainer("zookeeper:3.4.9")
+        .withFixedExposedPort(2181, 2181);
+
+```
+
+### Maven配置优化
+
+#### 统一命名的属性
+
+为了满足测试多个Spring版本/Dubbo版本的需求，下面的属性要统一命名，以便测试时通过-D参数指定版本号：
+
+`dubbo.version` : Dubbo版本号，所有dubbo的组件都使用这个属性
+
+`spring.version` : Spring版本号，Spring应用配置此属性
+
+`spring-boot.version` : SpringBoot版本号，SpringBoot应用配置此属性
+
+`junit.version` : Junit 版本号，由于测试框架单独运行testcase，最好是统一的4.12
+
+如果是Spring项目：
+
+```xml
+<properties>
+    <spring.version>4.3.16.RELEASE</spring.version>
+    <dubbo.version>2.7.7</dubbo.version>
+    <junit.version>4.12</junit.version>
+</properties>
+```
+
+如果是SpringBoot项目：
+
+```xml
+<properties>
+    <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
+    <dubbo.version>2.7.7</dubbo.version>
+    <junit.version>4.12</junit.version>
+</properties>
+```
+
+#### 使用dependencyManagement管理依赖版本号
+
+如果是Spring项目：
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-framework-bom</artifactId>
+            <version>${spring.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-bom</artifactId>
+            <version>${dubbo.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <version>${dubbo.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+如果是SpringBoot项目：
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <!-- Import dependency management from Spring Boot -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring-boot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-bom</artifactId>
+            <version>${dubbo.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <version>${dubbo.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+注意： 将Spring/SpringBoot的bom放到dubbo-bom之前，优先使用Spring/SpringBoot的版本号，避免出现Spring组件版本号不一致的问题。
+
+SpringBoot项目不要导入spring-framework-bom，避免因为传递的spring.version参数导致SpringBoot依赖的Spring版本发生改变。
+
+
+#### 删除不必要版本号属性
+
+使用dependencyManagement管理版本号之后，spring/spring-boot/dubbo的组件不需要配置版本号
+
+如删除`spring-test`的版本号 `spring-test.version`，旧的配置：
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo</artifactId>
+        <version>${dubbo.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring-test.version}</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+```
+
+新的配置：
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+```
+
+#### zookeeper依赖
+
+使用dubbo-dependencies-zookeeper导入zookeeper相关依赖，而不是分别依赖curator-framework和zookeeper。
+旧的配置：
+
+```xml
+<dependencies>
+    <dependency>	
+        <groupId>org.apache.zookeeper</groupId>	
+        <artifactId>zookeeper</artifactId>	
+        <version>${zookeeper.version}</version>	
+    </dependency>	
+    <dependency>	
+        <groupId>org.apache.curator</groupId>	
+        <artifactId>curator-framework</artifactId>	
+        <version>${curator.version}</version>	
+    </dependency>
+</dependencies>
+```
+
+新的配置：
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-dependencies-zookeeper</artifactId>
+        <type>pom</type>
+    </dependency>
+</dependencies>
+```
+
+#### 清理pom.xml
+
+删除dubbo-integration-test profile及多余的properties
+
