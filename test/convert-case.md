@@ -44,10 +44,11 @@ Provider Application 和Test类中需要检查配置，参考下面的配置方�
 service:
   zookeeper1:
     image: zookeeper
+
   zookeeper2:
     image: zookeeper
 
-  xxx-test:
+  xxx:
     systemProps:
       - zookeeper.address.1=zookeeper1
       - zookeeper.port.1=2181
@@ -60,8 +61,28 @@ service:
 * 本地的两个zk地址为：127.0.0.1:2181, 127.0.0.1:2182
 * 容器中的两个zk地址为：zookeeper1:2181, zookeeper2:2181
 
-如果代码中使用到`ZKTools`，请查找`ZKTools2.java`，可以直接复制使用。
-`ZKTools2`是使用到2个zk的意思，`ZKTools`就是单个zk，方便查找重用。
+如果代码中使用到`ZKTools`，请查找`ZKTools2.java`，可以直接复制使用。`ZKTools2`是使用到2个zk的意思，`ZKTools`就是单个zk，方便查找重用。
+
+```java
+public class ZKTools2 {
+    private static String zookeeperHost1 = System.getProperty("zookeeper.address.1", "127.0.0.1");
+    private static String zookeeperPort1 = System.getProperty("zookeeper.port.1", "2181");
+    private static String zookeeperHost2 = System.getProperty("zookeeper.address.2", "127.0.0.1");
+    private static String zookeeperPort2 = System.getProperty("zookeeper.port.2", "2182");
+
+    public static void setZookeeperServer1(String host, String port) {
+        zookeeperHost1 = host;
+        zookeeperPort1 = port;
+    }
+
+    public static void setZookeeperServer2(String host, String port) {
+        zookeeperHost2 = host;
+        zookeeperPort2 = port;
+    }
+
+    //...
+}
+```
 
 ### 删除testcontainers
 
