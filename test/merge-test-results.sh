@@ -6,12 +6,20 @@ cd $DIR
 TEST_SUCCESS="TEST SUCCESS"
 TEST_FAILURE="TEST FAILURE"
 
+echo "All test results:"
+for resultFile in jobs/*result.txt; do
+  echo "$resultFile:"
+  cat $resultFile
+  echo ""
+done
+
 testResultFile=jobs/merged-test-result.txt
 cat jobs/*-result.txt > $testResultFile
 successTest=`grep -c "$TEST_SUCCESS" $testResultFile`
 failedTest=`grep -c "$TEST_FAILURE" $testResultFile`
 totalCount=`grep -c "" $testResultFile`
 
+echo "----------------------------------------------------------"
 echo "All tests count: $totalCount"
 echo "Success tests count: $successTest"
 
