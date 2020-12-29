@@ -66,6 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-1.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -104,6 +106,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-2.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -142,6 +146,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-3.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -180,6 +186,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-4.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -218,6 +226,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-5.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -256,6 +266,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-6.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
