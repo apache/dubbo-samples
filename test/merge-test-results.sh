@@ -12,11 +12,16 @@ totalCount=`grep -c "" $testResultFile`
 echo "All tests count: $totalCount"
 echo "Success tests count: $successTest"
 
-if [ $successTest == $totalCount ]
-  then
-  echo "All tests pass"
-  echo "----------------------------------------------------------"
-  exit 0
+if [ $successTest == $totalCount ]; then
+  if [ $successTest -gt 0 ]; then
+    echo "All tests pass"
+    echo "----------------------------------------------------------"
+    exit 0
+  else
+    echo "None test pass, test fail"
+    echo "----------------------------------------------------------"
+    exit 1
+  fi
 else
   echo "Some tests fail: $failedTest"
   echo "----------------------------------------------------------"

@@ -51,6 +51,7 @@ jobs:
 
   test_result:
     needs: [test_job_1, test_job_2, test_job_3, test_job_4, test_job_5, test_job_6]
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Download test result
