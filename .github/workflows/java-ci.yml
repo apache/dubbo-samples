@@ -98,6 +98,7 @@ jobs:
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-result
@@ -138,6 +139,7 @@ jobs:
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-result
@@ -178,6 +180,7 @@ jobs:
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-result
@@ -218,6 +221,7 @@ jobs:
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-result
@@ -258,6 +262,7 @@ jobs:
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-result
@@ -298,6 +303,7 @@ jobs:
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: test-result
