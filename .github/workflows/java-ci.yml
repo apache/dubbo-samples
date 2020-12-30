@@ -85,7 +85,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -95,7 +95,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -126,7 +126,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -136,7 +136,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -167,7 +167,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -177,7 +177,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -208,7 +208,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -218,7 +218,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -249,7 +249,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -259,7 +259,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -286,7 +286,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -296,7 +296,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -327,7 +327,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -337,7 +337,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -368,7 +368,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -378,7 +378,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -409,7 +409,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -419,7 +419,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -450,7 +450,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Build test image
-        run: cd test && bash ./build-test-image.sh &
+        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -460,7 +460,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
