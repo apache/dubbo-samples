@@ -30,6 +30,7 @@ import java.util.concurrent.CountDownLatch;
 public class ProviderBootstrap {
 
     public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         context.start();
 
