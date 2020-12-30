@@ -21,7 +21,9 @@ package org.apache.dubbo.sample.protobuf.utils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
+import org.apache.dubbo.metadata.report.identifier.KeyTypeEnum;
+import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
+
 import static org.apache.dubbo.common.constants.CommonConstants.PATH_SEPARATOR;
 
 public class ZkUtil {
@@ -44,7 +46,7 @@ public class ZkUtil {
     }
 
     public static String getNodePath(String root, MetadataIdentifier metadataIdentifier) {
-        return toRootDir(root) + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH);
+        return toRootDir(root) + metadataIdentifier.getUniqueKey(KeyTypeEnum.PATH);
     }
 
     private static String toRootDir(String root) {

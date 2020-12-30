@@ -12,6 +12,7 @@ env:
   FORK_COUNT: 2
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
+  BUILD_OPTS: -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
 
 jobs:
   build:
@@ -31,29 +32,45 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package
+          ./mvnw $BUILD_OPTS
 
   prepare_test:
     runs-on: ubuntu-latest
     env:
-      JOB_COUNT: 6
+      JOB_COUNT: 10
     steps:
       - uses: actions/checkout@v1
       - name: Prepare test list
         run: |
           cd test
           bash ./prepare-test.sh
-      - name: Upload test list result
+      - name: Upload test list
         uses: actions/upload-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs
+
+  test_result:
+    needs: [test_job_1, test_job_2, test_job_3, test_job_4, test_job_5, test_job_6, test_job_7, test_job_8, test_job_9, test_job_10]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Download test result
+        uses: actions/download-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/
+      - name: Merge test result
+        run: ./test/merge-test-results.sh
 
   test_job_1:
     needs: prepare_test
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-1.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -69,11 +86,11 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -81,12 +98,20 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_2:
     needs: prepare_test
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-2.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -102,11 +127,11 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -114,12 +139,20 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_3:
     needs: prepare_test
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-3.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -135,11 +168,11 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -147,12 +180,20 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_4:
     needs: prepare_test
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-4.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -168,11 +209,11 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -180,12 +221,20 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_5:
     needs: prepare_test
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-5.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -201,11 +250,11 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -213,12 +262,20 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   test_job_6:
     needs: prepare_test
     runs-on: ubuntu-latest
     env:
       TEST_CASE_FILE: jobs/testcases-6.txt
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -234,11 +291,11 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-      - name: Download test list result
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
         uses: actions/download-artifact@v2
         with:
-          name: test-list-result
+          name: test-list
           path: test/jobs/
       - name: Build test image
         run: cd test && bash ./build-test-image.sh
@@ -246,3 +303,173 @@ jobs:
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
+
+  test_job_7:
+    needs: prepare_test
+    runs-on: ubuntu-latest
+    env:
+      TEST_CASE_FILE: jobs/testcases-7.txt
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build with Maven
+        run: |
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
+        uses: actions/download-artifact@v2
+        with:
+          name: test-list
+          path: test/jobs/
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh
+      - name: Run tests
+        run: cd test && BUILD=n bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
+
+  test_job_8:
+    needs: prepare_test
+    runs-on: ubuntu-latest
+    env:
+      TEST_CASE_FILE: jobs/testcases-8.txt
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build with Maven
+        run: |
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
+        uses: actions/download-artifact@v2
+        with:
+          name: test-list
+          path: test/jobs/
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh
+      - name: Run tests
+        run: cd test && BUILD=n bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
+
+  test_job_9:
+    needs: prepare_test
+    runs-on: ubuntu-latest
+    env:
+      TEST_CASE_FILE: jobs/testcases-9.txt
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build with Maven
+        run: |
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
+        uses: actions/download-artifact@v2
+        with:
+          name: test-list
+          path: test/jobs/
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh
+      - name: Run tests
+        run: cd test && BUILD=n bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
+
+  test_job_10:
+    needs: prepare_test
+    runs-on: ubuntu-latest
+    env:
+      TEST_CASE_FILE: jobs/testcases-10.txt
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build with Maven
+        run: |
+          ./mvnw $BUILD_OPTS
+      - name: Download test list
+        uses: actions/download-artifact@v2
+        with:
+          name: test-list
+          path: test/jobs/
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh
+      - name: Run tests
+        run: cd test && BUILD=n bash ./run-tests.sh
+      - name: Clean images
+        run: cd test && bash ./clean-damaged-image.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*

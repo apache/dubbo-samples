@@ -242,37 +242,10 @@ services:
 ```
 
 
-#### 如何获取zookeeper地址和端口
+#### 转换测试案例
 
-某些测试工程在本地开发环境可以正常运行，但在测试框架运行上会出现`zookeeper not connected`错误，原因是在容器网络中运行，访问zookeeper地址发生变化。
+请参考文档：[How to convert test cases](convert-case.md)
 
-本地开发习惯设置zookeeper地址为`127.0.0.1:2181`或`localhost:2181`，这在本地运行是没问题的，但放到容器中就访问不到了。
-因为不同的服务组件在不同的容器内，不能简单通过本地地址来访问，而是要改成通过hostname来访问。
-
-**作为全局的一个约定，zookeeper的地址和端口分别使用系统属性`zookeeper.address`和`zookeeper.port`。**
-
-Provider Application 和Test类中需要检查配置，参考下面的配置方式：
-
-  xml 配置：
-
-  ```
-  <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
-  ```
-  
-  application.properties配置：
-
-  ```
-  dubbo.registry.address=zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}
-  ```
-
-  Java代码中获取zk地址端口：
-  
-  ```
-  String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1"); 
-  String zookeeperPort = System.getProperty("zookeeper.port", "2181");
-  ```
-
-除了`registry`，还有其它使用到zookeeper的配置，如
   
 ### 调试运行测试案例
 
