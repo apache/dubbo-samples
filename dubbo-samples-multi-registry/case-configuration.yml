@@ -14,11 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-props:
-#  zookeeper_port_1: 2181
-#  zookeeper_port_2: 2182
-  dubbo_port: 20880
-
 services:
   dubbo-samples-multi-registry:
     type: app

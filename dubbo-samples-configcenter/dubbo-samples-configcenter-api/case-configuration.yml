@@ -14,12 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#from: app-external-zookeeper.yml
-
 props:
   project_name: dubbo-samples-configcenter-api
-#  main_class: org.apache.dubbo.samples.server.Provider1
-#  zookeeper_version: latest
   dubbo_port: 20880
 
 services:
