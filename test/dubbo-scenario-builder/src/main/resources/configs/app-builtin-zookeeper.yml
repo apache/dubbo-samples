@@ -35,6 +35,9 @@ services:
     type: app
     basedir: .
     mainClass: ${main_class}
+    systemProps:
+      - zookeeper.address=127.0.0.1
+      - zookeeper.port=${zookeeper_port}
 #    checkPortsAfterRun:
 #      - ${zookeeper_port}
 #      - ${dubbo_port}
