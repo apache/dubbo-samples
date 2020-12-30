@@ -33,10 +33,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>2.7.7</dubbo.version>
         <junit.version>4.12</junit.version>
-        <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <javax.annotation.version>1.3.2</javax.annotation.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -64,7 +61,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j-log4j12.version}</version>
+                <version>1.7.25</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -107,7 +104,7 @@
                 <dependency>
                     <groupId>javax.annotation</groupId>
                     <artifactId>javax.annotation-api</artifactId>
-                    <version>${javax.annotation.version}</version>
+                    <version>1.3.2</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -118,7 +115,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
