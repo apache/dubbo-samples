@@ -84,18 +84,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -125,18 +123,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -166,18 +162,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -207,18 +201,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -248,18 +240,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -285,18 +275,20 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -326,18 +318,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -367,18 +357,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -408,18 +396,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -449,18 +435,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build test image
-        run: cd test && nohup ./build-test-image.sh &> build-test-image.log &
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && cat build-test-image.log && BUILD=n bash ./run-tests.sh
+        run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
