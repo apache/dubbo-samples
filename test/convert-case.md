@@ -86,7 +86,7 @@ public class ZKTools2 {
 
 ### 删除testcontainers
 
-新的测试框架不需要使用testcontainers，将相关的配置及代码删除掉。
+新的测试框架不需要使用testcontainers，将相关的配置及代码删除掉，并转换为新的case-configuration.yml配置。
 
 删除pom.xml中的依赖：
 
