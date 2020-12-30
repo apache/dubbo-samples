@@ -12,6 +12,7 @@ env:
   FORK_COUNT: 2
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
+  BUILD_OPTS: -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
 
 jobs:
   build:
@@ -31,7 +32,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package
+          ./mvnw $BUILD_OPTS
 
   prepare_test:
     runs-on: ubuntu-latest
@@ -85,7 +86,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -126,7 +127,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -167,7 +168,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -208,7 +209,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -249,7 +250,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -290,7 +291,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -331,7 +332,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -372,7 +373,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -413,7 +414,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -454,7 +455,7 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: |
-          ./mvnw  --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+          ./mvnw $BUILD_OPTS
       - name: Download test list
         uses: actions/download-artifact@v2
         with:

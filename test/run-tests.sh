@@ -103,7 +103,7 @@ if [ "$MVN_OPTS" != "" ];then
 fi
 export MVN_OPTS=$MVN_OPTS
 
-BUILD_OPTS="$MVN_OPTS clean package dependency:copy-dependencies -DskipTests"
+BUILD_OPTS="$MVN_OPTS -U --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
 if [ "$DUBBO_VERSION" != "" ]; then
   BUILD_OPTS="$BUILD_OPTS -Ddubbo.version=$DUBBO_VERSION"
 fi
