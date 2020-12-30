@@ -1,10 +1,17 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd $DIR
 test_image_log=build-test-image.log
-echo "Build test image in background .."
-bash ./build-test-image.sh &> $test_image_log &
+export DIR=$DIR
+export test_image_log=$test_image_log
+
+function build_test_image() {
+  cd $DIR
+  echo "Build test image in background .."
+  bash ./build-test-image.sh &> $test_image_log
+}
+
+build_test_image &
 
 echo "Build samples .."
 BUILD_OPTS="-U --batch-mode --no-transfer-progress --settings .mvn/settings.xml"
