@@ -84,6 +84,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -92,8 +94,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -125,6 +125,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -133,8 +135,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -166,6 +166,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -174,8 +176,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -207,6 +207,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -215,8 +217,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -248,6 +248,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -256,8 +258,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -285,10 +285,8 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -297,8 +295,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -330,6 +326,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -338,8 +336,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -371,6 +367,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -379,8 +377,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -412,6 +408,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -420,8 +418,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -453,6 +449,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Build test image
+        run: cd test && bash ./build-test-image.sh &
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -461,8 +459,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
