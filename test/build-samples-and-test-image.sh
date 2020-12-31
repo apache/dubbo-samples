@@ -5,13 +5,10 @@ test_image_log=build-test-image.log
 export DIR=$DIR
 export test_image_log=$test_image_log
 
-function build_test_image() {
-  cd $DIR
-  echo "Build test image in background .."
-  bash ./build-test-image.sh &> $test_image_log
-}
-
-build_test_image &
+cd $DIR
+echo "Build test image in background .."
+bash ./build-test-image.sh &> $test_image_log
+build_image_pid=$!
 
 echo "Build samples .."
 BUILD_OPTS="-U --batch-mode --no-transfer-progress --settings .mvn/settings.xml"
@@ -25,7 +22,7 @@ if [ $result -ne 0 ];then
 fi
 
 echo "-------------------------------------------------------------------"
-echo "Check test image result .."
-cd $DIR
-cat $test_image_log
+echo "Waiting test image result .."
+tail -f $DIR/$test_image_log &
+wait $build_image_pid
 grep "Successfully tagged dubbo/sample-test" $test_image_log > /dev/null
