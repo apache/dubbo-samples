@@ -7,7 +7,7 @@ export test_image_log=$test_image_log
 
 cd $DIR
 echo "Build test image in background .."
-bash ./build-test-image.sh &> $test_image_log
+bash ./build-test-image.sh &> $test_image_log &
 build_image_pid=$!
 
 echo "Build samples .."
@@ -22,7 +22,7 @@ if [ $result -ne 0 ];then
 fi
 
 echo "-------------------------------------------------------------------"
-echo "Waiting test image result .."
+echo "Waiting test image building: $build_image_pid .."
 tail -f $DIR/$test_image_log &
 wait $build_image_pid
 grep "Successfully tagged dubbo/sample-test" $test_image_log > /dev/null
