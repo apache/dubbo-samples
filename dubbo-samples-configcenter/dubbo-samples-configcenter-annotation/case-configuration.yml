@@ -20,5 +20,5 @@ props:
   project_name: dubbo-samples-configcenter-annotation
   main_class: org.apache.dubbo.samples.configcenter.annotation.AnnotationProvider
   zookeeper_port: 2181
-  dubbo_port: 20880
+  dubbo_port: 20990
 
