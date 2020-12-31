@@ -43,7 +43,7 @@ public class GenericClient {
         reference.setApplication(applicationConfig);
 
         reference.setInterface("org.apache.dubbo.sample.protobuf.GoogleProtobufService");
-        reference.setGeneric(Constants.GENERIC_SERIALIZATION_PROTOBUF);
+        reference.setGeneric(CommonConstants.GENERIC_SERIALIZATION_PROTOBUF);
         reference.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
         GenericService genericService = reference.get();
 
