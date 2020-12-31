@@ -25,8 +25,7 @@ RUN apt-get update && \
   apt-get install -y telnet && \
   rm -rf /var/lib/apt/lists/*
 
-VOLUME /usr/local/dubbo/app
-VOLUME /usr/local/dubbo/logs
+VOLUME /usr/local/dubbo/app /usr/local/dubbo/logs
 
 # JAVA_OPTS/DEBUG_OPTS: Jvm flags
 # SERVICE_TYPE: app, test
@@ -48,8 +47,7 @@ ENV JAVA_OPTS="" \
     TEST_PATTERNS="**/*IT.class"
 
 
-ADD *.sh /usr/local/dubbo/
-ADD dubbo-test-runner-*-jar-with-dependencies.jar /usr/local/dubbo/dubbo-test-runner.jar
+ADD dubbo-test-runner.jar *.sh /usr/local/dubbo/
 
 WORKDIR /usr/local/dubbo/
 #ENTRYPOINT exec java $JAVA_OPTS -jar dubbo-test-runner.jar $TEST_CLASSES_DIR $APP_CLASSES_DIR $APP_DEPENDENCY_DIR
