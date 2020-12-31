@@ -23,9 +23,11 @@ import org.apache.dubbo.samples.local.api.DemoService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 public class LocalDemo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new EmbeddedZooKeeper(2181, true).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo.xml");
         context.start();
@@ -33,5 +35,6 @@ public class LocalDemo {
         DemoService demoService = context.getBean("demoService", DemoService.class);
         String hello = demoService.sayHello("world");
         System.out.println(hello);
+        new CountDownLatch(1).await();
     }
 }
