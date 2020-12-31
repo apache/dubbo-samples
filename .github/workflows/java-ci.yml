@@ -12,7 +12,7 @@ env:
   FORK_COUNT: 2
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
-  BUILD_OPTS: -U --batch-mode --no-transfer-progress --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+  BUILD_OPTS: -U --no-transfer-progress --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
 
 jobs:
   build:
@@ -84,16 +84,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -125,16 +123,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -166,16 +162,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -207,16 +201,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -248,16 +240,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -289,16 +279,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -330,16 +318,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -371,16 +357,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -412,16 +396,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
@@ -453,16 +435,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
+      - name: Build dubbo-samples and test image
         run: |
-          ./mvnw $BUILD_OPTS
+          cd test && bash ./build-samples-and-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Build test image
-        run: cd test && bash ./build-test-image.sh
       - name: Run tests
         run: cd test && BUILD=n bash ./run-tests.sh
       - name: Clean images
