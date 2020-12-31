@@ -27,7 +27,7 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <dubbo:protocol name="dubbo" port="20890"/>
+    <dubbo:protocol name="dubbo" port="20880"/>
 
     <bean id="target" class="org.apache.dubbo.samples.local.impl.DemoServiceImpl"/>
 
