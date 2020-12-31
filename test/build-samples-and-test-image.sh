@@ -23,6 +23,6 @@ fi
 
 echo "-------------------------------------------------------------------"
 echo "Waiting test image building: $build_image_pid .."
-tail -f $DIR/$test_image_log &
+tail -n 1000 -f $DIR/$test_image_log &
 wait $build_image_pid
 grep "Successfully tagged dubbo/sample-test" $DIR/$test_image_log > /dev/null
