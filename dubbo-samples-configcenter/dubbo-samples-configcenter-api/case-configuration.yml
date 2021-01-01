@@ -14,10 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-props:
-  project_name: dubbo-samples-configcenter-api
-  dubbo_port: 20880
-
 services:
   zookeeper1:
     image: zookeeper:latest
