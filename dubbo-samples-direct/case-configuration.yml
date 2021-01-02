@@ -14,32 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services:
-  zookeeper:
-    image: zookeeper:latest
+from: app-external-zookeeper.yml
 
-  dubbo-samples-direct-provider:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.direct.DirectProvider
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    depends_on:
-      - zookeeper
-
-  dubbo-samples-direct-consumer:
-    type: test
-    basedir: .
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=zookeeper
-      - target.address=dubbo-samples-direct-provider
-    waitPortsBeforeRun:
-      - zookeeper:2181
-      - dubbo-samples-direct-provider:20880
-    depends_on:
-      - zookeeper
-      - dubbo-samples-direct-provider
+props:
+  project_name: dubbo-samples-direct
+  main_class: org.apache.dubbo.samples.direct.DirectProvider
+  dubbo_port: 20880
