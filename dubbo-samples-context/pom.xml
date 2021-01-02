@@ -32,7 +32,6 @@
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <main-class>org.apache.dubbo.samples.context.ContextProvider</main-class>
     </properties>
 
     <dependencyManagement>
