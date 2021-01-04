@@ -22,6 +22,8 @@ import java.util.List;
 public class DockerService {
     private String name;
     private String imageName;
+    // docker-compose build dir
+    private String build;
     private String hostname;
     private boolean removeOnExit;
     private List<String> links;
@@ -47,6 +49,14 @@ public class DockerService {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public String getBuild() {
+        return build;
+    }
+
+    public void setBuild(String build) {
+        this.build = build;
     }
 
     public String getHostname() {
@@ -134,6 +144,7 @@ public class DockerService {
         return "DockerService{" +
                 "name='" + name + '\'' +
                 ", imageName='" + imageName + '\'' +
+                ", build='" + build + '\'' +
                 ", hostname='" + hostname + '\'' +
                 ", removeOnExit=" + removeOnExit +
                 ", links=" + links +

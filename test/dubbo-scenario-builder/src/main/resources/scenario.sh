@@ -107,7 +107,7 @@ docker-compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenar
 
 # complete pull fail interactive by <<< "NN"
 echo "[$scenario_name] Starting containers .." | tee -a $scenario_log
-docker-compose -p ${project_name} -f ${compose_file} up -d --no-build 2>&1 <<< "NN" | tee -a $scenario_log > /dev/null
+docker-compose -p ${project_name} -f ${compose_file} up -d 2>&1 <<< "NNN" | tee -a $scenario_log > /dev/null
 
 sleep 2
 redirect_container_logs
