@@ -32,7 +32,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>2.7.7</dubbo.version>
-        <seata.version>0.5.0</seata.version>
+        <seata.version>1.4.0</seata.version>
         <mysql-connector.version>8.0.15</mysql-connector.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
@@ -70,20 +70,8 @@
 
         <dependency>
             <groupId>io.seata</groupId>
-            <artifactId>seata-spring</artifactId>
+            <artifactId>seata-all</artifactId>
             <version>${seata.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-dubbo</artifactId>
-            <version>${seata.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.dubbo</groupId>
-                    <artifactId>dubbo</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

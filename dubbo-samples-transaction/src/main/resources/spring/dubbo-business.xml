@@ -24,7 +24,7 @@
                         http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
     <dubbo:application name="dubbo-demo-app"/>
-    <dubbo:registry address="zookeeper://localhost:2181" />
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
     <dubbo:reference id="orderService" check="false" interface="org.apache.dubbo.samples.service.OrderService"/>
     <dubbo:reference id="storageService" check="false" interface="org.apache.dubbo.samples.service.StorageService"/>
 

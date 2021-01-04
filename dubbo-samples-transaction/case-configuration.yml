@@ -53,12 +53,15 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
+      - seata.address=seata-server:8091
     waitPortsBeforeRun:
       - zookeeper:2181
+      - seata-mysql:3306
     expose:
       - 20882
     depends_on:
       - seata-mysql
+      - seata-server
 
   account-service:
     type: app
@@ -67,12 +70,15 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
+      - seata.address=seata-server:8091
     waitPortsBeforeRun:
       - zookeeper:2181
+      - seata-mysql:3306
     expose:
       - 20881
     depends_on:
       - seata-mysql
+      - seata-server
 
   order-service:
     type: app
@@ -81,12 +87,15 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
+      - seata.address=seata-server:8091
     waitPortsBeforeRun:
       - zookeeper:2181
+      - seata-mysql:3306
     expose:
       - 20883
     depends_on:
       - seata-mysql
+      - seata-server
 
   transaction-test:
     type: test
@@ -96,6 +105,7 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
+      - seata.address=seata-server:8091
     waitPortsBeforeRun:
       - zookeeper:2181
       - storage-service:20882
