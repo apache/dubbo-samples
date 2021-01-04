@@ -14,11 +14,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
-
 props:
   project_name: dubbo-samples-spi-compatible
-  main_class: org.apache.dubbo.samples.basic.SpiCompatibleProvider
   zookeeper_port: 2181
-  dubbo_port: 20880
 
+services:
+  ${project_name}:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.basic.SpiCompatibleProvider
+    systemProps:
+      - zookeeper.address=127.0.0.1
+      - zookeeper.port=${zookeeper_port}
+    checkPortsAfterRun:
+      - ${zookeeper_port}
+    checkLog: "dubbo service started"
+
+  ${project_name}-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=${project_name}
+      - zookeeper.port=${zookeeper_port}
+      - dubbo.address=${project_name}
+    waitPortsBeforeRun:
+      - ${project_name}:${zookeeper_port}
+      # Disable Dubbo port check due to Dubbo-Samples-SPI-Compatible implements a new protocol ---- CompatibleProtocol
+      # CompatibleProtocol will not expose a port and port check is invalid for it
+    depends_on:
+      - ${project_name}
