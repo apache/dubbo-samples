@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-timeout: 120
+timeout: 180
 
 services:
   dubbo-samples-configcenter-apollo:
@@ -26,7 +26,8 @@ services:
       - apollo.port=8080
     waitPortsBeforeRun:
       - apollo-quick-start:8080
-    checkTimeout: 100
+      - apollo-quick-start:8070
+    checkTimeout: 180
 
   dubbo-samples-configcenter-apollo-test:
     type: test
@@ -38,10 +39,12 @@ services:
       - zookeeper.port=2181
       - dubbo.address=dubbo-samples-configcenter-apollo
       - dubbo.port=20880
+      - apollo.address=apollo-quick-start
+      - apollo.port=8080
     waitPortsBeforeRun:
       - dubbo-samples-configcenter-apollo:2181
       - dubbo-samples-configcenter-apollo:20880
-    checkTimeout: 100
+    checkTimeout: 240
     depends_on:
       - dubbo-samples-configcenter-apollo
   
@@ -49,9 +52,6 @@ services:
     image: nobodyiam/apollo-quick-start
     depends_on:
       - apollo-db
-#    ports:
-#      - "8080:8080"
-#      - "8070:8070"
     links:
       - apollo-db
 
@@ -60,17 +60,5 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-#    ports:
-#      - "13306:3306"
     volumes:
       - ${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d
-#      - ./sql_data:/var/lib/mysql
-#    volumes_from:
-#      - apollo-dbdata
-#    depends_on:
-#      - apollo-dbdata
-#
-#  apollo-dbdata:
-#    image: alpine:latest
-#    volumes:
-#      - /var/lib/mysql

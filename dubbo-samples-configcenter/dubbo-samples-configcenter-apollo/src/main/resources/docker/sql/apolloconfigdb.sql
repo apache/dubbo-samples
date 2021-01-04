@@ -374,19 +374,19 @@ VALUES
 # ------------------------------------------------------------
 INSERT INTO `App` (`AppId`, `Name`, `OrgId`, `OrgName`, `OwnerName`, `OwnerEmail`)
 VALUES
-	('SampleApp', 'Sample App', 'TEST1', '样例部门1', 'apollo', 'apollo@acme.com');
+	('dubbo-configcenter-apollo', 'Dubbo ConfigCenter Apollo', 'TEST1', '样例部门1', 'apollo', 'apollo@acme.com');
 
 INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
 VALUES
-	('application', 'SampleApp', 'properties', 0, 'default app namespace');
+	('dubbo', 'dubbo-configcenter-apollo', 'properties', 0, 'default app namespace');
 
 INSERT INTO `Cluster` (`Name`, `AppId`)
 VALUES
-	('default', 'SampleApp');
+	('default', 'dubbo-configcenter-apollo');
 
 INSERT INTO `Namespace` (`Id`, `AppId`, `ClusterName`, `NamespaceName`)
 VALUES
-	(1, 'SampleApp', 'default', 'application');
+	(1, 'dubbo-configcenter-apollo', 'default', 'dubbo');
 
 
 INSERT INTO `Item` (`NamespaceId`, `Key`, `Value`, `Comment`, `LineNum`)
@@ -395,11 +395,11 @@ VALUES
 
 INSERT INTO `Release` (`ReleaseKey`, `Name`, `Comment`, `AppId`, `ClusterName`, `NamespaceName`, `Configurations`)
 VALUES
-	('20161009155425-d3a0749c6e20bc15', '20161009155424-release', 'Sample发布', 'SampleApp', 'default', 'application', '{\"timeout\":\"100\"}');
+	('20161009155425-d3a0749c6e20bc15', '20161009155424-release', 'dubbo发布', 'dubbo-configcenter-apollo', 'default', 'dubbo', '{\"timeout\":\"100\"}');
 
 INSERT INTO `ReleaseHistory` (`AppId`, `ClusterName`, `NamespaceName`, `BranchName`, `ReleaseId`, `PreviousReleaseId`, `Operation`, `OperationContext`, `DataChange_CreatedBy`, `DataChange_LastModifiedBy`)
 VALUES
-  ('SampleApp', 'default', 'application', 'default', 1, 0, 0, '{}', 'apollo', 'apollo');
+  ('dubbo-configcenter-apollo', 'default', 'dubbo', 'default', 1, 0, 0, '{}', 'apollo', 'apollo');
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
