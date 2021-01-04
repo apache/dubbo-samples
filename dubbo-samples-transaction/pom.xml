@@ -33,13 +33,9 @@
         <target.level>1.8</target.level>
         <dubbo.version>2.7.7</dubbo.version>
         <seata.version>1.4.0</seata.version>
-        <mysql-connector.version>8.0.15</mysql-connector.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -83,7 +79,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector.version}</version>
+            <version>8.0.15</version>
         </dependency>
 
         <dependency>
