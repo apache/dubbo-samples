@@ -25,7 +25,7 @@
 
     <dubbo:application name="version-consumer-1"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
     <dubbo:reference id="versionService" interface="org.apache.dubbo.samples.version.api.VersionService" version="1.0.0"/>
 
