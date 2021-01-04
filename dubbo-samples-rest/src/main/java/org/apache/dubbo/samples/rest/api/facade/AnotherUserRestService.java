@@ -43,4 +43,8 @@ public interface AnotherUserRestService {
     @POST
     @Path("register")
     RegistrationResult registerUser(User user);
+
+    @GET
+    @Path("context")
+    String getContext();
 }
