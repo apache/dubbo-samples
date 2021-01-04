@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:/spring/dubbo-direct-consumer.xml"})
 public class DirectServiceIT {
-    private static String providerAddress = System.getProperty("target.address", "localhost");
+    private static String providerAddress = System.getProperty("dubbo.address", "localhost");
 
     @Autowired
     private DirectService directService;
