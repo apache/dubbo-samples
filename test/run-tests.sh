@@ -161,11 +161,11 @@ function process_case() {
   fi
 
   #check build
-  echo "$log_prefix Checking project artifacts .."
-  if [ ! -d "$project_home/target" ]; then
-    echo "$log_prefix $TEST_FAILURE: Missing artifacts" | tee -a $testResultFile
-    return 1
-  fi
+#  echo "$log_prefix Checking project artifacts .."
+#  if [ ! -d "$project_home/target" ]; then
+#    echo "$log_prefix $TEST_FAILURE: Missing artifacts" | tee -a $testResultFile
+#    return 1
+#  fi
 
   # generate case configuration
   mkdir -p $scenario_home/logs
