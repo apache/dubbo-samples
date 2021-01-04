@@ -24,6 +24,7 @@ import org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService;
 
 import com.google.gson.Gson;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +132,12 @@ public class MetadataIT {
      */
     @Test
     public void testConsumerMetadata() throws Exception {
+        //wait for metadata async report finish
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+
         String result = ZkUtil.getMetadata("/dubbo3", DemoService.class.getName(), CommonConstants.CONSUMER_SIDE,
                 "metadatareport-local-xml-consumer2");
         Gson gson = new Gson();
