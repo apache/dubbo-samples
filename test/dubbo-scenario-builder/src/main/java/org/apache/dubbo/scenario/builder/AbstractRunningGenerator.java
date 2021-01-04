@@ -51,7 +51,6 @@ public abstract class AbstractRunningGenerator implements ScenarioRunningScriptG
         generateAdditionFiles(configuration);
 
         final Map<String, Object> root = configuration.toMap();
-        root.put("running_script", runningScript(configuration));
 
         String scriptPath = configuration.outputDir() + File.separator + "scenario.sh";
         try (FileWriter writer = new FileWriter(new File(scriptPath))) {
@@ -64,5 +63,4 @@ public abstract class AbstractRunningGenerator implements ScenarioRunningScriptG
 
     public abstract void generateAdditionFiles(IConfiguration configuration) throws GenerateFailedException;
 
-    public abstract String runningScript(IConfiguration configuration);
 }

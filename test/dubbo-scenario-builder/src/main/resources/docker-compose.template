@@ -23,8 +23,13 @@ networks:
 services:
 <#list services as service>
     ${service.name}:
+        <#if service.imageName?has_content>
         image: ${service.imageName}
+        </#if>
         hostname: ${service.hostname}
+        <#if service.build?has_content>
+        build: ${service.build}
+        </#if>
         <#if service.volumes??>
         volumes:
         <#list service.volumes as volume>

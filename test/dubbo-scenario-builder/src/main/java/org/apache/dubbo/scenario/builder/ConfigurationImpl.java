@@ -47,6 +47,8 @@ public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
     public static final String DUBBO_APP_DIR = "/usr/local/dubbo/app";
     public static final String DUBBO_LOG_DIR = "/usr/local/dubbo/logs";
+
+    //ENV
     public static final String ENV_SERVICE_NAME = "SERVICE_NAME";
     public static final String ENV_SERVICE_TYPE = "SERVICE_TYPE";
     public static final String ENV_APP_MAIN_CLASS = "APP_MAIN_CLASS";
@@ -58,6 +60,11 @@ public class ConfigurationImpl implements IConfiguration {
     public static final String ENV_JAVA_OPTS = "JAVA_OPTS";
     public static final String ENV_DEBUG_OPTS = "DEBUG_OPTS";
     public static final String ENV_SCENARIO_HOME = "SCENARIO_HOME";
+
+    //PROPS
+    public static final String PROP_BASEDIR = "_basedir";
+    public static final String PROP_SCENARIO_HOME = "_scenario_home";
+    public static final String PROP_SCENARIO_NAME = "_scenario_name";
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationImpl.class);
     private final CaseConfiguration configuration;
@@ -134,6 +141,10 @@ public class ConfigurationImpl implements IConfiguration {
         String configYaml = readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
         Map<String, String> props = tmpConfiguration.getProps();
+        if (props == null) {
+            props = new HashMap<>();
+        }
+        configProps(props);
 
         // process 'from', load parent config
         CaseConfiguration parentConfiguration = null;
@@ -142,9 +153,11 @@ public class ConfigurationImpl implements IConfiguration {
             CaseConfiguration tmpParentConfiguration = parseConfiguration(parentConfigYaml);
 
             //merge props, overwrite parent props
-            Map<String, String> newProps = new HashMap<>(tmpParentConfiguration.getProps());
-            newProps.putAll(props);
-            props = newProps;
+            if (tmpParentConfiguration.getProps() != null) {
+                Map<String, String> newProps = new HashMap<>(tmpParentConfiguration.getProps());
+                newProps.putAll(props);
+                props = newProps;
+            }
 
             // replace variables '${...}'
             String newParentConfigYaml = replaceHolders(parentConfigYaml, props);
@@ -172,6 +185,12 @@ public class ConfigurationImpl implements IConfiguration {
 
         fillupServices(caseConfiguration);
         return caseConfiguration;
+    }
+
+    private void configProps(Map<String, String> props) {
+        props.put(PROP_BASEDIR, configBasedir);
+        props.put(PROP_SCENARIO_HOME, scenarioHome);
+        props.put(PROP_SCENARIO_NAME, scenarioName);
     }
 
     private List<String> mergeSystemProps(List<String> parentSystemProps, List<String> childSystemProps) {
@@ -556,6 +575,7 @@ public class ConfigurationImpl implements IConfiguration {
             String imageName = dependency.getImage();
             service.setName(name);
             service.setImageName(imageName);
+            service.setBuild(dependency.getBuild());
             service.setHostname(dependency.getHostname());
             service.setExpose(dependency.getExpose());
             service.setPorts(dependency.getPorts());
