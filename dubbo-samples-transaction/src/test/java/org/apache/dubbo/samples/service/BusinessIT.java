@@ -39,6 +39,7 @@ public class BusinessIT {
 
     @Test
     public void testRollback() throws Exception {
+        System.setProperty("testcase.rollback","true");
         int before = storageService.queryCount("C00321");
         try {
             business.purchase("U100001", "C00321", 2);
@@ -52,6 +53,14 @@ public class BusinessIT {
 
     @Test
     public void testCommit() throws Exception {
-        // TODO: need implement a success commit
+        System.setProperty("testcase.rollback","true");
+        int before = storageService.queryCount("C00321");
+        try {
+            business.purchase("U100001", "C00321", 2);
+        } catch (Throwable t) {
+            // ignore
+        }
+        int after = storageService.queryCount("C00321");
+        Assert.assertEquals(before, after);
     }
 }

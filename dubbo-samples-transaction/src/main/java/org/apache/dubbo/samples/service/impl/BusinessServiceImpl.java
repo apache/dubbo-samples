@@ -27,6 +27,8 @@ import org.apache.dubbo.samples.service.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class BusinessServiceImpl implements BusinessService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessService.class);
@@ -40,7 +42,9 @@ public class BusinessServiceImpl implements BusinessService {
         LOGGER.info("purchase begin ... xid: " + RootContext.getXID());
         storageService.deduct(commodityCode, orderCount);
         orderService.create(userId, commodityCode, orderCount);
-        throw new RuntimeException("xxx");
+        if (Objects.equals("true", System.getProperty("testcase.rollback"))) {
+            throw new RuntimeException("xxx");
+        }
 
     }
 
