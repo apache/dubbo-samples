@@ -26,7 +26,7 @@ services:
       - apollo.port=8080
     waitPortsBeforeRun:
       - apollo-quick-start:8080
-    checkTimeout: 100
+    waitTimeout: 100
     depends_on:
       - apollo-db
 
@@ -43,7 +43,7 @@ services:
     waitPortsBeforeRun:
       - dubbo-samples-configcenter-apollo:2181
       - dubbo-samples-configcenter-apollo:20880
-    checkTimeout: 100
+    waitTimeout: 100
     depends_on:
       - dubbo-samples-configcenter-apollo
   
