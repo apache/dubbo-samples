@@ -44,9 +44,9 @@ services:
       - zookeeper.port=2181
     waitPortsBeforeRun:
       - zookeeper:2181
-#    checkPortsAfterRun:
-#      - ${dubbo_port}
-#    checkLog: "dubbo service started"
+    checkPorts:
+      - ${dubbo_port}
+    checkLog: "dubbo service started"
 
   ${project_name}-test:
     type: test

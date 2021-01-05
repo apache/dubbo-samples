@@ -42,7 +42,7 @@ ENV JAVA_OPTS="" \
     SERVICE_TYPE="app" \
     WAIT_PORTS_BEFORE_RUN="" \
     APP_MAIN_CLASS="" \
-    CHECK_PORTS_AFTER_RUN="" \
+    CHECK_PORTS="" \
     CHECK_LOG="" \
     TEST_PATTERNS="**/*IT.class"
 

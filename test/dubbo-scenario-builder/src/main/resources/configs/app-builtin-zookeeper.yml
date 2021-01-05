@@ -39,10 +39,10 @@ services:
     systemProps:
       - zookeeper.address=${project_name}
       - zookeeper.port=${zookeeper_port}
-#    checkPortsAfterRun:
-#      - ${zookeeper_port}
-#      - ${dubbo_port}
-#    checkLog: "dubbo service started"
+    checkPorts:
+      - ${zookeeper_port}
+      - ${dubbo_port}
+    checkLog: "dubbo service started"
 
   ${project_name}-test:
     type: test
