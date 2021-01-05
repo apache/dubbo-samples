@@ -180,6 +180,12 @@ fi
 if [[ $status == 0 ]];then
     docker-compose -p $project_name -f $compose_file rm -f 2>&1 | tee -a $scenario_log > /dev/null
     ${removeImagesScript}
+else
+    for service_name in ${service_names[@]};do
+        echo "docker inspect ${project_name}_${service_name}_1 :"
+        docker inspect ${project_name}_${service_name}_1 >> $scenario_log
+        echo ""
+    done
 fi
 
 # rm network
