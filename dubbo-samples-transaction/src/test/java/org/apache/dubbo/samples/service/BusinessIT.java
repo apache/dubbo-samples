@@ -17,11 +17,8 @@
 
 package org.apache.dubbo.samples.service;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import io.seata.config.Configuration;
 import io.seata.config.ConfigurationFactory;
-import io.seata.core.rpc.netty.TmNettyRemotingClient;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
