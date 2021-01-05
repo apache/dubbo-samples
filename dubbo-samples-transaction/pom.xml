@@ -81,6 +81,13 @@
             <version>${seata.version}</version>
         </dependency>
 
+        <!-- fix  the fifth problem in https://shirenchuang.blog.csdn.net/article/details/106739176 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>

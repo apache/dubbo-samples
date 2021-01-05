@@ -17,9 +17,16 @@
 
 package org.apache.dubbo.samples.service;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import io.seata.config.Configuration;
+import io.seata.config.ConfigurationFactory;
+import io.seata.core.rpc.netty.TmNettyRemotingClient;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +37,9 @@ import static org.junit.Assert.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/dubbo-business.xml"})
 public class BusinessIT {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BusinessIT.class);
+
     @Autowired
     @Qualifier("business")
     private BusinessService business;
@@ -39,28 +49,30 @@ public class BusinessIT {
 
     @Test
     public void testRollback() throws Exception {
-        System.setProperty("testcase.rollback","true");
         int before = storageService.queryCount("C00321");
         try {
-            business.purchase("U100001", "C00321", 2);
+            business.purchase("U100001", "C00321", 2, true);
             fail("BusinessService.purchase should throw exception.");
-        } catch (Throwable t) {
+        } catch (RuntimeException t) {
             // ignore
+            LOGGER.error("existing exception..", t);
         }
         int after = storageService.queryCount("C00321");
         Assert.assertEquals(before, after);
     }
 
+    public static final Configuration configuration = ConfigurationFactory.getInstance();
+
     @Test
     public void testCommit() throws Exception {
-        System.setProperty("testcase.rollback","true");
         int before = storageService.queryCount("C00321");
         try {
-            business.purchase("U100001", "C00321", 2);
+            business.purchase("U100001", "C00321", 2, false);
         } catch (Throwable t) {
-            // ignore
+            LOGGER.error("existing exception..", t);
+            fail("BusinessService.purchase should not throw exception.");
         }
         int after = storageService.queryCount("C00321");
-        Assert.assertEquals(before, after);
+        Assert.assertEquals(before - 2, after);
     }
 }

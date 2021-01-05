@@ -38,14 +38,13 @@ public class BusinessServiceImpl implements BusinessService {
 
     @Override
     @GlobalTransactional(timeoutMills = 300000, name = "dubbo-demo-tx")
-    public void purchase(String userId, String commodityCode, int orderCount) {
+    public void purchase(String userId, String commodityCode, int orderCount, Boolean needRollback) {
         LOGGER.info("purchase begin ... xid: " + RootContext.getXID());
         storageService.deduct(commodityCode, orderCount);
         orderService.create(userId, commodityCode, orderCount);
-        if (Objects.equals("true", System.getProperty("testcase.rollback"))) {
+        if (needRollback) {
             throw new RuntimeException("xxx");
         }
-
     }
 
     /**
