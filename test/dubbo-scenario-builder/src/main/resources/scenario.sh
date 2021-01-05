@@ -103,11 +103,12 @@ function wait_container_exit() {
   do
     sleep 2
     status=`docker inspect $container_name --format='{{.State.Status}}'`
-    result=$?
-    if [ $result -ne 0 ];then
-      echo "check container status failure: $result"
-      return 1
-    fi
+    # test container may pending start cause by depends_on condition
+#    result=$?
+#    if [ $result -ne 0 ];then
+#      echo "check container status failure: $result"
+#      return 1
+#    fi
     if [ "$status" == "exited" ];then
         return 0
     fi
@@ -147,13 +148,14 @@ redirect_all_container_logs &
 echo "[$scenario_name] Starting containers .." | tee -a $scenario_log
 docker-compose -p ${project_name} -f ${compose_file} up -d 2>&1 <<< "NNN" | tee -a $scenario_log > /dev/null
 
-sleep 2
+sleep 5
 
-container_id=`docker ps -qf "name=${container_name}"`
-if [[ -z "${container_id}" ]]; then
-    echo "[$scenario_name] docker startup failure!" | tee -a $scenario_log
-    status=1
-else
+# test container may pending start cause by depends_on condition
+#container_id=`docker ps -qf "name=${container_name}"`
+#if [[ -z "${container_id}" ]]; then
+#    echo "[$scenario_name] docker startup failure!" | tee -a $scenario_log
+#    status=1
+#else
     echo "[$scenario_name] Waiting for test container .." | tee -a $scenario_log
     # check and get exit code
     wait_container_exit ${container_name} $start $timeout
@@ -175,7 +177,7 @@ else
     echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log
     docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 
-fi
+#fi
 
 if [[ $status == 0 ]];then
     docker-compose -p $project_name -f $compose_file rm -f 2>&1 | tee -a $scenario_log > /dev/null
