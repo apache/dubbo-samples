@@ -13,7 +13,7 @@ fi
 # wait ports before run app: WAIT_PORTS_BEFORE_RUN=host:port;host:port
 if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   echo "Waiting ports before run app .."
-  split_and_check_tcp_ports "$WAIT_PORTS_BEFORE_RUN" $SECONDS $CHECK_TIMEOUT
+  split_and_check_tcp_ports "$WAIT_PORTS_BEFORE_RUN" $SECONDS $WAIT_TIMEOUT
   result=$?
   if [ $result -ne 0 ]; then
     echo "Wait ports before run app failure"

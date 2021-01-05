@@ -43,9 +43,9 @@ public class ServiceComponent {
     private String basedir;
     private String mainClass;
     private List<String> waitPortsBeforeRun;
+    private int waitTimeout;
     private List<String> checkPorts;
     private String checkLog;
-    private int checkTimeout;
     private List<String> tests;
     private List<String> systemProps;
     private List<String> jvmFlags;
@@ -178,12 +178,12 @@ public class ServiceComponent {
         this.checkLog = checkLog;
     }
 
-    public int getCheckTimeout() {
-        return checkTimeout;
+    public int getWaitTimeout() {
+        return waitTimeout;
     }
 
-    public void setCheckTimeout(int checkTimeout) {
-        this.checkTimeout = checkTimeout;
+    public void setWaitTimeout(int waitTimeout) {
+        this.waitTimeout = waitTimeout;
     }
 
     public List<String> getTests() {
@@ -263,9 +263,9 @@ public class ServiceComponent {
                 ", basedir='" + basedir + '\'' +
                 ", mainClass='" + mainClass + '\'' +
                 ", waitPortsBeforeRun=" + waitPortsBeforeRun +
+                ", waitTimeout=" + waitTimeout +
                 ", checkPorts=" + checkPorts +
                 ", checkLog='" + checkLog + '\'' +
-                ", checkTimeout=" + checkTimeout +
                 ", tests=" + tests +
                 ", systemProps=" + systemProps +
                 ", jvmFlags=" + jvmFlags +

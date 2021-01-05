@@ -29,17 +29,20 @@ VOLUME /usr/local/dubbo/app /usr/local/dubbo/logs
 
 # JAVA_OPTS/DEBUG_OPTS: Jvm flags
 # SERVICE_TYPE: app, test
-# CHECK_TIMEOUT: check ports/log timeout
+# WAIT_PORTS_BEFORE_RUN: wait ports before run
+# WAIT_TIMEOUT: wait ports timeout
 # TEST_PATTERNS: test class pattern
 # classpath: assert mounting $project_dir/target:/usr/local/dubbo/app/
+# CHECK_PORTS: health check ports
+# CHECK_LOG: health check log
 ENV JAVA_OPTS="" \
     DEBUG_OPTS="" \
     TEST_CLASSES_DIR="/usr/local/dubbo/app/test-classes" \
     APP_CLASSES_DIR="/usr/local/dubbo/app/classes" \
     APP_DEPENDENCY_DIR="/usr/local/dubbo/app/dependency" \
-    CHECK_TIMEOUT=60 \
     SERVICE_NAME="" \
     SERVICE_TYPE="app" \
+    WAIT_TIMEOUT=60 \
     WAIT_PORTS_BEFORE_RUN="" \
     APP_MAIN_CLASS="" \
     CHECK_PORTS="" \

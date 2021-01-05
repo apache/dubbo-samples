@@ -56,7 +56,7 @@ public class ConfigurationImpl implements IConfiguration {
     public static final String ENV_WAIT_PORTS_BEFORE_RUN = "WAIT_PORTS_BEFORE_RUN";
     public static final String ENV_CHECK_PORTS = "CHECK_PORTS";
     public static final String ENV_CHECK_LOG = "CHECK_LOG";
-    public static final String ENV_CHECK_TIMEOUT = "CHECK_TIMEOUT";
+    public static final String ENV_WAIT_TIMEOUT = "WAIT_TIMEOUT";
     public static final String ENV_TEST_PATTERNS = "TEST_PATTERNS";
     public static final String ENV_JAVA_OPTS = "JAVA_OPTS";
     public static final String ENV_DEBUG_OPTS = "DEBUG_OPTS";
@@ -254,7 +254,7 @@ public class ConfigurationImpl implements IConfiguration {
 
                 //set check timeout
                 if (isDebug()) {
-                    service.setCheckTimeout(debugTimeout);
+                    service.setWaitTimeout(debugTimeout);
 
                     if (debugServices.contains(serviceName)) {
                         //set java remote debug opts
@@ -270,8 +270,8 @@ public class ConfigurationImpl implements IConfiguration {
                         service.getPorts().add(debugPort + ":" + debugPort);
                     }
                 }
-                if (service.getCheckTimeout() > 0) {
-                    setEnv(service, ENV_CHECK_TIMEOUT, service.getCheckTimeout() + "");
+                if (service.getWaitTimeout() > 0) {
+                    setEnv(service, ENV_WAIT_TIMEOUT, service.getWaitTimeout() + "");
                 }
 
                 if ("app".equals(type)) {
