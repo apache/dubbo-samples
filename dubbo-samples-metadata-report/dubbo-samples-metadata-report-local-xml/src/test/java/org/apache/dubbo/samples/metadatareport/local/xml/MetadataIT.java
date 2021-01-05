@@ -131,6 +131,12 @@ public class MetadataIT {
      */
     @Test
     public void testConsumerMetadata() throws Exception {
+        //wait for metadata async report finish
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+
         String result = ZkUtil.getMetadata("/dubbo3", DemoService.class.getName(), CommonConstants.CONSUMER_SIDE,
                 "metadatareport-local-xml-consumer2");
         Gson gson = new Gson();

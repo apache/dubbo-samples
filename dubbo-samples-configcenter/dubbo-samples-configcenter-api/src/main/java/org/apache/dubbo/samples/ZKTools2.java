@@ -22,9 +22,12 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-public class ZKTools {
+public class ZKTools2 {
     private static CuratorFramework client;
-    private static String zookeeperHost = "127.0.0.0";
+    private static String zookeeperHost1 = System.getProperty("zookeeper.address.1", "127.0.0.1");
+    private static String zookeeperPort1 = System.getProperty("zookeeper.port.1", "2181");
+    private static String zookeeperHost2 = System.getProperty("zookeeper.address.2", "127.0.0.1");
+    private static String zookeeperPort2 = System.getProperty("zookeeper.port.2", "2182");
 
     public static void main(String[] args) throws Exception {
         initClient();
@@ -32,7 +35,7 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2182\n";
+        String str = "dubbo.registry.address=zookeeper://" + zookeeperHost2 + ":" + zookeeperPort2;
 
         System.out.println(str);
 
@@ -47,12 +50,19 @@ public class ZKTools {
         }
     }
 
-    public static void setZookeeperHost(String host) {
-        zookeeperHost = host;
+    public static void setZookeeperServer1(String host, String port) {
+        zookeeperHost1 = host;
+        zookeeperPort1 = port;
+    }
+
+    public static void setZookeeperServer2(String host, String port) {
+        zookeeperHost2 = host;
+        zookeeperPort2 = port;
     }
 
     public static void initClient() {
-        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+        client = CuratorFrameworkFactory.newClient(zookeeperHost1 + ":" + zookeeperPort1,
+                60 * 1000, 60 * 1000,
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
     }

@@ -14,45 +14,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
 timeout: 120
 
-props:
-  project_name: dubbo-samples-configcenter-apollo
-  main_class: org.apache.dubbo.samples.configcenter.ApolloProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
-  apollo_address: apollo-quick-start
-  apollo_port: 8080
-
 services:
-  ${project_name}:
+  dubbo-samples-configcenter-apollo:
     type: app
     basedir: .
-    mainClass: ${main_class}
+    mainClass: org.apache.dubbo.samples.configcenter.ApolloProvider
     systemProps:
-      - apollo.address=${apollo_address}
-      - apollo.port=${apollo_port}
+      - apollo.address=apollo-quick-start
+      - apollo.port=8080
     waitPortsBeforeRun:
-      - ${apollo_address}:${apollo_port}
+      - apollo-quick-start:8080
     checkTimeout: 100
 
-  ${project_name}-test:
+  dubbo-samples-configcenter-apollo-test:
     type: test
     basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=${project_name}
-      - zookeeper.port=${zookeeper_port}
-      - dubbo.address=${project_name}
-      - dubbo.port=${dubbo_port}
+      - zookeeper.address=dubbo-samples-configcenter-apollo
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-configcenter-apollo
+      - dubbo.port=20880
     waitPortsBeforeRun:
-      - ${project_name}:${zookeeper_port}
-      - ${project_name}:${dubbo_port}
+      - dubbo-samples-configcenter-apollo:2181
+      - dubbo-samples-configcenter-apollo:20880
     checkTimeout: 100
     depends_on:
-      - ${project_name}
+      - dubbo-samples-configcenter-apollo
   
   apollo-quick-start:
     image: nobodyiam/apollo-quick-start
@@ -72,7 +63,7 @@ services:
 #    ports:
 #      - "13306:3306"
     volumes:
-      - ./classes/docker/sql:/docker-entrypoint-initdb.d
+      - ${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d
 #      - ./sql_data:/var/lib/mysql
 #    volumes_from:
 #      - apollo-dbdata

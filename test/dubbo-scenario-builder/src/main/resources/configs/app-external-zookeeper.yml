@@ -27,6 +27,7 @@
 props:
 #  project_name: dubbo-samples-xxx
 #  main_class: org.apache.dubbo.samples.xxx.XxxProviderBootstrap
+  project_dir: .
   dubbo_port: 20880
   zookeeper_version: latest
 
@@ -36,7 +37,7 @@ services:
 
   ${project_name}:
     type: app
-    basedir: .
+    basedir: ${project_dir}
     mainClass: ${main_class}
     systemProps:
       - zookeeper.address=zookeeper
@@ -49,7 +50,7 @@ services:
 
   ${project_name}-test:
     type: test
-    basedir: .
+    basedir: ${project_dir}
     tests:
       - "**/*IT.class"
     systemProps:

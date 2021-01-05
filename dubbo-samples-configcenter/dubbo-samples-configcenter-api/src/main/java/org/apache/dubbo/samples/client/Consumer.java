@@ -26,9 +26,11 @@ import org.apache.dubbo.samples.api.GreetingsService;
 public class Consumer {
     private static ConfigCenterConfig configCenter = new ConfigCenterConfig();
     private static ApplicationConfig applicationConfig = new ApplicationConfig("api-dubbo-consumer");
+    private static String zookeeperHost1 = System.getProperty("zookeeper.address.1", "127.0.0.1");
+    private static String zookeeperPort1 = System.getProperty("zookeeper.port.1", "2181");
 
     static {
-        configCenter.setAddress("zookeeper://127.0.0.1:2181");
+        configCenter.setAddress("zookeeper://" + zookeeperHost1 + ":" + zookeeperPort1);
     }
 
     public static void main(String[] args) throws Exception {

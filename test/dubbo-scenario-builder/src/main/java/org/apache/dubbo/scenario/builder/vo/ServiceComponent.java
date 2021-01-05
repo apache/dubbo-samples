@@ -22,6 +22,8 @@ import java.util.List;
 
 public class ServiceComponent {
     private String image;
+    // docker-compose build dir
+    private String build;
     private String hostname;
     private String version;
     private boolean removeOnExit = false;
@@ -231,10 +233,19 @@ public class ServiceComponent {
         this.ports = ports;
     }
 
+    public String getBuild() {
+        return build;
+    }
+
+    public void setBuild(String build) {
+        this.build = build;
+    }
+
     @Override
     public String toString() {
         return "ServiceComponent{" +
                 "image='" + image + '\'' +
+                ", build='" + build + '\'' +
                 ", hostname='" + hostname + '\'' +
                 ", version='" + version + '\'' +
                 ", removeOnExit=" + removeOnExit +

@@ -27,21 +27,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GreetingsServiceIT {
-    private static String zookeeperHost = "127.0.0.1";
+    private static String zookeeperHost1 = System.getProperty("zookeeper.address.1", "127.0.0.1");
+    private static String zookeeperPort1 = System.getProperty("zookeeper.port.1", "2181");
 
     @BeforeClass
     public static void setUp() throws Exception {
-        zookeeperHost = System.getProperty("zookeeper.address", zookeeperHost);
-        ZKTools.setZookeeperHost(zookeeperHost);
-        ZKTools.initClient();
-        ZKTools.generateDubboPropertiesForGlobal();
+        zookeeperHost1 = System.getProperty("zookeeper.address", zookeeperHost1);
+        ZKTools2.setZookeeperServer1(zookeeperHost1, zookeeperPort1);
+        ZKTools2.initClient();
+        ZKTools2.generateDubboPropertiesForGlobal();
     }
 
     @Test
     public void test() throws Exception {
         ConfigCenterConfig configCenter = new ConfigCenterConfig();
         ApplicationConfig applicationConfig = new ApplicationConfig("api-dubbo-consumer");
-        configCenter.setAddress("zookeeper://" + zookeeperHost + ":2181");
+        configCenter.setAddress("zookeeper://" + zookeeperHost1 + ":" + zookeeperPort1);
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setApplication(applicationConfig);
         reference.setConfigCenter(configCenter);
