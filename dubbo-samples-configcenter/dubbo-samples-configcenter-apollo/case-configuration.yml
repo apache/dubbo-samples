@@ -26,7 +26,9 @@ services:
       - apollo.port=8080
     waitPortsBeforeRun:
       - apollo-quick-start:8080
-    checkTimeout: 100
+    waitTimeout: 100
+    depends_on:
+      - apollo-db
 
   dubbo-samples-configcenter-apollo-test:
     type: test
@@ -41,7 +43,7 @@ services:
     waitPortsBeforeRun:
       - dubbo-samples-configcenter-apollo:2181
       - dubbo-samples-configcenter-apollo:20880
-    checkTimeout: 100
+    waitTimeout: 100
     depends_on:
       - dubbo-samples-configcenter-apollo
   
@@ -49,9 +51,9 @@ services:
     image: nobodyiam/apollo-quick-start
     depends_on:
       - apollo-db
-#    ports:
-#      - "8080:8080"
-#      - "8070:8070"
+    expose:
+      - 8080
+      - 8070
     links:
       - apollo-db
 
@@ -60,8 +62,14 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-#    ports:
-#      - "13306:3306"
+    expose:
+      - 3306
+    healthcheck:
+      # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     volumes:
       - ${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d
 #      - ./sql_data:/var/lib/mysql

@@ -19,6 +19,7 @@ package org.apache.dubbo.scenario.builder.vo;
 
 
 import java.util.List;
+import java.util.Map;
 
 public class ServiceComponent {
     private String image;
@@ -35,16 +36,16 @@ public class ServiceComponent {
     private List<String> volumes;
     private List<String> volumes_from;
     private List<String> depends_on;
-    private List<String> healthcheck;
+    private Map<String, Object> healthcheck;
 
     // app attrs
     private String type;
     private String basedir;
     private String mainClass;
     private List<String> waitPortsBeforeRun;
-    private List<String> checkPortsAfterRun;
+    private int waitTimeout;
+    private List<String> checkPorts;
     private String checkLog;
-    private int checkTimeout;
     private List<String> tests;
     private List<String> systemProps;
     private List<String> jvmFlags;
@@ -121,11 +122,11 @@ public class ServiceComponent {
         this.depends_on = depends_on;
     }
 
-    public List<String> getHealthcheck() {
+    public Map<String, Object> getHealthcheck() {
         return healthcheck;
     }
 
-    public void setHealthcheck(List<String> healthcheck) {
+    public void setHealthcheck(Map<String, Object> healthcheck) {
         this.healthcheck = healthcheck;
     }
 
@@ -153,12 +154,12 @@ public class ServiceComponent {
         this.mainClass = mainClass;
     }
 
-    public List<String> getCheckPortsAfterRun() {
-        return checkPortsAfterRun;
+    public List<String> getCheckPorts() {
+        return checkPorts;
     }
 
-    public void setCheckPortsAfterRun(List<String> checkPortsAfterRun) {
-        this.checkPortsAfterRun = checkPortsAfterRun;
+    public void setCheckPorts(List<String> checkPorts) {
+        this.checkPorts = checkPorts;
     }
 
     public List<String> getWaitPortsBeforeRun() {
@@ -177,12 +178,12 @@ public class ServiceComponent {
         this.checkLog = checkLog;
     }
 
-    public int getCheckTimeout() {
-        return checkTimeout;
+    public int getWaitTimeout() {
+        return waitTimeout;
     }
 
-    public void setCheckTimeout(int checkTimeout) {
-        this.checkTimeout = checkTimeout;
+    public void setWaitTimeout(int waitTimeout) {
+        this.waitTimeout = waitTimeout;
     }
 
     public List<String> getTests() {
@@ -262,9 +263,9 @@ public class ServiceComponent {
                 ", basedir='" + basedir + '\'' +
                 ", mainClass='" + mainClass + '\'' +
                 ", waitPortsBeforeRun=" + waitPortsBeforeRun +
-                ", checkPortsAfterRun=" + checkPortsAfterRun +
+                ", waitTimeout=" + waitTimeout +
+                ", checkPorts=" + checkPorts +
                 ", checkLog='" + checkLog + '\'' +
-                ", checkTimeout=" + checkTimeout +
                 ", tests=" + tests +
                 ", systemProps=" + systemProps +
                 ", jvmFlags=" + jvmFlags +

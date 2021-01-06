@@ -15,7 +15,7 @@ fi
 if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   echo "Waiting ports before run test .."
   # check ports
-  split_and_check_tcp_ports "$WAIT_PORTS_BEFORE_RUN" $SECONDS $CHECK_TIMEOUT
+  split_and_check_tcp_ports "$WAIT_PORTS_BEFORE_RUN" $SECONDS $WAIT_TIMEOUT
   result=$?
   if [ $result -ne 0 ]; then
     echo "Wait ports before run test failure"
