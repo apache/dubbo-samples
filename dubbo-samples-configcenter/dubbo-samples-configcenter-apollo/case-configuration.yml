@@ -40,6 +40,8 @@ services:
       - zookeeper.port=2181
       - dubbo.address=dubbo-samples-configcenter-apollo
       - dubbo.port=20880
+      - apollo.address=apollo-quick-start
+      - apollo.port=8080
     waitPortsBeforeRun:
       - dubbo-samples-configcenter-apollo:2181
       - dubbo-samples-configcenter-apollo:20880
