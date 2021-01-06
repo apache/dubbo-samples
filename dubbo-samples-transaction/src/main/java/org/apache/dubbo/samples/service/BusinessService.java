@@ -28,6 +28,7 @@ public interface BusinessService {
      * @param userId        user id
      * @param commodityCode commodity code
      * @param orderCount    order amount
+     * @param needRollback  test rollback and commit feature
      */
-    void purchase(String userId, String commodityCode, int orderCount);
+    void purchase(String userId, String commodityCode, int orderCount , Boolean needRollback);
 }
