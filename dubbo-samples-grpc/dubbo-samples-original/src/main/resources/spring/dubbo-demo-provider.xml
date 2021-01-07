@@ -25,7 +25,7 @@
 
     <dubbo:application name="demo-provider"/>
 
-    <dubbo:protocol id="grpc" name="grpc"/>
+    <dubbo:protocol id="grpc" name="grpc" port="20880"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
