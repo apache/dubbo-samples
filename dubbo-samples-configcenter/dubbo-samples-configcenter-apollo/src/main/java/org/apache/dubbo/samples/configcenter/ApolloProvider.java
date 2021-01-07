@@ -26,6 +26,7 @@ import java.util.concurrent.CountDownLatch;
 public class ApolloProvider {
 
     public static void main(String[] args) throws Exception {
+        //ApolloUtil.importConfigs();
         new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/configcenter-provider.xml"});
         context.start();
