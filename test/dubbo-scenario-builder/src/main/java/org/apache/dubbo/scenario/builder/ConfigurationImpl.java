@@ -85,6 +85,7 @@ public class ConfigurationImpl implements IConfiguration {
             throw new ConfigureFileNotFoundException();
         }
         this.configBasedir = new File(configureFile).getParentFile().getCanonicalPath();
+        this.configBasedir = this.configBasedir.replace(File.separator, "/");
 
         //set default scenarioHome dir to ${configBasedir}/target
         this.scenarioHome = System.getProperty("scenario.home");
