@@ -61,6 +61,7 @@ public class ConfigurationImpl implements IConfiguration {
     public static final String ENV_JAVA_OPTS = "JAVA_OPTS";
     public static final String ENV_DEBUG_OPTS = "DEBUG_OPTS";
     public static final String ENV_SCENARIO_HOME = "SCENARIO_HOME";
+    public static final String ENV_RUN_DELAY = "RUN_DELAY";
 
     //PROPS
     public static final String PROP_BASEDIR = "_basedir";
@@ -76,6 +77,7 @@ public class ConfigurationImpl implements IConfiguration {
     private int scenarioTimeout = 90;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
+    private Set<Pattern> debugPatterns = new HashSet<>();
     private Set<String> debugServices = new HashSet<>();
     private Set<String> healthcheckServices = new HashSet<>();
 
@@ -105,7 +107,8 @@ public class ConfigurationImpl implements IConfiguration {
             for (String str : strs) {
                 str = str.trim();
                 if (StringUtils.isNotBlank(str)) {
-                    debugServices.add(str);
+                    String regex = "\\Q" + str.replace("*", "\\E.*?\\Q") + "\\E";
+                    debugPatterns.add(Pattern.compile(regex));
                 }
             }
         }
@@ -127,15 +130,20 @@ public class ConfigurationImpl implements IConfiguration {
         logger.info("scenarioName:{}, timeout: {}, debugServices:{}, config: {}",
                 scenarioName, scenarioTimeout, debugServices, configuration);
 
-        for (String service : debugServices) {
-            if (!configuration.getServices().containsKey(service)) {
-                logger.warn("debug service not found: {}", service);
+    }
+
+    private boolean isDebugService(String serviceName) {
+        for (Pattern pattern : debugPatterns) {
+            if (pattern.matcher(serviceName).matches()) {
+                debugServices.add(serviceName);
+                return true;
             }
         }
+        return false;
     }
 
     private boolean isDebug() {
-        return debugServices != null && debugServices.size() > 0;
+        return debugPatterns != null && debugPatterns.size() > 0;
     }
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
@@ -227,7 +235,7 @@ public class ConfigurationImpl implements IConfiguration {
             String serviceName = entry.getKey();
             ServiceComponent service = entry.getValue();
             String type = service.getType();
-            if (isAppService(type)) {
+            if (isAppOrTestService(type)) {
                 service.setImage(SAMPLE_TEST_IMAGE);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
                 if (service.getVolumes() == null) {
@@ -252,11 +260,16 @@ public class ConfigurationImpl implements IConfiguration {
                     setEnv(service, ENV_WAIT_PORTS_BEFORE_RUN, str);
                 }
 
+                //set run delay
+                if (service.getRunDelay() > 0) {
+                    setEnv(service, ENV_RUN_DELAY, service.getRunDelay()+"");
+                }
+
                 //set check timeout
                 if (isDebug()) {
                     service.setWaitTimeout(debugTimeout);
 
-                    if (debugServices.contains(serviceName)) {
+                    if (isDebugService(serviceName)) {
                         //set java remote debug opts
                         //-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
                         int debugPort = nextDebugPort();
@@ -426,7 +439,7 @@ public class ConfigurationImpl implements IConfiguration {
         return new File(configBasedir, path).getCanonicalPath();
     }
 
-    private boolean isAppService(String type) {
+    private boolean isAppOrTestService(String type) {
         if (type == null) {
             return false;
         }
