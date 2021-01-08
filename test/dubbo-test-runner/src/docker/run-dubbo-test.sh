@@ -23,6 +23,12 @@ if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   fi
 fi
 
+#delay start
+if [ $RUN_DELAY -gt 0 ]; then
+  echo "Delay $RUN_DELAY s."
+  sleep $RUN_DELAY
+fi
+
 # run testcase
 echo "Running tests ..."
 report_dir=$DIR/app/test-reports

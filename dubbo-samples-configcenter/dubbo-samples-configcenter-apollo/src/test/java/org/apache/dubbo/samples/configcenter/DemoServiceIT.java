@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.basic;
+package org.apache.dubbo.samples.configcenter;
 
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.PortBinding;
-import com.github.dockerjava.api.model.Ports;
-import io.grpc.examples.helloworld.DubboGreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+import org.apache.dubbo.samples.configcenter.api.DemoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,17 +27,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:spring/dubbo-demo-consumer.xml"})
-public class OriginalGrpcIT {
-
+@ContextConfiguration(locations = "classpath*:spring/configcenter-consumer.xml")
+public class DemoServiceIT {
     @Autowired
-    @Qualifier("greeter")
-    private DubboGreeterGrpc.IGreeter greeter;
+    @Qualifier("demoService")
+    private DemoService demoService;
 
     @Test
-    public void testGreeting() throws Exception {
-        HelloReply reply = greeter.sayHello((HelloRequest.newBuilder().setName("world!").build()));
-        Assert.assertTrue(reply.getMessage().startsWith("Hello world!"));
+    public void test() throws Exception {
+        Assert.assertTrue(demoService.sayHello("world").startsWith("Hello world"));
     }
 }
-

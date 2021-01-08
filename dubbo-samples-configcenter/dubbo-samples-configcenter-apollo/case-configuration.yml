@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-timeout: 120
+timeout: 300
 
 services:
   dubbo-samples-configcenter-apollo:
@@ -22,13 +22,19 @@ services:
     basedir: .
     mainClass: org.apache.dubbo.samples.configcenter.ApolloProvider
     systemProps:
+      - zookeeper.address=dubbo-samples-configcenter-apollo
+      - zookeeper.port=2181
       - apollo.address=apollo-quick-start
       - apollo.port=8080
     waitPortsBeforeRun:
       - apollo-quick-start:8080
+      - apollo-quick-start:8090
     waitTimeout: 100
+    checkPorts:
+      - 20880
     depends_on:
       - apollo-db
+      - apollo-quick-start
 
   dubbo-samples-configcenter-apollo-test:
     type: test
@@ -40,22 +46,37 @@ services:
       - zookeeper.port=2181
       - dubbo.address=dubbo-samples-configcenter-apollo
       - dubbo.port=20880
+      - apollo.address=apollo-quick-start
+      - apollo.port=8080
     waitPortsBeforeRun:
       - dubbo-samples-configcenter-apollo:2181
       - dubbo-samples-configcenter-apollo:20880
+      - apollo-quick-start:8080
+      - apollo-quick-start:8090
     waitTimeout: 100
     depends_on:
+      - apollo-quick-start
       - dubbo-samples-configcenter-apollo
-  
+
   apollo-quick-start:
     image: nobodyiam/apollo-quick-start
     depends_on:
       - apollo-db
     expose:
       - 8080
-      - 8070
-    links:
-      - apollo-db
+      - 8090
+    environment:
+      - APOLLO_SERVICE=1
+      - DB_ADDRESS=apollo-db:3306
+    volumes:
+      - ${_basedir}/src/main/resources/docker/demo.sh:/apollo-quick-start/demo.sh
+      - ./logs:/apollo-quick-start/logs
+    healthcheck:
+      #check apollo config service api
+      test: 'curl -Ss http://localhost:8080/services/config\?appId=SampleApp | grep apollo-configservice'
+      interval: 5s
+      timeout: 5s
+      retries: 60
 
   apollo-db:
     image: mysql:5.7
@@ -69,10 +90,10 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
       interval: 5s
       timeout: 5s
-      retries: 20
+      retries: 40
     volumes:
       - ${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d
-#      - ./sql_data:/var/lib/mysql
+      - ./sql_data:/var/lib/mysql
 #    volumes_from:
 #      - apollo-dbdata
 #    depends_on:
