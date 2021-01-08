@@ -18,6 +18,7 @@
 package org.apache.dubbo.scenario.builder.vo;
 
 import java.util.List;
+import java.util.Map;
 
 public class DockerService {
     private String name;
@@ -30,10 +31,11 @@ public class DockerService {
     private List<String> expose;
     private List<String> ports;
     private List<String> entrypoint;
-    private List<String> healthcheck;
-    private List<String> depends_on;
+    private Map<String, String> healthcheck;
+    private Map<String, String> depends_on;
     private List<String> environment;
     private List<String> volumes;
+    private List<String> volumes_from;
 
     public String getName() {
         return name;
@@ -99,19 +101,19 @@ public class DockerService {
         this.entrypoint = entrypoint;
     }
 
-    public List<String> getHealthcheck() {
+    public Map<String, String> getHealthcheck() {
         return healthcheck;
     }
 
-    public void setHealthcheck(List<String> healthcheck) {
+    public void setHealthcheck(Map<String, String> healthcheck) {
         this.healthcheck = healthcheck;
     }
 
-    public List<String> getDepends_on() {
+    public Map<String, String> getDepends_on() {
         return depends_on;
     }
 
-    public void setDepends_on(List<String> depends_on) {
+    public void setDepends_on(Map<String, String> depends_on) {
         this.depends_on = depends_on;
     }
 
@@ -129,6 +131,14 @@ public class DockerService {
 
     public void setVolumes(List<String> volumes) {
         this.volumes = volumes;
+    }
+
+    public List<String> getVolumes_from() {
+        return volumes_from;
+    }
+
+    public void setVolumes_from(List<String> volumes_from) {
+        this.volumes_from = volumes_from;
     }
 
     public List<String> getPorts() {
@@ -155,6 +165,7 @@ public class DockerService {
                 ", depends_on=" + depends_on +
                 ", environment=" + environment +
                 ", volumes=" + volumes +
+                ", volumes_from=" + volumes_from +
                 '}';
     }
 }
