@@ -89,7 +89,6 @@
             <artifactId>spring-test</artifactId>
             <version>${spring-test.version}</version>
         </dependency>
-
     </dependencies>
 
     <profiles>

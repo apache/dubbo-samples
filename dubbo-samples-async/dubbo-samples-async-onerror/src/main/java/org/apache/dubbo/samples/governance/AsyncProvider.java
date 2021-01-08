@@ -21,13 +21,17 @@ package org.apache.dubbo.samples.governance;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 public class AsyncProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/async-provider.xml"});
         context.start();
-        System.in.read();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }

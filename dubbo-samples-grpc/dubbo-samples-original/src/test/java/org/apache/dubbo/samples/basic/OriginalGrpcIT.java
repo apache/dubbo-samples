@@ -17,6 +17,9 @@
 
 package org.apache.dubbo.samples.basic;
 
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.model.Ports;
 import io.grpc.examples.helloworld.DubboGreeterGrpc;
 import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;

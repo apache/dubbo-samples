@@ -25,8 +25,8 @@
 
     <dubbo:application name="multi-registry-consumer"/>
 
-    <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2181" default="false" />
-    <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2182" />
+    <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port.1:2181}" default="false" />
+    <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port.2:2182}" />
 
     <dubbo:reference id="demoServiceFormDefault" interface="org.apache.dubbo.samples.multi.registry.api.DemoService"/>
     <dubbo:reference id="demoServiceFormBeijing" interface="org.apache.dubbo.samples.multi.registry.api.DemoService"

@@ -33,11 +33,14 @@ public class Provider2 {
     private static ConfigCenterConfig configCenter = new ConfigCenterConfig();
     private static ApplicationConfig application = new ApplicationConfig("api-dubbo-provider-2");
     private static RegistryConfig registry = new RegistryConfig();
-    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+    private static String zookeeperHost1 = System.getProperty("zookeeper.address.1", "127.0.0.1");
+    private static String zookeeperPort1 = System.getProperty("zookeeper.port.1", "2181");
+    private static String zookeeperHost2 = System.getProperty("zookeeper.address.2", "127.0.0.1");
+    private static String zookeeperPort2 = System.getProperty("zookeeper.port.2", "2182");
 
     static {
         configCenter.setExternalConfig(getExternalConfiguration());
-        registry.setAddress("zookeeper://" + zookeeperHost + ":2182");
+        registry.setAddress("zookeeper://" + zookeeperHost2 + ":" + zookeeperPort2);
     }
 
     public static void main(String[] args) throws Exception {
@@ -68,10 +71,10 @@ public class Provider2 {
      */
     public static Map<String, String> getExternalConfiguration() {
         Map<String, String> dubboConfigurations = new HashMap<>();
-        dubboConfigurations.put("dubbo.registry.address", "zookeeper://" + zookeeperHost + ":2181");
+        dubboConfigurations.put("dubbo.registry.address", "zookeeper://" + zookeeperHost1 + ":" + zookeeperPort1);
         // you will need to add the config center address if you want to use the service governance features in 2.7,
         // e.g., overrides and routers, but notice it will not be used for gathering startup configurations.
-        dubboConfigurations.put("dubbo.config-center.address", "zookeeper://" + zookeeperHost + ":2181");
+        dubboConfigurations.put("dubbo.config-center.address", "zookeeper://" + zookeeperHost1 + ":" + zookeeperPort1);
 
         return dubboConfigurations;
     }

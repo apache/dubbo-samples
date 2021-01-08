@@ -1,13 +1,22 @@
 version: '3.3'
 services:
   seata-mysql:
-    build: mysql
+    image: mysql:5.7
+    volumes:
+      - ./mysql/sql:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=seata-demo
+      - MYSQL_ROOT_PASSWORD=helloworld
     ports:
       - "3306:3306"
   seata-server:
-    build: seata
+    image: seataio/seata-server:latest
+    volumes:
+      - ./seata/conf:/root/seata-config
     ports:
       - "8091:8091"
+    depends_on:
+      - seata-mysql
   zookeeper:
     image: "zookeeper:latest"
     ports:

@@ -32,24 +32,33 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>2.7.7</dubbo.version>
-        <seata.version>0.5.0</seata.version>
-        <mysql-connector.version>8.0.15</mysql-connector.version>
+        <seata.version>1.4.0</seata.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-bom</artifactId>
+                <artifactId>dubbo-bom</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -58,44 +67,36 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
-            <version>${dubbo.version}</version>
             <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>io.seata</groupId>
-            <artifactId>seata-spring</artifactId>
+            <artifactId>seata-all</artifactId>
             <version>${seata.version}</version>
         </dependency>
 
+        <!-- fix  the fifth problem in https://shirenchuang.blog.csdn.net/article/details/106739176 -->
         <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-dubbo</artifactId>
-            <version>${seata.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.dubbo</groupId>
-                    <artifactId>dubbo</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector.version}</version>
+            <version>8.0.15</version>
         </dependency>
 
         <dependency>
@@ -108,234 +109,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
+
+
     <profiles>
-        <profile>
-            <id>dubbo-integration-test-disabled</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.dubbo</groupId>
-                        <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>local-address</goal>
-                                </goals>
-                                <configuration>
-                                    <localAddress>dubbo-local-address</localAddress>
-                                </configuration>
-                                <phase>initialize</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>${docker-maven-plugin.version}</version>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>transaction-mysql</name>
-                                    <build>
-                                        <contextDir>${project.basedir}/src/main/resources/docker/mysql</contextDir>
-                                    </build>
-                                    <run>
-                                        <ports>
-                                            <port>3306:3306</port>
-                                        </ports>
-                                        <wait>
-                                            <log>.*ready for connections.*</log>
-                                            <time>30000</time>
-                                        </wait>
-                                    </run>
-                                </image>
-
-                                <image>
-                                    <name>transaction-seata</name>
-                                    <build>
-                                        <contextDir>${project.basedir}/src/main/resources/docker/seata</contextDir>
-                                    </build>
-                                    <run>
-                                        <ports>
-                                            <port>8091:8091</port>
-                                        </ports>
-                                        <wait>
-                                            <log>.*Server started.*</log>
-                                            <time>60000</time>
-                                        </wait>
-                                    </run>
-                                </image>
-
-                                <image>
-                                    <name>zookeeper:latest</name>
-                                    <run>
-                                        <ports>
-                                            <port>2181:2181</port>
-                                        </ports>
-                                        <wait>
-                                            <tcp>
-                                                <host>${dubbo-local-address}</host>
-                                                <ports>
-                                                    <port>2181</port>
-                                                </ports>
-                                            </tcp>
-                                        </wait>
-                                    </run>
-                                </image>
-                            </images>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>docker-build</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>start</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
-                        <executions>
-                            <execution>
-                                <id>storage-service</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>java</executable>
-                                    <arguments>
-                                        <argument>-classpath</argument>
-                                        <classpath/>
-                                        <argument>org.apache.dubbo.samples.starter.DubboStorageServiceStarter</argument>
-                                    </arguments>
-                                    <async>true</async>
-                                    <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>account-service</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>java</executable>
-                                    <arguments>
-                                        <argument>-classpath</argument>
-                                        <classpath/>
-                                        <argument>org.apache.dubbo.samples.starter.DubboAccountServiceStarter</argument>
-                                    </arguments>
-                                    <async>true</async>
-                                    <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>order-service</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>java</executable>
-                                    <arguments>
-                                        <argument>-classpath</argument>
-                                        <classpath/>
-                                        <argument>org.apache.dubbo.samples.starter.DubboOrderServiceStarter</argument>
-                                    </arguments>
-                                    <async>true</async>
-                                    <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>sleep</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>sleep</executable>
-                                    <arguments>
-                                        <argument>10</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <id>kill-process</id>
-                                <phase>post-integration-test</phase>
-                                <configuration>
-                                    <target name="ending">
-                                        <echo>kill dubbo applications</echo>
-                                        <exec executable="bash" spawn="true" dir="${project.basedir}/..">
-                                            <arg value="killall.sh"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/*IT.java</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <!-- For jdk 11 above JavaEE annotation -->
         <profile>
             <id>javax.annotation</id>

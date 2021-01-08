@@ -23,15 +23,21 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class ZKTools {
-    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
+    private static String configCenterHost = System.getProperty("config-center.address", "127.0.0.1");
+    private static String configCenterPort = System.getProperty("config-center.port", "2181");
+    private static String zookeeperHost1 = System.getProperty("zookeeper.address.1", "127.0.0.1");
+    private static String zookeeperPort1 = System.getProperty("zookeeper.port.1", "2182");
+    private static String zookeeperHost2 = System.getProperty("zookeeper.address.2", "127.0.0.1");
+    private static String zookeeperPort2 = System.getProperty("zookeeper.port.2", "2183");
 
     public static void main(String[] args) throws Exception {
         generateDubboProperties();
     }
 
     public static void generateDubboProperties() {
-        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+        client = CuratorFrameworkFactory.newClient(configCenterHost + ":" + configCenterPort,
+                60 * 1000, 60 * 1000,
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
 
@@ -39,8 +45,8 @@ public class ZKTools {
     }
 
     public static void generateDubboPropertiesForGlobal() {
-        String str = "dubbo.registries.registry1.address=zookeeper://" + zookeeperHost + ":2182\n" +
-                "dubbo.registries.registry2.address=zookeeper://" + zookeeperHost + ":2183\n";
+        String str = "dubbo.registries.registry1.address=zookeeper://" + zookeeperHost1 + ":" + zookeeperPort1 + "\n" +
+                "dubbo.registries.registry2.address=zookeeper://" + zookeeperHost2 + ":" + zookeeperPort2;
 
         System.out.println(str);
 
