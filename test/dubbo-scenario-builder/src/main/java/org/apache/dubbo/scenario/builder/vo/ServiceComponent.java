@@ -19,9 +19,12 @@ package org.apache.dubbo.scenario.builder.vo;
 
 
 import java.util.List;
+import java.util.Map;
 
 public class ServiceComponent {
     private String image;
+    // docker-compose build dir
+    private String build;
     private String hostname;
     private String version;
     private boolean removeOnExit = false;
@@ -33,20 +36,20 @@ public class ServiceComponent {
     private List<String> volumes;
     private List<String> volumes_from;
     private List<String> depends_on;
-    private List<String> healthcheck;
+    private Map<String, Object> healthcheck;
 
     // app attrs
     private String type;
     private String basedir;
     private String mainClass;
     private List<String> waitPortsBeforeRun;
-    private List<String> checkPortsAfterRun;
+    private int waitTimeout;
+    private int runDelay;
+    private List<String> checkPorts;
     private String checkLog;
-    private int checkTimeout;
     private List<String> tests;
     private List<String> systemProps;
     private List<String> jvmFlags;
-    private JavaDebugOption javaDebug;
 
     public String getImage() {
         return image;
@@ -120,11 +123,11 @@ public class ServiceComponent {
         this.depends_on = depends_on;
     }
 
-    public List<String> getHealthcheck() {
+    public Map<String, Object> getHealthcheck() {
         return healthcheck;
     }
 
-    public void setHealthcheck(List<String> healthcheck) {
+    public void setHealthcheck(Map<String, Object> healthcheck) {
         this.healthcheck = healthcheck;
     }
 
@@ -152,12 +155,12 @@ public class ServiceComponent {
         this.mainClass = mainClass;
     }
 
-    public List<String> getCheckPortsAfterRun() {
-        return checkPortsAfterRun;
+    public List<String> getCheckPorts() {
+        return checkPorts;
     }
 
-    public void setCheckPortsAfterRun(List<String> checkPortsAfterRun) {
-        this.checkPortsAfterRun = checkPortsAfterRun;
+    public void setCheckPorts(List<String> checkPorts) {
+        this.checkPorts = checkPorts;
     }
 
     public List<String> getWaitPortsBeforeRun() {
@@ -176,12 +179,12 @@ public class ServiceComponent {
         this.checkLog = checkLog;
     }
 
-    public int getCheckTimeout() {
-        return checkTimeout;
+    public int getWaitTimeout() {
+        return waitTimeout;
     }
 
-    public void setCheckTimeout(int checkTimeout) {
-        this.checkTimeout = checkTimeout;
+    public void setWaitTimeout(int waitTimeout) {
+        this.waitTimeout = waitTimeout;
     }
 
     public List<String> getTests() {
@@ -224,19 +227,58 @@ public class ServiceComponent {
         this.volumes_from = volumes_from;
     }
 
-    public JavaDebugOption getJavaDebug() {
-        return javaDebug;
-    }
-
-    public void setJavaDebug(JavaDebugOption javaDebug) {
-        this.javaDebug = javaDebug;
-    }
-
     public List<String> getPorts() {
         return ports;
     }
 
     public void setPorts(List<String> ports) {
         this.ports = ports;
+    }
+
+    public String getBuild() {
+        return build;
+    }
+
+    public void setBuild(String build) {
+        this.build = build;
+    }
+
+    public int getRunDelay() {
+        return runDelay;
+    }
+
+    public void setRunDelay(int runDelay) {
+        this.runDelay = runDelay;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceComponent{" +
+                "image='" + image + '\'' +
+                ", build='" + build + '\'' +
+                ", hostname='" + hostname + '\'' +
+                ", version='" + version + '\'' +
+                ", removeOnExit=" + removeOnExit +
+                ", links=" + links +
+                ", expose=" + expose +
+                ", ports=" + ports +
+                ", entrypoint=" + entrypoint +
+                ", environment=" + environment +
+                ", volumes=" + volumes +
+                ", volumes_from=" + volumes_from +
+                ", depends_on=" + depends_on +
+                ", healthcheck=" + healthcheck +
+                ", type='" + type + '\'' +
+                ", basedir='" + basedir + '\'' +
+                ", mainClass='" + mainClass + '\'' +
+                ", waitPortsBeforeRun=" + waitPortsBeforeRun +
+                ", waitTimeout=" + waitTimeout +
+                ", runDelay=" + runDelay +
+                ", checkPorts=" + checkPorts +
+                ", checkLog='" + checkLog + '\'' +
+                ", tests=" + tests +
+                ", systemProps=" + systemProps +
+                ", jvmFlags=" + jvmFlags +
+                '}';
     }
 }

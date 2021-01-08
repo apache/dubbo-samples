@@ -2,7 +2,7 @@
 
 Samples for Apache Dubbo
 
-[![Build Status](https://travis-ci.org/apache/dubbo-samples.svg?branch=master)](https://travis-ci.org/apache/dubbo-samples)
+![Build Status](https://github.com/apache/dubbo-samples/workflows/Java%20CI/badge.svg)
 ![license](https://img.shields.io/github/license/apache/dubbo-samples.svg)
 
 This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, pls. check README in each individual sub projects. It is also helpful to cross reference to [Dubbo User Manual](http://dubbo.apache.org/en-us/docs/user/quick-start.html) to understand the features demoed in this project.
@@ -25,197 +25,126 @@ This project is also used for integration tests for dubbo.
 
 **How to build and run a integration test**
 
-Most of the integration tests will rely on a home-brew maven plugin to perform correctly when dubbo service is deployed in docker environment. This maven plugin is provided in 'dubbo-maven-address-plugin' module and should be installed before running any integration test:
+Dubbo integration test base on docker container, and relies on an image used to run the provider application and test cases. 
+
+Integration test leverages [docker](https://docs.docker.com/get-started/) to setup test environment, more accurately, to start dubbo provider instance, and any other supporting systems like registry center if necessary, in docker. 
+
+Please install `docker` and `docker-compose` first, then build the test image `dubb/sample-test`.
 
 ```bash
-cd dubbo-maven-address-plugin
-mvn clean install
+cd dubbo-samples/test
+./build-test-image.sh
 ```
 
-It is as simple as stepping into a sub directory and then executing the following command, for example:
+Use a debian mirror through env `DEBIAN_MIRROR` if apt download files slowly, 
+the following example uses aliyun mirror server [http://mirrors.aliyun.com/ubuntu/](http://mirrors.aliyun.com/ubuntu/) :
 
 ```bash
-cd dubbo-samples-annotation
-mvn -Pdubbo-integration-test clean verify
+cd dubbo-samples/test
+DEBIAN_MIRROR=http://mirrors.aliyun.com ./build-test-image.sh
 ```
 
-If docker container fails to startup successfully in any case, you can use *-Ddocker.showLogs* to check its logging output to understand what happens.
+Then we use the `run-tests.sh` script to run the test cases.
 
-```bash
-mvn -Ddocker.showLogs -Pdubbo-integration-test clean verify
-```
+* Run single test case
+
+  ```bash
+  cd dubbo-samples/test
+  ./run-tests.sh <project.basedir>
+  ```
+    
+  For example, run the `dubbo-samples-annotation` test case:
+    
+  ```
+  ./run-tests.sh ../dubbo-samples-annotation
+  ```
+  
+* Run all test cases
+
+  ```bash
+  cd dubbo-samples/test
+  BUILD=all ./run-tests.sh 
+  ```
+
+If docker container fails to startup successfully in any case, you can check log files in directory `${project.basedir}/target/logs` to understand what happens.
 
 Pls. note integration tests rely on a Docker environment, make sure the docker environment is available before running them.
 
-> The test may not stable enough at this moment, please enable failure skip to run the whole test suite
-> ```bash
->  mvn -Pdubbo-integration-test clean verify -fae
->  ```
 
 **How to add more integration test**
 
 If you are interested in contributing more integration test for dubbo, pls. read further to understand how to enable integration test for one particular sample from the scratch.
 
-1. Related maven properties relevant to integration test:
+Please follow the steps below:
 
-```xml
-<spring.version>4.3.16.RELEASE</spring.version>
-<junit.version>4.12</junit.version>
-<docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-<jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
-<maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-<image.name>${project.artifactId}:${dubbo.version}</image.name>
-<dubbo.port>20880</dubbo.port>
-<main-class>org.apache.dubbo.samples.attachment.AttachmentProvider</main-class>
+1. Add a file named `case-configuration.yml` to integration test project.
+
+2. Configure test environment:
+
+Take the case `dubbo-samples-annotation` as an example:
+
+```yaml
+services:
+  dubbo-samples-annotation:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
+
+  dubbo-samples-annotation-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=dubbo-samples-annotation
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-annotation
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - dubbo-samples-annotation:2181
+      - dubbo-samples-annotation:20880
+    depends_on:
+      - dubbo-samples-annotation
 ```
 
-Integration test leverages [docker](https://docs.docker.com/get-started/) to setup test environment, more accurately, to start dubbo provider instance, and any other supporting systems like registry center if necessary, in docker. Therefore, there are two maven plugins required for composing docker image and start-and-stop the docker instances before-and-after the integration test: 1. [jib-maven-plugin](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin) from google 2. [docker-maven-plugin](https://github.com/fabric8io/docker-maven-plugin) from fabric8.
+The project contains a dubbo provider `AnnotationProviderBootstrap` and an embedded zookeeper server, 
+as well as a test class `AnnotationServicesIT`.
 
-2. Configure maven profile:
+Therefore, we have to define two services, one service runs `AnnotationProviderBootstrap`, 
+and the other service runs test classes.
 
-Since we use profile 'dubbo-integration-test' to enable integration test, make sure the following plugins are configured under the desire profile, which is **'dubbo-integration-test'**:
+The service `type` of running dubbo provider is `app`, and the service `type` of running test is `test`.
 
-```xml
-<profiles>
-    <profile>
-    <id>dubbo-integration-test</id>
-    <build>
-        <plugins><!-- declare maven plugins here --></plugins>
-    </build>
-    </profile>
-</profiles>
+The project directory is the same as the case configuration directory, so `basedir` is `.` .
+
+Use hostname to access between containers, the default `hostname` of the container is the same as serviceName.
+
+So through `dubbo-samples-annotation:2181`, the embedded zookeeper server can be accessed from the test container.
+
+There are many test cases similar to this example, only need to modify the `mainClass` and hostname.
+Extract the changed as variables, and the unchanged content as templates. 
+When using the template, you only need to modify the variable value, which makes the case configuration easier.
+
+The above example can use a template `app-builtin-zookeeper.yml`, use `from` to reference it and override the variable value in `props`:
+
+```yaml
+from: app-builtin-zookeeper.yml
+
+props:
+  project_name: dubbo-samples-annotation
+  main_class: org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap
+  zookeeper_port: 2181
+  dubbo_port: 20880
 ```
 
-3. Configure dubbo-maven-address-plugin
+Another template is `app-external-zookeeper.yml`, which supports an external zookeeper service.
+you can find all the templates in the directory `test/dubbo-scenario-builder/src/main/resources/configs`.
 
-```xml
-<plugin>
-    <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-maven-address-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>local-address</goal>
-            </goals>
-            <configuration>
-                <localAddress>dubbo-local-address</localAddress>
-            </configuration>
-            <phase>initialize</phase>
-        </execution>
-    </executions>
-</plugin>
-```
+For more details, please refer to the following case configurations:
 
-'dubbo-local-address' is a maven property in which dubbo provider's IP address is stored.
+ * [dubbo-samples-annotation](dubbo-samples-annotation/case-configuration.yml) : A simple provider service with builtin zookeeper.
+ * [dubbo-samples-api](dubbo-samples-api/case-configuration.yml) : A simple provider service with external zookeeper.
+ * [dubbo-samples-chain](dubbo-samples-chain/case-configuration.yml) : A multiple services with external zookeeper.
 
-4. Configure jib-maven-plugin
 
-```xml
-<plugin>
-    <groupId>com.google.cloud.tools</groupId>
-    <artifactId>jib-maven-plugin</artifactId>
-    <version>${jib-maven-plugin.version}</version>
-    <configuration>
-        <from>
-            <image>${java-image.name}</image>
-        </from>
-        <to>
-            <image>${image.name}</image>
-        </to>
-        <container>
-            <mainClass>${main-class}</mainClass>
-            <ports>
-                <port>${dubbo.port}</port> <!-- dubbo provider's port -->
-                <port>2181</port> <!-- zookeeper's port -->
-            </ports>
-            <environment>
-                <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
-            </environment>
-        </container>
-   </configuration>
-    <executions>
-        <execution>
-            <phase>package</phase>
-                <goals>
-                    <goal>dockerBuild</goal>
-                </goals>
-        </execution>
-    </executions>
-</plugin>
-```
-
-'<DUBBO_IP_TO_REGISTRY>' is an environment variable to instruct dubbo provider the IP address used for registering to service registration center. Since the dubbo provider will run within a docker instance, a host's IP address (detected from dubbo-maven-address-plugin) must be used in order to allow it discovered by the dubbo client running outside docker instance.
-
-5. Configure docker-maven-plugin
-
-```xml
-<plugin>
-    <groupId>io.fabric8</groupId>
-    <artifactId>docker-maven-plugin</artifactId>
-    <version>${docker-maven-plugin.version}</version>
-    <configuration>
-        <images>
-            <image>
-                <name>${image.name}</name>
-                <run>
-                    <ports>
-                        <port>${dubbo.port}:${dubbo.port}</port> <!-- expose dubbo port -->
-                        <port>2181:2181</port> <!-- expose zookeeper port -->
-                    </ports>
-                    <wait>
-                        <!-- wait until the message output in stdout, and it requires dubbo's provider
-                        explicitly prints out this message at the very end of main() -->
-                        <log>dubbo service started</log>
-                    </wait>
-                </run>
-            </image>
-        </images>
-    </configuration>
-    <executions>
-        <execution>
-            <id>start</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-                <goal>start</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>stop</id>
-            <phase>post-integration-test</phase>
-            <goals>
-                <goal>stop</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-```
-
-'docker-maven-plugin' will start the specified docker image before integration test (phase 'pre-integration-test') and stop it after integration test (phase 'post-integration-test').
-
-6. Configure maven-failsafe-plugin
-
-```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-failsafe-plugin</artifactId>
-    <version>${maven-failsafe-plugin.version}</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>integration-test</goal>
-                <goal>verify</goal>
-            </goals>
-            <configuration>
-                <includes>
-                    <include>**/*IT.java</include>
-                </includes>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-```
-
-A integration test is basically a JUnit based test class, but with its name suffixed by 'IT'.
-
-That's it, then feel free to add more integration test for the Dubbo project. You may need to refer to 'dubbo-samples-annotation' or 'dubbo-samples-attachment' for more details, have fun.
+That's it, then feel free to add more integration test for the Dubbo project, have fun.

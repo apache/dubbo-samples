@@ -4,7 +4,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 DOCKER_DIR=$DIR/target/docker
 
-mvn clean package
+echo "Building dubbo-test-runner .."
+cd $DIR
+mvn clean package -DskipTests
 result=$?
 if [ $result -ne 0 ]; then
   echo "Build dubbo-test-runner failure"
@@ -13,7 +15,7 @@ fi
 
 mkdir -p $DOCKER_DIR
 cp -r $DIR/src/docker/* $DOCKER_DIR/
-cp $DIR/target/dubbo-test-runner-*-jar-with-dependencies.jar $DOCKER_DIR/
+cp $DIR/target/dubbo-test-runner-*-jar-with-dependencies.jar $DOCKER_DIR/dubbo-test-runner.jar
 
 cd $DOCKER_DIR
-docker build -t dubbo/sample-test .
+docker build -t dubbo/sample-test . --build-arg DEBIAN_MIRROR=$DEBIAN_MIRROR

@@ -26,5 +26,5 @@
     <dubbo:application name="direct-consumer"/>
 
     <dubbo:reference id="directService" check="false" interface="org.apache.dubbo.samples.direct.api.DirectService"
-                     url="${target.address:localhost}:20880" group="test" version="1.0.0-daily"/>
+                     url="${dubbo.address:localhost}:20880" group="test" version="1.0.0-daily"/>
 </beans>

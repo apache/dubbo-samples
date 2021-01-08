@@ -21,10 +21,15 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
+import java.util.concurrent.CountDownLatch;
+
 @SpringBootApplication
 public class ProviderApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         new SpringApplicationBuilder(ProviderApp.class).web(WebApplicationType.NONE).run(args);
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }

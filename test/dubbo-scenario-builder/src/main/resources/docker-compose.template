@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-version: '2.1'
+version: '2.4'
 
 networks:
    default:
@@ -23,8 +23,13 @@ networks:
 services:
 <#list services as service>
     ${service.name}:
+        <#if service.imageName?has_content>
         image: ${service.imageName}
+        </#if>
         hostname: ${service.hostname}
+        <#if service.build?has_content>
+        build: ${service.build}
+        </#if>
         <#if service.volumes??>
         volumes:
         <#list service.volumes as volume>
@@ -63,8 +68,8 @@ services:
         </#if>
         <#if service.depends_on??>
         depends_on:
-        <#list service.depends_on as item>
-            - ${item}
+        <#list service.depends_on as name,value>
+            ${name}: ${value}
         </#list>
         </#if>
         <#if service.entrypoint??>
@@ -75,9 +80,9 @@ services:
         </#if>
         <#if service.healthcheck??>
         healthcheck:
-        <#list service.healthcheck as item>
-            ${item}
-        </#list>
+          <#list service.healthcheck as key,value>
+            ${key}: ${value}
+          </#list>
         </#if>
         <#if service.links??>
         links:

@@ -14,66 +14,86 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
-timeout: 120
-
-props:
-  project_name: dubbo-samples-configcenter-apollo
-  main_class: org.apache.dubbo.samples.configcenter.ApolloProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
-  apollo_address: apollo-quick-start
-  apollo_port: 8080
+timeout: 300
 
 services:
-  ${project_name}:
+  dubbo-samples-configcenter-apollo:
     type: app
     basedir: .
-    mainClass: ${main_class}
+    mainClass: org.apache.dubbo.samples.configcenter.ApolloProvider
     systemProps:
-      - apollo.address=${apollo_address}
-      - apollo.port=${apollo_port}
+      - zookeeper.address=dubbo-samples-configcenter-apollo
+      - zookeeper.port=2181
+      - apollo.address=apollo-quick-start
+      - apollo.port=8080
     waitPortsBeforeRun:
-      - ${apollo_address}:${apollo_port}
-    checkTimeout: 100
+      - apollo-quick-start:8080
+      - apollo-quick-start:8090
+    waitTimeout: 100
+    checkPorts:
+      - 20880
+    depends_on:
+      - apollo-db
+      - apollo-quick-start
 
-  ${project_name}-test:
+  dubbo-samples-configcenter-apollo-test:
     type: test
     basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=${project_name}
-      - zookeeper.port=${zookeeper_port}
-      - dubbo.address=${project_name}
-      - dubbo.port=${dubbo_port}
+      - zookeeper.address=dubbo-samples-configcenter-apollo
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-configcenter-apollo
+      - dubbo.port=20880
+      - apollo.address=apollo-quick-start
+      - apollo.port=8080
     waitPortsBeforeRun:
-      - ${project_name}:${zookeeper_port}
-      - ${project_name}:${dubbo_port}
-    checkTimeout: 100
+      - dubbo-samples-configcenter-apollo:2181
+      - dubbo-samples-configcenter-apollo:20880
+      - apollo-quick-start:8080
+      - apollo-quick-start:8090
+    waitTimeout: 100
     depends_on:
-      - ${project_name}
-  
+      - apollo-quick-start
+      - dubbo-samples-configcenter-apollo
+
   apollo-quick-start:
     image: nobodyiam/apollo-quick-start
     depends_on:
       - apollo-db
-#    ports:
-#      - "8080:8080"
-#      - "8070:8070"
-    links:
-      - apollo-db
+    expose:
+      - 8080
+      - 8090
+    environment:
+      - APOLLO_SERVICE=1
+      - DB_ADDRESS=apollo-db:3306
+    volumes:
+      - ${_basedir}/src/main/resources/docker/demo.sh:/apollo-quick-start/demo.sh
+      - ./logs:/apollo-quick-start/logs
+    healthcheck:
+      #check apollo config service api
+      test: 'curl -Ss http://localhost:8080/services/config\?appId=SampleApp | grep apollo-configservice'
+      interval: 5s
+      timeout: 5s
+      retries: 60
 
   apollo-db:
     image: mysql:5.7
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-#    ports:
-#      - "13306:3306"
+    expose:
+      - 3306
+    healthcheck:
+      # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
     volumes:
-      - ./classes/docker/sql:/docker-entrypoint-initdb.d
-#      - ./sql_data:/var/lib/mysql
+      - ${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d
+      - ./sql_data:/var/lib/mysql
 #    volumes_from:
 #      - apollo-dbdata
 #    depends_on:

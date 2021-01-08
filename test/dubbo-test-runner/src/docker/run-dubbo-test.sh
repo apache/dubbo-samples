@@ -15,7 +15,7 @@ fi
 if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   echo "Waiting ports before run test .."
   # check ports
-  split_and_check_tcp_ports "$WAIT_PORTS_BEFORE_RUN" $SECONDS $CHECK_TIMEOUT
+  split_and_check_tcp_ports "$WAIT_PORTS_BEFORE_RUN" $SECONDS $WAIT_TIMEOUT
   result=$?
   if [ $result -ne 0 ]; then
     echo "Wait ports before run test failure"
@@ -23,10 +23,16 @@ if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   fi
 fi
 
+#delay start
+if [ $RUN_DELAY -gt 0 ]; then
+  echo "Delay $RUN_DELAY s."
+  sleep $RUN_DELAY
+fi
+
 # run testcase
 echo "Running tests ..."
 report_dir=$DIR/app/test-reports
-java $JAVA_OPTS -jar dubbo-test-runner.jar "$TEST_CLASSES_DIR" "$APP_CLASSES_DIR" "$APP_DEPENDENCY_DIR" "$report_dir" "$TEST_PATTERNS" 2>&1
+java $JAVA_OPTS $DEBUG_OPTS -jar dubbo-test-runner.jar "$TEST_CLASSES_DIR" "$APP_CLASSES_DIR" "$APP_DEPENDENCY_DIR" "$report_dir" "$TEST_PATTERNS" 2>&1
 result=$?
 if [ $result -ne 0 ]; then
   echo "Run tests failure"

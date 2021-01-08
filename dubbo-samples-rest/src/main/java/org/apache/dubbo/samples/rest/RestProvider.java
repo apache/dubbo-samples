@@ -22,13 +22,17 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 public class RestProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/rest-provider.xml"});
         context.start();
-        System.in.read();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
     @Configuration
