@@ -17,6 +17,9 @@
 
 package org.apache.dubbo.samples.basic;
 
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.model.Ports;
 import io.grpc.examples.helloworld.DubboGreeterGrpc;
 import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
@@ -30,6 +33,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.testcontainers.containers.FixedHostPortGenericContainer;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.utility.DockerImageName;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring/dubbo-demo-consumer.xml", "classpath*:spring/dubbo-demo-provider.xml"})
@@ -49,8 +53,12 @@ public class OriginalGrpcIT {
 //
     // port mapping, https://github.com/testcontainers/testcontainers-java/issues/256
     @ClassRule
-    public static GenericContainer zookeeper = new FixedHostPortGenericContainer("zookeeper:3.4.9")
-            .withFixedExposedPort(2181, 2181);
+    public static GenericContainer zookeeper = new GenericContainer<>(DockerImageName.parse("zookeeper:3.4.9"))
+            .withCreateContainerCmdModifier(
+                    cmd ->{
+                        cmd.withPortBindings(new PortBinding(Ports.Binding.bindPort(2181), new ExposedPort(2181)));
+                    }
+            );
 
     @Autowired
     @Qualifier("greeter")
