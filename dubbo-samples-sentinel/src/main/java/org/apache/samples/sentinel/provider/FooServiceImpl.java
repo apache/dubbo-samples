@@ -23,7 +23,7 @@ import org.apache.samples.sentinel.FooService;
 
 import java.time.LocalDateTime;
 
-@Service
+@Service(timeout = 3000)
 public class FooServiceImpl implements FooService {
 
     @Override
