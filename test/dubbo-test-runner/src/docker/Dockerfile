@@ -44,6 +44,7 @@ ENV JAVA_OPTS="" \
     SERVICE_TYPE="app" \
     WAIT_TIMEOUT=60 \
     WAIT_PORTS_BEFORE_RUN="" \
+    RUN_DELAY=0 \
     APP_MAIN_CLASS="" \
     CHECK_PORTS="" \
     CHECK_LOG="" \

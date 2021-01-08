@@ -44,6 +44,7 @@ public class ServiceComponent {
     private String mainClass;
     private List<String> waitPortsBeforeRun;
     private int waitTimeout;
+    private int runDelay;
     private List<String> checkPorts;
     private String checkLog;
     private List<String> tests;
@@ -242,6 +243,14 @@ public class ServiceComponent {
         this.build = build;
     }
 
+    public int getRunDelay() {
+        return runDelay;
+    }
+
+    public void setRunDelay(int runDelay) {
+        this.runDelay = runDelay;
+    }
+
     @Override
     public String toString() {
         return "ServiceComponent{" +
@@ -264,6 +273,7 @@ public class ServiceComponent {
                 ", mainClass='" + mainClass + '\'' +
                 ", waitPortsBeforeRun=" + waitPortsBeforeRun +
                 ", waitTimeout=" + waitTimeout +
+                ", runDelay=" + runDelay +
                 ", checkPorts=" + checkPorts +
                 ", checkLog='" + checkLog + '\'' +
                 ", tests=" + tests +
