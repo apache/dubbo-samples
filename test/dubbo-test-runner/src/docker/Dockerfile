@@ -15,44 +15,43 @@
 
 FROM openjdk:8
 
+ARG DEBIAN_MIRROR
+RUN if [ -n "$DEBIAN_MIRROR" ]; then \
+  sed -i "s@http://deb.debian.org@${DEBIAN_MIRROR}@g" /etc/apt/sources.list && \
+  sed -i "s@http://security.debian.org@${DEBIAN_MIRROR}@g" /etc/apt/sources.list && \
+  cat /etc/apt/sources.list ; fi
+
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y telnet && \
-    apt-get clean
+  apt-get install -y telnet && \
+  rm -rf /var/lib/apt/lists/*
 
-VOLUME /usr/local/dubbo/app
-VOLUME /usr/local/dubbo/logs
+VOLUME /usr/local/dubbo/app /usr/local/dubbo/logs
 
-# service name
-ENV SERVICE_NAME=""
-
-# classpath
-# assert mounting $project_dir/target:/usr/local/dubbo/app/
-ENV TEST_CLASSES_DIR="/usr/local/dubbo/app/test-classes"
-ENV APP_CLASSES_DIR="/usr/local/dubbo/app/classes"
-ENV APP_DEPENDENCY_DIR="/usr/local/dubbo/app/dependency"
-
-# check ports/log timeout
-ENV CHECK_TIMEOUT=60
-
-# service type: app, test
-ENV SERVICE_TYPE="app"
-ENV WAIT_PORTS_BEFORE_RUN=""
-
-# dubbo provider bootstrap class
-ENV APP_MAIN_CLASS=""
-ENV CHECK_PORTS_AFTER_RUN=""
-ENV CHECK_LOG=""
-
-# test envs
-ENV TEST_PATTERNS="**/*IT.class"
-
-# Jvm flags
-ENV JAVA_OPTS=""
+# JAVA_OPTS/DEBUG_OPTS: Jvm flags
+# SERVICE_TYPE: app, test
+# WAIT_PORTS_BEFORE_RUN: wait ports before run
+# WAIT_TIMEOUT: wait ports timeout
+# TEST_PATTERNS: test class pattern
+# classpath: assert mounting $project_dir/target:/usr/local/dubbo/app/
+# CHECK_PORTS: health check ports
+# CHECK_LOG: health check log
+ENV JAVA_OPTS="" \
+    DEBUG_OPTS="" \
+    TEST_CLASSES_DIR="/usr/local/dubbo/app/test-classes" \
+    APP_CLASSES_DIR="/usr/local/dubbo/app/classes" \
+    APP_DEPENDENCY_DIR="/usr/local/dubbo/app/dependency" \
+    SERVICE_NAME="" \
+    SERVICE_TYPE="app" \
+    WAIT_TIMEOUT=60 \
+    WAIT_PORTS_BEFORE_RUN="" \
+    RUN_DELAY=0 \
+    APP_MAIN_CLASS="" \
+    CHECK_PORTS="" \
+    CHECK_LOG="" \
+    TEST_PATTERNS="**/*IT.class"
 
 
-ADD *.sh /usr/local/dubbo/
-ADD dubbo-test-runner-*-jar-with-dependencies.jar /usr/local/dubbo/dubbo-test-runner.jar
+ADD dubbo-test-runner.jar *.sh /usr/local/dubbo/
 
 WORKDIR /usr/local/dubbo/
 #ENTRYPOINT exec java $JAVA_OPTS -jar dubbo-test-runner.jar $TEST_CLASSES_DIR $APP_CLASSES_DIR $APP_DEPENDENCY_DIR

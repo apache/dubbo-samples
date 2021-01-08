@@ -1,20 +1,23 @@
 #!/bin/bash
 
+echo "Start at: $(date "+%Y-%m-%d %H:%M:%S")"
+
 DIR=/usr/local/dubbo/
 cd $DIR
 
-LOG_DIR=/usr/local/dubbo/logs
-if [ ! -d $LOG_DIR ];then
-  mkdir -p $LOG_DIR
-fi
-LOG_FILE=$LOG_DIR/$SERVICE_NAME.log
-rm -f $LOG_FILE
+#LOG_DIR=/usr/local/dubbo/logs
+#if [ ! -d $LOG_DIR ];then
+#  mkdir -p $LOG_DIR
+#fi
+#LOG_FILE=$LOG_DIR/$SERVICE_NAME.log
+#rm -f $LOG_FILE
 
 source $DIR/utils.sh
 
 function print_log() {
     msg=$1
-    echo $msg | tee -a $LOG_FILE
+    echo $msg
+#    echo $msg | tee -a $LOG_FILE
 }
 
 if [ "$SERVICE_NAME" == "" ]; then
@@ -39,7 +42,9 @@ elif [ "$SERVICE_TYPE" == "test"  ]; then
   script_file=$DIR/run-dubbo-test.sh
 fi
 
-/bin/bash -x $script_file 2>&1 | tee -a $LOG_FILE
-# get proc exitcode before tee, use $PIPESTATUS variable instead of $? (https://stackoverflow.com/a/6871917)
-result=${PIPESTATUS[0]}
-exit $result
+/bin/bash -x $script_file 2>&1
+
+#/bin/bash -x $script_file 2>&1 | tee -a $LOG_FILE
+## get proc exitcode before tee, use $PIPESTATUS variable instead of $? (https://stackoverflow.com/a/6871917)
+#result=${PIPESTATUS[0]}
+#exit $result

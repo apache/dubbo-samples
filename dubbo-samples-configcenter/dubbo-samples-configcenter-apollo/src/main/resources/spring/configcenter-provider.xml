@@ -27,9 +27,7 @@
 
     <dubbo:application name="dubbo-configcenter-apollo-provider"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
-
-    <dubbo:config-center address="apollo://${apollo.address:localhost}:8080"/>
+    <dubbo:config-center address="apollo://${apollo.address:localhost}:8080" />
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
 
