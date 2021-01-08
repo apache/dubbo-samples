@@ -19,6 +19,7 @@ systemProps:
   - mysql.address=seata-mysql
   - mysql.port=3306
 
+timeout: 200
 services:
   zookeeper:
     image: zookeeper:latest
