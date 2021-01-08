@@ -14,12 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+timeout: 200
+
 # global system props for all service
 systemProps:
   - mysql.address=seata-mysql
   - mysql.port=3306
 
-timeout: 200
 services:
   zookeeper:
     image: zookeeper:latest
