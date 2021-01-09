@@ -82,6 +82,7 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
