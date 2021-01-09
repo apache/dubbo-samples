@@ -30,14 +30,14 @@ import org.testcontainers.containers.FixedHostPortGenericContainer;
 import org.testcontainers.containers.GenericContainer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:spring/dubbo-demo-consumer.xml", "classpath*:spring/dubbo-demo-provider.xml"})
+@ContextConfiguration(locations = "classpath*:spring/dubbo-demo-consumer.xml")
 public class DemoServiceIT {
     @Autowired
     private DemoService service;
 
-    @ClassRule
-    public static GenericContainer zookeeper = new FixedHostPortGenericContainer("consul:1.5.3")
-            .withFixedExposedPort(8500, 8500);
+//    @ClassRule
+//    public static GenericContainer zookeeper = new FixedHostPortGenericContainer("consul:1.5.3")
+//            .withFixedExposedPort(8500, 8500);
 
     @Test
     public void test() throws Exception {
