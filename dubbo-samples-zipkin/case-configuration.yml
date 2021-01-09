@@ -46,6 +46,7 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - zipkin:9411
+      - dubbo-samples-zipkin-hello:20880
     depends_on:
       - zookeeper
       - zipkin
@@ -58,6 +59,7 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - zipkin.address=zipkin
+      - dubbo-samples-zipkin-greeting:20881
     waitPortsBeforeRun:
       - zookeeper:2181
       - zipkin:9411
@@ -75,6 +77,7 @@ services:
       - zipkin.address=zipkin
     waitPortsBeforeRun:
       - zipkin:9411
+      - dubbo-samples-zipkin-greeting:20881
     depends_on:
       - zipkin
       - dubbo-samples-zipkin-client
