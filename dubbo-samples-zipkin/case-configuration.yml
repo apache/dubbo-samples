@@ -74,10 +74,13 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
+      - zookeeper.address=zookeeper
       - zipkin.address=zipkin
     waitPortsBeforeRun:
+      - zookeeper:2181
       - zipkin:9411
       - dubbo-samples-zipkin-greeting:20881
     depends_on:
+      - zookeeper
       - zipkin
       - dubbo-samples-zipkin-client
