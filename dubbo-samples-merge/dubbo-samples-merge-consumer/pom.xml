@@ -28,158 +28,37 @@
 
     <artifactId>dubbo-samples-merge-consumer</artifactId>
 
-    <properties>
-        <dubbo.version>2.7.7</dubbo.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
-        <junit.version>4.12</junit.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <zookeeper.port>2181</zookeeper.port>
-        <provider1.image>dubbo-samples-merge-provider1:${dubbo.version}</provider1.image>
-        <provider1.port>20880</provider1.port>
-        <provider2.image>dubbo-samples-merge-provider2:${dubbo.version}</provider2.image>
-        <provider2.port>20881</provider2.port>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-samples-merge-api</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
-            <version>${dubbo.version}</version>
             <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>dubbo-integration-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.dubbo</groupId>
-                        <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>local-address</goal>
-                                </goals>
-                                <configuration>
-                                    <localAddress>dubbo-local-address</localAddress>
-                                </configuration>
-                                <phase>initialize</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>${docker-maven-plugin.version}</version>
-                        <configuration>
-                            <images>
-                                <image>
-                                    <name>zookeeper:latest</name>
-                                    <run>
-                                        <ports>
-                                            <port>${zookeeper.port}:${zookeeper.port}</port>
-                                        </ports>
-                                    </run>
-                                </image>
-
-                                <image>
-                                    <name>${provider1.image}</name>
-                                    <run>
-                                        <ports>
-                                            <port>${provider1.port}:${provider1.port}</port>
-                                        </ports>
-                                        <wait>
-                                            <log>dubbo service started</log>
-                                        </wait>
-                                    </run>
-                                </image>
-
-                                <image>
-                                    <name>${provider2.image}</name>
-                                    <run>
-                                        <ports>
-                                            <port>${provider2.port}:${provider2.port}</port>
-                                        </ports>
-                                        <wait>
-                                            <log>dubbo service started</log>
-                                        </wait>
-                                    </run>
-                                </image>
-                            </images>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>${maven-failsafe-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                                <configuration>
-                                    <systemPropertyVariables>
-                                        <zookeeper.address>${dubbo-local-address}</zookeeper.address>
-                                    </systemPropertyVariables>
-                                    <includes>
-                                        <include>**/*IT.java</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <!-- For jdk 11 above JavaEE annotation -->
         <profile>
             <id>javax.annotation</id>

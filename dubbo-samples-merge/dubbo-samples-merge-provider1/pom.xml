@@ -28,91 +28,25 @@
 
     <artifactId>dubbo-samples-merge-provider1</artifactId>
 
-    <properties>
-        <dubbo.version>2.7.7</dubbo.version>
-        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
-        <image.name>${project.artifactId}:${dubbo.version}</image.name>
-        <java-image.name>openjdk:8</java-image.name>
-        <dubbo.port>20880</dubbo.port>
-        <main-class>org.apache.dubbo.samples.merge.MergeProvider</main-class>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-samples-merge-api</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
-            <version>${dubbo.version}</version>
             <type>pom</type>
         </dependency>
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>dubbo-integration-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.dubbo</groupId>
-                        <artifactId>dubbo-maven-address-plugin</artifactId>
-                        <version>1.0-SNAPSHOT</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>local-address</goal>
-                                </goals>
-                                <configuration>
-                                    <localAddress>dubbo-local-address</localAddress>
-                                </configuration>
-                                <phase>initialize</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>${jib-maven-plugin.version}</version>
-                        <configuration>
-                            <from>
-                                <image>${java-image.name}</image>
-                            </from>
-                            <to>
-                                <image>${image.name}</image>
-                            </to>
-                            <container>
-                                <mainClass>${main-class}</mainClass>
-                                <environment>
-                                    <DUBBO_IP_TO_REGISTRY>${dubbo-local-address}</DUBBO_IP_TO_REGISTRY>
-                                </environment>
-                                <jvmFlags>
-                                    <jvmFlag>-Dzookeeper.address=${dubbo-local-address}</jvmFlag>
-                                </jvmFlags>
-                            </container>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>dockerBuild</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <!-- For jdk 11 above JavaEE annotation -->
         <profile>
             <id>javax.annotation</id>
