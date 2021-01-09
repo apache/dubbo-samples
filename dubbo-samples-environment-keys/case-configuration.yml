@@ -17,7 +17,7 @@
 from: app-builtin-zookeeper.yml
 
 props:
-  project_name: dubbo-samples-mock
+  project_name: dubbo-samples-environment-keys
   main_class: org.apache.dubbo.samples.basic.BasicProvider
   zookeeper_port: 2181
   dubbo_port: 20880
