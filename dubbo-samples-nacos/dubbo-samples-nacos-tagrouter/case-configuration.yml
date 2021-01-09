@@ -21,13 +21,27 @@ services:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
 
-  dubbo-samples-nacos-tagrouter:
+  dubbo-samples-nacos-tagrouter1:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.samples.governance.BasicProvider
     systemProps:
       - nacos.address=nacos
       - nacos.port=8848
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+
+  dubbo-samples-nacos-tagrouter2:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.governance.BasicProvider
+    systemProps:
+      - nacos.address=nacos
+      - nacos.port=8848
+      - dubbo.port=20881
     waitPortsBeforeRun:
       - nacos:8848
     depends_on:
@@ -43,8 +57,9 @@ services:
       - nacos.port=8848
     waitPortsBeforeRun:
       - nacos:8848
-      - dubbo-samples-nacos-tagrouter:20880
-      - dubbo-samples-nacos-tagrouter:20881
+      - dubbo-samples-nacos-tagrouter1:20880
+      - dubbo-samples-nacos-tagrouter2:20881
     depends_on:
       - nacos
-      - dubbo-samples-nacos-tagrouter
+      - dubbo-samples-nacos-tagrouter1
+      - dubbo-samples-nacos-tagrouter2
