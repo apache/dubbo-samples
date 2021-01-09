@@ -24,7 +24,7 @@ services:
 
   dubbo-samples-zipkin-hello:
     type: app
-    basedir: dubbo-samples-zipkin
+    basedir: .
     mainClass: org.apache.dubbo.samples.service.hello.Application
     systemProps:
       - zookeeper.address=zookeeper
@@ -38,7 +38,7 @@ services:
 
   dubbo-samples-zipkin-greeting:
     type: app
-    basedir: dubbo-samples-zipkin
+    basedir: .
     mainClass: org.apache.dubbo.samples.service.greeting.Application
     systemProps:
       - zookeeper.address=zookeeper
@@ -53,7 +53,7 @@ services:
 
   dubbo-samples-zipkin-client:
     type: app
-    basedir: dubbo-samples-zipkin
+    basedir: .
     mainClass: org.apache.dubbo.samples.client.Application
     systemProps:
       - zookeeper.address=zookeeper
@@ -68,7 +68,7 @@ services:
 
   dubbo-samples-zipkin-test:
     type: test
-    basedir: dubbo-samples-zipkin
+    basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
