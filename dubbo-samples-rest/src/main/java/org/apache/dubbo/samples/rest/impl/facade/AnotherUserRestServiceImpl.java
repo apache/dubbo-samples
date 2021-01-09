@@ -48,4 +48,10 @@ public class AnotherUserRestServiceImpl implements AnotherUserRestService {
     public RegistrationResult registerUser(User user) {
         return new RegistrationResult(userService.registerUser(user));
     }
+
+    @Override
+    public String getContext() {
+        return "Client name is " + RpcContext.getContext().getAttachment("clientName") + "\n" +
+                "Client impl is " + RpcContext.getContext().getAttachment("clientImpl");
+    }
 }

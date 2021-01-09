@@ -25,10 +25,10 @@
 
     <dubbo:application name="multi-registry-provider"/>
 
-    <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2181" default="false"/>
-    <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:2182" />
+    <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port.1:2181}" default="false"/>
+    <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port.2:2182}" />
 
-    <dubbo:protocol name="dubbo" port="20890"/>
+    <dubbo:protocol name="dubbo" port="20880"/>
 
     <bean id="helloService" class="org.apache.dubbo.samples.multi.registry.impl.HelloServiceImpl"/>
     <bean id="demoService" class="org.apache.dubbo.samples.multi.registry.impl.DemoServiceImpl"/>

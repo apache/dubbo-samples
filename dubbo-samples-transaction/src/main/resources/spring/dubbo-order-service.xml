@@ -56,7 +56,7 @@
     </bean>
 
     <dubbo:application name="dubbo-demo-order-service"/>
-    <dubbo:registry address="zookeeper://localhost:2181" />
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}" />
     <dubbo:protocol name="dubbo" port="20883"/>
     <dubbo:service interface="org.apache.dubbo.samples.service.OrderService" ref="service" timeout="10000"/>
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Start at: $(date "+%Y-%m-%d %H:%M:%S")"
+
 DIR=/usr/local/dubbo/
 cd $DIR
 
