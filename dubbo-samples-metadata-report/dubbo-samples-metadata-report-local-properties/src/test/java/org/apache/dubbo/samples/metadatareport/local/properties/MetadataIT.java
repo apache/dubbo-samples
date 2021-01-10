@@ -131,6 +131,9 @@ public class MetadataIT {
      */
     @Test
     public void testConsumerMetadata() throws Exception {
+        //wait for consumer metadata report finish
+        Thread.sleep(1000);
+
         String result = ZkUtil.getMetadata("/dubbo", DemoService.class.getName(), CommonConstants.CONSUMER_SIDE,
                 "metadatareport-local-properties-consumer");
         Gson gson = new Gson();
