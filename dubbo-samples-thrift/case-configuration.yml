@@ -17,6 +17,7 @@
 from: app-external-zookeeper.yml
 
 props:
-  project_name: dubbo-samples-thrift-impl
+  project_name: dubbo-samples-thrift
+  project_dir: dubbo-samples-thrift-impl
   main_class: org.apache.dubbo.samples.rpc.nativethrift.ThriftProvider
   dubbo_port: 2345
