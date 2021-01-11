@@ -24,7 +24,7 @@
 
     <dubbo:application name="thrift-provider"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
     <dubbo:protocol name="native-thrift" id="native-thrift" port="2345"/>
 
