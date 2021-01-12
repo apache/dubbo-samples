@@ -176,7 +176,7 @@ sleep 5
 
     echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log
     docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
-    docker wait ${container_name}
+    docker wait ${container_name} > /dev/null
 #fi
 
 if [[ $status == 0 ]];then
