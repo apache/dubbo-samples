@@ -13,7 +13,11 @@ env:
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
   BUILD_OPTS: -U --no-transfer-progress --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
-  TEST_VERSIONS: dubbo.version:2.7.8;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE
+  TEST_VERSIONS: '
+    dubbo.version:2.7.8;
+    spring.version:4.3.16.RELEASE,5.3.3;
+    spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE
+    '
 
 jobs:
   build:
