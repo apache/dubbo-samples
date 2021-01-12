@@ -32,32 +32,67 @@ project_name=$(echo "${scenario_name}_${scenario_version}" |sed -e "s/\.//g" |aw
 test_service_name="${test_service_name}_1"
 network_name="${network_name}"
 
-function redirect_container_logs() {
-  #copy logs
-  echo "Redirecting container logs .." >> $scenario_log
+service_names=( \
+<#list services as service>
+  "${service.name}" \
+</#list>
+  )
 
-  if [ "$debug_mode" == "1" ]; then
-    # redirect container logs to file and display debug message
-    <#list services as service>
-    service_name="${service.name}"
-    <#noparse>
-    docker logs -f ${project_name}_${service_name}_1 2>&1 | tee $SCENARIO_HOME/logs/${service_name}.log | grep "dt_socket" &
-    </#noparse>
+service_size=${services?size}
 
-    </#list>
-  else
-    # redirect container logs to file
-    <#list services as service>
-    service_name="${service.name}"
-    <#noparse>
-    docker logs -f ${project_name}_${service_name}_1 &> $SCENARIO_HOME/logs/${service_name}.log &
-    </#noparse>
-
-    </#list>
-  fi
-}
+export service_names=$service_names
+export service_size=$service_size
 
 <#noparse>
+function redirect_all_container_logs() {
+  #redirect logs
+  echo "Redirecting all container logs: ${service_names[@]}  .." >> $scenario_log
+
+  while [ 1==1 ]; do
+    redirect_count=0
+    for service_name in ${service_names[@]};do
+      redirect_container_logs "$service_name"
+      result=$?
+      if [ "$result" -eq 0 ];then
+        redirect_count=$(( redirect_count + 1 ))
+      fi
+    done
+
+    if [ "$redirect_count" == $service_size ];then
+      echo "Redirect all containers logs."  >> $scenario_log
+      break
+    fi
+
+    sleep 3
+  done
+}
+
+function redirect_container_logs() {
+  service_name=$1
+  container_name=${project_name}_${service_name}_1
+  # only redirect once
+  ps -ef | grep "docker logs -f $container_name" | grep -v grep > /dev/null
+  result=$?
+  if [ $result -eq 0 ]; then
+    return 0
+  fi
+
+  container_id=`docker ps -qf "name=${container_name}"`
+  if [[ -z "${container_id}" ]]; then
+    return 1
+  fi
+
+  echo "Redirect container logs: $container_name" >> $scenario_log
+  if [ "$debug_mode" == "1" ]; then
+    # redirect container logs to file and display debug message
+    docker logs -f $container_name 2>&1 | tee $SCENARIO_HOME/logs/${service_name}.log | grep "dt_socket" &
+  else
+    docker logs -f $container_name &> $SCENARIO_HOME/logs/${service_name}.log &
+  fi
+  return 0
+
+}
+
 function wait_container_exit() {
   container_name=$1
   start=$2
@@ -66,12 +101,14 @@ function wait_container_exit() {
   # check and get exit code
   while [ 1 = 1 ];
   do
+    sleep 2
     status=`docker inspect $container_name --format='{{.State.Status}}'`
-    result=$?
-    if [ $result -ne 0 ];then
-      echo "check container status failure: $result"
-      return 1
-    fi
+    # test container may pending start cause by depends_on condition
+#    result=$?
+#    if [ $result -ne 0 ];then
+#      echo "check container status failure: $result"
+#      return 1
+#    fi
     if [ "$status" == "exited" ];then
         return 0
     fi
@@ -81,7 +118,6 @@ function wait_container_exit() {
       echo "wait for container is timeout: $duration s"
       return 1
     fi
-    sleep 2
   done
 }
 
@@ -105,18 +141,21 @@ docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenari
 echo "[$scenario_name] Removing containers .." | tee -a $scenario_log
 docker-compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenario_log > /dev/null
 
+#run async, cause depends_on service healthy blocking docker-compose up
+redirect_all_container_logs &
+
 # complete pull fail interactive by <<< "NN"
 echo "[$scenario_name] Starting containers .." | tee -a $scenario_log
-docker-compose -p ${project_name} -f ${compose_file} up -d --no-build 2>&1 <<< "NN" | tee -a $scenario_log > /dev/null
+docker-compose -p ${project_name} -f ${compose_file} up -d 2>&1 <<< "NNN" | tee -a $scenario_log > /dev/null
 
-sleep 2
-redirect_container_logs
+sleep 5
 
-container_id=`docker ps -qf "name=${container_name}"`
-if [[ -z "${container_id}" ]]; then
-    echo "[$scenario_name] docker startup failure!" | tee -a $scenario_log
-    status=1
-else
+# test container may pending start cause by depends_on condition
+#container_id=`docker ps -qf "name=${container_name}"`
+#if [[ -z "${container_id}" ]]; then
+#    echo "[$scenario_name] docker startup failure!" | tee -a $scenario_log
+#    status=1
+#else
     echo "[$scenario_name] Waiting for test container .." | tee -a $scenario_log
     # check and get exit code
     wait_container_exit ${container_name} $start $timeout
@@ -138,11 +177,17 @@ else
     echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log
     docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 
-fi
+#fi
 
 if [[ $status == 0 ]];then
     docker-compose -p $project_name -f $compose_file rm -f 2>&1 | tee -a $scenario_log > /dev/null
     ${removeImagesScript}
+else
+    for service_name in ${service_names[@]};do
+        echo "docker inspect ${project_name}_${service_name}_1 :"
+        docker inspect ${project_name}_${service_name}_1 >> $scenario_log
+        echo ""
+    done
 fi
 
 # rm network

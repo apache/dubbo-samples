@@ -31,6 +31,7 @@ public class LocalDemo {
         new EmbeddedZooKeeper(2181, true).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo.xml");
         context.start();
+        System.out.println("dubbo service started");
 
         DemoService demoService = context.getBean("demoService", DemoService.class);
         String hello = demoService.sayHello("world");

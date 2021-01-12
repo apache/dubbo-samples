@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,17 +48,25 @@ public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
     public static final String DUBBO_APP_DIR = "/usr/local/dubbo/app";
     public static final String DUBBO_LOG_DIR = "/usr/local/dubbo/logs";
+
+    //ENV
     public static final String ENV_SERVICE_NAME = "SERVICE_NAME";
     public static final String ENV_SERVICE_TYPE = "SERVICE_TYPE";
     public static final String ENV_APP_MAIN_CLASS = "APP_MAIN_CLASS";
     public static final String ENV_WAIT_PORTS_BEFORE_RUN = "WAIT_PORTS_BEFORE_RUN";
-    public static final String ENV_CHECK_PORTS_AFTER_RUN = "CHECK_PORTS_AFTER_RUN";
+    public static final String ENV_CHECK_PORTS = "CHECK_PORTS";
     public static final String ENV_CHECK_LOG = "CHECK_LOG";
-    public static final String ENV_CHECK_TIMEOUT = "CHECK_TIMEOUT";
+    public static final String ENV_WAIT_TIMEOUT = "WAIT_TIMEOUT";
     public static final String ENV_TEST_PATTERNS = "TEST_PATTERNS";
     public static final String ENV_JAVA_OPTS = "JAVA_OPTS";
     public static final String ENV_DEBUG_OPTS = "DEBUG_OPTS";
     public static final String ENV_SCENARIO_HOME = "SCENARIO_HOME";
+    public static final String ENV_RUN_DELAY = "RUN_DELAY";
+
+    //PROPS
+    public static final String PROP_BASEDIR = "_basedir";
+    public static final String PROP_SCENARIO_HOME = "_scenario_home";
+    public static final String PROP_SCENARIO_NAME = "_scenario_name";
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationImpl.class);
     private final CaseConfiguration configuration;
@@ -68,7 +77,9 @@ public class ConfigurationImpl implements IConfiguration {
     private int scenarioTimeout = 90;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
+    private Set<Pattern> debugPatterns = new HashSet<>();
     private Set<String> debugServices = new HashSet<>();
+    private Set<String> healthcheckServices = new HashSet<>();
 
     public ConfigurationImpl() throws IOException, ConfigureFileNotFoundException {
         String configureFile = System.getProperty("configure.file");
@@ -76,6 +87,7 @@ public class ConfigurationImpl implements IConfiguration {
             throw new ConfigureFileNotFoundException();
         }
         this.configBasedir = new File(configureFile).getParentFile().getCanonicalPath();
+        this.configBasedir = this.configBasedir.replace(File.separator, "/");
 
         //set default scenarioHome dir to ${configBasedir}/target
         this.scenarioHome = System.getProperty("scenario.home");
@@ -96,7 +108,8 @@ public class ConfigurationImpl implements IConfiguration {
             for (String str : strs) {
                 str = str.trim();
                 if (StringUtils.isNotBlank(str)) {
-                    debugServices.add(str);
+                    String regex = "\\Q" + str.replace("*", "\\E.*?\\Q") + "\\E";
+                    debugPatterns.add(Pattern.compile(regex));
                 }
             }
         }
@@ -118,15 +131,20 @@ public class ConfigurationImpl implements IConfiguration {
         logger.info("scenarioName:{}, timeout: {}, debugServices:{}, config: {}",
                 scenarioName, scenarioTimeout, debugServices, configuration);
 
-        for (String service : debugServices) {
-            if (!configuration.getServices().containsKey(service)) {
-                logger.warn("debug service not found: {}", service);
+    }
+
+    private boolean isDebugService(String serviceName) {
+        for (Pattern pattern : debugPatterns) {
+            if (pattern.matcher(serviceName).matches()) {
+                debugServices.add(serviceName);
+                return true;
             }
         }
+        return false;
     }
 
     private boolean isDebug() {
-        return debugServices != null && debugServices.size() > 0;
+        return debugPatterns != null && debugPatterns.size() > 0;
     }
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
@@ -134,6 +152,10 @@ public class ConfigurationImpl implements IConfiguration {
         String configYaml = readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
         Map<String, String> props = tmpConfiguration.getProps();
+        if (props == null) {
+            props = new HashMap<>();
+        }
+        configProps(props);
 
         // process 'from', load parent config
         CaseConfiguration parentConfiguration = null;
@@ -142,9 +164,11 @@ public class ConfigurationImpl implements IConfiguration {
             CaseConfiguration tmpParentConfiguration = parseConfiguration(parentConfigYaml);
 
             //merge props, overwrite parent props
-            Map<String, String> newProps = new HashMap<>(tmpParentConfiguration.getProps());
-            newProps.putAll(props);
-            props = newProps;
+            if (tmpParentConfiguration.getProps() != null) {
+                Map<String, String> newProps = new HashMap<>(tmpParentConfiguration.getProps());
+                newProps.putAll(props);
+                props = newProps;
+            }
 
             // replace variables '${...}'
             String newParentConfigYaml = replaceHolders(parentConfigYaml, props);
@@ -172,6 +196,12 @@ public class ConfigurationImpl implements IConfiguration {
 
         fillupServices(caseConfiguration);
         return caseConfiguration;
+    }
+
+    private void configProps(Map<String, String> props) {
+        props.put(PROP_BASEDIR, configBasedir);
+        props.put(PROP_SCENARIO_HOME, scenarioHome);
+        props.put(PROP_SCENARIO_NAME, scenarioName);
     }
 
     private List<String> mergeSystemProps(List<String> parentSystemProps, List<String> childSystemProps) {
@@ -206,7 +236,7 @@ public class ConfigurationImpl implements IConfiguration {
             String serviceName = entry.getKey();
             ServiceComponent service = entry.getValue();
             String type = service.getType();
-            if (isAppService(type)) {
+            if (isAppOrTestService(type)) {
                 service.setImage(SAMPLE_TEST_IMAGE);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
                 if (service.getVolumes() == null) {
@@ -231,11 +261,16 @@ public class ConfigurationImpl implements IConfiguration {
                     setEnv(service, ENV_WAIT_PORTS_BEFORE_RUN, str);
                 }
 
+                //set run delay
+                if (service.getRunDelay() > 0) {
+                    setEnv(service, ENV_RUN_DELAY, service.getRunDelay()+"");
+                }
+
                 //set check timeout
                 if (isDebug()) {
-                    service.setCheckTimeout(debugTimeout);
+                    service.setWaitTimeout(debugTimeout);
 
-                    if (debugServices.contains(serviceName)) {
+                    if (isDebugService(serviceName)) {
                         //set java remote debug opts
                         //-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
                         int debugPort = nextDebugPort();
@@ -249,8 +284,8 @@ public class ConfigurationImpl implements IConfiguration {
                         service.getPorts().add(debugPort + ":" + debugPort);
                     }
                 }
-                if (service.getCheckTimeout() > 0) {
-                    setEnv(service, ENV_CHECK_TIMEOUT, service.getCheckTimeout() + "");
+                if (service.getWaitTimeout() > 0) {
+                    setEnv(service, ENV_WAIT_TIMEOUT, service.getWaitTimeout() + "");
                 }
 
                 if ("app".equals(type)) {
@@ -265,15 +300,32 @@ public class ConfigurationImpl implements IConfiguration {
                     //set SCENARIO_HOME
                     setEnv(service, ENV_SCENARIO_HOME, scenarioHome);
 
+                    boolean addHealthcheck = false;
                     //set check_log env
                     if (StringUtils.isNotBlank(service.getCheckLog())) {
+                        addHealthcheck = true;
                         setEnv(service, ENV_CHECK_LOG, service.getCheckLog());
                     }
 
                     //set check ports
-                    if (isNotEmpty(service.getCheckPortsAfterRun())) {
-                        String str = convertAddrPortsToString(service.getCheckPortsAfterRun());
-                        setEnv(service, ENV_CHECK_PORTS_AFTER_RUN, str);
+                    if (isNotEmpty(service.getCheckPorts())) {
+                        addHealthcheck = true;
+                        String str = convertAddrPortsToString(service.getCheckPorts());
+                        setEnv(service, ENV_CHECK_PORTS, str);
+                    }
+
+                    //add healthcheck
+                    if (addHealthcheck) {
+                        if (service.getHealthcheck() == null) {
+                            Map<String, Object> healthcheckMap = new LinkedHashMap<>();
+                            service.setHealthcheck(healthcheckMap);
+                        }
+                        Map<String, Object> healthcheck = service.getHealthcheck();
+                        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
+                        healthcheck.putIfAbsent("interval", "5s");
+                        healthcheck.putIfAbsent("timeout", "5s");
+                        healthcheck.putIfAbsent("retries", 20);
+                        healthcheck.putIfAbsent("start_period", "60s");
                     }
                 } else if ("test".equals(type)) {
                     String mainClass = service.getMainClass();
@@ -311,6 +363,9 @@ public class ConfigurationImpl implements IConfiguration {
                 appendEnv(service, ENV_JAVA_OPTS, str);
             }
 
+            if (service.getHealthcheck() != null) {
+                healthcheckServices.add(serviceName);
+            }
         }
     }
 
@@ -385,7 +440,7 @@ public class ConfigurationImpl implements IConfiguration {
         return new File(configBasedir, path).getCanonicalPath();
     }
 
-    private boolean isAppService(String type) {
+    private boolean isAppOrTestService(String type) {
         if (type == null) {
             return false;
         }
@@ -556,15 +611,40 @@ public class ConfigurationImpl implements IConfiguration {
             String imageName = dependency.getImage();
             service.setName(name);
             service.setImageName(imageName);
+            service.setBuild(dependency.getBuild());
             service.setHostname(dependency.getHostname());
             service.setExpose(dependency.getExpose());
             service.setPorts(dependency.getPorts());
-            service.setDepends_on(dependency.getDepends_on());
-            service.setLinks(dependency.getDepends_on());
             service.setEntrypoint(dependency.getEntrypoint());
-            service.setHealthcheck(dependency.getHealthcheck());
+            service.setLinks(dependency.getDepends_on());
+
+            //convert depends_on to map
+            if (dependency.getDepends_on() != null) {
+                Map<String, String> dependsOnMap = new LinkedHashMap<>();
+                service.setDepends_on(dependsOnMap);
+                for (String serviceName : dependency.getDepends_on()) {
+                    if (healthcheckServices.contains(serviceName)) {
+                        dependsOnMap.put(serviceName, "{condition: service_healthy}");
+                    } else {
+                        dependsOnMap.put(serviceName, "{condition: service_started}");
+                    }
+                }
+            }
+
+            //convert healthcheck to string map
+            if (dependency.getHealthcheck() != null) {
+                Yaml yaml = new Yaml();
+                Map<String, Object> healthcheckMap = dependency.getHealthcheck();
+                Map<String, String> newMap = new LinkedHashMap<>();
+                for (Map.Entry<String, Object> entry : healthcheckMap.entrySet()) {
+                    String value = yaml.dump(entry.getValue());
+                    newMap.put(entry.getKey(), value.trim());
+                }
+                service.setHealthcheck(newMap);
+            }
             service.setEnvironment(dependency.getEnvironment());
             service.setVolumes(dependency.getVolumes());
+            service.setVolumes_from(dependency.getVolumes_from());
             service.setRemoveOnExit(dependency.isRemoveOnExit());
             services.add(service);
         });

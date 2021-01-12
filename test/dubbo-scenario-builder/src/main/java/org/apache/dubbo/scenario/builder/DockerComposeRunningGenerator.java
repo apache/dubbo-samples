@@ -58,18 +58,4 @@ public class DockerComposeRunningGenerator extends AbstractRunningGenerator {
             LOGGER.error("", e);
         }
     }
-
-    @Override
-    public String runningScript(IConfiguration configuration) {
-        final Map<String, Object> root = configuration.toMap();
-
-        StringWriter out = new StringWriter();
-
-        try {
-            cfg.getTemplate("compose-start-script.template").process(root, out);
-        } catch (Exception e) {
-            LOGGER.error("Failed to generate running script.", e);
-        }
-        return out.toString();
-    }
 }

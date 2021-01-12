@@ -27,7 +27,7 @@
 
     <dubbo:application name="governance-tagrouter-provider"/>
 
-    <dubbo:protocol name="dubbo" port="${dubbo.port:-1}" heartbeat="10000"/>
+    <dubbo:protocol name="dubbo" port="${dubbo.port:20880}" heartbeat="10000"/>
 
     <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848"/>
 

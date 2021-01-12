@@ -141,6 +141,9 @@ public class MetadataIT {
      */
     @Test
     public void testConsumerMetadata() throws Exception {
+        //wait for consumer metadata report finish
+        Thread.sleep(1000);
+
         String result = ZkUtil.getMetadata("/dubbo", AnnotationService.class.getName(), "1.1.8", "d-test",
                 CommonConstants.CONSUMER_SIDE, "metadatareport-local-annotation-consumer");
         Gson gson = new Gson();

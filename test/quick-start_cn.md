@@ -101,7 +101,7 @@ props:
 
 `from: app-builtin-zookeeper.yml` : 指定使用`app-builtin-zookeeper.yml`模板，解析时自动将模板的内容合并到当前配置文件。
 
-`props` : 配置文件内部的变量，自动替换模板中的变量占位符。
+`props` : 配置文件内部的变量，自动替换模板中的变量占位符。如要使用全局变量请参考"全局变量"小节。
 
 `project_name` : 工程名称变量，同时也是dubbo provider 服务名。
 
@@ -241,6 +241,18 @@ services:
       - dubbo-samples-chain-middle:20881
 ```
 
+#### 全局变量
+
+`case-configuration.yml`支持的全局变量如下，可以直接使用：
+
+| 名称 | 描述 | 例子 |
+| ---- | --- | --- |
+| `_basedir` | `case-configuration.yml` 配置文件所在的目录 | 用于指定容器挂载的配置文件路径，如挂载mysql的初始化sql脚本目录：${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d |
+| `_scenario_home`| scenario home，默认位于${_basedir}/target | |
+| `_scenario_name`| scenario name，默认为${_basedir}的目录名（basename） | |
+
+**注意**：volumes挂载的相对目录是scenario home(即${_basedir}/target)，不方便访问工程源码目录。
+如果要挂载工程源码的目录，推荐使用${_basedir}/src/main/resources/xxx的形式，提高可读性.
 
 #### 转换测试案例
 
