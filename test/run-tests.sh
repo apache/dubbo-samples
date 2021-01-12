@@ -185,10 +185,11 @@ function process_case() {
     cd $project_home
 
     # clean target manual, avoid 'mvn clean' failed with 'Permission denied' in github actions
-    rm -rf target
-    result=$?
-    if [ $result -ne 0 ]; then
-      sudo rm -rf target
+    find . -name target -d | xargs -I {} rm -rf {}
+    target_dirs=`find . -name target -d`
+    if [ "$target_dirs" != "" ]; then
+      echo "$log_prefix Force delete target dirs"
+      sudo find . -name target -d | xargs -I {} rm -rf {}
     fi
 
     mvn $MVN_OPTS $version_profile &> $project_home/mvn.log
