@@ -189,7 +189,7 @@ function process_case() {
     target_dirs=`find . -name target -d`
     if [ "$target_dirs" != "" ]; then
       echo "$log_prefix Force delete target dirs"
-      sudo find . -name target -d | xargs -I {} rm -rf {}
+      find . -name target -d | xargs -I {} sudo rm -rf {}
     fi
 
     mvn $MVN_OPTS $version_profile &> $project_home/mvn.log
