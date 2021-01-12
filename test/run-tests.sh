@@ -189,6 +189,7 @@ function process_case() {
       echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
       if [ "$SHOW_ERROR_DETAIL" == "1" ];then
         cat $project_home/mvn.log
+        echo "$log_prefix process list:"
         ps -ef | grep $scenario_name | grep -v grep
       fi
       return 1

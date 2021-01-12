@@ -56,3 +56,5 @@ coverage.txt
 
 test/jobs
 testcases*.txt
+version-matrix.txt
+mvn.log
