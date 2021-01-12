@@ -171,10 +171,8 @@ function process_case() {
   fi
 
   profile_count=`grep -c "" $version_matrix_file `
-  echo "Version matrix: $profile_count"
+  echo "$log_prefix Version matrix: $profile_count"
   cat $version_matrix_file
-  echo "----------------"
-
 
   profile_no=0
   while read -r version_profile; do
