@@ -26,12 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -149,7 +146,7 @@ public class ConfigurationImpl implements IConfiguration {
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
         // read 'props'
-        String configYaml = readFully(configureFile);
+        String configYaml = FileUtil.readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
         Map<String, String> props = tmpConfiguration.getProps();
         if (props == null) {
@@ -219,7 +216,7 @@ public class ConfigurationImpl implements IConfiguration {
         try {
             String file = "configs/" + caseConfiguration.getFrom();
             InputStream inputStream = CaseConfiguration.class.getClassLoader().getResourceAsStream(file);
-            return readFully(inputStream);
+            return FileUtil.readFully(inputStream);
         } catch (Exception e) {
             logger.error("load parent config failed: " + caseConfiguration.getFrom(), e);
             throw new IOException("load parent config failed: " + caseConfiguration.getFrom(), e);
@@ -450,19 +447,6 @@ public class ConfigurationImpl implements IConfiguration {
                 return true;
         }
         throw new RuntimeException("Illegal service type: " + type);
-    }
-
-    private String readFully(String file) throws IOException {
-        try (FileInputStream fis = new FileInputStream(file)) {
-            return readFully(fis);
-        }
-    }
-
-    private String readFully(InputStream input) throws IOException {
-        DataInputStream dis = new DataInputStream(input);
-        byte[] bytes = new byte[input.available()];
-        dis.readFully(bytes);
-        return new String(bytes, StandardCharsets.UTF_8);
     }
 
     private Pattern pattern = Pattern.compile("\\$\\{(.+?)}");

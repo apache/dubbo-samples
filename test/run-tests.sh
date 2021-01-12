@@ -4,6 +4,16 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 abspath () { case "$1" in /*)printf "%s\n" "$1";; *)printf "%s\n" "$PWD/$1";; esac; }
 
+trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"
+    printf '%s' "$var"
+}
+
+
 FAIL_FAST=${FAIL_FAST:-0}
 echo "FAIL_FAST: $FAIL_FAST"
 
@@ -14,12 +24,9 @@ echo "SHOW_ERROR_DETAIL: $SHOW_ERROR_DETAIL"
 maxForks=${FORK_COUNT:-2}
 echo "FORK_COUNT: $maxForks"
 
-#Build mode: all, case, no
-BUILD=${BUILD:-case}
-export BUILD=$BUILD
-echo "BUILD: $BUILD"
 
 #debug DEBUG=service1,service2
+#deubg all duboo-xxx: DEBUG=dubbo*
 export DEBUG=$DEBUG
 echo "DEBUG=$DEBUG"
 
@@ -51,6 +58,7 @@ fi
 cd $DIR
 
 CONFIG_FILE="case-configuration.yml"
+VERSONS_FILE="case-versions.conf"
 
 testListFile=$DIR/testcases.txt
 targetTestcases=$1
@@ -93,22 +101,16 @@ testResultFile=${testListFile%.*}-result.txt
 rm -f $testResultFile
 echo "Test results: $testResultFile"
 
-if [ "$DUBBO_VERSION" != "" ];then
-  echo "DUBBO_VERSION: $DUBBO_VERSION"
+if [ "$TEST_VERSIONS" == "" ];then
+  TEST_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+#  TEST_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 fi
-export DUBBO_VERSION=$DUBBO_VERSION
+export TEST_VERSIONS=$TEST_VERSIONS
+echo "TEST_VERSIONS: ${TEST_VERSIONS[@]}"
 
-if [ "$MVN_OPTS" != "" ];then
-  echo "MVN_OPTS: $MVN_OPTS"
-fi
+MVN_OPTS="$MVN_OPTS -U --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
 export MVN_OPTS=$MVN_OPTS
-
-BUILD_OPTS="$MVN_OPTS -U --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
-if [ "$DUBBO_VERSION" != "" ]; then
-  BUILD_OPTS="$BUILD_OPTS -Ddubbo.version=$DUBBO_VERSION"
-fi
-export BUILD_OPTS=$BUILD_OPTS
-echo "BUILD_OPTS: $BUILD_OPTS"
+echo "MVN_OPTS: $MVN_OPTS"
 
 # constant
 TEST_SUCCESS="TEST SUCCESS"
@@ -129,84 +131,113 @@ function print_log_file() {
 }
 
 function process_case() {
-  file=$1
+  case_dir=$1
   case_no=$2
 
-  if [ -d $file ]; then
-    file=$file/$CONFIG_FILE
+  if [ -f $case_dir ]; then
+    case_dir=`dirname $case_dir`
   fi
 
+  file=$case_dir/$CONFIG_FILE
   if [ ! -f $file ]; then
     echo "$TEST_FAILURE: case config not found: $file" | tee -a $testResultFile
     return 1
   fi
 
+  ver_file=$case_dir/$VERSONS_FILE
+  if [ ! -f $ver_file ]; then
+    echo "$TEST_FAILURE: case versions config not found: $ver_file" | tee -a $testResultFile
+    return 1
+  fi
+
+  case_start_time=$SECONDS
   project_home=`dirname $file`
   scenario_home=$project_home/target
   scenario_name=`basename $project_home`
   log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
-  start_time=$SECONDS
   echo "$log_prefix Processing : $project_home .."
 
-  # mvn build
-  if [ "$BUILD" == "case" ]; then
+  # generate version matrix
+  version_matrix_file=$project_home/version-matrix.txt
+  java -DtestVersionsList="$TEST_VERSIONS" \
+    -DcaseVersionsFile="$ver_file" \
+    -DoutputFile="$version_matrix_file" \
+    -cp $test_builder_jar \
+    org.apache.dubbo.scenario.builder.VersionMatcher &> $project_home/version-matrix.log
+  result=$?
+  if [ $result -ne 0 ]; then
+    echo "$log_prefix $TEST_FAILURE: Generate version matrix failure: $project_home/version-matrix.log" | tee -a $testResultFile
+    return 1
+  fi
+
+  profile_count=`grep -c "" $version_matrix_file `
+  echo "Version matrix: $profile_count"
+  cat $version_matrix_file
+  echo "----------------"
+
+
+  profile_no=0
+  while read -r version_profile; do
+    start_time=$SECONDS
+    profile_no=$((profile_no + 1))
+    log_prefix="[${case_no}/${caseCount}] [$scenario_name:$profile_no/$profile_count]"
+    echo "$log_prefix Use version profile: $version_profile"
+
+    # run test using version profile
     echo "$log_prefix Building project : $scenario_name .."
     cd $project_home
-    mvn $BUILD_OPTS &> $project_home/mvn.log
+    mvn $MVN_OPTS $version_profile &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
       echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
       return 1
     fi
-  fi
 
-  #check build
-#  echo "$log_prefix Checking project artifacts .."
-#  if [ ! -d "$project_home/target" ]; then
-#    echo "$log_prefix $TEST_FAILURE: Missing artifacts" | tee -a $testResultFile
-#    return 1
-#  fi
-
-  # generate case configuration
-  mkdir -p $scenario_home/logs
-  echo "$log_prefix Generating test case configuration .."
-  config_time=$SECONDS
-  mkdir -p $scenario_home
-  java -Dconfigure.file=$file \
-    -Dscenario.home=$scenario_home \
-    -Dscenario.name=$scenario_name \
-    -Dscenario.version=$DUBBO_VERSION \
-    -Ddebug.service=$DEBUG \
-    -jar $test_builder_jar  &> $scenario_home/logs/scenario-builder.log
-  result=$?
-  if [ $result -ne 0 ]; then
-    echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $scenario_home/logs/scenario-builder.log" | tee -a $testResultFile
-    return 1
-  fi
-
-  # run test
-  echo "$log_prefix Running test case .."
-  running_time=$SECONDS
-  bash $scenario_home/scenario.sh
-  result=$?
-  end_time=$SECONDS
-
-  if [ $result == 0 ]; then
-    echo "$log_prefix $TEST_SUCCESS: total cost $((end_time - start_time)) s" | tee -a $testResultFile
-  else
-    echo "$log_prefix $TEST_FAILURE, please check logs: $scenario_home/logs" | tee -a $testResultFile
-
-    # show test log
-    if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
-      for log_file in $scenario_home/logs/*.log; do
-        # ignore scenario-builder.log
-        if [[ $log_file != *scenario-builder.log ]]; then
-          print_log_file "$scenario_name : `basename $log_file`" $log_file
-        fi
-      done
+    # generate case configuration
+    mkdir -p $scenario_home/logs
+    echo "$log_prefix Generating test case configuration .."
+    config_time=$SECONDS
+    java -Dconfigure.file=$file \
+      -Dscenario.home=$scenario_home \
+      -Dscenario.name=$scenario_name \
+      -Dscenario.version=$version \
+      -Ddebug.service=$DEBUG \
+      -jar $test_builder_jar  &> $scenario_home/logs/scenario-builder.log
+    result=$?
+    if [ $result -ne 0 ]; then
+      echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $scenario_home/logs/scenario-builder.log" | tee -a $testResultFile
+      return 1
     fi
-    return 1
-  fi
+
+    # run test
+    echo "$log_prefix Running test case .."
+    running_time=$SECONDS
+    bash $scenario_home/scenario.sh
+    result=$?
+    end_time=$SECONDS
+
+    if [ $result == 0 ]; then
+      echo "$log_prefix $TEST_SUCCESS: cost $((end_time - start_time)) s"
+    else
+      echo "$log_prefix $TEST_FAILURE, please check logs: $scenario_home/logs" | tee -a $testResultFile
+
+      # show test log
+      if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
+        for log_file in $scenario_home/logs/*.log; do
+          # ignore scenario-builder.log
+          if [[ $log_file != *scenario-builder.log ]]; then
+            print_log_file "$scenario_name : `basename $log_file`" $log_file
+          fi
+        done
+      fi
+      return 1
+    fi
+
+  done < $version_matrix_file
+
+  log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
+  echo "$log_prefix $TEST_SUCCESS: profiles: $profile_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
+
 }
 
 # build scenario-builder
@@ -214,7 +245,7 @@ SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
 echo "Building scenario builder .."
 cd $SCENARIO_BUILDER_DIR
 scenario_mvn_opts="$MVN_OPTS clean package -DskipTests"
-mvn $BUILD_OPTS &> $SCENARIO_BUILDER_DIR/mvn.log
+mvn $MVN_OPTS &> $SCENARIO_BUILDER_DIR/mvn.log
 result=$?
 if [ $result -ne 0 ]; then
   echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"
@@ -230,18 +261,6 @@ else
   echo "Found test builder : $test_builder_jar"
 fi
 
-# build all samples
-if [ "$BUILD" == "all" ]; then
-  echo "Building dubbo-samples .."
-  cd $DIR/..
-  mvn $BUILD_OPTS
-  result=$?
-  if [ $result -ne 0 ]; then
-    echo "Build dubbo-samples failure, please check logs"
-    exit $result
-  fi
-fi
-
 
 # start run tests
 cd $DIR
@@ -251,11 +270,15 @@ testStartTime=$SECONDS
 allTest=0
 finishedTest=0
 
-while read line
+while read path
 do
   allTest=$((allTest + 1))
+
+  if [ -f $path ];then
+    path=`dirname $path`
+  fi
   # fork process testcase
-  process_case $line $allTest &
+  process_case $path $allTest &
   sleep 1
 
   #wait for tests finished

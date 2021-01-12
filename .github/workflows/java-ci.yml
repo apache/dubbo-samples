@@ -13,6 +13,7 @@ env:
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
   BUILD_OPTS: -U --no-transfer-progress --settings .mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+  TEST_VERSIONS: dubbo.version:2.7.8;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE
 
 jobs:
   build:
@@ -84,16 +85,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -132,7 +133,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -171,7 +172,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -210,7 +211,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -249,7 +250,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -288,7 +289,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -327,7 +328,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -366,7 +367,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -405,7 +406,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
@@ -444,7 +445,7 @@ jobs:
           name: test-list
           path: test/jobs/
       - name: Run tests
-        run: cd test && BUILD=n bash ./run-tests.sh
+        run: cd test && bash ./run-tests.sh
       - name: Clean images
         run: cd test && bash ./clean-damaged-image.sh
       - name: Upload test result
