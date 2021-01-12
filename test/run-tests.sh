@@ -264,6 +264,7 @@ mvn $BUILD_OPTS &> $SCENARIO_BUILDER_DIR/mvn.log
 result=$?
 if [ $result -ne 0 ]; then
   echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"
+  cat $SCENARIO_BUILDER_DIR/mvn.log
   exit $result
 fi
 
