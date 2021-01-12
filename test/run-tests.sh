@@ -108,9 +108,16 @@ fi
 export TEST_VERSIONS=$TEST_VERSIONS
 echo "TEST_VERSIONS: ${TEST_VERSIONS[@]}"
 
-MVN_OPTS="$MVN_OPTS -U --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
-export MVN_OPTS=$MVN_OPTS
-echo "MVN_OPTS: $MVN_OPTS"
+if [ "$MVN_OPTS" != "" ]; then
+  export MVN_OPTS=$MVN_OPTS
+  echo "MVN_OPTS: $MVN_OPTS"
+fi
+
+if [ "$BUILD_OPTS" == "" ]; then
+  BUILD_OPTS="$MVN_OPTS -U --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
+fi
+export BUILD_OPTS=$BUILD_OPTS
+echo "BUILD_OPTS: $BUILD_OPTS"
 
 # constant
 TEST_SUCCESS="TEST SUCCESS"
@@ -192,7 +199,7 @@ function process_case() {
       find . -name target -d | xargs -I {} sudo rm -rf {}
     fi
 
-    mvn $MVN_OPTS $version_profile &> $project_home/mvn.log
+    mvn $BUILD_OPTS $version_profile &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
       echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
@@ -253,8 +260,7 @@ function process_case() {
 SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
 echo "Building scenario builder .."
 cd $SCENARIO_BUILDER_DIR
-scenario_mvn_opts="$MVN_OPTS clean package -DskipTests"
-mvn $MVN_OPTS &> $SCENARIO_BUILDER_DIR/mvn.log
+mvn $BUILD_OPTS &> $SCENARIO_BUILDER_DIR/mvn.log
 result=$?
 if [ $result -ne 0 ]; then
   echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"
