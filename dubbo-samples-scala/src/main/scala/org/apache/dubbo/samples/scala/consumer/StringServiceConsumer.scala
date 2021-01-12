@@ -19,16 +19,16 @@
 
 package org.apache.dubbo.samples.scala.consumer
 
-import com.alibaba.dubbo.config.annotation.Reference
+import org.apache.dubbo.config.annotation.DubboReference
 import org.apache.dubbo.samples.scala.service.StringService
 import org.springframework.stereotype.Component
 
-@Component("consumer")
+@Component("stringServiceConsumer")
 class StringServiceConsumer {
 
-  @Reference
-  private val greetingService: StringService = null
+  @DubboReference
+  private val stringService: StringService = null
 
-  def reverse(s: String): String = greetingService.reverse(s)
+  def reverse(s: String): String = stringService.reverse(s)
 
 }

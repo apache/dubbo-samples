@@ -18,12 +18,12 @@
  */
 package org.apache.dubbo.samples.scala.provider
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo
 import org.springframework.context.annotation.{Configuration, PropertySource}
 
 @Configuration
-@EnableDubbo(scanBasePackages = Array("com.alibaba.dubbo.samples.scala.provider"))
-@PropertySource(Array("classpath:/dubbo-provider.properties"))
+@EnableDubbo(scanBasePackages = Array("org.apache.dubbo.samples.scala.provider"))
+@PropertySource(Array("classpath:spring/dubbo-provider.properties"))
 class ProviderConfiguration {
 
 }
