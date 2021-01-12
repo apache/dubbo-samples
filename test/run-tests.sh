@@ -190,7 +190,7 @@ function process_case() {
       if [ "$SHOW_ERROR_DETAIL" == "1" ];then
         cat $project_home/mvn.log
         echo "$log_prefix process list:"
-        ps -ef | grep $scenario_name | grep -v grep
+        ps -ef
       fi
       return 1
     fi
