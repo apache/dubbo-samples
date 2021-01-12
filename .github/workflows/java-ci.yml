@@ -124,9 +124,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -163,9 +163,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -202,9 +202,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -241,9 +241,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -280,9 +280,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -319,9 +319,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -358,9 +358,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -397,9 +397,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
@@ -436,9 +436,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build dubbo-samples and test image
+      - name: Build test image
         run: |
-          cd test && bash ./build-samples-and-test-image.sh
+          cd test && bash ./build-test-image.sh
       - name: Download test list
         uses: actions/download-artifact@v2
         with:

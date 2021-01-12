@@ -183,14 +183,24 @@ function process_case() {
     # run test using version profile
     echo "$log_prefix Building project : $scenario_name with versions: $version_profile .."
     cd $project_home
+
+    # clean target
+    rm -rf target
+    result=$?
+    while [ $result -ne 0 ]; do
+      sleep 0.5
+      rm -rf target
+      result=$?
+    done
+
     mvn $MVN_OPTS $version_profile &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
       echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
       if [ "$SHOW_ERROR_DETAIL" == "1" ];then
         cat $project_home/mvn.log
-        echo "$log_prefix process list:"
-        ps -ef
+#        echo "$log_prefix process list:"
+#        ps -ef
       fi
       return 1
     fi
