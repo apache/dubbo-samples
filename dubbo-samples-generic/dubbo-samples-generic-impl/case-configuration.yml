@@ -18,6 +18,7 @@ from: app-builtin-zookeeper.yml
 
 props:
   project_name: dubbo-samples-generic-impl-provider
+  project_dir: dubbo-samples-generic-impl-provider
   main_class: org.apache.dubbo.samples.generic.call.GenericImplProvider
   zookeeper_port: 2181
   dubbo_port: 20880
