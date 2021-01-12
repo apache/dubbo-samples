@@ -170,18 +170,18 @@ function process_case() {
     return 1
   fi
 
-  profile_count=`grep -c "" $version_matrix_file `
-  echo "$log_prefix Version matrix: $profile_count"
+  version_count=`grep -c "" $version_matrix_file `
+  echo "$log_prefix Version matrix: $version_count"
   cat $version_matrix_file
 
-  profile_no=0
+  version_no=0
   while read -r version_profile; do
     start_time=$SECONDS
-    profile_no=$((profile_no + 1))
-    log_prefix="[${case_no}/${caseCount}] [$scenario_name:$profile_no/$profile_count]"
+    version_no=$((version_no + 1))
+    log_prefix="[${case_no}/${caseCount}] [$scenario_name:$version_no/$version_count]"
 
     # run test using version profile
-    echo "$log_prefix Building project : $scenario_name with versions: $version_profile .."
+    echo "$log_prefix Building project : $scenario_name with version: $version_profile .."
     cd $project_home
 
     # clean target manual, avoid 'mvn clean' failed with 'Permission denied' in github actions
@@ -245,7 +245,7 @@ function process_case() {
   done < $version_matrix_file
 
   log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
-  echo "$log_prefix $TEST_SUCCESS: profiles: $profile_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
+  echo "$log_prefix $TEST_SUCCESS: versions: $version_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
 
 }
 
