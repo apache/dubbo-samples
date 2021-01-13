@@ -18,7 +18,7 @@ services:
   tengine:
     image: wzg547228197/dubbo-samples-tengine:1.0.0
     volumes:
-      - ../dubbo-samples-tengine-provider/target/classes/META-INF/docker/nginx.conf:/usr/local/nginx/conf/nginx.conf
+      - ${_basedir}/dubbo-samples-tengine-provider/src/main/resources/docker/tengine/nginx.conf:/usr/local/nginx/conf/nginx.conf
     waitPortsBeforeRun:
       - dubbo-samples-tengine-provider:20880
     depends_on:

@@ -20,7 +20,7 @@ RUN tar xvf tengine.tar.gz \
     && make \
     && make install
 
-COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY tengine/nginx.conf /usr/local/nginx/conf/nginx.conf
 
 EXPOSE 80 443 8080
 
