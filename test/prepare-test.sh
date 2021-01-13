@@ -21,7 +21,7 @@ while read file
 do
   job=$((case_index % JOB_COUNT + 1))
   case_index=$((case_index + 1))
-  echo ${file%/$CONFIG_FILE} >> $jobs_dir/testcases-${job}.txt
+  echo ${file%/$CONFIG_FILE} >> $jobs_dir/testjob_${job}.txt
 done < $test_list_file
 
 echo "Total $case_index cases split into $JOB_COUNT jobs:"
