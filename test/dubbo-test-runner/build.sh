@@ -21,4 +21,4 @@ cp -r $DIR/src/docker/* $DOCKER_DIR/
 cp $DIR/target/dubbo-test-runner-*-jar-with-dependencies.jar $DOCKER_DIR/dubbo-test-runner.jar
 
 cd $DOCKER_DIR
-docker build -t dubbo/sample-test . --build-arg DEBIAN_MIRROR=$DEBIAN_MIRROR  JAVA_VER=$JAVA_VER
+docker build -t dubbo/sample-test . --build-arg DEBIAN_MIRROR=$DEBIAN_MIRROR  --build-arg JAVA_VER=$JAVA_VER
