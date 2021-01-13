@@ -101,12 +101,18 @@ testResultFile=${testListFile%.*}-result.txt
 rm -f $testResultFile
 echo "Test results: $testResultFile"
 
-if [ "$TEST_VERSIONS" == "" ];then
-  TEST_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
-#  TEST_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+if [ "$CANDIDATE_VERSIONS" == "" ];then
+  CANDIDATE_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+#  CANDIDATE_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 fi
-export TEST_VERSIONS=$TEST_VERSIONS
-echo "TEST_VERSIONS: ${TEST_VERSIONS[@]}"
+export CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS
+echo "CANDIDATE_VERSIONS: ${CANDIDATE_VERSIONS[@]}"
+
+# test combination versions limit of single case
+VERSIONS_LIMIT=${VERSIONS_LIMIT:-4}
+export VERSIONS_LIMIT=$VERSIONS_LIMIT
+echo "VERSIONS_LIMIT: $VERSIONS_LIMIT"
+
 
 if [ "$MVN_OPTS" != "" ]; then
   export MVN_OPTS=$MVN_OPTS
@@ -166,9 +172,10 @@ function process_case() {
 
   # generate version matrix
   version_matrix_file=$project_home/version-matrix.txt
-  java -DtestVersionsList="$TEST_VERSIONS" \
+  java -DcandidateVersions="$CANDIDATE_VERSIONS" \
     -DcaseVersionsFile="$ver_file" \
     -DoutputFile="$version_matrix_file" \
+    -DversionsLimit=$VERSIONS_LIMIT \
     -cp $test_builder_jar \
     org.apache.dubbo.scenario.builder.VersionMatcher &> $project_home/version-matrix.log
   result=$?
@@ -254,6 +261,8 @@ function process_case() {
   log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
   echo "$log_prefix $TEST_SUCCESS: versions: $version_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
 
+  # clean log files
+  rm -f $project_home/*.log $project_home/version-matrix.*
 }
 
 # build scenario-builder

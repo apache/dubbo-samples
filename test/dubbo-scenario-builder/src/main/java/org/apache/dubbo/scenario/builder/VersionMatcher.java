@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,23 +40,23 @@ public class VersionMatcher {
 
     private static final Logger logger = LoggerFactory.getLogger(VersionMatcher.class);
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
-    public static final String TEST_VERSIONS_LIST = "testVersionsList";
+    public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
-    public static final String LIMIT = "limit";
+    public static final String VERSIONS_LIMIT = "versionsLimit";
     public static final String INCLUDE_CASE_SPECIFIC_VERSION = "includeCaseSpecificVersion";
 
     public static void main(String[] args) throws Exception {
 
         String caseVersionsFile = System.getProperty(CASE_VERSIONS_FILE);
-        String testVersionListStr = System.getProperty(TEST_VERSIONS_LIST);
+        String candidateVersionListStr = System.getProperty(CANDIDATE_VERSIONS);
         String outputFile = System.getProperty(OUTPUT_FILE);
-        int limit = Integer.parseInt(System.getProperty(LIMIT, "4"));
+        int limit = Integer.parseInt(System.getProperty(VERSIONS_LIMIT, "4"));
         // whether include specific version which defined in case-versions.conf
         // specific version: a real version not contains wildcard '*'
         boolean includeCaseSpecificVersion = Boolean.parseBoolean(System.getProperty(INCLUDE_CASE_SPECIFIC_VERSION, "true"));
 
-        if (StringUtils.isBlank(testVersionListStr)) {
-            logger.error("Missing system prop: '{}'", TEST_VERSIONS_LIST);
+        if (StringUtils.isBlank(candidateVersionListStr)) {
+            logger.error("Missing system prop: '{}'", CANDIDATE_VERSIONS);
             System.exit(1);
         }
         if (StringUtils.isBlank(caseVersionsFile)) {
@@ -75,12 +74,12 @@ public class VersionMatcher {
         }
         new File(outputFile).getParentFile().mkdirs();
 
-        logger.info("{}: {}", TEST_VERSIONS_LIST, testVersionListStr);
+        logger.info("{}: {}", CANDIDATE_VERSIONS, candidateVersionListStr);
         logger.info("{}: {}", CASE_VERSIONS_FILE, caseVersionsFile);
         logger.info("{}: {}", OUTPUT_FILE, outputFile);
 
         // parse and expand to versions list
-        List<String> testVersionList = parseVersionList(testVersionListStr);
+        List<String> candidateVersionList = parseVersionList(candidateVersionListStr);
 
         // parse case version rules
         Map<String, List<String>> caseVersionRules = parseCaseVersionRules(caseVersionsFile);
@@ -92,7 +91,7 @@ public class VersionMatcher {
                 String regex = "\\Q" + component + ":" + versionPattern.replace("*", "\\E.*?\\Q") + "\\E";
                 Pattern pattern = Pattern.compile(regex);
                 boolean matched = false;
-                for (String version : testVersionList) {
+                for (String version : candidateVersionList) {
                     if (pattern.matcher(version).matches()) {
                         getMatchVersionList(matchVersions, component).add(version);
                         matched = true;
@@ -109,7 +108,7 @@ public class VersionMatcher {
             List<String> components = new ArrayList<>(caseVersionRules.keySet());
             components.removeAll(matchVersions.keySet());
             for (String component : components) {
-                logger.error("Component not match, component: {}, rules: {}, testVersionList: {}", component, caseVersionRules.get(component), testVersionListStr);
+                logger.error("Component not match, component: {}, rules: {}, candidateVersionList: {}", component, caseVersionRules.get(component), candidateVersionListStr);
             }
             System.exit(2);
         }

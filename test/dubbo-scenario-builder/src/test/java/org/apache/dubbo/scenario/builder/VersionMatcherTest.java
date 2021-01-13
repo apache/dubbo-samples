@@ -26,7 +26,7 @@ import java.io.FileOutputStream;
 
 import static org.apache.dubbo.scenario.builder.VersionMatcher.CASE_VERSIONS_FILE;
 import static org.apache.dubbo.scenario.builder.VersionMatcher.OUTPUT_FILE;
-import static org.apache.dubbo.scenario.builder.VersionMatcher.TEST_VERSIONS_LIST;
+import static org.apache.dubbo.scenario.builder.VersionMatcher.CANDIDATE_VERSIONS;
 
 public class VersionMatcherTest {
 
@@ -36,11 +36,11 @@ public class VersionMatcherTest {
                 "dubbo.version=2.7*, 3.*\n" +
                 "spring.version= 4.*, 5.*\n\n\n";
 
-        String testVersions = "dubbo.version: 2.7.7,3.0;";
-        testVersions += "spring.version:4.1.13.RELEASE, 5.3.2;";
-        testVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+        String candidateVersions = "dubbo.version: 2.7.7,3.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE, 5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
 
-        String versionMatrix = getVersionMatrix(caseVersionRules, testVersions);
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
         Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring.version:4.1.13.RELEASE"));
         Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring.version:4.1.13.RELEASE"));
         Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring.version:5.3.2"));
@@ -53,11 +53,11 @@ public class VersionMatcherTest {
                 "dubbo.version=2.7*, 3.*\n" +
                 "spring-boot.version=1.*\n\n\n";
 
-        String testVersions = "dubbo.version:2.7.7,3.0;";
-        testVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
-        testVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+        String candidateVersions = "dubbo.version:2.7.7,3.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
 
-        String versionMatrix = getVersionMatrix(caseVersionRules, testVersions);
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
         Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring-boot.version:1.5.13.RELEASE"));
         Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring-boot.version:1.5.13.RELEASE"));
     }
@@ -68,16 +68,16 @@ public class VersionMatcherTest {
                 "dubbo.version=2.7*, 3.* \n" +
                 "spring-boot.version= 2.0.8.RELEASE \n\n\n";
 
-        String testVersions = "dubbo.version:2.7.7,3.0;";
-        testVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
-        testVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+        String candidateVersions = "dubbo.version:2.7.7,3.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
 
-        String versionMatrix = getVersionMatrix(caseVersionRules, testVersions);
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
         Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring-boot.version:2.0.8.RELEASE"));
         Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring-boot.version:2.0.8.RELEASE"));
     }
 
-    private String getVersionMatrix(String caseVersionRules, String testVersions) throws Exception {
+    private String getVersionMatrix(String caseVersionRules, String candidateVersions) throws Exception {
         File caseVersionsFile = File.createTempFile("case-versions", ".conf");
         File outputFile = File.createTempFile("case-version-matrix", ".txt");
         caseVersionsFile.deleteOnExit();
@@ -85,7 +85,7 @@ public class VersionMatcherTest {
 
         writeToFile(caseVersionRules, caseVersionsFile);
 
-        System.setProperty(TEST_VERSIONS_LIST, testVersions);
+        System.setProperty(CANDIDATE_VERSIONS, candidateVersions);
         System.setProperty(CASE_VERSIONS_FILE, caseVersionsFile.getAbsolutePath());
         System.setProperty(OUTPUT_FILE, outputFile.getAbsolutePath());
 
