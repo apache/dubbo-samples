@@ -67,6 +67,7 @@ public class ConfigurationImpl implements IConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationImpl.class);
     private final CaseConfiguration configuration;
+    private boolean isJdk9OrLater;
     private String scenarioHome;
     private String configBasedir;
     private String scenarioName;
@@ -77,6 +78,7 @@ public class ConfigurationImpl implements IConfiguration {
     private Set<Pattern> debugPatterns = new HashSet<>();
     private Set<String> debugServices = new HashSet<>();
     private Set<String> healthcheckServices = new HashSet<>();
+    private String testImageVersion;
 
     public ConfigurationImpl() throws IOException, ConfigureFileNotFoundException {
         String configureFile = System.getProperty("configure.file");
@@ -98,6 +100,11 @@ public class ConfigurationImpl implements IConfiguration {
         if (StringUtils.isBlank(scenarioName)) {
             scenarioName = new File(configBasedir).getName();
         }
+
+        testImageVersion = System.getProperty("test.image.version", "8");
+        String verstr = StringUtils.substringBefore(testImageVersion, ".");
+        int majorVersion = Integer.parseInt(verstr);
+        isJdk9OrLater = (majorVersion > 8);
 
         String debugService = System.getProperty("debug.service");
         if (StringUtils.isNotBlank(debugService)) {
@@ -125,8 +132,8 @@ public class ConfigurationImpl implements IConfiguration {
             scenarioTimeout = debugTimeout;
         }
 
-        logger.info("scenarioName:{}, timeout: {}, debugServices:{}, config: {}",
-                scenarioName, scenarioTimeout, debugServices, configuration);
+        logger.info("scenarioName:{}, timeout: {}, testImageVersion: {}, debugServices:{}, config: {}",
+                scenarioName, scenarioTimeout, testImageVersion, debugServices, configuration);
 
     }
 
@@ -271,7 +278,12 @@ public class ConfigurationImpl implements IConfiguration {
                         //set java remote debug opts
                         //-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
                         int debugPort = nextDebugPort();
-                        String debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=%s", debugPort);
+                        String debugOpts;
+                        if (isJdk9OrLater) {
+                            debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:%s", debugPort);
+                        }else {
+                            debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=%s", debugPort);
+                        }
                         appendEnv(service, ENV_DEBUG_OPTS, debugOpts);
 
                         //mapping debug port
@@ -484,18 +496,18 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     @Override
-    public String dockerImageVersion() {
-        return System.getProperty("docker.image.version", "latest");
+    public String testImageVersion() {
+        return testImageVersion;
     }
 
     @Override
     public String dockerNetworkName() {
-        return (scenarioName() + "-" + dockerImageVersion()).toLowerCase();
+        return (scenarioName() + "-" + testImageVersion()).toLowerCase();
     }
 
     @Override
     public String dockerContainerName() {
-        return (scenarioName() + "-" + scenarioVersion() + "-" + dockerImageVersion()).toLowerCase();
+        return (scenarioName() + "-" + scenarioVersion() + "-" + testImageVersion()).toLowerCase();
     }
 
     @Override

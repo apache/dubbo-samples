@@ -13,6 +13,8 @@ trim() {
     printf '%s' "$var"
 }
 
+JAVA_VER=${JAVA_VER:-8}
+echo "JAVA_VER: $JAVA_VER"
 
 FAIL_FAST=${FAIL_FAST:-0}
 echo "FAIL_FAST: $FAIL_FAST"
@@ -44,7 +46,7 @@ echo "Test reports dir: \${project.basedir}/target/test-reports"
 
 
 #check dubbo/sample-test image and version
-test_image="dubbo/sample-test"
+test_image="dubbo/sample-test:$JAVA_VER"
 echo "Checking test image [$test_image] .. "
 docker images --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | grep $test_image
 result=$?
@@ -224,6 +226,7 @@ function process_case() {
       -Dscenario.home=$scenario_home \
       -Dscenario.name=$scenario_name \
       -Dscenario.version=$version \
+      -Dtest.image.version=$JAVA_VER \
       -Ddebug.service=$DEBUG \
       -jar $test_builder_jar  &> $scenario_home/logs/scenario-builder.log
     result=$?
