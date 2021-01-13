@@ -34,10 +34,10 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Set up JDK $JAVA_VER
+      - name: Set up JDK ${{env.JAVA_VER}}
         uses: actions/setup-java@v1
         with:
-          java-version: $JAVA_VER
+          java-version: ${{env.JAVA_VER}}
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -94,10 +94,10 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Set up JDK $JAVA_VER
+      - name: Set up JDK ${{env.JAVA_VER}}
         uses: actions/setup-java@v1
         with:
-          java-version: $JAVA_VER
+          java-version: ${{env.JAVA_VER}}
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
@@ -131,10 +131,10 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Set up JDK $JAVA_VER
+      - name: Set up JDK ${{env.JAVA_VER}}
         uses: actions/setup-java@v1
         with:
-          java-version: $JAVA_VER
+          java-version: ${{env.JAVA_VER}}
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
@@ -168,10 +168,10 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Set up JDK $JAVA_VER
+      - name: Set up JDK ${{env.JAVA_VER}}
         uses: actions/setup-java@v1
         with:
-          java-version: $JAVA_VER
+          java-version: ${{env.JAVA_VER}}
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
@@ -205,10 +205,10 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Set up JDK $JAVA_VER
+      - name: Set up JDK ${{env.JAVA_VER}}
         uses: actions/setup-java@v1
         with:
-          java-version: $JAVA_VER
+          java-version: ${{env.JAVA_VER}}
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
@@ -242,10 +242,10 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Set up JDK $JAVA_VER
+      - name: Set up JDK ${{env.JAVA_VER}}
         uses: actions/setup-java@v1
         with:
-          java-version: $JAVA_VER
+          java-version: ${{env.JAVA_VER}}
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
