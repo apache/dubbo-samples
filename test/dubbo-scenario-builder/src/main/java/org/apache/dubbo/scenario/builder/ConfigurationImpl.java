@@ -241,7 +241,7 @@ public class ConfigurationImpl implements IConfiguration {
             ServiceComponent service = entry.getValue();
             String type = service.getType();
             if (isAppOrTestService(type)) {
-                service.setImage(SAMPLE_TEST_IMAGE);
+                service.setImage(SAMPLE_TEST_IMAGE+":"+testImageVersion);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
                 if (service.getVolumes() == null) {
                     service.setVolumes(new ArrayList<>());
