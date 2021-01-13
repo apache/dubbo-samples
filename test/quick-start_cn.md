@@ -63,14 +63,13 @@ cd dubbo-samples/test
 * 运行全部测试案例
  
   ```
-   BUILD=all  ./run-tests.sh
+   ./run-tests.sh
   ```
  
   run-tests.sh 运行全部测试案例的原理:
 
-  (1) 编译整个dubbo-samples : `BUILD=all`   
-  (2) 查找所有`case-configuration.yml`  
-  (3) fork多进程按顺序运行测试案例
+  (1) 查找所有`case-configuration.yml`  
+  (2) fork多进程按顺序运行测试案例
 
 
 ### 添加测试用例
@@ -366,26 +365,6 @@ services:
   构建测试场景，包含`docker-compose.yml`及`scenario.sh`脚本等。
   构建成功后，`scenario.sh`脚本可以单独运行。
 
-#### 编译方式(BUILD)
-
-默认值为`BUILD=case`，即每个case工程单独编译。
-
-* `BUILD=case`  
-
-  单独编译需要运行的测试工程。
-  
-  注意：有部分测试工程因为依赖问题不能独立编译，此时需要改为整体编译或者手工编译。
-
-* `BUILD=all`  
-
-  编译整个dubbo-samples
-  
-* `BUILD=n`  
-
-  不自动编译测试工程，需要先手工编译成功后，再运行测试。
-  
-  Maven编译参数： mvn clean package dependency:copy-dependencies -DskipTests
-
    
 #### scenario测试步骤
 
@@ -394,9 +373,11 @@ services:
   
 * 编译测试工程
   
-  如果按照case单独编译，则执行下面的编译命令：
+  每个case单独编译，编译命令如下：
   
   `mvn clean package dependency:copy-dependencies -DskipTests`
+  
+  **注意： 如果是多模块的工程，可以将`case-configuration.yml`放到外层，保证可以独立编译整个case工程。**
   
 * 生成测试场景
 

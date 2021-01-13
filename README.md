@@ -63,7 +63,7 @@ Then we use the `run-tests.sh` script to run the test cases.
 
   ```bash
   cd dubbo-samples/test
-  BUILD=all ./run-tests.sh 
+  ./run-tests.sh 
   ```
 
 If docker container fails to startup successfully in any case, you can check log files in directory `${project.basedir}/target/logs` to understand what happens.
