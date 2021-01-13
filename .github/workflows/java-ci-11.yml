@@ -1,4 +1,4 @@
-name: Java CI
+name: Java CI 11
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
       - '**'
 
 env:
-  JAVA_VER: 8
+  JAVA_VER: 11
   FORK_COUNT: 2
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1

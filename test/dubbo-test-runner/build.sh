@@ -2,9 +2,12 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+JAVA_VER=${JAVA_VER:-8}
+
 DOCKER_DIR=$DIR/target/docker
 
 echo "Building dubbo-test-runner .."
+echo "Java version: $JAVA_VER"
 cd $DIR
 mvn clean package -DskipTests
 result=$?
@@ -18,4 +21,4 @@ cp -r $DIR/src/docker/* $DOCKER_DIR/
 cp $DIR/target/dubbo-test-runner-*-jar-with-dependencies.jar $DOCKER_DIR/dubbo-test-runner.jar
 
 cd $DOCKER_DIR
-docker build -t dubbo/sample-test . --build-arg DEBIAN_MIRROR=$DEBIAN_MIRROR
+docker build -t dubbo/sample-test . --build-arg DEBIAN_MIRROR=$DEBIAN_MIRROR  JAVA_VER=$JAVA_VER
