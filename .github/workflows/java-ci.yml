@@ -47,7 +47,7 @@ jobs:
   prepare_test:
     runs-on: ubuntu-latest
     env:
-      JOB_COUNT: 10
+      JOB_COUNT: 5
     steps:
       - uses: actions/checkout@v1
       - name: Prepare test list
@@ -61,7 +61,8 @@ jobs:
           path: test/jobs
 
   test_result:
-    needs: [testjob_1,testjob_2,testjob_3,testjob_4,testjob_5,testjob_6]
+    #testjob size MUST equals to 'JOB_COUNT' of prepare_test job
+    needs: [testjob_1,testjob_2,testjob_3,testjob_4,testjob_5]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -231,45 +232,6 @@ jobs:
           path: test/jobs/*-result*
 
   testjob_5:
-    needs: prepare_test
-    runs-on: ubuntu-latest
-    env:
-      TEST_CASE_FILE: jobs/${{github.job}}.txt
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [1.8, 11]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Download test list
-        uses: actions/download-artifact@v2
-        with:
-          name: test-list
-          path: test/jobs/
-      - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{ matrix.java }}
-      - name: Build test image
-        run: |
-          cd test && bash ./build-test-image.sh
-      - name: Run tests
-        run: cd test && bash ./run-tests.sh
-      - name: Upload test result
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-result
-          path: test/jobs/*-result*
-
-  testjob_6:
     needs: prepare_test
     runs-on: ubuntu-latest
     env:
