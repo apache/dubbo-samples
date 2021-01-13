@@ -111,41 +111,41 @@ jobs:
           path: test/jobs/*-result*
 
   testjob_2:
-  needs: prepare_test
-  runs-on: ubuntu-latest
-  env:
-    TEST_CASE_FILE: jobs/${{github.job}}.txt
-  strategy:
-    fail-fast: false
-  steps:
-    - uses: actions/checkout@v1
-    - name: Cache local Maven repository
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-    - name: Download test list
-      uses: actions/download-artifact@v2
-      with:
-        name: test-list
-        path: test/jobs/
-    - name: Set up JDK ${{JAVA_VER}}
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{JAVA_VER}}
-    - name: Build test image
-      run: |
-        cd test && bash ./build-test-image.sh
-    - name: Run tests
-      run: cd test && bash ./run-tests.sh
-    - name: Upload test result
-      if: always()
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-result
-        path: test/jobs/*-result*
+    needs: prepare_test
+    runs-on: ubuntu-latest
+    env:
+      TEST_CASE_FILE: jobs/${{github.job}}.txt
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/test/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Download test list
+        uses: actions/download-artifact@v2
+        with:
+          name: test-list
+          path: test/jobs/
+      - name: Set up JDK ${{JAVA_VER}}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{JAVA_VER}}
+      - name: Build test image
+        run: |
+          cd test && bash ./build-test-image.sh
+      - name: Run tests
+        run: cd test && bash ./run-tests.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
 
   testjob_3:
     needs: prepare_test
