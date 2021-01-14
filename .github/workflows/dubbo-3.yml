@@ -20,6 +20,10 @@ env:
     spring.version:4.3.16.RELEASE;
     spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE
     '
+  #for prepare_test
+  JOB_COUNT: 5
+  #testjob list MUST match 'JOB_COUNT' of prepare_test job
+  TEST_JOBS: [testjob_1,testjob_2,testjob_3,testjob_4,testjob_5]
 
 jobs:
   build-samples:
@@ -97,8 +101,6 @@ jobs:
 
   prepare_test:
     runs-on: ubuntu-latest
-    env:
-      JOB_COUNT: 6
     steps:
       - uses: actions/checkout@v1
       - name: Prepare test list
@@ -112,8 +114,7 @@ jobs:
           path: test/jobs
 
   test_result:
-    #testjob list MUST match 'JOB_COUNT' of prepare_test job
-    needs: [testjob_1,testjob_2,testjob_3,testjob_4,testjob_5,testjob_6]
+    needs: ${{env.TEST_JOBS}}
     if: always()
     runs-on: ubuntu-latest
     strategy:
@@ -321,53 +322,6 @@ jobs:
           path: test/jobs/*-result*
 
   testjob_5:
-    needs: [prepare_test, build-dubbo]
-    runs-on: ubuntu-latest
-    env:
-      JAVA_VER: ${{matrix.java}}
-      TEST_CASE_FILE: jobs/${{github.job}}.txt
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [8, 11]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Dubbo cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
-          restore-keys: |
-            ${{ runner.os }}-dubbo-
-      - name: Download test list
-        uses: actions/download-artifact@v2
-        with:
-          name: test-list
-          path: test/jobs/
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{matrix.java}}
-      - name: Build test image
-        run: |
-          cd test && bash ./build-test-image.sh
-      - name: Run tests
-        run: cd test && bash ./run-tests.sh
-      - name: Upload test result
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-result
-          path: test/jobs/*-result*
-
-  testjob_6:
     needs: [prepare_test, build-dubbo]
     runs-on: ubuntu-latest
     env:
