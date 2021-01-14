@@ -257,6 +257,67 @@ services:
 
 请参考文档：[How to convert test cases](convert-case.md)
 
+
+#### 多版本测试
+
+添加一个名称为`case-versions.conf`的文件到测试工程目录下面，与`case-configuration.yml`放到同一个目录。
+此文件用于描述本测试工程支持的组件版本规则，通常使用通配符进行匹配。
+
+除了dubbo/spring/spring-boot组件，其它有需要测试的组件也可以配置。
+如果要添加新的组件版本需要保证github workflows及`run-tests.sh`的`CANDIDATE_VERSIONS`环境变量包含该组件的候选版本，否则运行测试案例会报错如下：
+
+```
+Component not match
+```
+
+github workflows的候选版本配置格式如下，每行为一个组件的版本列表，也可以用不同的行指定组件不兼容的版本。
+如spring-boot 1.x 和 2.x 不兼容，可以在两行分别配置。
+
+```yaml
+env:
+  #...
+  CANDIDATE_VERSIONS: '
+    dubbo.version: 2.7.8, 2.7.9-SNAPSHOT;
+    spring.version: 4.1.9.RELEASE, 4.2.9.RELEASE, 5.1.20.RELEASE, 5.3.3;
+    spring-boot.version: 1.1.12.RELEASE, 1.2.8.RELEASE, 1.3.8.RELEASE, 1.4.7.RELEASE;
+    spring-boot.version: 2.0.9.RELEASE, 2.1.18.RELEASE, 2.2.12.RELEASE, 2.3.7.RELEASE
+    '
+```
+
+本地开发测试`run-tests.sh`脚本的默认候选版本如下，只测试一个版本：
+
+```
+CANDIDATE_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+```
+
+**注意：如果用例是针对特定的组件版本，则应该写具体的版本号。**
+
+下面是几种常用的配置：
+
+Spring app 的多版本配置：
+
+```
+# Spring app
+dubbo.version=2.7*, 3.*
+spring.version=4.*, 5.*
+```
+
+SpringBoot 1.x app 的多版本配置：
+
+```
+# SpringBoot app
+dubbo.version=2.7*, 3.*
+spring-boot.version=1.*
+```
+
+SpringBoot 2.x app 的多版本配置：
+
+```
+# SpringBoot app
+dubbo.version=2.7*, 3.*
+spring-boot.version=2.*
+```
+
   
 ### 调试运行测试案例
 

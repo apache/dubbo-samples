@@ -77,9 +77,16 @@ If you are interested in contributing more integration test for dubbo, pls. read
 
 Please follow the steps below:
 
-1. Add a file named `case-configuration.yml` to integration test project.
+1. Add a file named `case-configuration.yml` to test project.
 
-2. Configure test environment:
+   This file is used to configure the test modules and environment, including dubbo provider / test services, 
+   dependent third-party services.
+
+2. Add a file named `case-versions.conf` to test project.
+
+   This file is used to configure the supported component version rules to support multi-version testing.
+
+**Details of `case-configuration.yml`:**
 
 Take the case `dubbo-samples-annotation` as an example:
 
@@ -139,6 +146,33 @@ props:
 
 Another template is `app-external-zookeeper.yml`, which supports an external zookeeper service.
 you can find all the templates in the directory `test/dubbo-scenario-builder/src/main/resources/configs`.
+
+**Details of `case-versions.conf`:**
+
+Version rules for spring app:
+
+```
+# Spring app
+dubbo.version=2.7*, 3.*
+spring.version=4.*, 5.*
+```
+
+Version rules for spring-boot 1.x app:
+
+```
+# SpringBoot app
+dubbo.version=2.7*, 3.*
+spring-boot.version=1.*
+```
+
+Version rules for spring-boot 2.x app:
+
+```
+# SpringBoot app
+dubbo.version=2.7*, 3.*
+spring-boot.version=2.*
+```
+
 
 For more details, please refer to the following case configurations:
 
