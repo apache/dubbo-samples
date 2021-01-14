@@ -20,10 +20,6 @@ env:
     spring.version:4.3.16.RELEASE;
     spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE
     '
-  #for prepare_test
-  JOB_COUNT: 5
-  #testjob list MUST match 'JOB_COUNT' of prepare_test job
-  TEST_JOBS: [testjob_1,testjob_2,testjob_3,testjob_4,testjob_5]
 
 jobs:
   build-samples:
@@ -101,6 +97,9 @@ jobs:
 
   prepare_test:
     runs-on: ubuntu-latest
+    env:
+      #'JOB_COUNT' MUST match needs job list of 'test_result' job
+      JOB_COUNT: 5
     steps:
       - uses: actions/checkout@v1
       - name: Prepare test list
@@ -114,7 +113,8 @@ jobs:
           path: test/jobs
 
   test_result:
-    needs: ${{env.TEST_JOBS}}
+    #testjob list MUST match 'JOB_COUNT' of 'prepare_test' job
+    needs: [testjob_1,testjob_2,testjob_3,testjob_4,testjob_5]
     if: always()
     runs-on: ubuntu-latest
     strategy:
