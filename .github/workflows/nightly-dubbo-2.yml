@@ -1,12 +1,11 @@
-name: Dubbo 3
+name: Nightly - Dubbo 2
 
 on:
-  pull_request:
-    paths:
-      - "**"
-  push:
-    paths:
-      - '**'
+  workflow_dispatch:
+  schedule:
+    # nightly build at 2:00
+    - cron:  '0 2 * * *'
+
 
 env:
   FORK_COUNT: 2
@@ -14,12 +13,12 @@ env:
   SHOW_ERROR_DETAIL: 1
   BUILD_OPTS: -U --batch-mode --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
   #multi-version size limit
-  VERSIONS_LIMIT: 4
+  VERSIONS_LIMIT: 12
   CANDIDATE_VERSIONS: '
-    dubbo.version:3.0.0-SNAPSHOT;
-    spring.version:4.3.30.RELEASE;
-    spring-boot.version:1.5.22.RELEASE;
-    spring-boot.version:2.4.1;
+    dubbo.version: 2.7.8, 2.7.9-SNAPSHOT;
+    spring.version: 4.1.9.RELEASE, 4.2.9.RELEASE, 5.1.20.RELEASE, 5.3.3;
+    spring-boot.version: 1.1.12.RELEASE, 1.2.8.RELEASE, 1.3.8.RELEASE, 1.4.7.RELEASE;
+    spring-boot.version: 2.0.9.RELEASE, 2.1.18.RELEASE, 2.2.12.RELEASE, 2.3.7.RELEASE
     '
 
 jobs:

@@ -51,15 +51,16 @@ public class VersionMatcherTest {
     public void testVersionMatch2() throws Exception {
         String caseVersionRules = "# SpringBoot app\n" +
                 "dubbo.version=2.7*, 3.*\n" +
-                "spring-boot.version=1.*\n\n\n";
+                "spring-boot.version=2.*\n\n\n";
 
         String candidateVersions = "dubbo.version:2.7.7,3.0\n";
         candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2\n\n";
-        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE\n";
+        candidateVersions += "spring-boot.version:2.1.1.RELEASE";
 
         String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring-boot.version:1.5.13.RELEASE"));
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring-boot.version:1.5.13.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring-boot.version:2.1.1.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring-boot.version:2.1.1.RELEASE"));
     }
 
     @Test

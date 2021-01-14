@@ -17,8 +17,9 @@ env:
   VERSIONS_LIMIT: 4
   CANDIDATE_VERSIONS: '
     dubbo.version:2.7.8,2.7.9-SNAPSHOT;
-    spring.version:4.3.16.RELEASE;
-    spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE
+    spring.version:4.3.30.RELEASE;
+    spring-boot.version:1.5.22.RELEASE;
+    spring-boot.version:2.4.1;
     '
 
 jobs:
