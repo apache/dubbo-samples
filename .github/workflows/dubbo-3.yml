@@ -62,7 +62,9 @@ jobs:
           #compare dubbo commit id
           last_commit_id=`git log --format="%H" -n 1`
           echo "::set-output name=commit_id::$last_commit_id"
-          cache_commit_id=`cat ~/.m2/repository/org/apache/dubbo/dubbo3-commit-id`
+          if [ -f ~/.m2/repository/org/apache/dubbo/dubbo3-commit-id ];then
+            cache_commit_id=`cat ~/.m2/repository/org/apache/dubbo/dubbo3-commit-id`
+          fi
           if [ "$last_commit_id" == "$cache_commit_id" ];then
             echo "::set-output name=cache-hit::true"
           else
