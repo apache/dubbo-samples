@@ -34,10 +34,19 @@
     <properties>
         <dubbo.version>2.7.7</dubbo.version>
         <junit.version>4.12</junit.version>
+        <spring.version>4.3.16.RELEASE</spring.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- It's totally optional, add tcnative with embedded boringSSL support -->
             <dependency>
                 <groupId>io.netty</groupId>
@@ -46,6 +55,7 @@
                 <!--            <classifier>${os.detected.classifier}</classifier>-->
                 <!--            <scope>runtime</scope>-->
             </dependency>
+
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
