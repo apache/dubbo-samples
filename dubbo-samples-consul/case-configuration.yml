@@ -14,11 +14,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+  consul:
+    image: consul:1.9.1
 
-props:
-  project_name: dubbo-samples-generic-impl-provider
-  main_class: org.apache.dubbo.samples.generic.call.GenericImplProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+  dubbo-samples-consul:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.consul.ConsulProvider
+    systemProps:
+      - consul.address=consul
+      - consul.port=8500
+    waitPortsBeforeRun:
+      - consul:8500
+    depends_on:
+      - consul
 
+  dubbo-samples-consul-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - consul.address=consul
+      - consul.port=8500
+    waitPortsBeforeRun:
+      - consul:8500
+      - dubbo-samples-consul:20880
+    depends_on:
+      - consul
+      - dubbo-samples-consul

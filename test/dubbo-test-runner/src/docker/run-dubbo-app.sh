@@ -21,6 +21,12 @@ if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   fi
 fi
 
+#delay start
+if [ $RUN_DELAY -gt 0 ]; then
+  echo "Delay $RUN_DELAY s."
+  sleep $RUN_DELAY
+fi
+
 echo "Running app : [$APP_MAIN_CLASS] ..."
 start=$SECONDS
 java $JAVA_OPTS $DEBUG_OPTS -cp "$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*" $APP_MAIN_CLASS 2>&1 &
