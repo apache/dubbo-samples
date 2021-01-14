@@ -4,8 +4,6 @@ on:
   schedule:
     # nightly build at 2:00
     - cron:  '0 2 * * *'
-    # test
-    - cron:  '15 * * * *'
   workflow_dispatch:
     inputs:
       remark:
