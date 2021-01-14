@@ -6,18 +6,24 @@ cd $DIR
 TEST_SUCCESS="TEST SUCCESS"
 TEST_FAILURE="TEST FAILURE"
 
+JAVA_VER=${JAVA_VER:-8}
+echo "JAVA_VER: $JAVA_VER"
+
+RESULT_SUFFIX=result-java${JAVA_VER}.txt
+mergedTestResultFile=jobs/merged-test-$RESULT_SUFFIX
+rm -rf $mergedTestResultFile
+
 echo "All test results:"
-for resultFile in jobs/*result.txt; do
+for resultFile in jobs/*$RESULT_SUFFIX; do
   echo "$resultFile:"
   cat $resultFile
   echo ""
 done
 
-testResultFile=jobs/merged-test-result.txt
-cat jobs/*-result.txt > $testResultFile
-successTest=`grep -c "$TEST_SUCCESS" $testResultFile`
-failedTest=`grep -c "$TEST_FAILURE" $testResultFile`
-totalCount=`grep -c "" $testResultFile`
+cat jobs/*$RESULT_SUFFIX > $mergedTestResultFile
+successTest=`grep -c "$TEST_SUCCESS" $mergedTestResultFile`
+failedTest=`grep -c "$TEST_FAILURE" $mergedTestResultFile`
+totalCount=`grep -c "" $mergedTestResultFile`
 
 echo "----------------------------------------------------------"
 echo "All tests count: $totalCount"
@@ -37,7 +43,7 @@ else
   echo "Exception : some tests fail: $failedTest"
   echo "----------------------------------------------------------"
   echo "Fail tests:"
-  grep "$TEST_FAILURE" jobs/testjob*-result.txt
+  grep "$TEST_FAILURE" jobs/testjob*$RESULT_SUFFIX
   echo "----------------------------------------------------------"
   exit 1
 fi

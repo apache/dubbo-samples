@@ -62,7 +62,8 @@ cd $DIR
 CONFIG_FILE="case-configuration.yml"
 VERSONS_FILE="case-versions.conf"
 
-testListFile=$DIR/testcases.txt
+mkdir $DIR/jobs
+testListFile=$DIR/jobs/testjob.txt
 targetTestcases=$1
 if [ "$targetTestcases" != "" ];then
   targetTestcases=`abspath $targetTestcases`
@@ -99,7 +100,7 @@ if [ "$DEBUG" != "" ] && [ $caseCount -gt 1 ]; then
 fi
 
 #clear test results
-testResultFile=${testListFile%.*}-result.txt
+testResultFile=${testListFile%.*}-result-java${JAVA_VER}.txt
 rm -f $testResultFile
 echo "Test results: $testResultFile"
 
