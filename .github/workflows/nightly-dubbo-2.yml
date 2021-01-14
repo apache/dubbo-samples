@@ -1,10 +1,17 @@
 name: Nightly - Dubbo 2
 
 on:
-  workflow_dispatch:
   schedule:
     # nightly build at 2:00
     - cron:  '0 2 * * *'
+    # test
+    - cron:  '5 17 01 * *'
+  workflow_dispatch:
+    inputs:
+      remark:
+        description: 'test description'
+        required: false
+        default: 'test'
 
 
 env:
