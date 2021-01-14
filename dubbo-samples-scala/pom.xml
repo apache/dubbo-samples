@@ -33,8 +33,6 @@
         <dubbo.version>2.7.7</dubbo.version>
         <scala.version>2.12.5</scala.version>
         <junit.version>4.12</junit.version>
-        <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
-        <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -159,7 +157,7 @@
             <plugin>
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
-                <version>${apache-rat-plugin.version}</version>
+                <version>0.12</version>
                 <executions>
                     <execution>
                         <id>verify.rat</id>
@@ -220,7 +218,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>${maven_checkstyle_version}</version>
+                        <version>3.0.0</version>
                         <dependencies>
                             <dependency>
                                 <groupId>com.puppycrawl.tools</groupId>
