@@ -205,8 +205,12 @@ public class VersionMatcher {
         // "<component1>:<version1>[;component1:<version2];<component2>:<version1>[;component2:version2];"
 
         List<String> versionList = new ArrayList<>();
-        String[] compvers = versionListStr.split(";");
+        //split components by ';' or '\n'
+        String[] compvers = versionListStr.split("[;\n]");
         for (String compver : compvers) {
+            if (StringUtils.isBlank(compver)) {
+                continue;
+            }
             String[] strs = compver.split(":");
             String component = strs[0].trim();
             String[] vers = strs[1].split(",");
