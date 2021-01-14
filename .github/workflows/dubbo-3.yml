@@ -183,9 +183,12 @@ jobs:
     needs: [prepare_test, build-dubbo]
     runs-on: ubuntu-latest
     env:
+      JAVA_VER: ${{matrix.java}}
       TEST_CASE_FILE: jobs/${{github.job}}.txt
     strategy:
       fail-fast: false
+      matrix:
+        java: [8, 11]
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -227,9 +230,12 @@ jobs:
     needs: [prepare_test, build-dubbo]
     runs-on: ubuntu-latest
     env:
+      JAVA_VER: ${{matrix.java}}
       TEST_CASE_FILE: jobs/${{github.job}}.txt
     strategy:
       fail-fast: false
+      matrix:
+        java: [8, 11]
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -271,9 +277,12 @@ jobs:
     needs: [prepare_test, build-dubbo]
     runs-on: ubuntu-latest
     env:
+      JAVA_VER: ${{matrix.java}}
       TEST_CASE_FILE: jobs/${{github.job}}.txt
     strategy:
       fail-fast: false
+      matrix:
+        java: [8, 11]
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -315,9 +324,12 @@ jobs:
     needs: [prepare_test, build-dubbo]
     runs-on: ubuntu-latest
     env:
+      JAVA_VER: ${{matrix.java}}
       TEST_CASE_FILE: jobs/${{github.job}}.txt
     strategy:
       fail-fast: false
+      matrix:
+        java: [8, 11]
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -359,9 +371,12 @@ jobs:
     needs: [prepare_test, build-dubbo]
     runs-on: ubuntu-latest
     env:
+      JAVA_VER: ${{matrix.java}}
       TEST_CASE_FILE: jobs/${{github.job}}.txt
     strategy:
       fail-fast: false
+      matrix:
+        java: [8, 11]
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
