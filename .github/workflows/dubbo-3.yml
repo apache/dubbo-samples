@@ -44,6 +44,8 @@ jobs:
 
   build-dubbo:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v2
         with:
@@ -66,7 +68,6 @@ jobs:
           else
             echo "::set-output name=cache-hit::false"
           fi
-          exit 0
       - name: Cache local Maven repository
         if: steps.git-hash.outputs.cache-hit != 'true'
         uses: actions/cache@v2
