@@ -46,6 +46,7 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+      - dubbo-samples-chain-backend
 
   dubbo-samples-chain-front:
     type: test
