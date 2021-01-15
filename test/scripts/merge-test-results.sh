@@ -1,7 +1,9 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $DIR
+
+test_dir=$DIR/..
+cd $test_dir
 
 TEST_SUCCESS="TEST SUCCESS"
 TEST_FAILURE="TEST FAILURE"
@@ -29,7 +31,7 @@ echo "----------------------------------------------------------"
 echo "All tests count: $totalCount"
 echo "Success tests count: $successTest"
 
-if [ $successTest == $totalCount ]; then
+if [ "$successTest" == "$totalCount" ]; then
   if [ $successTest -gt 0 ]; then
     echo "All tests pass"
     echo "----------------------------------------------------------"
