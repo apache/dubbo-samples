@@ -23,7 +23,7 @@ import org.apache.samples.sentinel.FooService;
 
 public class FooServiceConsumer {
 
-    @Reference
+    @Reference(timeout = 3000)
     private FooService fooService;
 
     public String sayHello(String name) {

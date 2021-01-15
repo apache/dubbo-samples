@@ -32,10 +32,13 @@ import java.util.concurrent.CountDownLatch;
 
 public class SslBasicProvider {
 
-    private static final String ROOT_DIR = System.getProperty("user.dir");
+    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+    private static String zookeeperPort = System.getProperty("zookeeper.port", "2181");
+
+    private static String zookeeperAddress = "zookeeper://"+ zookeeperHost +":" + zookeeperPort;
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
+        new EmbeddedZooKeeper(Integer.parseInt(zookeeperPort), false).start();
         // wait for embedded zookeeper start completely.
         Thread.sleep(1000);
 
@@ -62,7 +65,7 @@ public class SslBasicProvider {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("ssl-provider"))
-                 .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                 .registry(new RegistryConfig(zookeeperAddress))
                  .protocol(protocolConfig)
                  .ssl(sslConfig);
 

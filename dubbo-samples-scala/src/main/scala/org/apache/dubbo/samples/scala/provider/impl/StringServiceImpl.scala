@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.scala.provider.impl
 
-import com.alibaba.dubbo.config.annotation.Service
+import org.apache.dubbo.config.annotation.DubboService
 import org.apache.dubbo.samples.scala.service.StringService
 
-@Service
+@DubboService
 class StringServiceImpl extends StringService {
   override def reverse(s: String): String = s.reverse
 }

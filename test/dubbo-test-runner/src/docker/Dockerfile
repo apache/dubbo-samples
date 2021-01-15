@@ -13,7 +13,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-FROM openjdk:8
+ARG JAVA_VER=8
+FROM openjdk:$JAVA_VER
 
 ARG DEBIAN_MIRROR
 RUN if [ -n "$DEBIAN_MIRROR" ]; then \

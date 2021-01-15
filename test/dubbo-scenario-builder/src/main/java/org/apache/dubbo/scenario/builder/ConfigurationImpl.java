@@ -26,12 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -70,16 +67,18 @@ public class ConfigurationImpl implements IConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationImpl.class);
     private final CaseConfiguration configuration;
+    private boolean isJdk9OrLater;
     private String scenarioHome;
     private String configBasedir;
     private String scenarioName;
     private final String scenarioLogDir;
-    private int scenarioTimeout = 90;
+    private int scenarioTimeout = 120;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
     private Set<Pattern> debugPatterns = new HashSet<>();
     private Set<String> debugServices = new HashSet<>();
     private Set<String> healthcheckServices = new HashSet<>();
+    private String testImageVersion;
 
     public ConfigurationImpl() throws IOException, ConfigureFileNotFoundException {
         String configureFile = System.getProperty("configure.file");
@@ -101,6 +100,11 @@ public class ConfigurationImpl implements IConfiguration {
         if (StringUtils.isBlank(scenarioName)) {
             scenarioName = new File(configBasedir).getName();
         }
+
+        testImageVersion = System.getProperty("test.image.version", "8");
+        String verstr = StringUtils.substringBefore(testImageVersion, ".");
+        int majorVersion = Integer.parseInt(verstr);
+        isJdk9OrLater = (majorVersion > 8);
 
         String debugService = System.getProperty("debug.service");
         if (StringUtils.isNotBlank(debugService)) {
@@ -128,8 +132,8 @@ public class ConfigurationImpl implements IConfiguration {
             scenarioTimeout = debugTimeout;
         }
 
-        logger.info("scenarioName:{}, timeout: {}, debugServices:{}, config: {}",
-                scenarioName, scenarioTimeout, debugServices, configuration);
+        logger.info("scenarioName:{}, timeout: {}, testImageVersion: {}, debugServices:{}, config: {}",
+                scenarioName, scenarioTimeout, testImageVersion, debugServices, configuration);
 
     }
 
@@ -149,7 +153,7 @@ public class ConfigurationImpl implements IConfiguration {
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
         // read 'props'
-        String configYaml = readFully(configureFile);
+        String configYaml = FileUtil.readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
         Map<String, String> props = tmpConfiguration.getProps();
         if (props == null) {
@@ -219,7 +223,7 @@ public class ConfigurationImpl implements IConfiguration {
         try {
             String file = "configs/" + caseConfiguration.getFrom();
             InputStream inputStream = CaseConfiguration.class.getClassLoader().getResourceAsStream(file);
-            return readFully(inputStream);
+            return FileUtil.readFully(inputStream);
         } catch (Exception e) {
             logger.error("load parent config failed: " + caseConfiguration.getFrom(), e);
             throw new IOException("load parent config failed: " + caseConfiguration.getFrom(), e);
@@ -237,7 +241,7 @@ public class ConfigurationImpl implements IConfiguration {
             ServiceComponent service = entry.getValue();
             String type = service.getType();
             if (isAppOrTestService(type)) {
-                service.setImage(SAMPLE_TEST_IMAGE);
+                service.setImage(SAMPLE_TEST_IMAGE+":"+testImageVersion);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
                 if (service.getVolumes() == null) {
                     service.setVolumes(new ArrayList<>());
@@ -274,7 +278,12 @@ public class ConfigurationImpl implements IConfiguration {
                         //set java remote debug opts
                         //-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
                         int debugPort = nextDebugPort();
-                        String debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=%s", debugPort);
+                        String debugOpts;
+                        if (isJdk9OrLater) {
+                            debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:%s", debugPort);
+                        }else {
+                            debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=%s", debugPort);
+                        }
                         appendEnv(service, ENV_DEBUG_OPTS, debugOpts);
 
                         //mapping debug port
@@ -452,19 +461,6 @@ public class ConfigurationImpl implements IConfiguration {
         throw new RuntimeException("Illegal service type: " + type);
     }
 
-    private String readFully(String file) throws IOException {
-        try (FileInputStream fis = new FileInputStream(file)) {
-            return readFully(fis);
-        }
-    }
-
-    private String readFully(InputStream input) throws IOException {
-        DataInputStream dis = new DataInputStream(input);
-        byte[] bytes = new byte[input.available()];
-        dis.readFully(bytes);
-        return new String(bytes, StandardCharsets.UTF_8);
-    }
-
     private Pattern pattern = Pattern.compile("\\$\\{(.+?)}");
 
     private String replaceHolders(String str, Map<String, String> props) {
@@ -500,18 +496,18 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     @Override
-    public String dockerImageVersion() {
-        return System.getProperty("docker.image.version", "latest");
+    public String testImageVersion() {
+        return testImageVersion;
     }
 
     @Override
     public String dockerNetworkName() {
-        return (scenarioName() + "-" + dockerImageVersion()).toLowerCase();
+        return (scenarioName() + "-" + testImageVersion()).toLowerCase();
     }
 
     @Override
     public String dockerContainerName() {
-        return (scenarioName() + "-" + scenarioVersion() + "-" + dockerImageVersion()).toLowerCase();
+        return (scenarioName() + "-" + scenarioVersion() + "-" + testImageVersion()).toLowerCase();
     }
 
     @Override

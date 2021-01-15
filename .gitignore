@@ -55,4 +55,4 @@ logs/
 coverage.txt
 
 test/jobs
-testcases*.txt
+version-matrix.txt

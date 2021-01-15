@@ -29,5 +29,7 @@ object ProviderApp extends App {
   val context = new AnnotationConfigApplicationContext(classOf[ProviderConfiguration])
   context.start()
 
+  println("dubbo service started")
+
   StdIn.readLine()
 }

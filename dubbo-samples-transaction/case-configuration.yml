@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-timeout: 301
+timeout: 150
 
 # global system props for all service
 systemProps:
@@ -65,8 +65,9 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - seata-mysql:3306
-    expose:
+    checkPorts:
       - 20882
+    checkLog: 'storage service started'
     depends_on:
       - seata-mysql
       - seata-server
@@ -82,8 +83,9 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - seata-mysql:3306
-    expose:
+    checkPorts:
       - 20881
+    checkLog: 'account service started'
     depends_on:
       - seata-mysql
       - seata-server
@@ -99,8 +101,9 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - seata-mysql:3306
-    expose:
+    checkPorts:
       - 20883
+    checkLog: 'order service started'
     depends_on:
       - seata-mysql
       - seata-server

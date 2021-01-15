@@ -19,13 +19,13 @@
 
 package org.apache.dubbo.samples.scala.consumer
 
-import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo
 import org.springframework.context.annotation.{ComponentScan, Configuration, PropertySource}
 
 @Configuration
-@EnableDubbo(scanBasePackages = Array("com.alibaba.dubbo.samples.scala.consumer"))
-@PropertySource(Array("classpath:/dubbo-consumer.properties"))
-@ComponentScan(value = Array("com.alibaba.dubbo.samples.scala.consumer"))
+@EnableDubbo(scanBasePackages = Array("org.apache.dubbo.samples.scala.consumer"))
+@PropertySource(Array("classpath:spring/dubbo-consumer.properties"))
+@ComponentScan(value = Array("org.apache.dubbo.samples.scala.consumer"))
 class ConsumerConfiguration {
 
 }
