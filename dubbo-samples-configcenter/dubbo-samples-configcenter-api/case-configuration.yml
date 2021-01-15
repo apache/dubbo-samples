@@ -33,6 +33,9 @@ services:
     waitPortsBeforeRun:
       - zookeeper1:2181
       - zookeeper2:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - zookeeper1
       - zookeeper2

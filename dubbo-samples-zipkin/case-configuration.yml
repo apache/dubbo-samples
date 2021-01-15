@@ -32,6 +32,9 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - zipkin:9411
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
       - zipkin
@@ -47,26 +50,13 @@ services:
       - zookeeper:2181
       - zipkin:9411
       - dubbo-samples-zipkin-hello:20880
+    checkPorts:
+      - 20881
+    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
       - zipkin
       - dubbo-samples-zipkin-hello
-
-  dubbo-samples-zipkin-client:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.client.Application
-    systemProps:
-      - zookeeper.address=zookeeper
-      - zipkin.address=zipkin
-      - dubbo-samples-zipkin-greeting:20881
-    waitPortsBeforeRun:
-      - zookeeper:2181
-      - zipkin:9411
-    depends_on:
-      - zookeeper
-      - zipkin
-      - dubbo-samples-zipkin-greeting
 
   dubbo-samples-zipkin-test:
     type: test
@@ -83,4 +73,5 @@ services:
     depends_on:
       - zookeeper
       - zipkin
-      - dubbo-samples-zipkin-client
+      - dubbo-samples-zipkin-greeting
+      - dubbo-samples-zipkin-hello

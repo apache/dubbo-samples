@@ -28,6 +28,9 @@ services:
       - dubbo.ssl.server-key-cert-chain-path=/dubbo-samples-ssl-provider/certs/server0.pem
       - dubbo.ssl.server-private-key-path=/dubbo-samples-ssl-provider/certs/server0.key
       - dubbo.ssl.server-trust-cert-collection-path=/dubbo-samples-ssl-provider/certs/ca.pem
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
 
   dubbo-samples-ssl-test:
     type: test

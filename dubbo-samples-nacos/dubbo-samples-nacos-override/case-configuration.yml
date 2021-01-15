@@ -32,6 +32,9 @@ services:
       - nacos.port=8848
     waitPortsBeforeRun:
       - nacos:8848
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - nacos
 
