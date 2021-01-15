@@ -63,14 +63,13 @@ cd dubbo-samples/test
 * 运行全部测试案例
  
   ```
-   BUILD=all  ./run-tests.sh
+   ./run-tests.sh
   ```
  
   run-tests.sh 运行全部测试案例的原理:
 
-  (1) 编译整个dubbo-samples : `BUILD=all`   
-  (2) 查找所有`case-configuration.yml`  
-  (3) fork多进程按顺序运行测试案例
+  (1) 查找所有`case-configuration.yml`  
+  (2) fork多进程按顺序运行测试案例
 
 
 ### 添加测试用例
@@ -258,7 +257,113 @@ services:
 
 请参考文档：[How to convert test cases](convert-case.md)
 
-  
+
+#### 多版本测试
+
+添加一个名称为`case-versions.conf`的文件到测试工程目录下面，与`case-configuration.yml`放到同一个目录。
+此文件用于描述本测试工程支持的组件版本规则，通常使用通配符进行匹配。
+
+**注意：如果用例是针对特定的组件版本，则应该写具体的版本号。**
+
+下面是几种常用的配置：
+
+Spring app 的多版本配置：
+
+```
+# Spring app
+dubbo.version=2.7*, 3.*
+spring.version=4.*, 5.*
+```
+
+SpringBoot 1.x app 的多版本配置：
+
+```
+# SpringBoot app
+dubbo.version=2.7*, 3.*
+spring-boot.version=1.*
+```
+
+SpringBoot 2.x app 的多版本配置：
+
+```
+# SpringBoot app
+dubbo.version=2.7*, 3.*
+spring-boot.version=2.*
+```
+
+**相关环境变量：**
+
+CANDIDATE_VERSIONS: 候选版本列表，格式请参考下面的例子。
+
+VERSIONS_LIMIT: 设置测试的版本数量限制，超过指定的数量则被截断丢弃。
+
+
+除了dubbo/spring/spring-boot组件，其它有需要测试的组件也可以配置。
+如果要添加新的组件版本需要保证github workflows及`run-tests.sh`的`CANDIDATE_VERSIONS`环境变量包含该组件的候选版本，否则运行测试案例会报错如下：
+
+```
+Component not match
+```
+
+github workflows的候选版本配置格式如下，每行为一个组件的版本列表，也可以用不同的行指定组件不兼容的版本。
+如spring-boot 1.x 和 2.x 不兼容，可以在两行分别配置。
+
+```yaml
+env:
+  #...
+  CANDIDATE_VERSIONS: '
+    dubbo.version: 2.7.8, 2.7.9-SNAPSHOT;
+    spring.version: 4.1.9.RELEASE, 4.2.9.RELEASE, 5.1.20.RELEASE, 5.3.3;
+    spring-boot.version: 1.1.12.RELEASE, 1.2.8.RELEASE, 1.3.8.RELEASE, 1.4.7.RELEASE;
+    spring-boot.version: 2.0.9.RELEASE, 2.1.18.RELEASE, 2.2.12.RELEASE, 2.3.7.RELEASE
+    '
+```
+
+本地开发测试`run-tests.sh`脚本的默认候选版本如下，只测试一个版本：
+
+```
+CANDIDATE_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+```
+
+#### 本地测试dubbo 3.0的sample
+
+1、 checkout and build dubbo 3.0
+
+dubbo 3.0 目前还没发正式版本，需要本地编译install到maven repo中：
+
+```
+git clone https://github.com/apache/dubbo.git dubbo3
+cd dubbo3
+git checkout 3.0
+./mvnw -U --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true 
+```
+
+2、sample工程添加`case-configuration.yml` 及 `case-versions.conf`
+
+由于这些sample是dubbo 3.0的特性，不兼容2.x，故`case-versions.conf`版本规则如下：
+
+```
+# Spring app
+dubbo.version=3.*
+spring.version=4.*, 5.*
+```
+
+3、设置CANDIDATE_VERSIONS环境变量
+
+候选版本列表中指定dubbo.version为3.0的版本号
+
+```
+export CANDIDATE_VERSIONS="dubbo.version:3.0.0-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+```
+在同一个shell中，只需要执行一次 `export CANDIDATE_VERSIONS=...` 命令，后面多次执行测试案例都会生效。
+
+4、启动测试案例
+
+```
+cd dubbo-samples/test
+./run-test.sh ../dubbo-samples-xxxx
+```
+
 ### 调试运行测试案例
 
   ```
@@ -366,26 +471,6 @@ services:
   构建测试场景，包含`docker-compose.yml`及`scenario.sh`脚本等。
   构建成功后，`scenario.sh`脚本可以单独运行。
 
-#### 编译方式(BUILD)
-
-默认值为`BUILD=case`，即每个case工程单独编译。
-
-* `BUILD=case`  
-
-  单独编译需要运行的测试工程。
-  
-  注意：有部分测试工程因为依赖问题不能独立编译，此时需要改为整体编译或者手工编译。
-
-* `BUILD=all`  
-
-  编译整个dubbo-samples
-  
-* `BUILD=n`  
-
-  不自动编译测试工程，需要先手工编译成功后，再运行测试。
-  
-  Maven编译参数： mvn clean package dependency:copy-dependencies -DskipTests
-
    
 #### scenario测试步骤
 
@@ -394,9 +479,11 @@ services:
   
 * 编译测试工程
   
-  如果按照case单独编译，则执行下面的编译命令：
+  每个case单独编译，编译命令如下：
   
   `mvn clean package dependency:copy-dependencies -DskipTests`
+  
+  **注意： 如果是多模块的工程，可以将`case-configuration.yml`放到外层，保证可以独立编译整个case工程。**
   
 * 生成测试场景
 
