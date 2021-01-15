@@ -27,8 +27,8 @@
     <artifactId>dubbo-samples-api</artifactId>
 
     <properties>
-        <junit.version>4.12</junit.version>
         <dubbo.version>2.7.7</dubbo.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencyManagement>
