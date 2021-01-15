@@ -17,6 +17,7 @@
 
 package org.apache.samples.sentinel;
 
+import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import org.apache.dubbo.rpc.RpcException;
 
 import org.apache.samples.sentinel.consumer.ConsumerConfiguration;
@@ -26,6 +27,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Arrays;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ConsumerConfiguration.class})
@@ -40,11 +43,18 @@ public class FooServiceIT {
         }
     }
 
-    // FIXME: I think here sentinel's FlowException is expected.
-    @Test(expected = RpcException.class)
-    public void testFlowControl2() throws Exception {
+    @Test(expected = com.alibaba.csp.sentinel.slots.block.flow.FlowException.class)
+    public void testFlowControl2() throws Throwable {
         for (int i = 0; i < 11; i++) {
-            consumer.sayHello("dubbo");
+            try {
+                consumer.sayHello("dubbo");
+            } catch (Throwable e) {
+                if (e.getMessage().contains("com.alibaba.csp.sentinel.slots.block.flow.FlowException")) {
+                    throw new FlowException(e.getMessage());
+                }
+                e.printStackTrace();
+                throw e.getCause();
+            }
         }
     }
 }
