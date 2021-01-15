@@ -32,9 +32,6 @@
         <dubbo.version>2.7.7</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
-        <jackson-databind.version>2.9.5</jackson-databind.version>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -90,11 +87,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
@@ -115,14 +107,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind.version}</version>
+            <version>2.9.5</version>
         </dependency>
 
     </dependencies>
@@ -149,7 +140,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
