@@ -23,6 +23,11 @@ if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   fi
 fi
 
+# At least delay 1 second
+if [ $RUN_DELAY -le 0 ]; then
+  RUN_DELAY=1
+fi
+
 #delay start
 if [ $RUN_DELAY -gt 0 ]; then
   echo "Delay $RUN_DELAY s."
