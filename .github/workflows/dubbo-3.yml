@@ -106,8 +106,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Prepare test list
         run: |
-          cd test
-          bash ./prepare-test.sh
+          bash ./test/scripts/prepare-test.sh
       - name: Upload test list
         uses: actions/upload-artifact@v2
         with:
@@ -133,7 +132,7 @@ jobs:
           name: test-result
           path: test/jobs/
       - name: Merge test result - java ${{matrix.java}}
-        run: ./test/merge-test-results.sh
+        run: ./test/scripts/merge-test-results.sh
 
   testjob_1:
     needs: [prepare_test, build-dubbo]

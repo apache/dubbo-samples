@@ -2,20 +2,23 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+test_dir=$DIR/..
+
 JOB_COUNT=${JOB_COUNT:-5}
 echo "JOB_COUNT: $JOB_COUNT"
 
-# find all case-configuration.yml
-CONFIG_FILE="case-configuration.yml"
-test_list_file=$DIR/testcases.txt
-test_base_dir="$( cd $DIR/.. && pwd )"
-echo "Searching all '$CONFIG_FILE' under dir $test_base_dir .."
-find $test_base_dir -name $CONFIG_FILE | grep -v "$DIR" > $test_list_file
-
-# Split test list into JOB_COUNT parts
-jobs_dir=$DIR/jobs
+jobs_dir=$test_dir/jobs
 mkdir -p $jobs_dir
 rm -f $jobs_dir/*
+
+# find all case-configuration.yml
+CONFIG_FILE="case-configuration.yml"
+test_list_file=$jobs_dir/testcases.txt
+test_base_dir="$( cd $test_dir/.. && pwd )"
+echo "Searching all '$CONFIG_FILE' under dir $test_base_dir .."
+find $test_base_dir -name $CONFIG_FILE | grep -v "$test_dir" > $test_list_file
+
+# Split test list into JOB_COUNT parts
 case_index=0
 while read file
 do
