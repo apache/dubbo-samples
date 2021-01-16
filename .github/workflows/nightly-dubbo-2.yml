@@ -2,8 +2,8 @@ name: Nightly - Dubbo 2
 
 on:
   schedule:
-    # nightly build at 2:00
-    - cron:  '0 2 * * *'
+    # nightly build at 2:00+8, should convert into UTC
+    - cron:  '0 18 * * *'
   workflow_dispatch:
     inputs:
       remark:
