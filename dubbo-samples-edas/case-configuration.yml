@@ -30,9 +30,8 @@ services:
     basedir: dubbo-samples-edas-consumer
     mainClass: org.apache.dubbo.samples.edas.consumer.DubboConsumer
     systemProps:
-      - edas.address=dubbo-samples-edas-provider
+      - edas.address=127.0.0.1
     waitPortsBeforeRun:
-      - dubbo-samples-edas-provider:8080
     depends_on:
       - dubbo-samples-edas-provider
 
@@ -42,9 +41,7 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
     waitPortsBeforeRun:
-      - dubbo-samples-edas-provider:8080
       - dubbo-samples-edas-consumer:8088
     depends_on:
       - dubbo-samples-edas-provider
