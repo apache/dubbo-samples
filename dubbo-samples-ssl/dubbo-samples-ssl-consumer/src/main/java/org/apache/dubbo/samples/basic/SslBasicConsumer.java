@@ -26,8 +26,6 @@ import org.apache.dubbo.config.SslConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.basic.api.DemoService;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 public class SslBasicConsumer {
 
     private static final String ROOT_DIR = System.getProperty("user.dir");

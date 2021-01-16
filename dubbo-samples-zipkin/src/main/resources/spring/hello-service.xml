@@ -25,7 +25,7 @@
 
     <dubbo:application name="hello-service-provider"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
@@ -35,7 +35,7 @@
 
     <!-- zipkin configuration -->
     <bean id="sender" class="zipkin2.reporter.beans.OkHttpSenderFactoryBean">
-        <property name="endpoint" value="http://localhost:9411/api/v2/spans"/>
+        <property name="endpoint" value="http://${zipkin.address:127.0.0.1}:${zipkin.port:9411}/api/v2/spans"/>
     </bean>
 
     <bean id="tracing" class="brave.spring.beans.TracingFactoryBean">

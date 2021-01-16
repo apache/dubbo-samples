@@ -25,23 +25,23 @@
         </encoder>
     </appender>
 
-    <appender name="file"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>test.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>test-%d{yyyy-MM-dd}.%i.log
-            </FileNamePattern>
-            <MaxHistory>10</MaxHistory>
-            <TimeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <MaxFileSize>5MB</MaxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n
-            </pattern>
-        </layout>
-    </appender>
+<!--    <appender name="file"-->
+<!--              class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <File>test.log</File>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <FileNamePattern>test-%d{yyyy-MM-dd}.%i.log-->
+<!--            </FileNamePattern>-->
+<!--            <MaxHistory>10</MaxHistory>-->
+<!--            <TimeBasedFileNamingAndTriggeringPolicy-->
+<!--                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <MaxFileSize>5MB</MaxFileSize>-->
+<!--            </TimeBasedFileNamingAndTriggeringPolicy>-->
+<!--        </rollingPolicy>-->
+<!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--            <pattern>[%-5level] %d{HH:mm:ss.SSS} [%thread] %logger{36} - %msg%n-->
+<!--            </pattern>-->
+<!--        </layout>-->
+<!--    </appender>-->
 
     <root level="info">
         <!-- <appender-ref ref="file" /> -->
