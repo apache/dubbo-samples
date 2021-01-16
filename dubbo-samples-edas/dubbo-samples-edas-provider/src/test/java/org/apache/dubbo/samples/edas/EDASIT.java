@@ -21,14 +21,11 @@ import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.samples.edas.provider.DubboProvider;
 
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.FixedHostPortGenericContainer;
-import org.testcontainers.containers.GenericContainer;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DubboProvider.class, DubboConsumer.class})
