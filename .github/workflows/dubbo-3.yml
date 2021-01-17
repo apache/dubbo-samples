@@ -74,10 +74,14 @@ jobs:
           if [ -f ~/.m2/repository/org/apache/dubbo/dubbo-commit-id ];then
             cache_commit_id=`cat ~/.m2/repository/org/apache/dubbo/dubbo-commit-id`
           fi
+          echo "last_commit_id: $last_commit_id"
+          echo "cache_commit_id: $cache_commit_id"
           if [ "$last_commit_id" == "$cache_commit_id" ];then
             echo "::set-output name=cache-hit::true"
+            echo "cache-hit::true"
           else
             echo "::set-output name=cache-hit::false"
+            echo "cache-hit::false"
           fi
       - name: Cache local Maven repository
         if: steps.git-hash.outputs.cache-hit != 'true'
