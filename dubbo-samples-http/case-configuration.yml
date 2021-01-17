@@ -12,22 +12,14 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
-props:
-  project_name: dubbo-samples-http
-  main_class: org.apache.dubbo.samples.http.HttpProvider
-  zookeeper_port: 2181
-  zookeeper_version: latest
-  dubbo_port: 8080
-  project_dir: .
-
 services:
   zookeeper:
-    image: zookeeper:${zookeeper_version}
+    image: zookeeper:latest
 
-  ${project_name}-tomcat:
+  dubbo-samples-http-tomcat:
     type: app
-    basedir: ${project_dir}
-    mainClass: ${main_class}
+    basedir: .
+    mainClass: org.apache.dubbo.samples.http.HttpProvider
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
@@ -39,10 +31,10 @@ services:
       - 8080
     checkLog: "dubbo service started"
 
-  ${project_name}-jetty:
+  dubbo-samples-http-jetty:
     type: app
-    basedir: ${project_dir}
-    mainClass: ${main_class}
+    basedir: .
+    mainClass: org.apache.dubbo.samples.http.HttpProvider
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
@@ -54,21 +46,19 @@ services:
       - 8081
     checkLog: "dubbo service started"
 
-  ${project_name}-test:
+  dubbo-samples-http-test:
     type: test
-    basedir: ${project_dir}
+    basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
-      - dubbo.address=${project_name}
-      - dubbo.port=${dubbo_port}
     waitPortsBeforeRun:
       - zookeeper:2181
-      - ${project_name}-tomcat:8080
-      - ${project_name}-jetty:8081
+      - dubbo-samples-http-tomcat:8080
+      - dubbo-samples-http-jetty:8081
     depends_on:
-      - ${project_name}-tomcat
-      - ${project_name}-jetty
+      - dubbo-samples-http-tomcat
+      - dubbo-samples-http-jetty
 
