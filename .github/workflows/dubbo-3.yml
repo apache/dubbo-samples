@@ -104,7 +104,7 @@ jobs:
   prepare_test:
     runs-on: ubuntu-latest
     env:
-      #'JOB_COUNT' MUST match needs job list of 'test_result' job
+      #'JOB_COUNT' MUST match needs job id list of 'testjob' job
       JOB_COUNT: 5
     steps:
       - uses: actions/checkout@v1
@@ -117,9 +117,57 @@ jobs:
           name: test-list
           path: test/jobs
 
+  testjob:
+    needs: [prepare_test, build-dubbo]
+    runs-on: ubuntu-latest
+    env:
+      JAVA_VER: ${{matrix.java}}
+      TEST_CASE_FILE: jobs/testjob_${{matrix.job_id}}.txt
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [8, 11]
+        #testjob id list MUST match 'JOB_COUNT' of 'prepare_test' job
+        job_id: [1,2,3,4,5]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Dubbo cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository/org/apache/dubbo
+          key: ${{ runner.os }}-dubbo-snapshot
+          restore-keys: |
+            ${{ runner.os }}-dubbo-
+      - name: Download test list
+        uses: actions/download-artifact@v2
+        with:
+          name: test-list
+          path: test/jobs/
+      - name: Set up JDK ${{matrix.java}}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{matrix.java}}
+      - name: Build test image
+        run: |
+          cd test && bash ./build-test-image.sh
+      - name: Run tests
+        run: cd test && bash ./run-tests.sh
+      - name: Upload test result
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: test/jobs/*-result*
+
   test_result:
-    #testjob list MUST match 'JOB_COUNT' of 'prepare_test' job
-    needs: [testjob_1,testjob_2,testjob_3,testjob_4,testjob_5]
+    needs: [testjob]
     if: always()
     runs-on: ubuntu-latest
     strategy:
@@ -137,238 +185,3 @@ jobs:
           path: test/jobs/
       - name: Merge test result - java ${{matrix.java}}
         run: ./test/scripts/merge-test-results.sh
-
-  testjob_1:
-    needs: [prepare_test, build-dubbo]
-    runs-on: ubuntu-latest
-    env:
-      JAVA_VER: ${{matrix.java}}
-      TEST_CASE_FILE: jobs/${{github.job}}.txt
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [8, 11]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Dubbo cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
-          restore-keys: |
-            ${{ runner.os }}-dubbo-
-      - name: Download test list
-        uses: actions/download-artifact@v2
-        with:
-          name: test-list
-          path: test/jobs/
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{matrix.java}}
-      - name: Build test image
-        run: |
-          cd test && bash ./build-test-image.sh
-      - name: Run tests
-        run: cd test && bash ./run-tests.sh
-      - name: Upload test result
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-result
-          path: test/jobs/*-result*
-
-  testjob_2:
-    needs: [prepare_test, build-dubbo]
-    runs-on: ubuntu-latest
-    env:
-      JAVA_VER: ${{matrix.java}}
-      TEST_CASE_FILE: jobs/${{github.job}}.txt
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [8, 11]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Dubbo cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
-          restore-keys: |
-            ${{ runner.os }}-dubbo-
-      - name: Download test list
-        uses: actions/download-artifact@v2
-        with:
-          name: test-list
-          path: test/jobs/
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{matrix.java}}
-      - name: Build test image
-        run: |
-          cd test && bash ./build-test-image.sh
-      - name: Run tests
-        run: cd test && bash ./run-tests.sh
-      - name: Upload test result
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-result
-          path: test/jobs/*-result*
-
-  testjob_3:
-    needs: [prepare_test, build-dubbo]
-    runs-on: ubuntu-latest
-    env:
-      JAVA_VER: ${{matrix.java}}
-      TEST_CASE_FILE: jobs/${{github.job}}.txt
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [8, 11]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Dubbo cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
-          restore-keys: |
-            ${{ runner.os }}-dubbo-
-      - name: Download test list
-        uses: actions/download-artifact@v2
-        with:
-          name: test-list
-          path: test/jobs/
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{matrix.java}}
-      - name: Build test image
-        run: |
-          cd test && bash ./build-test-image.sh
-      - name: Run tests
-        run: cd test && bash ./run-tests.sh
-      - name: Upload test result
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-result
-          path: test/jobs/*-result*
-
-  testjob_4:
-    needs: [prepare_test, build-dubbo]
-    runs-on: ubuntu-latest
-    env:
-      JAVA_VER: ${{matrix.java}}
-      TEST_CASE_FILE: jobs/${{github.job}}.txt
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [8, 11]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Dubbo cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
-          restore-keys: |
-            ${{ runner.os }}-dubbo-
-      - name: Download test list
-        uses: actions/download-artifact@v2
-        with:
-          name: test-list
-          path: test/jobs/
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{matrix.java}}
-      - name: Build test image
-        run: |
-          cd test && bash ./build-test-image.sh
-      - name: Run tests
-        run: cd test && bash ./run-tests.sh
-      - name: Upload test result
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-result
-          path: test/jobs/*-result*
-
-  testjob_5:
-    needs: [prepare_test, build-dubbo]
-    runs-on: ubuntu-latest
-    env:
-      JAVA_VER: ${{matrix.java}}
-      TEST_CASE_FILE: jobs/${{github.job}}.txt
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [8, 11]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Dubbo cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
-          restore-keys: |
-            ${{ runner.os }}-dubbo-
-      - name: Download test list
-        uses: actions/download-artifact@v2
-        with:
-          name: test-list
-          path: test/jobs/
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{matrix.java}}
-      - name: Build test image
-        run: |
-          cd test && bash ./build-test-image.sh
-      - name: Run tests
-        run: cd test && bash ./run-tests.sh
-      - name: Upload test result
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-result
-          path: test/jobs/*-result*
