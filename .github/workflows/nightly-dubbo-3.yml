@@ -94,10 +94,6 @@ jobs:
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
           ./mvnw -U --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
-      - name: Update commit id
-        run: |
-          echo commit_id: ${{steps.git-checker.outputs.commit_id}}
-          echo ${{steps.git-checker.outputs.commit_id}} > ~/.m2/repository/org/apache/dubbo/dubbo-commit-id
 
   prepare_test:
     runs-on: ubuntu-latest
