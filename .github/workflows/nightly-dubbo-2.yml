@@ -52,7 +52,6 @@ jobs:
           ./mvnw $BUILD_OPTS
 
   build-dubbo:
-    id: build-dubbo
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
