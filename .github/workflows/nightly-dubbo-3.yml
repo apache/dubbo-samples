@@ -76,7 +76,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot-${{steps.build-dubbo.outputs.commit_id}}
+          key: ${{ runner.os }}-dubbo-snapshot-${{steps.git-checker.outputs.commit_id}}
       - name: Cache local Maven repository
         if: steps.dubbocache.outputs.cache-hit != 'true'
         uses: actions/cache@v2
