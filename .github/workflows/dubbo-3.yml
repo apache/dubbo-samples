@@ -26,6 +26,7 @@ env:
     spring-boot.version:1.5.22.RELEASE;
     spring-boot.version:2.4.1;
     '
+  BUILD_DUBBO_REF: '3.0'
 
 jobs:
   build-samples:
@@ -52,39 +53,34 @@ jobs:
           ./mvnw $BUILD_OPTS
 
   build-dubbo:
+    id: build-dubbo
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    # Map a step output to a job output
+    outputs:
+      commit_id: ${{ steps.git-checker.outputs.commit_id }}
+      cache-hit: ${{ steps.dubbocache.outputs.cache-hit }}
     steps:
       - uses: actions/checkout@v2
         with:
           repository: 'apache/dubbo'
-          ref: master
-      - name: Dubbo cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
+          ref: ${{env.BUILD_DUBBO_REF}}
       - name: Get last git commit hash
-        id: git-hash
+        id: git-checker
         run: |
           #compare dubbo commit id
           last_commit_id=`git log --format="%H" -n 1`
           echo "::set-output name=commit_id::$last_commit_id"
-          if [ -f ~/.m2/repository/org/apache/dubbo/dubbo-commit-id ];then
-            cache_commit_id=`cat ~/.m2/repository/org/apache/dubbo/dubbo-commit-id`
-          fi
-          echo "last_commit_id: $last_commit_id"
-          echo "cache_commit_id: $cache_commit_id"
-          if [ "$last_commit_id" == "$cache_commit_id" ];then
-            echo "::set-output name=cache-hit::true"
-            echo "cache-hit::true"
-          else
-            echo "::set-output name=cache-hit::false"
-            echo "cache-hit::false"
-          fi
+          echo "commit_id: $last_commit_id"
+      - name: Dubbo cache
+        id: dubbocache
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository/org/apache/dubbo
+          key: ${{ runner.os }}-dubbo-snapshot-${{steps.build-dubbo.outputs.commit_id}}
       - name: Cache local Maven repository
-        if: steps.git-hash.outputs.cache-hit != 'true'
+        if: steps.dubbocache.outputs.cache-hit != 'true'
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
@@ -92,18 +88,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up JDK 8
-        if: steps.git-hash.outputs.cache-hit != 'true'
+        if: steps.dubbocache.outputs.cache-hit != 'true'
         uses: actions/setup-java@v1
         with:
           java-version: 8
       - name: Build dubbo
-        if: steps.git-hash.outputs.cache-hit != 'true'
+        if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
           ./mvnw -U --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
       - name: Update commit id
         run: |
-          echo commit_id: ${{steps.git-hash.outputs.commit_id}}
-          echo ${{steps.git-hash.outputs.commit_id}} > ~/.m2/repository/org/apache/dubbo/dubbo-commit-id
+          echo commit_id: ${{steps.git-checker.outputs.commit_id}}
+          echo ${{steps.git-checker.outputs.commit_id}} > ~/.m2/repository/org/apache/dubbo/dubbo-commit-id
 
   prepare_test:
     runs-on: ubuntu-latest
@@ -146,9 +142,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-snapshot
-          restore-keys: |
-            ${{ runner.os }}-dubbo-
+          key: ${{ runner.os }}-dubbo-snapshot-${{needs.build-dubbo.outputs.commit_id}}
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
