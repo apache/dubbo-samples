@@ -27,25 +27,36 @@
     <artifactId>dubbo-samples-api</artifactId>
 
     <properties>
+        <spring.version>4.3.16.RELEASE</spring.version>
         <dubbo.version>2.7.7</dubbo.version>
         <junit.version>4.12</junit.version>
     </properties>
 
     <dependencyManagement>
-        <dependencies>
+            <dependencies>
+                <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
+                <artifactId>dubbo-bom</artifactId>
                 <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
-
+            
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-dependencies-zookeeper</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
             </dependency>
-
+            
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
