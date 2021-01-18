@@ -109,7 +109,7 @@ jobs:
   prepare_test:
     runs-on: ubuntu-latest
     env:
-      #'JOB_COUNT' MUST match needs job id list of 'testjob' job
+      #'JOB_COUNT' MUST match 'job_id' list of 'testjob'
       JOB_COUNT: 5
     steps:
       - uses: actions/checkout@v1
@@ -132,7 +132,7 @@ jobs:
       fail-fast: false
       matrix:
         java: [8, 11]
-        #testjob id list MUST match 'JOB_COUNT' of 'prepare_test' job
+        #testjob id list MUST match 'JOB_COUNT' of 'prepare_test'
         job_id: [1,2,3,4,5]
     steps:
       - uses: actions/checkout@v1
