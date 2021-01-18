@@ -16,11 +16,13 @@ env:
   FORK_COUNT: 2
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
-  BUILD_OPTS: -U --batch-mode --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml clean package dependency:copy-dependencies -DskipTests
+  BUILD_OPTS: |-
+    -U --batch-mode --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml
+    -Dmaven.wagon.http.retryHandler.count=3 clean package dependency:copy-dependencies -DskipTests
   #multi-version size limit
   VERSIONS_LIMIT: 12
+  #candidate versions (the dubbo snapshot version will be extracted from pom.xml and appended before CANDIDATE_VERSIONS )
   CANDIDATE_VERSIONS: '
-    dubbo.version: 3.0.0-SNAPSHOT;
     spring.version: 4.2.9.RELEASE, 4.3.30.RELEASE, 5.1.20.RELEASE, 5.3.3;
     spring-boot.version: 1.1.12.RELEASE, 1.2.8.RELEASE, 1.3.8.RELEASE, 1.4.7.RELEASE, 1.5.22.RELEASE;
     spring-boot.version: 2.0.9.RELEASE, 2.1.18.RELEASE, 2.2.12.RELEASE, 2.3.7.RELEASE, 2.4.1
@@ -64,13 +66,23 @@ jobs:
         with:
           repository: 'apache/dubbo'
           ref: ${{env.DUBBO_REF}}
-      - name: Get last git commit hash
+      - name: Get commit id and dubbo version
         id: git-checker
         run: |
           #compare dubbo commit id
           last_commit_id=`git log --format="%H" -n 1`
           echo "::set-output name=commit_id::$last_commit_id"
           echo "commit_id: $last_commit_id"
+          # Calculate Dubbo Version
+          REVISION=`awk '/<revision>[^<]+<\/revision>/{gsub(/<revision>|<\/revision>/,"",$1);print $1;exit;}' pom.xml`
+          mkdir dubbo-version
+          echo $REVISION > dubbo-version/dubbo-version
+          echo "dubbo version: $REVISION"
+      - name: Upload Dubbo version
+        uses: actions/upload-artifact@v2
+        with:
+          name: dubbo-version
+          path: dubbo-version
       - name: Dubbo cache
         id: dubbocache
         uses: actions/cache@v2
@@ -125,6 +137,10 @@ jobs:
         job_id: [1,2,3,4,5]
     steps:
       - uses: actions/checkout@v1
+      - name: Set up JDK ${{matrix.java}}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{matrix.java}}
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -142,10 +158,16 @@ jobs:
         with:
           name: test-list
           path: test/jobs/
-      - name: Set up JDK ${{matrix.java}}
-        uses: actions/setup-java@v1
+      - name: Download Dubbo version
+        uses: actions/download-artifact@v2
         with:
-          java-version: ${{matrix.java}}
+          name: dubbo-version
+          path: dubbo-version
+      - name: Init Candidate Versions
+        run: |
+          DUBBO_VERSION=`cat dubbo-version/dubbo-version`
+          CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;$CANDIDATE_VERSIONS"
+          echo "CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS" >> $GITHUB_ENV
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
