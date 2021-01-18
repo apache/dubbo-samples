@@ -4,12 +4,12 @@ on:
   pull_request:
     paths:
       - "**"
-      - "!.github/**"
+      - "!**/*.md"
       - "!docs/**"
   push:
     paths:
       - '**'
-      - "!.github/**"
+      - "!**/*.md"
       - "!docs/**"
   workflow_dispatch:
 
