@@ -42,21 +42,15 @@ import org.apache.maven.surefire.testset.TestRequest;
 import org.apache.maven.surefire.util.DefaultScanResult;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.util.Collections.EMPTY_LIST;
 import static java.util.Collections.emptyList;
 
-/**
- * gongdewei 2020/12/7
- */
 public class TestRunnerMain {
 
     public static void main(String[] args) throws Exception {
@@ -219,9 +213,8 @@ public class TestRunnerMain {
 
     private static Classpath getInprocClasspath() {
         List<String> classpath = new ArrayList<>();
-
         ClassLoader cl = ClassLoader.getSystemClassLoader();
-        URL[] urls = ((URLClassLoader) cl).getURLs();
+        URL[] urls = ClassLoaderUtils.getUrls(cl);
         for (URL url : urls) {
             classpath.add(url.getFile());
         }

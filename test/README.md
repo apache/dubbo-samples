@@ -55,7 +55,7 @@ Run all tests:
 
 ```
 cd dubbo-samples/test
-BUILD=all ./run-tests.sh
+./run-tests.sh
 ```
 
 ### Builtin parent configuration
