@@ -4,6 +4,7 @@ on:
   schedule:
     # nightly build at 2:00+8, should convert into UTC
     - cron:  '0 18 * * *'
+    - cron:  '0 21 * * *'
   workflow_dispatch:
     inputs:
       remark:
