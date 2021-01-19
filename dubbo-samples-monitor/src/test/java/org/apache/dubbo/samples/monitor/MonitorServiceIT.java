@@ -48,13 +48,13 @@ public class MonitorServiceIT {
 
     @Test
     public void test() throws Exception {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             demoService.sayHello("world");
-            Thread.sleep(50);
+            Thread.sleep(500);
         }
 
         //wait for monitor data post
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         ReferenceConfig<MonitorService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("demo-monitor"));
@@ -66,6 +66,7 @@ public class MonitorServiceIT {
 
         boolean countProvider = false;
         boolean countConsumer = false;
+        System.out.println("monitor stats: "+stats.size());
         for (URL stat : stats) {
             Assert.assertEquals("count", stat.getProtocol());
             Assert.assertEquals("org.apache.dubbo.samples.monitor.api.DemoService/sayHello", stat.getPath());
