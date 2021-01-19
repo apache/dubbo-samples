@@ -13,7 +13,7 @@ on:
 
 
 env:
-  FORK_COUNT: 2
+  FORK_COUNT: 1
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
   BUILD_OPTS: -U --batch-mode --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml

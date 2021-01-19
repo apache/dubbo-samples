@@ -187,7 +187,7 @@ else
         service_container_name=${project_name}_${service_name}_1
         echo "docker inspect $service_container_name  :" >> $scenario_log
         docker inspect $service_container_name >> $scenario_log
-        echo ""
+        echo "" >> $scenario_log
 
         docker logs -f $service_container_name &> $SCENARIO_HOME/logs/${service_name}.log
     done
