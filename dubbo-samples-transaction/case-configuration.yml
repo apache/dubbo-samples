@@ -107,6 +107,7 @@ services:
     depends_on:
       - seata-mysql
       - seata-server
+      - account-service
 
   transaction-test:
     type: test
