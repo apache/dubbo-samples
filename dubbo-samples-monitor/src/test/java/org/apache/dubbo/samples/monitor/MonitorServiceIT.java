@@ -46,22 +46,6 @@ public class MonitorServiceIT {
     @Autowired
     private DemoService demoService;
 
-    @Before
-    public void setUp() throws Exception {
-        ServiceConfig<MonitorService> service = new ServiceConfig<>();
-        // FIXME: has to set application name to "demo-consumer"
-        service.setApplication(new ApplicationConfig("demo-consumer"));
-        service.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
-//        MonitorConfig monitorConfig = new MonitorConfig();
-//        monitorConfig.setProtocol("registry");
-//        monitorConfig.setInterval("100");
-//        service.setMonitor(monitorConfig);
-        service.setInterface(MonitorService.class);
-        service.setFilter("-monitor");
-        service.setRef(new MonitorServiceImpl());
-        service.export();
-    }
-
     @Test
     public void test() throws Exception {
         for (int i = 0; i < 10; i++) {
@@ -69,8 +53,11 @@ public class MonitorServiceIT {
             Thread.sleep(50);
         }
 
+        //wait for monitor data post
+        Thread.sleep(500);
+
         ReferenceConfig<MonitorService> reference = new ReferenceConfig<>();
-        reference.setApplication(new ApplicationConfig("demo-consumer"));
+        reference.setApplication(new ApplicationConfig("demo-monitor"));
         reference.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
         reference.setInterface(MonitorService.class);
         reference.setFilter("-monitor");
