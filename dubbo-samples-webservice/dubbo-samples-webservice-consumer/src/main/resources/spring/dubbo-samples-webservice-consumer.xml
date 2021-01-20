@@ -23,7 +23,7 @@
 
     <dubbo:application name="dubbo-samples-webservice-consumer"/>
 
-    <dubbo:reference id="demoService" check="false"
+    <dubbo:reference id="demoService" check="false" timeout="3000"
                      interface="org.apache.dubbo.samples.webservice.DemoService"
                      url="webservice://${dubbo.address:127.0.0.1}:8080/dubbo_samples_webservice_provider_war/services/org.apache.dubbo.samples.webservice.DemoService"/>
 </beans>
