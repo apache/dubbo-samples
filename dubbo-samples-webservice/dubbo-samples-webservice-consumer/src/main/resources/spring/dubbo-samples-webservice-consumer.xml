@@ -21,9 +21,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="demo-consumer"/>
+    <dubbo:application name="dubbo-samples-webservice-consumer"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-
-    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.webservice.DemoService"/>
+    <dubbo:reference id="demoService" check="false"
+                     interface="org.apache.dubbo.samples.webservice.DemoService"
+                     url="webservice://${zookeeper.address:127.0.0.1}:8080/dubbo_samples_webservice_provider_war/services/org.apache.dubbo.samples.webservice.DemoService"/>
 </beans>

@@ -21,6 +21,6 @@ import org.apache.dubbo.samples.webservice.DemoService;
 public class DemoServiceImpl implements DemoService {
     @Override
     public String hello(String word) {
-        return "Time: " + System.currentTimeMillis() + ", word: " + word;
+        return "Hello, word: " + word;
     }
 }
