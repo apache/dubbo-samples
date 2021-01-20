@@ -19,20 +19,25 @@
         <target.level>1.8</target.level>
         <dubbo.version>2.7.7</dubbo.version>
         <protobuf.java>3.6.0</protobuf.java>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <dubbo.port>20880</dubbo.port>
-        <zookeeper.port>2181</zookeeper.port>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
+                <artifactId>dubbo-bom</artifactId>
                 <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
@@ -40,7 +45,6 @@
                 <version>${dubbo.version}</version>
                 <type>pom</type>
             </dependency>
-
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
@@ -53,12 +57,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>${spring.version}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -66,7 +64,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
