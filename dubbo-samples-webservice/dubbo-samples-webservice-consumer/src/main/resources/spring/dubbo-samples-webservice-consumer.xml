@@ -25,5 +25,5 @@
 
     <dubbo:reference id="demoService" check="false"
                      interface="org.apache.dubbo.samples.webservice.DemoService"
-                     url="webservice://${zookeeper.address:127.0.0.1}:8080/dubbo_samples_webservice_provider_war/services/org.apache.dubbo.samples.webservice.DemoService"/>
+                     url="webservice://${dubbo.address:127.0.0.1}:8080/dubbo_samples_webservice_provider_war/services/org.apache.dubbo.samples.webservice.DemoService"/>
 </beans>
