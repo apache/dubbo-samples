@@ -34,15 +34,6 @@
         <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
         <dubbo.version>2.7.7</dubbo.version>
         <protostuff.version>1.5.9</protostuff.version>
-        <docker-maven-plugin.version>0.30.0</docker-maven-plugin.version>
-        <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <image.name>${project.artifactId}:${dubbo.version}</image.name>
-        <java-image.name>openjdk:8</java-image.name>
-        <dubbo.port>20880</dubbo.port>
-        <zookeeper.port>2181</zookeeper.port>
-        <main-class>org.apache.dubbo.samples.annotation.AnnotationProviderBootstrap</main-class>
     </properties>
 
     <packaging>pom</packaging>
@@ -147,7 +138,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
