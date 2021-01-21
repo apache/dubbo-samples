@@ -41,7 +41,7 @@
         <skip_maven_deploy>true</skip_maven_deploy>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <dubbo.version>2.7.7</dubbo.version>
+        <dubbo.version>3.0.0-SNAPSHOT</dubbo.version>
         <junit.version>4.12</junit.version>
     </properties>
 
