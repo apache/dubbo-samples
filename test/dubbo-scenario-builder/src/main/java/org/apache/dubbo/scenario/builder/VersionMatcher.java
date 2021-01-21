@@ -133,8 +133,9 @@ public class VersionMatcher {
             int size = Math.min(versionProfiles.size(), limit);
             for (int i = 0; i < size; i++) {
                 List<String> profile = versionProfiles.get(i);
-                for (String s : profile) {
-                    sb.append("-D").append(s).append(" ");
+                for (String version : profile) {
+                    //-Dxxx.version=1.0.0
+                    sb.append("-D").append(version.replace(':','=')).append(" ");
                 }
                 sb.append("\n");
             }
