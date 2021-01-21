@@ -18,11 +18,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-samples-cloud-native</artifactId>
+        <artifactId>servicediscovery-transfer</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>dubbo-demo-interface</artifactId>
+    <artifactId>servicediscovery-transfer-api</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>The demo module of dubbo project</description>

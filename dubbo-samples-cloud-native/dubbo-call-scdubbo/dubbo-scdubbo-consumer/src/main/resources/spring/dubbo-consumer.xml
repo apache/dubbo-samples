@@ -24,12 +24,12 @@
     <dubbo:application name="dubbo-sc-consumer"/>
 
     <!-- consumes Native Dubbo service -->
-    <dubbo:registry id="dubbo" address="zookeeper://127.0.0.1:2181?registry-type=service"/>
+    <dubbo:registry id="dubbo" address="zookeeper://${zookeeper.address:127.0.0.1}:2181?registry-type=service"/>
     <dubbo:reference registry="dubbo" id="demoService" check="false"
                      interface="org.apache.dubbo.demo.DemoService"/>
 
     <!--     consumes Spring Cloud service-->
-    <dubbo:registry id="sc" address="consul://127.0.0.1:8500">
+    <dubbo:registry id="sc" address="consul://${consul.address:127.0.0.1}:8500">
         <dubbo:parameter key="registry-type" value="service"/>
     </dubbo:registry>
     <dubbo:reference registry="sc" provided-by="scdubbo-provider" id="userService" check="false" protocol="rest"

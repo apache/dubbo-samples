@@ -26,7 +26,11 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.demo.provider.rest.UserService;
 import org.apache.dubbo.demo.provider.rest.UserServiceImpl;
 
+import java.util.concurrent.CountDownLatch;
+
 public class Application {
+    private static String consulAddress = System.getProperty("consul.address", "127.0.0.1");
+
     public static void main(String[] args) throws Exception {
         ServiceConfig<UserService> service = new ServiceConfig<>();
         service.setInterface(UserService.class);
@@ -37,10 +41,13 @@ public class Application {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("dubbo-provider-for-sc"))
-                .registry(new RegistryConfig("consul://127.0.0.1:8500?registry-type=service"))
+                .registry(new RegistryConfig(String.format("consul://%s:8500?registry-type=service", consulAddress)))
                 .protocol(protocolConfig)
                 .service(service)
                 .start()
                 .await();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }

@@ -22,7 +22,7 @@ spring:
     name: spring-cloud-provider-for-dubbo
   cloud:
     consul:
-      host: localhost
+      host: ${consul.address:127.0.0.1}
       port: 8500
       enabled: true
       discovery:

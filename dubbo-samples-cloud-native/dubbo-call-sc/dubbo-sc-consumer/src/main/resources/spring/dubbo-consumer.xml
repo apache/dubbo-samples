@@ -23,7 +23,7 @@
 
     <dubbo:application name="dubbo-sc-consumer"/>
 
-    <dubbo:registry address="consul://127.0.0.1:8500">
+    <dubbo:registry address="consul://${consul.address:127.0.0.1}:8500">
         <dubbo:parameter key="registry-type" value="service"/>
     </dubbo:registry>
 
