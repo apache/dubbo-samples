@@ -172,10 +172,16 @@ public class TestRunnerMain {
 
 
         DefaultScanResult scanResult = getScanResult(testClassesDir, tests);
-
         ConsoleLogger consoleLogger = new PrintStreamLogger(System.out);
-        InPluginVMSurefireStarter testStarter = new InPluginVMSurefireStarter(startupConfiguration, providerConfiguration,
-                startupReportConfiguration, consoleLogger);
+
+        // Fix Class loading problem in java9+:
+        // CompletableFuture.supplyAsync() is executed in the ForkJoinWorkerThread
+        // and it only uses system classloader to load classes instead of the IsolatedClassLoader
+        ClassloaderSurefireStarter testStarter = new ClassloaderSurefireStarter(startupConfiguration, providerConfiguration,
+                startupReportConfiguration, consoleLogger, ClassLoader.getSystemClassLoader());
+//        InPluginVMSurefireStarter testStarter = new InPluginVMSurefireStarter(startupConfiguration, providerConfiguration,
+//                startupReportConfiguration, consoleLogger);
+
         RunResult runResult = testStarter.runSuitesInProcess(scanResult);
         boolean runSuccess = runResult.getCompletedCount() > 0 && runResult.isErrorFree() && !runResult.isTimeout();
 

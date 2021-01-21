@@ -30,6 +30,7 @@ services:
     mainClass: org.apache.dubbo.samples.tengine.provider.Provider
     checkPorts:
       - 20880
+    checkLog: "dubbo service started"
 
   dubbo-samples-tengine-test:
     type: test

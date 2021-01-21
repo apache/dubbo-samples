@@ -14,10 +14,46 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-external-zookeeper.yml
+services:
+  zookeeper:
+    image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-monitor
-  main_class: org.apache.dubbo.samples.monitor.BasicProvider
-  dubbo_port: 20880
+  dubbo-provider:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.monitor.BasicProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
 
+  dubbo-monitor:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.monitor.BasicMonitor
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20881
+    checkLog: "dubbo service started"
+
+  monitor-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    depends_on:
+      - dubbo-provider
+      - dubbo-monitor

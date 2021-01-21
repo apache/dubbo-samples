@@ -28,7 +28,7 @@ configs:
 - addresses: ["0.0.0.0:20880"]
   side: provider
   parameters:
-    weight: 1000
+    weight: 100
 - addresses: ["0.0.0.0:20881"]
   side: provider
   parameters:

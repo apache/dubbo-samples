@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-timeout: 150
+timeout: 300
 
 # global system props for all service
 systemProps:
@@ -107,6 +107,7 @@ services:
     depends_on:
       - seata-mysql
       - seata-server
+      - account-service
 
   transaction-test:
     type: test

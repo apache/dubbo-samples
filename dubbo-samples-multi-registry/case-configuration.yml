@@ -19,6 +19,9 @@ services:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.samples.multi.registry.MultiRegistryProvider
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
 
   dubbo-samples-multi-registry-test:
     type: test

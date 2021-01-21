@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.monitor;
+package org.apache.dubbo.samples.monitor.impl;
 
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.monitor.MonitorService;

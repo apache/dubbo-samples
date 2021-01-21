@@ -62,7 +62,7 @@ cd $DIR
 CONFIG_FILE="case-configuration.yml"
 VERSONS_FILE="case-versions.conf"
 
-mkdir $DIR/jobs
+mkdir -p $DIR/jobs
 testListFile=$DIR/jobs/testjob.txt
 targetTestcases=$1
 if [ "$targetTestcases" != "" ];then
@@ -102,6 +102,7 @@ fi
 #clear test results
 testResultFile=${testListFile%.*}-result-java${JAVA_VER}.txt
 rm -f $testResultFile
+touch $testResultFile
 echo "Test results: $testResultFile"
 
 if [ "$CANDIDATE_VERSIONS" == "" ];then
@@ -320,6 +321,10 @@ do
     sleep 1
     if [ -f $testResultFile ]; then
       finishedTest=`grep "" -c $testResultFile`
+      if [ "$finishedTest" == "" ];then
+        finishedTest=0
+        continue
+      fi
       # check fail fast
       if [ "$FAIL_FAST" == "1" ]; then
         failedTest=`grep "$TEST_FAILURE" -c $testResultFile`

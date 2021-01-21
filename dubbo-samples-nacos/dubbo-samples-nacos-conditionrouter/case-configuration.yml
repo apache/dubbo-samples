@@ -20,6 +20,9 @@ services:
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
+      - JVM_XMS=350m
+      - JVM_XMX=350m
+      - JVM_XMN=150m
 
   dubbo-samples-nacos-conditionrouter1:
     type: app
@@ -31,6 +34,9 @@ services:
       - dubbo.port=20880
     waitPortsBeforeRun:
       - nacos:8848
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - nacos
 
@@ -44,6 +50,9 @@ services:
       - dubbo.port=20881
     waitPortsBeforeRun:
       - nacos:8848
+    checkPorts:
+      - 20881
+    checkLog: "dubbo service started"
     depends_on:
       - nacos
 
