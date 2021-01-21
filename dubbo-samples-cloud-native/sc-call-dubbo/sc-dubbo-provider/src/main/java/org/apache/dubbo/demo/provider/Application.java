@@ -44,8 +44,7 @@ public class Application {
                 .registry(new RegistryConfig(String.format("consul://%s:8500?registry-type=service", consulAddress)))
                 .protocol(protocolConfig)
                 .service(service)
-                .start()
-                .await();
+                .start();
 
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();

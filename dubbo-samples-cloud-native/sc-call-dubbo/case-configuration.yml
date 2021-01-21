@@ -54,9 +54,12 @@ services:
       - "**/*IT.class"
     systemProps:
       - consul.address=consul-server
+      - consumer.address=sc-dubbo-consumer
     waitPortsBeforeRun:
       - consul-server:8500
-      - sc-dubbo-provider:8099
+      - sc-dubbo-provider:8090
+      - sc-dubbo-consumer:8099
     depends_on:
       - consul-server
       - sc-dubbo-provider
+      - sc-dubbo-consumer

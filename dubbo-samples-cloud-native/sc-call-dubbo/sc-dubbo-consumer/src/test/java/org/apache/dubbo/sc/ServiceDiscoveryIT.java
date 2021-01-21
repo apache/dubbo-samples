@@ -1,27 +1,23 @@
 package org.apache.dubbo.sc;
 
-import org.apache.dubbo.demo.DemoService;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.RestTemplate;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/dubbo-consumer.xml")
 public class ServiceDiscoveryIT {
 
-
-    @Autowired
-    private DemoService demoService;
+    private static String consumerAddress = System.getProperty("consumer.address", "127.0.0.1");
 
     @Test
     public void test() {
 
-        String hello = demoService.sayHello("world");
-        System.out.println("result: " + hello);
-        Assert.assertEquals("Hello world", hello);
+        String url = String.format("http://%s:8099/dubbo/rest/user", consumerAddress);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(url, String.class);
+
+        System.out.println("result: " + result);
+        Assert.assertEquals("{\"id\":1,\"name\":\"username1\"}", result);
 
     }
+
 }
