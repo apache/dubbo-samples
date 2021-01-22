@@ -23,11 +23,12 @@ env:
   VERSIONS_LIMIT: 4
   #candidate versions (the dubbo snapshot version will be extracted from pom.xml and appended before CANDIDATE_VERSIONS )
   CANDIDATE_VERSIONS: '
+    dubbo.version:2.7.8
     spring.version:4.3.30.RELEASE;
     spring-boot.version:1.5.22.RELEASE;
     spring-boot.version:2.4.1;
     '
-  DUBBO_REF: master
+  DUBBO_REF: 'master'
   DUBBO_SPRING_BOOT_REF: '2.7.x'
 
 jobs:
@@ -119,7 +120,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: 'kylixs/dubbo-spring-boot-project'
+          repository: 'apache/dubbo-spring-boot-project'
           ref: ${{env.DUBBO_SPRING_BOOT_REF}}
       - name: Get commit id
         id: git-checker

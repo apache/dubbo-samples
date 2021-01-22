@@ -28,7 +28,7 @@ env:
     spring-boot.version:2.4.1;
     '
   DUBBO_REF: '3.0'
-  DUBBO_SPRING_BOOT_REF: '3.0'
+  DUBBO_SPRING_BOOT_REF: '3.0.x'
 
 jobs:
   build-samples:
@@ -119,7 +119,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: 'kylixs/dubbo-spring-boot-project'
+          repository: 'apache/dubbo-spring-boot-project'
           ref: ${{env.DUBBO_SPRING_BOOT_REF}}
       - name: Get commit id
         id: git-checker
