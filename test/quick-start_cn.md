@@ -357,6 +357,18 @@ export CANDIDATE_VERSIONS="dubbo.version:3.0.0-SNAPSHOT;spring.version:4.3.16.RE
 ```
 在同一个shell中，只需要执行一次 `export CANDIDATE_VERSIONS=...` 命令，后面多次执行测试案例都会生效。
 
+如果是测试 2.7.9-SNAPSHOT则设置为:
+
+```
+ export CANDIDATE_VERSIONS="dubbo.version:2.7.9-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+```
+
+同时测试 2.7.8和2.7.9-SNAPSHOT则设置为:
+
+```
+ export CANDIDATE_VERSIONS="dubbo.version:2.7.8,2.7.9-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+```
+
 4、启动测试案例
 
 ```
