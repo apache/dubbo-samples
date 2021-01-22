@@ -27,6 +27,9 @@ services:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
 
@@ -38,8 +41,12 @@ services:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
+    checkPorts:
+      - 20881
+    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+      - dubbo-samples-chain-backend
 
   dubbo-samples-chain-front:
     type: test

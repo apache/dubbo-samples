@@ -27,6 +27,9 @@ services:
       - consul.port=8500
     waitPortsBeforeRun:
       - consul:8500
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - consul
 

@@ -22,7 +22,7 @@ import org.apache.dubbo.demo.HelloRequest;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Application {
+public class ConsumerApplication {
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
         context.start();

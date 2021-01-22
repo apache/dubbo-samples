@@ -17,39 +17,21 @@
 
 package org.apache.dubbo.samples;
 
+import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
 import io.grpc.examples.helloworld.ReactorDubboGreeterGrpc;
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.testcontainers.containers.FixedHostPortGenericContainer;
-import org.testcontainers.containers.GenericContainer;
+import reactor.core.publisher.Mono;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:spring/dubbo-demo-consumer.xml", "classpath*:spring/dubbo-demo-provider.xml"})
+@ContextConfiguration(locations = {"classpath*:spring/dubbo-demo-consumer.xml"})
 public class ReactorGrpcIT {
-//
-//    static {
-//        try {
-//            GenericContainer zookeeper = new GenericContainer<>("zookeeper:3.4.9")
-//                    .withExposedPorts(2181).waitFor();
-//
-//            System.setProperty("zookeeper.address", zookeeper.getContainerIpAddress());
-//            System.setProperty("zookeeper.port", zookeeper.getFirstMappedPort() + "");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-    // port mapping, https://github.com/testcontainers/testcontainers-java/issues/256
-    @ClassRule
-    public static GenericContainer zookeeper = new FixedHostPortGenericContainer("zookeeper:3.4.9")
-            .withFixedExposedPort(2181, 2181);
 
     @Autowired
     @Qualifier("greeter")
@@ -57,9 +39,20 @@ public class ReactorGrpcIT {
 
     @Test
     public void testGreeting() throws Exception {
-        greeter.sayHello(HelloRequest.newBuilder().setName("world!").build())
-                .subscribe(reply -> Assert.assertTrue(reply.getMessage().startsWith("Hello world!")));
-        Thread.sleep(100);
+
+        HelloRequest helloRequest = HelloRequest.newBuilder().setName("world!").build();
+
+        Mono<HelloReply> mono =  greeter.sayHello(helloRequest);
+
+        mono.subscribe(
+
+                reply -> {
+                    String message = reply.getMessage();
+                    Assert.assertTrue(message.startsWith("Hello world!"));
+                }
+
+        );
+        Thread.sleep(1000);
     }
 }
 

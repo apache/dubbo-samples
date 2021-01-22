@@ -28,6 +28,9 @@ services:
       - dubbo.port=20880
     waitPortsBeforeRun:
       - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
 
@@ -41,6 +44,9 @@ services:
       - dubbo.port=20881
     waitPortsBeforeRun:
       - zookeeper:2181
+    checkPorts:
+      - 20881
+    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
 

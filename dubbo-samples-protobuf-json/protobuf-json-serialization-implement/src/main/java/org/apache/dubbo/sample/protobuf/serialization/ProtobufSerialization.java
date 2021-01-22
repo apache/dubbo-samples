@@ -32,7 +32,8 @@ import java.io.OutputStream;
  * Date: 2019-10-01
  */
 public class ProtobufSerialization implements Serialization {
-    private static final int CONTENT_TYPE_ID = 25;
+    //Serialization ID must less than SERIALIZATION_MASK and cannot be duplicated with other serializations
+    private static final int CONTENT_TYPE_ID = 30;
 
     /**
      * The content type id should not be changed in any circumstance!

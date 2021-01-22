@@ -29,7 +29,7 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
-    <bean id="monitorService" class="org.apache.dubbo.samples.monitor.MonitorServiceImpl"/>
+    <bean id="monitorService" class="org.apache.dubbo.samples.monitor.impl.MonitorServiceImpl"/>
 
     <dubbo:service interface="org.apache.dubbo.monitor.MonitorService" ref="monitorService"/>
 </beans>

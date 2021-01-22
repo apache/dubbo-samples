@@ -43,7 +43,9 @@ public class DemoServiceIT {
         ZKTools.generateAppLevelOverride(100, 0);
         Thread.sleep(5000);
         for (int i = 0; i < 10; i++) {
-            Assert.assertTrue(demoService.sayHello("world").contains("20880"));
+            String result = demoService.sayHello("world");
+            System.out.println(result);
+            Assert.assertTrue(result.contains("20880"));
         }
     }
 
@@ -52,7 +54,9 @@ public class DemoServiceIT {
         ZKTools.generateAppLevelOverride(0, 100);
         Thread.sleep(5000);
         for (int i = 0; i < 10; i++) {
-            Assert.assertTrue(demoService.sayHello("world").contains("20881"));
+            String result = demoService.sayHello("world");
+            System.out.println(result);
+            Assert.assertTrue(result.contains("20881"));
         }
     }
 }

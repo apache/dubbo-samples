@@ -22,6 +22,9 @@ services:
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
+      - JVM_XMS=350m
+      - JVM_XMX=350m
+      - JVM_XMN=150m
 
   dubbo-samples-nacos-override:
     type: app
@@ -32,6 +35,9 @@ services:
       - nacos.port=8848
     waitPortsBeforeRun:
       - nacos:8848
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - nacos
 

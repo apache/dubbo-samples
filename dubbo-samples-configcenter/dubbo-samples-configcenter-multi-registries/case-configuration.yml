@@ -39,6 +39,9 @@ services:
       - config-center:2181
       - zookeeper1:2181
       - zookeeper2:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
     depends_on:
       - config-center
       - zookeeper1

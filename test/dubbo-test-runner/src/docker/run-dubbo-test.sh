@@ -23,6 +23,11 @@ if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   fi
 fi
 
+# At least delay 1 second
+if [ $RUN_DELAY -le 0 ]; then
+  RUN_DELAY=1
+fi
+
 #delay start
 if [ $RUN_DELAY -gt 0 ]; then
   echo "Delay $RUN_DELAY s."
@@ -32,7 +37,11 @@ fi
 # run testcase
 echo "Running tests ..."
 report_dir=$DIR/app/test-reports
-java $JAVA_OPTS $DEBUG_OPTS -jar dubbo-test-runner.jar "$TEST_CLASSES_DIR" "$APP_CLASSES_DIR" "$APP_DEPENDENCY_DIR" "$report_dir" "$TEST_PATTERNS" 2>&1
+
+# Fix Class loading problem in java9+: CompletableFuture.supplyAsync() is executed in the ForkJoinWorkerThread
+# and it only uses system classloader to load classes instead of the IsolatedClassLoader
+classpath=dubbo-test-runner.jar:$TEST_CLASSES_DIR:$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*
+java $JAVA_OPTS $DEBUG_OPTS -cp $classpath org.apache.dubbo.test.runner.TestRunnerMain "$TEST_CLASSES_DIR" "$APP_CLASSES_DIR" "$APP_DEPENDENCY_DIR" "$report_dir" "$TEST_PATTERNS" 2>&1
 result=$?
 if [ $result -ne 0 ]; then
   echo "Run tests failure"

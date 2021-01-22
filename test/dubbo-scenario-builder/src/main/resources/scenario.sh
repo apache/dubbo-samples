@@ -184,9 +184,12 @@ if [[ $status == 0 ]];then
     ${removeImagesScript}
 else
     for service_name in ${service_names[@]};do
-        echo "docker inspect ${project_name}_${service_name}_1 :"
-        docker inspect ${project_name}_${service_name}_1 >> $scenario_log
-        echo ""
+        service_container_name=${project_name}_${service_name}_1
+        echo "docker inspect $service_container_name  :" >> $scenario_log
+        docker inspect $service_container_name >> $scenario_log
+        echo "" >> $scenario_log
+
+        docker logs -f $service_container_name &> $SCENARIO_HOME/logs/${service_name}.log
     done
 fi
 

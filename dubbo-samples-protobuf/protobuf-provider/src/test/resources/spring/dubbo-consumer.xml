@@ -23,7 +23,7 @@
 
     <dubbo:application name="demo-consumer"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <dubbo:reference scope="remote" id="demoService" check="false" interface="org.apache.dubbo.demo.DemoServiceDubbo$IDemoService"/>
 
