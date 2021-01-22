@@ -197,11 +197,11 @@ function process_case() {
       echo "$log_prefix $TEST_IGNORED: Version not match:$error_msg" | tee -a $testResultFile
     else
       echo "$log_prefix $TEST_FAILURE: Generate version matrix failed:$error_msg" | tee -a $testResultFile
-    fi
-    if [ "$SHOW_ERROR_DETAIL" == "1" ];then
-      print_log_file $scenario_name $version_log_file
-    else
-      echo "please check log file: $version_log_file"
+      if [ "$SHOW_ERROR_DETAIL" == "1" ];then
+        print_log_file $scenario_name $version_log_file
+      else
+        echo "please check log file: $version_log_file"
+      fi
     fi
     return 1
   fi
@@ -385,6 +385,8 @@ if [ $failedTest -gt 0 ]; then
   echo "----------------------------------------------------------"
 fi
 
+echo "Total: $caseCount, Success: $successTest, Failures: $failedTest, Ignored: $ignoredTest"
+
 if [[ $successTest -gt 0 && $(($successTest + $ignoredTest)) == $caseCount ]]; then
   test_result=0
   echo "All tests pass"
@@ -392,8 +394,10 @@ else
   test_result=1
   if [[ $failedTest -gt 0 ]]; then
     echo "Some tests failed: $failedTest"
-  else
+  elif [ $successTest -eq 0 ]; then
     echo "No test pass"
+  else
+    echo "Test not completed"
   fi
 fi
 exit $test_result
