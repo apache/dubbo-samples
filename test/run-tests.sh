@@ -385,13 +385,15 @@ if [ $failedTest -gt 0 ]; then
   echo "----------------------------------------------------------"
 fi
 
-test_result=1
-if [ $(($successTest + $ignoredTest)) == $caseCount ]; then
+if [[ $successTest -gt 0 && $(($successTest + $ignoredTest)) == $caseCount ]]; then
   test_result=0
   echo "All tests pass"
-  echo "----------------------------------------------------------"
 else
-  echo "Some tests failed: $failedTest"
-  echo "----------------------------------------------------------"
+  test_result=1
+  if [[ $failedTest -gt 0 ]]; then
+    echo "Some tests failed: $failedTest"
+  else
+    echo "No test pass"
+  fi
 fi
 exit $test_result
