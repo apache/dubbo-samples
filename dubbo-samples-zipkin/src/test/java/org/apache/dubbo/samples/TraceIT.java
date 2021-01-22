@@ -54,6 +54,7 @@ public class TraceIT {
                 "accept", "application/json").build();
         try (Response response = client.newCall(request).execute()) {
             String s = response.body().string();
+            System.out.println("response: "+s);
             Gson gson = new Gson();
             List services = gson.fromJson(s, List.class);
             Assert.assertTrue(services.contains("client"));
@@ -65,6 +66,7 @@ public class TraceIT {
                 "accept", "application/json").build();
         try (Response response = client.newCall(request).execute()) {
             String s = response.body().string();
+            System.out.println("response: "+s);
             Gson gson = new Gson();
             Map[][] traces = gson.fromJson(s, Map[][].class);
             Assert.assertTrue(traces.length > 0);
