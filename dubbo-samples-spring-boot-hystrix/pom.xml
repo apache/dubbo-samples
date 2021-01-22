@@ -32,7 +32,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>2.7.7</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <spring.boot.version>1.5.21.RELEASE</spring.boot.version>
+        <spring-boot.version>1.5.21.RELEASE</spring-boot.version>
         <hystrix-starter.version>1.4.7.RELEASE</hystrix-starter.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
-                <version>${spring.boot.version}</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -102,7 +102,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring.boot.version}</version>
+            <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
