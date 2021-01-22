@@ -302,7 +302,7 @@ VERSIONS_LIMIT: 设置测试的版本数量限制，超过指定的数量则被�
 如果要添加新的组件版本需要保证github workflows及`run-tests.sh`的`CANDIDATE_VERSIONS`环境变量包含该组件的候选版本，否则运行测试案例会报错如下：
 
 ```
-Component not match
+Component not match: dubbo.version, rules: [3.*]
 ```
 
 github workflows的候选版本配置格式如下，每行为一个组件的版本列表，也可以用不同的行指定组件不兼容的版本。

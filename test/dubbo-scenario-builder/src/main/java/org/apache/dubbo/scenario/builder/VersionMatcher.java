@@ -39,10 +39,12 @@ import java.util.regex.Pattern;
 public class VersionMatcher {
 
     private static final Logger logger = LoggerFactory.getLogger(VersionMatcher.class);
+    private static final int EXIT_FAILED = 1;
+    private static final int EXIT_UNMATCHED = 100;
+    private static final String ERROR_MSG_FLAG="ErrorMsg:";
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
-    public static final String VERSIONS_LIMIT = "versionsLimit";
     public static final String INCLUDE_CASE_SPECIFIC_VERSION = "includeCaseSpecificVersion";
 
     public static void main(String[] args) throws Exception {
@@ -50,27 +52,22 @@ public class VersionMatcher {
         String caseVersionsFile = System.getProperty(CASE_VERSIONS_FILE);
         String candidateVersionListStr = System.getProperty(CANDIDATE_VERSIONS);
         String outputFile = System.getProperty(OUTPUT_FILE);
-        int limit = Integer.parseInt(System.getProperty(VERSIONS_LIMIT, "4"));
         // whether include specific version which defined in case-versions.conf
         // specific version: a real version not contains wildcard '*'
         boolean includeCaseSpecificVersion = Boolean.parseBoolean(System.getProperty(INCLUDE_CASE_SPECIFIC_VERSION, "true"));
 
         if (StringUtils.isBlank(candidateVersionListStr)) {
-            logger.error("Missing system prop: '{}'", CANDIDATE_VERSIONS);
-            System.exit(1);
+            errorAndExit(EXIT_FAILED, "Missing system prop: '{}'", CANDIDATE_VERSIONS);
         }
         if (StringUtils.isBlank(caseVersionsFile)) {
-            logger.error("Missing system prop: '{}'", CASE_VERSIONS_FILE);
-            System.exit(1);
+            errorAndExit(EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSIONS_FILE);
         }
         File file = new File(caseVersionsFile);
         if (!file.exists() || !file.isFile()) {
-            logger.error("file not exists or isn't a file: {}", file.getAbsolutePath());
-            System.exit(1);
+            errorAndExit(EXIT_FAILED, "File not exists or isn't a file: {}", file.getAbsolutePath());
         }
         if (StringUtils.isBlank(outputFile)) {
-            logger.error("Missing system prop: '{}'", OUTPUT_FILE);
-            System.exit(1);
+            errorAndExit(EXIT_FAILED, "Missing system prop: '{}'", OUTPUT_FILE);
         }
         new File(outputFile).getParentFile().mkdirs();
 
@@ -108,9 +105,8 @@ public class VersionMatcher {
             List<String> components = new ArrayList<>(caseVersionRules.keySet());
             components.removeAll(matchVersions.keySet());
             for (String component : components) {
-                logger.error("Component not match, component: {}, rules: {}, candidateVersionList: {}", component, caseVersionRules.get(component), candidateVersionListStr);
+                errorAndExit(EXIT_UNMATCHED, "Component not match: {}, rules: {}", component, caseVersionRules.get(component));
             }
-            System.exit(2);
         }
 
         List<List<String>> versionProfiles = new ArrayList<>();
@@ -121,16 +117,12 @@ public class VersionMatcher {
         }
 
         if (versionProfiles.isEmpty()) {
-            logger.error("");
-            System.exit(2);
-        }
-        if (versionProfiles.size() > limit) {
-            logger.warn("Version matrix size exceeds limit and will be truncated, total: {}, limit: {}", versionProfiles.size(), limit);
+            errorAndExit(EXIT_UNMATCHED, "Version matrix is empty");
         }
         try (FileOutputStream fos = new FileOutputStream(outputFile);
              PrintWriter pw = new PrintWriter(fos)) {
             StringBuilder sb = new StringBuilder();
-            int size = Math.min(versionProfiles.size(), limit);
+            int size = versionProfiles.size();
             for (int i = 0; i < size; i++) {
                 List<String> profile = versionProfiles.get(i);
                 for (String version : profile) {
@@ -140,9 +132,9 @@ public class VersionMatcher {
                 sb.append("\n");
             }
             pw.print(sb);
-            logger.info("Version matrix: \n{}", sb);
+            logger.info("Version matrix total: {}, list: \n{}", versionProfiles.size(), sb);
         } catch (IOException e) {
-            logger.error("Write version matrix failed: " + e.toString(), e);
+            errorAndExit(EXIT_FAILED, "Write version matrix failed: " + e.toString(), e);
         }
 
     }
@@ -220,5 +212,14 @@ public class VersionMatcher {
             }
         }
         return versionList;
+    }
+
+    private static void errorAndExit(int exitCode, String format, Object... arguments) {
+        //insert ERROR_MSG_FLAG before error msg
+        Object[] newArgs = new Object[arguments.length + 1];
+        newArgs[0] = ERROR_MSG_FLAG;
+        System.arraycopy(arguments, 0, newArgs, 1, arguments.length);
+        logger.error("{} " + format, newArgs);
+        System.exit(exitCode);
     }
 }

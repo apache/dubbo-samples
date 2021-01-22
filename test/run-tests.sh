@@ -131,12 +131,18 @@ echo "BUILD_OPTS: $BUILD_OPTS"
 # constant
 TEST_SUCCESS="TEST SUCCESS"
 TEST_FAILURE="TEST FAILURE"
+TEST_IGNORED="TEST IGNORED"
+
+# version matrix code
+VERSION_EXIT_UNMATCHED=100
+VERSION_ERROR_MSG_FLAG="ErrorMsg:"
 
 function print_log_file() {
-  title=$1
+  scenario_name=$1
   file=$2
 
   if [ -f $file ]; then
+    title="$scenario_name log: `basename $file`"
     echo ""
     echo "----------------------------------------------------------"
     echo " $title"
@@ -174,16 +180,29 @@ function process_case() {
   echo "$log_prefix Processing : $project_home .."
 
   # generate version matrix
+  version_log_file=$project_home/version-matrix.log
   version_matrix_file=$project_home/version-matrix.txt
   java -DcandidateVersions="$CANDIDATE_VERSIONS" \
     -DcaseVersionsFile="$ver_file" \
     -DoutputFile="$version_matrix_file" \
-    -DversionsLimit=$VERSIONS_LIMIT \
     -cp $test_builder_jar \
-    org.apache.dubbo.scenario.builder.VersionMatcher &> $project_home/version-matrix.log
+    org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
   result=$?
   if [ $result -ne 0 ]; then
-    echo "$log_prefix $TEST_FAILURE: Generate version matrix failure: $project_home/version-matrix.log" | tee -a $testResultFile
+    #extract error msg
+    error_msg=`grep $VERSION_ERROR_MSG_FLAG $version_log_file`
+    error_msg=${error_msg#*$VERSION_ERROR_MSG_FLAG}
+
+    if [ $result -eq $VERSION_EXIT_UNMATCHED ]; then
+      echo "$log_prefix $TEST_IGNORED: Version not match:$error_msg" | tee -a $testResultFile
+    else
+      echo "$log_prefix $TEST_FAILURE: Generate version matrix failed:$error_msg" | tee -a $testResultFile
+    fi
+    if [ "$SHOW_ERROR_DETAIL" == "1" ];then
+      print_log_file $scenario_name $version_log_file
+    else
+      echo "please check log file: $version_log_file"
+    fi
     return 1
   fi
 
@@ -253,7 +272,7 @@ function process_case() {
         for log_file in $scenario_home/logs/*.log; do
           # ignore scenario-builder.log
           if [[ $log_file != *scenario-builder.log ]]; then
-            print_log_file "$scenario_name : `basename $log_file`" $log_file
+            print_log_file $scenario_name $log_file
           fi
         done
       fi
@@ -341,6 +360,7 @@ done < $testListFile
 
 successTest=`grep "$TEST_SUCCESS" -c $testResultFile`
 failedTest=`grep "$TEST_FAILURE" -c $testResultFile`
+ignoredTest=`grep "$TEST_IGNORED" -c $testResultFile`
 
 echo "----------------------------------------------------------"
 echo "Test logs dir: \${project.basedir}/target/logs"
@@ -349,18 +369,29 @@ echo "Test results: $testResultFile"
 echo "Total cost: $((SECONDS - testStartTime)) seconds"
 echo "All tests count: $caseCount"
 echo "Success tests count: $successTest"
+echo "Ignored tests count: $ignoredTest"
+echo "Failed tests count: $failedTest"
+echo "----------------------------------------------------------"
 
-if [ $successTest == $caseCount ]
-then
-   echo "All tests pass"
-   echo "----------------------------------------------------------"
-   exit 0
-else
-   echo "Some tests fail: $failedTest"
-   echo "----------------------------------------------------------"
-   echo "Fail tests:"
-   grep "$TEST_FAILURE" $testResultFile
-   echo "----------------------------------------------------------"
-   exit 1
+if [ $ignoredTest -gt 0 ]; then
+  echo "Ignored tests: $ignoredTest"
+  grep "$TEST_IGNORED" $testResultFile
+  echo "----------------------------------------------------------"
 fi
 
+if [ $failedTest -gt 0 ]; then
+  echo "Failed tests: $failedTest"
+  grep "$TEST_FAILURE" $testResultFile
+  echo "----------------------------------------------------------"
+fi
+
+test_result=1
+if [ $(($successTest + $ignoredTest)) == $caseCount ]; then
+  test_result=0
+  echo "All tests pass"
+  echo "----------------------------------------------------------"
+else
+  echo "Some tests failed: $failedTest"
+  echo "----------------------------------------------------------"
+fi
+exit $test_result
