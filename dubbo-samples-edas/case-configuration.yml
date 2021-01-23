@@ -29,6 +29,7 @@ services:
       - edas-config-center:9600
     depends_on:
       - edas-config-center
+    checkLog: "dubbo service started"
 
   dubbo-samples-edas-test:
     type: test
@@ -39,7 +40,6 @@ services:
       - edas.address=edas-config-center
     waitPortsBeforeRun:
       - edas-config-center:9600
-      - dubbo-samples-edas-provider:20880
     depends_on:
       - edas-config-center
       - dubbo-samples-edas-provider
