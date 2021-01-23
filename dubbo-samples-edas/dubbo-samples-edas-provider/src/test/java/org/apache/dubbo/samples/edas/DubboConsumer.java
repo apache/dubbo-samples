@@ -20,17 +20,14 @@ package org.apache.dubbo.samples.edas;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.edas.provider.DubboProvider;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
 @SpringBootApplication
 @Service
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.samples.edas"})
-@ConditionalOnBean(DubboProvider.class)
 public class DubboConsumer {
 
     @Reference(version = "1.0.0.daily", injvm = false, check = false)
