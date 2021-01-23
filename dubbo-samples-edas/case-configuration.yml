@@ -22,7 +22,7 @@ services:
   dubbo-samples-edas-provider:
     type: app
     basedir: dubbo-samples-edas-provider
-    mainClass: org.apache.dubbo.samples.edas.provider.DubboProvider
+    mainClass: org.apache.dubbo.samples.edas.DubboProvider
     systemProps:
       - edas.address=edas-config-center
     waitPortsBeforeRun:
