@@ -16,24 +16,19 @@
 
 
 services:
+  edas-config-center:
+    image: chiyuxing/dubbo-samples-edas:1.0.0
+
   dubbo-samples-edas-provider:
     type: app
     basedir: dubbo-samples-edas-provider
     mainClass: org.apache.dubbo.samples.edas.provider.DubboProvider
     systemProps:
-      - edas.address=127.0.0.1
+      - edas.address=edas-config-center
     waitPortsBeforeRun:
+      - edas-config-center:9600
     depends_on:
-
-  dubbo-samples-edas-consumer:
-    type: app
-    basedir: dubbo-samples-edas-consumer
-    mainClass: org.apache.dubbo.samples.edas.consumer.DubboConsumer
-    systemProps:
-      - edas.address=127.0.0.1
-    waitPortsBeforeRun:
-    depends_on:
-      - dubbo-samples-edas-provider
+      - edas-config-center
 
   dubbo-samples-edas-test:
     type: test
@@ -41,8 +36,10 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
+      - edas.address=edas-config-center
     waitPortsBeforeRun:
-      - dubbo-samples-edas-consumer:8088
+      - edas-config-center:9600
+      - dubbo-samples-edas-provider:20880
     depends_on:
+      - edas-config-center
       - dubbo-samples-edas-provider
-      - dubbo-samples-edas-consumer

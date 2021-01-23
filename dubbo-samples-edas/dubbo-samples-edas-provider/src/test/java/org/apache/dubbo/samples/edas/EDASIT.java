@@ -18,7 +18,6 @@
 package org.apache.dubbo.samples.edas;
 
 import org.apache.dubbo.rpc.RpcException;
-import org.apache.dubbo.samples.edas.provider.DubboProvider;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {DubboProvider.class, DubboConsumer.class})
+@SpringBootTest(classes = {DubboConsumer.class})
 public class EDASIT {
     @Autowired
     private DubboConsumer dubboConsumer;
