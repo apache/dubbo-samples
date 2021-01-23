@@ -17,8 +17,6 @@
 
 package org.apache.dubbo.samples.edas;
 
-import org.apache.dubbo.rpc.RpcException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,13 +32,7 @@ public class EDASIT {
 
     @Test
     public void testGreeting() throws Exception {
-        // FIXME, no provider
-        try {
-            System.out.println(dubboConsumer.callDemoService());
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof RpcException);
-            Assert.assertTrue(((RpcException) e).getMessage().contains("No provider available"));
-        }
+        System.out.println(dubboConsumer.callDemoService());
+        Assert.assertEquals("Hello, world from Dubbo samples EDAS.", dubboConsumer.callDemoService());
     }
 }
-
