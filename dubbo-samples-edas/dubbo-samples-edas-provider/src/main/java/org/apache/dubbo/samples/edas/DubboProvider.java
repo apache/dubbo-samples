@@ -16,19 +16,17 @@
  *
  */
 
-package org.apache.dubbo.samples.edas.provider;
+package org.apache.dubbo.samples.edas;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.util.concurrent.CountDownLatch;
 
 @EnableAutoConfiguration
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.samples.edas"})
-@ComponentScan("org.apache.dubbo.samples.edas")
 public class DubboProvider {
 
     public static void main(String[] args) throws Exception {
