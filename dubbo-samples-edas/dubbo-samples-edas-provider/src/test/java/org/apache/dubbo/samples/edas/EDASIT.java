@@ -27,12 +27,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {DubboConsumer.class})
 public class EDASIT {
+
     @Autowired
     private DubboConsumer dubboConsumer;
 
     @Test
     public void testGreeting() throws Exception {
-        System.out.println(dubboConsumer.callDemoService());
         Assert.assertEquals("Hello, world from Dubbo samples EDAS.", dubboConsumer.callDemoService());
     }
 }
