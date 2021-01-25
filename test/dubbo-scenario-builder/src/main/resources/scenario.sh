@@ -167,11 +167,11 @@ sleep 5
             echo "[$scenario_name] Run tests successfully" | tee -a $scenario_log
         else
             status=$result
-            echo "[$scenario_name] Run tests failed" | tee -a $scenario_log
+            echo "[$scenario_name] $ERROR_MSG_FLAG Run tests failed" | tee -a $scenario_log
         fi
     else
         status=1
-        echo "[$scenario_name] Run tests timeout" | tee -a $scenario_log
+        echo "[$scenario_name] $ERROR_MSG_FLAG Run tests timeout" | tee -a $scenario_log
     fi
 
     echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log

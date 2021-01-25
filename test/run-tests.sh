@@ -124,7 +124,7 @@ if [ "$MVN_OPTS" != "" ]; then
 fi
 
 if [ "$BUILD_OPTS" == "" ]; then
-  BUILD_OPTS="$MVN_OPTS -U --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
+  BUILD_OPTS="$MVN_OPTS --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
 fi
 export BUILD_OPTS=$BUILD_OPTS
 echo "BUILD_OPTS: $BUILD_OPTS"
@@ -134,9 +134,21 @@ TEST_SUCCESS="TEST SUCCESS"
 TEST_FAILURE="TEST FAILURE"
 TEST_IGNORED="TEST IGNORED"
 
-# version matrix code
-VERSION_EXIT_UNMATCHED=100
-VERSION_ERROR_MSG_FLAG="ErrorMsg:"
+ERROR_MSG_FLAG=":ErrorMsg:"
+
+# Exit codes
+# version matrix not match
+EXIT_UNMATCHED=100
+# ignore testing
+EXIT_IGNORED=120
+
+
+function get_error_msg() {
+  log_file=$1
+  error_msg=`grep $ERROR_MSG_FLAG $log_file`
+  error_msg=${error_msg#*$ERROR_MSG_FLAG}
+  echo $error_msg
+}
 
 function print_log_file() {
   scenario_name=$1
@@ -191,10 +203,9 @@ function process_case() {
   result=$?
   if [ $result -ne 0 ]; then
     #extract error msg
-    error_msg=`grep $VERSION_ERROR_MSG_FLAG $version_log_file`
-    error_msg=${error_msg#*$VERSION_ERROR_MSG_FLAG}
+    error_msg=`get_error_msg $version_log_file`
 
-    if [ $result -eq $VERSION_EXIT_UNMATCHED ]; then
+    if [ $result -eq $EXIT_UNMATCHED ]; then
       echo "$log_prefix $TEST_IGNORED: Version not match:$error_msg" | tee -a $testResultFile
     else
       echo "$log_prefix $TEST_FAILURE: Generate version matrix failed:$error_msg" | tee -a $testResultFile
@@ -241,6 +252,7 @@ function process_case() {
 
     # generate case configuration
     mkdir -p $scenario_home/logs
+    scenario_builder_log=$scenario_home/logs/scenario-builder.log
     echo "$log_prefix Generating test case configuration .."
     config_time=$SECONDS
     java -Dconfigure.file=$file \
@@ -249,11 +261,16 @@ function process_case() {
       -Dscenario.version=$version \
       -Dtest.image.version=$JAVA_VER \
       -Ddebug.service=$DEBUG \
-      -jar $test_builder_jar  &> $scenario_home/logs/scenario-builder.log
+      -jar $test_builder_jar  &> $scenario_builder_log
     result=$?
     if [ $result -ne 0 ]; then
-      echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $scenario_home/logs/scenario-builder.log" | tee -a $testResultFile
-      return 1
+      error_msg=`get_error_msg $scenario_builder_log`
+      if [ $result == $EXIT_IGNORED ]; then
+        echo "$log_prefix $TEST_IGNORED: $error_msg" | tee -a $testResultFile
+      else
+        echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $error_msg, please check log: $scenario_builder_log" | tee -a $testResultFile
+      fi
+      return $result
     fi
 
     # run test
@@ -266,7 +283,21 @@ function process_case() {
     if [ $result == 0 ]; then
       echo "$log_prefix $TEST_SUCCESS with version: $version_profile, cost $((end_time - start_time)) s"
     else
-      echo "$log_prefix $TEST_FAILURE with version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+      scenario_log=$scenario_home/logs/scenario.log
+      error_msg=`get_error_msg $scenario_log`
+      if [ $result == $EXIT_IGNORED ]; then
+        if [ "$error_msg" != "" ];then
+          echo "$log_prefix $TEST_IGNORED with version: $version_profile, reason: $error_msg" | tee -a $testResultFile
+        else
+          echo "$log_prefix $TEST_IGNORED with version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+        fi
+      else
+        if [ "$error_msg" != "" ];then
+          echo "$log_prefix $TEST_FAILURE with version: $version_profile, error: $error_msg, please check logs: $scenario_home/logs" | tee -a $testResultFile
+        else
+          echo "$log_prefix $TEST_FAILURE with version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+        fi
+      fi
 
       # show test log
       if [ "$SHOW_ERROR_DETAIL" == "1" ]; then

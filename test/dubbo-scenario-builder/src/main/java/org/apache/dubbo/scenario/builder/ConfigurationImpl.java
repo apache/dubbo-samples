@@ -135,6 +135,11 @@ public class ConfigurationImpl implements IConfiguration {
         logger.info("scenarioName:{}, timeout: {}, testImageVersion: {}, debugServices:{}, config: {}",
                 scenarioName, scenarioTimeout, testImageVersion, debugServices, configuration);
 
+        if (StringUtils.isNotBlank(configuration.getIgnoreFor())) {
+            logger.warn("{} Ignore testing for: {}", Constants.ERROR_MSG_FLAG, configuration.getIgnoreFor());
+            System.exit(Constants.EXIT_IGNORED);
+        }
+
     }
 
     private boolean isDebugService(String serviceName) {

@@ -39,9 +39,6 @@ import java.util.regex.Pattern;
 public class VersionMatcher {
 
     private static final Logger logger = LoggerFactory.getLogger(VersionMatcher.class);
-    private static final int EXIT_FAILED = 1;
-    private static final int EXIT_UNMATCHED = 100;
-    private static final String ERROR_MSG_FLAG="ErrorMsg:";
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
@@ -57,17 +54,17 @@ public class VersionMatcher {
         boolean includeCaseSpecificVersion = Boolean.parseBoolean(System.getProperty(INCLUDE_CASE_SPECIFIC_VERSION, "true"));
 
         if (StringUtils.isBlank(candidateVersionListStr)) {
-            errorAndExit(EXIT_FAILED, "Missing system prop: '{}'", CANDIDATE_VERSIONS);
+            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CANDIDATE_VERSIONS);
         }
         if (StringUtils.isBlank(caseVersionsFile)) {
-            errorAndExit(EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSIONS_FILE);
+            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSIONS_FILE);
         }
         File file = new File(caseVersionsFile);
         if (!file.exists() || !file.isFile()) {
-            errorAndExit(EXIT_FAILED, "File not exists or isn't a file: {}", file.getAbsolutePath());
+            errorAndExit(Constants.EXIT_FAILED, "File not exists or isn't a file: {}", file.getAbsolutePath());
         }
         if (StringUtils.isBlank(outputFile)) {
-            errorAndExit(EXIT_FAILED, "Missing system prop: '{}'", OUTPUT_FILE);
+            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", OUTPUT_FILE);
         }
         new File(outputFile).getParentFile().mkdirs();
 
@@ -105,7 +102,7 @@ public class VersionMatcher {
             List<String> components = new ArrayList<>(caseVersionRules.keySet());
             components.removeAll(matchVersions.keySet());
             for (String component : components) {
-                errorAndExit(EXIT_UNMATCHED, "Component not match: {}, rules: {}", component, caseVersionRules.get(component));
+                errorAndExit(Constants.EXIT_UNMATCHED, "Component not match: {}, rules: {}", component, caseVersionRules.get(component));
             }
         }
 
@@ -117,7 +114,7 @@ public class VersionMatcher {
         }
 
         if (versionProfiles.isEmpty()) {
-            errorAndExit(EXIT_UNMATCHED, "Version matrix is empty");
+            errorAndExit(Constants.EXIT_UNMATCHED, "Version matrix is empty");
         }
         try (FileOutputStream fos = new FileOutputStream(outputFile);
              PrintWriter pw = new PrintWriter(fos)) {
@@ -134,7 +131,7 @@ public class VersionMatcher {
             pw.print(sb);
             logger.info("Version matrix total: {}, list: \n{}", versionProfiles.size(), sb);
         } catch (IOException e) {
-            errorAndExit(EXIT_FAILED, "Write version matrix failed: " + e.toString(), e);
+            errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.toString(), e);
         }
 
     }
@@ -217,7 +214,7 @@ public class VersionMatcher {
     private static void errorAndExit(int exitCode, String format, Object... arguments) {
         //insert ERROR_MSG_FLAG before error msg
         Object[] newArgs = new Object[arguments.length + 1];
-        newArgs[0] = ERROR_MSG_FLAG;
+        newArgs[0] = Constants.ERROR_MSG_FLAG;
         System.arraycopy(arguments, 0, newArgs, 1, arguments.length);
         logger.error("{} " + format, newArgs);
         System.exit(exitCode);
