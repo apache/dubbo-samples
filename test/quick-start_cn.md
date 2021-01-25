@@ -335,7 +335,7 @@ dubbo 3.0 目前还没发正式版本，需要本地编译install到maven repo�
 git clone https://github.com/apache/dubbo.git dubbo3
 cd dubbo3
 git checkout 3.0
-./mvnw -U --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true 
+./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true 
 ```
 
 2、sample工程添加`case-configuration.yml` 及 `case-versions.conf`

@@ -17,7 +17,7 @@ env:
   FORK_COUNT: 2
   FAIL_FAST: 0
   SHOW_ERROR_DETAIL: 1
-  BUILD_OPTS: -U --batch-mode --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml
+  BUILD_OPTS: --batch-mode --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml
     -Dmaven.wagon.http.retryHandler.count=3 clean package dependency:copy-dependencies -DskipTests
   #multi-version size limit
   VERSIONS_LIMIT: 4
@@ -106,7 +106,7 @@ jobs:
       - name: Build dubbo
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
-          ./mvnw -U --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
+          ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   build-dubbo-spring-boot:
     runs-on: ubuntu-latest
@@ -150,7 +150,7 @@ jobs:
       - name: Build dubbo
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
-          ./mvnw -U --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
+          ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   prepare_test:
     runs-on: ubuntu-latest
