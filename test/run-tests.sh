@@ -232,7 +232,7 @@ function process_case() {
     mvn $BUILD_OPTS $version_profile &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
-      echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
+      echo "$log_prefix $TEST_FAILURE: Build failure with version: $version_profile, please check log: $project_home/mvn.log" | tee -a $testResultFile
       if [ "$SHOW_ERROR_DETAIL" == "1" ];then
         cat $project_home/mvn.log
       fi
@@ -264,9 +264,9 @@ function process_case() {
     end_time=$SECONDS
 
     if [ $result == 0 ]; then
-      echo "$log_prefix $TEST_SUCCESS: cost $((end_time - start_time)) s"
+      echo "$log_prefix $TEST_SUCCESS with version: $version_profile, cost $((end_time - start_time)) s"
     else
-      echo "$log_prefix $TEST_FAILURE, please check logs: $scenario_home/logs" | tee -a $testResultFile
+      echo "$log_prefix $TEST_FAILURE with version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
 
       # show test log
       if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
