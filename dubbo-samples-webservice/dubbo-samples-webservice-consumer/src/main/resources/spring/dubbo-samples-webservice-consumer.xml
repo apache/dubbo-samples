@@ -25,5 +25,4 @@
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
     <dubbo:reference id="demoService" check="false" timeout="3000"
                      interface="org.apache.dubbo.samples.webservice.DemoService"/>
-<!--                     url="webservice://${dubbo.address:127.0.0.1}:8080/dubbo_samples_webservice_provider_war/services/org.apache.dubbo.samples.webservice.DemoService"/>-->
 </beans>

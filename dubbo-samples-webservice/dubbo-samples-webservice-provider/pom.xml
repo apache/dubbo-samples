@@ -29,10 +29,6 @@
         <tomcat.version>8.0.53</tomcat.version>
     </properties>
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>javax.servlet</groupId>-->
-<!--            <artifactId>servlet-api</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
