@@ -19,7 +19,7 @@ package org.apache.dubbo.samples.webservice.consumer;
 import org.apache.dubbo.samples.webservice.DemoService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Application {
+public class WebserviceConsumer {
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-samples-webservice-consumer.xml");
         context.start();
