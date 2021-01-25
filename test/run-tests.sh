@@ -91,10 +91,10 @@ else
   fi
 fi
 
-caseCount=`grep "" -c $testListFile`
-echo "Total test cases : $caseCount"
+totalCount=`grep "" -c $testListFile`
+echo "Total test cases : $totalCount"
 
-if [ "$DEBUG" != "" ] && [ $caseCount -gt 1 ]; then
+if [ "$DEBUG" != "" ] && [ $totalCount -gt 1 ]; then
   echo "Only one case can be debugged"
   exit 1
 fi
@@ -177,7 +177,7 @@ function process_case() {
   project_home=`dirname $file`
   scenario_home=$project_home/target
   scenario_name=`basename $project_home`
-  log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
+  log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix Processing : $project_home .."
 
   # generate version matrix
@@ -215,7 +215,7 @@ function process_case() {
   while read -r version_profile; do
     start_time=$SECONDS
     version_no=$((version_no + 1))
-    log_prefix="[${case_no}/${caseCount}] [$scenario_name:$version_no/$version_count]"
+    log_prefix="[${case_no}/${totalCount}] [$scenario_name:$version_no/$version_count]"
 
     # run test using version profile
     echo "$log_prefix Building project : $scenario_name with version: $version_profile .."
@@ -282,7 +282,7 @@ function process_case() {
 
   done < $version_matrix_file
 
-  log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
+  log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix $TEST_SUCCESS: versions: $version_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
 
   # clean log files
@@ -332,10 +332,10 @@ do
 
   #wait for tests finished
   delta=$maxForks
-  if [ $allTest == $caseCount ];then
+  if [ $allTest == $totalCount ];then
     delta=0
   fi
-  while [ $finishedTest -lt $caseCount ] && [ $((allTest - finishedTest)) -ge $delta ]
+  while [ $finishedTest -lt $totalCount ] && [ $((allTest - finishedTest)) -ge $delta ]
   do
     sleep 1
     if [ -f $testResultFile ]; then
@@ -372,7 +372,7 @@ echo "Test logs dir: \${project.basedir}/target/logs"
 echo "Test reports dir: \${project.basedir}/target/test-reports"
 echo "Test results: $testResultFile"
 echo "Total cost: $((SECONDS - testStartTime)) seconds"
-echo "All tests count: $caseCount"
+echo "All tests count: $totalCount"
 echo "Success tests count: $successTest"
 echo "Ignored tests count: $ignoredTest"
 echo "Failed tests count: $failedTest"
@@ -390,9 +390,9 @@ if [ $failedTest -gt 0 ]; then
   echo "----------------------------------------------------------"
 fi
 
-echo "Total: $caseCount, Success: $successTest, Failures: $failedTest, Ignored: $ignoredTest"
+echo "Total: $totalCount, Success: $successTest, Failures: $failedTest, Ignored: $ignoredTest"
 
-if [[ $successTest -gt 0 && $(($successTest + $ignoredTest)) == $caseCount ]]; then
+if [[ $successTest -gt 0 && $(($successTest + $ignoredTest)) == $totalCount ]]; then
   test_result=0
   echo "All tests pass"
 else
