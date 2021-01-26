@@ -2,6 +2,20 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# constants
+TEST_SUCCESS="TEST SUCCESS"
+TEST_FAILURE="TEST FAILURE"
+TEST_IGNORED="TEST IGNORED"
+
+ERROR_MSG_FLAG=":ErrorMsg:"
+
+# Exit codes
+# version matrix not match
+EXIT_UNMATCHED=100
+# ignore testing
+EXIT_IGNORED=120
+
+
 abspath () { case "$1" in /*)printf "%s\n" "$1";; *)printf "%s\n" "$PWD/$1";; esac; }
 
 trim() {
@@ -128,19 +142,6 @@ if [ "$BUILD_OPTS" == "" ]; then
 fi
 export BUILD_OPTS=$BUILD_OPTS
 echo "BUILD_OPTS: $BUILD_OPTS"
-
-# constant
-TEST_SUCCESS="TEST SUCCESS"
-TEST_FAILURE="TEST FAILURE"
-TEST_IGNORED="TEST IGNORED"
-
-ERROR_MSG_FLAG=":ErrorMsg:"
-
-# Exit codes
-# version matrix not match
-EXIT_UNMATCHED=100
-# ignore testing
-EXIT_IGNORED=120
 
 
 function get_error_msg() {
@@ -287,15 +288,15 @@ function process_case() {
       error_msg=`get_error_msg $scenario_log`
       if [ $result == $EXIT_IGNORED ]; then
         if [ "$error_msg" != "" ];then
-          echo "$log_prefix $TEST_IGNORED with version: $version_profile, reason: $error_msg" | tee -a $testResultFile
+          echo "$log_prefix $TEST_IGNORED: $error_msg, version: $version_profile" | tee -a $testResultFile
         else
-          echo "$log_prefix $TEST_IGNORED with version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+          echo "$log_prefix $TEST_IGNORED, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
         fi
       else
         if [ "$error_msg" != "" ];then
-          echo "$log_prefix $TEST_FAILURE with version: $version_profile, error: $error_msg, please check logs: $scenario_home/logs" | tee -a $testResultFile
+          echo "$log_prefix $TEST_FAILURE: $error_msg, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
         else
-          echo "$log_prefix $TEST_FAILURE with version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+          echo "$log_prefix $TEST_FAILURE, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
         fi
       fi
 
