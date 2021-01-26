@@ -30,6 +30,12 @@
 
     <artifactId>dubbo-sc-provider</artifactId>
 
+    <properties>
+        <spring-cloud-starter-consul.version>1.3.0.RELEASE</spring-cloud-starter-consul.version>
+        <spring-boot-starter-test.version>1.5.10.RELEASE</spring-boot-starter-test.version>
+        <spring-cloud-dependencies.version>Dalston.SR4</spring-cloud-dependencies.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -75,9 +81,20 @@
         </dependency>
     </dependencies>
 
-    <properties>
-        <spring-cloud-starter-consul.version>1.3.0.RELEASE</spring-cloud-starter-consul.version>
-        <spring-boot-starter-test.version>1.5.10.RELEASE</spring-boot-starter-test.version>
-        <spring-cloud-dependencies.version>Dalston.SR4</spring-cloud-dependencies.version>
-    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.4.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

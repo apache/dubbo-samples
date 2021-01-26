@@ -16,6 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# constants
+ERROR_MSG_FLAG=":ErrorMsg:"
+
+
 PRG="$0"
 PRGDIR=`dirname "$PRG"`
 [ -z "$SCENARIO_HOME" ] && SCENARIO_HOME=`cd "$PRGDIR" >/dev/null; pwd`
@@ -167,11 +171,11 @@ sleep 5
             echo "[$scenario_name] Run tests successfully" | tee -a $scenario_log
         else
             status=$result
-            echo "[$scenario_name] Run tests failed" | tee -a $scenario_log
+            echo "[$scenario_name] $ERROR_MSG_FLAG Run tests failed" | tee -a $scenario_log
         fi
     else
         status=1
-        echo "[$scenario_name] Run tests timeout" | tee -a $scenario_log
+        echo "[$scenario_name] $ERROR_MSG_FLAG Run tests timeout" | tee -a $scenario_log
     fi
 
     echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log

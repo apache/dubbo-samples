@@ -36,7 +36,7 @@
     <dubbo:service interface="org.apache.dubbo.samples.api.GreetingService" ref="greetingService" filter="tracing"/>
 
     <dubbo:reference id="helloService" check="false" interface="org.apache.dubbo.samples.api.HelloService"
-                     filter="tracing"/>
+                     filter="tracing" timeout="2000"/>
 
     <!-- zipkin configuration -->
     <bean id="sender" class="zipkin2.reporter.beans.OkHttpSenderFactoryBean">

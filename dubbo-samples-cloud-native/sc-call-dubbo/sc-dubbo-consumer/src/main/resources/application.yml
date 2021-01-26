@@ -19,4 +19,4 @@ management:
     enabled: false
 endpoints:
   shutdown:
-    enabled: true
+    enabled: false

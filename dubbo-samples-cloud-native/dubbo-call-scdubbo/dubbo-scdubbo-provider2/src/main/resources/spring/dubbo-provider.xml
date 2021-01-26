@@ -23,7 +23,7 @@
 
     <dubbo:application name="scdubbo-provider2"/>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181?registry-type=service"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181?registry-type=service"/>
 
     <dubbo:protocol name="dubbo"/>
 

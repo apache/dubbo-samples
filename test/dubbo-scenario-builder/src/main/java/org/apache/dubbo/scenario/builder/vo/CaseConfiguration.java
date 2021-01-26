@@ -27,6 +27,7 @@ public class CaseConfiguration {
     private List<String> systemProps;
     private Map<String, ServiceComponent> services;
     private int timeout;
+    private String ignoreFor;
 
     public String getFrom() {
         return from;
@@ -68,6 +69,14 @@ public class CaseConfiguration {
         this.timeout = timeout;
     }
 
+    public String getIgnoreFor() {
+        return ignoreFor;
+    }
+
+    public void setIgnoreFor(String ignoreFor) {
+        this.ignoreFor = ignoreFor;
+    }
+
     @Override
     public String toString() {
         return "CaseConfiguration{" +
@@ -76,6 +85,7 @@ public class CaseConfiguration {
                 ", systemProps=" + systemProps +
                 ", services=" + services +
                 ", timeout=" + timeout +
+                ", ignoreFor='" + ignoreFor + '\'' +
                 '}';
     }
 }

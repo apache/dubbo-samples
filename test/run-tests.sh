@@ -2,6 +2,20 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# constants
+TEST_SUCCESS="TEST SUCCESS"
+TEST_FAILURE="TEST FAILURE"
+TEST_IGNORED="TEST IGNORED"
+
+ERROR_MSG_FLAG=":ErrorMsg:"
+
+# Exit codes
+# version matrix not match
+EXIT_UNMATCHED=100
+# ignore testing
+EXIT_IGNORED=120
+
+
 abspath () { case "$1" in /*)printf "%s\n" "$1";; *)printf "%s\n" "$PWD/$1";; esac; }
 
 trim() {
@@ -91,10 +105,10 @@ else
   fi
 fi
 
-caseCount=`grep "" -c $testListFile`
-echo "Total test cases : $caseCount"
+totalCount=`grep "" -c $testListFile`
+echo "Total test cases : $totalCount"
 
-if [ "$DEBUG" != "" ] && [ $caseCount -gt 1 ]; then
+if [ "$DEBUG" != "" ] && [ $totalCount -gt 1 ]; then
   echo "Only one case can be debugged"
   exit 1
 fi
@@ -124,20 +138,25 @@ if [ "$MVN_OPTS" != "" ]; then
 fi
 
 if [ "$BUILD_OPTS" == "" ]; then
-  BUILD_OPTS="$MVN_OPTS -U --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
+  BUILD_OPTS="$MVN_OPTS --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
 fi
 export BUILD_OPTS=$BUILD_OPTS
 echo "BUILD_OPTS: $BUILD_OPTS"
 
-# constant
-TEST_SUCCESS="TEST SUCCESS"
-TEST_FAILURE="TEST FAILURE"
+
+function get_error_msg() {
+  log_file=$1
+  error_msg=`grep $ERROR_MSG_FLAG $log_file`
+  error_msg=${error_msg#*$ERROR_MSG_FLAG}
+  echo $error_msg
+}
 
 function print_log_file() {
-  title=$1
+  scenario_name=$1
   file=$2
 
   if [ -f $file ]; then
+    title="$scenario_name log: `basename $file`"
     echo ""
     echo "----------------------------------------------------------"
     echo " $title"
@@ -171,20 +190,32 @@ function process_case() {
   project_home=`dirname $file`
   scenario_home=$project_home/target
   scenario_name=`basename $project_home`
-  log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
+  log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix Processing : $project_home .."
 
   # generate version matrix
+  version_log_file=$project_home/version-matrix.log
   version_matrix_file=$project_home/version-matrix.txt
   java -DcandidateVersions="$CANDIDATE_VERSIONS" \
     -DcaseVersionsFile="$ver_file" \
     -DoutputFile="$version_matrix_file" \
-    -DversionsLimit=$VERSIONS_LIMIT \
     -cp $test_builder_jar \
-    org.apache.dubbo.scenario.builder.VersionMatcher &> $project_home/version-matrix.log
+    org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
   result=$?
   if [ $result -ne 0 ]; then
-    echo "$log_prefix $TEST_FAILURE: Generate version matrix failure: $project_home/version-matrix.log" | tee -a $testResultFile
+    #extract error msg
+    error_msg=`get_error_msg $version_log_file`
+
+    if [ $result -eq $EXIT_UNMATCHED ]; then
+      echo "$log_prefix $TEST_IGNORED: Version not match:$error_msg" | tee -a $testResultFile
+    else
+      echo "$log_prefix $TEST_FAILURE: Generate version matrix failed:$error_msg" | tee -a $testResultFile
+      if [ "$SHOW_ERROR_DETAIL" == "1" ];then
+        print_log_file $scenario_name $version_log_file
+      else
+        echo "please check log file: $version_log_file"
+      fi
+    fi
     return 1
   fi
 
@@ -196,7 +227,7 @@ function process_case() {
   while read -r version_profile; do
     start_time=$SECONDS
     version_no=$((version_no + 1))
-    log_prefix="[${case_no}/${caseCount}] [$scenario_name:$version_no/$version_count]"
+    log_prefix="[${case_no}/${totalCount}] [$scenario_name:$version_no/$version_count]"
 
     # run test using version profile
     echo "$log_prefix Building project : $scenario_name with version: $version_profile .."
@@ -213,7 +244,7 @@ function process_case() {
     mvn $BUILD_OPTS $version_profile &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
-      echo "$log_prefix $TEST_FAILURE: Build failure, please check log: $project_home/mvn.log" | tee -a $testResultFile
+      echo "$log_prefix $TEST_FAILURE: Build failure with version: $version_profile, please check log: $project_home/mvn.log" | tee -a $testResultFile
       if [ "$SHOW_ERROR_DETAIL" == "1" ];then
         cat $project_home/mvn.log
       fi
@@ -222,6 +253,7 @@ function process_case() {
 
     # generate case configuration
     mkdir -p $scenario_home/logs
+    scenario_builder_log=$scenario_home/logs/scenario-builder.log
     echo "$log_prefix Generating test case configuration .."
     config_time=$SECONDS
     java -Dconfigure.file=$file \
@@ -230,11 +262,16 @@ function process_case() {
       -Dscenario.version=$version \
       -Dtest.image.version=$JAVA_VER \
       -Ddebug.service=$DEBUG \
-      -jar $test_builder_jar  &> $scenario_home/logs/scenario-builder.log
+      -jar $test_builder_jar  &> $scenario_builder_log
     result=$?
     if [ $result -ne 0 ]; then
-      echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $scenario_home/logs/scenario-builder.log" | tee -a $testResultFile
-      return 1
+      error_msg=`get_error_msg $scenario_builder_log`
+      if [ $result == $EXIT_IGNORED ]; then
+        echo "$log_prefix $TEST_IGNORED: $error_msg" | tee -a $testResultFile
+      else
+        echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $error_msg, please check log: $scenario_builder_log" | tee -a $testResultFile
+      fi
+      return $result
     fi
 
     # run test
@@ -245,16 +282,30 @@ function process_case() {
     end_time=$SECONDS
 
     if [ $result == 0 ]; then
-      echo "$log_prefix $TEST_SUCCESS: cost $((end_time - start_time)) s"
+      echo "$log_prefix $TEST_SUCCESS with version: $version_profile, cost $((end_time - start_time)) s"
     else
-      echo "$log_prefix $TEST_FAILURE, please check logs: $scenario_home/logs" | tee -a $testResultFile
+      scenario_log=$scenario_home/logs/scenario.log
+      error_msg=`get_error_msg $scenario_log`
+      if [ $result == $EXIT_IGNORED ]; then
+        if [ "$error_msg" != "" ];then
+          echo "$log_prefix $TEST_IGNORED: $error_msg, version: $version_profile" | tee -a $testResultFile
+        else
+          echo "$log_prefix $TEST_IGNORED, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+        fi
+      else
+        if [ "$error_msg" != "" ];then
+          echo "$log_prefix $TEST_FAILURE: $error_msg, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+        else
+          echo "$log_prefix $TEST_FAILURE, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+        fi
+      fi
 
       # show test log
       if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
         for log_file in $scenario_home/logs/*.log; do
           # ignore scenario-builder.log
           if [[ $log_file != *scenario-builder.log ]]; then
-            print_log_file "$scenario_name : `basename $log_file`" $log_file
+            print_log_file $scenario_name $log_file
           fi
         done
       fi
@@ -263,7 +314,7 @@ function process_case() {
 
   done < $version_matrix_file
 
-  log_prefix="[${case_no}/${caseCount}] [$scenario_name]"
+  log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix $TEST_SUCCESS: versions: $version_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
 
   # clean log files
@@ -313,10 +364,10 @@ do
 
   #wait for tests finished
   delta=$maxForks
-  if [ $allTest == $caseCount ];then
+  if [ $allTest == $totalCount ];then
     delta=0
   fi
-  while [ $finishedTest -lt $caseCount ] && [ $((allTest - finishedTest)) -ge $delta ]
+  while [ $finishedTest -lt $totalCount ] && [ $((allTest - finishedTest)) -ge $delta ]
   do
     sleep 1
     if [ -f $testResultFile ]; then
@@ -346,26 +397,44 @@ done < $testListFile
 
 successTest=`grep "$TEST_SUCCESS" -c $testResultFile`
 failedTest=`grep "$TEST_FAILURE" -c $testResultFile`
+ignoredTest=`grep "$TEST_IGNORED" -c $testResultFile`
 
 echo "----------------------------------------------------------"
 echo "Test logs dir: \${project.basedir}/target/logs"
 echo "Test reports dir: \${project.basedir}/target/test-reports"
 echo "Test results: $testResultFile"
 echo "Total cost: $((SECONDS - testStartTime)) seconds"
-echo "All tests count: $caseCount"
+echo "All tests count: $totalCount"
 echo "Success tests count: $successTest"
+echo "Ignored tests count: $ignoredTest"
+echo "Failed tests count: $failedTest"
+echo "----------------------------------------------------------"
 
-if [ $successTest == $caseCount ]
-then
-   echo "All tests pass"
-   echo "----------------------------------------------------------"
-   exit 0
-else
-   echo "Some tests fail: $failedTest"
-   echo "----------------------------------------------------------"
-   echo "Fail tests:"
-   grep "$TEST_FAILURE" $testResultFile
-   echo "----------------------------------------------------------"
-   exit 1
+if [ $ignoredTest -gt 0 ]; then
+  echo "Ignored tests: $ignoredTest"
+  grep "$TEST_IGNORED" $testResultFile
+  echo "----------------------------------------------------------"
 fi
 
+if [ $failedTest -gt 0 ]; then
+  echo "Failed tests: $failedTest"
+  grep "$TEST_FAILURE" $testResultFile
+  echo "----------------------------------------------------------"
+fi
+
+echo "Total: $totalCount, Success: $successTest, Failures: $failedTest, Ignored: $ignoredTest"
+
+if [[ $successTest -gt 0 && $(($successTest + $ignoredTest)) == $totalCount ]]; then
+  test_result=0
+  echo "All tests pass"
+else
+  test_result=1
+  if [[ $failedTest -gt 0 ]]; then
+    echo "Some tests failed: $failedTest"
+  elif [ $successTest -eq 0 ]; then
+    echo "No test pass"
+  else
+    echo "Test not completed"
+  fi
+fi
+exit $test_result

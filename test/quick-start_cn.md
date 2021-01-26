@@ -302,7 +302,7 @@ VERSIONS_LIMIT: 设置测试的版本数量限制，超过指定的数量则被�
 如果要添加新的组件版本需要保证github workflows及`run-tests.sh`的`CANDIDATE_VERSIONS`环境变量包含该组件的候选版本，否则运行测试案例会报错如下：
 
 ```
-Component not match
+Component not match: dubbo.version, rules: [3.*]
 ```
 
 github workflows的候选版本配置格式如下，每行为一个组件的版本列表，也可以用不同的行指定组件不兼容的版本。
@@ -335,7 +335,7 @@ dubbo 3.0 目前还没发正式版本，需要本地编译install到maven repo�
 git clone https://github.com/apache/dubbo.git dubbo3
 cd dubbo3
 git checkout 3.0
-./mvnw -U --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true 
+./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true 
 ```
 
 2、sample工程添加`case-configuration.yml` 及 `case-versions.conf`
@@ -356,6 +356,18 @@ spring.version=4.*, 5.*
 export CANDIDATE_VERSIONS="dubbo.version:3.0.0-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 ```
 在同一个shell中，只需要执行一次 `export CANDIDATE_VERSIONS=...` 命令，后面多次执行测试案例都会生效。
+
+如果是测试 2.7.9-SNAPSHOT则设置为:
+
+```
+ export CANDIDATE_VERSIONS="dubbo.version:2.7.9-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+```
+
+同时测试 2.7.8和2.7.9-SNAPSHOT则设置为:
+
+```
+ export CANDIDATE_VERSIONS="dubbo.version:2.7.8,2.7.9-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+```
 
 4、启动测试案例
 

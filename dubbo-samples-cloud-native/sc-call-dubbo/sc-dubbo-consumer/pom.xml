@@ -80,4 +80,21 @@
         <spring-boot-starter-test.version>1.5.10.RELEASE</spring-boot-starter-test.version>
         <spring-cloud-dependencies.version>Dalston.SR4</spring-cloud-dependencies.version>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

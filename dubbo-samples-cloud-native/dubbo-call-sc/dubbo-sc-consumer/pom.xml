@@ -29,12 +29,11 @@
     <description>The demo consumer module of dubbo project</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
-        <dubbo.configcenter.zookeeper.version>2.7.4</dubbo.configcenter.zookeeper.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-demo-interface</artifactId>
+            <artifactId>dubbo-sc-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -56,7 +55,6 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-configcenter-zookeeper</artifactId>
-            <version>${dubbo.configcenter.zookeeper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -90,5 +88,33 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-registry-consul</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.4.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

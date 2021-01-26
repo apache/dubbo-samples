@@ -28,12 +28,11 @@
     <description>The demo consumer module of dubbo project</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
-        <dubbo.configcenter.zookeeper.version>2.7.4</dubbo.configcenter.zookeeper.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-demo-interface</artifactId>
+            <artifactId>servicediscovery-transfer-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -55,7 +54,6 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-configcenter-zookeeper</artifactId>
-            <version>${dubbo.configcenter.zookeeper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -82,4 +80,22 @@
             <artifactId>dubbo-serialization-hessian2</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
