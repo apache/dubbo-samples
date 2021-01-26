@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ignoreFor: 'Interoperability between spring-cloud and dubbo is not ready?'
 
 services:
   zookeeper:
