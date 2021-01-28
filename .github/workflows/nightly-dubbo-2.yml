@@ -28,7 +28,8 @@ env:
     spring-boot.version: 1.1.12.RELEASE, 1.2.8.RELEASE, 1.3.8.RELEASE, 1.4.7.RELEASE, 1.5.22.RELEASE;
     spring-boot.version: 2.0.9.RELEASE, 2.1.18.RELEASE, 2.2.12.RELEASE, 2.3.7.RELEASE, 2.4.1
     '
-  DUBBO_REF: master
+  DUBBO_REF: 'master'
+  DUBBO_SPRING_BOOT_REF: '2.7.x'
 
 jobs:
   build-samples:
