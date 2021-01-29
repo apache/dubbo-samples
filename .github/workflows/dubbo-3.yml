@@ -136,7 +136,7 @@ jobs:
 
   testjob:
     needs: [prepare_test, build-dubbo]
-    name: 'Integration Test (JDK: ${{matrix.java}}, Job: ${{matrix.job_id}})'
+    name: 'Integration Test (Java${{matrix.java}}, Job${{matrix.job_id}})'
     runs-on: ubuntu-latest
     env:
       JAVA_VER: ${{matrix.java}}
@@ -189,7 +189,7 @@ jobs:
 
   test_result:
     needs: [testjob]
-    name: 'Test Result (JDK: ${{matrix.java}})'
+    name: 'Test Result (Java${{matrix.java}})'
     if: always()
     runs-on: ubuntu-latest
     strategy:
