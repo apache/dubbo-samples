@@ -61,29 +61,35 @@ jobs:
     # Map a step output to a job output
     outputs:
       commit_id: ${{ steps.git-checker.outputs.commit_id }}
-      cache-hit: ${{ steps.dubbocache.outputs.cache-hit }}
+      version: ${{ steps.git-checker.outputs.version }}
     steps:
       - uses: actions/checkout@v2
         with:
           repository: 'apache/dubbo'
           ref: ${{env.DUBBO_REF}}
+          path: dubbo
+      - uses: actions/checkout@v2
+        with:
+          repository: 'apache/dubbo-spring-boot-project'
+          ref: ${{env.DUBBO_SPRING_BOOT_REF}}
+          path: dubbo-spring-boot-project
       - name: Get commit id and dubbo version
         id: git-checker
         run: |
-          #compare dubbo commit id
-          last_commit_id=`git log --format="%H" -n 1`
-          echo "::set-output name=commit_id::$last_commit_id"
-          echo "commit_id: $last_commit_id"
           # Calculate Dubbo Version
-          REVISION=`awk '/<revision>[^<]+<\/revision>/{gsub(/<revision>|<\/revision>/,"",$1);print $1;exit;}' pom.xml`
-          mkdir dubbo-version
-          echo $REVISION > dubbo-version/dubbo-version
+          REVISION=`awk '/<revision>[^<]+<\/revision>/{gsub(/<revision>|<\/revision>/,"",$1);print $1;exit;}' dubbo/pom.xml`
+          echo "::set-output name=version::$REVISION"
           echo "dubbo version: $REVISION"
-      - name: Upload Dubbo version
-        uses: actions/upload-artifact@v2
-        with:
-          name: dubbo-version
-          path: dubbo-version
+          #
+          #concat dubbo/dubbo-spring-boot commit id
+          cd dubbo
+          dubbo_commit_id=`git log --format="%H" -n 1`
+          cd ../dubbo-spring-boot-project
+          dubbo_spring_boot_commit_id=`git log --format="%H" -n 1`
+          cd ..
+          commit_id=$dubbo_commit_id-$dubbo_spring_boot_commit_id
+          echo "::set-output name=commit_id::$commit_id"
+          echo "commit_id: $commit_id"
       - name: Dubbo cache
         id: dubbocache
         uses: actions/cache@v2
@@ -106,50 +112,12 @@ jobs:
       - name: Build dubbo
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
+          cd dubbo
           ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
-
-  build-dubbo-spring-boot:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    # Map a step output to a job output
-    outputs:
-      commit_id: ${{ steps.git-checker.outputs.commit_id }}
-      cache-hit: ${{ steps.dubbocache.outputs.cache-hit }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          repository: 'apache/dubbo-spring-boot-project'
-          ref: ${{env.DUBBO_SPRING_BOOT_REF}}
-      - name: Get commit id
-        id: git-checker
-        run: |
-          #compare dubbo commit id
-          last_commit_id=`git log --format="%H" -n 1`
-          echo "::set-output name=commit_id::$last_commit_id"
-          echo "commit_id: $last_commit_id"
-      - name: Dubbo-spring-boot cache
-        id: dubbocache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-spring-boot-snapshot-${{steps.git-checker.outputs.commit_id}}
-      - name: Cache local Maven repository
-        if: steps.dubbocache.outputs.cache-hit != 'true'
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-dubbo-spring-boot-${{env.DUBBO_SPRING_BOOT_REF}}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-dubbo-spring-boot-${{env.DUBBO_SPRING_BOOT_REF}}-maven-
-      - name: Set up JDK 8
-        if: steps.dubbocache.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v1
-        with:
-          java-version: 8
-      - name: Build dubbo
+      - name: Build dubbo-spring-boot
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
+          cd dubbo-spring-boot-project
           ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   prepare_test:
@@ -169,7 +137,8 @@ jobs:
           path: test/jobs
 
   testjob:
-    needs: [prepare_test, build-dubbo, build-dubbo-spring-boot]
+    needs: [prepare_test, build-dubbo]
+    name: 'Integration Test (Java${{matrix.java}}, Job${{matrix.job_id}})'
     runs-on: ubuntu-latest
     env:
       JAVA_VER: ${{matrix.java}}
@@ -198,24 +167,14 @@ jobs:
         with:
           path: ~/.m2/repository/org/apache/dubbo
           key: ${{ runner.os }}-dubbo-snapshot-${{needs.build-dubbo.outputs.commit_id}}
-      - name: Dubbo-spring-boot cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository/org/apache/dubbo
-          key: ${{ runner.os }}-dubbo-spring-boot-snapshot-${{needs.build-dubbo-spring-boot.outputs.commit_id}}
       - name: Download test list
         uses: actions/download-artifact@v2
         with:
           name: test-list
           path: test/jobs/
-      - name: Download Dubbo version
-        uses: actions/download-artifact@v2
-        with:
-          name: dubbo-version
-          path: dubbo-version
       - name: Init Candidate Versions
         run: |
-          DUBBO_VERSION=`cat dubbo-version/dubbo-version`
+          DUBBO_VERSION="${{needs.build-dubbo.outputs.version}}"
           CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;$CANDIDATE_VERSIONS"
           echo "CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS" >> $GITHUB_ENV
       - name: Build test image
@@ -232,6 +191,7 @@ jobs:
 
   test_result:
     needs: [testjob]
+    name: 'Test Result (Java${{matrix.java}})'
     if: always()
     runs-on: ubuntu-latest
     strategy:
