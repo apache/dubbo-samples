@@ -28,9 +28,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -68,46 +70,61 @@ public class VersionMatcher {
         }
         new File(outputFile).getParentFile().mkdirs();
 
+        VersionMatcher versionMatcher = new VersionMatcher();
+        versionMatcher.doMatch(caseVersionsFile, candidateVersionListStr, outputFile, includeCaseSpecificVersion);
+    }
+
+    private void doMatch(String caseVersionsFile, String candidateVersionListStr, String outputFile, boolean includeCaseSpecificVersion) throws Exception {
         logger.info("{}: {}", CANDIDATE_VERSIONS, candidateVersionListStr);
         logger.info("{}: {}", CASE_VERSIONS_FILE, caseVersionsFile);
         logger.info("{}: {}", OUTPUT_FILE, outputFile);
 
         // parse and expand to versions list
-        List<String> candidateVersionList = parseVersionList(candidateVersionListStr);
+        Map<String, List<String>> candidateVersionMap = parseVersionList(candidateVersionListStr);
 
-        // parse case version rules
-        Map<String, List<String>> caseVersionRules = parseCaseVersionRules(caseVersionsFile);
+        // parse case version match rules
+        Map<String, List<MatchRule>> caseVersionMatchRules = parseCaseVersionMatchRules(caseVersionsFile);
 
-        Map<String, List<String>> matchVersions = new LinkedHashMap<>();
-        caseVersionRules.forEach((component, versionPatterns) -> {
-            for (String versionPattern : versionPatterns) {
-                // convert 'component:version_prefix*' to regex
-                String regex = "\\Q" + component + ":" + versionPattern.replace("*", "\\E.*?\\Q") + "\\E";
-                Pattern pattern = Pattern.compile(regex);
-                boolean matched = false;
-                for (String version : candidateVersionList) {
-                    if (pattern.matcher(version).matches()) {
-                        getMatchVersionList(matchVersions, component).add(version);
-                        matched = true;
+        Map<String, List<String>> matchedVersionMap = new LinkedHashMap<>();
+
+        candidateVersionMap.forEach((component, candidateVersionList) -> {
+            List<MatchRule> matchRules = caseVersionMatchRules.get(component);
+            if (matchRules == null || matchRules.isEmpty()) {
+                return;
+            }
+
+            // matching rules
+            List<String> matchedVersionList = new ArrayList<>();
+            for (String version : candidateVersionList) {
+                if (hasIncludeVersion(matchRules, version)) {
+                    matchedVersionList.add(version);
+                }
+            }
+
+            //add case specific version
+            if (matchedVersionList.isEmpty() && includeCaseSpecificVersion) {
+                for (MatchRule matchRule : matchRules) {
+                    if (!matchRule.isExcluded() && matchRule instanceof PlainMatchRule) {
+                        matchedVersionList.add(((PlainMatchRule) matchRule).getVersion());
                     }
                 }
-                //add case specific version
-                if (!matched && includeCaseSpecificVersion && !versionPattern.contains("*")) {
-                    getMatchVersionList(matchVersions, component).add(component+":"+versionPattern);
-                }
+            }
+            if (matchedVersionList.size() > 0) {
+                matchedVersionMap.put(component, matchedVersionList);
             }
         });
 
-        if (caseVersionRules.size() != matchVersions.size()) {
-            List<String> components = new ArrayList<>(caseVersionRules.keySet());
-            components.removeAll(matchVersions.keySet());
+        // check if all component has matched version
+        if (caseVersionMatchRules.size() != matchedVersionMap.size()) {
+            List<String> components = new ArrayList<>(caseVersionMatchRules.keySet());
+            components.removeAll(matchedVersionMap.keySet());
             for (String component : components) {
-                errorAndExit(Constants.EXIT_UNMATCHED, "Component not match: {}, rules: {}", component, caseVersionRules.get(component));
+                errorAndExit(Constants.EXIT_UNMATCHED, "Component not match: {}, rules: {}", component, caseVersionMatchRules.get(component));
             }
         }
 
         List<List<String>> versionProfiles = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : matchVersions.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : matchedVersionMap.entrySet()) {
             String component = entry.getKey();
             List<String> versions = entry.getValue();
             versionProfiles = appendComponent(versionProfiles, component, versions);
@@ -124,7 +141,7 @@ public class VersionMatcher {
                 List<String> profile = versionProfiles.get(i);
                 for (String version : profile) {
                     //-Dxxx.version=1.0.0
-                    sb.append("-D").append(version.replace(':','=')).append(" ");
+                    sb.append("-D").append(version.replace(':', '=')).append(" ");
                 }
                 sb.append("\n");
             }
@@ -133,26 +150,44 @@ public class VersionMatcher {
         } catch (IOException e) {
             errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.toString(), e);
         }
-
     }
 
-    private static List<String> getMatchVersionList(Map<String, List<String>> matchVersions, String component) {
-        return matchVersions.computeIfAbsent(component, (key) -> new ArrayList<>());
+    private static boolean hasIncludeVersion(List<MatchRule> matchRules, String version) {
+        boolean included = false;
+        version = trimVersion(version);
+        for (MatchRule matchRule : matchRules) {
+            if (matchRule.match(version)) {
+                // excluded rule has higher priority than included rule
+                if (matchRule.isExcluded()) {
+                    return false;
+                } else {
+                    included = true;
+                }
+            }
+        }
+        return included;
+    }
+
+    private static Pattern getWildcardPattern(String versionPattern) {
+        // convert 'version_prefix*' to regex
+        String regex = "\\Q" + versionPattern.replace("*", "\\E.*?\\Q") + "\\E";
+        return Pattern.compile(regex);
     }
 
     private static List<List<String>> appendComponent(List<List<String>> versionProfiles, String component, List<String> versions) {
         List<List<String>> newProfiles = new ArrayList<>();
         for (String version : versions) {
+            String versionProfile = createVersionProfile(component, version);
             if (versionProfiles.isEmpty()) {
                 List<String> newProfile = new ArrayList<>();
-                newProfile.add(version);
+                newProfile.add(versionProfile);
                 newProfiles.add(newProfile);
             } else {
                 //extends version matrix
                 for (int i = 0; i < versionProfiles.size(); i++) {
                     List<String> profile = versionProfiles.get(i);
                     List<String> newProfile = new ArrayList<>(profile);
-                    newProfile.add(version);
+                    newProfile.add(versionProfile);
                     newProfiles.add(newProfile);
                 }
             }
@@ -160,11 +195,20 @@ public class VersionMatcher {
         return newProfiles;
     }
 
-    private static Map<String, List<String>> parseCaseVersionRules(String caseVersionsFile) throws Exception {
-        //dubbo.version=2.7*, 3.*
-        //spring.version=4.*, 5.*
+    private static String createVersionProfile(String component, String version) {
+        return component + ":" + version;
+    }
+
+    private Map<String, List<MatchRule>> parseCaseVersionMatchRules(String caseVersionsFile) throws Exception {
+        // Possible formats:
+        //dubbo.version=2.7*, 3.*, !2.7.8*, !2.7.8.1
+        //dubbo.version=<=2.7.7, >2.7.8, >=3.0
+        //dubbo.version=[<=2.7.7, >2.7.8, >=3.0]
+        //dubbo.version=["<=2.7.7", ">2.7.8", ">=3.0"]
+        //dubbo.version=['<=2.7.7', '>2.7.8', '>=3.0']
+
         try {
-            Map<String, List<String>> ruleMap = new LinkedHashMap<>();
+            Map<String, List<MatchRule>> ruleMap = new LinkedHashMap<>();
             String content = FileUtil.readFully(caseVersionsFile);
             BufferedReader br = new BufferedReader(new StringReader(content));
             String line;
@@ -173,15 +217,31 @@ public class VersionMatcher {
                 if (line.startsWith("#") || StringUtils.isBlank(line)) {
                     continue;
                 }
-                String[] strs = line.split("=");
-                String component = strs[0].trim();
-                String patternStr = strs[1];
+                int p = line.indexOf('=');
+                String component = line.substring(0, p);
+                String patternStr = line.substring(p + 1);
+                patternStr = trimRule(patternStr, "[", "]");
                 String[] patterns = patternStr.split(",");
-                List<String> patternList = new ArrayList<>();
+                List<MatchRule> ruleList = new ArrayList<>();
                 for (String pattern : patterns) {
-                    patternList.add(pattern.trim());
+                    pattern = trimRule(pattern, "\"");
+                    pattern = trimRule(pattern, "'");
+                    if (pattern.startsWith(">") || pattern.startsWith("<")) {
+                        ruleList.add(parseRangeMatchRule(pattern));
+                    } else {
+                        boolean excluded = false;
+                        if (pattern.startsWith("!")) {
+                            excluded = true;
+                            pattern = pattern.substring(1).trim();
+                        }
+                        if (pattern.contains("*")) {
+                            ruleList.add(new WildcardMatchRule(excluded, pattern));
+                        } else {
+                            ruleList.add(new PlainMatchRule(excluded, pattern));
+                        }
+                    }
                 }
-                ruleMap.put(component, patternList);
+                ruleMap.put(component, ruleList);
             }
             return ruleMap;
         } catch (Exception e) {
@@ -190,11 +250,27 @@ public class VersionMatcher {
         }
     }
 
-    private static List<String> parseVersionList(String versionListStr) {
+    private String trimRule(String rule, String ch) {
+        return trimRule(rule, ch, ch);
+    }
+
+    private String trimRule(String rule, String begin, String end) {
+        rule = rule.trim();
+        if (rule.startsWith(begin)) {
+            if (rule.endsWith(end)){
+                return rule.substring(1, rule.length()-1);
+            } else {
+                throw new IllegalArgumentException("Version match rule is invalid: "+rule);
+            }
+        }
+        return rule;
+    }
+
+    private Map<String, List<String>> parseVersionList(String versionListStr) {
         // "<component1>:<version1>[,version2];<component2>:<version1>[,version2]"
         // "<component1>:<version1>[;component1:<version2];<component2>:<version1>[;component2:version2];"
 
-        List<String> versionList = new ArrayList<>();
+        Map<String, List<String>> versionMap = new LinkedHashMap<>();
         //split components by ';' or '\n'
         String[] compvers = versionListStr.split("[;\n]");
         for (String compver : compvers) {
@@ -204,11 +280,12 @@ public class VersionMatcher {
             String[] strs = compver.split(":");
             String component = strs[0].trim();
             String[] vers = strs[1].split(",");
+            List<String> versionList = versionMap.computeIfAbsent(component, (key) -> new ArrayList<>());
             for (String ver : vers) {
-                versionList.add(component + ":" + ver.trim());
+                versionList.add(ver.trim());
             }
         }
-        return versionList;
+        return versionMap;
     }
 
     private static void errorAndExit(int exitCode, String format, Object... arguments) {
@@ -219,4 +296,238 @@ public class VersionMatcher {
         logger.error("{} " + format, newArgs);
         System.exit(exitCode);
     }
+
+    private interface MatchRule {
+
+        boolean isExcluded();
+
+        boolean match(String version);
+
+    }
+
+    private static abstract class ExcludableMatchRule implements MatchRule {
+        boolean excluded;
+
+        public ExcludableMatchRule(boolean excluded) {
+            this.excluded = excluded;
+        }
+
+        public boolean isExcluded() {
+            return excluded;
+        }
+
+    }
+
+    private static class PlainMatchRule extends ExcludableMatchRule {
+        private String version;
+
+        public PlainMatchRule(boolean excluded, String version) {
+            super(excluded);
+            this.version = version;
+        }
+
+        @Override
+        public boolean match(String version) {
+            return this.version.equals(version);
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        @Override
+        public String toString() {
+            return (excluded?"!":"")+version;
+        }
+    }
+
+    private static class WildcardMatchRule extends ExcludableMatchRule {
+        private Pattern versionPattern;
+        private String versionWildcard;
+
+        public WildcardMatchRule(boolean excluded, String versionWildcard) {
+            super(excluded);
+            this.versionPattern = getWildcardPattern(versionWildcard);
+            this.versionWildcard = versionWildcard;
+        }
+
+        @Override
+        public boolean match(String version) {
+            return this.versionPattern.matcher(version).matches();
+        }
+        @Override
+        public String toString() {
+            return (excluded?"!":"")+versionWildcard;
+        }
+    }
+
+    private static class RangeMatchRule implements MatchRule {
+        private VersionComparator comparator;
+        private String operator;
+        private String version;
+        private int[] versionInts;
+
+        public RangeMatchRule(String operator, String version) {
+            this.operator = operator;
+            this.version = version;
+            this.comparator = getVersionComparator(operator);
+            this.versionInts = toVersionInts(version);
+        }
+
+        @Override
+        public boolean isExcluded() {
+            return false;
+        }
+
+        @Override
+        public boolean match(String matchingVersion) {
+            int[] matchingVersionInts = toVersionInts(matchingVersion);
+            return comparator.match(matchingVersionInts, versionInts);
+        }
+
+        @Override
+        public String toString() {
+            return operator+version;
+        }
+    }
+
+    private static class CombineMatchRule implements MatchRule {
+        List<MatchRule> matchRules = new ArrayList<>();
+
+        public CombineMatchRule(List<MatchRule> matchRules) {
+            this.matchRules.addAll(matchRules);
+        }
+
+        @Override
+        public boolean isExcluded() {
+            return false;
+        }
+
+        @Override
+        public boolean match(String version) {
+            for (MatchRule matchRule : matchRules) {
+                if (!matchRule.match(version)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            for (MatchRule rule : matchRules) {
+                sb.append(rule.toString()).append(' ');
+            }
+            return sb.toString();
+        }
+    }
+
+    private static int[] toVersionInts(String version) {
+        String[] vers = StringUtils.split(version, '.');
+        int[] ints = new int[4];
+        for (int i = 0; i < ints.length; i++) {
+            if (vers.length > i) {
+                ints[i] = Integer.parseInt(vers[i]);
+            } else {
+                break;
+            }
+        }
+        return ints;
+    }
+
+    private static String trimVersion(String version) {
+        //remove '-SNAPSHOT'
+        int p = version.indexOf('-');
+        if (p > 0) {
+            version = version.substring(0, p);
+        }
+        return version;
+    }
+
+    private static VersionComparator getVersionComparator(String operator) {
+        if (operator.startsWith(">=")) {
+            return greaterThanOrEqualToComparator;
+        } else if (operator.startsWith(">")) {
+            return greaterThanComparator;
+        } else if (operator.startsWith("<=")) {
+            return lessThanOrEqualToComparator;
+        } else if (operator.startsWith("<")) {
+            return lessThanComparator;
+        }
+        throw new IllegalArgumentException("Comparison operator is invalid: "+operator);
+    }
+
+    private Pattern cmpExprPattern = Pattern.compile("<=|>=|<|>|[\\d\\.]+");
+    private MatchRule parseRangeMatchRule(String versionPattern) {
+        List<MatchRule> matchRules = new ArrayList<>();
+        Matcher matcher = cmpExprPattern.matcher(versionPattern);
+        while (matcher.find()) {
+            if (matchRules.size() == 2) {
+                throw new IllegalArgumentException("Invalid range match rule: "+versionPattern);
+            }
+            String operator = matcher.group();
+            if(!matcher.find()){
+                throw new IllegalArgumentException("Parse range match rule failed, unexpected EOF: "+versionPattern);
+            }
+            String version = matcher.group();
+            matchRules.add(new RangeMatchRule(operator, version));
+        }
+
+        if (matchRules.size() == 1) {
+            return matchRules.get(0);
+        } else if (matchRules.size() == 2) {
+            return new CombineMatchRule(matchRules);
+        }
+        throw new IllegalArgumentException("Parse range match rule failed: "+versionPattern);
+    }
+
+    private interface VersionComparator {
+        boolean match(int[] matchingVersionInts, int[] versionInts);
+    }
+
+    private static VersionComparator greaterThanComparator = new VersionComparator() {
+        @Override
+        public boolean match(int[] matchingVersionInts, int[] versionInts) {
+            for (int i = 0; i < versionInts.length; i++) {
+                if (matchingVersionInts[i] > versionInts[i]) {
+                    return true;
+                } else if (matchingVersionInts[i] < versionInts[i]) {
+                    return false;
+                }
+            }
+            return false;
+        }
+    };
+
+    private static VersionComparator greaterThanOrEqualToComparator = new VersionComparator() {
+        @Override
+        public boolean match(int[] matchingVersionInts, int[] versionInts) {
+            return Arrays.equals(matchingVersionInts, versionInts) ||
+                    greaterThanComparator.match(matchingVersionInts, versionInts);
+        }
+    };
+
+    private static VersionComparator lessThanComparator = new VersionComparator() {
+        @Override
+        public boolean match(int[] matchingVersionInts, int[] versionInts) {
+            for (int i = 0; i < versionInts.length; i++) {
+                if (matchingVersionInts[i] < versionInts[i]) {
+                    return true;
+                } else if (matchingVersionInts[i] > versionInts[i]) {
+                    return false;
+                }
+            }
+            return false;
+        }
+    };
+
+    private static VersionComparator lessThanOrEqualToComparator = new VersionComparator() {
+        @Override
+        public boolean match(int[] matchingVersionInts, int[] versionInts) {
+            return Arrays.equals(matchingVersionInts, versionInts) ||
+                    lessThanComparator.match(matchingVersionInts, versionInts);
+        }
+    };
+
 }

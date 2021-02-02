@@ -1,32 +1,12 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TEST_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORK_DIR="$(pwd)"
+echo "WorkDir: $WORK_DIR"
 
-# constants
-TEST_SUCCESS="TEST SUCCESS"
-TEST_FAILURE="TEST FAILURE"
-TEST_IGNORED="TEST IGNORED"
-
-ERROR_MSG_FLAG=":ErrorMsg:"
-
-# Exit codes
-# version matrix not match
-EXIT_UNMATCHED=100
-# ignore testing
-EXIT_IGNORED=120
-
-
-abspath () { case "$1" in /*)printf "%s\n" "$1";; *)printf "%s\n" "$PWD/$1";; esac; }
-
-trim() {
-    local var="$*"
-    # remove leading whitespace characters
-    var="${var#"${var%%[![:space:]]*}"}"
-    # remove trailing whitespace characters
-    var="${var%"${var##*[![:space:]]}"}"
-    printf '%s' "$var"
-}
-
+#-----------------------------------#
+# environments
+#-----------------------------------#
 JAVA_VER=${JAVA_VER:-8}
 echo "JAVA_VER: $JAVA_VER"
 
@@ -40,97 +20,23 @@ echo "SHOW_ERROR_DETAIL: $SHOW_ERROR_DETAIL"
 maxForks=${FORK_COUNT:-2}
 echo "FORK_COUNT: $maxForks"
 
-
 #debug DEBUG=service1,service2
 #deubg all duboo-xxx: DEBUG=dubbo*
 export DEBUG=$DEBUG
 echo "DEBUG=$DEBUG"
 
-#TEST_CASE_FILE
-if [ "$TEST_CASE_FILE" != "" ]; then
-  # convert relative path to absolute path
-  if [[ $TEST_CASE_FILE != /* ]]; then
-    TEST_CASE_FILE=`abspath $TEST_CASE_FILE`
-  fi
-  echo "TEST_CASE_FILE: $TEST_CASE_FILE"
-fi
-
-echo "Test logs dir: \${project.basedir}/target/logs"
-echo "Test reports dir: \${project.basedir}/target/test-reports"
-
-
-#check dubbo/sample-test image and version
-test_image="dubbo/sample-test:$JAVA_VER"
-echo "Checking test image [$test_image] .. "
-docker images --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | grep $test_image
-result=$?
-if [ $result != 0 ];then
-  echo "Test image not found: $test_image, please run 'bash ./build-test-image.sh' first."
-  exit 1
-fi
-
-
-# prepare testcases
-cd $DIR
-
-CONFIG_FILE="case-configuration.yml"
-VERSONS_FILE="case-versions.conf"
-
-mkdir -p $DIR/jobs
-testListFile=$DIR/jobs/testjob.txt
-targetTestcases=$1
-if [ "$targetTestcases" != "" ];then
-  targetTestcases=`abspath $targetTestcases`
-  if [ -d "$targetTestcases" ] || [ -f "$targetTestcases" ]; then
-    echo "Target testcase: $targetTestcases"
-    echo $targetTestcases > $testListFile
-  else
-    echo "Testcase not exist: $targetTestcases"
-    exit 1
-  fi
-else
-  # use input testcases file
-  if [ "$TEST_CASE_FILE" != "" ]; then
-    testListFile=$TEST_CASE_FILE
-    if [ ! -f $testListFile ]; then
-      echo "Testcases file not found: $testListFile"
-      exit 1
-    fi
-  else
-    # find all case-configuration.yml
-    test_base_dir="$( cd $DIR/.. && pwd )"
-    rm -f $testListFile
-    echo "Searching all '$CONFIG_FILE' under dir $test_base_dir .."
-    find $test_base_dir -name $CONFIG_FILE | grep -v "$DIR" > $testListFile
-  fi
-fi
-
-totalCount=`grep "" -c $testListFile`
-echo "Total test cases : $totalCount"
-
-if [ "$DEBUG" != "" ] && [ $totalCount -gt 1 ]; then
-  echo "Only one case can be debugged"
-  exit 1
-fi
-
-#clear test results
-testResultFile=${testListFile%.*}-result-java${JAVA_VER}.txt
-rm -f $testResultFile
-touch $testResultFile
-echo "Test results: $testResultFile"
-
+DUBBO_VERSION=${DUBBO_VERSION:-2.7.9-SNAPSHOT}
 if [ "$CANDIDATE_VERSIONS" == "" ];then
-  CANDIDATE_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
-#  CANDIDATE_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+  CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+#  CANDIDATE_VERSIONS="dubbo.version:2.7.9-SNAPSHOT;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 fi
 export CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS
 echo "CANDIDATE_VERSIONS: ${CANDIDATE_VERSIONS[@]}"
 
 # test combination versions limit of single case
-VERSIONS_LIMIT=${VERSIONS_LIMIT:-4}
-export VERSIONS_LIMIT=$VERSIONS_LIMIT
-echo "VERSIONS_LIMIT: $VERSIONS_LIMIT"
-
+#VERSIONS_LIMIT=${VERSIONS_LIMIT:-4}
+#export VERSIONS_LIMIT=$VERSIONS_LIMIT
+#echo "VERSIONS_LIMIT: $VERSIONS_LIMIT"
 
 if [ "$MVN_OPTS" != "" ]; then
   export MVN_OPTS=$MVN_OPTS
@@ -143,6 +49,30 @@ fi
 export BUILD_OPTS=$BUILD_OPTS
 echo "BUILD_OPTS: $BUILD_OPTS"
 
+
+#-----------------------------------#
+# constants
+#-----------------------------------#
+TEST_SUCCESS="TEST SUCCESS"
+TEST_FAILURE="TEST FAILURE"
+TEST_IGNORED="TEST IGNORED"
+
+ERROR_MSG_FLAG=":ErrorMsg:"
+
+CONFIG_FILE="case-configuration.yml"
+VERSONS_FILE="case-versions.conf"
+
+# Exit codes
+# version matrix not match
+EXIT_UNMATCHED=100
+# ignore testing
+EXIT_IGNORED=120
+
+
+#-----------------------------------#
+# functions
+#-----------------------------------#
+abspath () { case "$1" in /*)printf "%s\n" "$1";; *)printf "%s\n" "$PWD/$1";; esac; }
 
 function get_error_msg() {
   log_file=$1
@@ -164,6 +94,18 @@ function print_log_file() {
     cat $file
     echo ""
   fi
+}
+
+function check_test_image() {
+    #check dubbo/sample-test image and version
+    test_image="dubbo/sample-test:$JAVA_VER"
+    echo "Checking test image [$test_image] .. "
+    docker images --format 'table {{.Repository}}:{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}' | grep $test_image
+    result=$?
+    if [ $result != 0 ];then
+      echo "Test image not found: $test_image, please run 'bash ./build-test-image.sh' first."
+      exit 1
+    fi
 }
 
 function process_case() {
@@ -321,12 +263,73 @@ function process_case() {
   rm -f $project_home/*.log $project_home/version-matrix.*
 }
 
+
+#-----------------------------------#
+# main
+#-----------------------------------#
+#TEST_CASE_FILE
+if [ "$TEST_CASE_FILE" != "" ]; then
+  # convert relative path to absolute path
+  if [[ $TEST_CASE_FILE != /* ]]; then
+    TEST_CASE_FILE=`abspath $TEST_CASE_FILE`
+  fi
+  echo "TEST_CASE_FILE: $TEST_CASE_FILE"
+fi
+
+echo "Test logs dir: \${project.basedir}/target/logs"
+echo "Test reports dir: \${project.basedir}/target/test-reports"
+
+# prepare testcases
+mkdir -p $TEST_DIR/jobs
+testListFile=$TEST_DIR/jobs/testjob.txt
+targetTestcases=$1
+if [ "$targetTestcases" != "" ];then
+  targetTestcases=`abspath $targetTestcases`
+  if [ -d "$targetTestcases" ] || [ -f "$targetTestcases" ]; then
+    echo "Target testcase: $targetTestcases"
+    echo $targetTestcases > $testListFile
+  else
+    echo "Testcase not exist: $targetTestcases"
+    exit 1
+  fi
+else
+  # use input testcases file
+  if [ "$TEST_CASE_FILE" != "" ]; then
+    testListFile=$TEST_CASE_FILE
+    if [ ! -f $testListFile ]; then
+      echo "Testcases file not found: $testListFile"
+      exit 1
+    fi
+  else
+    # find all case-configuration.yml
+    base_dir="$( dirname $TEST_DIR )"
+    rm -f $testListFile
+    echo "Searching all '$CONFIG_FILE' under dir $base_dir .."
+    find $base_dir -name $CONFIG_FILE | grep -v "$TEST_DIR" > $testListFile
+  fi
+fi
+
+totalCount=`grep "" -c $testListFile`
+echo "Total test cases : $totalCount"
+
+if [ "$DEBUG" != "" ] && [ $totalCount -gt 1 ]; then
+  echo "Only one case can be debugged"
+  exit 1
+fi
+
+#clear test results
+testResultFile=${testListFile%.*}-result-java${JAVA_VER}.txt
+rm -f $testResultFile
+touch $testResultFile
+echo "Test results: $testResultFile"
+
 # build scenario-builder
-SCENARIO_BUILDER_DIR=$DIR/dubbo-scenario-builder
+SCENARIO_BUILDER_DIR=$TEST_DIR/dubbo-scenario-builder
 echo "Building scenario builder .."
 cd $SCENARIO_BUILDER_DIR
 mvn $BUILD_OPTS &> $SCENARIO_BUILDER_DIR/mvn.log
 result=$?
+cd $WORK_DIR
 if [ $result -ne 0 ]; then
   echo "Build dubbo-scenario-builder failure, please check logs: $SCENARIO_BUILDER_DIR/mvn.log"
   cat $SCENARIO_BUILDER_DIR/mvn.log
@@ -342,9 +345,10 @@ else
   echo "Found test builder : $test_builder_jar"
 fi
 
+#check test image
+check_test_image
 
 # start run tests
-cd $DIR
 testStartTime=$SECONDS
 
 #counter

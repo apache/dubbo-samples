@@ -41,10 +41,10 @@ public class VersionMatcherTest {
         candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
 
         String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring.version:4.1.13.RELEASE"));
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring.version:4.1.13.RELEASE"));
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring.version:5.3.2"));
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring.version:5.3.2"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.7 -Dspring.version=4.1.13.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0 -Dspring.version=4.1.13.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.7 -Dspring.version=5.3.2"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0 -Dspring.version=5.3.2"));
     }
 
     @Test
@@ -59,8 +59,8 @@ public class VersionMatcherTest {
         candidateVersions += "spring-boot.version:2.1.1.RELEASE";
 
         String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring-boot.version:2.1.1.RELEASE"));
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring-boot.version:2.1.1.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.7 -Dspring-boot.version=2.1.1.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0 -Dspring-boot.version=2.1.1.RELEASE"));
     }
 
     @Test
@@ -74,8 +74,212 @@ public class VersionMatcherTest {
         candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
 
         String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:2.7.7 -Dspring-boot.version:2.0.8.RELEASE"));
-        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version:3.0 -Dspring-boot.version:2.0.8.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.7 -Dspring-boot.version=2.0.8.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0 -Dspring-boot.version=2.0.8.RELEASE"));
+    }
+
+    @Test
+    public void testExcludeMatch() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= 2.7*, !2.7.9*, 3.* \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.8 -Dspring-boot.version=2.0.8.RELEASE"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0.0 -Dspring-boot.version=2.0.8.RELEASE"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.9-SNAPSHOT"));
+    }
+
+    @Test
+    public void testRangeMatch() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= >=2.7.7 <2.7.9, 3.* \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.8"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0.0"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.9-SNAPSHOT"));
+    }
+
+    @Test
+    public void testRangeMatch2() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= [ >= 2.7.7 < 2.7.9, 3.* ]\n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.8"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0.0"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.9-SNAPSHOT"));
+    }
+
+    @Test
+    public void testRangeMatch3() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= [ '<2.7.8', \">= 2.7.9\", 3.* ]\n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0.0"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.9-SNAPSHOT"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.8"));
+    }
+
+    @Test
+    public void testRangeMatchException1() throws Exception {
+        String matchRule = ">= 2.7.7 < 2.7 .9";
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= " + matchRule + ", 3.* \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        try {
+            getVersionMatrix(caseVersionRules, candidateVersions);
+            Assert.fail("Invalid range match rule should not pass through");
+        } catch (Exception e) {
+            Assert.assertTrue(e.getMessage().contains("Invalid range match rule: " + matchRule));
+        }
+    }
+
+    @Test
+    public void testRangeMatchException2() throws Exception {
+        String matchRule = "'>= 2.7.7 < 2.7.9";
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= " + matchRule + ", 3.* \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        try {
+            getVersionMatrix(caseVersionRules, candidateVersions);
+            Assert.fail("Invalid range match rule should not pass through");
+        } catch (Exception e) {
+            Assert.assertTrue(e.getMessage().contains("Version match rule is invalid: " + matchRule));
+        }
+    }
+
+    @Test
+    public void testRangeMatchException3() throws Exception {
+        String matchRule = "\">= 2.7.7 < 2.7.9";
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= " + matchRule + ", 3.* \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        try {
+            getVersionMatrix(caseVersionRules, candidateVersions);
+            Assert.fail("Invalid range match rule should not pass through");
+        } catch (Exception e) {
+            Assert.assertTrue(e.getMessage().contains("Version match rule is invalid: " + matchRule));
+        }
+    }
+
+    @Test
+    public void testRangeMatchException4() throws Exception {
+        String matchRule = "\">= 2.7.7 < 2.7.9'";
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= " + matchRule + ", 3.* \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        try {
+            getVersionMatrix(caseVersionRules, candidateVersions);
+            Assert.fail("Invalid range match rule should not pass through");
+        } catch (Exception e) {
+            Assert.assertTrue(e.getMessage().contains("Version match rule is invalid: " + matchRule));
+        }
+    }
+
+    @Test
+    public void testGreaterThanOrEqualTo() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= >=2.7.9 \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.9-SNAPSHOT"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0.0"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.8"));
+    }
+
+    @Test
+    public void testGreaterThan() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= >2.7.9 \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=3.0.0"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.8"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.9"));
+    }
+
+    @Test
+    public void testLessThan() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= <2.7.9 \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.8"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=3.0.0"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=2.7.9"));
+    }
+
+    @Test
+    public void testLessThanOrEqualTo() throws Exception {
+        String caseVersionRules = "# SpringBoot app\n" +
+                "dubbo.version= <=2.7.9 \n" +
+                "spring-boot.version= 2.0.8.RELEASE \n\n\n";
+
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
+        candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
+
+        String versionMatrix = getVersionMatrix(caseVersionRules, candidateVersions);
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.8"));
+        Assert.assertTrue(versionMatrix.contains("-Ddubbo.version=2.7.9-SNAPSHOT"));
+        Assert.assertFalse(versionMatrix.contains("-Ddubbo.version=3.0.0"));
     }
 
     private String getVersionMatrix(String caseVersionRules, String candidateVersions) throws Exception {

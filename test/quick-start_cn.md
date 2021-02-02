@@ -4,8 +4,8 @@
 ### 构建测试镜像
 
 ```
-cd dubbo-samples/test
-./build-test-image.sh
+cd dubbo-samples
+./test/build-test-image.sh
 ```
 
 如果构建镜像时apt更新数据很缓慢，可以通过设置环境变量`DEBIAN_MIRROR=http_mirror_server`来指定Debian镜像地址加快构建速度。
@@ -13,15 +13,15 @@ cd dubbo-samples/test
 比如下面脚本指定使用aliyun镜像服务器[http://mirrors.aliyun.com/ubuntu/](http://mirrors.aliyun.com/ubuntu/) :
 
 ```
-cd dubbo-samples/test
-DEBIAN_MIRROR=http://mirrors.aliyun.com ./build-test-image.sh
+cd dubbo-samples
+DEBIAN_MIRROR=http://mirrors.aliyun.com ./test/build-test-image.sh
 ```
 
 也可以执行封装好的脚本：
 
 ```
-cd dubbo-samples/test
-./build-test-image-use-aliyun-mirror.sh
+cd dubbo-samples
+./test/build-test-image-use-aliyun-mirror.sh
 ```
 
 ### 运行测试案例
@@ -37,19 +37,19 @@ cd dubbo-samples/test
 * 运行单个测试案例
 
   ```
-  ./run-tests.sh <project.basedir>
+  ./test/run-tests.sh <project.basedir>
   ```
   
   比如运行`dubbo-samples-annotation`测试案例：
   
   ```
-  ./run-tests.sh ../dubbo-samples-annotation
+  ./test/run-tests.sh dubbo-samples-annotation
   ```
   
 * 调试单个测试案例
 
   ```
-  DEBUG=service1,service2 ./run-tests.sh <project.basedir>
+  DEBUG=service1,service2 ./test/run-tests.sh <project.basedir>
   ```
 
   详细的调试方法，请参考"调试运行测试案例"小节。
@@ -57,13 +57,13 @@ cd dubbo-samples/test
 * 运行指定的测试案例列表
 
   ```
-  TEST_CASE_FILE=testcases1.txt ./run-tests.sh
+  TEST_CASE_FILE=testcases1.txt ./test/run-tests.sh
   ```
  
 * 运行全部测试案例
  
   ```
-   ./run-tests.sh
+   ./test/run-tests.sh
   ```
  
   run-tests.sh 运行全部测试案例的原理:
@@ -291,12 +291,61 @@ dubbo.version=2.7*, 3.*
 spring-boot.version=2.*
 ```
 
-**相关环境变量：**
+**关于版本匹配规则：**
 
-CANDIDATE_VERSIONS: 候选版本列表，格式请参考下面的例子。
+* 通配符匹配
 
-VERSIONS_LIMIT: 设置测试的版本数量限制，超过指定的数量则被截断丢弃。
+下面的规则匹配所有`2.7`开头的版本号，及`3.`开头的版本号：
 
+```
+  dubbo.version=2.7*, 3.*
+```  
+  
+* 具体的版本号
+
+下面的规则只匹配`2.7.8` 及 `2.7.9`，而不会匹配`2.7.8.1`：
+
+```
+  dubbo.version=2.7.8, 2.7.9
+```  
+
+* 范围匹配
+
+下面的规则匹配了小于2.7.8及大于2.7.9的版本，即可以匹配 `2.7.7`, `2.7.7.1`, `2.7.9`, `3.0`，但不会匹配`2.7.8`开头的版本：
+
+```
+  dubbo.version=[ <2.7.8, >=2.7.9 ]
+```
+
+下面的规则匹配了大于等于2.7.8且小于2.7.9区间所有版本，即可以匹配`2.7.8`, `2.7.8.1`, `2.7.8.2` 等：
+
+```
+  dubbo.version=[ ">=2.7.8 <2.7.9" ]
+```
+  
+
+* 排除版本
+
+  通配符及具体版本号前加上'!'表示为其排除规则，排除(exclude)规则优先级高于其它包含(include)规则。
+  
+  下面的匹配规则包含2.7开头的版本号，但排除了`2.7.8`：
+  
+  ```
+  dubbo.version=2.7.*, !2.7.8
+  ```
+  
+  下面的匹配规则包含2.7开头的版本号，但排除所有`2.7.8`开头的版本号，如 `2.7.8`, `2.7.8.1`：
+  ```
+  dubbo.version=2.7.*, !2.7.8*
+  ```
+    
+  
+**注意：**
+
+  如果指定了多个匹配规则，最终计算是或(OR)操作，只要满足一条规则就include/exclude该版本号。  
+
+
+**版本匹配错误：**
 
 除了dubbo/spring/spring-boot组件，其它有需要测试的组件也可以配置。
 如果要添加新的组件版本需要保证github workflows及`run-tests.sh`的`CANDIDATE_VERSIONS`环境变量包含该组件的候选版本，否则运行测试案例会报错如下：
@@ -304,6 +353,25 @@ VERSIONS_LIMIT: 设置测试的版本数量限制，超过指定的数量则被�
 ```
 Component not match: dubbo.version, rules: [3.*]
 ```
+
+**关于候选版本环境变量：**
+
+* CANDIDATE_VERSIONS : 候选版本列表
+
+  格式为: <组件版本变量名1>=<版本1>[,版本2];<组件版本变量名2>=<版本2.1>[,版本2.2];..
+  
+  ```
+  export CANDIDATE_VERSIONS="dubbo.version:3.0.0-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+  ```
+
+* DUBBO_VERSION: Dubbo版本列表 
+  
+  只修改Dubbo版本，其它组件使用默认值。
+  
+  ```
+    export DUBBO_VERSION="3.0.0-SNAPSHOT"
+  ```
+
 
 github workflows的候选版本配置格式如下，每行为一个组件的版本列表，也可以用不同的行指定组件不兼容的版本。
 如spring-boot 1.x 和 2.x 不兼容，可以在两行分别配置。
@@ -317,12 +385,6 @@ env:
     spring-boot.version: 1.1.12.RELEASE, 1.2.8.RELEASE, 1.3.8.RELEASE, 1.4.7.RELEASE;
     spring-boot.version: 2.0.9.RELEASE, 2.1.18.RELEASE, 2.2.12.RELEASE, 2.3.7.RELEASE
     '
-```
-
-本地开发测试`run-tests.sh`脚本的默认候选版本如下，只测试一个版本：
-
-```
-CANDIDATE_VERSIONS="dubbo.version:2.7.8;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 ```
 
 #### 本地测试dubbo 3.0的sample
@@ -353,33 +415,32 @@ spring.version=4.*, 5.*
 候选版本列表中指定dubbo.version为3.0的版本号
 
 ```
-export CANDIDATE_VERSIONS="dubbo.version:3.0.0-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+export DUBBO_VERSION="3.0.0-SNAPSHOT"
 ```
-在同一个shell中，只需要执行一次 `export CANDIDATE_VERSIONS=...` 命令，后面多次执行测试案例都会生效。
+在同一个shell中，只需要执行一次 `export DUBBO_VERSION=...` 命令，后面多次执行测试案例都会生效。
 
 如果是测试 2.7.9-SNAPSHOT则设置为:
-
 ```
- export CANDIDATE_VERSIONS="dubbo.version:2.7.9-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+export DUBBO_VERSION="2.7.9-SNAPSHOT"
 ```
 
 同时测试 2.7.8和2.7.9-SNAPSHOT则设置为:
 
 ```
- export CANDIDATE_VERSIONS="dubbo.version:2.7.8,2.7.9-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+export DUBBO_VERSION="2.7.9-SNAPSHOT,2.7.8"
 ```
 
 4、启动测试案例
 
 ```
-cd dubbo-samples/test
-./run-test.sh ../dubbo-samples-xxxx
+cd dubbo-samples
+./test/run-test.sh dubbo-samples-xxxx
 ```
 
 ### 调试运行测试案例
 
   ```
-  DEBUG=service1,service2 ./run-tests.sh <project.basedir>
+  DEBUG=service1,service2 ./test/run-tests.sh <project.basedir>
   ```
 
   可以通过设置环境变量`DEBUG=service1,service2`来指定哪些app/test服务开启远程调试，自动分配debug端口，
@@ -389,13 +450,7 @@ cd dubbo-samples/test
     
   下面以`dubbo-samples-annotation`举例说明如何调试运行测试案例。
     
-  先用普通方式执行一次测试案例:
-  
-  ```
-  ./run-tests.sh ../dubbo-samples-annotation
-  ```
-  
-  查看生成的`dubbo-samples-annotation/target/docker-compose.yml`，可知AnnotationProviderBootstrap的服务名称为`dubbo-samples-annotation`，
+  查看case-configuration.yml配置，可知AnnotationProviderBootstrap的服务名称为`dubbo-samples-annotation`，
   test类的服务名为`dubbo-samples-annotation-test`。
   
   * **调试provider类：AnnotationProviderBootstrap**
@@ -403,7 +458,7 @@ cd dubbo-samples/test
     执行启动命令，以suspend模式启动AnnotationProviderBootstrap：
     
     ```
-    DEBUG=dubbo-samples-annotation ./run-tests.sh ../dubbo-samples-annotation
+    DEBUG=dubbo-samples-annotation ./test/run-tests.sh dubbo-samples-annotation
     ```
     
     直到可以看到下面的日志信息：
@@ -424,7 +479,7 @@ cd dubbo-samples/test
     执行启动命令，以suspend模式启动test：
     
     ```
-    DEBUG=dubbo-samples-annotation-test ./run-tests.sh ../dubbo-samples-annotation
+    DEBUG=dubbo-samples-annotation-test ./test/run-tests.sh dubbo-samples-annotation
     ```
     
     直到可以看到下面的日志信息：
@@ -440,7 +495,13 @@ cd dubbo-samples/test
     执行调试启动命令
     
     ```
-    DEBUG=dubbo-samples-annotation,dubbo-samples-annotation-test ./run-tests.sh ../dubbo-samples-annotation
+    DEBUG=dubbo-samples-annotation,dubbo-samples-annotation-test ./test/run-tests.sh dubbo-samples-annotation
+    ```
+    
+    或者使用通配符：
+    
+    ```
+    DEBUG=dubbo* ./test/run-tests.sh dubbo-samples-annotation
     ```
     
     同时调试多个suspend方式启动的app/test服务，需要按照依赖顺序连接调试端口，保证前置服务启动成功后，才能继续调试后一个服务。
