@@ -42,8 +42,8 @@ public class ZKTools {
                 "dubbo.registry.address=zookeeper://" + zookeeperHost + ":2181\n" +
                 "dubbo.protocols.dubbo1.name=dubbo\n" +
                 "dubbo.protocols.dubbo1.port=20991\n" +
-                "dubbo.protocols.hessian1.name=hessian\n" +
-                "dubbo.protocols.hessian1.port=8089";
+                "dubbo.protocols.dubbo2.name=dubbo\n" +
+                "dubbo.protocols.dubbo2.port=20992";
 
         System.out.println(str);
 
