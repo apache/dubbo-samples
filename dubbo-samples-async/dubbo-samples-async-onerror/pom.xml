@@ -32,7 +32,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <dubbo.version>2.7.7</dubbo.version>
+        <dubbo.version>2.7.10-SNAPSHOT</dubbo.version>
         <dubbo.configcenter.zookeeper.version>2.7.4</dubbo.configcenter.zookeeper.version>
         <zookeeper.version>3.4.13</zookeeper.version>
         <curator.version>4.0.1</curator.version>
@@ -99,9 +99,21 @@
                 <version>${dubbo.configcenter.zookeeper.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.zookeeper</groupId>
-                <artifactId>zookeeper</artifactId>
-                <version>${zookeeper.version}</version>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-x-discovery</artifactId>
+                <version>4.0.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
