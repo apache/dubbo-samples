@@ -43,7 +43,7 @@ public class DemoServiceIT {
         List<String> decodedUrls = urls.stream().map(URL::decode).collect(Collectors.toList());
         Assert.assertEquals(1, decodedUrls.size());
         String url = decodedUrls.get(0);
-        Assert.assertTrue(url.startsWith("compatible://"));
+        Assert.assertTrue(url.startsWith("compatible://") || url.startsWith("dubbo://"));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class DemoServiceIT {
         List<String> decodedUrls = urls.stream().map(URL::decode).collect(Collectors.toList());
         Assert.assertFalse(decodedUrls.isEmpty());
         String url = decodedUrls.get(0);
-        Assert.assertTrue(url.startsWith("consumer://"));
+        Assert.assertTrue(url.startsWith("consumer://") || url.startsWith("dubbo://"));
     }
 
     @Test

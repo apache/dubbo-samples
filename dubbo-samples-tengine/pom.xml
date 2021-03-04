@@ -9,6 +9,7 @@
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
         <dubbo.version>2.7.7</dubbo.version>
+        <dubbo.boot-starter.version>2.7.8</dubbo.boot-starter.version>
         <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
     </properties>
     <modules>
@@ -29,7 +30,7 @@
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>${dubbo.version}</version>
+                <version>${dubbo.boot-starter.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>

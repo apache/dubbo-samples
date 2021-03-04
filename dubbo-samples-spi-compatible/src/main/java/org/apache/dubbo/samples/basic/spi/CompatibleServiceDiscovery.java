@@ -27,6 +27,8 @@ public class CompatibleServiceDiscovery implements ServiceDiscovery {
 
     protected ServiceInstance serviceInstance;
 
+    protected URL url;
+
     //@Override
     public ServiceInstance getLocalInstance() {
         return serviceInstance;
@@ -44,7 +46,7 @@ public class CompatibleServiceDiscovery implements ServiceDiscovery {
 
     @Override
     public void initialize(URL registryURL) throws Exception {
-
+        url = registryURL;
     }
 
     @Override
@@ -62,4 +64,8 @@ public class CompatibleServiceDiscovery implements ServiceDiscovery {
         return null;
     }
 
+    @Override
+    public URL getUrl() {
+        return url;
+    }
 }
