@@ -25,7 +25,7 @@
 
     <dubbo:application name="merge-provider-1"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.address:192.168.0.156}:2181"/>
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
@@ -36,5 +36,9 @@
     <bean id="mergeService2" class="org.apache.dubbo.samples.merge.impl.MergeServiceImpl2"/>
 
     <dubbo:service group="merge2" interface="org.apache.dubbo.samples.merge.api.MergeService" ref="mergeService2"/>
+
+    <bean id="dubboService" class="org.apache.dubbo.samples.merge.impl.DubboServiceImpl"/>
+
+    <dubbo:service group="hhh" interface="org.apache.dubbo.samples.merge.api.IDubboService" ref="dubboService"/>
 
 </beans>
