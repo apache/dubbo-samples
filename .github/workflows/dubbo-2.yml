@@ -23,7 +23,6 @@ env:
   VERSIONS_LIMIT: 4
   #candidate versions (the dubbo snapshot version will be extracted from pom.xml and appended before CANDIDATE_VERSIONS )
   CANDIDATE_VERSIONS: '
-    dubbo.version:2.7.9;
     spring.version:4.3.30.RELEASE;
     spring-boot.version:1.5.22.RELEASE;
     spring-boot.version:2.4.1;
