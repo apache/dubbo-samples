@@ -32,16 +32,16 @@ Integration test leverages [docker](https://docs.docker.com/get-started/) to set
 Please install `docker` and `docker-compose` first, then build the test image `dubb/sample-test`.
 
 ```bash
-cd dubbo-samples/test
-./build-test-image.sh
+cd dubbo-samples
+./test/build-test-image.sh
 ```
 
 Use a debian mirror through env `DEBIAN_MIRROR` if apt download files slowly, 
 the following example uses aliyun mirror server [http://mirrors.aliyun.com/ubuntu/](http://mirrors.aliyun.com/ubuntu/) :
 
 ```bash
-cd dubbo-samples/test
-DEBIAN_MIRROR=http://mirrors.aliyun.com ./build-test-image.sh
+cd dubbo-samples
+DEBIAN_MIRROR=http://mirrors.aliyun.com ./test/build-test-image.sh
 ```
 
 Then we use the `run-tests.sh` script to run the test cases.
@@ -49,21 +49,21 @@ Then we use the `run-tests.sh` script to run the test cases.
 * Run single test case
 
   ```bash
-  cd dubbo-samples/test
-  ./run-tests.sh <project.basedir>
+  cd dubbo-samples
+  ./test/run-tests.sh <project.basedir>
   ```
     
   For example, run the `dubbo-samples-annotation` test case:
     
   ```
-  ./run-tests.sh ../dubbo-samples-annotation
+  ./test/run-tests.sh dubbo-samples-annotation
   ```
   
 * Run all test cases
 
   ```bash
-  cd dubbo-samples/test
-  ./run-tests.sh 
+  cd dubbo-samples
+  ./test/run-tests.sh 
   ```
 
 If docker container fails to startup successfully in any case, you can check log files in directory `${project.basedir}/target/logs` to understand what happens.

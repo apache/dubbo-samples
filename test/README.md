@@ -1,4 +1,4 @@
-## Dubbo Integration Test
+## Dubbo Integration Test 
 
 ### Test steps
 
@@ -9,16 +9,16 @@ Follow the 3 steps below：
 Please install `docker` and `docker-compose` first, then build the test image.
 
 ```
-cd dubbo-samples/test
-./build-test-image.sh
+cd dubbo-samples
+./test/build-test-image.sh
 ```
 
 Use a debian mirror through env `DEBIAN_MIRROR` if apt download files slowly, 
 the following example uses aliyun mirror server [http://mirrors.aliyun.com/ubuntu/](http://mirrors.aliyun.com/ubuntu/) :
 
 ```
-cd dubbo-samples/test
-DEBIAN_MIRROR=http://mirrors.aliyun.com ./build-test-image.sh
+cd dubbo-samples
+DEBIAN_MIRROR=http://mirrors.aliyun.com ./test/build-test-image.sh
 ```
 
 Rebuild the image after modify any file of the `dubbo-test-runner` project.
@@ -47,15 +47,15 @@ Some example projects:
 Run single test project:
 
 ```
-cd dubbo-samples/test
-./run-tests.sh <project.basedir>
+cd dubbo-samples
+./test/run-tests.sh <project.basedir>
 ```
 
 Run all tests:
 
 ```
-cd dubbo-samples/test
-./run-tests.sh
+cd dubbo-samples
+./test/run-tests.sh
 ```
 
 ### Builtin parent configuration
