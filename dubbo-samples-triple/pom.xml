@@ -109,6 +109,11 @@
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.6.1</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <outputDirectory>build/generated/source/proto/main/java</outputDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
