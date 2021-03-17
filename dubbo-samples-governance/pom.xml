@@ -33,6 +33,7 @@
         <module>dubbo-samples-servicelevel-override</module>
         <module>dubbo-samples-configconditionrouter</module>
         <module>dubbo-samples-tagrouter</module>
+        <module>dubbo-samples-meshrule-router</module>
     </modules>
 
     <repositories>
