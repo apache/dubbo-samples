@@ -14,10 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
 
-props:
-  project_name: dubbo-samples-local
-  main_class: org.apache.dubbo.samples.local.LocalDemo
-  zookeeper_port: 2181
-  dubbo_port: 20880
+# local call through injvm, start test container only
+services:
+  dubbo-samples-local-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
