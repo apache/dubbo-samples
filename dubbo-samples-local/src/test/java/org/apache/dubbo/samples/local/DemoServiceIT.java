@@ -40,7 +40,10 @@ public class DemoServiceIT {
 
     @Test
     public void test() throws Exception {
-        Assert.assertTrue(demoService.sayHello("world").startsWith("Hello world"));
+        // see also: org.apache.dubbo.rpc.protocol.injvm.InjvmInvoker.doInvoke
+        // InjvmInvoker set remote address to 127.0.0.1:0
+        String result = demoService.sayHello("world");
+        Assert.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
     }
 
 }
