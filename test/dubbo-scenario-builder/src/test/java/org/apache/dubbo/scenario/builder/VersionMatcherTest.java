@@ -132,7 +132,7 @@ public class VersionMatcherTest {
                 "dubbo.version= [ '<2.7.8', \">= 2.7.9\", 3.* ]\n" +
                 "spring-boot.version= 2.0.8.RELEASE \n\n\n";
 
-        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0;";
+        String candidateVersions = "dubbo.version:2.7.8,2.7.9-SNAPSHOT,3.0.0.preview;";
         candidateVersions += "spring.version:4.1.13.RELEASE,5.3.2;";
         candidateVersions += "spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;";
 

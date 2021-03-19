@@ -428,7 +428,11 @@ public class VersionMatcher {
         int[] ints = new int[4];
         for (int i = 0; i < ints.length; i++) {
             if (vers.length > i) {
-                ints[i] = Integer.parseInt(vers[i]);
+                try {
+                    ints[i] = Integer.parseInt(vers[i]);
+                } catch (NumberFormatException e) {
+                    //ignore part
+                }
             } else {
                 break;
             }
@@ -437,7 +441,7 @@ public class VersionMatcher {
     }
 
     private static String trimVersion(String version) {
-        //remove '-SNAPSHOT'
+        //remove '-' suffix, such as '-SNAPSHOT'
         int p = version.indexOf('-');
         if (p > 0) {
             version = version.substring(0, p);
