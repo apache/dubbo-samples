@@ -17,16 +17,29 @@
  *
  */
 
-package org.apache.dubbo.samples.merge.impl;
+package org.apache.dubbo.samples.merge;
 
-import com.google.common.collect.Lists;
 import org.apache.dubbo.samples.merge.api.IDubboService;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-public class DubboServiceImpl implements IDubboService {
-    @Override
-    public List<String> hello() {
-        return Lists.newArrayList("1");
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/spring/dubbo-consumer.xml"})
+public class DubboConsumerIT {
+
+    @Autowired
+    private IDubboService dubboService;
+
+    @Test
+    public void testHello() {
+        List<String> list = dubboService.hello();
+        Assert.assertTrue(list.contains("1"));
+        Assert.assertEquals(1, list.size());
     }
 }
