@@ -34,6 +34,7 @@ public class CacheConsumer {
         // verify cache, same result is returned for different invocations (in fact, the return value increases
         // on every invocation on the server side)
         String fix = null;
+        cacheService.findCache("0");
         for (int i = 0; i < 5; i++) {
             String result = cacheService.findCache("0");
             if (fix == null || fix.equals(result)) {
@@ -48,6 +49,7 @@ public class CacheConsumer {
         // default cache.size is 1000 for LRU, should have cache expired if invoke more than 1001 times
         for (int n = 0; n < 1001; n++) {
             String pre = null;
+            cacheService.findCache(String.valueOf(n));
             for (int i = 0; i < 10; i++) {
                 String result = cacheService.findCache(String.valueOf(n));
                 if (pre != null && !pre.equals(result)) {
