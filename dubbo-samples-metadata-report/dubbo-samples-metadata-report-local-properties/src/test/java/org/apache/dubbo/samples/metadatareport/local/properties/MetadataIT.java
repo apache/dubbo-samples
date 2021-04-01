@@ -131,6 +131,7 @@ public class MetadataIT {
      */
     @Test
     public void testConsumerMetadata() throws Exception {
+
         //wait for consumer metadata report finish
         Thread.sleep(1000);
 

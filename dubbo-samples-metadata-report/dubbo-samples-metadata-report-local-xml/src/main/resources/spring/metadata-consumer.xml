@@ -30,6 +30,6 @@
     <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181" group="dubbo3" cycle-report="false"
                            retry-period="4590" sync-report="true" retry-times="23"/>
 
-    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService"/>
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService" init="true"/>
 
 </beans>

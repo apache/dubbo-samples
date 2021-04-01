@@ -26,5 +26,5 @@
 
     <dubbo:reference id="demoService"
                      interface="org.apache.dubbo.samples.simplified.registry.properties.api.DemoService"
-                     owner="vvv" retries="4" actives="6" timeout="4500" version="1.2.3" group="dubbo-simple"/>
+                     owner="vvv" retries="4" actives="6" timeout="4500" version="1.2.3" group="dubbo-simple" init="true"/>
 </beans>
