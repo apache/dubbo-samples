@@ -21,35 +21,36 @@ import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.util.NacosUtils;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring/dubbo-demo-consumer.xml"})
 public class DemoServiceIT {
-    @Autowired
-    private DemoService demoService;
 
     @Test(expected = RpcException.class)
-    public void testWithoutRule() throws Exception {
-        Thread.sleep(2000);
-        demoService.sayHello("world", 3000);
+    public void testWithoutRule() throws Throwable {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/dubbo-demo-consumer.xml");
+        context.start();
+        try {
+            Thread.sleep(2000);
+            DemoService demoService = (DemoService) context.getBean("demoService");
+            demoService.sayHello("world", 3000);
+        } finally {
+            context.close();
+        }
     }
 
     @Test
     public void testWithAppRuleWithSufficientTimeout() throws Throwable {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/spring/dubbo-demo-consumer.xml");
+        context.start();
         try {
             NacosUtils.writeAppRule();
             Thread.sleep(2000);
+            DemoService demoService = (DemoService) context.getBean("demoService");
             Assert.assertTrue(demoService.sayHello("world", 1000).startsWith("Hello world"));
         } finally {
             NacosUtils.clearAppRule();
+            context.close();
         }
     }
 }
