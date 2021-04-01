@@ -42,12 +42,23 @@ public class CacheServiceIT {
 
     @Test
     public void verifyLRU() throws Exception {
+        // this test is for LRU-2 cache only.
+        // verify cache, same result is returned for multiple invocations (in fact, the return value increases
+        // on every invocation on the server side)
         String value = service.findCache("0");
         for (int n = 0; n < 1001; n++) {
-            TestCase.assertEquals(service.findCache(String.valueOf(n)), service.findCache(String.valueOf(n)));
+            // default cache.size is 1000 for LRU, should have cache expired if invoke more than 1001 times
+            String pre = null;
+            service.findCache(String.valueOf(n));
+            for (int i = 0; i < 10; i++) {
+                String result = service.findCache(String.valueOf(n));
+                TestCase.assertTrue(pre == null || pre.equals(result));
+                pre = result;
+            }
         }
-        Assert.assertEquals(service.findCache("0"), service.findCache("0"));
-        Assert.assertNotEquals(value, service.findCache("0"));
+        // verify if the first cache item is expired in LRU cache
+        TestCase.assertFalse(value.equals(service.findCache("0")));
+        TestCase.assertEquals(service.findCache("0"), service.findCache("0"));
     }
 
 
