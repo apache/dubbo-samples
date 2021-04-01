@@ -28,5 +28,5 @@
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181" check="true" simplified="true"/>
 
     <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.simplified.registry.xml.api.DemoService"
-                     owner="vvv" retries="4" actives="6" timeout="4500" version="1.2.3" group="dubbo-simple"/>
+                     owner="vvv" retries="4" actives="6" timeout="4500" version="1.2.3" group="dubbo-simple" init="true"/>
 </beans>

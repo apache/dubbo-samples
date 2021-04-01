@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference(version = "1.1.8", group = "d-test")
+    @Reference(version = "1.1.8", group = "d-test", init = true)
     private AnnotationService annotationService;
 
     public String doSayHello(String name) {
