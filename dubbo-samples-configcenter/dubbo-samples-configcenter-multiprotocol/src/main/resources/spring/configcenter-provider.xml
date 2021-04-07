@@ -28,9 +28,11 @@
     <dubbo:config-center address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
-    <dubbo:service protocol="dubbo1" interface="org.apache.dubbo.samples.configcenter.api.DemoService"
+    <dubbo:service id="dubbo1DemoService" protocol="dubbo1"
+                   interface="org.apache.dubbo.samples.configcenter.api.DemoService"
                    ref="demoService"/>
-    <dubbo:service protocol="dubbo2" interface="org.apache.dubbo.samples.configcenter.api.DemoService"
+    <dubbo:service id="dubbo2DemoService" protocol="dubbo2"
+                   interface="org.apache.dubbo.samples.configcenter.api.DemoService"
                    ref="demoService"/>
 
 </beans>
