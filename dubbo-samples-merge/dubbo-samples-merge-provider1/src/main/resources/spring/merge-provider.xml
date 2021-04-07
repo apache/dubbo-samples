@@ -31,10 +31,12 @@
 
     <bean id="mergeService" class="org.apache.dubbo.samples.merge.impl.MergeServiceImpl"/>
 
-    <dubbo:service group="merge" interface="org.apache.dubbo.samples.merge.api.MergeService" ref="mergeService"/>
+    <dubbo:service id="merge1Service" group="merge" interface="org.apache.dubbo.samples.merge.api.MergeService"
+                   ref="mergeService"/>
 
     <bean id="mergeService2" class="org.apache.dubbo.samples.merge.impl.MergeServiceImpl2"/>
 
-    <dubbo:service group="merge2" interface="org.apache.dubbo.samples.merge.api.MergeService" ref="mergeService2"/>
+    <dubbo:service id="merge2Service" group="merge2" interface="org.apache.dubbo.samples.merge.api.MergeService"
+                   ref="mergeService2"/>
 
 </beans>
