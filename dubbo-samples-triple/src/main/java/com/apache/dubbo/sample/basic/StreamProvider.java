@@ -15,26 +15,23 @@
  *  limitations under the License.
  */
 
-package com.apache.dubbo.sample.testing;
+package com.apache.dubbo.sample.basic;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
 
-import com.apache.dubbo.sample.basic.IGreeter;
-import com.apache.dubbo.sample.basic.IGreeter1Impl;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 
-public class TestProvider {
+public class StreamProvider {
     public static void main(String[] args) throws InterruptedException {
-        ServiceConfig<ITestService> service = new ServiceConfig<>();
-        service.setInterface(ITestService.class);
-        service.setRef(new TestServiceImpl(Executors.newSingleThreadScheduledExecutor()));
+        ServiceConfig<IStreamGreeter> service = new ServiceConfig<>();
+        service.setInterface(IStreamGreeter.class);
+        service.setRef(new IStreamGreeterImpl());
         service.setProtocol(new ProtocolConfig(CommonConstants.TRIPLE, 50051));
-        service.setApplication(new ApplicationConfig("test-provider"));
+        service.setApplication(new ApplicationConfig("stream-provider"));
         service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
         service.export();
         System.out.println("dubbo service started");

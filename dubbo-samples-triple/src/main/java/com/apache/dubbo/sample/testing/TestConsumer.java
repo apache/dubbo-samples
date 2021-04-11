@@ -59,7 +59,7 @@ public class TestConsumer {
         ref.setLazy(true);
         ref.setTimeout(100000);
         ref.setApplication(new ApplicationConfig("demo-consumer"));
-        ref.setRegistry(new RegistryConfig("zookeeper://mse-7ee17333-p.zk.mse.aliyuncs.com:2181"));
+        ref.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
         final ITestService testService = ref.get();
 
         System.out.println("dubbo ref started");
