@@ -86,6 +86,7 @@
         <module>dubbo-samples-perf</module>
         <module>dubbo-samples-tengine</module>
         <module>dubbo-samples-webservice</module>
+        <module>dubbo-samples-autowire</module>
     </modules>
 
     <repositories>
