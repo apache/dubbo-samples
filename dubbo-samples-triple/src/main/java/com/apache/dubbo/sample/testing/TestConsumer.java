@@ -17,19 +17,13 @@
 
 package com.apache.dubbo.sample.testing;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import com.apache.dubbo.sample.basic.IGreeter;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.MessageLite;
 import io.grpc.testing.integration.EmptyProtos.Empty;
 import io.grpc.testing.integration.Messages.Payload;
 import io.grpc.testing.integration.Messages.SimpleRequest;
@@ -42,8 +36,6 @@ import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.hello.HelloReply;
-import org.apache.dubbo.hello.HelloRequest;
 import org.junit.Assert;
 import org.junit.Assume;
 

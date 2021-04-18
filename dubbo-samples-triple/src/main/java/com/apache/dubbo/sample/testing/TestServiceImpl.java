@@ -40,6 +40,7 @@ public class TestServiceImpl implements ITestService {
 
     @Override
     public SimpleResponse unaryCall(SimpleRequest request) {
+        System.out.println("receive request:" + request.getResponseSize());
         SimpleResponse.Builder responseBuilder = SimpleResponse.newBuilder();
         if (request.getResponseSize() != 0) {
             // For consistency with the c++ TestServiceImpl, use a random offset for unary calls.

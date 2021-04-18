@@ -17,25 +17,24 @@
 
 package com.apache.dubbo.sample.basic;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.ServiceConfig;
 
-public class ApiWrapperConsumer {
-    public static void main(String[] args) {
-        ReferenceConfig<IGreeter2> ref = new ReferenceConfig<>();
-        ref.setInterface(IGreeter2.class);
-        ref.setCheck(false);
-        ref.setProtocol(CommonConstants.TRIPLE);
-        ref.setLazy(true);
-        ref.setApplication(new ApplicationConfig("demo-consumer"));
-        ref.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
-        final IGreeter2 iGreeter = ref.get();
-        System.out.println("dubbo ref started");
-        long st = System.currentTimeMillis();
-        String reply = iGreeter.sayHello0("haha");
-        // 4MB response
-        System.out.println("Reply len:" + reply.length() + " cost:" + (System.currentTimeMillis() - st));
+public class StreamWrapperProvider {
+    public static void main(String[] args) throws InterruptedException {
+        ServiceConfig<IStreamGreeter2> service = new ServiceConfig<>();
+        service.setInterface(IStreamGreeter2.class);
+        service.setRef(new IStreamGreeterImpl2());
+        service.setProtocol(new ProtocolConfig(CommonConstants.TRIPLE, 50051));
+        service.setApplication(new ApplicationConfig("stream-provider"));
+        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        service.export();
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }

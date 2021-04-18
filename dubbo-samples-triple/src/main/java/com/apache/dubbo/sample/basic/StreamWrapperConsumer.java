@@ -24,29 +24,26 @@ import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.hello.HelloReply;
-import org.apache.dubbo.hello.HelloRequest;
 
-public class StreamConsumer {
+public class StreamWrapperConsumer {
     public static void main(String[] args) throws InterruptedException, IOException {
-        ReferenceConfig<IStreamGreeter> ref = new ReferenceConfig<>();
-        ref.setInterface(IStreamGreeter.class);
+        ReferenceConfig<IStreamGreeter2> ref = new ReferenceConfig<>();
+        ref.setInterface(IStreamGreeter2.class);
         ref.setCheck(false);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
         ref.setTimeout(100000);
         ref.setApplication(new ApplicationConfig("stream-consumer"));
         ref.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
-        final IStreamGreeter iStreamGreeter = ref.get();
+        final IStreamGreeter2 iStreamGreeter = ref.get();
 
         System.out.println("dubbo ref started");
         try {
 
-            StreamObserver<HelloRequest> streamObserver = iStreamGreeter.sayHello(new StreamObserver<HelloReply>() {
+            StreamObserver<String> streamObserver = iStreamGreeter.sayHello(new StreamObserver<String>() {
                 @Override
-                public void onNext(HelloReply reply) {
-                    System.out.println("onNext");
-                    System.out.println(reply.getMessage());
+                public void onNext(String reply) {
+                    System.out.println("onNext: " + reply);
                 }
 
                 @Override
@@ -60,13 +57,9 @@ public class StreamConsumer {
                 }
             });
 
-            streamObserver.onNext(HelloRequest.newBuilder()
-                .setName("tony")
-                .build());
+            streamObserver.onNext("tony");
 
-            streamObserver.onNext(HelloRequest.newBuilder()
-                .setName("nick")
-                .build());
+            streamObserver.onNext("nick");
 
             streamObserver.onCompleted();
         } catch (Throwable t) {

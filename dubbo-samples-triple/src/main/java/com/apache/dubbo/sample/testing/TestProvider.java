@@ -20,8 +20,6 @@ package com.apache.dubbo.sample.testing;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 
-import com.apache.dubbo.sample.basic.IGreeter;
-import com.apache.dubbo.sample.basic.IGreeter1Impl;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
