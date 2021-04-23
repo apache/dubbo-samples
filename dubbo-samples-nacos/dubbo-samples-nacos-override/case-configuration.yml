@@ -18,7 +18,7 @@ timeout: 180
 
 services:
   nacos:
-    image: nacos/nacos-server:1.4.0
+    image: nacos/nacos-server:2.0.0
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
