@@ -19,13 +19,13 @@
 
 package org.apache.dubbo.samples.resilience4jboot2.provider.impl;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.resilience4jboot2.api.AnnotationService;
 
 /**
  * AsyncServiceImpl
  */
-@Service(interfaceClass = AnnotationService.class)
+@DubboService(interfaceClass = AnnotationService.class)
 public class AnnotationServiceImpl implements AnnotationService {
 
     //    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),

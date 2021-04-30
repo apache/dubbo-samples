@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.configcenter.multiregistries.impl;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.configcenter.multiregistries.api.AnnotationService;
 
-@Service
+@DubboService
 public class AnnotationServiceImpl implements AnnotationService {
 
     @Override

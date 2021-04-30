@@ -18,12 +18,12 @@
  */
 package org.apache.dubbo.samples.resilience4j.impl;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-@Service(interfaceClass = CircuitBreakerService.class)
+@DubboService(interfaceClass = CircuitBreakerService.class)
 public class CircuitBreakerServiceImpl implements CircuitBreakerService {
     private AtomicLong count = new AtomicLong(0);
 

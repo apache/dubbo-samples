@@ -16,23 +16,21 @@
  */
 package org.apache.dubbo.spring.boot.consumer;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.spring.boot.api.HelloService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.spring.boot.api.HelloService;
-
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-
 @SpringBootApplication
 @Service
 @EnableHystrix
 public class ConsumerApplication {
 
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private HelloService demoService;
 
     public static void main(String[] args) {

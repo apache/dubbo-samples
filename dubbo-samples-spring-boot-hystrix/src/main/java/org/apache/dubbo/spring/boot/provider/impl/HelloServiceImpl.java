@@ -17,13 +17,12 @@
 
 package org.apache.dubbo.spring.boot.provider.impl;
 
-import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.spring.boot.api.HelloService;
-
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.spring.boot.api.HelloService;
 
-@Service(version = "1.0.0")
+@DubboService(version = "1.0.0")
 public class HelloServiceImpl implements HelloService {
 
     @HystrixCommand(commandProperties = {

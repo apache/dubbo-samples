@@ -18,7 +18,7 @@
 
 package org.apache.dubbo.samples.edas.consumer;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.edas.GreetingService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DubboConsumerController {
 
-    @Reference(version = "1.0.0.daily", check = false)
+    @DubboReference(version = "1.0.0.daily", check = false)
     private GreetingService demoService;
 
     @RequestMapping("/sayHello/{name}")

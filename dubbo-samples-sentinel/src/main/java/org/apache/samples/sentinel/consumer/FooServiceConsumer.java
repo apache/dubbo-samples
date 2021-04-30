@@ -17,13 +17,12 @@
 
 package org.apache.samples.sentinel.consumer;
 
-import org.apache.dubbo.config.annotation.Reference;
-
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.samples.sentinel.FooService;
 
 public class FooServiceConsumer {
 
-    @Reference(timeout = 3000)
+    @DubboReference(timeout = 3000)
     private FooService fooService;
 
     public String sayHello(String name) {

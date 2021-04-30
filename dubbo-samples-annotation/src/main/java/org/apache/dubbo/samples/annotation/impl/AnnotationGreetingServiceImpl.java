@@ -16,11 +16,11 @@
  */
 package org.apache.dubbo.samples.annotation.impl;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.annotation.AnnotationConstants;
 import org.apache.dubbo.samples.annotation.api.GreetingService;
 
-@Service(version = AnnotationConstants.VERSION)
+@DubboService(version = AnnotationConstants.VERSION)
 public class AnnotationGreetingServiceImpl implements GreetingService {
 
     @Override

@@ -19,23 +19,22 @@
 
 package org.apache.dubbo.samples.resilience4j.action;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.resilience4j.api.AnnotationService;
 import org.apache.dubbo.samples.resilience4j.api.CircuitBreakerService;
 import org.apache.dubbo.samples.resilience4j.api.RateLimiterService;
-
 import org.springframework.stereotype.Component;
 
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference(interfaceClass = AnnotationService.class)
+    @DubboReference(interfaceClass = AnnotationService.class)
     private AnnotationService annotationService;
 
-    @Reference(interfaceClass = CircuitBreakerService.class)
+    @DubboReference(interfaceClass = CircuitBreakerService.class)
     private CircuitBreakerService circuitBreakerService;
 
-    @Reference(interfaceClass = RateLimiterService.class)
+    @DubboReference(interfaceClass = RateLimiterService.class)
     private RateLimiterService rateLimiterService;
 
     public String doSayHello(String name) {

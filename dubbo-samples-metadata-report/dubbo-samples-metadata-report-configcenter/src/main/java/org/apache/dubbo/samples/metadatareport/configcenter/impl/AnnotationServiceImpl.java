@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.metadatareport.configcenter.impl;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.metadatareport.configcenter.api.AnnotationService;
 
-@Service(version = "1.1.1", group = "d-test")
+@DubboService(version = "1.1.1", group = "d-test")
 public class AnnotationServiceImpl implements AnnotationService {
 
     @Override

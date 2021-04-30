@@ -19,7 +19,7 @@
 package org.apache.dubbo.samples.resilience4jboot2.consumer.action;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.resilience4jboot2.api.CircuitBreakerService;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("circuitBreakMethodWrapper")
 public class CircuitBreakMethodWrapper {
-    @Reference(interfaceClass = CircuitBreakerService.class)
+    @DubboReference(interfaceClass = CircuitBreakerService.class)
     private CircuitBreakerService circuitBreakerService;
 
     @CircuitBreaker(name = "backendB")
