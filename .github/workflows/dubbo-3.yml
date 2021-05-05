@@ -104,6 +104,7 @@ jobs:
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
           cd dubbo
+          ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   prepare_test:
     runs-on: ubuntu-latest
