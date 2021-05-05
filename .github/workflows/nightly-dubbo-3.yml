@@ -68,11 +68,6 @@ jobs:
           repository: 'apache/dubbo'
           ref: ${{env.DUBBO_REF}}
           path: dubbo
-      - uses: actions/checkout@v2
-        with:
-          repository: 'apache/dubbo-spring-boot-project'
-          ref: ${{env.DUBBO_SPRING_BOOT_REF}}
-          path: dubbo-spring-boot-project
       - name: Get commit id and dubbo version
         id: git-checker
         run: |
@@ -84,10 +79,8 @@ jobs:
           #concat dubbo/dubbo-spring-boot commit id
           cd dubbo
           dubbo_commit_id=`git log --format="%H" -n 1`
-          cd ../dubbo-spring-boot-project
-          dubbo_spring_boot_commit_id=`git log --format="%H" -n 1`
           cd ..
-          commit_id=$dubbo_commit_id-$dubbo_spring_boot_commit_id
+          commit_id=$dubbo_commit_id
           echo "::set-output name=commit_id::$commit_id"
           echo "commit_id: $commit_id"
       - name: Dubbo cache
@@ -113,11 +106,6 @@ jobs:
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
           cd dubbo
-          ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
-      - name: Build dubbo-spring-boot
-        if: steps.dubbocache.outputs.cache-hit != 'true'
-        run: |
-          cd dubbo-spring-boot-project
           ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   prepare_test:
