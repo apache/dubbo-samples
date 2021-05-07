@@ -19,9 +19,9 @@
 package org.apache.dubbo.samples.edas;
 
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 
-@Service(version = "1.0.0.daily")
+@DubboService(version = "1.0.0.daily")
 public class GreetingServiceImpl implements GreetingService {
 
     public String sayHello(String name) {

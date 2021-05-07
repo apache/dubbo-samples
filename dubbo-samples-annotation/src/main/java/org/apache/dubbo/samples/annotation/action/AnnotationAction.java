@@ -19,18 +19,17 @@
 
 package org.apache.dubbo.samples.annotation.action;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Method;
-import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.samples.annotation.AnnotationConstants;
 import org.apache.dubbo.samples.annotation.api.GreetingService;
 import org.apache.dubbo.samples.annotation.api.HelloService;
-
 import org.springframework.stereotype.Component;
 
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference(interfaceClass = HelloService.class, version = AnnotationConstants.VERSION /*,
+    @DubboReference(interfaceClass = HelloService.class, version = AnnotationConstants.VERSION /*,
             methods = {
                     @Method(
                             name = "sayHello",
@@ -42,7 +41,7 @@ public class AnnotationAction {
     )
     private HelloService helloService;
 
-    @Reference(interfaceClass = GreetingService.class,
+    @DubboReference(interfaceClass = GreetingService.class,
             version = AnnotationConstants.VERSION,
             timeout = 1000,
             methods = {@Method(name = "greeting", timeout = 3000, retries = 1)})

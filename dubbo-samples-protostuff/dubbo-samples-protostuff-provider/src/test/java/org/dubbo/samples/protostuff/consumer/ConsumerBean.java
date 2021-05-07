@@ -17,15 +17,14 @@
 
 package org.dubbo.samples.protostuff.consumer;
 
-import org.apache.dubbo.config.annotation.Reference;
-
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.dubbo.samples.protostuff.api.IUserService;
 import org.dubbo.samples.protostuff.domain.UserInfo;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConsumerBean {
-    @Reference
+    @DubboReference
     private IUserService userService;
 
     public UserInfo insertUserInfo(String name) {

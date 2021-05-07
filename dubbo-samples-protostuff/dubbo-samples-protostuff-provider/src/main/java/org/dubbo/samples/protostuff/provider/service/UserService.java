@@ -17,14 +17,13 @@
 
 package org.dubbo.samples.protostuff.provider.service;
 
-import org.apache.dubbo.config.annotation.Service;
-
+import org.apache.dubbo.config.annotation.DubboService;
 import org.dubbo.samples.protostuff.api.IUserService;
 import org.dubbo.samples.protostuff.domain.UserInfo;
 
 import java.util.UUID;
 
-@Service(protocol = "dubbo", dynamic = true)
+@DubboService(protocol = "dubbo", dynamic = true)
 public class UserService implements IUserService {
 
     @Override

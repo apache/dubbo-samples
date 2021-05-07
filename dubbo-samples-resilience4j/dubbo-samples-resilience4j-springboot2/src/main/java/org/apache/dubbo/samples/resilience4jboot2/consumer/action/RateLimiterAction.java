@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.resilience4jboot2.consumer.action;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.resilience4jboot2.api.RateLimiterService;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 @Component("rateLimiterAction")
 public class RateLimiterAction {
 
-    @Reference(interfaceClass = RateLimiterService.class)
+    @DubboReference(interfaceClass = RateLimiterService.class)
     private RateLimiterService rateLimiterService;
 
     private Thread rateThread = new Thread(new Runnable() {

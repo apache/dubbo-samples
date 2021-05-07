@@ -19,13 +19,12 @@
 
 package org.apache.dubbo.samples.annotation.impl;
 
-import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.annotation.api.AnnotationService;
-
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.samples.annotation.api.AnnotationService;
 
-@Service(version = "1.0.0")
+@DubboService(version = "1.0.0")
 public class AnnotationServiceImpl implements AnnotationService {
 
     @HystrixCommand(commandProperties = {@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
