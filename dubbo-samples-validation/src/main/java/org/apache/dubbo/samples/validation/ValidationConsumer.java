@@ -19,16 +19,12 @@
 
 package org.apache.dubbo.samples.validation;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-
 import org.apache.dubbo.samples.validation.api.ValidationParameter;
 import org.apache.dubbo.samples.validation.api.ValidationService;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import javax.validation.ValidationException;
+import java.util.Date;
 
 public class ValidationConsumer {
 
@@ -53,10 +49,8 @@ public class ValidationConsumer {
             parameter = new ValidationParameter();
             validationService.save(parameter);
             System.err.println("Validation Save ERROR");
-        } catch (Exception e) {
-            ConstraintViolationException ve = (ConstraintViolationException) e;
-            Set<ConstraintViolation<?>> violations = ve.getConstraintViolations();
-            System.out.println(violations);
+        } catch (ValidationException e) {
+            e.printStackTrace();
         }
 
         // Delete OK
@@ -67,10 +61,8 @@ public class ValidationConsumer {
         try {
             validationService.delete(0, "abc");
             System.err.println("Validation Delete ERROR");
-        } catch (Exception e) {
-            ConstraintViolationException ve = (ConstraintViolationException) e;
-            Set<ConstraintViolation<?>> violations = ve.getConstraintViolations();
-            System.out.println(violations);
+        } catch (ValidationException e) {
+            e.printStackTrace();
         }
     }
 
