@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.simplified.annotation;
 
-import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.config.RegistryConfig;
@@ -80,7 +80,7 @@ public class SimpleRegistryAnnotationConsumer {
         System.out.println("simple contain 'application':" + urls.get(0).contains("application"));
         System.out.println("simple contain 'version':" + urls.get(0).contains("version"));
         System.out.println("simple contain 'group':" + urls.get(0).contains("group"));
-        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(Constants.RELEASE_KEY));
+        System.out.println("simple contain 'specVersion(default)':" + urls.get(0).contains(CommonConstants.RELEASE_KEY));
         System.out.println("*********************************************************");
     }
 }

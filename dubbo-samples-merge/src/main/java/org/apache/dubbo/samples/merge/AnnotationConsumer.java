@@ -21,9 +21,9 @@ package org.apache.dubbo.samples.merge;
 
 //import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 
-import org.apache.dubbo.common.Constants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.cluster.Constants;
 import org.apache.dubbo.samples.merge.api.MergeService;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

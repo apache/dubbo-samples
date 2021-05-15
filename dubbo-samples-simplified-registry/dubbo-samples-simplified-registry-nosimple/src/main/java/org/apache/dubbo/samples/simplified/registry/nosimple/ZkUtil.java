@@ -18,7 +18,7 @@
  */
 package org.apache.dubbo.samples.simplified.registry.nosimple;
 
-import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService;
 
@@ -33,11 +33,11 @@ public class ZkUtil {
 
     private static String toServicePath() {
         String name = DemoService.class.getName();
-        return toRootDir() + Constants.PATH_SEPARATOR + URL.encode(name);
+        return toRootDir() + CommonConstants.PATH_SEPARATOR + URL.encode(name);
     }
 
     private static String toCategoryPath(String side) {
-        return toServicePath() + Constants.PATH_SEPARATOR + side;
+        return toServicePath() + CommonConstants.PATH_SEPARATOR + side;
     }
 
     public static String toUrlPath(String side) {

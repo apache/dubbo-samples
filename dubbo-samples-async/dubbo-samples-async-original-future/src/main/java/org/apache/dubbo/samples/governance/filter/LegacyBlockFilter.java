@@ -16,7 +16,7 @@
  */
 package org.apache.dubbo.samples.governance.filter;
 
-import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
@@ -27,7 +27,7 @@ import org.apache.dubbo.rpc.RpcException;
 /**
  *
  */
-@Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
+@Activate(group = {CommonConstants.PROVIDER, CommonConstants.CONSUMER})
 public class LegacyBlockFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

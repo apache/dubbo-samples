@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.governance;
 
-import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.governance.api.AmericanService;
 import org.apache.dubbo.samples.governance.api.CatService;
@@ -67,7 +67,7 @@ public class FrontendConsumer {
         executorService.submit(() -> {
             while (true) {
                 try {
-                    RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+                    RpcContext.getContext().setAttachment(CommonConstants.TAG_KEY, "tag1");
                     DogService dogService = (DogService) context.getBean("dogService");
                     System.out.println(dogService.dog());
                     Thread.sleep(interval);
@@ -102,7 +102,7 @@ public class FrontendConsumer {
         executorService.submit(() -> {
             while (true) {
                 try {
-                    RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+                    RpcContext.getContext().setAttachment(CommonConstants.TAG_KEY, "tag1");
                     ChineseService chineseService = (ChineseService) context.getBean("chineseService");
                     System.out.println(chineseService.eat());
                     Thread.sleep(interval);
@@ -117,7 +117,7 @@ public class FrontendConsumer {
         executorService.submit(() -> {
             while (true) {
                 try {
-                    RpcContext.getContext().setAttachment(Constants.TAG_KEY, "tag1");
+                    RpcContext.getContext().setAttachment(CommonConstants.TAG_KEY, "tag1");
                     AmericanService americanService = (AmericanService) context.getBean("americanService");
                     System.out.println(americanService.eat());
                     Thread.sleep(interval);

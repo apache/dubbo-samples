@@ -18,8 +18,9 @@
  */
 package org.apache.dubbo.samples.metadatareport.local.annotation;
 
-import org.apache.dubbo.common.Constants;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
+import org.apache.dubbo.common.constants.CommonConstants;
+import org.apache.dubbo.metadata.report.identifier.KeyTypeEnum;
+import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
 
 /**
  * 2018/11/8
@@ -27,13 +28,13 @@ import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
 public class ZkUtil {
 
     static String toRootDir(String root) {
-        if (root.equals(Constants.PATH_SEPARATOR)) {
+        if (root.equals(CommonConstants.PATH_SEPARATOR)) {
             return root;
         }
-        return root + Constants.PATH_SEPARATOR;
+        return root + CommonConstants.PATH_SEPARATOR;
     }
 
     public static String getNodePath(MetadataIdentifier metadataIdentifier) {
-        return toRootDir("/dubbo") + metadataIdentifier.getUniqueKey(MetadataIdentifier.KeyTypeEnum.PATH) + Constants.PATH_SEPARATOR + "service.data";
+        return toRootDir("/dubbo") + metadataIdentifier.getUniqueKey(KeyTypeEnum.PATH) + CommonConstants.PATH_SEPARATOR + "service.data";
     }
 }

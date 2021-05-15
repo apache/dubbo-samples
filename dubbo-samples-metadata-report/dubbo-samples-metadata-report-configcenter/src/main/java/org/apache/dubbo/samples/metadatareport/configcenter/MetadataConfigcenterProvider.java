@@ -20,12 +20,12 @@
 package org.apache.dubbo.samples.metadatareport.configcenter;
 
 
-import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
+import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.metadatareport.configcenter.api.AnnotationService;
@@ -67,7 +67,7 @@ public class MetadataConfigcenterProvider {
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
         Thread.sleep(3000);
 
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.1", "d-test", Constants.PROVIDER_SIDE, "metadatareport-configcenter-provider")));
+        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.1", "d-test", CommonConstants.PROVIDER_SIDE, "metadatareport-configcenter-provider")));
         System.out.println("*********************************************************");
         System.out.println("Dubbo store metadata into special store(as zk,redis) when configcenter:");
         System.out.println(data);

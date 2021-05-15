@@ -16,10 +16,11 @@
  */
 package org.apache.dubbo.remoting.http.tomcat;
 
-import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.logger.Logger;
 import org.apache.dubbo.common.logger.LoggerFactory;
+import org.apache.dubbo.remoting.Constants;
 import org.apache.dubbo.remoting.http.HttpHandler;
 import org.apache.dubbo.remoting.http.servlet.DispatcherServlet;
 import org.apache.dubbo.remoting.http.servlet.ServletManager;
@@ -49,7 +50,7 @@ public class TomcatHttpServer extends AbstractHttpServer {
         tomcat.setBaseDir(baseDir);
         tomcat.setPort(url.getPort());
         tomcat.getConnector().setProperty(
-                "maxThreads", String.valueOf(url.getParameter(Constants.THREADS_KEY, Constants.DEFAULT_THREADS)));
+                "maxThreads", String.valueOf(url.getParameter(CommonConstants.THREADS_KEY, CommonConstants.DEFAULT_THREADS)));
 //        tomcat.getConnector().setProperty(
 //                "minSpareThreads", String.valueOf(url.getParameter(Constants.THREADS_KEY, Constants.DEFAULT_THREADS)));
 

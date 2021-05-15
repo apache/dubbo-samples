@@ -20,13 +20,13 @@
 package org.apache.dubbo.samples.metadatareport.local.annotation;
 
 
-import org.apache.dubbo.common.Constants;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.config.MetadataReportConfig;
 import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.metadata.identifier.MetadataIdentifier;
+import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperClient;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
 import org.apache.dubbo.samples.metadatareport.local.annotation.api.AnnotationService;
@@ -75,7 +75,7 @@ public class MetadataLocalAnnotationProvider {
         // async store
         Thread.sleep(3000);
         ZookeeperClient zookeeperClient = ExtensionLoader.getExtensionLoader(ZookeeperTransporter.class).getExtension("curator").connect(new URL("zookeeper", "127.0.0.1", 2181));
-        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.8", "d-test", Constants.PROVIDER_SIDE, "metadatareport-local-annotaion-provider")));
+        String data = zookeeperClient.getContent(ZkUtil.getNodePath(new MetadataIdentifier(AnnotationService.class.getName(), "1.1.8", "d-test", CommonConstants.PROVIDER_SIDE, "metadatareport-local-annotaion-provider")));
         System.out.println("*********************************************************");
         System.out.println("Dubbo store metadata into special store(as zk,redis) when local annotation:");
         System.out.println(data);
