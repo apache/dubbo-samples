@@ -39,15 +39,19 @@ public class MetadataConfigcenterProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-        ZKTools.generateDubboProperties();
 
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
-        context.start();
+        try {
+            ZKTools.generateDubboProperties();
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
+            context.start();
 
-        printServiceData();
+            printServiceData();
 
-        System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
+            System.out.println("dubbo service started");
+            new CountDownLatch(1).await();
+        } finally {
+            ZKTools.removeDubboProperties();
+        }
     }
 
     @Configuration

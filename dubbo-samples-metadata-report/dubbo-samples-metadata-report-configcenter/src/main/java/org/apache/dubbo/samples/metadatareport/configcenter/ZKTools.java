@@ -28,6 +28,9 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import static org.apache.dubbo.common.constants.CommonConstants.PATH_SEPARATOR;
 
 public class ZKTools {
+    public static final String GLOBAL_DUBBO_PROPERTIES_PATH = "/dubbo/config/dubbo/dubbo.properties";
+    public static final String CONSUMER_DUBBO_PROPERTIES_PATH = "/dubbo/config/metadatareport-configcenter-consumer/dubbo.properties";
+    public static final String PROVIDER_DUBBO_PROPERTIES_PATH = "/dubbo/config/metadatareport-configcenter-provider/dubbo.properties";
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
 
@@ -39,6 +42,7 @@ public class ZKTools {
 
     public static void main(String[] args) throws Exception {
         generateDubboProperties();
+        removeDubboProperties();
     }
 
     public static void generateDubboProperties() {
@@ -72,7 +76,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/dubbo/dubbo.properties";
+            String path = GLOBAL_DUBBO_PROPERTIES_PATH;
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -88,7 +92,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/metadatareport-configcenter-consumer/dubbo.properties";
+            String path = CONSUMER_DUBBO_PROPERTIES_PATH;
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -105,7 +109,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/metadatareport-configcenter-provider/dubbo.properties";
+            String path = PROVIDER_DUBBO_PROPERTIES_PATH;
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -151,12 +155,20 @@ public class ZKTools {
         return root + PATH_SEPARATOR;
     }
 
-    private static void removeGlobalConfig() {
+    public static void removeDubboProperties() {
         try {
-            client.delete().forPath("/dubbo/config/dubbo/dubbo.properties");
+            client.delete().forPath(GLOBAL_DUBBO_PROPERTIES_PATH);
+            client.delete().forPath(PROVIDER_DUBBO_PROPERTIES_PATH);
+            client.delete().forPath(CONSUMER_DUBBO_PROPERTIES_PATH);
+            client.delete().forPath(getParent(PROVIDER_DUBBO_PROPERTIES_PATH));
+            client.delete().forPath(getParent(CONSUMER_DUBBO_PROPERTIES_PATH));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getParent(String path) {
+        return path.substring(0, PROVIDER_DUBBO_PROPERTIES_PATH.lastIndexOf('/'));
     }
 
 }
