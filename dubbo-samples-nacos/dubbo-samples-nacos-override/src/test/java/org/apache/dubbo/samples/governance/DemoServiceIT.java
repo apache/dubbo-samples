@@ -17,14 +17,21 @@
 
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.util.NacosUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DemoServiceIT {
+
+    @Before
+    public void beforeTest() {
+        DubboBootstrap.reset();
+    }
 
     @Test(expected = RpcException.class)
     public void testWithoutRule() throws Throwable {
