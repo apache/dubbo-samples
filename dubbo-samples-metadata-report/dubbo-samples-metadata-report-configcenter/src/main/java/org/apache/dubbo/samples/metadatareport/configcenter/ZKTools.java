@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.samples.metadatareport.configcenter;
 
+import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.metadata.report.identifier.KeyTypeEnum;
 import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
@@ -29,6 +30,8 @@ import static org.apache.dubbo.common.constants.CommonConstants.PATH_SEPARATOR;
 public class ZKTools {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
+
+    public static final int VERSION300 = Version.getIntVersion("3.0.0");
 
     static {
         initClient();
@@ -56,8 +59,15 @@ public class ZKTools {
                 "#global config for consumer\n" +
                 "dubbo.consumer.timeout=6000\n" +
                 "#global config for provider\n" +
-                "dubbo.protocol.port=20831\n" +
-                "dubbo.provider.id.timeout=5000";
+                "dubbo.protocol.port=20831\n";
+
+        if (Version.getIntVersion(Version.getVersion()) >= VERSION300) {
+            // dubbo 3.x
+            str += "dubbo.provider.timeout=5000";
+        } else {
+            // compatible with dubbo 2.7.x
+            str += "dubbo.provider.my-provider.timeout=5000";
+        }
 
         System.out.println(str);
 

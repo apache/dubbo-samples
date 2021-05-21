@@ -20,6 +20,7 @@
 package org.apache.dubbo.samples.metadatareport.configcenter;
 
 
+import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ProviderConfig;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
@@ -31,6 +32,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.concurrent.CountDownLatch;
+
+import static org.apache.dubbo.samples.metadatareport.configcenter.ZKTools.VERSION300;
 
 public class MetadataConfigcenterProvider {
 
@@ -54,7 +57,11 @@ public class MetadataConfigcenterProvider {
         @Bean
         public ProviderConfig providerConfig() {
             ProviderConfig providerConfig = new ProviderConfig();
-            providerConfig.setId("id"); //FIXME, spring bean id 'providerConfig' should not be used as dubbo id.
+            // compatible with dubbo 2.7.x
+            if (Version.getIntVersion(Version.getVersion()) < VERSION300) {
+                // avoid using spring bean id 'providerConfig' as dubbo config id.
+                providerConfig.setId("my-provider");
+            }
             providerConfig.setTimeout(1000);
             return providerConfig;
         }
