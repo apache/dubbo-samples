@@ -87,6 +87,7 @@
         <module>dubbo-samples-tengine</module>
         <module>dubbo-samples-webservice</module>
         <module>dubbo-samples-autowire</module>
+        <module>dubbo-samples-boundary-test</module>
     </modules>
 
     <repositories>
