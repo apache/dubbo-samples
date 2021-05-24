@@ -65,6 +65,9 @@ public class MetadataConfigcenterProvider {
             if (Version.getIntVersion(Version.getVersion()) < VERSION300) {
                 // avoid using spring bean id 'providerConfig' as dubbo config id.
                 providerConfig.setId("my-provider");
+            } else {
+                //TODO remove the following line after merging dubbo 3.0 config refactor pr
+                providerConfig.setId("my-provider");
             }
             providerConfig.setTimeout(1000);
             return providerConfig;
