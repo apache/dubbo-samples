@@ -67,7 +67,9 @@ public class ZKTools {
 
         if (Version.getIntVersion(Version.getVersion()) >= VERSION300) {
             // dubbo 3.x
-            str += "dubbo.provider.timeout=5000";
+            str += "dubbo.provider.timeout=5000\n";
+            // TODO compatible with 3.0 preview and dev branch, remove the following ling after merging dubbo 3.0 config refactor pr
+            str += "dubbo.provider.my-provider.timeout=5000";
         } else {
             // compatible with dubbo 2.7.x
             str += "dubbo.provider.my-provider.timeout=5000";
