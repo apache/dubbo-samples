@@ -28,7 +28,6 @@ env:
     spring-boot.version: 2.0.9.RELEASE, 2.1.18.RELEASE, 2.2.12.RELEASE, 2.3.7.RELEASE, 2.4.1
     '
   DUBBO_REF: '3.0'
-  DUBBO_SPRING_BOOT_REF: '3.0.x'
 
 jobs:
   build-samples:
@@ -67,20 +66,16 @@ jobs:
         with:
           repository: 'apache/dubbo'
           ref: ${{env.DUBBO_REF}}
-          path: dubbo
       - name: Get commit id and dubbo version
         id: git-checker
         run: |
           # Calculate Dubbo Version
-          REVISION=`awk '/<revision>[^<]+<\/revision>/{gsub(/<revision>|<\/revision>/,"",$1);print $1;exit;}' dubbo/pom.xml`
+          REVISION=`awk '/<revision>[^<]+<\/revision>/{gsub(/<revision>|<\/revision>/,"",$1);print $1;exit;}' pom.xml`
           echo "::set-output name=version::$REVISION"
           echo "dubbo version: $REVISION"
           #
-          #concat dubbo/dubbo-spring-boot commit id
-          cd dubbo
-          dubbo_commit_id=`git log --format="%H" -n 1`
-          cd ..
-          commit_id=$dubbo_commit_id
+          # commit id
+          commit_id=`git log --format="%H" -n 1`
           echo "::set-output name=commit_id::$commit_id"
           echo "commit_id: $commit_id"
       - name: Dubbo cache
@@ -105,7 +100,6 @@ jobs:
       - name: Build dubbo
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
-          cd dubbo
           ./mvnw --batch-mode --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   prepare_test:
