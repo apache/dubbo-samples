@@ -17,7 +17,6 @@
 
 package org.apache.dubbo.samples.governance;
 
-import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.samples.governance.api.DemoService;
 import org.apache.dubbo.samples.governance.util.NacosUtils;
@@ -30,7 +29,7 @@ public class DemoServiceIT {
 
     @Before
     public void beforeTest() {
-        DubboBootstrap.reset();
+        //DubboBootstrap.reset();
     }
 
     @Test(expected = RpcException.class)
