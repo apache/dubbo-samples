@@ -17,6 +17,9 @@
 
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.registry.support.AbstractRegistryFactory;
+import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.samples.governance.api.DemoService;
 
 import org.junit.Assert;
@@ -41,7 +44,7 @@ public class DemoServiceIT {
     @Test
     public void test20880() throws Exception {
         ZKTools.generateAppLevelOverride(100, 0);
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         for (int i = 0; i < 10; i++) {
             String result = demoService.sayHello("world");
             System.out.println(result);
@@ -52,7 +55,7 @@ public class DemoServiceIT {
     @Test
     public void test20881() throws Exception {
         ZKTools.generateAppLevelOverride(0, 100);
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         for (int i = 0; i < 10; i++) {
             String result = demoService.sayHello("world");
             System.out.println(result);
