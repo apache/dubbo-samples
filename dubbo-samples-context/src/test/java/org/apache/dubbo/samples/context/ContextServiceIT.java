@@ -27,7 +27,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:/spring/dubbo-context-consumer.xml", "classpath*:/spring/dubbo-context-provider.xml"})
+@ContextConfiguration(locations = {"classpath*:/spring/dubbo-context-consumer.xml"})
 public class ContextServiceIT {
 
     @Autowired
