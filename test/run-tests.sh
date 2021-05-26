@@ -44,7 +44,7 @@ if [ "$MVN_OPTS" != "" ]; then
 fi
 
 if [ "$BUILD_OPTS" == "" ]; then
-  BUILD_OPTS="$MVN_OPTS --batch-mode --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
+  BUILD_OPTS="$MVN_OPTS --batch-mode --no-snapshot-updates --no-transfer-progress clean package dependency:copy-dependencies -DskipTests"
 fi
 export BUILD_OPTS=$BUILD_OPTS
 echo "BUILD_OPTS: $BUILD_OPTS"
