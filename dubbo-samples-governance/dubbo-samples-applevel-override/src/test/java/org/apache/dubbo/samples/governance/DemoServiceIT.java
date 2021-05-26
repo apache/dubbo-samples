@@ -44,7 +44,7 @@ public class DemoServiceIT {
     @Test
     public void test20880() throws Exception {
         ZKTools.generateAppLevelOverride(100, 0);
-        Thread.sleep(10000);
+        Thread.sleep(5000);
         for (int i = 0; i < 10; i++) {
             String result = demoService.sayHello("world");
             System.out.println(result);
@@ -55,7 +55,7 @@ public class DemoServiceIT {
     @Test
     public void test20881() throws Exception {
         ZKTools.generateAppLevelOverride(0, 100);
-        Thread.sleep(10000);
+        Thread.sleep(5000);
         for (int i = 0; i < 10; i++) {
             String result = demoService.sayHello("world");
             System.out.println(result);
