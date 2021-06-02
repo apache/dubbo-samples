@@ -33,8 +33,13 @@ import static org.apache.dubbo.common.constants.CommonConstants.RELEASE_KEY;
  */
 public class SimpleRegistryPropertiesProvider {
 
+    private static final String ZOOKEEPER_ADDRESS = "zookeeper.address";
+    private static final String ZOOKEEPER_PORT = "zookeeper.port";
+
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
+
+        initProperties();
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/simplified-provider.xml");
         context.start();
@@ -43,6 +48,15 @@ public class SimpleRegistryPropertiesProvider {
 
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();
+    }
+
+    private static void initProperties() {
+        if (System.getProperty(ZOOKEEPER_ADDRESS) == null) {
+            System.setProperty(ZOOKEEPER_ADDRESS, "127.0.0.1");
+        }
+        if (System.getProperty(ZOOKEEPER_PORT) == null) {
+            System.setProperty(ZOOKEEPER_PORT, "2181");
+        }
     }
 
     private static void printServiceData() {

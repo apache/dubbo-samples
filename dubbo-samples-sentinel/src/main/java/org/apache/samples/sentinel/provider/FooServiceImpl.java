@@ -17,13 +17,12 @@
 
 package org.apache.samples.sentinel.provider;
 
-import org.apache.dubbo.config.annotation.Service;
-
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.samples.sentinel.FooService;
 
 import java.time.LocalDateTime;
 
-@Service(timeout = 3000)
+@DubboService(timeout = 3000)
 public class FooServiceImpl implements FooService {
 
     @Override

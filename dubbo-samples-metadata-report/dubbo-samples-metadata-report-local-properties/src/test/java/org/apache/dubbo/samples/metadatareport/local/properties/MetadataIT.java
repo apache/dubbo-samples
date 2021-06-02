@@ -24,6 +24,7 @@ import org.apache.dubbo.samples.metadatareport.local.properties.api.DemoService;
 
 import com.google.gson.Gson;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/metadata-consumer.xml"})
 public class MetadataIT {
+
+    @BeforeClass
+    public static void beforeClass() {
+        //new EmbeddedZooKeeper(2181, false).start();
+    }
+
     @Autowired
     private DemoService demoService;
 

@@ -18,9 +18,9 @@
  */
 package org.apache.dubbo.integration.swagger;
 
-import org.apache.dubbo.config.annotation.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.jaxrs.listing.BaseApiListingResource;
+import org.apache.dubbo.config.annotation.DubboService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -30,7 +30,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-@Service
+@DubboService
 public class DubboSwaggerApiListingResource extends BaseApiListingResource implements DubboSwaggerService {
 
     @Context

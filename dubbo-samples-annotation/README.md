@@ -14,10 +14,10 @@ static class ProviderConfiguration {
 
 `@EnableDubbo` will enable Spring `org.apache.dubbo.samples.annotation.impl` package to find anything annotated by Dubbo annotation.
 
-As a provider, the interface implementation class have to be annotated by `@Service`:
+As a provider, the interface implementation class have to be annotated by `@DubboService`:
 
 ```Java
-@Service
+@DubboService
 public class AnnotatedGreetingService implements GreetingService {
 
     public String sayHello(String name) {
@@ -42,13 +42,13 @@ static class ConsumerConfiguration {
 }
 ```
 
-And you can use `@Reference` annotation to autowire the provider into consumer:
+And you can use `@DubboReference` annotation to autowire the provider into consumer:
 
 ```Java
 @Component("annotatedConsumer")
 public class GreetingServiceConsumer {
 
-    @Reference
+    @DubboReference
     private GreetingService greetingService;
     
     ...

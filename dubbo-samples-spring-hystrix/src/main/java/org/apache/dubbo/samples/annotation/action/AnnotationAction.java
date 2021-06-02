@@ -19,16 +19,15 @@
 
 package org.apache.dubbo.samples.annotation.action;
 
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.samples.annotation.api.AnnotationService;
-
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.samples.annotation.api.AnnotationService;
 import org.springframework.stereotype.Component;
 
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private AnnotationService annotationService;
 
     @HystrixCommand(fallbackMethod = "reliable")

@@ -35,8 +35,10 @@
 
     <bean id="groupBService" class="org.apache.dubbo.samples.group.impl.GroupBServiceImpl"/>
 
-    <dubbo:service group="groupA" interface="org.apache.dubbo.samples.group.api.GroupService" ref="groupAService"/>
+    <dubbo:service id="groupADubboService" group="groupA" interface="org.apache.dubbo.samples.group.api.GroupService"
+                   ref="groupAService"/>
 
-    <dubbo:service group="groupB" interface="org.apache.dubbo.samples.group.api.GroupService" ref="groupBService"/>
+    <dubbo:service id="groupBDubboService" group="groupB" interface="org.apache.dubbo.samples.group.api.GroupService"
+                   ref="groupBService"/>
 
 </beans>

@@ -19,7 +19,7 @@
 
 package org.apache.dubbo.samples.resilience4jboot2.consumer.action;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.resilience4jboot2.api.AnnotationService;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference(interfaceClass = AnnotationService.class)
+    @DubboReference(interfaceClass = AnnotationService.class)
     private AnnotationService annotationService;
 
     public String doSayHello(String name) {

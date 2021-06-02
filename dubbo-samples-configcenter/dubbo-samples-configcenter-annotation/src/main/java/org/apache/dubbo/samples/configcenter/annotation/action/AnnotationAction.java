@@ -19,15 +19,14 @@
 
 package org.apache.dubbo.samples.configcenter.annotation.action;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.configcenter.annotation.api.AnnotationService;
-
 import org.springframework.stereotype.Component;
 
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @Reference(version = "1.0.0")
+    @DubboReference(version = "1.0.0")
     private AnnotationService annotationService;
 
     public String doSayHello(String name) {

@@ -28,7 +28,7 @@
     <dubbo:application name="governance-appoverride-provider"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
-    <dubbo:protocol port="${dubbo.port:20880}"/>
+    <dubbo:protocol name="dubbo" port="${dubbo.port:20880}"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl"/>
     <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService" ref="demoService"/>

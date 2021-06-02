@@ -17,6 +17,9 @@
 
 package org.apache.dubbo.samples.governance;
 
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.registry.support.AbstractRegistryFactory;
+import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.samples.governance.api.DemoService;
 
 import org.junit.Assert;

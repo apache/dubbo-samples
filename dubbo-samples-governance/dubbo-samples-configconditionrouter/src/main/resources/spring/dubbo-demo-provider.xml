@@ -29,7 +29,7 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <dubbo:protocol port="${dubbo.port:-1}"/>
+    <dubbo:protocol name="dubbo" port="${dubbo.port:-1}"/>
 
     <dubbo:config-center highest-priority="false" address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 

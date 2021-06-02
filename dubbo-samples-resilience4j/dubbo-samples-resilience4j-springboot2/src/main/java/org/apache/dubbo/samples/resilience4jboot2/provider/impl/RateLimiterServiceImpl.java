@@ -19,13 +19,13 @@
 package org.apache.dubbo.samples.resilience4jboot2.provider.impl;
 
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.resilience4jboot2.api.RateLimiterService;
 
 /**
  * 2018/12/26
  */
-@Service(interfaceClass = RateLimiterService.class)
+@DubboService(interfaceClass = RateLimiterService.class)
 public class RateLimiterServiceImpl implements RateLimiterService {
     @Override
     @RateLimiter(name = "limiterA")

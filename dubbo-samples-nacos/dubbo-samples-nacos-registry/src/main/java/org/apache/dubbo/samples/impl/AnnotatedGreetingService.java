@@ -19,10 +19,10 @@
 
 package org.apache.dubbo.samples.impl;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.api.GreetingService;
 
-@Service(version = "1.0.0")
+@DubboService(version = "1.0.0")
 public class AnnotatedGreetingService implements GreetingService {
 
     public String sayHello(String name) {

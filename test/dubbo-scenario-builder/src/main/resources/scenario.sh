@@ -132,7 +132,6 @@ function wait_container_exit() {
 }
 
 status=1
-start=$SECONDS
 
 mkdir -p ${SCENARIO_HOME}/logs
 scenario_log=${SCENARIO_HOME}/logs/scenario.log
@@ -151,8 +150,18 @@ docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenari
 echo "[$scenario_name] Removing containers .." | tee -a $scenario_log
 docker-compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenario_log > /dev/null
 
+# pull images
+# TODO check pull timeout?
+#pull_time=$SECONDS
+#echo "[$scenario_name] Pulling images .." | tee -a $scenario_log
+#docker-compose -p ${project_name} -f ${compose_file} pull --ignore-pull-failures 2>&1 <<< "NNN" | tee -a $scenario_log > /dev/null
+#echo "Pull images cost: $((SECONDS - pull_time)) s"
+
 #run async, cause depends_on service healthy blocking docker-compose up
 redirect_all_container_logs &
+
+# start time
+start=$SECONDS
 
 # complete pull fail interactive by <<< "NN"
 echo "[$scenario_name] Starting containers .." | tee -a $scenario_log

@@ -17,8 +17,7 @@
 
 package org.dubbo.samples.protostuff.consumer.controller;
 
-import org.apache.dubbo.config.annotation.Reference;
-
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.dubbo.samples.protostuff.api.IUserService;
 import org.dubbo.samples.protostuff.domain.UserInfo;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserController {
 
-    @Reference(check = false)
+    @DubboReference(check = false)
     private IUserService userService;
 
     @RequestMapping(value = "/test")

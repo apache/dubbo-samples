@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.samples.metadatareport.configcenter;
 
+import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.metadata.report.identifier.KeyTypeEnum;
 import org.apache.dubbo.metadata.report.identifier.MetadataIdentifier;
@@ -27,8 +28,13 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import static org.apache.dubbo.common.constants.CommonConstants.PATH_SEPARATOR;
 
 public class ZKTools {
+    public static final String GLOBAL_DUBBO_PROPERTIES_PATH = "/dubbo/config/dubbo/dubbo.properties";
+    public static final String CONSUMER_DUBBO_PROPERTIES_PATH = "/dubbo/config/metadatareport-configcenter-consumer/dubbo.properties";
+    public static final String PROVIDER_DUBBO_PROPERTIES_PATH = "/dubbo/config/metadatareport-configcenter-provider/dubbo.properties";
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static CuratorFramework client;
+
+    public static final int VERSION300 = Version.getIntVersion("3.0.0");
 
     static {
         initClient();
@@ -36,6 +42,7 @@ public class ZKTools {
 
     public static void main(String[] args) throws Exception {
         generateDubboProperties();
+        removeDubboProperties();
     }
 
     public static void generateDubboProperties() {
@@ -56,13 +63,22 @@ public class ZKTools {
                 "#global config for consumer\n" +
                 "dubbo.consumer.timeout=6000\n" +
                 "#global config for provider\n" +
-                "dubbo.protocol.port=20831\n" +
-                "dubbo.provider.id.timeout=5000";
+                "dubbo.protocol.port=20831\n";
+
+        if (Version.getIntVersion(Version.getVersion()) >= VERSION300) {
+            // dubbo 3.x
+            str += "dubbo.provider.timeout=5000\n";
+            // TODO compatible with 3.0 preview and dev branch, remove the following line after merging dubbo 3.0 config refactor pr
+            str += "dubbo.provider.my-provider.timeout=5000";
+        } else {
+            // compatible with dubbo 2.7.x
+            str += "dubbo.provider.my-provider.timeout=5000";
+        }
 
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/dubbo/dubbo.properties";
+            String path = GLOBAL_DUBBO_PROPERTIES_PATH;
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -78,7 +94,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/metadatareport-configcenter-consumer/dubbo.properties";
+            String path = CONSUMER_DUBBO_PROPERTIES_PATH;
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -95,7 +111,7 @@ public class ZKTools {
         System.out.println(str);
 
         try {
-            String path = "/dubbo/config/metadatareport-configcenter-provider/dubbo.properties";
+            String path = PROVIDER_DUBBO_PROPERTIES_PATH;
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -141,12 +157,20 @@ public class ZKTools {
         return root + PATH_SEPARATOR;
     }
 
-    private static void removeGlobalConfig() {
+    public static void removeDubboProperties() {
         try {
-            client.delete().forPath("/dubbo/config/dubbo/dubbo.properties");
+            client.delete().forPath(GLOBAL_DUBBO_PROPERTIES_PATH);
+            client.delete().forPath(PROVIDER_DUBBO_PROPERTIES_PATH);
+            client.delete().forPath(CONSUMER_DUBBO_PROPERTIES_PATH);
+            client.delete().forPath(getParent(PROVIDER_DUBBO_PROPERTIES_PATH));
+            client.delete().forPath(getParent(CONSUMER_DUBBO_PROPERTIES_PATH));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getParent(String path) {
+        return path.substring(0, PROVIDER_DUBBO_PROPERTIES_PATH.lastIndexOf('/'));
     }
 
 }

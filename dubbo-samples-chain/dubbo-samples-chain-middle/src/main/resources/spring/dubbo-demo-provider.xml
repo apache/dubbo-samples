@@ -29,7 +29,7 @@
     <!-- optional provider's application name, used for tracing dependency relationship -->
     <dubbo:application name="chain-middle-app"/>
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
-    <dubbo:protocol port="20881"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
 
     <dubbo:config-center address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 

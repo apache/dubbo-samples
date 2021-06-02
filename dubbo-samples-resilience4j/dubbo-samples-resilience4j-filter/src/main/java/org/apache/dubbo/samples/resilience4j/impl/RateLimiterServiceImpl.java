@@ -18,10 +18,10 @@
  */
 package org.apache.dubbo.samples.resilience4j.impl;
 
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.resilience4j.api.RateLimiterService;
 
-@Service(interfaceClass = RateLimiterService.class)
+@DubboService(interfaceClass = RateLimiterService.class)
 public class RateLimiterServiceImpl implements RateLimiterService {
     @Override
     public String say(String name, String value) {

@@ -14,15 +14,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+timeout: 200
+
 services:
   nacos:
-    image: nacos/nacos-server:1.4.0
+    image: nacos/nacos-server:2.0.0
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
       - JVM_XMS=350m
       - JVM_XMX=350m
       - JVM_XMN=150m
+    healthcheck:
+      test: 'curl -Ss http://localhost:8848/nacos'
+      interval: 5s
+      timeout: 5s
+      retries: 40
 
   dubbo-samples-nacos-conditionrouter1:
     type: app
