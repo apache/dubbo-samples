@@ -54,6 +54,11 @@ public class CompatibleServiceDiscovery implements ServiceDiscovery {
 
     }
 
+    //For compatible, 3.0 service discovery need isDestroy to judgement.
+    public boolean isDestroy() {
+        return false;
+    }
+
     @Override
     public void unregister(ServiceInstance serviceInstance) throws RuntimeException {
 
