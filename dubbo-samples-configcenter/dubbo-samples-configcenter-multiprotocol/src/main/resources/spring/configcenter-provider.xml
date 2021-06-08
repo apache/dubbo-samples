@@ -33,6 +33,6 @@
                    ref="demoService"/>
     <dubbo:service protocol="dubbo2"
                    interface="org.apache.dubbo.samples.configcenter.api.DemoService"
-                   ref="demoService" group="groupA"/>
+                   ref="demoService"/>
 
 </beans>
