@@ -30,9 +30,9 @@
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
     <dubbo:service protocol="dubbo1"
                    interface="org.apache.dubbo.samples.configcenter.api.DemoService"
-                   ref="demoService"/>
+                   ref="demoService" group="groupA"/>
     <dubbo:service protocol="dubbo2"
                    interface="org.apache.dubbo.samples.configcenter.api.DemoService"
-                   ref="demoService"/>
+                   ref="demoService" group="groupB"/>
 
 </beans>
