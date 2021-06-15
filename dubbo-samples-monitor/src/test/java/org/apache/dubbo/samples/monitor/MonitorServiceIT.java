@@ -45,7 +45,6 @@ public class MonitorServiceIT {
     @Test
     public void test() throws Exception {
         ReferenceConfig<MonitorService> reference = new ReferenceConfig<>();
-        reference.setApplication(new ApplicationConfig("demo-monitor"));
         reference.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
         reference.setInterface(MonitorService.class);
         reference.setFilter("-monitor");
