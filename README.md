@@ -29,7 +29,7 @@ Dubbo integration test base on docker container, and relies on an image used to 
 
 Integration test leverages [docker](https://docs.docker.com/get-started/) to setup test environment, more accurately, to start dubbo provider instance, and any other supporting systems like registry center if necessary, in docker. 
 
-Please install `docker` and `docker-compose` first, then build the test image `dubb/sample-test`.
+Please install `docker` and `docker-compose` first, then build the test image `dubbo/sample-test`.
 
 ```bash
 cd dubbo-samples
@@ -52,9 +52,9 @@ Then we use the `run-tests.sh` script to run the test cases.
   cd dubbo-samples
   ./test/run-tests.sh <project.basedir>
   ```
-    
+  
   For example, run the `dubbo-samples-annotation` test case:
-    
+  
   ```
   ./test/run-tests.sh dubbo-samples-annotation
   ```
