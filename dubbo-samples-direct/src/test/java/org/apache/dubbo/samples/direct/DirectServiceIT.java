@@ -50,7 +50,7 @@ public class DirectServiceIT {
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         reference.setUrl("dubbo://" + providerAddress + ":20880/" + DirectService.class.getName());
         reference.setVersion("1.0.0-daily");
-        reference.setGroup("test");
+        reference.setGroup("test2");
         reference.setGeneric(true);
         reference.setApplication(application);
         reference.setInterface(DirectService.class.getName());
@@ -67,7 +67,7 @@ public class DirectServiceIT {
         ReferenceConfig<DirectService> reference = new ReferenceConfig<>();
         reference.setUrl("dubbo://" + providerAddress + ":20880/" + DirectService.class.getName());
         reference.setVersion("1.0.0-daily");
-        reference.setGroup("test");
+        reference.setGroup("test3");
         reference.setApplication(application);
         reference.setInterface(DirectService.class.getName());
         DirectService service = reference.get();
