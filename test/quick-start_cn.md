@@ -361,7 +361,7 @@ Component not match: dubbo.version, rules: [3.*]
   格式为: <组件版本变量名1>=<版本1>[,版本2];<组件版本变量名2>=<版本2.1>[,版本2.2];..
   
   ```
-  export CANDIDATE_VERSIONS="dubbo.version:3.0.0-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+  export CANDIDATE_VERSIONS="dubbo.version:3.0.1-SNAPSHOT;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
   ```
 
 * DUBBO_VERSION: Dubbo版本列表 
@@ -369,7 +369,7 @@ Component not match: dubbo.version, rules: [3.*]
   只修改Dubbo版本，其它组件使用默认值。
   
   ```
-    export DUBBO_VERSION="3.0.0-SNAPSHOT"
+    export DUBBO_VERSION="3.0.1-SNAPSHOT"
   ```
 
 
@@ -415,7 +415,7 @@ spring.version=4.*, 5.*
 候选版本列表中指定dubbo.version为3.0的版本号
 
 ```
-export DUBBO_VERSION="3.0.0-SNAPSHOT"
+export DUBBO_VERSION="3.0.1-SNAPSHOT"
 ```
 在同一个shell中，只需要执行一次 `export DUBBO_VERSION=...` 命令，后面多次执行测试案例都会生效。
 
