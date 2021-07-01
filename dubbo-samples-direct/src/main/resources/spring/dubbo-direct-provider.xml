@@ -32,5 +32,9 @@
     <bean id="directService" class="org.apache.dubbo.samples.direct.impl.DirectServiceImpl"/>
 
     <dubbo:service interface="org.apache.dubbo.samples.direct.api.DirectService" ref="directService" group="test" version="1.0.0-daily"/>
+    <!-- group="test2" -->
+    <dubbo:service interface="org.apache.dubbo.samples.direct.api.DirectService" ref="directService" group="test2" version="1.0.0-daily"/>
+    <!-- group="test3" -->
+    <dubbo:service interface="org.apache.dubbo.samples.direct.api.DirectService" ref="directService" group="test3" version="1.0.0-daily"/>
 
 </beans>
