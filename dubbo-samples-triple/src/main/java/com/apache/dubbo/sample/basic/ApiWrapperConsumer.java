@@ -20,6 +20,7 @@ package com.apache.dubbo.sample.basic;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 public class ApiWrapperConsumer {
     public static void main(String[] args) {
@@ -28,8 +29,13 @@ public class ApiWrapperConsumer {
         ref.setCheck(false);
         ref.setProtocol("tri");
         ref.setLazy(true);
-        ref.setApplication(new ApplicationConfig("demo-consumer"));
-        ref.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+
+        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        bootstrap.application(new ApplicationConfig("demo-consumer"))
+                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                .reference(ref)
+                .start();
+
         final IGreeter2 iGreeter = ref.get();
         System.out.println("dubbo ref started");
         long st = System.currentTimeMillis();
