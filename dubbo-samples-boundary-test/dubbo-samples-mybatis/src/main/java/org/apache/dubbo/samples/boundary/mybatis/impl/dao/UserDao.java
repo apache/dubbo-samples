@@ -19,8 +19,13 @@
 
 package org.apache.dubbo.samples.boundary.mybatis.impl.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-public interface UserDao {
+@Mapper
+@Repository
+public interface UserDao extends BaseMapper<UserModel> {
     public UserModel findByUserId(@Param("userId") long userId);
 }

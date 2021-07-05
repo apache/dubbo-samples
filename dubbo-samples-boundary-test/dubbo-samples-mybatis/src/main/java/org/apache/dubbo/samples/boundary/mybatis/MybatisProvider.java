@@ -19,28 +19,27 @@
 
 package org.apache.dubbo.samples.boundary.mybatis;
 
-import liquibase.integration.spring.SpringLiquibase;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 
-import javax.sql.DataSource;
-import java.util.concurrent.CountDownLatch;
-
-public class MybatisProvider {
+@SpringBootApplication
+@EnableDubbo
+@MapperScan("org.apache.dubbo.samples.boundary.mybatis")
+@PropertySource("classpath:spring/application-provider.properties")
+public class MybatisProvider implements CommandLineRunner {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/mybatis-provider.xml");
-        context.start();
+        SpringApplication.run(MybatisProvider.class, args);
+    }
 
-        DataSource dataSource = context.getBean(DataSource.class);
-
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("classpath:liquibase/liquibase-changelog.xml");
-        liquibase.setDataSource(dataSource);
-        liquibase.afterPropertiesSet();
-
+    @Override
+    public void run(String... args) throws Exception {
         System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
     }
 }

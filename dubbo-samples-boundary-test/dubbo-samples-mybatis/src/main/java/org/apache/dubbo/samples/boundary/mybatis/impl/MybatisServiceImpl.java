@@ -18,12 +18,16 @@
  */
 package org.apache.dubbo.samples.boundary.mybatis.impl;
 
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.boundary.mybatis.api.MybatisService;
 import org.apache.dubbo.samples.boundary.mybatis.api.User;
 import org.apache.dubbo.samples.boundary.mybatis.impl.dao.UserDao;
 import org.apache.dubbo.samples.boundary.mybatis.impl.dao.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
+@DubboService(version = "1.0.0")
 public class MybatisServiceImpl implements MybatisService {
 
     @Autowired
