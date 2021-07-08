@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.nullValue;
@@ -19,9 +20,10 @@ public class MybatisServiceIT {
     private MybatisService service;
 
     @Test
-    public void findUser() throws Exception {
+    public void shouldGetDataFromDB() throws Exception {
         User user = service.findByUserId(1);
 
         assertThat(user, not(nullValue()));
+        assertThat(user.getName(), is("apache dubbo"));
     }
 }
