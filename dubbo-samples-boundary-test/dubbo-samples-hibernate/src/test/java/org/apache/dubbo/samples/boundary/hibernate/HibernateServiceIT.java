@@ -26,8 +26,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:spring/hibernate-consumer.xml")
@@ -39,7 +40,8 @@ public class HibernateServiceIT {
     public void shouldGetDataFromHibernate() throws Exception {
         List<User> users = service.findAll();
 
-        assertThat(users, hasSize(1));
+        assertThat(users, not(nullValue()));
+        assertThat(users.size(), is(1));
         assertThat(users.get(0).getName(), is("apache dubbo"));
     }
 }
