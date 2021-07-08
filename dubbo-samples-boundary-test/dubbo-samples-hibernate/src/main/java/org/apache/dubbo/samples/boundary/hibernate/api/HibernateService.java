@@ -17,23 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.boundary.mybatis;
+package org.apache.dubbo.samples.boundary.hibernate.api;
 
-import org.apache.dubbo.samples.boundary.mybatis.api.MybatisService;
-import org.apache.dubbo.samples.boundary.mybatis.api.User;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.List;
 
-public class MybatisConsumer {
-
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/hibernate-consumer.xml");
-        context.start();
-
-        MybatisService mybatisService = (MybatisService) context.getBean(MybatisService.class);
-
-        for (int i = 0; i < 5; i++) {
-            User user = mybatisService.findByUserId(1L);
-            System.out.println("find user: " + user);
-        }
-    }
+public interface HibernateService {
+    List<User> findAll();
 }

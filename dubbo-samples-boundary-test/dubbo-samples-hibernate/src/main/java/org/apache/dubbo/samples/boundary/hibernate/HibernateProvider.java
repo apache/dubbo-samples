@@ -17,23 +17,21 @@
  *
  */
 
-package org.apache.dubbo.samples.boundary.mybatis;
+package org.apache.dubbo.samples.boundary.hibernate;
 
-import org.apache.dubbo.samples.boundary.mybatis.api.MybatisService;
-import org.apache.dubbo.samples.boundary.mybatis.api.User;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class MybatisConsumer {
+import java.util.concurrent.CountDownLatch;
+
+public class HibernateProvider {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/hibernate-consumer.xml");
+        new EmbeddedZooKeeper(2181, false).start();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/hibernate-provider.xml");
         context.start();
 
-        MybatisService mybatisService = (MybatisService) context.getBean(MybatisService.class);
-
-        for (int i = 0; i < 5; i++) {
-            User user = mybatisService.findByUserId(1L);
-            System.out.println("find user: " + user);
-        }
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }

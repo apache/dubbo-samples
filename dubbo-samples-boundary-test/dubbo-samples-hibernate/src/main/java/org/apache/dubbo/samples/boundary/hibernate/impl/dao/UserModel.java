@@ -17,23 +17,24 @@
  *
  */
 
-package org.apache.dubbo.samples.boundary.mybatis;
+package org.apache.dubbo.samples.boundary.hibernate.impl.dao;
 
-import org.apache.dubbo.samples.boundary.mybatis.api.MybatisService;
-import org.apache.dubbo.samples.boundary.mybatis.api.User;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import lombok.Data;
 
-public class MybatisConsumer {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/hibernate-consumer.xml");
-        context.start();
-
-        MybatisService mybatisService = (MybatisService) context.getBean(MybatisService.class);
-
-        for (int i = 0; i < 5; i++) {
-            User user = mybatisService.findByUserId(1L);
-            System.out.println("find user: " + user);
-        }
-    }
+@Data
+@Entity
+@Table(name = "user")
+public class UserModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "name", nullable = false)
+    private String name;
 }

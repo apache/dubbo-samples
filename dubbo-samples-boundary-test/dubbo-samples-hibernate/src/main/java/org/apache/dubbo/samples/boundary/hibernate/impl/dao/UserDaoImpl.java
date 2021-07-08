@@ -17,23 +17,31 @@
  *
  */
 
-package org.apache.dubbo.samples.boundary.mybatis;
+package org.apache.dubbo.samples.boundary.hibernate.impl.dao;
 
-import org.apache.dubbo.samples.boundary.mybatis.api.MybatisService;
-import org.apache.dubbo.samples.boundary.mybatis.api.User;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-public class MybatisConsumer {
+import java.util.List;
 
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/hibernate-consumer.xml");
-        context.start();
+@Repository(value = "userDao")
+public class UserDaoImpl implements UserDao {
+    @Autowired
+    private SessionFactory sessionFactory;
 
-        MybatisService mybatisService = (MybatisService) context.getBean(MybatisService.class);
+    @Override
+    public List<UserModel> findAll() {
+        return sessionFactory.openSession().createCriteria(UserModel.class).list();
+    }
 
-        for (int i = 0; i < 5; i++) {
-            User user = mybatisService.findByUserId(1L);
-            System.out.println("find user: " + user);
-        }
+    @Override
+    public void saveUserModel(UserModel userModel) {
+        Session session = sessionFactory.openSession();
+
+        session.save(userModel);
+
+        session.close();
     }
 }

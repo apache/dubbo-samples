@@ -13,32 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.boundary.mybatis;
+package org.apache.dubbo.samples.boundary.hibernate;
 
-import org.apache.dubbo.samples.boundary.mybatis.api.MybatisService;
-import org.apache.dubbo.samples.boundary.mybatis.api.User;
+import org.apache.dubbo.samples.boundary.hibernate.api.HibernateService;
+import org.apache.dubbo.samples.boundary.hibernate.api.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.Matchers.hasSize;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/mybatis-consumer.xml")
-public class MybatisServiceIT {
+@ContextConfiguration(locations = "classpath*:spring/hibernate-consumer.xml")
+public class HibernateServiceIT {
     @Autowired
-    private MybatisService service;
+    private HibernateService service;
 
     @Test
-    public void shouldGetDataFromMybatis() throws Exception {
-        User user = service.findByUserId(1);
+    public void shouldGetDataFromHibernate() throws Exception {
+        List<User> users = service.findAll();
 
-        assertThat(user, not(nullValue()));
-        assertThat(user.getName(), is("apache dubbo"));
+        assertThat(users, hasSize(1));
+        assertThat(users.get(0).getName(), is("apache dubbo"));
     }
 }
