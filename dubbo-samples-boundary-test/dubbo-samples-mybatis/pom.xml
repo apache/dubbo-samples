@@ -35,9 +35,8 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>3.0.1</dubbo.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
-        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
+        <spring-boot.version>2.4.1</spring-boot.version>
         <mybatis-plus-starter.version>3.4.2</mybatis-plus-starter.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
@@ -101,12 +100,6 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>4.4.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
