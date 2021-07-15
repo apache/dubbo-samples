@@ -16,7 +16,7 @@
  */
 package org.apache.dubbo.demo.consumer;
 
-import org.apache.dubbo.demo.DemoServiceDubbo.IDemoService;
+import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.demo.HelloReply;
 import org.apache.dubbo.demo.HelloRequest;
 
@@ -26,7 +26,7 @@ public class ConsumerApplication {
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
         context.start();
-        IDemoService demoService = context.getBean("demoService", IDemoService.class);
+        DemoService demoService = context.getBean("demoService", DemoService.class);
         HelloRequest request = HelloRequest.newBuilder().setName("Hello").build();
         HelloReply reply = demoService.sayHello(request);
         System.out.println("result: " + reply.getMessage());

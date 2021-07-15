@@ -17,12 +17,11 @@
 
 package org.apache.dubbo.samples;
 
-import org.apache.dubbo.demo.DemoServiceDubbo;
+import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.demo.HelloReply;
 import org.apache.dubbo.demo.HelloRequest;
 
 import org.junit.Assert;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class DubboProtobufIT {
 
     @Autowired
     @Qualifier("demoService")
-    private DemoServiceDubbo.IDemoService demoService;
+    private DemoService demoService;
 
     @Test
     public void testGreeting() throws Exception {

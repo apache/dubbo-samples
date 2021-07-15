@@ -25,6 +25,6 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <dubbo:reference scope="remote" id="demoService" check="false" interface="org.apache.dubbo.demo.DemoServiceDubbo$IDemoService"/>
+    <dubbo:reference scope="remote" id="demoService" check="false" interface="org.apache.dubbo.demo.DemoService"/>
 
 </beans>

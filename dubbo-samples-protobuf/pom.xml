@@ -110,7 +110,6 @@
                     <target>${target.level}</target>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
@@ -125,7 +124,7 @@
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
                             <version>${dubbo.compiler.version}</version>
-                            <mainClass>org.apache.dubbo.gen.dubbo.DubboGenerator</mainClass>
+                            <mainClass>org.apache.dubbo.gen.dubbo.Dubbo3Generator</mainClass>
                         </protocPlugin>
                     </protocPlugins>
                 </configuration>
