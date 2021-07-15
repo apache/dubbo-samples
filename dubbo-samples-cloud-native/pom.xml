@@ -30,6 +30,7 @@
         <module>dubbo-call-sc</module>
         <module>dubbo-call-scdubbo</module>
         <module>sc-call-dubbo</module>
+        <module>dubbo-servicediscovery-migration</module>
     </modules>
 
 </project>
