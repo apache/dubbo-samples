@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/dubbo-demo-consumer.xml"})
-public class DemoServiceIT {
+public class DemoServiceApplicationLevelIT {
     @Autowired
     private DemoService demoService;
 
@@ -41,42 +41,59 @@ public class DemoServiceIT {
         ZKTools.initClient();
     }
 
+    private static boolean init = false;
+
     @Before
     public void cleanAllRules() throws Exception {
+        if(!init) {
+            UpgradeUtil.writeForceApplicationRule();
+            checkIfNotified();
+            init = true;
+        }
         ZKTools.cleanup();
     }
 
     @Test(expected = RpcException.class)
     public void testWithoutRule() throws Exception {
         Thread.sleep(2000);
-        demoService.sayHello("world", 3000);
+        demoService.sayHello("world", 1500);
     }
 
     @Test(expected = RpcException.class)
     public void testWithServiceRuleWithInsufficientTimeout() throws Exception {
         ZKTools.generateServiceLevelOverride(600);
         Thread.sleep(2000);
-        demoService.sayHello("world", 1000);
+        demoService.sayHello("world", 800);
     }
 
     @Test
     public void testWithServiceRuleWithSufficientTimeout() throws Exception {
         ZKTools.generateServiceLevelOverride(6000);
         Thread.sleep(2000);
-        Assert.assertTrue(demoService.sayHello("world", 1000).startsWith("Hello world"));
+        Assert.assertTrue(demoService.sayHello("world", 1200).startsWith("Hello world"));
     }
 
     @Test(expected = RpcException.class)
     public void testWithAppRuleWithInsufficientTimeout() throws Exception {
         ZKTools.generateApplicationLevelOverride(600);
         Thread.sleep(2000);
-        demoService.sayHello("world", 1000);
+        demoService.sayHello("world", 800);
     }
 
     @Test
     public void testWithAppRuleWithSufficientTimeout() throws Exception {
         ZKTools.generateApplicationLevelOverride(6000);
         Thread.sleep(2000);
-        Assert.assertTrue(demoService.sayHello("world", 1000).startsWith("Hello world"));
+        Assert.assertTrue(demoService.sayHello("world", 1200).startsWith("Hello world"));
+    }
+
+    private static void checkIfNotified() throws InterruptedException {
+        for (int i = 0; i < 50; i++) {
+            if (FrameworkStatusReporterImpl.getReport().size() == 1) {
+                FrameworkStatusReporterImpl.clearReport();
+                return;
+            }
+            Thread.sleep(100);
+        }
     }
 }
