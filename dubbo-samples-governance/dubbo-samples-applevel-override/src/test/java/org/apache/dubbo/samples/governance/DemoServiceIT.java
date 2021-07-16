@@ -42,7 +42,9 @@ public class DemoServiceIT {
     }
 
     @Test
-    public void test20880() throws Exception {
+    public void test20880_interface() throws Exception {
+        UpgradeUtil.writeForceInterfaceRule();
+        checkIfNotified();
         ZKTools.generateAppLevelOverride(100, 0);
         Thread.sleep(5000);
         for (int i = 0; i < 10; i++) {
@@ -53,13 +55,51 @@ public class DemoServiceIT {
     }
 
     @Test
-    public void test20881() throws Exception {
+    public void test20880_application() throws Exception {
+        UpgradeUtil.writeForceApplicationRule();
+        checkIfNotified();
+        ZKTools.generateAppLevelOverride(100, 0);
+        Thread.sleep(5000);
+        for (int i = 0; i < 10; i++) {
+            String result = demoService.sayHello("world");
+            System.out.println(result);
+            Assert.assertTrue(result.contains("20880"));
+        }
+    }
+
+    @Test
+    public void test20881_interface() throws Exception {
+        UpgradeUtil.writeForceInterfaceRule();
+        checkIfNotified();
         ZKTools.generateAppLevelOverride(0, 100);
         Thread.sleep(5000);
         for (int i = 0; i < 10; i++) {
             String result = demoService.sayHello("world");
             System.out.println(result);
             Assert.assertTrue(result.contains("20881"));
+        }
+    }
+
+    @Test
+    public void test20881_application() throws Exception {
+        UpgradeUtil.writeForceApplicationRule();
+        checkIfNotified();
+        ZKTools.generateAppLevelOverride(0, 100);
+        Thread.sleep(5000);
+        for (int i = 0; i < 10; i++) {
+            String result = demoService.sayHello("world");
+            System.out.println(result);
+            Assert.assertTrue(result.contains("20881"));
+        }
+    }
+
+    private void checkIfNotified() throws InterruptedException {
+        for (int i = 0; i < 50; i++) {
+            if (FrameworkStatusReporterImpl.getReport().size() == 1) {
+                FrameworkStatusReporterImpl.clearReport();
+                return;
+            }
+            Thread.sleep(100);
         }
     }
 }
