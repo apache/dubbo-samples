@@ -44,7 +44,7 @@ public class RuleUtil {
 
     public static void generateRule() {
         try (InputStream yamlStream = RuleUtil.class.getResourceAsStream("/dubbo-routers-mesh-rule.yml")) {
-            String path = "/dubbo/config/DEFAULT_GROUP/governance-mesh-rule-router-provider.MESHAPPRULE";
+            String path = "/dubbo/config/dubbo/governance-mesh-rule-router-provider.MESHAPPRULE";
             if (client.checkExists().forPath(path) == null) {
                 client.create().creatingParentsIfNeeded().forPath(path);
             }
@@ -55,7 +55,7 @@ public class RuleUtil {
     }
 
     public static void deleteRule() throws Exception {
-        String path = "/dubbo/config/DEFAULT_GROUP/governance-mesh-rule-router-provider.MESHAPPRULE";
+        String path = "/dubbo/config/dubbo/governance-mesh-rule-router-provider.MESHAPPRULE";
         if (client.checkExists().forPath(path) == null) {
             client.create().creatingParentsIfNeeded().forPath(path);
         }
