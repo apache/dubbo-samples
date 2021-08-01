@@ -29,6 +29,8 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
+    <dubbo:provider token="true"/>
+
     <bean id="contextServiceImpl" class="org.apache.dubbo.samples.context.impl.ContextServiceImpl"/>
 
     <dubbo:service interface="org.apache.dubbo.samples.context.api.ContextService" ref="contextServiceImpl"/>

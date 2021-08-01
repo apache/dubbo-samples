@@ -33,6 +33,7 @@
 
     <dubbo:protocol name="dubbo" port="20890"/>
     <dubbo:protocol name="hessian" port="8082"/>
+    <dubbo:provider token="true"/>
 
     <dubbo:provider id="defaultDubboCofig" protocol="dubbo,hessian" registry="beijingRegistry,shanghaiRegistry">
         <dubbo:service interface="org.apache.dubbo.samples.multi.registry.api.HelloService" ref="helloService"/>

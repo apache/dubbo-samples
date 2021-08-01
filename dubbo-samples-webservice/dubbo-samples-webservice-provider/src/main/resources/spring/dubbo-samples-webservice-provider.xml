@@ -29,6 +29,8 @@
     <!-- 使用zookeeper注册中心暴露服务地址 -->
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
+    <dubbo:provider token="true"/>
+
     <!-- 用webservice协议在8080端口暴露服务 -->
     <dubbo:protocol name="webservice" port="8080" server="tomcat"
                     contextpath="dubbo_samples_webservice_provider_war/services"/>

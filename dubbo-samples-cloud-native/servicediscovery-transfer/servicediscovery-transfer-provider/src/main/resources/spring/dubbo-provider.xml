@@ -28,6 +28,8 @@
 
     <dubbo:protocol name="dubbo"/>
 
+    <dubbo:provider token="true"/>
+
     <bean id="demoService" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
     <bean id="greetingService" class="org.apache.dubbo.demo.provider.GreetingServiceImpl"/>
 

@@ -28,6 +28,8 @@
     <dubbo:registry id="beijingRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port.1:2181}" default="false"/>
     <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port.2:2182}" />
 
+    <dubbo:provider token="true"/>
+
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <bean id="helloService" class="org.apache.dubbo.samples.multi.registry.impl.HelloServiceImpl"/>

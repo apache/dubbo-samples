@@ -27,6 +27,8 @@
 
     <dubbo:registry address="consul://${consul.address:127.0.0.1}:8500"/>
 
+    <dubbo:provider token="true"/>
+
     <bean id="demoService" class="org.apache.dubbo.samples.consul.impl.DemoServiceImpl"/>
 
     <dubbo:service interface="org.apache.dubbo.samples.consul.api.DemoService" ref="demoService"/>

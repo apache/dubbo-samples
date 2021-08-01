@@ -27,6 +27,8 @@
 
     <dubbo:protocol name="dubbo" port="20881"/>
 
+    <dubbo:provider token="true"/>
+
     <bean id="demoServiceFromNormal" class="org.apache.dubbo.demo.provider.DemoServiceFromNormal"/>
     <bean id="demoServiceFromDual" class="org.apache.dubbo.demo.provider.DemoServiceFromDual"/>
 

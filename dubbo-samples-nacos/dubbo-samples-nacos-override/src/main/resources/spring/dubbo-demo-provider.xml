@@ -29,6 +29,8 @@
 
     <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848"/>
 
+    <dubbo:provider token="true"/>
+
     <dubbo:config-center address="nacos://${nacos.address:127.0.0.1}:8848"/>
 
     <dubbo:protocol name="dubbo" port="20880"/>

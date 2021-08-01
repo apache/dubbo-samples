@@ -26,6 +26,8 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
+    <dubbo:provider token="true"/>
+
     <dubbo:protocol name="native-thrift" id="native-thrift" port="2345"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.rpc.nativethrift.DemoServiceImpl"/>

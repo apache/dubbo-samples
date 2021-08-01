@@ -29,6 +29,8 @@
 
     <dubbo:protocol name="dubbo" port="20880"/>
 
+    <dubbo:provider token="true"/>
+
     <bean id="callbackService" class="org.apache.dubbo.samples.callback.impl.CallbackServiceImpl"/>
 
     <dubbo:service interface="org.apache.dubbo.samples.callback.api.CallbackService" ref="callbackService"

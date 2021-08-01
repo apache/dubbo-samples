@@ -57,6 +57,7 @@
 
     <dubbo:application name="dubbo-demo-storage-service"/>
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
+    <dubbo:provider token="true"/>
     <dubbo:protocol name="dubbo" port="20882"/>
     <dubbo:service interface="org.apache.dubbo.samples.service.StorageService" ref="service" timeout="10000"/>
 

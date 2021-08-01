@@ -27,6 +27,8 @@
     <!-- use multicast registry center to export service -->
     <dubbo:registry address="multicast://224.5.6.7:1234"/>
 
+    <dubbo:provider token="true"/>
+
     <!-- use dubbo protocol to export service on port 20880 -->
     <dubbo:protocol name="dubbo" port="20880" threads="1024"/>
     

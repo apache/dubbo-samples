@@ -31,6 +31,8 @@
 
     <dubbo:protocol name="dubbo" port="20890"/>
 
+    <dubbo:provider token="true"/>
+
     <bean id="demoService" class="org.apache.dubbo.samples.basic.impl.DemoServiceImpl"/>
 
     <dubbo:service interface="org.apache.dubbo.samples.basic.api.DemoService" ref="demoService"/>
