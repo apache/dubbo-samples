@@ -29,8 +29,6 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"/>
 
-    <dubbo:provider token="true"/>
-
     <bean id="greeterImpl" class="org.apache.dubbo.samples.basic.impl.helloworld.GrpcGreeterImpl"/>
     <dubbo:service interface="io.grpc.examples.helloworld.DubboGreeterGrpc$IGreeter" ref="greeterImpl" protocol="grpc"/>
 
