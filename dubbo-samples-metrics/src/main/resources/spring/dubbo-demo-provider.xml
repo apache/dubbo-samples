@@ -25,8 +25,6 @@
 
     <dubbo:application name="metrics-provider"/>
 
-    <dubbo:provider token="true"/>
-
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
     <dubbo:config-center address="zookeeper://${zookeepr.address:127.0.0.1}:2181" />
     <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
