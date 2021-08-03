@@ -23,6 +23,8 @@
 
     <dubbo:application name="demo-provider"/>
 
+    <dubbo:provider token="true"/>
+
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <dubbo:protocol name="dubbo"/>

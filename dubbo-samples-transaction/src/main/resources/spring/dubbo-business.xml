@@ -25,6 +25,7 @@
 
     <dubbo:application name="dubbo-demo-app"/>
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}" />
+    <dubbo:provider token="true"/>
     <dubbo:reference id="orderService" check="false" interface="org.apache.dubbo.samples.service.OrderService"/>
     <dubbo:reference id="storageService" check="false" interface="org.apache.dubbo.samples.service.StorageService"/>
 

@@ -22,7 +22,7 @@ package org.apache.dubbo.samples.metadatareport.local.annotation.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.metadatareport.local.annotation.api.AnnotationService;
 
-@DubboService(version = "1.1.8", group = "d-test")
+@DubboService(version = "1.1.8", group = "d-test",timeout = 1000)
 public class AnnotationServiceImpl implements AnnotationService {
 
     @Override

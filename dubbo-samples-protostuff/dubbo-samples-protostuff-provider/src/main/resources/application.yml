@@ -20,4 +20,6 @@ dubbo:
     #serialization: fastjson
     server: netty4
     register: true
+  provider:
+    token: true
 
