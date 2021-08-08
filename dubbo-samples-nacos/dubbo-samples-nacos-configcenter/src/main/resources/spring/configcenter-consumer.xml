@@ -28,7 +28,7 @@
 
     <dubbo:application name="configcenter-nacos-consumer"/>
 
-    <dubbo:config-center highest-priority="false" address="nacos://${nacos.address:127.0.0.1}:8848"/>
+    <dubbo:config-center highest-priority="false" address="nacos://${nacos.address:127.0.0.1}:8848?username=nacos&amp;password=nacos"/>
 
     <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.configcenter.api.DemoService"/>
 

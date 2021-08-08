@@ -36,6 +36,8 @@ public class NacosUtils {
         String dataId = "dubbo.properties";
         String group = "dubbo";
         Properties properties = new Properties();
+        properties.put("username", System.getProperty("username", "nacos"));
+        properties.put("password", System.getProperty("password", "nacos"));
         properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
         ConfigService configService = NacosFactory.createConfigService(properties);
 
@@ -46,7 +48,7 @@ public class NacosUtils {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("dubbo.registry.address=")) {
-                    line = "dubbo.registry.address=nacos://" + serverAddr + ":8848";
+                    line = "dubbo.registry.address=nacos://" + serverAddr + ":8848?username=nacos&password=nacos";
                 }
                 content.append(line).append("\n");
             }

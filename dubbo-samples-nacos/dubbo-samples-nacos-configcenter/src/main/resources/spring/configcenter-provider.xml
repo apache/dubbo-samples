@@ -24,7 +24,7 @@
     <context:property-placeholder/>
 
     <dubbo:application name="configcenter-nacos-provider"/>
-    <dubbo:config-center address="nacos://${nacos.address:127.0.0.1}:8848"/>
+    <dubbo:config-center address="nacos://${nacos.address:127.0.0.1}:8848?username=nacos&amp;password=nacos"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.configcenter.impl.DemoServiceImpl"/>
     <dubbo:service interface="org.apache.dubbo.samples.configcenter.api.DemoService" ref="demoService"/>

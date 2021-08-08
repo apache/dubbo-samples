@@ -36,6 +36,8 @@ public class NacosUtils {
         String group = "dubbo";
         Properties properties = new Properties();
         properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
+        properties.put("username", System.getProperty("username", "nacos"));
+        properties.put("password", System.getProperty("password", "nacos"));
         ConfigService configService = NacosFactory.createConfigService(properties);
 
         try (InputStream is = NacosUtils.class.getClassLoader().getResourceAsStream("dubbo-routers-condition.yml")) {

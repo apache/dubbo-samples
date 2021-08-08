@@ -27,9 +27,9 @@
 
     <dubbo:application name="governance-conditionrouter-consumer"/>
 
-    <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848"/>
+    <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848?username=nacos&amp;password=nacos"/>
 
-    <dubbo:config-center highest-priority="false" address="nacos://${nacos.address:127.0.0.1}:8848"/>
+    <dubbo:config-center highest-priority="false" address="nacos://${nacos.address:127.0.0.1}:8848?username=nacos&amp;password=nacos"/>
 
     <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService"/>
     <dubbo:reference id="demoService2" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService2"/>
