@@ -37,8 +37,8 @@ public class NacosUtils {
     static {
         Properties properties = new Properties();
         properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
-        properties.put(PropertyKeyConst.USERNAME, System.getProperty("username", "nacos"));
-        properties.put(PropertyKeyConst.PASSWORD, System.getProperty("password", "nacos"));
+        properties.put("username", System.getProperty("username", "nacos"));
+        properties.put("password", System.getProperty("password", "nacos"));
         try {
             configService = NacosFactory.createConfigService(properties);
         } catch (NacosException e) {
