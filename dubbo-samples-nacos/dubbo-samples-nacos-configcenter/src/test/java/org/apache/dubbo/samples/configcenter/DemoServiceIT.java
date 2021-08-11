@@ -19,19 +19,19 @@ package org.apache.dubbo.samples.configcenter;
 
 import org.apache.dubbo.samples.configcenter.api.DemoService;
 
+import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/configcenter-consumer.xml")
+@EnableDubbo
 public class DemoServiceIT {
-    @Autowired
-    @Qualifier("demoService")
+    @Reference(id = "demoService") 
     private DemoService demoService;
 
     @Test
