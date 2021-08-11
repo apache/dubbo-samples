@@ -25,4 +25,7 @@ public interface IGreeter2 {
      */
     String sayHello0(String request);
 
+    String sayHelloException(String request);
+
+    String sayHelloWithAttachment(String request);
 }

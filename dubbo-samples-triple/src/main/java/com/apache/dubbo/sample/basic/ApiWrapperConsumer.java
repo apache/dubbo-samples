@@ -21,6 +21,7 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.rpc.RpcContext;
 
 public class ApiWrapperConsumer {
     public static void main(String[] args) {
@@ -42,5 +43,16 @@ public class ApiWrapperConsumer {
         String reply = iGreeter.sayHello0("haha");
         // 4MB response
         System.out.println("Reply len:" + reply.length() + " cost:" + (System.currentTimeMillis() - st));
+
+        try {
+            final String exception = iGreeter.sayHelloException("exception");
+        } catch (Throwable t) {
+            System.out.println("Exception:" + t.getMessage());
+        }
+
+        RpcContext.getClientAttachment().setAttachment("str", "str");
+        final String attachment = iGreeter.sayHelloWithAttachment("attachment");
+        System.out.println(RpcContext.getServerContext().getObjectAttachments());
+
     }
 }

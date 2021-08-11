@@ -17,6 +17,8 @@
 
 package com.apache.dubbo.sample.basic;
 
+import org.apache.dubbo.rpc.RpcContext;
+
 public class IGreeter2Impl implements IGreeter2 {
     @Override
     public String sayHello0(String request) {
@@ -26,5 +28,19 @@ public class IGreeter2Impl implements IGreeter2 {
         }
         request = respBuilder.toString();
         return request;
+    }
+
+    @Override
+    public String sayHelloException(String request) {
+        throw new RuntimeException("Biz exception");
+    }
+
+    @Override
+    public String sayHelloWithAttachment(String request) {
+        System.out.println(RpcContext.getServerAttachment().getObjectAttachments());
+        RpcContext.getServerContext().setAttachment("str", "str")
+                .setAttachment("integer", 1)
+                .setAttachment("raw", new byte[]{1, 2, 3, 4});
+        return "hello," + request;
     }
 }
