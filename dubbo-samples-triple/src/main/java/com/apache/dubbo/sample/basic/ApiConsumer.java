@@ -51,9 +51,9 @@ public class ApiConsumer {
         iGreeter = ref.get();
 
         System.out.println("dubbo ref started");
-//        unaryHello();
-//        sayHelloException();
-//        stream();
+        unaryHello();
+        sayHelloException();
+        stream();
         serverStream();
         System.in.read();
     }

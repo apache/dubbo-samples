@@ -81,6 +81,7 @@ public class ApiWrapperConsumer {
         });
 
     }
+
     public static void sayHelloStream() {
         final StreamObserver<String> request = iGreeter.sayHelloStream(new StreamObserver<String>() {
             @Override
