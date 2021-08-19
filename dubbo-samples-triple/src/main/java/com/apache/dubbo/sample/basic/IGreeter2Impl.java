@@ -17,17 +17,23 @@
 
 package com.apache.dubbo.sample.basic;
 
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
 
 public class IGreeter2Impl implements IGreeter2 {
     @Override
-    public String sayHello0(String request) {
+    public String sayHelloLong(String request) {
         StringBuilder respBuilder = new StringBuilder(request);
         for (int i = 0; i < 20; i++) {
             respBuilder.append(respBuilder);
         }
         request = respBuilder.toString();
         return request;
+    }
+
+    @Override
+    public String sayHello(String request) {
+        return "hello," + request;
     }
 
     @Override
@@ -42,5 +48,34 @@ public class IGreeter2Impl implements IGreeter2 {
                 .setAttachment("integer", 1)
                 .setAttachment("raw", new byte[]{1, 2, 3, 4});
         return "hello," + request;
+    }
+
+    @Override
+    public StreamObserver<String> sayHelloStream(StreamObserver<String> response) {
+        return new StreamObserver<String>() {
+            @Override
+            public void onNext(String data) {
+                response.onNext("hello," + data);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+                response.onError(new IllegalStateException("Stream err"));
+            }
+
+            @Override
+            public void onCompleted() {
+                response.onCompleted();
+            }
+        };
+    }
+
+    @Override
+    public void sayHelloServerStream(String request, StreamObserver<String> response) {
+        for (int i = 0; i < 10; i++) {
+            response.onNext("hello," + request);
+        }
+        response.onCompleted();
     }
 }

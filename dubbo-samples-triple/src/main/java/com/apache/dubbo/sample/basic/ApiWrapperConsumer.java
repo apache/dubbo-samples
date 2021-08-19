@@ -17,17 +17,20 @@
 
 package com.apache.dubbo.sample.basic;
 
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.rpc.RpcContext;
 
 public class ApiWrapperConsumer {
-    public static void main(String[] args) {
+    private static IGreeter2 iGreeter;
+
+    public static void main(String[] args) throws InterruptedException {
         ReferenceConfig<IGreeter2> ref = new ReferenceConfig<>();
         ref.setInterface(IGreeter2.class);
         ref.setCheck(false);
+        ref.setTimeout(3000);
         ref.setProtocol("tri");
         ref.setLazy(true);
 
@@ -37,22 +40,73 @@ public class ApiWrapperConsumer {
                 .reference(ref)
                 .start();
 
-        final IGreeter2 iGreeter = ref.get();
+        iGreeter = ref.get();
         System.out.println("dubbo ref started");
-        long st = System.currentTimeMillis();
-        String reply = iGreeter.sayHello0("haha");
-        // 4MB response
-        System.out.println("Reply len:" + reply.length() + " cost:" + (System.currentTimeMillis() - st));
+        sayHelloUnary();
+        sayHelloLong();
+        sayHelloException();
+        sayHelloStream();
+        sayHelloServerStream();
+    }
 
+    public static void sayHelloUnary() {
+        System.out.println(iGreeter.sayHello("unary"));
+    }
+
+    public static void sayHelloException() {
         try {
-            final String exception = iGreeter.sayHelloException("exception");
+            System.out.println(iGreeter.sayHelloException("exception"));
         } catch (Throwable t) {
-            System.out.println("Exception:" + t.getMessage());
+            t.printStackTrace();
         }
+    }
 
-        RpcContext.getClientAttachment().setAttachment("str", "str");
-        final String attachment = iGreeter.sayHelloWithAttachment("attachment");
-        System.out.println(RpcContext.getServerContext().getObjectAttachments());
+    public static void sayHelloServerStream() {
+        iGreeter.sayHelloServerStream("server stream", new StreamObserver<String>() {
+            @Override
+            public void onNext(String data) {
+                System.out.println("Stream reply:" + data);
+            }
 
+            @Override
+            public void onError(Throwable throwable) {
+                System.out.println("Stream error");
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("Stream complete");
+            }
+        });
+
+    }
+    public static void sayHelloStream() {
+        final StreamObserver<String> request = iGreeter.sayHelloStream(new StreamObserver<String>() {
+            @Override
+            public void onNext(String data) {
+                System.out.println("Stream reply:" + data);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                System.out.println("Stream error");
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("Stream complete");
+            }
+        });
+        for (int i = 0; i < 10; i++) {
+            request.onNext("stream request");
+        }
+        request.onCompleted();
+    }
+
+    public static void sayHelloLong() {
+        final String response = iGreeter.sayHelloLong("unary long");
+        System.out.println("Say hello long reply_size=" + response.length());
     }
 }

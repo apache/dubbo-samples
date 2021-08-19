@@ -18,6 +18,7 @@
 package com.apache.dubbo.sample.basic;
 
 import org.apache.dubbo.common.constants.CommonConstants;
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class ApiConsumer {
+    private static IGreeter iGreeter;
+
     public static void main(String[] args) throws IOException {
         ReferenceConfig<IGreeter> ref = new ReferenceConfig<>();
         ref.setInterface(IGreeter.class);
@@ -45,9 +48,63 @@ public class ApiConsumer {
                 .reference(ref)
                 .start();
 
-        final IGreeter iGreeter = ref.get();
+        iGreeter = ref.get();
 
         System.out.println("dubbo ref started");
+//        unaryHello();
+//        sayHelloException();
+//        stream();
+        serverStream();
+        System.in.read();
+    }
+
+    public static void serverStream() {
+        iGreeter.sayHelloServerStream(HelloRequest.newBuilder()
+                .setName("request")
+                .build(), new StreamObserver<HelloReply>() {
+            @Override
+            public void onNext(HelloReply data) {
+                System.out.println("stream reply:" + data);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("stream done");
+            }
+        });
+    }
+
+    public static void stream() {
+        final StreamObserver<HelloRequest> request = iGreeter.sayHelloStream(new StreamObserver<HelloReply>() {
+            @Override
+            public void onNext(HelloReply data) {
+                System.out.println("stream reply:" + data);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("stream done");
+            }
+        });
+        for (int i = 0; i < 10; i++) {
+            request.onNext(HelloRequest.newBuilder()
+                    .setName("request")
+                    .build());
+        }
+        request.onCompleted();
+    }
+
+    public static void unaryHello() {
         try {
             final HelloReply reply = iGreeter.sayHello(HelloRequest.newBuilder()
                     .setName("name")
@@ -57,6 +114,15 @@ public class ApiConsumer {
         } catch (Throwable t) {
             t.printStackTrace();
         }
-        System.in.read();
+    }
+
+    public static void sayHelloException() {
+        try {
+            final HelloReply reply = iGreeter.sayHelloException(HelloRequest.newBuilder()
+                    .setName("name")
+                    .build());
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 }

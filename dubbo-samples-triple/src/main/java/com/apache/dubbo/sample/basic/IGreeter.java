@@ -17,6 +17,7 @@
 
 package com.apache.dubbo.sample.basic;
 
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.hello.HelloReply;
 import org.apache.dubbo.hello.HelloRequest;
 
@@ -28,4 +29,9 @@ public interface IGreeter {
      */
     HelloReply sayHello(HelloRequest request);
 
+    HelloReply sayHelloException(HelloRequest request);
+
+    StreamObserver<HelloRequest> sayHelloStream(StreamObserver<HelloReply> replyStream);
+
+    void sayHelloServerStream(HelloRequest request, StreamObserver<HelloReply> replyStream);
 }

@@ -17,15 +17,23 @@
 
 package com.apache.dubbo.sample.basic;
 
+import org.apache.dubbo.common.stream.StreamObserver;
+
 public interface IGreeter2 {
     /**
      * <pre>
      *  Sends a greeting
      * </pre>
      */
-    String sayHello0(String request);
+    String sayHelloLong(String request);
+
+    String sayHello(String request);
 
     String sayHelloException(String request);
 
     String sayHelloWithAttachment(String request);
+
+    StreamObserver<String> sayHelloStream(StreamObserver<String> response);
+
+    void sayHelloServerStream(String request, StreamObserver<String> response);
 }
