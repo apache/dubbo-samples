@@ -48,7 +48,7 @@ docker run -e DUBBO_IP_TO_REGISTRY=30.5.97.6 -e DUBBO_PORT_TO_REGISTRY=20881 -p 
 
 > Suppose the host IP is 30.5.97.6.    
 > set the provider to register the IP address and port of the registration center by environment variables `DUBBO_IP_TO_REGISTRY=30.5.97.6` `DUBBO_PORT_TO_REGISTRY=20881`    
-> Implement the port mapping by`-p 30.5.97.6:20881:20880`, where 20800 is the listening port automatically selected by dubbo. There is no monitoring IP configuration, so it will listen 0.0.0.0 (all IP).
+> Implement the port mapping by`-p 30.5.97.6:20881:20880`, where 20880 is the listening port automatically selected by dubbo. There is no monitoring IP configuration, so it will listen 0.0.0.0 (all IP).
 > After startup, the registered address of provider is 30.5.97.6:20881, and the listening address of the container is: 0.0.0.0:20880 
 
 5. Test
