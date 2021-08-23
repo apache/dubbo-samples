@@ -34,6 +34,7 @@
         <module>dubbo-samples-nacos-configcenter</module>
         <module>dubbo-samples-nacos-tagrouter</module>
         <module>dubbo-samples-nacos-registry</module>
+        <module>dubbo-samples-nacos-group</module>
     </modules>
 
     <repositories>
