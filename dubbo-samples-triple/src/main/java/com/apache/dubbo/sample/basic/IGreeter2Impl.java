@@ -37,6 +37,15 @@ public class IGreeter2Impl implements IGreeter2 {
     }
 
     @Override
+    public void sayHelloResponseVoid(String request) {
+    }
+
+    @Override
+    public String sayHelloRequestVoid() {
+        return "hello!";
+    }
+
+    @Override
     public String sayHelloException(String request) {
         throw new RuntimeException("Biz exception");
     }

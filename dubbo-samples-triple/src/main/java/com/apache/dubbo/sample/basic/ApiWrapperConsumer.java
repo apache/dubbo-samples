@@ -43,10 +43,20 @@ public class ApiWrapperConsumer {
         iGreeter = ref.get();
         System.out.println("dubbo ref started");
         sayHelloUnary();
+        sayHelloUnaryResponseVoid();
+        sayHelloUnaryRequestVoid();
         sayHelloLong();
         sayHelloException();
         sayHelloStream();
         sayHelloServerStream();
+    }
+
+    public static void sayHelloUnaryRequestVoid() {
+        System.out.println(iGreeter.sayHelloRequestVoid());
+    }
+
+    public static void sayHelloUnaryResponseVoid() {
+        iGreeter.sayHelloResponseVoid("void");
     }
 
     public static void sayHelloUnary() {

@@ -29,6 +29,10 @@ public interface IGreeter2 {
 
     String sayHello(String request);
 
+    void sayHelloResponseVoid(String request);
+
+    String sayHelloRequestVoid();
+
     String sayHelloException(String request);
 
     String sayHelloWithAttachment(String request);
