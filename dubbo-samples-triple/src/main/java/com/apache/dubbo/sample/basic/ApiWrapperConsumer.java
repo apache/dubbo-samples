@@ -26,7 +26,7 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 public class ApiWrapperConsumer {
     private static IGreeter2 iGreeter;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         ReferenceConfig<IGreeter2> ref = new ReferenceConfig<>();
         ref.setInterface(IGreeter2.class);
         ref.setCheck(false);

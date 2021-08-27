@@ -48,6 +48,7 @@ public class GenericConsumer {
         sayHelloUnaryRequestVoid();
         sayHelloLong();
         sayHelloException();
+        notFoundMethod();
     }
 
     public static void sayHelloUnaryRequestVoid() {
@@ -66,6 +67,14 @@ public class GenericConsumer {
     public static void sayHelloException() {
         try {
             generic.$invoke("sayHelloException", new String[]{String.class.getName()}, new Object[]{"exception"});
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    public static void notFoundMethod() {
+        try {
+            generic.$invoke("sayHelloNotExist", new String[]{String.class.getName()}, new Object[]{"unary long"});
         } catch (Throwable t) {
             t.printStackTrace();
         }

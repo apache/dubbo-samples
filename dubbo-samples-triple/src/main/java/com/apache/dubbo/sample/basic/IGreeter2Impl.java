@@ -38,10 +38,12 @@ public class IGreeter2Impl implements IGreeter2 {
 
     @Override
     public void sayHelloResponseVoid(String request) {
+        System.out.println("call void response");
     }
 
     @Override
     public String sayHelloRequestVoid() {
+        System.out.println("call void request");
         return "hello!";
     }
 
