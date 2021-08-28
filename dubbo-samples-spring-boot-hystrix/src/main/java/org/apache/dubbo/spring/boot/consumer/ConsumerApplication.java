@@ -18,6 +18,7 @@ package org.apache.dubbo.spring.boot.consumer;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.spring.boot.api.HelloService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 @SpringBootApplication
 @Service
 @EnableHystrix
+@EnableDubbo
 public class ConsumerApplication {
 
     @DubboReference(version = "1.0.0")
