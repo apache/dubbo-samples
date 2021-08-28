@@ -46,6 +46,7 @@ public class ConsumerApplication {
 
     @HystrixCommand(fallbackMethod = "reliable")
     public String doSayHello(String name) {
+        // According to author's original purpose, the fallbackMethod is triggered by remote RpcException but not NPE of demoService.
         return demoService.sayHello(name);
     }
 
