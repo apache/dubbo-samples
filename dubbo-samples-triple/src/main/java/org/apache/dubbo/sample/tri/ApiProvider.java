@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package com.apache.dubbo.sample.basic;
+package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
@@ -24,7 +24,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
-public class ApiProvider {
+class ApiProvider {
     public static void main(String[] args) {
         ServiceConfig<IGreeter> service = new ServiceConfig<>();
         service.setInterface(IGreeter.class);

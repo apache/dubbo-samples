@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package com.apache.dubbo.sample.basic;
+package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.StreamObserver;
@@ -29,10 +29,10 @@ import org.apache.dubbo.hello.HelloRequest;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class ApiConsumer {
-    private static IGreeter iGreeter;
+class ApiConsumer {
+    private final IGreeter delegate;
 
-    public static void main(String[] args) throws IOException {
+    ApiConsumer() {
         ReferenceConfig<IGreeter> ref = new ReferenceConfig<>();
         ref.setInterface(IGreeter.class);
         ref.setCheck(false);
@@ -48,54 +48,26 @@ public class ApiConsumer {
                 .reference(ref)
                 .start();
 
-        iGreeter = ref.get();
+        this.delegate = ref.get();
+    }
 
-        System.out.println("dubbo ref started");
-        unaryHello();
-        sayHelloException();
-        stream();
-        serverStream();
+    public static void main(String[] args) throws IOException {
+        final ApiConsumer consumer = new ApiConsumer();
+        System.out.println("dubbo triple consumer started");
+        consumer.unaryHello();
+        consumer.stream();
+        consumer.serverStream();
         System.in.read();
     }
 
-    public static void serverStream() {
-        iGreeter.sayHelloServerStream(HelloRequest.newBuilder()
+    public void serverStream() {
+        delegate.sayHelloServerStream(HelloRequest.newBuilder()
                 .setName("request")
-                .build(), new StreamObserver<HelloReply>() {
-            @Override
-            public void onNext(HelloReply data) {
-                System.out.println("stream reply:" + data);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("stream done");
-            }
-        });
+                .build(), new StdoutStreamObserver<>("serverStream"));
     }
 
-    public static void stream() {
-        final StreamObserver<HelloRequest> request = iGreeter.sayHelloStream(new StreamObserver<HelloReply>() {
-            @Override
-            public void onNext(HelloReply data) {
-                System.out.println("stream reply:" + data);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("stream done");
-            }
-        });
+    public void stream() {
+        final StreamObserver<HelloRequest> request = delegate.sayHelloStream(new StdoutStreamObserver<>("stream"));
         for (int i = 0; i < 10; i++) {
             request.onNext(HelloRequest.newBuilder()
                     .setName("request")
@@ -104,9 +76,9 @@ public class ApiConsumer {
         request.onCompleted();
     }
 
-    public static void unaryHello() {
+    public void unaryHello() {
         try {
-            final HelloReply reply = iGreeter.sayHello(HelloRequest.newBuilder()
+            final HelloReply reply = delegate.sayHello(HelloRequest.newBuilder()
                     .setName("name")
                     .build());
             TimeUnit.SECONDS.sleep(1);
@@ -116,13 +88,4 @@ public class ApiConsumer {
         }
     }
 
-    public static void sayHelloException() {
-        try {
-            final HelloReply reply = iGreeter.sayHelloException(HelloRequest.newBuilder()
-                    .setName("name")
-                    .build());
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
 }

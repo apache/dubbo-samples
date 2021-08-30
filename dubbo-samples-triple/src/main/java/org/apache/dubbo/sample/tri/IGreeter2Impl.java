@@ -15,21 +15,12 @@
  *  limitations under the License.
  */
 
-package com.apache.dubbo.sample.basic;
+package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
 
 public class IGreeter2Impl implements IGreeter2 {
-    @Override
-    public String sayHelloLong(String request) {
-        StringBuilder respBuilder = new StringBuilder(request);
-        for (int i = 0; i < 20; i++) {
-            respBuilder.append(respBuilder);
-        }
-        request = respBuilder.toString();
-        return request;
-    }
 
     @Override
     public String sayHello(String request) {
@@ -63,23 +54,13 @@ public class IGreeter2Impl implements IGreeter2 {
 
     @Override
     public StreamObserver<String> sayHelloStream(StreamObserver<String> response) {
-        return new StreamObserver<String>() {
-            @Override
-            public void onNext(String data) {
-                response.onNext("hello," + data);
-            }
+        return new EchoStreamObserver<>(str -> "hello," + str, response);
+    }
 
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-                response.onError(new IllegalStateException("Stream err"));
-            }
-
-            @Override
-            public void onCompleted() {
-                response.onCompleted();
-            }
-        };
+    @Override
+    public StreamObserver<String> sayHelloStreamError(StreamObserver<String> response) {
+        response.onError(new Throwable("ServerStream error"));
+        return new EchoStreamObserver<>(str -> "hello," + str, response);
     }
 
     @Override

@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package com.apache.dubbo.sample.basic;
+package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -24,64 +24,33 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.service.GenericService;
 
 public class GenericConsumer {
-    private static GenericService generic;
+    private final GenericService generic;
 
-    public static void main(String[] args) throws InterruptedException {
+    GenericConsumer() {
         ReferenceConfig<GenericService> ref = new ReferenceConfig<>();
-        ref.setInterface("com.apache.dubbo.sample.basic.IGreeter2");
+        ref.setInterface("org.apache.dubbo.sample.basic.IGreeter2");
         ref.setCheck(false);
         ref.setTimeout(30000);
         ref.setProtocol("tri");
         ref.setGeneric("true");
         ref.setLazy(true);
-
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-consumer"))
                 .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
                 .reference(ref)
                 .start();
-
-        generic = ref.get();
-        System.out.println("dubbo ref started");
-        sayHelloUnary();
-        sayHelloUnaryResponseVoid();
-        sayHelloUnaryRequestVoid();
-        sayHelloLong();
-        sayHelloException();
-        notFoundMethod();
+        this.generic = ref.get();
     }
 
-    public static void sayHelloUnaryRequestVoid() {
-        System.out.println(generic.$invoke("sayHelloRequestVoid", new String[0], new Object[0]));
+    public static void main(String[] args) {
+        final GenericConsumer consumer = new GenericConsumer();
+        System.out.println("dubbo triple generic consumer started");
+        consumer.sayHelloUnary();
     }
 
-    public static void sayHelloUnaryResponseVoid() {
-        System.out.println(generic.$invoke("sayHelloResponseVoid", new String[]{String.class.getName()},
-                new Object[]{"requestVoid"}));
-    }
-
-    public static void sayHelloUnary() {
+    public void sayHelloUnary() {
         System.out.println(generic.$invoke("sayHello", new String[]{String.class.getName()}, new Object[]{"unary"}));
     }
 
-    public static void sayHelloException() {
-        try {
-            generic.$invoke("sayHelloException", new String[]{String.class.getName()}, new Object[]{"exception"});
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
 
-    public static void notFoundMethod() {
-        try {
-            generic.$invoke("sayHelloNotExist", new String[]{String.class.getName()}, new Object[]{"unary long"});
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
-    public static void sayHelloLong() {
-        final Object resp = generic.$invoke("sayHelloLong", new String[]{String.class.getName()}, new Object[]{"unary long"});
-        System.out.println(((String) resp).length());
-    }
 }

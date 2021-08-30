@@ -15,23 +15,26 @@
  *  limitations under the License.
  */
 
-package com.apache.dubbo.sample.basic;
+package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
-import org.apache.dubbo.hello.HelloReply;
-import org.apache.dubbo.hello.HelloRequest;
 
-public interface IGreeter {
-    /**
-     * <pre>
-     *  Sends a greeting
-     * </pre>
-     */
-    HelloReply sayHello(HelloRequest request);
+public interface IGreeter2 {
 
-    HelloReply sayHelloException(HelloRequest request);
 
-    StreamObserver<HelloRequest> sayHelloStream(StreamObserver<HelloReply> replyStream);
+    String sayHello(String request);
 
-    void sayHelloServerStream(HelloRequest request, StreamObserver<HelloReply> replyStream);
+    void sayHelloResponseVoid(String request);
+
+    String sayHelloRequestVoid();
+
+    String sayHelloException(String request);
+
+    String sayHelloWithAttachment(String request);
+
+    StreamObserver<String> sayHelloStream(StreamObserver<String> response);
+
+    StreamObserver<String> sayHelloStreamError(StreamObserver<String> response);
+
+    void sayHelloServerStream(String request, StreamObserver<String> response);
 }
