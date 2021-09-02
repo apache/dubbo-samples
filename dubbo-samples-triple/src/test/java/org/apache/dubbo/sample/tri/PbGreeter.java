@@ -7,6 +7,8 @@ public interface PbGreeter {
 
     GreeterReply greet(GreeterRequest request);
 
+    GreeterReply methodNonExist(GreeterRequest request);
+
     GreeterReply greetException(GreeterRequest request);
 
     StreamObserver<GreeterRequest> greetStream(StreamObserver<GreeterReply> replyStream);

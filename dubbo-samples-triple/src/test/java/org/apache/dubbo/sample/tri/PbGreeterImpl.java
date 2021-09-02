@@ -20,6 +20,11 @@ public class PbGreeterImpl implements PbGreeter {
                 .build();
     }
 
+    @Override
+    public GreeterReply methodNonExist(GreeterRequest request) {
+        throw new RuntimeException("not found");
+    }
+
     public GreeterReply greetException(GreeterRequest request) {
         RpcContext.getServerContext().setAttachment("str", "str")
                 .setAttachment("integer", 1)

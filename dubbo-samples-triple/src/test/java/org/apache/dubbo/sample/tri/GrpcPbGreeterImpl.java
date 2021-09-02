@@ -37,6 +37,17 @@ public class GrpcPbGreeterImpl extends PbGreeterGrpc.PbGreeterImplBase {
     }
 
     @Override
+    public void greetWithAttachment(GreeterRequest request, StreamObserver<GreeterReply> responseObserver) {
+        try {
+            final GreeterReply response = delegate.greetWithAttachment(request);
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Throwable t) {
+            responseObserver.onError(t);
+        }
+    }
+
+    @Override
     public void greetServerStream(GreeterRequest request, StreamObserver<GreeterReply> responseObserver) {
         delegate.greetServerStream(request, new StreamObserverAdapter<>(responseObserver));
     }

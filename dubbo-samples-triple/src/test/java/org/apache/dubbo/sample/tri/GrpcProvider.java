@@ -1,7 +1,13 @@
 package org.apache.dubbo.sample.tri;
 
+import io.grpc.ForwardingServerCall;
+import io.grpc.Metadata;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.ServerCall;
+import io.grpc.ServerCallHandler;
+import io.grpc.ServerInterceptor;
+import io.grpc.ServerInterceptors;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +15,23 @@ import java.util.concurrent.TimeUnit;
 public class GrpcProvider {
     public static void main(String[] args) throws IOException, InterruptedException {
         final Server server = ServerBuilder.forPort(50051)
-                .addService(new GrpcPbGreeterImpl(new PbGreeterImpl()))
+                .addService(ServerInterceptors.intercept(new GrpcPbGreeterImpl(new PbGreeterImpl()), new ServerInterceptor() {
+                            @Override
+                            public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall,
+                                                                                         Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
+                                 return serverCallHandler.startCall(new ForwardingServerCall.SimpleForwardingServerCall(serverCall){
+                                     @Override
+                                     public void sendHeaders(Metadata headers) {
+                                         final String key = "user-attachment";
+                                         final Metadata.Key<String> metaKey = Metadata.Key.of(key, Metadata.ASCII_STRING_MARSHALLER);
+                                         if(metadata.containsKey(metaKey)){
+                                             headers.put(metaKey,metadata.get(metaKey));
+                                         }
+                                         super.sendHeaders(headers);
+                                     }
+                                 }, metadata);
+                            };
+                        }))
                 .build();
         server.start();
         Runtime.getRuntime().addShutdownHook(new Thread() {

@@ -18,6 +18,8 @@ message GreeterReply {
 service PbGreeter{
   rpc greet(GreeterRequest) returns (GreeterReply);
 
+  rpc greetWithAttachment (GreeterRequest) returns (GreeterReply);
+
   rpc greetException(GreeterRequest) returns (GreeterReply);
 
   rpc greetStream(stream GreeterRequest) returns (stream GreeterReply);
