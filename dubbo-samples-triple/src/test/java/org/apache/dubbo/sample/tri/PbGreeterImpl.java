@@ -5,14 +5,14 @@ import org.apache.dubbo.rpc.RpcContext;
 
 public class PbGreeterImpl implements PbGreeter {
     @Override
-    public GreeterReply sayGreeter(GreeterRequest request) {
+    public GreeterReply Greet(GreeterRequest request) {
 
         return GreeterReply.newBuilder()
                 .setMessage(request.getName())
                 .build();
     }
 
-    public GreeterReply sayGreeterException(GreeterRequest request) {
+    public GreeterReply GreetException(GreeterRequest request) {
         RpcContext.getServerContext().setAttachment("str", "str")
                 .setAttachment("integer", 1)
                 .setAttachment("raw", new byte[]{1, 2, 3, 4});
@@ -20,7 +20,7 @@ public class PbGreeterImpl implements PbGreeter {
     }
 
     @Override
-    public StreamObserver<GreeterRequest> sayGreeterStream(StreamObserver<GreeterReply> replyStream) {
+    public StreamObserver<GreeterRequest> GreetStream(StreamObserver<GreeterReply> replyStream) {
         return new StreamObserver<GreeterRequest>() {
             @Override
             public void onNext(GreeterRequest data) {
@@ -43,7 +43,7 @@ public class PbGreeterImpl implements PbGreeter {
     }
 
     @Override
-    public void sayGreeterServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream) {
+    public void GreetServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream) {
         for (int i = 0; i < 10; i++) {
             replyStream.onNext(GreeterReply.newBuilder()
                     .setMessage(request.getName())

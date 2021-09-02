@@ -16,5 +16,11 @@ message GreeterReply {
 }
 
 service PbGreeter{
-  rpc SayHello(GreeterRequest) returns (GreeterReply);
+  rpc Greet(GreeterRequest) returns (GreeterReply);
+
+  rpc GreetException(GreeterRequest) returns (GreeterReply);
+
+  rpc  GreetStream(stream GreeterRequest) returns (stream GreeterReply);
+
+  rpc GreetServerStream(GreeterRequest) returns (stream GreeterReply);
 }

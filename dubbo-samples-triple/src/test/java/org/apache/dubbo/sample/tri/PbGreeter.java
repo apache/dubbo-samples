@@ -3,11 +3,11 @@ package org.apache.dubbo.sample.tri;
 import org.apache.dubbo.common.stream.StreamObserver;
 
 public interface PbGreeter {
-    GreeterReply sayGreeter(GreeterRequest request);
+    GreeterReply Greet(GreeterRequest request);
 
-    GreeterReply sayGreeterException(GreeterRequest request);
+    GreeterReply GreetException(GreeterRequest request);
 
-    StreamObserver<GreeterRequest> sayGreeterStream(StreamObserver<GreeterReply> replyStream);
+    StreamObserver<GreeterRequest> GreetStream(StreamObserver<GreeterReply> replyStream);
 
-    void sayGreeterServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream);
+    void GreetServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream);
 }

@@ -4,7 +4,6 @@ import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 import org.junit.Assert;
@@ -24,13 +23,14 @@ public class PbTest {
         ref.setCheck(false);
         ref.setInterface(PbGreeter.class);
         ref.setCheck(false);
+        ref.setUrl("tri://127.0.0.1:50051");
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
         ref.setTimeout(10000);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-consumer"))
-                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+//                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
                 .reference(ref)
                 .start();
 
@@ -44,7 +44,7 @@ public class PbTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
-        delegate.sayGreeterServerStream(request, new StdoutStreamObserver<GreeterReply>("sayGreeterServerStream") {
+        delegate.GreetServerStream(request, new StdoutStreamObserver<GreeterReply>("sayGreeterServerStream") {
             @Override
             public void onNext(GreeterReply data) {
                 super.onNext(data);
@@ -61,7 +61,7 @@ public class PbTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("stream request")
                 .build();
-        final StreamObserver<GreeterRequest> requestObserver = delegate.sayGreeterStream(new StdoutStreamObserver<GreeterReply>("sayGreeterStream") {
+        final StreamObserver<GreeterRequest> requestObserver = delegate.GreetStream(new StdoutStreamObserver<GreeterReply>("sayGreeterStream") {
             @Override
             public void onNext(GreeterReply data) {
                 super.onNext(data);
@@ -77,7 +77,7 @@ public class PbTest {
 
     @Test
     public void unaryGreeter() {
-        final GreeterReply reply = delegate.sayGreeter(GreeterRequest.newBuilder()
+        final GreeterReply reply = delegate.Greet(GreeterRequest.newBuilder()
                 .setName("name")
                 .build());
         Assert.assertNotNull(reply);
