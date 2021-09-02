@@ -5,6 +5,8 @@ import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcException;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -44,7 +46,7 @@ public class PbTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
-        delegate.GreetServerStream(request, new StdoutStreamObserver<GreeterReply>("sayGreeterServerStream") {
+        delegate.greetServerStream(request, new StdoutStreamObserver<GreeterReply>("sayGreeterServerStream") {
             @Override
             public void onNext(GreeterReply data) {
                 super.onNext(data);
@@ -61,7 +63,7 @@ public class PbTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("stream request")
                 .build();
-        final StreamObserver<GreeterRequest> requestObserver = delegate.GreetStream(new StdoutStreamObserver<GreeterReply>("sayGreeterStream") {
+        final StreamObserver<GreeterRequest> requestObserver = delegate.greetStream(new StdoutStreamObserver<GreeterReply>("sayGreeterStream") {
             @Override
             public void onNext(GreeterReply data) {
                 super.onNext(data);
@@ -77,10 +79,31 @@ public class PbTest {
 
     @Test
     public void unaryGreeter() {
-        final GreeterReply reply = delegate.Greet(GreeterRequest.newBuilder()
+        final GreeterReply reply = delegate.greet(GreeterRequest.newBuilder()
                 .setName("name")
                 .build());
         Assert.assertNotNull(reply);
     }
 
+
+    @Test(expected = RpcException.class)
+    public void clientSendLargeSizeHeader() throws InterruptedException {
+        StringBuilder sb = new StringBuilder("a");
+        for (int j = 0; j < 15; j++) {
+            sb.append(sb);
+        }
+        sb.setLength(8191);
+        RpcContext.getClientAttachment().setObjectAttachment("large-size-meta", sb.toString());
+        delegate.greet(GreeterRequest.newBuilder().setName("meta").build());
+    }
+
+    @Test
+    public void attachmentTest() {
+        final String key = "user-attachment";
+        final String value = "attachment-value";
+        RpcContext.getClientAttachment().setAttachment(key, value);
+        delegate.greetWithAttachment(GreeterRequest.newBuilder().setName("meta").build());
+        final String returned = (String) RpcContext.getServiceContext().getObjectAttachment(key);
+        Assert.assertEquals(value, returned);
+    }
 }

@@ -12,7 +12,7 @@ public class GrpcPbGreeterImpl extends PbGreeterGrpc.PbGreeterImplBase {
     @Override
     public void greet(GreeterRequest request, StreamObserver<GreeterReply> responseObserver) {
         try {
-            final GreeterReply response = delegate.Greet(request);
+            final GreeterReply response = delegate.greet(request);
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         } catch (Throwable t) {
@@ -23,7 +23,7 @@ public class GrpcPbGreeterImpl extends PbGreeterGrpc.PbGreeterImplBase {
     @Override
     public void greetException(GreeterRequest request, StreamObserver<GreeterReply> responseObserver) {
         try {
-            final GreeterReply response = delegate.GreetException(request);
+            final GreeterReply response = delegate.greetException(request);
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         } catch (Throwable t) {
@@ -33,11 +33,11 @@ public class GrpcPbGreeterImpl extends PbGreeterGrpc.PbGreeterImplBase {
 
     @Override
     public StreamObserver<GreeterRequest> greetStream(StreamObserver<GreeterReply> responseObserver) {
-        return new GrpcStreamObserverAdapter<>(delegate.GreetStream(new StreamObserverAdapter<>(responseObserver)));
+        return new GrpcStreamObserverAdapter<>(delegate.greetStream(new StreamObserverAdapter<>(responseObserver)));
     }
 
     @Override
     public void greetServerStream(GreeterRequest request, StreamObserver<GreeterReply> responseObserver) {
-        delegate.GreetServerStream(request, new StreamObserverAdapter<>(responseObserver));
+        delegate.greetServerStream(request, new StreamObserverAdapter<>(responseObserver));
     }
 }
