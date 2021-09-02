@@ -24,7 +24,7 @@ public class GenericTest {
         ref.setGeneric("true");
         ref.setLazy(true);
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("generic-consumer"))
+        bootstrap.application(new ApplicationConfig("demo-consumer"))
                 .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
                 .reference(ref)
                 .start();

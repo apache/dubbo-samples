@@ -10,9 +10,9 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 public class TestProvider {
     public static void main(String[] args) {
-//        ServiceConfig<PbGreeter> pbService = new ServiceConfig<>();
-//        pbService.setInterface(IGreeter.class);
-//        pbService.setRef(new IGreeter1Impl());
+        ServiceConfig<PbGreeter> pbService = new ServiceConfig<>();
+        pbService.setInterface(PbGreeter.class);
+        pbService.setRef(new PbGreeterImpl());
 
         ServiceConfig<WrapGreeter> wrapService = new ServiceConfig<>();
         wrapService.setInterface(WrapGreeter.class);
@@ -23,7 +23,7 @@ public class TestProvider {
         bootstrap.application(new ApplicationConfig("demo-provider"))
                 .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
                 .protocol(new ProtocolConfig(CommonConstants.TRIPLE, 50051))
-//                .service(pbService)
+                .service(pbService)
                 .service(wrapService)
                 .start()
                 .await();
