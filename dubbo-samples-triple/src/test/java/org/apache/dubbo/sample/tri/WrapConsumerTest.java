@@ -5,6 +5,7 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.rpc.RpcException;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -48,7 +49,7 @@ public class WrapConsumerTest {
         Assert.assertEquals("hello,unary", delegate.sayHello("unary"));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = RpcException.class)
     public void sayHelloException() {
         delegate.sayHelloException("exception");
     }

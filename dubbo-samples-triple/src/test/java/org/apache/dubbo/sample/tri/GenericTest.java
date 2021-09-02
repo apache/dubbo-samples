@@ -5,12 +5,10 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
-import org.apache.dubbo.rpc.service.GenericException;
 import org.apache.dubbo.rpc.service.GenericService;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class GenericTest {
@@ -50,8 +48,7 @@ public class GenericTest {
                 new String[]{String.class.getName()}, new Object[]{"unary"}));
     }
 
-    @Test(expected = GenericException.class)
-    @Ignore
+    @Test(expected = RpcException.class)
     public void sayHelloException() {
         generic.$invoke("sayHelloException", new String[]{String.class.getName()}, new Object[]{"exception"});
     }
