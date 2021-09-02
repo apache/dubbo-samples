@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.apache.dubbo.sample.tri;
+
+
+// The request message containing the user's name.
+message GreeterRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message GreeterReply {
+  string message = 1;
+}
+
+service PbGreeter{
+  rpc SayHello(GreeterRequest) returns (GreeterReply);
+}

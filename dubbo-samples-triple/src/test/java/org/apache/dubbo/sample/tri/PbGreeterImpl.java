@@ -1,20 +1,18 @@
 package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
-import org.apache.dubbo.hello.HelloReply;
-import org.apache.dubbo.hello.HelloRequest;
 import org.apache.dubbo.rpc.RpcContext;
 
 public class PbGreeterImpl implements PbGreeter {
     @Override
-    public HelloReply sayHello(HelloRequest request) {
+    public GreeterReply sayGreeter(GreeterRequest request) {
 
-        return HelloReply.newBuilder()
+        return GreeterReply.newBuilder()
                 .setMessage(request.getName())
                 .build();
     }
 
-    public HelloReply sayHelloException(HelloRequest request) {
+    public GreeterReply sayGreeterException(GreeterRequest request) {
         RpcContext.getServerContext().setAttachment("str", "str")
                 .setAttachment("integer", 1)
                 .setAttachment("raw", new byte[]{1, 2, 3, 4});
@@ -22,11 +20,11 @@ public class PbGreeterImpl implements PbGreeter {
     }
 
     @Override
-    public StreamObserver<HelloRequest> sayHelloStream(StreamObserver<HelloReply> replyStream) {
-        return new StreamObserver<HelloRequest>() {
+    public StreamObserver<GreeterRequest> sayGreeterStream(StreamObserver<GreeterReply> replyStream) {
+        return new StreamObserver<GreeterRequest>() {
             @Override
-            public void onNext(HelloRequest data) {
-                replyStream.onNext(HelloReply.newBuilder()
+            public void onNext(GreeterRequest data) {
+                replyStream.onNext(GreeterReply.newBuilder()
                         .setMessage(data.getName())
                         .build());
             }
@@ -45,9 +43,9 @@ public class PbGreeterImpl implements PbGreeter {
     }
 
     @Override
-    public void sayHelloServerStream(HelloRequest request, StreamObserver<HelloReply> replyStream) {
+    public void sayGreeterServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream) {
         for (int i = 0; i < 10; i++) {
-            replyStream.onNext(HelloReply.newBuilder()
+            replyStream.onNext(GreeterReply.newBuilder()
                     .setMessage(request.getName())
                     .build());
         }

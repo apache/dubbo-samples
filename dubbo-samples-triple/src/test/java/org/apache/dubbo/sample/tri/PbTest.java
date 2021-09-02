@@ -6,8 +6,6 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.hello.HelloReply;
-import org.apache.dubbo.hello.HelloRequest;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -43,12 +41,12 @@ public class PbTest {
     public void serverStream() throws InterruptedException {
         int n = 10;
         CountDownLatch latch = new CountDownLatch(n);
-        final HelloRequest request = HelloRequest.newBuilder()
+        final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
-        delegate.sayHelloServerStream(request, new StdoutStreamObserver<HelloReply>("sayHelloServerStream") {
+        delegate.sayGreeterServerStream(request, new StdoutStreamObserver<GreeterReply>("sayGreeterServerStream") {
             @Override
-            public void onNext(HelloReply data) {
+            public void onNext(GreeterReply data) {
                 super.onNext(data);
                 latch.countDown();
             }
@@ -60,12 +58,12 @@ public class PbTest {
     public void stream() throws InterruptedException {
         int n = 10;
         CountDownLatch latch = new CountDownLatch(n);
-        final HelloRequest request = HelloRequest.newBuilder()
+        final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("stream request")
                 .build();
-        final StreamObserver<HelloRequest> requestObserver = delegate.sayHelloStream(new StdoutStreamObserver<HelloReply>("sayHelloStream") {
+        final StreamObserver<GreeterRequest> requestObserver = delegate.sayGreeterStream(new StdoutStreamObserver<GreeterReply>("sayGreeterStream") {
             @Override
-            public void onNext(HelloReply data) {
+            public void onNext(GreeterReply data) {
                 super.onNext(data);
                 latch.countDown();
             }
@@ -78,8 +76,8 @@ public class PbTest {
     }
 
     @Test
-    public void unaryHello() {
-        final HelloReply reply = delegate.sayHello(HelloRequest.newBuilder()
+    public void unaryGreeter() {
+        final GreeterReply reply = delegate.sayGreeter(GreeterRequest.newBuilder()
                 .setName("name")
                 .build());
         Assert.assertNotNull(reply);
