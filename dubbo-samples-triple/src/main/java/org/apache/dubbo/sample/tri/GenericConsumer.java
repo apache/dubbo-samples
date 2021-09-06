@@ -17,6 +17,7 @@
 
 package org.apache.dubbo.sample.tri;
 
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -31,12 +32,12 @@ public class GenericConsumer {
         ref.setInterface("org.apache.dubbo.sample.basic.IGreeter2");
         ref.setCheck(false);
         ref.setTimeout(30000);
-        ref.setProtocol("tri");
+        ref.setProtocol(CommonConstants.TRIPLE);
         ref.setGeneric("true");
         ref.setLazy(true);
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-consumer"))
-                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
                 .reference(ref)
                 .start();
         this.generic = ref.get();

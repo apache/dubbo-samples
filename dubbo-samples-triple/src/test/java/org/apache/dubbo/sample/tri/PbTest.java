@@ -24,9 +24,7 @@ public class PbTest {
         ReferenceConfig<PbGreeter> ref = new ReferenceConfig<>();
         ref.setInterface(PbGreeter.class);
         ref.setCheck(false);
-        ref.setInterface(PbGreeter.class);
-        ref.setCheck(false);
-        ref.setUrl("tri://127.0.0.1:50051");
+        ref.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
         ref.setTimeout(10000);
