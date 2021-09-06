@@ -4,6 +4,7 @@ package org.apache.dubbo.sample.tri;
 import io.grpc.stub.StreamObserver;
 
 public class GrpcStreamObserverAdapter<T> implements StreamObserver<T> {
+
     private final org.apache.dubbo.common.stream.StreamObserver<T> delegate;
 
     public GrpcStreamObserverAdapter(org.apache.dubbo.common.stream.StreamObserver<T> delegate) {

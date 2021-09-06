@@ -12,13 +12,13 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class GenericTest {
+public class TriGenericTest {
     private static GenericService generic;
 
     @BeforeClass
     public static void init() {
         ReferenceConfig<GenericService> ref = new ReferenceConfig<>();
-        ref.setInterface("org.apache.dubbo.sample.tri.WrapGreeter");
+        ref.setInterface("org.apache.dubbo.sample.tri.service.WrapGreeter");
         ref.setCheck(false);
         ref.setTimeout(30000);
         ref.setProtocol(CommonConstants.TRIPLE);

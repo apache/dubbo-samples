@@ -6,6 +6,7 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.sample.tri.service.WrapGreeter;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -14,7 +15,8 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class WrapConsumerTest {
+public class TriWrapConsumerTest {
+
     private static WrapGreeter delegate;
 
     @BeforeClass

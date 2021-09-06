@@ -1,9 +1,14 @@
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.service.impl;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.sample.tri.GreeterReply;
+import org.apache.dubbo.sample.tri.GreeterRequest;
+import org.apache.dubbo.sample.tri.PbGreeter;
+import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
-public class PbGreeterImpl implements PbGreeter {
+public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
+
     @Override
     public GreeterReply greetWithAttachment(GreeterRequest request) {
         final String key = "user-attachment";
@@ -59,7 +64,7 @@ public class PbGreeterImpl implements PbGreeter {
     public void greetServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream) {
         for (int i = 0; i < 10; i++) {
             replyStream.onNext(GreeterReply.newBuilder()
-                    .setMessage(request.getName())
+                    .setMessage(request.getName() + "--" + i)
                     .build());
         }
         replyStream.onCompleted();

@@ -17,10 +17,21 @@ Dubbo3 will wrap request and response with a protobuf wrapper automatically, so 
 Code under `test` folder is a general interoperation test suite for both Dubbo/Dubbo and Dubbo/GRPC.
 
 #### Dubbo/Dubbo test
-1. Run `org.apache.dubbo.sample.tri.TestProvider`
-2. Run `org.apache.dubbo.sample.tri.PbTest` , `org.apache.dubbo.sample.tri.WrapConsumerTest`  and `org.apache.dubbo.sample.tri.GenericTest`
+1. Run `org.apache.dubbo.sample.tri.TriProvider`
+2. Run `org.apache.dubbo.sample.tri.TriPbConsumerTest` , `org.apache.dubbo.sample.tri.TriWrapConsumerTest`  and `org.apache.dubbo.sample.tri.TriGenericTest`
 
 #### DUbbo/GRPC test
-TBD
+
+##### GRPC --> Dubbo
+
+1. Run `org.apache.dubbo.sample.tri.TriProvider`
+2. Run `org.apache.dubbo.sample.tri.GrpcConsumerTest`
+
+##### Dubbo --> GRPC
+
+1. Run `org.apache.dubbo.sample.tri.GrpcProvider`
+2. Run `org.apache.dubbo.sample.tri.TriPbConsumerTest`
+
+
 
 

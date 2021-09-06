@@ -7,6 +7,7 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -16,8 +17,11 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class PbTest {
+public class TriPbConsumerTest {
+
     private static PbGreeter delegate;
+
+    private static PbGreeterManual delegateManual;
 
     @BeforeClass
     public static void init() {
@@ -29,6 +33,14 @@ public class PbTest {
         ref.setLazy(true);
         ref.setTimeout(10000);
 
+        ReferenceConfig<PbGreeterManual> ref2 = new ReferenceConfig<>();
+        ref2.setInterface(PbGreeterManual.class);
+        ref2.setCheck(false);
+        ref2.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
+        ref2.setProtocol(CommonConstants.TRIPLE);
+        ref2.setLazy(true);
+        ref2.setTimeout(10000);
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-consumer"))
 //                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
@@ -36,6 +48,7 @@ public class PbTest {
                 .start();
 
         delegate = ref.get();
+        delegateManual = ref2.get();
     }
 
     @Test
@@ -108,12 +121,13 @@ public class PbTest {
         final String returned = (String) RpcContext.getServiceContext().getObjectAttachment(key);
         Assert.assertEquals(value, returned);
     }
+
     @Test
     public void methodNotFound() {
         try {
-            delegate.methodNonExist(GreeterRequest.newBuilder().setName("meta").build());
+            delegateManual.methodNonExist(GreeterRequest.newBuilder().setName("meta").build());
             TimeUnit.SECONDS.sleep(1);
-        }catch (RpcException | InterruptedException e){
+        } catch (RpcException | InterruptedException e) {
             Assert.assertTrue(e.getMessage().contains("not found"));
         }
     }

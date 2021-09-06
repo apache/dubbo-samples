@@ -17,6 +17,8 @@
 // of unary/streaming requests/responses.
 syntax = "proto3";
 
+option java_multiple_files = true;
+
 import "empty.proto";
 import "messages.proto";
 

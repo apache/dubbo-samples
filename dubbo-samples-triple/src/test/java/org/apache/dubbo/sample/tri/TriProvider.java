@@ -6,13 +6,22 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
+import org.apache.dubbo.sample.tri.service.PbGreeterManual;
+import org.apache.dubbo.sample.tri.service.WrapGreeter;
+import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
 
 
-public class TestProvider {
+public class TriProvider {
     public static void main(String[] args) {
         ServiceConfig<PbGreeter> pbService = new ServiceConfig<>();
         pbService.setInterface(PbGreeter.class);
-        pbService.setRef(new PbGreeterImpl());
+        PbGreeterImpl greeterImpl = new PbGreeterImpl();
+        pbService.setRef(greeterImpl);
+
+        ServiceConfig<PbGreeterManual> pbManualService = new ServiceConfig<>();
+        pbManualService.setInterface(PbGreeterManual.class);
+        pbManualService.setRef(new PbGreeterImpl());
 
         ServiceConfig<WrapGreeter> wrapService = new ServiceConfig<>();
         wrapService.setInterface(WrapGreeter.class);
@@ -24,6 +33,7 @@ public class TestProvider {
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
                 .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_POINT))
                 .service(pbService)
+                .service(pbManualService)
                 .service(wrapService)
                 .start()
                 .await();

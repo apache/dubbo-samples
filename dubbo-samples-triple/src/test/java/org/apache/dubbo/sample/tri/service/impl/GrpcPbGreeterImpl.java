@@ -1,8 +1,16 @@
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.service.impl;
+
+import org.apache.dubbo.sample.tri.GreeterReply;
+import org.apache.dubbo.sample.tri.GreeterRequest;
+import org.apache.dubbo.sample.tri.GrpcStreamObserverAdapter;
+import org.apache.dubbo.sample.tri.PbGreeter;
+import org.apache.dubbo.sample.tri.PbGreeterGrpc;
+import org.apache.dubbo.sample.tri.StreamObserverAdapter;
 
 import io.grpc.stub.StreamObserver;
 
 public class GrpcPbGreeterImpl extends PbGreeterGrpc.PbGreeterImplBase {
+
     private final PbGreeter delegate;
 
     public GrpcPbGreeterImpl(PbGreeter delegate) {

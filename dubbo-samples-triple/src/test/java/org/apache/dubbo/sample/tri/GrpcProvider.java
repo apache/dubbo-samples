@@ -1,5 +1,8 @@
 package org.apache.dubbo.sample.tri;
 
+import org.apache.dubbo.sample.tri.service.impl.GrpcPbGreeterImpl;
+import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
+
 import io.grpc.ForwardingServerCall;
 import io.grpc.Metadata;
 import io.grpc.Server;

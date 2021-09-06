@@ -25,5 +25,7 @@ public class TriSampleConstants {
 
     public static final String ZK_ADDRESS = "zookeeper://127.0.0.1:2181";
 
-    public static final String DEFAULT_ADDRESS = "tri://127.0.0.1:" + SERVER_POINT;
+    public static final String HOST = "127.0.0.1";
+
+    public static final String DEFAULT_ADDRESS = "tri://" + HOST + ":" + SERVER_POINT;
 }
