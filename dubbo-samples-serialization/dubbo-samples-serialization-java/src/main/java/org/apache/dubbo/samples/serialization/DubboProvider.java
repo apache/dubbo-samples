@@ -24,6 +24,10 @@ import java.util.concurrent.CountDownLatch;
 public class DubboProvider {
 
     public static void main(String[] args) throws Exception {
+        System.out.println("Java serialization is unsafe. Dubbo Team do not recommend anyone to use it." +
+                "If you still want to use it, please follow [JEP 290](https://openjdk.java.net/jeps/290)" +
+                "to set serialization filter to prevent deserialization leak.");
+
         new EmbeddedZooKeeper(2181, false).start();
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
