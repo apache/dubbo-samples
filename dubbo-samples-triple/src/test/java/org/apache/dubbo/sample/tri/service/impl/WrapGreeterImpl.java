@@ -49,7 +49,24 @@ public class WrapGreeterImpl implements WrapGreeter {
 
     @Override
     public StreamObserver<String> sayHelloStream(StreamObserver<String> response) {
-        return new EchoStreamObserver<>(str -> "hello," + str, response);
+        return new StreamObserver<String>() {
+            @Override
+            public void onNext(String data) {
+                System.out.println(data);
+                response.onNext("hello,"+data);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+                response.onCompleted();
+            }
+        };
     }
 
     @Override

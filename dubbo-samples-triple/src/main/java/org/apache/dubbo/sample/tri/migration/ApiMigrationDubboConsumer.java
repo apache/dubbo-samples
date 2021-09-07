@@ -15,28 +15,43 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.migration;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ProtocolConfig;
+import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.sample.tri.IWrapperGreeter;
+import org.apache.dubbo.sample.tri.TriSampleConstants;
 
-class ApiProvider {
-    public static void main(String[] args) {
-        ServiceConfig<IGreeter> service = new ServiceConfig<>();
-        service.setInterface(IGreeter.class);
-        service.setRef(new IGreeter1Impl());
+class ApiMigrationDubboConsumer {
+    private final IWrapperGreeter delegate;
+
+    public ApiMigrationDubboConsumer() {
+        ReferenceConfig<IWrapperGreeter> ref = new ReferenceConfig<>();
+        ref.setInterface(IWrapperGreeter.class);
+        ref.setCheck(false);
+        ref.setTimeout(3000);
+        ref.setProtocol(CommonConstants.DUBBO_PROTOCOL);
+        ref.setLazy(true);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-provider"))
+        bootstrap.application(new ApplicationConfig("demo-migration-dubbo-consumer"))
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
-                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_PORT))
-                .service(service)
-                .start()
-                .await();
-
+                .reference(ref)
+                .start();
+        this.delegate = ref.get();
     }
+
+    public static void main(String[] args) {
+        final ApiMigrationDubboConsumer consumer = new ApiMigrationDubboConsumer();
+        System.out.println("demo-migration-dubbo-consumer dubbo started");
+        consumer.sayHelloUnary(CommonConstants.DUBBO_PROTOCOL);
+    }
+
+    public void sayHelloUnary(String protocol) {
+        System.out.println(delegate.sayHello("unary" + "--" + protocol));
+    }
+
 }

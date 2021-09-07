@@ -19,8 +19,7 @@ package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 
-public interface IGreeter2 {
-
+public interface IWrapperGreeter {
 
     String sayHello(String request);
 

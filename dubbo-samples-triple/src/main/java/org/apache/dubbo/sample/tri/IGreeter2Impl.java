@@ -20,7 +20,7 @@ package org.apache.dubbo.sample.tri;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
 
-public class IGreeter2Impl implements IGreeter2 {
+public class IGreeter2Impl implements IWrapperGreeter {
 
     @Override
     public String sayHello(String request) {

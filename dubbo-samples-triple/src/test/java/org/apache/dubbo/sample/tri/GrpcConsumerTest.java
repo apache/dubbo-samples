@@ -17,7 +17,7 @@ public class GrpcConsumerTest {
 
     @BeforeClass
     public static void init() {
-        final ManagedChannel channel = ManagedChannelBuilder.forAddress(TriSampleConstants.HOST, TriSampleConstants.SERVER_POINT)
+        final ManagedChannel channel = ManagedChannelBuilder.forAddress(TriSampleConstants.HOST, TriSampleConstants.SERVER_PORT)
                 .usePlaintext()
                 .build();
         stub = PbGreeterGrpc.newStub(channel);

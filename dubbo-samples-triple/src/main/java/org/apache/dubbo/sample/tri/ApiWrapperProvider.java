@@ -26,14 +26,14 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 class ApiWrapperProvider {
     public static void main(String[] args) {
-        ServiceConfig<IGreeter2> service = new ServiceConfig<>();
-        service.setInterface(IGreeter2.class);
+        ServiceConfig<IWrapperGreeter> service = new ServiceConfig<>();
+        service.setInterface(IWrapperGreeter.class);
         service.setRef(new IGreeter2Impl());
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
-                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_POINT))
+                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_PORT))
                 .service(service)
                 .start()
                 .await();

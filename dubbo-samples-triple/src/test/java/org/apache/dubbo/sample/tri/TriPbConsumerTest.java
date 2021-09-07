@@ -45,6 +45,7 @@ public class TriPbConsumerTest {
         bootstrap.application(new ApplicationConfig("demo-consumer"))
 //                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
                 .reference(ref)
+                .reference(ref2)
                 .start();
 
         delegate = ref.get();

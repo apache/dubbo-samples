@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.migration;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
@@ -23,16 +23,22 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.sample.tri.IGreeter2Impl;
+import org.apache.dubbo.sample.tri.IWrapperGreeter;
+import org.apache.dubbo.sample.tri.TriSampleConstants;
 
-class ApiProvider {
+class ApiMigrationBothProvider {
+
     public static void main(String[] args) {
-        ServiceConfig<IGreeter> service = new ServiceConfig<>();
-        service.setInterface(IGreeter.class);
-        service.setRef(new IGreeter1Impl());
+
+        ServiceConfig<IWrapperGreeter> service = new ServiceConfig<>();
+        service.setInterface(IWrapperGreeter.class);
+        service.setRef(new IGreeter2Impl());
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-provider"))
+        bootstrap.application(new ApplicationConfig("demo-migration-both-provider"))
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
+                .protocol(new ProtocolConfig(CommonConstants.DUBBO, TriSampleConstants.DEFAULT_DUBBO_PORT))
                 .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_PORT))
                 .service(service)
                 .start()

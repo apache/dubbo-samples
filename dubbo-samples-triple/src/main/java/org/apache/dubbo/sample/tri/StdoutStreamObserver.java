@@ -11,7 +11,7 @@ public class StdoutStreamObserver<T> implements StreamObserver<T>, io.grpc.stub.
 
     private final String name;
 
-    StdoutStreamObserver(String name) {
+    public StdoutStreamObserver(String name) {
         this.name = name;
     }
 

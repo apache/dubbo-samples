@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GrpcProvider {
     public static void main(String[] args) throws IOException, InterruptedException {
-        final Server server = ServerBuilder.forPort(TriSampleConstants.SERVER_POINT)
+        final Server server = ServerBuilder.forPort(TriSampleConstants.SERVER_PORT)
                 .addService(ServerInterceptors.intercept(new GrpcPbGreeterImpl(new PbGreeterImpl()), new ServerInterceptor() {
                     @Override
                     public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall,

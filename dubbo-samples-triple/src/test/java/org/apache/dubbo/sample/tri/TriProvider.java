@@ -31,7 +31,7 @@ public class TriProvider {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
-                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_POINT))
+                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_PORT))
                 .service(pbService)
                 .service(pbManualService)
                 .service(wrapService)

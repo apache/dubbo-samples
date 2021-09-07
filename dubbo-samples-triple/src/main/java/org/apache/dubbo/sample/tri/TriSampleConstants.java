@@ -21,11 +21,13 @@ package org.apache.dubbo.sample.tri;
 public class TriSampleConstants {
 
     // macos 11 later the 50051 is occupied by system (pid=1!!!)
-    public static final int SERVER_POINT = 50052;
+    public static final int SERVER_PORT = 50052;
+
+    public static final int DEFAULT_DUBBO_PORT=20880;
 
     public static final String ZK_ADDRESS = "zookeeper://127.0.0.1:2181";
 
     public static final String HOST = "127.0.0.1";
 
-    public static final String DEFAULT_ADDRESS = "tri://" + HOST + ":" + SERVER_POINT;
+    public static final String DEFAULT_ADDRESS = "tri://" + HOST + ":" + SERVER_PORT;
 }

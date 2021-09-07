@@ -24,11 +24,11 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 class ApiWrapperConsumer {
-    private final IGreeter2 delegate;
+    private final IWrapperGreeter delegate;
 
     public ApiWrapperConsumer() {
-        ReferenceConfig<IGreeter2> ref = new ReferenceConfig<>();
-        ref.setInterface(IGreeter2.class);
+        ReferenceConfig<IWrapperGreeter> ref = new ReferenceConfig<>();
+        ref.setInterface(IWrapperGreeter.class);
         ref.setCheck(false);
         ref.setTimeout(3000);
         ref.setProtocol("tri");
