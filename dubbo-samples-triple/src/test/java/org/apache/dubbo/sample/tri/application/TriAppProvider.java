@@ -1,4 +1,4 @@
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.application;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
@@ -6,14 +6,15 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
+import org.apache.dubbo.sample.tri.PbGreeter;
+import org.apache.dubbo.sample.tri.TriSampleConstants;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
+import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
 import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
 
 
-public class TriProvider {
-
+public class TriAppProvider {
     public static void main(String[] args) {
         ServiceConfig<PbGreeter> pbService = new ServiceConfig<>();
         pbService.setInterface(PbGreeter.class);
@@ -31,7 +32,7 @@ public class TriProvider {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))
-                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
+                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS_MODE_INSTANCE))
                 .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_PORT))
                 .service(pbService)
                 .service(pbManualService)

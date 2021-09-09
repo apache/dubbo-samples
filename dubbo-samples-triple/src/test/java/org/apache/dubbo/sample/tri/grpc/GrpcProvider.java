@@ -1,5 +1,6 @@
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.grpc;
 
+import org.apache.dubbo.sample.tri.TriSampleConstants;
 import org.apache.dubbo.sample.tri.service.impl.GrpcPbGreeterImpl;
 import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
 

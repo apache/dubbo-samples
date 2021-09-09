@@ -25,11 +25,11 @@ Code under `test` folder is a general interoperation test suite for both Dubbo/D
 ##### GRPC --> Dubbo
 
 1. Run `org.apache.dubbo.sample.tri.TriProvider`
-2. Run `org.apache.dubbo.sample.tri.GrpcConsumerTest`
+2. Run `org.apache.dubbo.sample.tri.grpc.GrpcConsumerTest`
 
 ##### Dubbo --> GRPC
 
-1. Run `org.apache.dubbo.sample.tri.GrpcProvider`
+1. Run `org.apache.dubbo.sample.tri.grpc.GrpcProvider`
 2. Run `org.apache.dubbo.sample.tri.TriPbConsumerTest`
 
 

@@ -1,15 +1,18 @@
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.inter;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.sample.tri.BasePbConsumerTest;
+import org.apache.dubbo.sample.tri.PbGreeter;
+import org.apache.dubbo.sample.tri.TriSampleConstants;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
 import org.junit.BeforeClass;
 
-public class TriPbConsumerTest extends BasePbConsumerTest {
+public class TriInterfacePbConsumerTest extends BasePbConsumerTest {
 
     @BeforeClass
     public static void init() {
@@ -29,11 +32,10 @@ public class TriPbConsumerTest extends BasePbConsumerTest {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-consumer"))
-                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
+                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS_MODE_INTERFACE))
                 .reference(ref)
                 .reference(ref2)
                 .start();
-
         delegate = ref.get();
         delegateManual = ref2.get();
     }

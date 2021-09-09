@@ -1,4 +1,4 @@
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.helper;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 

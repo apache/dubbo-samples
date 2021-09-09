@@ -18,14 +18,25 @@
 package org.apache.dubbo.sample.tri;
 
 
+import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_ALL;
+import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_INSTANCE;
+import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_INTERFACE;
+import static org.apache.dubbo.common.constants.RegistryConstants.REGISTER_MODE_KEY;
+
 public class TriSampleConstants {
 
     // macos 11 later the 50051 is occupied by system (pid=1!!!)
     public static final int SERVER_PORT = 50052;
 
-    public static final int DEFAULT_DUBBO_PORT=20880;
+    public static final int DEFAULT_DUBBO_PORT = 20880;
 
     public static final String ZK_ADDRESS = "zookeeper://127.0.0.1:2181";
+
+    public static final String ZK_ADDRESS_MODE_INSTANCE = "zookeeper://127.0.0.1:2181?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_INSTANCE;
+
+    public static final String ZK_ADDRESS_MODE_INTERFACE = "zookeeper://127.0.0.1:2181?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_INTERFACE;
+
+    public static final String ZK_ADDRESS_MODE_ALL = "zookeeper://127.0.0.1:2181?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_ALL;
 
     public static final String HOST = "127.0.0.1";
 

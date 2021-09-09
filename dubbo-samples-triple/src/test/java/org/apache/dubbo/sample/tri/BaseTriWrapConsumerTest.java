@@ -1,41 +1,35 @@
 package org.apache.dubbo.sample.tri;
 
-import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.StreamObserver;
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class TriWrapConsumerTest {
+public class BaseTriWrapConsumerTest {
 
-    private static WrapGreeter delegate;
+    protected static WrapGreeter delegate;
 
-    @BeforeClass
-    public static void initStub() {
-        ReferenceConfig<WrapGreeter> ref = new ReferenceConfig<>();
-        ref.setInterface(WrapGreeter.class);
-        ref.setCheck(false);
-        ref.setTimeout(3000);
-        ref.setProtocol(CommonConstants.TRIPLE);
-        ref.setLazy(true);
-
-        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-consumer"))
-                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
-                .reference(ref)
-                .start();
-        delegate = ref.get();
-    }
+//    @BeforeClass
+//    public static void initStub() {
+//        ReferenceConfig<WrapGreeter> ref = new ReferenceConfig<>();
+//        ref.setInterface(WrapGreeter.class);
+//        ref.setCheck(false);
+//        ref.setTimeout(3000);
+//        ref.setProtocol(CommonConstants.TRIPLE);
+//        ref.setLazy(true);
+//
+//        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+//        bootstrap.application(new ApplicationConfig("demo-consumer"))
+//                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
+//                .reference(ref)
+//                .start();
+//        delegate = ref.get();
+//    }
 
     @Test
     public void sayHelloUnaryRequestVoid() {
