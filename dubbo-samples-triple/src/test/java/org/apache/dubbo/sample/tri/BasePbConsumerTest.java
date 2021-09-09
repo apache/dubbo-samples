@@ -21,35 +21,6 @@ public abstract class BasePbConsumerTest {
     protected static PbGreeter delegate;
 
     protected static PbGreeterManual delegateManual;
-//
-//    @BeforeClass
-//    public static void init() {
-//        ReferenceConfig<PbGreeter> ref = new ReferenceConfig<>();
-//        ref.setInterface(PbGreeter.class);
-//        ref.setCheck(false);
-//        ref.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
-//        ref.setProtocol(CommonConstants.TRIPLE);
-//        ref.setLazy(true);
-//        ref.setTimeout(10000);
-//
-//        ReferenceConfig<PbGreeterManual> ref2 = new ReferenceConfig<>();
-//        ref2.setInterface(PbGreeterManual.class);
-//        ref2.setCheck(false);
-//        ref2.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
-//        ref2.setProtocol(CommonConstants.TRIPLE);
-//        ref2.setLazy(true);
-//        ref2.setTimeout(10000);
-//
-//        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-//        bootstrap.application(new ApplicationConfig("demo-consumer"))
-////                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
-//                .reference(ref)
-//                .reference(ref2)
-//                .start();
-//
-//        delegate = ref.get();
-//        delegateManual = ref2.get();
-//    }
 
     @Test
     public void serverStream() throws InterruptedException {

@@ -28,7 +28,6 @@ public class TriProvider {
         wrapService.setInterface(WrapGreeter.class);
         wrapService.setRef(new WrapGreeterImpl());
 
-
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))

@@ -14,23 +14,6 @@ public class BaseTriWrapConsumerTest {
 
     protected static WrapGreeter delegate;
 
-//    @BeforeClass
-//    public static void initStub() {
-//        ReferenceConfig<WrapGreeter> ref = new ReferenceConfig<>();
-//        ref.setInterface(WrapGreeter.class);
-//        ref.setCheck(false);
-//        ref.setTimeout(3000);
-//        ref.setProtocol(CommonConstants.TRIPLE);
-//        ref.setLazy(true);
-//
-//        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-//        bootstrap.application(new ApplicationConfig("demo-consumer"))
-//                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
-//                .reference(ref)
-//                .start();
-//        delegate = ref.get();
-//    }
-
     @Test
     public void sayHelloUnaryRequestVoid() {
         Assert.assertEquals("hello!void", delegate.sayHelloRequestVoid());

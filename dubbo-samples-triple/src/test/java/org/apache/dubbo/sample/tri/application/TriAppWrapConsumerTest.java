@@ -19,7 +19,6 @@ public class TriAppWrapConsumerTest extends BaseTriWrapConsumerTest {
         ref.setInterface(WrapGreeter.class);
         ref.setCheck(false);
         ref.setTimeout(3000);
-        ref.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
 
