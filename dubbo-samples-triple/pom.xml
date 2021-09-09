@@ -33,6 +33,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>3.0.3-SNAPSHOT</dubbo.version>
         <grpc.version>1.40.1</grpc.version>
+        <dubbo.version>3.0.2.1</dubbo.version>
         <junit.version>4.12</junit.version>
         <spring-test.version>4.3.16.RELEASE</spring-test.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
