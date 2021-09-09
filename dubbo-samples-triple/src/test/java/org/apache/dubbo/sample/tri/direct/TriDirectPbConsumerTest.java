@@ -26,7 +26,7 @@ public class TriDirectPbConsumerTest extends BasePbConsumerTest {
         ReferenceConfig<PbGreeterManual> ref2 = new ReferenceConfig<>();
         ref2.setInterface(PbGreeterManual.class);
         ref2.setCheck(false);
-        ref2.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
+        ref2.setUrl(TriSampleConstants.DEFAULT_MULTI_ADDRESS);
         ref2.setProtocol(CommonConstants.TRIPLE);
         ref2.setLazy(true);
         ref2.setTimeout(10000);

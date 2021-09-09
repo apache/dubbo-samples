@@ -12,7 +12,7 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
     @Override
     public GreeterReply greetWithAttachment(GreeterRequest request) {
         final String key = "user-attachment";
-        final String value = RpcContext.getServerAttachment().getAttachment(key);
+        final String value = "hello,"+RpcContext.getServerAttachment().getAttachment(key);
         RpcContext.getServerContext().setObjectAttachment(key, value);
         return GreeterReply.newBuilder().setMessage("hello," + request.getName()).build();
     }

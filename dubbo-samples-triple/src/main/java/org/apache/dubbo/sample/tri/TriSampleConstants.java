@@ -18,6 +18,8 @@
 package org.apache.dubbo.sample.tri;
 
 
+import org.apache.dubbo.common.constants.CommonConstants;
+
 import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_ALL;
 import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_INSTANCE;
 import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_INTERFACE;
@@ -32,13 +34,17 @@ public class TriSampleConstants {
 
     public static final String ZK_ADDRESS = "zookeeper://127.0.0.1:2181";
 
-    public static final String ZK_ADDRESS_MODE_INSTANCE = "zookeeper://127.0.0.1:2181?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_INSTANCE;
+    public static final String ZK_ADDRESS_MODE_INSTANCE = ZK_ADDRESS + "?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_INSTANCE;
 
-    public static final String ZK_ADDRESS_MODE_INTERFACE = "zookeeper://127.0.0.1:2181?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_INTERFACE;
+    public static final String ZK_ADDRESS_MODE_INTERFACE = ZK_ADDRESS + "?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_INTERFACE;
 
-    public static final String ZK_ADDRESS_MODE_ALL = "zookeeper://127.0.0.1:2181?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_ALL;
+    public static final String ZK_ADDRESS_MODE_ALL = ZK_ADDRESS + "?" + REGISTER_MODE_KEY + "=" + DEFAULT_REGISTER_MODE_ALL;
 
     public static final String HOST = "127.0.0.1";
 
-    public static final String DEFAULT_ADDRESS = "tri://" + HOST + ":" + SERVER_PORT;
+    public static final String LOCAL_HOST = "localhost";
+
+    public static final String DEFAULT_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT;
+
+    public static final String DEFAULT_MULTI_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT + ";" + CommonConstants.TRIPLE + "://" + LOCAL_HOST + ":" + SERVER_PORT;
 }

@@ -88,9 +88,22 @@ public abstract class BasePbConsumerTest {
         final String value = "attachment-value";
         RpcContext.removeClientAttachment();
         RpcContext.getClientAttachment().setAttachment(key, value);
-        delegate.greetWithAttachment(GreeterRequest.newBuilder().setName("meta").build());
-        final String returned = (String) RpcContext.getServiceContext().getObjectAttachment(key);
-        Assert.assertEquals(value, returned);
+        GreeterReply reply = delegate.greetWithAttachment(GreeterRequest.newBuilder().setName("meta").build());
+        Assert.assertEquals("hello,meta",reply.getMessage());
+        final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
+        Assert.assertEquals("hello," + value, returned);
+    }
+
+    @Test
+    public void attachmentTest2() {
+        final String key = "user-attachment";
+        final String value = "attachment-value";
+        RpcContext.removeClientAttachment();
+        RpcContext.getClientAttachment().setAttachment(key, value);
+        GreeterReply reply = delegateManual.greetWithAttachment(GreeterRequest.newBuilder().setName("meta").build());
+        Assert.assertEquals("hello,meta",reply.getMessage());
+        final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
+        Assert.assertEquals("hello," + value, returned);
     }
 
     @Test
