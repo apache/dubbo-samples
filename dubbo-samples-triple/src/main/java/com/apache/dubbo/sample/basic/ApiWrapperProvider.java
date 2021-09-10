@@ -29,6 +29,7 @@ public class ApiWrapperProvider {
         ServiceConfig<IGreeter2> service = new ServiceConfig<>();
         service.setInterface(IGreeter2.class);
         service.setRef(new IGreeter2Impl());
+        service.setToken(true);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))

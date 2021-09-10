@@ -29,6 +29,7 @@ public class ApiProvider {
         ServiceConfig<IGreeter> service = new ServiceConfig<>();
         service.setInterface(IGreeter.class);
         service.setRef(new IGreeter1Impl());
+        service.setToken(true);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))
