@@ -16,6 +16,9 @@
  */
 package org.apache.dubbo.migration;
 
+import org.apache.dubbo.migration.pojo.HelloReply;
+import org.apache.dubbo.migration.pojo.HelloRequest;
+
 public interface GreeterService {
 
     /**

@@ -16,7 +16,6 @@
  */
 package org.apache.dubbo.migration.provider;
 
-import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -28,6 +27,9 @@ import org.apache.dubbo.migration.GreeterServiceImpl;
 
 public class ApiProvider {
     public static void main(String[] args) throws InterruptedException {
+        String curProtocol = System.getProperty("dubbo.current.protocol", "tri");
+        String zookeeperAddress = System.getProperty("zookeeper.address", "127.0.0.1");
+        
         new EmbeddedZooKeeper(2181, false).start();
 
         ServiceConfig<GreeterService> serviceConfig = new ServiceConfig<>();
@@ -36,8 +38,8 @@ public class ApiProvider {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("dubbo-demo-triple-api-provider"))
-                .registry(new RegistryConfig("zookeeper://" + System.getProperty("zookeeper.address", "127.0.0.1") + ":2181"))
-                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, 50051))
+                .registry(new RegistryConfig("zookeeper://" + zookeeperAddress + ":2181"))
+                .protocol(new ProtocolConfig(curProtocol))
                 .service(serviceConfig)
                 .start();
         

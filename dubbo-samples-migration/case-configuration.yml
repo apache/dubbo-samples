@@ -18,7 +18,7 @@ props:
   app_default: dubbo-samples-migration-default
   app_default_main_class: org.apache.dubbo.migration.provider.ApiProvider
   zookeeper_port: 2181
-  triple_port: 50051
+  dubbo_port: 20880
   
 services:
   ${app_default}:
@@ -26,10 +26,12 @@ services:
     basedir: ${app_default}
     mainClass: ${app_default_main_class}
     systemProps:
+      - dubbo.current.protocol=dubbo
       - zookeeper.address=${app_default}
+      - dubbo.application.register-mode=all
     checkPorts:
       - ${zookeeper_port}
-      - ${triple_port}
+      - ${dubbo_port}
     checkLog: "dubbo service started"
     
   ${app_default}-test:
@@ -38,9 +40,10 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
+      - dubbo.current.protocol=dubbo
       - zookeeper.address=${app_default}
     waitPortsBeforeRun:
       - ${app_default}:${zookeeper_port}
-      - ${app_default}:${triple_port}
+      - ${app_default}:${dubbo_port}
     depends_on:
       - ${app_default}

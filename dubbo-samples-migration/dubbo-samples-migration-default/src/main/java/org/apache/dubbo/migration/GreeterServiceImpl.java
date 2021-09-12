@@ -17,12 +17,15 @@
 package org.apache.dubbo.migration;
 
 
+import org.apache.dubbo.migration.pojo.HelloReply;
+import org.apache.dubbo.migration.pojo.HelloRequest;
+
 public class GreeterServiceImpl implements GreeterService {
 
     @Override
     public HelloReply sayHello(HelloRequest request) {
-        return HelloReply.newBuilder()
-                .setMessage("Hello " + request.getName())
-                .build();
+        HelloReply helloReply = new HelloReply();
+        helloReply.setMessage("Hello " + request.getName());
+        return helloReply;
     }
 }
