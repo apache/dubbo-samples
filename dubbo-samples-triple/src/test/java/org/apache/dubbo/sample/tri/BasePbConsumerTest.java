@@ -6,7 +6,6 @@ import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
@@ -70,16 +69,23 @@ public abstract class BasePbConsumerTest {
 
 
     @Test(expected = RpcException.class)
-    @Ignore
     public void clientSendLargeSizeHeader() {
         StringBuilder sb = new StringBuilder("a");
         for (int j = 0; j < 15; j++) {
             sb.append(sb);
         }
-        sb.setLength(8191);
+        sb.setLength(8000);
         RpcContext.getClientAttachment().setObjectAttachment("large-size-meta", sb.toString());
         delegate.greet(GreeterRequest.newBuilder().setName("meta").build());
-        RpcContext.getClientAttachment().clearAttachments();
+    }
+
+
+    @Test(expected = RpcException.class)
+    public void serverSendLargeSizeHeader() {
+        final String key = "user-attachment";
+        GreeterReply reply = delegateManual.greetReturnBigAttachment(GreeterRequest.newBuilder().setName("meta").build());
+        final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
+        Assert.assertNotNull(returned);
     }
 
     @Test

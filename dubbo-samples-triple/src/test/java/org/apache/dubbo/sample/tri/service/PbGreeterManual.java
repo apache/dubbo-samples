@@ -9,6 +9,8 @@ import org.apache.dubbo.sample.tri.GreeterRequest;
 public interface PbGreeterManual {
 
     GreeterReply greetWithAttachment(GreeterRequest request);
+
+    GreeterReply greetReturnBigAttachment(GreeterRequest request);
 //
 //    GreeterReply greet(GreeterRequest request);
 
