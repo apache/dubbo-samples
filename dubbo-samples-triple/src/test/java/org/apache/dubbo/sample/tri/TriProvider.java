@@ -15,6 +15,8 @@ import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
 public class TriProvider {
 
     public static void main(String[] args) {
+        new EmbeddedZooKeeper(TriSampleConstants.ZK_PORT, false).start();
+
         ServiceConfig<PbGreeter> pbService = new ServiceConfig<>();
         pbService.setInterface(PbGreeter.class);
         PbGreeterImpl greeterImpl = new PbGreeterImpl();

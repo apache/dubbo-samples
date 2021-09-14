@@ -26,6 +26,8 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 class ApiProvider {
     public static void main(String[] args) {
+        new EmbeddedZooKeeper(TriSampleConstants.ZK_PORT, false).start();
+
         ServiceConfig<IGreeter> service = new ServiceConfig<>();
         service.setInterface(IGreeter.class);
         service.setRef(new IGreeter1Impl());

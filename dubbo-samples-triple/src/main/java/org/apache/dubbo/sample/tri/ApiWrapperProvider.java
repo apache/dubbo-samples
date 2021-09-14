@@ -26,6 +26,8 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 class ApiWrapperProvider {
     public static void main(String[] args) {
+        new EmbeddedZooKeeper(2181, false).start();
+
         ServiceConfig<IWrapperGreeter> service = new ServiceConfig<>();
         service.setInterface(IWrapperGreeter.class);
         service.setRef(new IGreeter2Impl());

@@ -6,6 +6,7 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.sample.tri.EmbeddedZooKeeper;
 import org.apache.dubbo.sample.tri.PbGreeter;
 import org.apache.dubbo.sample.tri.TriSampleConstants;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
@@ -16,6 +17,8 @@ import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
 
 public class TriAppProvider {
     public static void main(String[] args) {
+        new EmbeddedZooKeeper(2181, false).start();
+
         ServiceConfig<PbGreeter> pbService = new ServiceConfig<>();
         pbService.setInterface(PbGreeter.class);
         PbGreeterImpl greeterImpl = new PbGreeterImpl();
