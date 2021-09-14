@@ -1,4 +1,4 @@
-package org.apache.dubbo.migration.pojo;
+package org.apache.dubbo.migration.api;
 
 import java.io.Serializable;
 

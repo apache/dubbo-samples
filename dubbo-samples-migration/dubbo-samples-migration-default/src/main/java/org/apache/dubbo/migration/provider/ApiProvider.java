@@ -22,8 +22,9 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.migration.EmbeddedZooKeeper;
-import org.apache.dubbo.migration.GreeterService;
 import org.apache.dubbo.migration.GreeterServiceImpl;
+
+import org.apache.dubbo.migration.api.GreeterService;
 
 public class ApiProvider {
     public static void main(String[] args) throws InterruptedException {

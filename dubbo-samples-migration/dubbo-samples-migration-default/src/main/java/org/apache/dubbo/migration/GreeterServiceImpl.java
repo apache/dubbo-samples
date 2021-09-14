@@ -17,8 +17,9 @@
 package org.apache.dubbo.migration;
 
 
-import org.apache.dubbo.migration.pojo.HelloReply;
-import org.apache.dubbo.migration.pojo.HelloRequest;
+import org.apache.dubbo.migration.api.GreeterService;
+import org.apache.dubbo.migration.api.HelloReply;
+import org.apache.dubbo.migration.api.HelloRequest;
 
 public class GreeterServiceImpl implements GreeterService {
 

@@ -1,12 +1,12 @@
 package org.apache.dubbo.migration;
 
-import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.migration.pojo.HelloReply;
-import org.apache.dubbo.migration.pojo.HelloRequest;
+import org.apache.dubbo.migration.api.GreeterService;
+import org.apache.dubbo.migration.api.HelloReply;
+import org.apache.dubbo.migration.api.HelloRequest;
 
 import org.junit.Assert;
 import org.junit.Test;
