@@ -41,6 +41,10 @@ import java.util.regex.Pattern;
 public class VersionMatcher {
 
     private static final Logger logger = LoggerFactory.getLogger(VersionMatcher.class);
+
+    /**
+     * Java Property names 
+     */
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
@@ -85,6 +89,9 @@ public class VersionMatcher {
         // parse case version match rules
         Map<String, List<MatchRule>> caseVersionMatchRules = parseCaseVersionMatchRules(caseVersionsFile);
 
+        // Filter caseVersionMatchRules
+        chooseActiveDubboVersionRule(caseVersionMatchRules);
+        
         Map<String, List<String>> matchedVersionMap = new LinkedHashMap<>();
 
         candidateVersionMap.forEach((component, candidateVersionList) -> {
@@ -152,6 +159,33 @@ public class VersionMatcher {
         }
     }
 
+    /**
+     * Choose only one final active Dubbo version rule from following case: 
+     * <br>
+     * 1. dubbo.version - original usage
+     * <br>
+     * 2. dubbo.{service}.version - different services can have different dubbo version for supporting compatibility-test
+     * @param caseVersionMatchRules
+     */
+    private static void chooseActiveDubboVersionRule(Map<String, List<MatchRule>> caseVersionMatchRules) {
+        for (String key : caseVersionMatchRules.keySet()) {
+            if (Constants.PATTERN_DUBBO_VERSION.matcher(key).matches() && caseVersionMatchRules.get(Constants.DUBBO_VERSION_KEY) != null) {
+                errorAndExit(Constants.EXIT_FAILED, "The config item dubbo.version and dubbo.{service}.version can't appear simultaneously");
+            }
+        }
+        
+        for (String key : caseVersionMatchRules.keySet()) {
+            Matcher matcher = Constants.PATTERN_DUBBO_VERSION.matcher(key);
+            if (matcher.matches()) {
+                String service = matcher.group(1);
+                List<MatchRule> matchRules = caseVersionMatchRules.computeIfAbsent(
+                        Constants.DUBBO_VERSION_KEY, 
+                        item -> new ArrayList<>()
+                );
+            }
+        }
+    }
+    
     private static boolean hasIncludeVersion(List<MatchRule> matchRules, String version) {
         boolean included = false;
         version = trimVersion(version);
@@ -298,11 +332,18 @@ public class VersionMatcher {
     }
 
     private interface MatchRule {
-
         boolean isExcluded();
 
         boolean match(String version);
 
+
+        /**
+         * Which service the MatchRule bind to
+         * @return
+         */
+        default String getServiceName() {
+            return null;
+        }
     }
 
     private static abstract class ExcludableMatchRule implements MatchRule {

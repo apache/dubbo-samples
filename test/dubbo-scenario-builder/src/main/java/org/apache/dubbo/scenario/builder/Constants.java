@@ -17,12 +17,26 @@
 
 package org.apache.dubbo.scenario.builder;
 
-public class Constants {
+import java.util.regex.Pattern;
 
-    public static final String ERROR_MSG_FLAG=":ErrorMsg:";
+/**
+ * Constants in dubbo-scenario-builder
+ */
+public interface Constants {
 
-    public static final int EXIT_FAILED = 1;
-    public static final int EXIT_UNMATCHED = 100;
-    public static final int EXIT_IGNORED = 120;
+    String ERROR_MSG_FLAG=":ErrorMsg:";
 
+    int EXIT_FAILED = 1;
+    int EXIT_UNMATCHED = 100;
+    int EXIT_IGNORED = 120;
+
+    /**
+     * Used in case-versions.conf 
+     */
+    String DUBBO_VERSION_KEY = "dubbo.version";
+
+    /**
+     * The pattern used for searching target service name 
+     */
+    Pattern PATTERN_DUBBO_VERSION = Pattern.compile("^dubbo\\.(.+)\\.version$");
 }
