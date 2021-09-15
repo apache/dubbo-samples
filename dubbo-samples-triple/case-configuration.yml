@@ -25,7 +25,9 @@ services:
     basedir: .
     tests:
       # tri-->tri
-      - "org.apache.dubbo.sample.tri/Tri*Test.class"
+      - "org.apache.dubbo.sample.tri/TriPbConsumerTest.class"
+      - "org.apache.dubbo.sample.tri/TriWrapConsumerTest.class"
+      - "org.apache.dubbo.sample.tri/TriGenericTest.class"
       # grpc-->tri
       - "org.apache.dubbo.sample.tri/grpc/Grpc*Test.class"
       # tri-->grpc

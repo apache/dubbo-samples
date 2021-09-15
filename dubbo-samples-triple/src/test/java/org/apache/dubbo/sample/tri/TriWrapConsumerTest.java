@@ -10,6 +10,7 @@ import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -143,5 +144,10 @@ public class TriWrapConsumerTest {
             System.out.println("Response len:" + response.length());
             Assert.assertEquals(len, response.length());
         }
+    }
+
+    @AfterClass
+    public static void alterTest() {
+        DubboBootstrap.reset();
     }
 }

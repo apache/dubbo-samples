@@ -8,6 +8,7 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.service.GenericService;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -66,5 +67,11 @@ public class TriGenericTest {
         int len = 2 << 24;
         final String resp = (String) generic.$invoke("sayHelloLong", new String[]{int.class.getName()}, new Object[]{len});
         Assert.assertEquals(len, resp.length());
+    }
+
+
+    @AfterClass
+    public static void alterTest() {
+        DubboBootstrap.reset();
     }
 }

@@ -1,11 +1,13 @@
 package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -123,4 +125,11 @@ public abstract class BasePbConsumerTest {
             Assert.assertTrue(e.getMessage().contains("not found"));
         }
     }
+
+    @AfterClass
+    public static void alterTest() {
+        DubboBootstrap.reset();
+    }
+
+
 }
