@@ -1,5 +1,6 @@
-package org.apache.dubbo.migration;
+package org.apache.dubbo.migration.consumer;
 
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -18,7 +19,7 @@ import org.junit.Test;
 public class ApiConsumerIT {
     @Test
     public void consumeInvoke() {
-        String curProtocol = System.getProperty("dubbo.current.protocol", "tri");
+        String curProtocol = System.getProperty("dubbo.current.protocol", CommonConstants.DUBBO);
         String zookeeperAddress = System.getProperty("zookeeper.address", "127.0.0.1");
         
         ReferenceConfig<GreeterService> referenceConfig = new ReferenceConfig<>();
@@ -29,7 +30,7 @@ public class ApiConsumerIT {
         referenceConfig.setTimeout(100000);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("dubbo-demo-triple-api-consumer"))
+        bootstrap.application(new ApplicationConfig("dubbo-samples-migration-consumer"))
                 .registry(new RegistryConfig("zookeeper://" + zookeeperAddress + ":2181"))
                 .reference(referenceConfig)
                 .start();

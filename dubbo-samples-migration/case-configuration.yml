@@ -15,35 +15,36 @@
 # limitations under the License.
 
 props:
-  app_default: dubbo-samples-migration-default
-  app_default_main_class: org.apache.dubbo.migration.provider.ApiProvider
+  app_provider: dubbo-samples-migration-provider
+  app_provider_main_class: org.apache.dubbo.migration.provider.ApiProvider
+  app_consumer: dubbo-samples-migration-consumer
   zookeeper_port: 2181
   dubbo_port: 20880
   
 services:
-  ${app_default}:
+  ${app_provider}:
     type: app
-    basedir: ${app_default}
-    mainClass: ${app_default_main_class}
+    basedir: ${app_provider}
+    mainClass: ${app_provider_main_class}
     systemProps:
       - dubbo.current.protocol=dubbo
-      - zookeeper.address=${app_default}
+      - zookeeper.address=${app_provider}
       - dubbo.application.register-mode=all
     checkPorts:
       - ${zookeeper_port}
       - ${dubbo_port}
     checkLog: "dubbo service started"
     
-  ${app_default}-test:
+  ${app_consumer}-test:
     type: test
-    basedir: ${app_default} 
+    basedir: ${app_consumer} 
     tests:
       - "**/*IT.class"
     systemProps:
       - dubbo.current.protocol=dubbo
-      - zookeeper.address=${app_default}
+      - zookeeper.address=${app_provider}
     waitPortsBeforeRun:
-      - ${app_default}:${zookeeper_port}
-      - ${app_default}:${dubbo_port}
+      - ${app_provider}:${zookeeper_port}
+      - ${app_provider}:${dubbo_port}
     depends_on:
-      - ${app_default}
+      - ${app_provider}
