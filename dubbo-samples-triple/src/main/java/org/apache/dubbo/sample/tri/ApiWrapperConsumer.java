@@ -17,11 +17,13 @@
 
 package org.apache.dubbo.sample.tri;
 
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 
 class ApiWrapperConsumer {
     private final IWrapperGreeter delegate;
@@ -31,7 +33,7 @@ class ApiWrapperConsumer {
         ref.setInterface(IWrapperGreeter.class);
         ref.setCheck(false);
         ref.setTimeout(3000);
-        ref.setProtocol("tri");
+        ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();

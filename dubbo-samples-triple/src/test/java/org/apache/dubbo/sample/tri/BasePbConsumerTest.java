@@ -3,6 +3,7 @@ package org.apache.dubbo.sample.tri;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
 import org.junit.Assert;
@@ -77,6 +78,7 @@ public abstract class BasePbConsumerTest {
         sb.setLength(8000);
         RpcContext.getClientAttachment().setObjectAttachment("large-size-meta", sb.toString());
         delegate.greet(GreeterRequest.newBuilder().setName("meta").build());
+        RpcContext.getClientAttachment().clearAttachments();
     }
 
 

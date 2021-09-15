@@ -28,9 +28,9 @@ services:
       # grpc consumer
       - "org.apache.dubbo.sample.tri/grpc/Grpc*Test.class"
     systemProps:
-      - zookeeper.address=dubbo-samples-triple
+      - zookeeper.host=dubbo-samples-triple
       - zookeeper.port=2181
-      - provider.address=dubbo-samples-triple
+      - provider.host=dubbo-samples-triple
       - provider.port=50052
     waitPortsBeforeRun:
       - dubbo-samples-triple:2181
@@ -51,7 +51,7 @@ services:
     tests:
       - "org.apache.dubbo.sample.tri.direct/TriDirectPbConsumerTest.class"
     systemProps:
-      - provider.address=dubbo-samples-triple-grpc
+      - provider.host=dubbo-samples-triple-grpc
       - provider.port=50052
     waitPortsBeforeRun:
       - dubbo-samples-triple-grpc:50052

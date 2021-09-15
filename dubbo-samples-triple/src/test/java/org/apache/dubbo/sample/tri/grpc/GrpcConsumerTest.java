@@ -3,7 +3,7 @@ package org.apache.dubbo.sample.tri.grpc;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
 import org.apache.dubbo.sample.tri.PbGreeterGrpc;
-import org.apache.dubbo.sample.tri.StdoutStreamObserver;
+import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.TriSampleConstants;
 
 import io.grpc.ManagedChannel;

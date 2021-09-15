@@ -25,6 +25,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.hello.HelloReply;
 import org.apache.dubbo.hello.HelloRequest;
+import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

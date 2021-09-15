@@ -34,7 +34,7 @@ public class TriSampleConstants {
 
     public static final String HOST = System.getProperty("provider.host", "127.0.0.1");
 
-    public static final String ZK_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
+    public static final String ZK_HOST = System.getProperty("zookeeper.host", "127.0.0.1");
 
     public static final int ZK_PORT = Integer.parseInt(System.getProperty("zookeeper.port", "2181"));
 

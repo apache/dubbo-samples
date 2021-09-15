@@ -19,6 +19,7 @@ package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.sample.tri.helper.EchoStreamObserver;
 
 public class IGreeter2Impl implements IWrapperGreeter {
 

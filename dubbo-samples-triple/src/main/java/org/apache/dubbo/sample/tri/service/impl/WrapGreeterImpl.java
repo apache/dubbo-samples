@@ -2,7 +2,7 @@ package org.apache.dubbo.sample.tri.service.impl;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.sample.tri.EchoStreamObserver;
+import org.apache.dubbo.sample.tri.helper.EchoStreamObserver;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
 
 public class WrapGreeterImpl implements WrapGreeter {
