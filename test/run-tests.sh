@@ -112,6 +112,9 @@ function process_case() {
   case_dir=$1
   case_no=$2
 
+  echo "case_dir=$case_dir"
+  echo "case_no=$case_no"
+
   if [ -f $case_dir ]; then
     case_dir=`dirname $case_dir`
   fi
