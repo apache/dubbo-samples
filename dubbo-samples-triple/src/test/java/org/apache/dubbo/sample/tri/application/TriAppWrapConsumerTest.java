@@ -7,6 +7,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.BaseTriWrapConsumerTest;
 import org.apache.dubbo.sample.tri.TriSampleConstants;
+import org.apache.dubbo.sample.tri.direct.TriDirectWrapConsumerTest;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
 
 import org.junit.BeforeClass;
@@ -23,7 +24,9 @@ public class TriAppWrapConsumerTest extends BaseTriWrapConsumerTest {
         ref.setLazy(true);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-consumer"))
+        ApplicationConfig applicationConfig = new ApplicationConfig(TriAppWrapConsumerTest.class.getName());
+        applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
+        bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS_MODE_INSTANCE))
                 .reference(ref)
                 .start();

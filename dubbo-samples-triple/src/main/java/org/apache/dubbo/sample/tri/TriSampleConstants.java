@@ -34,6 +34,8 @@ public class TriSampleConstants {
 
     public static final int DEFAULT_DUBBO_PORT = 20880;
 
+    public static final int CONSUMER_METADATA_SERVICE_PORT = 20881;
+
     public static final String HOST = System.getProperty("provider.host", "127.0.0.1");
 
     public static final String ZK_HOST = System.getProperty("zookeeper.host", "127.0.0.1");

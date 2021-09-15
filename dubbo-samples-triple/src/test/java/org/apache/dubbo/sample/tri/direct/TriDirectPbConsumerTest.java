@@ -6,6 +6,7 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.BasePbConsumerTest;
 import org.apache.dubbo.sample.tri.PbGreeter;
+import org.apache.dubbo.sample.tri.TriGenericTest;
 import org.apache.dubbo.sample.tri.TriSampleConstants;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
@@ -32,7 +33,9 @@ public class TriDirectPbConsumerTest extends BasePbConsumerTest {
         ref2.setTimeout(10000);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-consumer"))
+        ApplicationConfig applicationConfig = new ApplicationConfig(TriDirectPbConsumerTest.class.getName());
+        applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
+        bootstrap.application(applicationConfig)
                 .reference(ref)
                 .reference(ref2)
                 .start();

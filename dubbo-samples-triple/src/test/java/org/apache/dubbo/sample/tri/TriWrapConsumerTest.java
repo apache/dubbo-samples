@@ -31,7 +31,9 @@ public class TriWrapConsumerTest {
         ref.setLazy(true);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-consumer"))
+        ApplicationConfig applicationConfig = new ApplicationConfig(TriWrapConsumerTest.class.getName());
+        applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
+        bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
                 .reference(ref)
                 .start();

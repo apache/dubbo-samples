@@ -23,7 +23,9 @@ public class TriDirectWrapConsumerTest extends BaseTriWrapConsumerTest {
         ref.setLazy(true);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-consumer"))
+        ApplicationConfig applicationConfig = new ApplicationConfig(TriDirectWrapConsumerTest.class.getName());
+        applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
+        bootstrap.application(applicationConfig)
                 .reference(ref)
                 .start();
         delegate = ref.get();

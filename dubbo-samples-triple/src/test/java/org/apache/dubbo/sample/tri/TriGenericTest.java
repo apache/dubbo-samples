@@ -25,7 +25,9 @@ public class TriGenericTest {
         ref.setGeneric("true");
         ref.setLazy(true);
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("demo-consumer"))
+        ApplicationConfig applicationConfig = new ApplicationConfig(TriGenericTest.class.getName());
+        applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
+        bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
                 .reference(ref)
                 .start();
