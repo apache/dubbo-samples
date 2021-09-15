@@ -3,8 +3,7 @@ package org.apache.dubbo.migration.api;
 import java.io.Serializable;
 
 /**
- * @author plusman
- * @since 2021/9/12 10:22 PM
+ * HelloReply
  */
 public class HelloReply implements Serializable {
     private String message;

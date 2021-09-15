@@ -13,8 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author plusman
- * @since 2021/9/12 11:52 AM
+ * Consumer test side
  */
 public class ApiConsumerIT {
     @Test
