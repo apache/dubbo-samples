@@ -24,14 +24,18 @@ services:
     type: test
     basedir: .
     tests:
+      # tri-->tri
       - "org.apache.dubbo.sample.tri/Tri*Test.class"
-      # grpc consumer
+      # grpc-->tri
       - "org.apache.dubbo.sample.tri/grpc/Grpc*Test.class"
+      # tri-->grpc
+      - "org.apache.dubbo.sample.tri.grpc/TriGrpcDirectPbConsumerTest.class"
     systemProps:
       - zookeeper.host=dubbo-samples-triple
       - zookeeper.port=2181
       - provider.host=dubbo-samples-triple
       - provider.port=50052
+      - grpc.provider.port=50053
     waitPortsBeforeRun:
       - dubbo-samples-triple:2181
       - dubbo-samples-triple:50052
@@ -40,23 +44,21 @@ services:
 
   ################################################
   # grpc provider
-  dubbo-samples-triple-grpc:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.sample.tri.grpc.GrpcProvider
-
-  dubbo-samples-triple-grpc-test:
-    type: test
-    basedir: .
-    tests:
-      - "org.apache.dubbo.sample.tri.direct/TriDirectPbConsumerTest.class"
-    systemProps:
-      - provider.host=dubbo-samples-triple-grpc
-      - provider.port=50052
-    waitPortsBeforeRun:
-      - dubbo-samples-triple-grpc:50052
-    depends_on:
-      - dubbo-samples-triple-grpc
+#  dubbo-samples-triple-grpc:
+#    type: app
+#    basedir: .
+#    mainClass: org.apache.dubbo.sample.tri.grpc.GrpcProvider
+#
+#  dubbo-samples-triple-grpc-test:
+#    type: test
+#    basedir: .
+#    tests:
+#    systemProps:
+#      - provider.host=dubbo-samples-triple-grpc
+#    waitPortsBeforeRun:
+#      - dubbo-samples-triple-grpc:50052
+#    depends_on:
+#      - dubbo-samples-triple-grpc
 
 
 

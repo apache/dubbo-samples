@@ -28,7 +28,9 @@ import static org.apache.dubbo.common.constants.RegistryConstants.REGISTER_MODE_
 public class TriSampleConstants {
 
     // macos 11 later the 50051 is occupied by system (pid=1!!!)
-    public static final int SERVER_PORT = Integer.parseInt(System.getProperty("provider.port", "50052"));
+    public static final int SERVER_PORT = Integer.parseInt(System.getProperty("provider.port",  "50052"));
+
+    public static final int GRPC_SERVER_PORT = Integer.parseInt(System.getProperty("grpc.provider.port", "50053"));
 
     public static final int DEFAULT_DUBBO_PORT = 20880;
 
@@ -51,4 +53,7 @@ public class TriSampleConstants {
     public static final String DEFAULT_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT;
 
     public static final String DEFAULT_MULTI_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT + ";" + CommonConstants.TRIPLE + "://" + LOCAL_HOST + ":" + SERVER_PORT;
+
+    public static final String GRPC_DEFAULT_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + GRPC_SERVER_PORT;
+
 }

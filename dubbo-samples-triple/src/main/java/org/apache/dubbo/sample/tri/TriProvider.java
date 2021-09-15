@@ -6,15 +6,27 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.sample.tri.grpc.GrpcProvider;
 import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
 import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
 
+import java.io.IOException;
+
 
 public class TriProvider {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        new Thread(()->{
+            try {
+                GrpcProvider.main(new String[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
         new EmbeddedZooKeeper(TriSampleConstants.ZK_PORT, false).start();
 
         ServiceConfig<PbGreeter> pbService = new ServiceConfig<>();
