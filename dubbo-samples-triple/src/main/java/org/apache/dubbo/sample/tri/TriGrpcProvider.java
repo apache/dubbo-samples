@@ -15,7 +15,10 @@ import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
 import java.io.IOException;
 
 
-public class TriProvider {
+/**
+ * for Integration testing
+ */
+public class TriGrpcProvider {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         new Thread(()->{
