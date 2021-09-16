@@ -6,7 +6,6 @@ import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
@@ -85,6 +84,7 @@ public abstract class BasePbConsumerTest {
 
 
     @Test(expected = RpcException.class)
+    // @Ignore
     public void serverSendLargeSizeHeader() {
         final String key = "user-attachment";
         GreeterReply reply = delegateManual.greetReturnBigAttachment(GreeterRequest.newBuilder().setName("meta").build());

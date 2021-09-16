@@ -21,7 +21,7 @@ public class TriGenericTest {
         ReferenceConfig<GenericService> ref = new ReferenceConfig<>();
         ref.setInterface("org.apache.dubbo.sample.tri.service.WrapGreeter");
         ref.setCheck(false);
-        ref.setTimeout(30000);
+        ref.setTimeout(3000);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setGeneric("true");
         ref.setLazy(true);

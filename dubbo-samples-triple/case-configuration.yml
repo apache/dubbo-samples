@@ -28,11 +28,13 @@ services:
       - "org.apache.dubbo.sample.tri/TriPbConsumerTest.class"
       - "org.apache.dubbo.sample.tri/TriWrapConsumerTest.class"
       - "org.apache.dubbo.sample.tri/TriGenericTest.class"
+      # use url direct
+      - "org.apache.dubbo.sample.tri/direct/TriDirectPbConsumerTest.class"
+      - "org.apache.dubbo.sample.tri/direct/TriDirectWrapConsumerTest.class"
       # grpc-->tri
       - "org.apache.dubbo.sample.tri/grpc/Grpc*Test.class"
       # tri-->grpc
-      # fixme Failure is always present (https://github.com/apache/dubbo/issues/8738)
-      #- "org.apache.dubbo.sample.tri.grpc/TriGrpcDirectPbConsumerTest.class"
+      - "org.apache.dubbo.sample.tri.grpc/TriGrpcDirectPbConsumerTest.class"
     systemProps:
       - zookeeper.host=dubbo-samples-triple
       - zookeeper.port=2181
