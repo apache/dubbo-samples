@@ -16,12 +16,16 @@ import org.junit.Test;
 public class TriGenericTest {
     private static GenericService generic;
 
+
+    protected static DubboBootstrap appDubboBootstrap;
+
+
     @BeforeClass
     public static void init() {
         ReferenceConfig<GenericService> ref = new ReferenceConfig<>();
         ref.setInterface("org.apache.dubbo.sample.tri.service.WrapGreeter");
         ref.setCheck(false);
-        ref.setTimeout(3000);
+        ref.setTimeout(10000);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setGeneric("true");
         ref.setLazy(true);
@@ -33,6 +37,8 @@ public class TriGenericTest {
                 .reference(ref)
                 .start();
         generic = ref.get();
+
+        appDubboBootstrap = bootstrap;
     }
 
     @Test
@@ -64,7 +70,7 @@ public class TriGenericTest {
 
     @Test
     public void sayHelloLong() {
-        int len = 2 << 24;
+        int len = 2 << 12;
         final String resp = (String) generic.$invoke("sayHelloLong", new String[]{int.class.getName()}, new Object[]{len});
         Assert.assertEquals(len, resp.length());
     }
@@ -72,6 +78,7 @@ public class TriGenericTest {
 
     @AfterClass
     public static void alterTest() {
+        appDubboBootstrap.stop();
         DubboBootstrap.reset();
     }
 }

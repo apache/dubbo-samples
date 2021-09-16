@@ -23,6 +23,8 @@ public abstract class BasePbConsumerTest {
 
     protected static PbGreeterManual delegateManual;
 
+    protected static DubboBootstrap appDubboBootstrap;
+
     @Test
     public void serverStream() throws InterruptedException {
         int n = 10;
@@ -128,6 +130,7 @@ public abstract class BasePbConsumerTest {
 
     @AfterClass
     public static void alterTest() {
+        appDubboBootstrap.stop();
         DubboBootstrap.reset();
     }
 

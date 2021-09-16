@@ -17,6 +17,9 @@ public class BaseTriWrapConsumerTest {
 
     protected static WrapGreeter delegate;
 
+    protected static DubboBootstrap appDubboBootstrap;
+
+
     @Test
     public void sayHelloUnaryRequestVoid() {
         Assert.assertEquals("hello!void", delegate.sayHelloRequestVoid());

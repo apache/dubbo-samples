@@ -31,6 +31,8 @@ public class TriInterfaceWrapConsumerTest extends BaseTriWrapConsumerTest {
                 .reference(ref)
                 .start();
         delegate = ref.get();
+
+        appDubboBootstrap = bootstrap;
     }
 
 }

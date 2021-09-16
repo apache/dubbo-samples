@@ -22,6 +22,9 @@ public class TriWrapConsumerTest {
 
     private static WrapGreeter delegate;
 
+    protected static DubboBootstrap appDubboBootstrap;
+
+
     @BeforeClass
     public static void initStub() {
         ReferenceConfig<WrapGreeter> ref = new ReferenceConfig<>();
@@ -39,6 +42,8 @@ public class TriWrapConsumerTest {
                 .reference(ref)
                 .start();
         delegate = ref.get();
+        appDubboBootstrap = bootstrap;
+
     }
 
     @Test
@@ -148,6 +153,7 @@ public class TriWrapConsumerTest {
 
     @AfterClass
     public static void alterTest() {
+        appDubboBootstrap.stop();
         DubboBootstrap.reset();
     }
 }

@@ -39,5 +39,6 @@ public class TriGrpcDirectPbConsumerTest extends BasePbConsumerTest {
                 .start();
         delegate = ref.get();
         delegateManual = ref2.get();
+        appDubboBootstrap=bootstrap;
     }
 }

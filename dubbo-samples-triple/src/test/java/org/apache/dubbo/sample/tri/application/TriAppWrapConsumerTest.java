@@ -7,9 +7,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.BaseTriWrapConsumerTest;
 import org.apache.dubbo.sample.tri.TriSampleConstants;
-import org.apache.dubbo.sample.tri.direct.TriDirectWrapConsumerTest;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
-
 import org.junit.BeforeClass;
 
 public class TriAppWrapConsumerTest extends BaseTriWrapConsumerTest {
@@ -31,6 +29,8 @@ public class TriAppWrapConsumerTest extends BaseTriWrapConsumerTest {
                 .reference(ref)
                 .start();
         delegate = ref.get();
+        appDubboBootstrap = bootstrap;
+
     }
 
 }
