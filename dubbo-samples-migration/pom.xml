@@ -13,6 +13,5 @@
         <module>dubbo-samples-migration-api</module>
         <module>dubbo-samples-migration-provider</module>
         <module>dubbo-samples-migration-consumer</module>
-        <module>dubbo-samples-migration-case-default</module>
     </modules>
 </project>
