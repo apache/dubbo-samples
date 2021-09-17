@@ -8,6 +8,7 @@ import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
@@ -86,7 +87,7 @@ public abstract class BasePbConsumerTest {
 
 
     @Test(expected = RpcException.class)
-    // @Ignore
+    @Ignore
     public void serverSendLargeSizeHeader() {
         final String key = "user-attachment";
         GreeterReply reply = delegateManual.greetReturnBigAttachment(GreeterRequest.newBuilder().setName("meta").build());

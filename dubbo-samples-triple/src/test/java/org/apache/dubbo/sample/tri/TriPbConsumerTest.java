@@ -38,6 +38,6 @@ public class TriPbConsumerTest extends BasePbConsumerTest {
 
         delegate = ref.get();
         delegateManual = ref2.get();
-        appDubboBootstrap=bootstrap;
+        appDubboBootstrap = bootstrap;
     }
 }

@@ -22,8 +22,9 @@ public class TriWrapConsumerTest {
 
     private static WrapGreeter delegate;
 
-    protected static DubboBootstrap appDubboBootstrap;
+    protected static WrapGreeter longDelegate;
 
+    protected static DubboBootstrap appDubboBootstrap;
 
     @BeforeClass
     public static void initStub() {
@@ -34,14 +35,25 @@ public class TriWrapConsumerTest {
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
 
+
+        ReferenceConfig<WrapGreeter> ref2 = new ReferenceConfig<>();
+        ref2.setInterface(WrapGreeter.class);
+        ref2.setCheck(false);
+        ref2.setTimeout(15000);
+        ref2.setRetries(0);
+        ref2.setProtocol(CommonConstants.TRIPLE);
+        ref2.setLazy(true);
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ApplicationConfig applicationConfig = new ApplicationConfig(TriWrapConsumerTest.class.getName());
         applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
         bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
                 .reference(ref)
+                .reference(ref2)
                 .start();
         delegate = ref.get();
+        longDelegate = ref2.get();
         appDubboBootstrap = bootstrap;
 
     }
@@ -126,7 +138,8 @@ public class TriWrapConsumerTest {
     public void sayHelloStream() throws InterruptedException {
         int n = 10;
         CountDownLatch latch = new CountDownLatch(n);
-        final StreamObserver<String> request = delegate.sayHelloStream(new StdoutStreamObserver<String>("sayHelloStream") {
+        final StreamObserver<String> request = delegate.sayHelloStream(new StdoutStreamObserver<String>(
+                "sayHelloStream") {
             @Override
             public void onNext(String data) {
                 super.onNext(data);
@@ -142,10 +155,10 @@ public class TriWrapConsumerTest {
 
     @Test
     public void sayHelloLong() {
-        int power = 5;
+        int power = 25;
         for (int i = 0; i < power; i++) {
             final int len = (1 << i);
-            final String response = delegate.sayHelloLong(len);
+            final String response = longDelegate.sayHelloLong(len);
             System.out.println("Response len:" + response.length());
             Assert.assertEquals(len, response.length());
         }

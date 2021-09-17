@@ -17,6 +17,8 @@ public class BaseTriWrapConsumerTest {
 
     protected static WrapGreeter delegate;
 
+    protected static WrapGreeter longDelegate;
+
     protected static DubboBootstrap appDubboBootstrap;
 
 
@@ -116,10 +118,10 @@ public class BaseTriWrapConsumerTest {
 
     @Test
     public void sayHelloLong() {
-        int power = 5;
+        int power = 25;
         for (int i = 0; i < power; i++) {
             final int len = (1 << i);
-            final String response = delegate.sayHelloLong(len);
+            final String response = longDelegate.sayHelloLong(len);
             System.out.println("Response len:" + response.length());
             Assert.assertEquals(len, response.length());
         }
