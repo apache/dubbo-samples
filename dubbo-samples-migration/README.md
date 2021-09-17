@@ -15,20 +15,24 @@ dubbo.consumer.version=2.7.*
 ```
 And then in each consumer and provider project, you can configure `POM`'s properties as follows:
 ```xml
-#  consumer side
+<!-- consumer side -->
 <properties>
     <dubbo.consumer.version>2.7.13</dubbo.consumer.version>
 </properties>
 
-# provider side
+<!-- provider side -->
 <properties>
     <dubbo.provider.version>2.7.13</dubbo.provider.version>
 </properties>
 ```
 
-When the Integration Tests trigger, these properties will be overwritten by maven, for example:
+If we have the env of `DUBBO_VERSION=3.0.3-SNAPSHOT,2.7.13`, when the Integration Tests trigger, these properties will be overwritten by maven, for example:
 ```shell
 mvn -Ddubbo.provider.version=3.0.3-SNAPSHOT -Ddubbo.consumer.version=2.7.13 -Dspring.version=4.3.16.RELEASE
 ```
 
-
+But in the dubbo-samples's Dubbo 3 CI env, there only has `DUBBO_VERSION=3.0.3-SNAPSHOT`, we have to specify one side's version to prevent the test being ignored, for example:
+```yaml
+dubbo.provider.version=3.*
+dubbo.consumer.version=2.7.13 # <= specific version
+```
