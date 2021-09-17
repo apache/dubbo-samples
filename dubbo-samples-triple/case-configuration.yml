@@ -18,6 +18,10 @@ services:
   dubbo-samples-triple:
     type: app
     basedir: .
+    checkPorts:
+      - 2181
+      - 50052
+      - 50053
     mainClass: org.apache.dubbo.sample.tri.TriGrpcProvider
 
   dubbo-samples-triple-test:
@@ -44,6 +48,7 @@ services:
     waitPortsBeforeRun:
       - dubbo-samples-triple:2181
       - dubbo-samples-triple:50052
+      - dubbo-samples-triple:50053
     depends_on:
       - dubbo-samples-triple
 
