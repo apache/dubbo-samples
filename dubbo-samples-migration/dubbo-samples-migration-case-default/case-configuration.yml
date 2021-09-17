@@ -24,7 +24,7 @@ props:
 services:
   ${app_provider}:
     type: app
-    basedir: ${app_provider}
+    basedir: ../${app_provider}
     mainClass: ${app_provider_main_class}
     systemProps:
       - dubbo.current.protocol=dubbo
@@ -37,7 +37,7 @@ services:
     
   ${app_consumer}-test:
     type: test
-    basedir: ${app_consumer} 
+    basedir: ../${app_consumer} 
     tests:
       - "**/*IT.class"
     systemProps:
