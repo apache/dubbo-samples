@@ -6,9 +6,9 @@ import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
@@ -23,6 +23,8 @@ public abstract class BasePbConsumerTest {
     protected static PbGreeter delegate;
 
     protected static PbGreeterManual delegateManual;
+
+    protected static DubboBootstrap appDubboBootstrap;
 
     @Test
     public void serverStream() throws InterruptedException {
@@ -85,6 +87,7 @@ public abstract class BasePbConsumerTest {
 
 
     @Test(expected = RpcException.class)
+    @Ignore
     public void serverSendLargeSizeHeader() {
         final String key = "user-attachment";
         GreeterReply reply = delegateManual.greetReturnBigAttachment(GreeterRequest.newBuilder().setName("meta").build());
@@ -128,6 +131,7 @@ public abstract class BasePbConsumerTest {
 
     @AfterClass
     public static void alterTest() {
+        appDubboBootstrap.stop();
         DubboBootstrap.reset();
     }
 

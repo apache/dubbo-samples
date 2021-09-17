@@ -23,14 +23,26 @@ public class TriInterfaceWrapConsumerTest extends BaseTriWrapConsumerTest {
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
 
+
+        ReferenceConfig<WrapGreeter> ref2 = new ReferenceConfig<>();
+        ref2.setInterface(WrapGreeter.class);
+        ref2.setCheck(false);
+        ref2.setTimeout(15000);
+        ref2.setRetries(0);
+        ref2.setProtocol(CommonConstants.TRIPLE);
+        ref2.setLazy(true);
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ApplicationConfig applicationConfig = new ApplicationConfig(TriInterfaceWrapConsumerTest.class.getName());
         applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
         bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS_MODE_INTERFACE))
                 .reference(ref)
+                .reference(ref2)
                 .start();
         delegate = ref.get();
+        longDelegate = ref2.get();
+        appDubboBootstrap = bootstrap;
     }
 
 }

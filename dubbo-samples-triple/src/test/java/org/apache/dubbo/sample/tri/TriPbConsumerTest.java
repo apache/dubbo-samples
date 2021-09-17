@@ -18,14 +18,14 @@ public class TriPbConsumerTest extends BasePbConsumerTest {
         ref.setCheck(false);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
-        ref.setTimeout(10000);
+        ref.setTimeout(3000);
 
         ReferenceConfig<PbGreeterManual> ref2 = new ReferenceConfig<>();
         ref2.setInterface(PbGreeterManual.class);
         ref2.setCheck(false);
         ref2.setProtocol(CommonConstants.TRIPLE);
         ref2.setLazy(true);
-        ref2.setTimeout(10000);
+        ref2.setTimeout(3000);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ApplicationConfig applicationConfig = new ApplicationConfig(TriPbConsumerTest.class.getName());
@@ -38,5 +38,6 @@ public class TriPbConsumerTest extends BasePbConsumerTest {
 
         delegate = ref.get();
         delegateManual = ref2.get();
+        appDubboBootstrap = bootstrap;
     }
 }

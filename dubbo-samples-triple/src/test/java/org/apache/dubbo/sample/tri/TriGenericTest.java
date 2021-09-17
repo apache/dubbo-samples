@@ -16,23 +16,45 @@ import org.junit.Test;
 public class TriGenericTest {
     private static GenericService generic;
 
+
+    private static GenericService longGeneric;
+
+
+    protected static DubboBootstrap appDubboBootstrap;
+
+
     @BeforeClass
     public static void init() {
         ReferenceConfig<GenericService> ref = new ReferenceConfig<>();
         ref.setInterface("org.apache.dubbo.sample.tri.service.WrapGreeter");
         ref.setCheck(false);
-        ref.setTimeout(30000);
+        ref.setTimeout(3000);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setGeneric("true");
         ref.setLazy(true);
+
+        ReferenceConfig<GenericService> ref2 = new ReferenceConfig<>();
+        ref2.setInterface("org.apache.dubbo.sample.tri.service.WrapGreeter");
+        ref2.setCheck(false);
+        ref2.setTimeout(15000);
+        ref2.setProtocol(CommonConstants.TRIPLE);
+        ref2.setGeneric("true");
+        ref2.setRetries(0);
+        ref2.setLazy(true);
+
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ApplicationConfig applicationConfig = new ApplicationConfig(TriGenericTest.class.getName());
         applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
         bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
                 .reference(ref)
+                .reference(ref2)
                 .start();
         generic = ref.get();
+        longGeneric = ref2.get();
+
+        appDubboBootstrap = bootstrap;
     }
 
     @Test
@@ -64,14 +86,16 @@ public class TriGenericTest {
 
     @Test
     public void sayHelloLong() {
-        int len = 2 << 24;
-        final String resp = (String) generic.$invoke("sayHelloLong", new String[]{int.class.getName()}, new Object[]{len});
+        int len = 2 << 12;
+        final String resp = (String) longGeneric.$invoke("sayHelloLong", new String[]{int.class.getName()},
+                new Object[]{len});
         Assert.assertEquals(len, resp.length());
     }
 
 
     @AfterClass
     public static void alterTest() {
+        appDubboBootstrap.stop();
         DubboBootstrap.reset();
     }
 }

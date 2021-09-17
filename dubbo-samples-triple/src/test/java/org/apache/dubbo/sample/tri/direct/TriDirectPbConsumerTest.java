@@ -6,10 +6,8 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.BasePbConsumerTest;
 import org.apache.dubbo.sample.tri.PbGreeter;
-import org.apache.dubbo.sample.tri.TriGenericTest;
 import org.apache.dubbo.sample.tri.TriSampleConstants;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
-
 import org.junit.BeforeClass;
 
 public class TriDirectPbConsumerTest extends BasePbConsumerTest {
@@ -22,15 +20,15 @@ public class TriDirectPbConsumerTest extends BasePbConsumerTest {
         ref.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setLazy(true);
-        ref.setTimeout(10000);
+        ref.setTimeout(3000);
 
         ReferenceConfig<PbGreeterManual> ref2 = new ReferenceConfig<>();
         ref2.setInterface(PbGreeterManual.class);
         ref2.setCheck(false);
-        ref2.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
+        ref2.setUrl(TriSampleConstants.DEFAULT_MULTI_ADDRESS);
         ref2.setProtocol(CommonConstants.TRIPLE);
         ref2.setLazy(true);
-        ref2.setTimeout(10000);
+        ref2.setTimeout(3000);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ApplicationConfig applicationConfig = new ApplicationConfig(TriDirectPbConsumerTest.class.getName());
@@ -41,5 +39,6 @@ public class TriDirectPbConsumerTest extends BasePbConsumerTest {
                 .start();
         delegate = ref.get();
         delegateManual = ref2.get();
+        appDubboBootstrap = bootstrap;
     }
 }

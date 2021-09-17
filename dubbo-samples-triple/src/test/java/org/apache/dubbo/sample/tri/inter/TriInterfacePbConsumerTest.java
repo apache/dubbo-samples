@@ -8,9 +8,7 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.BasePbConsumerTest;
 import org.apache.dubbo.sample.tri.PbGreeter;
 import org.apache.dubbo.sample.tri.TriSampleConstants;
-import org.apache.dubbo.sample.tri.application.TriAppWrapConsumerTest;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
-
 import org.junit.BeforeClass;
 
 public class TriInterfacePbConsumerTest extends BasePbConsumerTest {
@@ -41,5 +39,6 @@ public class TriInterfacePbConsumerTest extends BasePbConsumerTest {
                 .start();
         delegate = ref.get();
         delegateManual = ref2.get();
+        appDubboBootstrap=bootstrap;
     }
 }
