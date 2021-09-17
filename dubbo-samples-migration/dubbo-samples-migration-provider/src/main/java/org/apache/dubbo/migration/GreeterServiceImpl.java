@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,29 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.migration;
 
-package org.apache.dubbo.scenario.builder;
 
-import java.util.regex.Pattern;
+import org.apache.dubbo.migration.api.GreeterService;
+import org.apache.dubbo.migration.api.HelloReply;
+import org.apache.dubbo.migration.api.HelloRequest;
 
-/**
- * Constants in dubbo-scenario-builder
- */
-public interface Constants {
+public class GreeterServiceImpl implements GreeterService {
 
-    String ERROR_MSG_FLAG=":ErrorMsg:";
-
-    int EXIT_FAILED = 1;
-    int EXIT_UNMATCHED = 100;
-    int EXIT_IGNORED = 120;
-
-    /**
-     * Used in case-versions.conf 
-     */
-    String DUBBO_VERSION_KEY = "dubbo.version";
-
-    /**
-     * The pattern used for searching target service name 
-     */
-    Pattern PATTERN_DUBBO_VERSION = Pattern.compile("^dubbo\\.(.+)\\.version$");
+    @Override
+    public HelloReply sayHello(HelloRequest request) {
+        HelloReply helloReply = new HelloReply();
+        helloReply.setMessage("Hello " + request.getName());
+        return helloReply;
+    }
 }

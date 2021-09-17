@@ -49,6 +49,7 @@
         <module>dubbo-samples-local</module>
         <module>dubbo-samples-merge</module>
         <module>dubbo-samples-metadata-report</module>
+        <module>dubbo-samples-migration</module>
         <module>dubbo-samples-mock</module>
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-multi-registry</module>

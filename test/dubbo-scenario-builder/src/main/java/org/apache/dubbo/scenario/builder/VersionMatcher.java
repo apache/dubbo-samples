@@ -29,11 +29,13 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Multi-version matcher
@@ -41,6 +43,10 @@ import java.util.regex.Pattern;
 public class VersionMatcher {
 
     private static final Logger logger = LoggerFactory.getLogger(VersionMatcher.class);
+
+    /**
+     * Java Property names 
+     */
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
@@ -85,36 +91,59 @@ public class VersionMatcher {
         // parse case version match rules
         Map<String, List<MatchRule>> caseVersionMatchRules = parseCaseVersionMatchRules(caseVersionsFile);
 
+        // Filter caseVersionMatchRules
+        chooseActiveDubboVersionRule(caseVersionMatchRules);
+        
         Map<String, List<String>> matchedVersionMap = new LinkedHashMap<>();
 
         candidateVersionMap.forEach((component, candidateVersionList) -> {
-            List<MatchRule> matchRules = caseVersionMatchRules.get(component);
-            if (matchRules == null || matchRules.isEmpty()) {
+            Map<String, List<MatchRule>> matchRulesMap;
+            if (Constants.DUBBO_VERSION_KEY.equals(component) && 
+                !caseVersionMatchRules.containsKey(Constants.DUBBO_VERSION_KEY)
+            ) {
+                matchRulesMap = caseVersionMatchRules.keySet().stream()
+                    .filter(key -> !extractDubboServiceName(key).isEmpty())
+                    .collect(Collectors.toMap(
+                            key -> key,
+                            key -> caseVersionMatchRules.get(key)
+                    ));
+            } else {
+                matchRulesMap = new HashMap<>();
+                if (caseVersionMatchRules.get(component) != null) {
+                    matchRulesMap.put(component, caseVersionMatchRules.get(component));
+                }
+            }
+            
+            if (matchRulesMap.isEmpty()) {
                 return;
             }
 
-            // matching rules
-            List<String> matchedVersionList = new ArrayList<>();
-            for (String version : candidateVersionList) {
-                if (hasIncludeVersion(matchRules, version)) {
-                    matchedVersionList.add(version);
-                }
-            }
-
-            //add case specific version
-            if (matchedVersionList.isEmpty() && includeCaseSpecificVersion) {
-                for (MatchRule matchRule : matchRules) {
-                    if (!matchRule.isExcluded() && matchRule instanceof PlainMatchRule) {
-                        matchedVersionList.add(((PlainMatchRule) matchRule).getVersion());
+            for (String matchRulesKey : matchRulesMap.keySet()) {
+                List<MatchRule> matchRules = matchRulesMap.get(matchRulesKey);
+                
+                // matching rules
+                List<String> matchedVersionList = new ArrayList<>();
+                for (String version : candidateVersionList) {
+                    if (hasIncludeVersion(matchRules, version)) {
+                        matchedVersionList.add(version);
                     }
                 }
-            }
-            if (matchedVersionList.size() > 0) {
-                matchedVersionMap.put(component, matchedVersionList);
+
+                //add case specific version
+                if (matchedVersionList.isEmpty() && includeCaseSpecificVersion) {
+                    for (MatchRule matchRule : matchRules) {
+                        if (!matchRule.isExcluded() && matchRule instanceof PlainMatchRule) {
+                            matchedVersionList.add(((PlainMatchRule) matchRule).getVersion());
+                        }
+                    }
+                }
+                if (matchedVersionList.size() > 0) {
+                    matchedVersionMap.put(matchRulesKey, matchedVersionList);
+                }
             }
         });
 
-        // check if all component has matched version
+        // Check whether all components have matched version
         if (caseVersionMatchRules.size() != matchedVersionMap.size()) {
             List<String> components = new ArrayList<>(caseVersionMatchRules.keySet());
             components.removeAll(matchedVersionMap.keySet());
@@ -152,6 +181,35 @@ public class VersionMatcher {
         }
     }
 
+    /**
+     * Choose only one final active Dubbo version rule from following case: 
+     * <br>
+     * 1. dubbo.version - original usage
+     * <br>
+     * 2. dubbo.{service}.version - different services can have different dubbo version for supporting compatibility-test
+     * @param caseVersionMatchRules
+     */
+    private static void chooseActiveDubboVersionRule(Map<String, List<MatchRule>> caseVersionMatchRules) {
+        for (String key : caseVersionMatchRules.keySet()) {
+            if (!extractDubboServiceName(key).isEmpty() && caseVersionMatchRules.get(Constants.DUBBO_VERSION_KEY) != null) {
+                errorAndExit(Constants.EXIT_FAILED, "The config item dubbo.version and dubbo.{service}.version can't appear simultaneously");
+            }
+        }
+    }
+
+    /**
+     * Extract service name from the given key
+     * @return the key or empty string when not matched.
+     */
+    public static String extractDubboServiceName(String key) {
+        Matcher matcher = Constants.PATTERN_DUBBO_VERSION.matcher(key);
+        if (matcher.matches()) {
+            return matcher.group(1);
+        }
+        
+        return "";
+    }
+    
     private static boolean hasIncludeVersion(List<MatchRule> matchRules, String version) {
         boolean included = false;
         version = trimVersion(version);
@@ -219,6 +277,7 @@ public class VersionMatcher {
                 }
                 int p = line.indexOf('=');
                 String component = line.substring(0, p);
+                String serviceName = extractDubboServiceName(component);
                 String patternStr = line.substring(p + 1);
                 patternStr = trimRule(patternStr, "[", "]");
                 String[] patterns = patternStr.split(",");
@@ -235,9 +294,9 @@ public class VersionMatcher {
                             pattern = pattern.substring(1).trim();
                         }
                         if (pattern.contains("*")) {
-                            ruleList.add(new WildcardMatchRule(excluded, pattern));
+                            ruleList.add(new WildcardMatchRule(excluded, pattern, serviceName));
                         } else {
-                            ruleList.add(new PlainMatchRule(excluded, pattern));
+                            ruleList.add(new PlainMatchRule(excluded, pattern, serviceName));
                         }
                     }
                 }
@@ -298,32 +357,46 @@ public class VersionMatcher {
     }
 
     private interface MatchRule {
-
         boolean isExcluded();
 
         boolean match(String version);
 
+
+        /**
+         * Get service the MatchRule bind to
+         * @return
+         */
+        default String getServiceName() {
+            return null;
+        }
     }
 
     private static abstract class ExcludableMatchRule implements MatchRule {
         boolean excluded;
+        protected String serviceName;
 
         public ExcludableMatchRule(boolean excluded) {
             this.excluded = excluded;
         }
 
+        @Override
         public boolean isExcluded() {
             return excluded;
         }
 
+        @Override
+        public String getServiceName() {
+            return serviceName;
+        }
     }
 
     private static class PlainMatchRule extends ExcludableMatchRule {
         private String version;
 
-        public PlainMatchRule(boolean excluded, String version) {
+        public PlainMatchRule(boolean excluded, String version, String serviceName) {
             super(excluded);
             this.version = version;
+            this.serviceName = serviceName;
         }
 
         @Override
@@ -345,10 +418,11 @@ public class VersionMatcher {
         private Pattern versionPattern;
         private String versionWildcard;
 
-        public WildcardMatchRule(boolean excluded, String versionWildcard) {
+        public WildcardMatchRule(boolean excluded, String versionWildcard, String serviceName) {
             super(excluded);
             this.versionPattern = getWildcardPattern(versionWildcard);
             this.versionWildcard = versionWildcard;
+            this.serviceName = serviceName;
         }
 
         @Override
