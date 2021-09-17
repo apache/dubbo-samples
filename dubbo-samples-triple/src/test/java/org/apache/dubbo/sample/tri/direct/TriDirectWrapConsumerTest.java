@@ -26,6 +26,7 @@ public class TriDirectWrapConsumerTest extends BaseTriWrapConsumerTest {
         ref2.setInterface(WrapGreeter.class);
         ref2.setCheck(false);
         ref2.setTimeout(15000);
+        ref2.setUrl(TriSampleConstants.DEFAULT_ADDRESS);
         ref2.setRetries(0);
         ref2.setProtocol(CommonConstants.TRIPLE);
         ref2.setLazy(true);
