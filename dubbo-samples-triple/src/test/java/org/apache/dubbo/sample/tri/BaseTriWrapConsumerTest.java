@@ -116,7 +116,7 @@ public class BaseTriWrapConsumerTest {
 
     @Test
     public void sayHelloLong() {
-        int power = 25;
+        int power = 5;
         for (int i = 0; i < power; i++) {
             final int len = (1 << i);
             final String response = delegate.sayHelloLong(len);
