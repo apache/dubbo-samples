@@ -16,7 +16,9 @@ import org.junit.Test;
  * Consumer test side
  */
 public class ApiConsumerIT {
-    @Test
+    
+    
+    @Test(timeout = 30000)
     public void consumeInvoke() {
         String curProtocol = System.getProperty("dubbo.current.protocol", CommonConstants.DUBBO);
         String zookeeperAddress = System.getProperty("zookeeper.address", "127.0.0.1");
