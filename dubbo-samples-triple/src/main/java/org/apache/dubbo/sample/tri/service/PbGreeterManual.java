@@ -1,5 +1,6 @@
 package org.apache.dubbo.sample.tri.service;
 
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
 
@@ -11,6 +12,10 @@ public interface PbGreeterManual {
     GreeterReply greetWithAttachment(GreeterRequest request);
 
     GreeterReply greetReturnBigAttachment(GreeterRequest request);
+
+   void cancelServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream);
+
+
 //
 //    GreeterReply greet(GreeterRequest request);
 
@@ -20,5 +25,4 @@ public interface PbGreeterManual {
 //
 //    StreamObserver<GreeterRequest> greetStream(StreamObserver<GreeterReply> replyStream);
 //
-//    void greetServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream);
 }

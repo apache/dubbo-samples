@@ -2,8 +2,10 @@ package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.rpc.CancellationContext;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.protocol.tri.AbstractStreamObserver;
 import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.junit.AfterClass;
@@ -33,13 +35,47 @@ public abstract class BasePbConsumerTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
-        delegate.greetServerStream(request, new StdoutStreamObserver<GreeterReply>("sayGreeterServerStream") {
+        StreamObserver<GreeterReply> observer = new StdoutStreamObserver<GreeterReply>("sayGreeterServerStream") {
             @Override
             public void onNext(GreeterReply data) {
                 super.onNext(data);
+                RpcContext.getCancellationContext().cancel(null);
                 latch.countDown();
             }
-        });
+        };
+
+        delegate.greetServerStream(request, observer);
+        Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
+    }
+
+
+    @Test
+    public void cancelServerStream() throws InterruptedException {
+        final GreeterRequest request = GreeterRequest.newBuilder()
+                .setName("request")
+                .build();
+        int n = 10;
+        CountDownLatch latch = new CountDownLatch(n);
+        StreamObserver<GreeterReply> observer = new AbstractStreamObserver<GreeterReply>() {
+            @Override
+            public void onNext(GreeterReply data) {
+                System.out.println(data);
+                CancellationContext cancellationContext = getCancellationContext();
+                cancel(null);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+            }
+        };
+        delegateManual.cancelServerStream(request, observer);
+        Thread.sleep(100000);
         Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
     }
 
@@ -50,18 +86,34 @@ public abstract class BasePbConsumerTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("stream request")
                 .build();
-        final StreamObserver<GreeterRequest> requestObserver = delegate.greetStream(new StdoutStreamObserver<GreeterReply>("sayGreeterStream") {
+        StreamObserver<GreeterReply> observer = new AbstractStreamObserver<GreeterReply>() {
             @Override
             public void onNext(GreeterReply data) {
-                super.onNext(data);
-                latch.countDown();
+                System.out.println(data);
+                cancel(null);
             }
-        });
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+            }
+        };
+        final StreamObserver<GreeterRequest> requestObserver =
+                delegate.greetStream(observer);
+
         for (int i = 0; i < n; i++) {
             requestObserver.onNext(request);
+            if (i == n - 1) {
+                RpcContext.getServiceContext().getCancellationContext().cancel(null);
+            }
         }
         requestObserver.onCompleted();
-        Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
+        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
     }
 
     @Test
@@ -86,7 +138,8 @@ public abstract class BasePbConsumerTest {
     }
 
 
-    @Test(expected = RpcException.class)
+    // @Test(expected = RpcException.class)
+    @Test
     @Ignore
     public void serverSendLargeSizeHeader() {
         final String key = "user-attachment";
