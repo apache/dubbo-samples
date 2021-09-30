@@ -49,7 +49,7 @@ public abstract class BasePbConsumerTest {
 
 
     @Test
-    public void cancelServerStream() {
+    public void cancelServerStream() throws InterruptedException {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
@@ -72,11 +72,18 @@ public abstract class BasePbConsumerTest {
             }
         };
         delegateManual.cancelServerStream(request, observer);
+        Thread.sleep(2000);
+        GreeterReply reply = delegateManual.queryCancelResult(
+                GreeterRequest.newBuilder()
+                        .setName("cancelServerStream")
+                        .build()
+        );
+        Assert.assertEquals("true", reply.getMessage());
     }
 
 
     @Test
-    public void cancelBiStream() {
+    public void cancelBiStream() throws InterruptedException {
         int n = 10;
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("stream request")
@@ -104,8 +111,56 @@ public abstract class BasePbConsumerTest {
                 (CancelableStreamObserver<GreeterRequest>) requestObserver;
         for (int i = 0; i < n; i++) {
             streamObserver.onNext(request);
-            streamObserver.cancel(null);
         }
+        streamObserver.onCompleted();
+        Thread.sleep(2000);
+        GreeterReply reply = delegateManual.queryCancelResult(
+                GreeterRequest.newBuilder()
+                        .setName("cancelBiStream")
+                        .build()
+        );
+        Assert.assertEquals("true", reply.getMessage());
+    }
+
+
+    @Test
+    public void cancelBiStream2() throws InterruptedException {
+        int n = 10;
+        final GreeterRequest request = GreeterRequest.newBuilder()
+                .setName("stream request")
+                .build();
+        StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
+            @Override
+            public void onNext(GreeterReply data) {
+                System.out.println(data);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+            }
+        };
+        final StreamObserver<GreeterRequest> requestObserver =
+                delegateManual.cancelBiStream2(observer);
+        CancelableStreamObserver<GreeterRequest> streamObserver =
+                (CancelableStreamObserver<GreeterRequest>) requestObserver;
+        for (int i = 0; i < n; i++) {
+            streamObserver.onNext(request);
+        }
+        streamObserver.cancel(null);
+        // streamObserver.onCompleted();
+        Thread.sleep(2000);
+        GreeterReply reply = delegateManual.queryCancelResult(
+                GreeterRequest.newBuilder()
+                        .setName("cancelBiStream2")
+                        .build()
+        );
+        Assert.assertEquals("true", reply.getMessage());
     }
 
 

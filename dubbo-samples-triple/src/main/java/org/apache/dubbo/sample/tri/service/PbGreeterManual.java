@@ -15,8 +15,20 @@ public interface PbGreeterManual {
 
     void cancelServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream);
 
-
     StreamObserver<GreeterRequest> cancelBiStream(StreamObserver<GreeterReply> replyStream);
+
+
+    StreamObserver<GreeterRequest> cancelBiStream2(StreamObserver<GreeterReply> replyStream);
+
+    /**
+     * only use by query cancel result
+     *
+     * @param request
+     * @return
+     */
+    GreeterReply queryCancelResult(GreeterRequest request);
+
+
 //
 //    GreeterReply greet(GreeterRequest request);
 
