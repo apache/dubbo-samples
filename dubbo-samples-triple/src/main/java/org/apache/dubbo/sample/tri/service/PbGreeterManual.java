@@ -13,9 +13,10 @@ public interface PbGreeterManual {
 
     GreeterReply greetReturnBigAttachment(GreeterRequest request);
 
-   void cancelServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream);
+    void cancelServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream);
 
 
+    StreamObserver<GreeterRequest> cancelBiStream(StreamObserver<GreeterReply> replyStream);
 //
 //    GreeterReply greet(GreeterRequest request);
 

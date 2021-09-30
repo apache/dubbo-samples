@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class BaseTriWrapConsumerTest {
+public abstract class BaseTriWrapConsumerTest {
 
     protected static WrapGreeter delegate;
 
@@ -54,48 +54,6 @@ public class BaseTriWrapConsumerTest {
             }
         });
         Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
-
-
-        delegate.sayHelloServerStream("server stream", new StreamObserver<String>() {
-            @Override
-            public void onNext(String data) {
-                System.out.println(data);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("onCompleted");
-            }
-        });
-
-
-        StreamObserver<String> request = delegate.sayHelloStream(new StreamObserver<String>() {
-            @Override
-            public void onNext(String data) {
-                System.out.println(data);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("onCompleted");
-            }
-        });
-        for (int i = 0; i < n; i++) {
-            request.onNext("stream request" + i);
-        }
-        request.onCompleted();
-
-
     }
 
     @Test
@@ -130,6 +88,7 @@ public class BaseTriWrapConsumerTest {
 
     @AfterClass
     public static void alterTest() {
+        appDubboBootstrap.stop();
         DubboBootstrap.reset();
     }
 }

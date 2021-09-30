@@ -31,17 +31,44 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
 
     @Override
     public void cancelServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream) {
+        RpcContext.getCancellationContext().addListener(context -> {
+            System.out.println("cancelServerStream---------cancel");
+        });
         for (int i = 0; i < 10; i++) {
             replyStream.onNext(GreeterReply.newBuilder()
                     .setMessage(request.getName() + "--" + i)
                     .build());
         }
-        replyStream.onCompleted();
+        // replyStream.onCompleted();
+    }
+
+    @Override
+    public StreamObserver<GreeterRequest> cancelBiStream(StreamObserver<GreeterReply> replyStream) {
+        RpcContext.getCancellationContext()
+                .addListener(context -> System.out.println("cancelBiStream---------cancel"));
+        return new StreamObserver<GreeterRequest>() {
+            @Override
+            public void onNext(GreeterRequest data) {
+                replyStream.onNext(GreeterReply.newBuilder()
+                        .setMessage(data.getName())
+                        .build());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+                replyStream.onError(new IllegalStateException("Stream err"));
+            }
+
+            @Override
+            public void onCompleted() {
+                // replyStream.onCompleted();
+            }
+        };
     }
 
     @Override
     public GreeterReply greet(GreeterRequest request) {
-        RpcContext.getServiceContext().getCancellationContext().addListener(context -> System.out.println("---greet---------cancel"));
         return GreeterReply.newBuilder()
                 .setMessage(request.getName())
                 .build();
@@ -61,8 +88,6 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
 
     @Override
     public StreamObserver<GreeterRequest> greetStream(StreamObserver<GreeterReply> replyStream) {
-        RpcContext.getServiceContext().getCancellationContext()
-                .addListener(context -> System.out.println("greetStream---------cancel"));
         return new StreamObserver<GreeterRequest>() {
             @Override
             public void onNext(GreeterRequest data) {

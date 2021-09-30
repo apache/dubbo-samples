@@ -2,10 +2,9 @@ package org.apache.dubbo.sample.tri;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.rpc.CancellationContext;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
-import org.apache.dubbo.rpc.protocol.tri.AbstractStreamObserver;
+import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
 import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.junit.AfterClass;
@@ -50,17 +49,15 @@ public abstract class BasePbConsumerTest {
 
 
     @Test
-    public void cancelServerStream() throws InterruptedException {
+    public void cancelServerStream() {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
         int n = 10;
-        CountDownLatch latch = new CountDownLatch(n);
-        StreamObserver<GreeterReply> observer = new AbstractStreamObserver<GreeterReply>() {
+        StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
             @Override
             public void onNext(GreeterReply data) {
                 System.out.println(data);
-                CancellationContext cancellationContext = getCancellationContext();
                 cancel(null);
             }
 
@@ -75,18 +72,16 @@ public abstract class BasePbConsumerTest {
             }
         };
         delegateManual.cancelServerStream(request, observer);
-        Thread.sleep(100000);
-        Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
     }
 
+
     @Test
-    public void stream() throws InterruptedException {
+    public void cancelBiStream() {
         int n = 10;
-        CountDownLatch latch = new CountDownLatch(n);
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("stream request")
                 .build();
-        StreamObserver<GreeterReply> observer = new AbstractStreamObserver<GreeterReply>() {
+        StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
             @Override
             public void onNext(GreeterReply data) {
                 System.out.println(data);
@@ -104,13 +99,34 @@ public abstract class BasePbConsumerTest {
             }
         };
         final StreamObserver<GreeterRequest> requestObserver =
-                delegate.greetStream(observer);
+                delegateManual.cancelBiStream(observer);
+        CancelableStreamObserver<GreeterRequest> streamObserver =
+                (CancelableStreamObserver<GreeterRequest>) requestObserver;
+        for (int i = 0; i < n; i++) {
+            streamObserver.onNext(request);
+            streamObserver.cancel(null);
+        }
+    }
 
+
+    @Test
+    public void stream() throws InterruptedException {
+        int n = 10;
+        CountDownLatch latch = new CountDownLatch(n);
+        final GreeterRequest request = GreeterRequest.newBuilder()
+                .setName("stream request")
+                .build();
+        StreamObserver<GreeterReply> observer = new StdoutStreamObserver<GreeterReply>("tri pb stream") {
+            @Override
+            public void onNext(GreeterReply data) {
+                super.onNext(data);
+                latch.countDown();
+            }
+        };
+        final StreamObserver<GreeterRequest> requestObserver =
+                delegate.greetStream(observer);
         for (int i = 0; i < n; i++) {
             requestObserver.onNext(request);
-            if (i == n - 1) {
-                RpcContext.getServiceContext().getCancellationContext().cancel(null);
-            }
         }
         requestObserver.onCompleted();
         Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
@@ -143,7 +159,8 @@ public abstract class BasePbConsumerTest {
     @Ignore
     public void serverSendLargeSizeHeader() {
         final String key = "user-attachment";
-        GreeterReply reply = delegateManual.greetReturnBigAttachment(GreeterRequest.newBuilder().setName("meta").build());
+        GreeterReply reply =
+                delegateManual.greetReturnBigAttachment(GreeterRequest.newBuilder().setName("meta").build());
         final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
         Assert.assertNotNull(returned);
     }
@@ -155,7 +172,7 @@ public abstract class BasePbConsumerTest {
         RpcContext.removeClientAttachment();
         RpcContext.getClientAttachment().setAttachment(key, value);
         GreeterReply reply = delegate.greetWithAttachment(GreeterRequest.newBuilder().setName("meta").build());
-        Assert.assertEquals("hello,meta",reply.getMessage());
+        Assert.assertEquals("hello,meta", reply.getMessage());
         final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
         Assert.assertEquals("hello," + value, returned);
     }
@@ -167,7 +184,7 @@ public abstract class BasePbConsumerTest {
         RpcContext.removeClientAttachment();
         RpcContext.getClientAttachment().setAttachment(key, value);
         GreeterReply reply = delegateManual.greetWithAttachment(GreeterRequest.newBuilder().setName("meta").build());
-        Assert.assertEquals("hello,meta",reply.getMessage());
+        Assert.assertEquals("hello,meta", reply.getMessage());
         final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
         Assert.assertEquals("hello," + value, returned);
     }
@@ -184,7 +201,7 @@ public abstract class BasePbConsumerTest {
 
     @AfterClass
     public static void alterTest() {
-        appDubboBootstrap.stop();
+        appDubboBootstrap.destroy();
         DubboBootstrap.reset();
     }
 
