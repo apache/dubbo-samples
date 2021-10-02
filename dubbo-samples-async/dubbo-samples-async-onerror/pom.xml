@@ -34,7 +34,7 @@
         <spring.version>4.3.16.RELEASE</spring.version>
         <dubbo.version>3.0.2.1</dubbo.version>
         <dubbo.configcenter.zookeeper.version>3.0.2.1</dubbo.configcenter.zookeeper.version>
-        <zookeeper.version>3.4.13</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
         <curator.version>4.0.1</curator.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
