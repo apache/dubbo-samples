@@ -22,9 +22,10 @@ import org.apache.dubbo.monitor.MonitorService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MonitorServiceImpl implements MonitorService {
-    private List<URL> collectedStatistics = new ArrayList<>();
+    private List<URL> collectedStatistics = new CopyOnWriteArrayList<>();
 
     @Override
     public void collect(URL statistics) {
