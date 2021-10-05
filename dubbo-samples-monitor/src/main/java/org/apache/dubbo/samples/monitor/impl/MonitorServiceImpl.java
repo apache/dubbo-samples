@@ -20,7 +20,6 @@ package org.apache.dubbo.samples.monitor.impl;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.monitor.MonitorService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -34,6 +33,6 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Override
     public List<URL> lookup(URL query) {
-        return new ArrayList<>(collectedStatistics);
+        return collectedStatistics;
     }
 }
