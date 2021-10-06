@@ -17,6 +17,7 @@
 
 package org.apache.dubbo.samples.version;
 
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.version.api.VersionService;
 
 import org.junit.Assert;
@@ -35,6 +36,7 @@ public class VersionServiceStarIT {
 
     @BeforeClass
     public static void setUp() {
+        DubboBootstrap.reset();
         MyNettyTransporter.reset();
     }
 
