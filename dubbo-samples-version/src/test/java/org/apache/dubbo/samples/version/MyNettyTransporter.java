@@ -16,6 +16,8 @@
  */
 package org.apache.dubbo.samples.version;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.remoting.ChannelHandler;
 import org.apache.dubbo.remoting.Client;
@@ -26,22 +28,22 @@ public class MyNettyTransporter extends NettyTransporter {
 
     public static final String NAME = "myNetty";
 
-    private static int connectedCount = 0;
+    private static AtomicInteger connectedCount = new AtomicInteger(0);
 
     @Override
     public Client connect(URL url, ChannelHandler handler) throws RemotingException {
         Client client = super.connect(url, handler);
         if (client.isConnected()) {
-            connectedCount++;
+            connectedCount.incrementAndGet();
         }
         return client;
     }
 
     public static int getConnectedCount() {
-        return connectedCount;
+        return connectedCount.get();
     }
     
     public static void reset() {
-        connectedCount = 0;
+        connectedCount.set(0);
     }
 }
