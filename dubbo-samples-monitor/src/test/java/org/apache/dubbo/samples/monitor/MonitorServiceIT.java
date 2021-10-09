@@ -73,6 +73,7 @@ public class MonitorServiceIT {
         boolean countConsumer = false;
         System.out.println("monitor stats: " + stats.size());
         for (URL stat : stats) {
+            Assert.assertNotNull(stat);
             Assert.assertEquals("count", stat.getProtocol());
             Assert.assertEquals("org.apache.dubbo.samples.monitor.api.DemoService/sayHello", stat.getPath());
             if (stat.getParameter("application").equals("demo-provider")) {
