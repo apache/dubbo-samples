@@ -135,10 +135,14 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
     @Override
     public StreamObserver<GreeterRequest> greetStream(StreamObserver<GreeterReply> replyStream) {
         return new StreamObserver<GreeterRequest>() {
+            int n = 0;
+
             @Override
             public void onNext(GreeterRequest data) {
+                n++;
+                System.out.println(data.getName() + " " + n);
                 replyStream.onNext(GreeterReply.newBuilder()
-                        .setMessage(data.getName())
+                        .setMessage(data.getName() + " " + n)
                         .build());
             }
 
@@ -150,6 +154,7 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
 
             @Override
             public void onCompleted() {
+                System.out.println("[greetStream] onCompleted");
                 replyStream.onCompleted();
             }
         };
