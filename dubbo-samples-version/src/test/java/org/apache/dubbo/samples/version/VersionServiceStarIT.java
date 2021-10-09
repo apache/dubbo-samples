@@ -17,9 +17,11 @@
 
 package org.apache.dubbo.samples.version;
 
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.version.api.VersionService;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,28 @@ public class VersionServiceStarIT {
     @Autowired
     private VersionService service;
 
+    @BeforeClass
+    public static void setUp() {
+        DubboBootstrap.reset();
+        MyNettyTransporter.reset();
+    }
+
     @Test
     public void test() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            System.out.println("transporter connected count: " + MyNettyTransporter.getConnectedCount());
+            if (2 == MyNettyTransporter.getConnectedCount()) {
+                break;
+            }
+            Thread.sleep(200);
+        }
+        Assert.assertEquals(2, MyNettyTransporter.getConnectedCount());
+
         boolean version1 = false;
         boolean version2 = false;
         for (int i = 0; i < 10; i++) {
             String result = service.sayHello("dubbo");
+            System.out.println("result: " + result);
             if (result.equals("hello, dubbo")) {
                 version1 = true;
             }

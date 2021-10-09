@@ -223,12 +223,12 @@ A scenario is a complete test environment, including docker-compose.yml, scenari
 
 * Scenario running timeout
  
- Default running timeout is 90s. Some test cases require more time, you can modify it in the following way. 
+ Default running timeout is 200s. Some test cases require more time, you can modify it in the following way. 
  
- Change timeout in `case-configuration.yml`:
+ Set timeout in `case-configuration.yml`:
  
    ```
-   timeout: 120
+   timeout: 300
    ```
    
 #### Logs

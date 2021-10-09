@@ -72,7 +72,7 @@ public class ConfigurationImpl implements IConfiguration {
     private String configBasedir;
     private String scenarioName;
     private final String scenarioLogDir;
-    private int scenarioTimeout = 120;
+    private int scenarioTimeout = 200;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
     private Set<Pattern> debugPatterns = new HashSet<>();
