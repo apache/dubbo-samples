@@ -39,6 +39,7 @@ services:
       - "org.apache.dubbo.sample.tri/grpc/Grpc*Test.class"
       # tri-->grpc
       - "org.apache.dubbo.sample.tri.grpc/TriGrpcDirectPbConsumerTest.class"
+      - "org.apache.dubbo.sample.tri.grpc/TriGrpcCompressionConsumerTest.class"
     systemProps:
       - zookeeper.host=dubbo-samples-triple
       - zookeeper.port=2181
