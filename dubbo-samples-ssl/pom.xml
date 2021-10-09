@@ -32,7 +32,7 @@
    </modules>
 
     <properties>
-        <dubbo.version>2.7.7</dubbo.version>
+        <dubbo.version>3.0.2.1</dubbo.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.3.16.RELEASE</spring.version>
     </properties>

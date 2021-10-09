@@ -179,6 +179,7 @@ For more details, please refer to the following case configurations:
  * [dubbo-samples-annotation](dubbo-samples-annotation/case-configuration.yml) : A simple provider service with builtin zookeeper.
  * [dubbo-samples-api](dubbo-samples-api/case-configuration.yml) : A simple provider service with external zookeeper.
  * [dubbo-samples-chain](dubbo-samples-chain/case-configuration.yml) : A multiple services with external zookeeper.
+ * [dubbo-samples-migration](dubbo-samples-migration/README.md) : A compatibility test with the provider and consumer have different dubbo verison. 
 
 
 That's it, then feel free to add more integration test for the Dubbo project, have fun.

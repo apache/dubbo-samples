@@ -29,7 +29,7 @@
         <target.level>1.8</target.level>
         <skip_maven_deploy>true</skip_maven_deploy>
         <dubbo.compiler.version>0.0.2</dubbo.compiler.version>
-        <dubbo.version>2.7.7</dubbo.version>
+        <dubbo.version>2.7.13</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
     </properties>
 
