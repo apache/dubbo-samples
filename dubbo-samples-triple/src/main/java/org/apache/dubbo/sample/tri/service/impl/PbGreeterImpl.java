@@ -7,7 +7,12 @@ import org.apache.dubbo.sample.tri.GreeterRequest;
 import org.apache.dubbo.sample.tri.PbGreeter;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
+
+    public static final Map<String, Boolean> cancelResultMap = new HashMap<>();
 
     @Override
     public GreeterReply greetWithAttachment(GreeterRequest request) {
@@ -30,8 +35,86 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
     }
 
     @Override
-    public GreeterReply greet(GreeterRequest request) {
+    public void cancelServerStream(GreeterRequest request, StreamObserver<GreeterReply> replyStream) {
+        RpcContext.getCancellationContext().addListener(context -> {
+            System.out.println("cancel--cancelServerStream");
+            cancelResultMap.put("cancelServerStream", true);
+        });
+        for (int i = 0; i < 10; i++) {
+            replyStream.onNext(GreeterReply.newBuilder()
+                    .setMessage(request.getName() + "--" + i)
+                    .build());
+        }
+        // replyStream.onCompleted();
+    }
 
+    @Override
+    public StreamObserver<GreeterRequest> cancelBiStream(StreamObserver<GreeterReply> replyStream) {
+        System.out.println("-----cancelBiStream  thread=" + Thread.currentThread().getName());
+        RpcContext.getCancellationContext()
+                .addListener(context -> {
+                    System.out.println("cancel--cancelBiStream");
+                    cancelResultMap.put("cancelBiStream", true);
+                });
+        return new StreamObserver<GreeterRequest>() {
+            @Override
+            public void onNext(GreeterRequest data) {
+                replyStream.onNext(GreeterReply.newBuilder()
+                        .setMessage(data.getName())
+                        .build());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+                replyStream.onError(new IllegalStateException("Stream err"));
+            }
+
+            @Override
+            public void onCompleted() {
+                // replyStream.onCompleted();
+            }
+        };
+    }
+
+    @Override
+    public StreamObserver<GreeterRequest> cancelBiStream2(StreamObserver<GreeterReply> replyStream) {
+        RpcContext.getCancellationContext()
+                .addListener(context -> {
+                    System.out.println("cancel--cancelBiStream2");
+                    cancelResultMap.put("cancelBiStream2", true);
+                });
+        return new StreamObserver<GreeterRequest>() {
+            @Override
+            public void onNext(GreeterRequest data) {
+                replyStream.onNext(GreeterReply.newBuilder()
+                        .setMessage(data.getName())
+                        .build());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+                replyStream.onError(new IllegalStateException("Stream err"));
+            }
+
+            @Override
+            public void onCompleted() {
+                // replyStream.onCompleted();
+            }
+        };
+    }
+
+    @Override
+    public GreeterReply queryCancelResult(GreeterRequest request) {
+        boolean canceled = cancelResultMap.getOrDefault(request.getName(), false);
+        return GreeterReply.newBuilder()
+                .setMessage(String.valueOf(canceled))
+                .build();
+    }
+
+    @Override
+    public GreeterReply greet(GreeterRequest request) {
         return GreeterReply.newBuilder()
                 .setMessage(request.getName())
                 .build();
@@ -52,10 +135,14 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
     @Override
     public StreamObserver<GreeterRequest> greetStream(StreamObserver<GreeterReply> replyStream) {
         return new StreamObserver<GreeterRequest>() {
+            int n = 0;
+
             @Override
             public void onNext(GreeterRequest data) {
+                n++;
+                System.out.println(data.getName() + " " + n);
                 replyStream.onNext(GreeterReply.newBuilder()
-                        .setMessage(data.getName())
+                        .setMessage(data.getName() + " " + n)
                         .build());
             }
 
@@ -67,6 +154,7 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
 
             @Override
             public void onCompleted() {
+                System.out.println("[greetStream] onCompleted");
                 replyStream.onCompleted();
             }
         };
