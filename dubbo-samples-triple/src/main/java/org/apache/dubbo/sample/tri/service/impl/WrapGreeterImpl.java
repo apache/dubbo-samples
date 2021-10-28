@@ -7,6 +7,16 @@ import org.apache.dubbo.sample.tri.service.WrapGreeter;
 
 public class WrapGreeterImpl implements WrapGreeter {
     @Override
+    public String overload() {
+        return "overload";
+    }
+
+    @Override
+    public String overload(String param) {
+        return param;
+    }
+
+    @Override
     public String sayHelloLong(int len) {
         StringBuilder respBuilder = new StringBuilder();
         if (len > 0) {
@@ -53,7 +63,7 @@ public class WrapGreeterImpl implements WrapGreeter {
             @Override
             public void onNext(String data) {
                 System.out.println(data);
-                response.onNext("hello,"+data);
+                response.onNext("hello," + data);
             }
 
             @Override
