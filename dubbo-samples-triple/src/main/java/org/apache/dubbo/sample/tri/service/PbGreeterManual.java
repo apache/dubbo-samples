@@ -20,6 +20,15 @@ public interface PbGreeterManual {
 
     StreamObserver<GreeterRequest> cancelBiStream2(StreamObserver<GreeterReply> replyStream);
 
+
+    StreamObserver<GreeterRequest> compressorBiStream(StreamObserver<GreeterReply> replyStream);
+
+
+    StreamObserver<GreeterRequest> clientCompressorBiStream(StreamObserver<GreeterReply> replyStream);
+
+
+    StreamObserver<GreeterRequest> serverCompressorBiStream(StreamObserver<GreeterReply> replyStream);
+
     /**
      * only use by query cancel result
      *
