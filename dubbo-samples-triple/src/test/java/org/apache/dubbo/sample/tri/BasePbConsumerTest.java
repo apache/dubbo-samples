@@ -5,6 +5,7 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
+import org.apache.dubbo.rpc.protocol.tri.ClientStreamObserver;
 import org.apache.dubbo.sample.tri.helper.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.junit.AfterClass;
@@ -111,6 +112,7 @@ public abstract class BasePbConsumerTest {
                 (CancelableStreamObserver<GreeterRequest>) requestObserver;
         for (int i = 0; i < n; i++) {
             streamObserver.onNext(request);
+            streamObserver.cancel(new RuntimeException());
         }
         streamObserver.onCompleted();
         Thread.sleep(2000);
@@ -161,6 +163,108 @@ public abstract class BasePbConsumerTest {
                         .build()
         );
         Assert.assertEquals("true", reply.getMessage());
+    }
+
+    @Test
+    public void compressorBiStream() throws InterruptedException {
+        int n = 10;
+        CountDownLatch latch = new CountDownLatch(n);
+        final GreeterRequest request = GreeterRequest.newBuilder()
+                .setName("stream request")
+                .build();
+        StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
+            @Override
+            public void onNext(GreeterReply data) {
+                System.out.println(data);
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+            }
+        };
+        final ClientStreamObserver<GreeterRequest> requestObserver =
+                (ClientStreamObserver<GreeterRequest>) delegateManual.compressorBiStream(observer);
+        requestObserver.setCompression("gzip");
+        for (int i = 0; i < n; i++) {
+            requestObserver.onNext(request);
+        }
+        requestObserver.onCompleted();
+        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
+    }
+
+
+    @Test
+    public void clientCompressorBiStream() throws InterruptedException {
+        int n = 10;
+        CountDownLatch latch = new CountDownLatch(n);
+        final GreeterRequest request = GreeterRequest.newBuilder()
+                .setName("stream request")
+                .build();
+        StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
+            @Override
+            public void onNext(GreeterReply data) {
+                System.out.println(data);
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+            }
+        };
+        final ClientStreamObserver<GreeterRequest> requestObserver =
+                (ClientStreamObserver<GreeterRequest>) delegateManual.clientCompressorBiStream(observer);
+        requestObserver.setCompression("gzip");
+        for (int i = 0; i < n; i++) {
+            requestObserver.onNext(request);
+        }
+        requestObserver.onCompleted();
+        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void serverCompressorBiStream() throws InterruptedException {
+        int n = 10;
+        CountDownLatch latch = new CountDownLatch(n);
+        final GreeterRequest request = GreeterRequest.newBuilder()
+                .setName("stream request")
+                .build();
+        StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
+            @Override
+            public void onNext(GreeterReply data) {
+                System.out.println(data);
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("onCompleted");
+            }
+        };
+        final ClientStreamObserver<GreeterRequest> requestObserver =
+                (ClientStreamObserver<GreeterRequest>) delegateManual.clientCompressorBiStream(observer);
+        for (int i = 0; i < n; i++) {
+            requestObserver.onNext(request);
+        }
+        requestObserver.onCompleted();
+        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
     }
 
 
