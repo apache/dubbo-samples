@@ -3,6 +3,12 @@ package org.apache.dubbo.sample.tri.service;
 import org.apache.dubbo.common.stream.StreamObserver;
 
 public interface WrapGreeter {
+
+
+    String overload();
+
+
+    String overload(String param);
     /**
      * <pre>
      *  Sends a greeting

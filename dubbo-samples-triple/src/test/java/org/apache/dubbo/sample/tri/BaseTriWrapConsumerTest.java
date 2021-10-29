@@ -21,6 +21,13 @@ public abstract class BaseTriWrapConsumerTest {
 
     protected static DubboBootstrap appDubboBootstrap;
 
+    @Test
+    public void overload() {
+        String ret = delegate.overload();
+        Assert.assertEquals(ret, "overload");
+        String ret2 = delegate.overload("overload");
+        Assert.assertEquals(ret2, "overload");
+    }
 
     @Test
     public void sayHelloUnaryRequestVoid() {
@@ -60,7 +67,8 @@ public abstract class BaseTriWrapConsumerTest {
     public void sayHelloStream() throws InterruptedException {
         int n = 10;
         CountDownLatch latch = new CountDownLatch(n);
-        final StreamObserver<String> request = delegate.sayHelloStream(new StdoutStreamObserver<String>("sayHelloStream") {
+        final StreamObserver<String> request = delegate.sayHelloStream(new StdoutStreamObserver<String>(
+                "sayHelloStream") {
             @Override
             public void onNext(String data) {
                 super.onNext(data);
