@@ -25,11 +25,11 @@ import org.apache.dubbo.rpc.RpcContext;
 public class IGreeter1Impl implements IGreeter {
     @Override
     public HelloReply sayHello(HelloRequest request) {
-
         return HelloReply.newBuilder()
                 .setMessage(request.getName())
                 .build();
     }
+
 
     public HelloReply sayHelloException(HelloRequest request) {
         RpcContext.getServerContext().setAttachment("str", "str")
