@@ -48,8 +48,8 @@ public class ValidationConsumer {
         try {
             parameter = new ValidationParameter();
             validationService.save(parameter);
-            System.err.println("Validation Save ERROR");
         } catch (ValidationException e) {
+            System.err.println("Validation Save ERROR");
             e.printStackTrace();
         }
 
@@ -60,8 +60,8 @@ public class ValidationConsumer {
         // Delete Error
         try {
             validationService.delete(0, "abc");
-            System.err.println("Validation Delete ERROR");
         } catch (ValidationException e) {
+            System.err.println("Validation Delete ERROR");
             e.printStackTrace();
         }
     }
