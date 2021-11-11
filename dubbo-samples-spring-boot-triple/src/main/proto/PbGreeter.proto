@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.apache.dubbo.sample.tri;
+
+service PbGreeter{
+  rpc greet(GreeterRequest) returns (GreeterReply);
+
+  rpc greetWithAttachment (GreeterRequest) returns (GreeterReply);
+
+  rpc greetException(GreeterRequest) returns (GreeterReply);
+
+  rpc greetStream(stream GreeterRequest) returns (stream GreeterReply);
+
+  rpc greetServerStream(GreeterRequest) returns (stream GreeterReply);
+}
+
+// The request message containing the user's name.
+message GreeterRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message GreeterReply {
+  string message = 1;
+}
