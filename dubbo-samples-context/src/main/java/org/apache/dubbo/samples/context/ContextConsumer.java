@@ -26,7 +26,7 @@ public class ContextConsumer {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-context-consumer.xml");
         context.start();
-        ContextService contextService = context.getBean("contextService", ContextService.class);
+        ContextService contextService = context.getBean("demoService", ContextService.class);
 
         String hello = contextService.sayHello("world");
         System.out.println("result: " + hello);
