@@ -32,6 +32,6 @@
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the
     local regular interface -->
-    <dubbo:reference scope="remote" id="contextService" check="false" interface="org.apache.dubbo.samples.context.api.ContextService"/>
+    <dubbo:reference scope="remote" id="demoService" check="false" interface="org.apache.dubbo.samples.context.api.ContextService"/>
 
 </beans>
