@@ -12,7 +12,10 @@ import org.apache.dubbo.sample.tri.TriSampleConstants;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
 import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
+import org.apache.dubbo.sample.tri.service.impl.TestServiceImpl;
 import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
+
+import grpc.testing.TestService;
 
 
 public class TriAllProvider {
@@ -32,6 +35,9 @@ public class TriAllProvider {
         wrapService.setInterface(WrapGreeter.class);
         wrapService.setRef(new WrapGreeterImpl());
 
+        ServiceConfig<TestService> testService = new ServiceConfig<>();
+        testService.setInterface(TestService.class);
+        testService.setRef(new TestServiceImpl());
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))
@@ -40,6 +46,7 @@ public class TriAllProvider {
                 .service(pbService)
                 .service(pbManualService)
                 .service(wrapService)
+                .service(testService)
                 .start()
                 .await();
     }
