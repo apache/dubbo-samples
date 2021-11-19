@@ -30,6 +30,7 @@ import org.apache.dubbo.sample.tri.common.TriSampleConstants;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -105,6 +106,7 @@ public class GrpcDirectPbConsumerTest {
         Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
     }
 
+    @Disabled
     @Test
     public void unaryGreeter() {
         final GreeterReply reply = blockingStub.greet(GreeterRequest.newBuilder()
