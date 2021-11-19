@@ -16,16 +16,17 @@
  */
 package org.apache.dubbo.sample.tri.direct;
 
-import org.apache.dubbo.sample.tri.GreeterReply;
-import org.apache.dubbo.sample.tri.GreeterRequest;
-import org.apache.dubbo.sample.tri.PbGreeterGrpc;
-import org.apache.dubbo.sample.tri.common.StdoutStreamObserver;
-import org.apache.dubbo.sample.tri.common.TriSampleConstants;
-
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Metadata;
 import io.grpc.stub.MetadataUtils;
+import org.apache.dubbo.sample.tri.GreeterReply;
+import org.apache.dubbo.sample.tri.GreeterRequest;
+import org.apache.dubbo.sample.tri.PbGreeterGrpc;
+import org.apache.dubbo.sample.tri.TriApplication;
+import org.apache.dubbo.sample.tri.common.IpUtils;
+import org.apache.dubbo.sample.tri.common.StdoutStreamObserver;
+import org.apache.dubbo.sample.tri.common.TriSampleConstants;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,6 +41,11 @@ public class GrpcDirectPbConsumerTest {
 
     @BeforeClass
     public static void init() {
+        if (IpUtils.checkIpPort(TriSampleConstants.HOST, TriSampleConstants.SERVER_PORT) == false) {
+            new Thread(()->{
+                TriApplication.main(new String[0]);
+            }).start();
+        }
         final ManagedChannel channel = ManagedChannelBuilder.forAddress(TriSampleConstants.HOST, TriSampleConstants.SERVER_PORT)
                 .usePlaintext()
                 .build();

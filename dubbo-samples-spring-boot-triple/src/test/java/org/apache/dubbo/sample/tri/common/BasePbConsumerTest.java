@@ -38,7 +38,7 @@ public abstract class BasePbConsumerTest {
 
     protected static PbGreeter delegate;
 
-    protected static DubboBootstrap appDubboBootstrap;
+//    protected static DubboBootstrap appDubboBootstrap;
 
     @Test
     public void serverStream() throws InterruptedException {
@@ -110,10 +110,10 @@ public abstract class BasePbConsumerTest {
         Assert.assertEquals("hello," + value, returned);
     }
 
-    @AfterClass
-    public static void alterTest() {
-        appDubboBootstrap.stop();
-        DubboBootstrap.reset();
-    }
+//    @AfterClass
+//    public static void alterTest() {
+//        appDubboBootstrap.stop();
+//        DubboBootstrap.reset();
+//    }
 
 }
