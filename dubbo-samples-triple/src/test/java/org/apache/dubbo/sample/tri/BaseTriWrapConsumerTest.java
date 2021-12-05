@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class BaseTriWrapConsumerTest {
+public abstract class BaseTriWrapConsumerTest {
 
     protected static WrapGreeter delegate;
 
@@ -21,6 +21,13 @@ public class BaseTriWrapConsumerTest {
 
     protected static DubboBootstrap appDubboBootstrap;
 
+    @Test
+    public void overload() {
+        String ret = delegate.overload();
+        Assert.assertEquals(ret, "overload");
+        String ret2 = delegate.overload("overload");
+        Assert.assertEquals(ret2, "overload");
+    }
 
     @Test
     public void sayHelloUnaryRequestVoid() {
@@ -54,55 +61,14 @@ public class BaseTriWrapConsumerTest {
             }
         });
         Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
-
-
-        delegate.sayHelloServerStream("server stream", new StreamObserver<String>() {
-            @Override
-            public void onNext(String data) {
-                System.out.println(data);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("onCompleted");
-            }
-        });
-
-
-        StreamObserver<String> request = delegate.sayHelloStream(new StreamObserver<String>() {
-            @Override
-            public void onNext(String data) {
-                System.out.println(data);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("onCompleted");
-            }
-        });
-        for (int i = 0; i < n; i++) {
-            request.onNext("stream request" + i);
-        }
-        request.onCompleted();
-
-
     }
 
     @Test
     public void sayHelloStream() throws InterruptedException {
         int n = 10;
         CountDownLatch latch = new CountDownLatch(n);
-        final StreamObserver<String> request = delegate.sayHelloStream(new StdoutStreamObserver<String>("sayHelloStream") {
+        final StreamObserver<String> request = delegate.sayHelloStream(new StdoutStreamObserver<String>(
+                "sayHelloStream") {
             @Override
             public void onNext(String data) {
                 super.onNext(data);
@@ -130,6 +96,7 @@ public class BaseTriWrapConsumerTest {
 
     @AfterClass
     public static void alterTest() {
+        appDubboBootstrap.stop();
         DubboBootstrap.reset();
     }
 }
