@@ -67,17 +67,17 @@ public class MultiRegistryServiceSplitIT {
 
     @Test
     public void verifyProvidersFromBeijingRegistry() throws Exception {
-        List<String> demoServiceProviders = ZKTools.getProviders(DemoService.class, 2181);
+        List<String> demoServiceProviders = ZKTools.getProviders(DemoService.class, "zookeeper.address.1", 2181);
         Assert.assertEquals(1, demoServiceProviders.size());
-        List<String> helloServiceProviders = ZKTools.getProviders(HelloService.class, 2181);
+        List<String> helloServiceProviders = ZKTools.getProviders(HelloService.class, "zookeeper.address.1", 2181);
         Assert.assertEquals(1, helloServiceProviders.size());
     }
 
     @Test
     public void verifyProvidersFromShanghaiRegistry() throws Exception {
-        List<String> demoServiceProviders = ZKTools.getProviders(DemoService.class, 2182);
+        List<String> demoServiceProviders = ZKTools.getProviders(DemoService.class, "zookeeper.address.2", 2181);
         Assert.assertEquals(1, demoServiceProviders.size());
-        List<String> helloServiceProviders = ZKTools.getProviders(HelloService.class, 2182);
+        List<String> helloServiceProviders = ZKTools.getProviders(HelloService.class, "zookeeper.address.2", 2181);
         Assert.assertEquals(1, helloServiceProviders.size());
     }
 }
