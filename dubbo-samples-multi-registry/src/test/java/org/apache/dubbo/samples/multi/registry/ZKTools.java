@@ -28,12 +28,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ZKTools {
-    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
     private static Map<Integer, CuratorFramework> clients = new HashMap<>();
 
-    private static CuratorFramework initClient(int port) {
+    private static CuratorFramework initClient(String key, int port) {
         if (!clients.containsKey(port)) {
-            CuratorFramework client = CuratorFrameworkFactory.newClient(zookeeperHost + ":" + port, 60 * 1000, 60 * 1000,
+            CuratorFramework client = CuratorFrameworkFactory.newClient(System.getProperty(key, "127.0.0.1") + ":" + port, 60 * 1000, 60 * 1000,
                     new ExponentialBackoffRetry(1000, 3));
             client.start();
             clients.put(port, client);
@@ -41,8 +40,8 @@ public class ZKTools {
         return clients.get(port);
     }
 
-    public static List<String> getProviders(Class clazz, int port) throws Exception {
-        CuratorFramework client = initClient(port);
+    public static List<String> getProviders(Class clazz, String key, int port) throws Exception {
+        CuratorFramework client = initClient(key, port);
         String path = "/dubbo/" + clazz.getName() + "/providers";
         List<String> result = client.getChildren().forPath(path);
         return result.stream().map(URL::decode).collect(Collectors.toList());
