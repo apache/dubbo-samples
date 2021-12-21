@@ -156,6 +156,11 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
     }
 
     @Override
+    public GreeterReply serverThrowChinaMessage(GreeterRequest request) {
+        throw new RuntimeException("服务端异常");
+    }
+
+    @Override
     public GreeterReply greet(GreeterRequest request) {
         return GreeterReply.newBuilder()
                 .setMessage(request.getName())
