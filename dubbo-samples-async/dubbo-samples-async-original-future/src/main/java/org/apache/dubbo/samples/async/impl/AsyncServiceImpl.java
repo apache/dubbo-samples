@@ -19,7 +19,9 @@
 
 package org.apache.dubbo.samples.async.impl;
 
+import org.apache.dubbo.rpc.AsyncContext;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcContextAttachment;
 import org.apache.dubbo.samples.async.api.AsyncService;
 
 import org.slf4j.Logger;
@@ -32,16 +34,20 @@ public class AsyncServiceImpl implements AsyncService {
 
     @Override
     public CompletableFuture<String> sayHello(String name) {
-        RpcContext savedContext = RpcContext.getContext();
-        RpcContext savedServerContext = RpcContext.getServerContext();
+        // If attachments and context are going to be used in the new thread, startAsync() and signalContextSwitch() must be called.
+        // Otherwise, it is not necessary to call these two methods.
+        AsyncContext asyncContext = RpcContext.startAsync();
         return CompletableFuture.supplyAsync(() -> {
-            String received = (String) savedContext.getAttachment("consumer-key1");
+            asyncContext.signalContextSwitch();
+            RpcContextAttachment attachmentFromClient = RpcContext.getServerAttachment();
+            RpcContextAttachment attachmentToClient = RpcContext.getServerContext();
+            String received = (String) attachmentFromClient.getAttachment("consumer-key1");
             logger.info("consumer-key1 from attachment: " + received);
-            savedServerContext.setAttachment("server-key1", "server-" + received);
+            attachmentToClient.setAttachment("server-key1", "server-" + received);
 
-            received = (String) savedContext.getAttachment("filters");
+            received = (String) attachmentFromClient.getAttachment("filters");
             logger.info("filters from attachment: " + received);
-            savedServerContext.setAttachment("filters", received);
+            attachmentToClient.setAttachment("filters", received);
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
