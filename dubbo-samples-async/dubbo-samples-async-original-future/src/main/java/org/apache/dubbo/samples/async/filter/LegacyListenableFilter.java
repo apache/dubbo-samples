@@ -44,7 +44,7 @@ public class LegacyListenableFilter extends ListenableFilter {
         if (StringUtils.isEmpty(filters)) {
             filters = "";
         }
-        filters += " legacy-block-filter";
+        filters += " legacy-listenable-filter";
         context.setAttachment("filters", filters);
 
         return invoker.invoke(invocation);
