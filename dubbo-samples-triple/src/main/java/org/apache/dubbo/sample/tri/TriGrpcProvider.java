@@ -7,10 +7,13 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.grpc.GrpcProvider;
-import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
 import org.apache.dubbo.sample.tri.service.PbGreeterManual;
 import org.apache.dubbo.sample.tri.service.WrapGreeter;
+import org.apache.dubbo.sample.tri.service.impl.PbGreeterImpl;
+import org.apache.dubbo.sample.tri.service.impl.TestServiceImpl;
 import org.apache.dubbo.sample.tri.service.impl.WrapGreeterImpl;
+
+import grpc.testing.TestService;
 
 import java.io.IOException;
 
@@ -21,7 +24,7 @@ import java.io.IOException;
 public class TriGrpcProvider {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        new Thread(()->{
+        new Thread(() -> {
             try {
                 GrpcProvider.main(new String[0]);
             } catch (IOException e) {
@@ -45,6 +48,10 @@ public class TriGrpcProvider {
         wrapService.setInterface(WrapGreeter.class);
         wrapService.setRef(new WrapGreeterImpl());
 
+        ServiceConfig<TestService> testService = new ServiceConfig<>();
+        testService.setInterface(TestService.class);
+        testService.setRef(new TestServiceImpl());
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-provider"))
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
@@ -52,6 +59,7 @@ public class TriGrpcProvider {
                 .service(pbService)
                 .service(pbManualService)
                 .service(wrapService)
+                .service(testService)
                 .start()
                 .await();
     }
