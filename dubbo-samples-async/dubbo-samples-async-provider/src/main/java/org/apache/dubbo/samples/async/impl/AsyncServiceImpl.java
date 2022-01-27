@@ -22,12 +22,15 @@ package org.apache.dubbo.samples.async.impl;
 import org.apache.dubbo.rpc.AsyncContext;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.async.api.AsyncService;
+import org.apache.dubbo.samples.async.api.EmbeddedAsyncService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AsyncServiceImpl implements AsyncService {
     private static Logger logger = LoggerFactory.getLogger(AsyncServiceImpl.class);
+
+    private EmbeddedAsyncService embeddedService;
 
     @Override
     public String sayHello(String name) {
@@ -38,12 +41,15 @@ public class AsyncServiceImpl implements AsyncService {
             asyncContext.signalContextSwitch();
             logger.info("Attachment from consumer: " + RpcContext.getContext().getAttachment("consumer-key1"));
             logger.info("async start");
+            String embeddedCallResult = null;
             try {
+                embeddedCallResult = embeddedService.sayHello("embedded call");
+                logger.info("  embedded call result is " + embeddedCallResult);
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            asyncContext.write("Hello " + name + ", response from provider.");
+            asyncContext.write("Hello " + name + ", " + embeddedCallResult + " response from provider.");
             logger.info("async end");
         }).start();
 
@@ -51,4 +57,11 @@ public class AsyncServiceImpl implements AsyncService {
         return "hello, " + name;
     }
 
+    public EmbeddedAsyncService getEmbeddedService() {
+        return embeddedService;
+    }
+
+    public void setEmbeddedService(EmbeddedAsyncService embeddedService) {
+        this.embeddedService = embeddedService;
+    }
 }
