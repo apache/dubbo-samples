@@ -30,6 +30,7 @@
     <modules>
         <module>servicediscovery-transfer-api</module>
         <module>servicediscovery-transfer-provider</module>
+        <module>servicediscovery-transfer-provider-instance</module>
         <module>servicediscovery-transfer-consumer-old</module>
         <module>servicediscovery-transfer-consumer</module>
     </modules>
