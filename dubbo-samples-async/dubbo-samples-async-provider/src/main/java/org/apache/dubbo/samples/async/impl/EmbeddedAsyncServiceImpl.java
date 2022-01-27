@@ -14,26 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.samples.async.impl;
 
-package org.apache.dubo.sample.async;
+import org.apache.dubbo.samples.async.api.EmbeddedAsyncService;
 
-import org.apache.dubbo.samples.async.api.AsyncService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+public class EmbeddedAsyncServiceImpl implements EmbeddedAsyncService {
+    private static Logger logger = LoggerFactory.getLogger(AsyncServiceImpl.class);
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/META-INF/spring/async-consumer.xml"})
-public class AsyncServiceIT {
-    @Autowired
-    private AsyncService asyncService;
-
-    @Test
-    public void test() throws Exception {
-        Assert.assertEquals("Hello dubbo, embedded service response from provider.", asyncService.sayHello("dubbo"));
+    @Override
+    public String sayHello(String name) {
+        logger.info("Received embedded call from async service impl.");
+        return "embedded service";
     }
 }

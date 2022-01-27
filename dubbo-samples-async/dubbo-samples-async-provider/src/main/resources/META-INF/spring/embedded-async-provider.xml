@@ -25,21 +25,14 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <context:property-placeholder/>
 
-    <dubbo:application name="async-provider"/>
+    <dubbo:application name="embedded-async-provider"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
 
-    <dubbo:provider token="true"/>
+    <bean id="embeddedAsyncService" class="org.apache.dubbo.samples.async.impl.EmbeddedAsyncServiceImpl"/>
 
-    <bean id="asyncService" class="org.apache.dubbo.samples.async.impl.AsyncServiceImpl">
-        <property name="embeddedService" ref="embeddedAsyncService"/>
-    </bean>
-    <dubbo:service interface="org.apache.dubbo.samples.async.api.AsyncService" ref="asyncService"/>
-
-    <dubbo:reference interface="org.apache.dubbo.samples.async.api.EmbeddedAsyncService" id="embeddedAsyncService"
-                     check="false"/>
-
+    <dubbo:service interface="org.apache.dubbo.samples.async.api.EmbeddedAsyncService" ref="embeddedAsyncService"/>
 
 </beans>
