@@ -26,6 +26,6 @@ public class Application {
         context.start();
         GreetingService greetingService = context.getBean("greetingService", GreetingService.class);
         String hello = greetingService.hello();
-        System.out.println("result: " + hello);
+        System.out.println("result from application-level address: " + hello);
     }
 }
