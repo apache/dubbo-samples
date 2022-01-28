@@ -21,7 +21,7 @@ services:
 
   servicediscovery-provider:
     type: app
-    basedir: servicediscovery-provider
+    basedir: servicediscovery-transfer-provider
     mainClass: org.apache.dubbo.demo.provider.Application
     systemProps:
       - zookeeper.address=zookeeper
@@ -35,7 +35,7 @@ services:
 
   servicediscovery-provider-instance:
     type: app
-    basedir: servicediscovery-provider-instance
+    basedir: servicediscovery-transfer-providerr-instance
     mainClass: org.apache.dubbo.demo.provider.Application
     systemProps:
       - zookeeper.address=zookeeper
@@ -49,7 +49,7 @@ services:
 
   servicediscovery-consumer-test-old:
     type: test
-    basedir: servicediscovery-consumer-old
+    basedir: servicediscovery-transfer-consumer-old
     tests:
       - "**/*IT.class"
     systemProps:
@@ -65,7 +65,7 @@ services:
 
   servicediscovery-consumer-test:
     type: test
-    basedir: servicediscovery-consumer
+    basedir: servicediscovery-transfer-consumer
     tests:
       - "**/*IT.class"
     systemProps:

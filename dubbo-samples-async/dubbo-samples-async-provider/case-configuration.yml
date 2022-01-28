@@ -44,20 +44,6 @@ services:
   zookeeper:
     image: zookeeper:latest
 
-  async-provider:
-    type: app
-    basedir: dubbo-samples-async-provider
-    mainClass: org.apache.dubbo.samples.async.AsyncProvider
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20880
-    checkLog: "dubbo service started"
-    depends_on:
-      - zookeeper
-
   async-provider-embedded:
     type: app
     basedir: dubbo-samples-async-provider
@@ -71,6 +57,22 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+
+  async-provider:
+    type: app
+    basedir: dubbo-samples-async-provider
+    mainClass: org.apache.dubbo.samples.async.AsyncProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - async-provider-embedded:20881
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+    depends_on:
+      - zookeeper
+      - async-provider-embedded
 
   async-consumer-test:
     type: test
