@@ -35,7 +35,7 @@ services:
 
   servicediscovery-provider-instance:
     type: app
-    basedir: servicediscovery-transfer-providerr-instance
+    basedir: servicediscovery-transfer-provider-instance
     mainClass: org.apache.dubbo.demo.provider.Application
     systemProps:
       - zookeeper.address=zookeeper
