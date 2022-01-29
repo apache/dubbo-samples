@@ -76,7 +76,7 @@ services:
 
   async-consumer-test:
     type: test
-    basedir: servicediscovery-consumer-old
+    basedir: dubbo-samples-async-provider
     tests:
       - "**/*IT.class"
     systemProps:
