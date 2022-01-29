@@ -43,9 +43,9 @@ public class AsyncServiceImpl implements AsyncService {
             logger.info("async start");
             String embeddedCallResult = null;
             try {
+                Thread.sleep(5000);
                 embeddedCallResult = embeddedService.sayHello("embedded call");
                 logger.info("  embedded call result is " + embeddedCallResult);
-                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
