@@ -42,14 +42,18 @@ public class AsyncServiceImpl implements AsyncService {
             logger.info("Attachment from consumer: " + RpcContext.getContext().getAttachment("consumer-key1"));
             logger.info("async start");
             String embeddedCallResult = null;
+            if (!name.endsWith("IT")) {
+                embeddedCallResult = embeddedService.sayHello("embedded call");
+            }
             try {
                 Thread.sleep(5000);
-                embeddedCallResult = embeddedService.sayHello("embedded call");
                 logger.info("  embedded call result is " + embeddedCallResult);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            asyncContext.write("Hello " + name + ", " + embeddedCallResult + " response from provider.");
+            asyncContext.write("Hello " + name + ", "
+                    + (embeddedCallResult == null ? "" : embeddedCallResult + " ")
+                    + "response from provider.");
             logger.info("async end");
         }).start();
 

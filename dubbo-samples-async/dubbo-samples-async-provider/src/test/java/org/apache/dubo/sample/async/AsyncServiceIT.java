@@ -34,6 +34,6 @@ public class AsyncServiceIT {
 
     @Test
     public void test() throws Exception {
-        Assert.assertEquals("Hello dubbo, embedded service response from provider.", asyncService.sayHello("dubbo"));
+        Assert.assertEquals("Hello dubbo IT, response from provider.", asyncService.sayHello("dubbo IT"));
     }
 }
