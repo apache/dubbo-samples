@@ -27,8 +27,8 @@ import java.util.concurrent.CountDownLatch;
 public class MultiRegistryProvider {
 
     public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        new EmbeddedZooKeeper(2182, false).start();
+//        new EmbeddedZooKeeper(2181, false).start();
+//        new EmbeddedZooKeeper(2182, false).start();
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/multi-registry-provider.xml");
         context.start();

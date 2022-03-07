@@ -32,7 +32,7 @@
    </modules>
 
     <properties>
-        <dubbo.version>3.0.2.1</dubbo.version>
+        <dubbo.version>3.0.5</dubbo.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.3.16.RELEASE</spring.version>
     </properties>
@@ -51,7 +51,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-tcnative-boringssl-static</artifactId>
-                <version>2.0.26.Final</version> <!-- See table for correct version -->
+                <version>2.0.46.Final</version> <!-- See table for correct version -->
                 <!--            <classifier>${os.detected.classifier}</classifier>-->
                 <!--            <scope>runtime</scope>-->
             </dependency>
@@ -59,7 +59,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.36.Final</version>
+                <version>4.1.56.Final</version>
             </dependency>
 
             <dependency>

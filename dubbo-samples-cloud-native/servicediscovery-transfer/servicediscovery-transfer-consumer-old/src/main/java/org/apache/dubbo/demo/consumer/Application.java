@@ -17,7 +17,6 @@
 package org.apache.dubbo.demo.consumer;
 
 import org.apache.dubbo.demo.DemoService;
-import org.apache.dubbo.demo.GreetingService;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -27,8 +26,6 @@ public class Application {
         context.start();
         DemoService demoService = context.getBean("demoService", DemoService.class);
         String hello = demoService.sayHello("world");
-        System.out.println("result: " + hello);
-        GreetingService greetingService = context.getBean("greetingService", GreetingService.class);
-        System.out.print("greetings: " + greetingService.hello());
+        System.out.println("result from interface-level address: " + hello);
     }
 }

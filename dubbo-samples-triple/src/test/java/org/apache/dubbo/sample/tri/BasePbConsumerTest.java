@@ -85,7 +85,6 @@ public abstract class BasePbConsumerTest {
 
     @Test
     public void cancelBiStream() throws InterruptedException {
-        int n = 10;
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("stream request")
                 .build();
@@ -110,10 +109,8 @@ public abstract class BasePbConsumerTest {
                 delegateManual.cancelBiStream(observer);
         CancelableStreamObserver<GreeterRequest> streamObserver =
                 (CancelableStreamObserver<GreeterRequest>) requestObserver;
-        for (int i = 0; i < n; i++) {
-            streamObserver.onNext(request);
-            streamObserver.cancel(new RuntimeException());
-        }
+        streamObserver.onNext(request);
+        streamObserver.cancel(new RuntimeException());
         streamObserver.onCompleted();
         Thread.sleep(2000);
         GreeterReply reply = delegateManual.queryCancelResult(
