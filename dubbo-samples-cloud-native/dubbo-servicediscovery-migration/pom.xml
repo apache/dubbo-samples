@@ -40,7 +40,7 @@
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <spring-boot-maven-plugin.version>2.1.4.RELEASE</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>2.6.4</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
