@@ -354,6 +354,17 @@ public abstract class BasePbConsumerTest {
         }
     }
 
+    @Test()
+    public void server() {
+        try {
+            delegateManual.serverThrowChinaMessage(GreeterRequest.newBuilder().setName("meta").build());
+        }catch (RpcException e){
+            e.printStackTrace();
+            Assert.assertTrue(e.getMessage().contains("服务端异常"));
+        }
+    }
+
+
     @AfterClass
     public static void alterTest() {
         appDubboBootstrap.destroy();
