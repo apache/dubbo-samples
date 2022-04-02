@@ -4,7 +4,15 @@
 which supports interoperating with GRPC protocol naturally using Protobuf serialization. For non-protobuf applications,
 triple provides a compatible mode to upgrade without code modifications. So it is smooth to migrate to triple.
 
-This sample project contains most scenarios of Dubbo and non-Dubbo interoperation. 
+This sample project contains most scenarios of Dubbo and non-Dubbo interoperation.
+
+## Before Start
+
+Generate protobuf class for IDE hints.
+
+```shell
+mvn clean -DskipTests=true
+```
 
 ### For beginners
 
