@@ -33,15 +33,14 @@ services:
       - "org.apache.dubbo.sample.tri/TriClientTest.class"
       - "org.apache.dubbo.sample.tri/TriPojoClientTest.class"
       - "org.apache.dubbo.sample.tri/TriGenericTest.class"
-      - "org.apache.dubbo.sample.tri/TriStubClientTest.class"
       # use url direct
-      - "org.apache.dubbo.sample.tri/direct/TriDirectStubClientTest"
       - "org.apache.dubbo.sample.tri/direct/TriDirectClientTest.class"
+      - "org.apache.dubbo.sample.tri/direct/TriDirectStubClientTest.class"
       - "org.apache.dubbo.sample.tri/direct/TriDirectPojoClientTest.class"
       # grpc-->tri
-      - "org.apache.dubbo.sample.tri/grpc/Grpc*Test.class"
+      - "org.apache.dubbo.sample.tri/grpc/GrpcClientTest.class"
       # tri-->grpc
-      - "org.apache.dubbo.sample.tri.grpc/TriGrpcDirectPbClientTest.class"
+      - "org.apache.dubbo.sample.tri/grpc/TriGrpcDirectClientTest.class"
     systemProps:
       - zookeeper.host=dubbo-samples-triple
       - zookeeper.port=2181

@@ -10,7 +10,7 @@ import org.apache.dubbo.sample.tri.util.TriSampleConstants;
 
 import org.junit.BeforeClass;
 
-public class TriDirectPbClientTest extends BaseClientTest {
+public class TriDirectClientTest extends BaseClientTest {
 
     @BeforeClass
     public static void init() {
@@ -21,7 +21,7 @@ public class TriDirectPbClientTest extends BaseClientTest {
         ref.setTimeout(3000);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        ApplicationConfig applicationConfig = new ApplicationConfig(TriDirectPbClientTest.class.getName());
+        ApplicationConfig applicationConfig = new ApplicationConfig(TriDirectClientTest.class.getName());
         applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
         bootstrap.application(applicationConfig)
                 .reference(ref)
