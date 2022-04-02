@@ -308,6 +308,12 @@ public abstract class BasePbConsumerTest {
         RpcContext.getClientAttachment().clearAttachments();
     }
 
+    @Test
+    public void upperGreet(){
+        GreeterReply reply =
+            delegateManual.UpperGreet(GreeterRequest.newBuilder().setName("upperGreet").build());
+        Assert.assertNotNull(reply);
+    }
 
     // @Test(expected = RpcException.class)
     @Test

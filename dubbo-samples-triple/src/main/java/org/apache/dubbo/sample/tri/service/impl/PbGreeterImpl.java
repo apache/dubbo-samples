@@ -1,6 +1,8 @@
 package org.apache.dubbo.sample.tri.service.impl;
 
 import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.hello.HelloReply;
+import org.apache.dubbo.hello.HelloRequest;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.protocol.tri.ServerStreamObserver;
 import org.apache.dubbo.sample.tri.GreeterReply;
@@ -14,6 +16,13 @@ import java.util.Map;
 public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
 
     public static final Map<String, Boolean> cancelResultMap = new HashMap<>();
+
+    @Override
+    public GreeterReply UpperGreet(GreeterRequest request) {
+        return GreeterReply.newBuilder()
+            .setMessage(request.getName())
+            .build();
+    }
 
     @Override
     public GreeterReply greetWithAttachment(GreeterRequest request) {
@@ -153,6 +162,13 @@ public class PbGreeterImpl implements PbGreeter, PbGreeterManual {
         return GreeterReply.newBuilder()
                 .setMessage(String.valueOf(canceled))
                 .build();
+    }
+
+    @Override
+    public GreeterReply upperGreet(GreeterRequest request) {
+        return GreeterReply.newBuilder()
+            .setMessage(request.getName())
+            .build();
     }
 
     @Override

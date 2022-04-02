@@ -1,6 +1,8 @@
 package org.apache.dubbo.sample.tri.service;
 
 import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.hello.HelloReply;
+import org.apache.dubbo.hello.HelloRequest;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
 
@@ -8,6 +10,8 @@ import org.apache.dubbo.sample.tri.GreeterRequest;
  * this is by manual and other by dubbo compiler
  */
 public interface PbGreeterManual {
+
+    GreeterReply UpperGreet(GreeterRequest request);
 
     GreeterReply greetWithAttachment(GreeterRequest request);
 
