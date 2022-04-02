@@ -26,9 +26,6 @@ service Greeter{
   // serverStream
   rpc greetServerStream(GreeterRequest) returns (stream GreeterReply);
 
-  // large content to test frame
-  rpc greetLargeContent(GreeterRequest) returns (GreeterReply);
-
   //  upper case method
   rpc UpperCaseGreet(GreeterRequest) returns (GreeterReply);
 
