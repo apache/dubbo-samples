@@ -8,15 +8,15 @@ This sample project contains most scenarios of Dubbo and non-Dubbo interoperatio
 
 ### For beginners
 
-1. Start a zookeeper or config other registry in `org.apache.dubbo.sample.tri.ApiProvider`
-   and `org.apache.dubbo.sample.tri.ApiConsumer`
+1. Start a zookeeper or config other registry in `org.apache.dubbo.sample.tri.stub.TriStubServer`
+   and `org.apache.dubbo.sample.tri.stub.TriStubClient`
 2. Build with `mvn clean install` to generate protobuf classes.
-3. Run `org.apache.dubbo.sample.tri.ApiProvider`
-4. Run `org.apache.dubbo.sample.tri.ApiConsumer`
+3. Run `org.apache.dubbo.sample.tri.stub.TriStubServer`
+4. Run `org.apache.dubbo.sample.tri.stub.TriStubClient`
 
 ### For dubbo2 or non-prototbuf users
 
-Run `org.apache.dubbo.sample.tri.ApiWrapperProvider` and `org.apache.dubbo.sample.tri.ApiWrapperConsumer`.
+Run `org.apache.dubbo.sample.tri.pojo.TriPojoServer` and `org.apache.dubbo.sample.tri.pojo.TriPojoClient`.
 
 Dubbo3 will wrap request and response with a protobuf wrapper automatically, so it is still compatible with GRPC.
 
@@ -27,7 +27,7 @@ Code under `test` folder is a general interoperation test suite for both Dubbo/D
 #### Dubbo/Dubbo test
 
 1. Run `org.apache.dubbo.sample.tri.TriGrpcProvider`
-2. Run `org.apache.dubbo.sample.tri.TriPbConsumerTest` , `org.apache.dubbo.sample.tri.TriWrapConsumerTest`
+2. Run `org.apache.dubbo.sample.tri.TriClientTest` , `org.apache.dubbo.sample.tri.TriPojoClientTest`
    and `org.apache.dubbo.sample.tri.TriGenericTest`
 
 #### Dubbo/GRPC test
@@ -35,9 +35,9 @@ Code under `test` folder is a general interoperation test suite for both Dubbo/D
 ##### GRPC --> Dubbo
 
 1. Run `org.apache.dubbo.sample.tri.TriGrpcProvider`
-2. Run `org.apache.dubbo.sample.tri.grpc.GrpcConsumerTest`
+2. Run `org.apache.dubbo.sample.tri.grpc.GrpcClientTest`
 
 ##### Dubbo --> GRPC
 
-1. Run `org.apache.dubbo.sample.tri.grpc.GrpcProvider`
-2. Run `org.apache.dubbo.sample.tri.TriPbConsumerTest`
+1. Run `org.apache.dubbo.sample.tri.grpc.GrpcServer`
+2. Run `org.apache.dubbo.sample.tri.TriClientTest`
