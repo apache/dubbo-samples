@@ -8,7 +8,7 @@
     <description>The demo module of tengine dubbo</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
-        <dubbo.version>3.0.5</dubbo.version>
+        <dubbo.version>3.0.7</dubbo.version>
         <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
     </properties>
     <modules>
