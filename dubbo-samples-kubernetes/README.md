@@ -153,7 +153,9 @@ kubectl logs your-pod-id
 ### 3.5 检查 Consumer 正常消费服务
 
 TBD
-> 改造 consumer 支持 spring-web consumer service 暴露对外地址与端口 访问 http 地址
+> * 改造 consumer 支持 spring-web
+> * Consumer service 暴露对外地址与端口 
+> * 访问 http 地址验证行为
 
 ## 4 最佳实践
 
