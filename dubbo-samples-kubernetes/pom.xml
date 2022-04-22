@@ -24,7 +24,8 @@
     <groupId>org.apache.dubbo</groupId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>dubbo-samples-kubernetes-apiserver</module>
+        <module>dubbo-samples-apiserver-provider</module>
+        <module>dubbo-samples-apiserver-consumer</module>
         <module>dubbo-samples-kubernetes-dns</module>
     </modules>
 

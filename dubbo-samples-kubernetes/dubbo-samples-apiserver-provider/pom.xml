@@ -26,7 +26,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-kubernetes-dns</artifactId>
+    <artifactId>dubbo-samples-apiserver-provider</artifactId>
 
     <properties>
         <source.level>1.8</source.level>
@@ -64,7 +64,7 @@
 
         <dependency>
             <groupId>org.apache.dubbo.extensions</groupId>
-            <artifactId>dubbo-registry-dns</artifactId>
+            <artifactId>dubbo-registry-kubernetes</artifactId>
             <version>1.0.2-SNAPSHOT</version>
         </dependency>
 
@@ -119,13 +119,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.6.6</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-image</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <mainClass>org.apache.dubbo.samples.ProviderBootstrap</mainClass>
+                    <image>
+                        <name>dubboteam/${project.artifactId}</name>
+                        <pullPolicy>IF_NOT_PRESENT</pullPolicy>
+                    </image>
+                </configuration>
             </plugin>
 <!--            <plugin>-->
 <!--                <groupId>org.apache.maven.plugins</groupId>-->
