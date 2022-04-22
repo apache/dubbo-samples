@@ -44,6 +44,8 @@ public interface IConfiguration {
 
     String jacocoHome();
 
+    boolean enableJacoco();
+
     String debugMode();
 
     Map<String, Object> toMap();

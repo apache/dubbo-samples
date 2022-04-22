@@ -22,6 +22,7 @@ public class ScenarioBuilderMain {
     public static void main(String[] args) throws Exception {
         IConfiguration configuration = new ConfigurationImpl();
         configuration.scenarioGenerator().generate(configuration);
+        JacocoDownloader.initialize(configuration);
         System.out.println("outputDir: " + configuration.outputDir());
         System.exit(0);
     }
