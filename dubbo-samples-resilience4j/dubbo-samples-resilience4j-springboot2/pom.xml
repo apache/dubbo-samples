@@ -41,7 +41,7 @@
         <resteasy.version>3.0.19.Final</resteasy.version>
         <curator-client.version>4.0.1</curator-client.version>
         <swagger.version>1.5.19</swagger.version>
-        <tomcat.version>7.0.88</tomcat.version>
+        <tomcat.version>7.0.107</tomcat.version>
         <servlet.version>3.0.1</servlet.version>
         <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
         <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
@@ -305,7 +305,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>9.0.13</version>
+            <version>7.0.107</version>
         </dependency>
     </dependencies>
 
