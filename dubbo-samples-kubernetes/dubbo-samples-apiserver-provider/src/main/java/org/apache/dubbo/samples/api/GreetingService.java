@@ -17,18 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.impl;
+package org.apache.dubbo.samples.api;
 
-import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.samples.api.GreetingService;
+public interface GreetingService {
 
-@DubboService(version = "1.0.0")
-public class AnnotatedGreetingService implements GreetingService {
-
-    public String sayHello(String name) {
-        System.out.println("greeting service received: " + name);
-        return "hello, " + name;
-    }
+    String sayHello(String name);
 
 }

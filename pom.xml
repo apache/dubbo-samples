@@ -89,6 +89,7 @@
         <module>dubbo-samples-webservice</module>
         <module>dubbo-samples-autowire</module>
         <module>dubbo-samples-boundary-test</module>
+        <module>dubbo-samples-kubernetes</module>
     </modules>
 
     <repositories>

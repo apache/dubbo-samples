@@ -20,24 +20,28 @@
 package org.apache.dubbo.samples;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.samples.action.GreetingServiceConsumer;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import java.util.concurrent.CountDownLatch;
+public class ConsumerBootstrap {
 
-public class ProviderBootstrap {
-
-    public static void main(String[] args) throws Exception {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
-        System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
+        GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
+        String hello = greetingServiceConsumer.doSayHello("Kubernetes Api Server");
+        System.out.println("result: " + hello);
     }
 
     @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.impl")
-    @PropertySource("classpath:/spring/dubbo-provider.properties")
-    static class ProviderConfiguration {
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.action")
+    @PropertySource("classpath:/spring/dubbo-consumer.properties")
+    @ComponentScan(value = {"org.apache.dubbo.samples.action"})
+    static class ConsumerConfiguration {
+
     }
 }
