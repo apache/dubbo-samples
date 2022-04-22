@@ -20,7 +20,6 @@
 package org.apache.dubbo.samples.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.samples.api.GreetingService;
 
 @DubboService(version = "1.0.0")

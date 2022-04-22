@@ -123,35 +123,35 @@
                     <mainClass>org.apache.dubbo.samples.ConsumerBootstrap</mainClass>
                     <image>
                         <name>dubboteam/${project.artifactId}</name>
-<!--                        <pullPolicy>IF_NOT_PRESENT</pullPolicy>-->
+                        <!--                        <pullPolicy>IF_NOT_PRESENT</pullPolicy>-->
                     </image>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-shade-plugin</artifactId>-->
-<!--                <version>2.4.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>shade</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <transformers>-->
-<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-<!--                                    <mainClass>org.apache.dubbo.samples.ProviderBootstrap</mainClass>-->
-<!--                                </transformer>-->
-<!--                                <transformer-->
-<!--                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
-<!--                                    <resource>META-INF/dubbo/internal-->
-<!--                                    </resource>-->
-<!--                                </transformer>-->
-<!--                            </transformers>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-shade-plugin</artifactId>-->
+            <!--                <version>2.4.1</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <phase>package</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>shade</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <transformers>-->
+            <!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+            <!--                                    <mainClass>org.apache.dubbo.samples.ProviderBootstrap</mainClass>-->
+            <!--                                </transformer>-->
+            <!--                                <transformer-->
+            <!--                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+            <!--                                    <resource>META-INF/dubbo/internal-->
+            <!--                                    </resource>-->
+            <!--                                </transformer>-->
+            <!--                            </transformers>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 

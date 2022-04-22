@@ -1,39 +1,51 @@
 # Dubbo using Kubernetes as registry
+
 可以按照下文步骤，将 Demo 部署到本地集群，也可在 [KataCoda 在线快速体验]()。
 
 ## 1 总体目标
-   * 部署 Dubbo 应用到 Kubernetes
-   * 基于 Kubernetes 内置 Service 实现服务发现
-   * 将 Dubbo 应用对接到 Kubernetes 生命周期
+
+* 部署 Dubbo 应用到 Kubernetes
+* 基于 Kubernetes 内置 Service 实现服务发现
+* 将 Dubbo 应用对接到 Kubernetes 生命周期
 
 ## 2 基本流程
-1. 创建一个 Dubbo 应用( [dubbo-samples-kubernetes](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes) )
+
+1. 创建一个 Dubbo
+   应用( [dubbo-samples-kubernetes](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes) )
 2. 构建容器镜像并推送到镜像仓库（ [dubboteam 示例例镜像](https://hub.docker.com/u/dubboteam) ）
 3. 分别部署 Dubbo Provider 与 Dubbo Consumer 到 Kubernetes
 4. 验证服务发现与调用正常
 
 ## 3 详细步骤
+
 ### 3.1 环境要求
-   请确保本地安装如下环境，以提供容器运行时、Kubernetes集群及访问工具
-   * [Docker](https://www.docker.com/get-started/)
-   * [Minikube](https://minikube.sigs.k8s.io/docs/start/)
-   * [Kubectl](https://kubernetes.io/docs/tasks/tools/)
-   * [Kubens(optional)](https://github.com/ahmetb/kubectx)
+
+请确保本地安装如下环境，以提供容器运行时、Kubernetes集群及访问工具
+
+* [Docker](https://www.docker.com/get-started/)
+* [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+* [Kubens(optional)](https://github.com/ahmetb/kubectx)
 
 通过以下命令启动本地 Kubernetes 集群
+
 ```shell
 minikube start
 ```
 
 通过 kubectl 检查集群正常运行，且 kubectl 绑定到默认本地集群
+
 ```shell
 kubectl cluster-info
 ```
 
 ### 3.2 前置条件
-由于示例 Dubbo 项目均部署在 Pod 中且与 API-SERVER 有交互，因此有相应的权限要求，我们这里创建独立 ServiceAccount 并绑定必须的 Roles，后面所有的 Dubbo Kubernetes 资源都将使用这里新建的 ServiceAccount。
+
+由于示例 Dubbo 项目均部署在 Pod 中且与 API-SERVER 有交互，因此有相应的权限要求，我们这里创建独立 ServiceAccount 并绑定必须的 Roles，后面所有的 Dubbo Kubernetes
+资源都将使用这里新建的 ServiceAccount。
 
 通过以下命令我们创建了独立的 Namespace dubbo-demo与 ServiceAccount dubbo-sa。
+
 ```shell
 # 初始化命名空间和账号
 kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver/src/main/resources
@@ -43,10 +55,12 @@ kubens dubbo-demo
 ```
 
 ### 3.3 项目与镜像打包
+
 示例项目及相关镜像均已就绪，以下仅为指引说明，可直接跳过此步骤直接查看 3.4 小节。  
-https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/  
+https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
 
 注意，由于 kubernetes 为独立扩展项目，开启 Kubernetes 支持前请添加如下依赖到 pom.xml
+
 ```xml
 <dependency>
     <groupId>org.apache.dubbo.extensions</groupId>
@@ -55,8 +69,9 @@ https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
 </dependency>
 ```
 
+设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
+namespace、trustCerts 两个参数
 
-设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了 namespace、trustCerts 两个参数
 ```properties
 dubbo.application.name=dubbo-samples-apiserver-provider
 dubbo.application.metadataServicePort=20885
@@ -69,6 +84,7 @@ dubbo.provider.token=true
 ```
 
 如果要在本地打包镜像，可通过 spring-boot-maven-plugin 插件打包镜像（也可以直接使用示例提供好的镜像包）
+
 ```shell
 # 打包镜像
 mvn spring-boot:build-image
@@ -81,7 +97,9 @@ docker push your-image-space/dubbo-samples-apiserver-provider
 ```
 
 ### 3.4 部署到 Kubernetes
+
 #### 3.4.1 部署 Provider
+
 ```shell
 # 部署 Service
 kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver
@@ -90,10 +108,10 @@ kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-sampl
 kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver
 ```
 
-以上命令创建了一个名为 `dubbo-samples-apiserver-provider` 的 Service，注意这里的 service name 与项目中的 dubbo 应用名是一样的。  
+以上命令创建了一个名为 `dubbo-samples-apiserver-provider` 的 Service，注意这里的 service name 与项目中的 dubbo 应用名是一样的。
 
 接着 Deployment 部署了一个 3 副本的 pod 实例，至此 Provider 启动完成。  
-可以通过如下命令检查启动日志。 
+可以通过如下命令检查启动日志。
 
 ```shell
 # 查看 pod 列表
@@ -104,6 +122,7 @@ kubectl logs your-pod-id
 ```
 
 #### 3.4.2 部署 Consumer
+
 ```shell
 # 部署 Service
 kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver
@@ -125,28 +144,31 @@ kubectl logs your-pod-id
 ```
 
 可以看到日志输出如下:
+
 ```java
-[22/04/22 01:10:24:024 UTC] main  INFO deploy.DefaultApplicationDeployer:  [DUBBO] Dubbo Application[1.1](dubbo-samples-apiserver-consumer) is ready., dubbo version: 3.0.7, current host: 172.17.0.6
-result: hello, Kubernetes Api Server
+[22/04/22 01:10:24:024UTC]main INFO deploy.DefaultApplicationDeployer:[DUBBO]Dubbo Application[1.1](dubbo-samples-apiserver-consumer)is ready.,dubbo version:3.0.7,current host:172.17.0.6
+        result:hello,Kubernetes Api Server
 ```
 
 ### 3.5 检查 Consumer 正常消费服务
+
 TBD
-> 改造 consumer 支持 spring-web
-consumer service 暴露对外地址与端口
-访问 http 地址
+> 改造 consumer 支持 spring-web consumer service 暴露对外地址与端口 访问 http 地址
 
 ## 4 最佳实践
-TBD  
+
+TBD
+
 * rediness probe
 * liveness probe
 
 ## 5 CI/CD
+
 * 接入 Skalfold
 
 ## 6 附录 k8s manifests
 
-ServiceAccount.yml 
+ServiceAccount.yml
 
 ```yaml
 apiVersion: v1
@@ -188,6 +210,7 @@ subjects:
 ```
 
 Service.yml
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -205,6 +228,7 @@ spec:
 ```
 
 Deployment.yml
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -248,6 +272,7 @@ spec:
 ```
 
 Service.yml
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -265,6 +290,7 @@ spec:
 ```
 
 Deployment.yml
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
