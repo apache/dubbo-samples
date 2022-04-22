@@ -54,7 +54,7 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/d
 kubens dubbo-demo
 ```
 
-### 3.3 项目与镜像打包
+### 3.3 项目与镜像打包（可跳过）
 
 示例项目及相关镜像均已就绪，以下仅为指引说明，可直接跳过此步骤直接查看 3.4 小节。  
 https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
