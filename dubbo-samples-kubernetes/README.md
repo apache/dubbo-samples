@@ -44,11 +44,11 @@ kubectl cluster-info
 由于示例 Dubbo 项目均部署在 Pod 中且与 API-SERVER 有交互，因此有相应的权限要求，我们这里创建独立 ServiceAccount 并绑定必须的 Roles，后面所有的 Dubbo Kubernetes
 资源都将使用这里新建的 ServiceAccount。
 
-通过以下命令我们创建了独立的 Namespace dubbo-demo与 ServiceAccount dubbo-sa。
+通过以下命令我们创建了独立的 Namespace `dubbo-demo` 与 ServiceAccount `dubbo-sa`。
 
 ```shell
 # 初始化命名空间和账号
-kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver/src/main/resources
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-provider/src/main/resources/k8s/ServiceAccount.yml
 
 # 切换命名空间
 kubens dubbo-demo
@@ -102,10 +102,10 @@ docker push your-image-space/dubbo-samples-apiserver-provider
 
 ```shell
 # 部署 Service
-kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-provider/src/main/resources/k8s/Service.yml
 
 # 部署 Deployment
-kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-provider/src/main/resources/k8s/Deployment.yml
 ```
 
 以上命令创建了一个名为 `dubbo-samples-apiserver-provider` 的 Service，注意这里的 service name 与项目中的 dubbo 应用名是一样的。
@@ -125,10 +125,10 @@ kubectl logs your-pod-id
 
 ```shell
 # 部署 Service
-kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-consumer/src/main/resources/k8s/Service.yml
 
 # 部署 Deployment
-kubectl apply -f https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/dubbo-samples-kubernetes-apiserver
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-consumer/src/main/resources/k8s/Deployment.yml
 ```
 
 部署 consumer 与 provider 是一样的，这里也保持了 K8S Service 与 Dubbo consumer 名字一致： dubbo-samples-apiserver-consumer。
