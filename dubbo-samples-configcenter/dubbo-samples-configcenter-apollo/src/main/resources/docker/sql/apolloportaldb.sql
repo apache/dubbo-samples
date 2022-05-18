@@ -391,7 +391,7 @@ VALUES
     (2, 4),
     (3, 5)
     (4, 6),
-    (5, 7);;
+    (5, 7);
 
 INSERT INTO `UserRole` (`UserId`, `RoleId`)
 VALUES
