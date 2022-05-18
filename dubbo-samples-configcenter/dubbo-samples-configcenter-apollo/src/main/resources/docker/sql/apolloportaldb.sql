@@ -360,6 +360,11 @@ INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
 VALUES
     ('application', 'SampleApp', 'properties', 0, 'default app namespace');
 
+INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
+VALUES
+    ('dubbo', 'SampleApp', 'properties', 0, 'dubbo');
+
+
 INSERT INTO `Permission` (`Id`, `PermissionType`, `TargetId`)
 VALUES
     (1, 'CreateCluster', 'SampleApp'),
@@ -368,11 +373,25 @@ VALUES
     (4, 'ModifyNamespace', 'SampleApp+application'),
     (5, 'ReleaseNamespace', 'SampleApp+application');
 
+INSERT INTO `Permission` (`Id`, `PermissionType`, `TargetId`)
+VALUES
+    (1, 'CreateCluster', 'SampleApp'),
+    (2, 'CreateNamespace', 'SampleApp'),
+    (3, 'AssignRole', 'SampleApp'),
+    (4, 'ModifyNamespace', 'SampleApp+dubbo'),
+    (5, 'ReleaseNamespace', 'SampleApp+dubbo');
+
 INSERT INTO `Role` (`Id`, `RoleName`)
 VALUES
     (1, 'Master+SampleApp'),
     (2, 'ModifyNamespace+SampleApp+application'),
     (3, 'ReleaseNamespace+SampleApp+application');
+
+INSERT INTO `Role` (`Id`, `RoleName`)
+VALUES
+    (1, 'Master+SampleApp'),
+    (2, 'ModifyNamespace+SampleApp+dubbo'),
+    (3, 'ReleaseNamespace+SampleApp+dubbo');
 
 INSERT INTO `RolePermission` (`RoleId`, `PermissionId`)
 VALUES

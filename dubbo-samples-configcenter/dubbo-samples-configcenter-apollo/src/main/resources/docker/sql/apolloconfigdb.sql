@@ -428,6 +428,10 @@ INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
 VALUES
     ('application', 'SampleApp', 'properties', 0, 'default app namespace');
 
+INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
+VALUES
+    ('dubbo', 'SampleApp', 'properties', 0, 'apollo');
+
 INSERT INTO `Cluster` (`Name`, `AppId`)
 VALUES
     ('default', 'SampleApp');
@@ -435,6 +439,12 @@ VALUES
 INSERT INTO `Namespace` (`Id`, `AppId`, `ClusterName`, `NamespaceName`)
 VALUES
     (1, 'SampleApp', 'default', 'application');
+
+INSERT INTO `Namespace` (`Id`, `AppId`, `ClusterName`, `NamespaceName`)
+VALUES
+    (1, 'SampleApp', 'default', 'dubbo');
+
+INSERT INTO `Commit` VALUES (1,'{\"createItems\":[{\"namespaceId\":2,\"key\":\"dubbo.registry.address\",\"value\":\"zookeeper://dubbo-samples-configcenter-apollo:2181\",\"lineNum\":1,\"id\":2,\"isDeleted\":false,\"dataChangeCreatedBy\":\"apollo\",\"dataChangeCreatedTime\":\"2021-01-06 20:07:56\",\"dataChangeLastModifiedBy\":\"apollo\",\"dataChangeLastModifiedTime\":\"2021-01-06 20:07:56\"}],\"updateItems\":[],\"deleteItems\":[]}','SampleApp','default','dubbo',NULL,_binary '\0','\0','apollo','2021-01-05 22:07:56','apollo','2021-01-05 22:07:56'),(2,'{\"createItems\":[],\"updateItems\":[{\"oldItem\":{\"namespaceId\":2,\"key\":\"dubbo.registry.address\",\"value\":\"zookeeper://dubbo-samples-configcenter-apollo:2181\",\"lineNum\":1,\"id\":2,\"isDeleted\":false,\"dataChangeCreatedBy\":\"apollo\",\"dataChangeCreatedTime\":\"2021-01-06 20:07:56\",\"dataChangeLastModifiedBy\":\"apollo\",\"dataChangeLastModifiedTime\":\"2021-01-06 20:07:56\"},\"newItem\":{\"namespaceId\":2,\"key\":\"dubbo.registry.address\",\"value\":\"zookeeper://dubbo-samples-configcenter-apollo:2181?backup\\u003d127.0.0.1:2181\",\"comment\":\"\",\"lineNum\":1,\"id\":2,\"isDeleted\":false,\"dataChangeCreatedBy\":\"apollo\",\"dataChangeCreatedTime\":\"2021-01-06 20:07:56\",\"dataChangeLastModifiedBy\":\"apollo\",\"dataChangeLastModifiedTime\":\"2021-01-06 20:14:38\"}}],\"deleteItems\":[]}','SampleApp','default','dubbo',NULL,_binary '\0','\0','apollo','2021-01-05 22:14:39','apollo','2021-01-05 22:14:39');
 
 
 INSERT INTO `Item` (`NamespaceId`, `Key`, `Value`, `Comment`, `LineNum`)
@@ -445,13 +455,25 @@ INSERT INTO `Release` (`ReleaseKey`, `Name`, `Comment`, `AppId`, `ClusterName`, 
 VALUES
     ('20161009155425-d3a0749c6e20bc15', '20161009155424-release', 'Sample发布', 'SampleApp', 'default', 'application', '{\"timeout\":\"100\"}');
 
+INSERT INTO `Release` (`ReleaseKey`, `Name`, `Comment`, `AppId`, `ClusterName`, `NamespaceName`, `Configurations`)
+VALUES
+    ('20161009155425-d3a0749c6e20bc16', '20161009155424-release', 'Sample发布', 'SampleApp', 'default', 'dubbo', '{\"timeout\":\"100\"}');
+
 INSERT INTO `ReleaseHistory` (`AppId`, `ClusterName`, `NamespaceName`, `BranchName`, `ReleaseId`, `PreviousReleaseId`, `Operation`, `OperationContext`, `DataChange_CreatedBy`, `DataChange_LastModifiedBy`)
 VALUES
     ('SampleApp', 'default', 'application', 'default', 1, 0, 0, '{}', 'apollo', 'apollo');
 
+INSERT INTO `ReleaseHistory` (`AppId`, `ClusterName`, `NamespaceName`, `BranchName`, `ReleaseId`, `PreviousReleaseId`, `Operation`, `OperationContext`, `DataChange_CreatedBy`, `DataChange_LastModifiedBy`)
+VALUES
+    ('SampleApp', 'default', 'dubbo', 'default', 1, 0, 0, '{}', 'apollo', 'apollo');
+
 INSERT INTO `ReleaseMessage` (`Message`)
 VALUES
     ('SampleApp+default+application');
+
+INSERT INTO `ReleaseMessage` (`Message`)
+VALUES
+    ('SampleApp+default+dubbo');
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
