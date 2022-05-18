@@ -428,7 +428,7 @@ INSERT INTO `AppNamespace` (`Id`,`Name`, `AppId`, `Format`, `IsPublic`, `Comment
 VALUES
     (1, 'application', 'SampleApp', 'properties', 0, 'default app namespace');
 
-INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
+INSERT INTO `AppNamespace` (`Id`,`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
 VALUES
     (2, 'dubbo', 'SampleApp', 'properties', 0, 'apollo');
 
