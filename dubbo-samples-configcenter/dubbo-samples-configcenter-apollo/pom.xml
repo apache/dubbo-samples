@@ -34,7 +34,7 @@
         <dubbo.version>3.0.7</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
-        <apollo.version>1.8.2</apollo.version>
+        <apollo.version>1.8.0</apollo.version>
     </properties>
 
     <dependencyManagement>
