@@ -442,7 +442,7 @@ VALUES
 
 INSERT INTO `Namespace` (`Id`, `AppId`, `ClusterName`, `NamespaceName`)
 VALUES
-    (1, 'SampleApp', 'default', 'dubbo');
+    (2, 'SampleApp', 'default', 'dubbo');
 
 INSERT INTO `Commit` VALUES (1,'{\"createItems\":[{\"namespaceId\":2,\"key\":\"dubbo.registry.address\",\"value\":\"zookeeper://dubbo-samples-configcenter-apollo:2181\",\"lineNum\":1,\"id\":2,\"isDeleted\":false,\"dataChangeCreatedBy\":\"apollo\",\"dataChangeCreatedTime\":\"2021-01-06 20:07:56\",\"dataChangeLastModifiedBy\":\"apollo\",\"dataChangeLastModifiedTime\":\"2021-01-06 20:07:56\"}],\"updateItems\":[],\"deleteItems\":[]}','SampleApp','default','dubbo',NULL,_binary '\0','\0','apollo','2021-01-05 22:07:56','apollo','2021-01-05 22:07:56'),(2,'{\"createItems\":[],\"updateItems\":[{\"oldItem\":{\"namespaceId\":2,\"key\":\"dubbo.registry.address\",\"value\":\"zookeeper://dubbo-samples-configcenter-apollo:2181\",\"lineNum\":1,\"id\":2,\"isDeleted\":false,\"dataChangeCreatedBy\":\"apollo\",\"dataChangeCreatedTime\":\"2021-01-06 20:07:56\",\"dataChangeLastModifiedBy\":\"apollo\",\"dataChangeLastModifiedTime\":\"2021-01-06 20:07:56\"},\"newItem\":{\"namespaceId\":2,\"key\":\"dubbo.registry.address\",\"value\":\"zookeeper://dubbo-samples-configcenter-apollo:2181?backup\\u003d127.0.0.1:2181\",\"comment\":\"\",\"lineNum\":1,\"id\":2,\"isDeleted\":false,\"dataChangeCreatedBy\":\"apollo\",\"dataChangeCreatedTime\":\"2021-01-06 20:07:56\",\"dataChangeLastModifiedBy\":\"apollo\",\"dataChangeLastModifiedTime\":\"2021-01-06 20:14:38\"}}],\"deleteItems\":[]}','SampleApp','default','dubbo',NULL,_binary '\0','\0','apollo','2021-01-05 22:14:39','apollo','2021-01-05 22:14:39');
 
