@@ -432,6 +432,8 @@ INSERT INTO `AppNamespace` (`Id`,`Name`, `AppId`, `Format`, `IsPublic`, `Comment
 VALUES
     (2, 'dubbo', 'SampleApp', 'properties', 0, 'apollo');
 
+INSERT INTO `Audit` VALUES (1,'Namespace',2,'INSERT',NULL,_binary '\0','\0','apollo','2021-01-05 22:07:21',NULL,'2021-01-05 22:07:21'),(2,'AppNamespace',2,'INSERT',NULL,_binary '\0','\0','apollo','2021-01-05 22:07:21',NULL,'2021-01-05 22:07:21'),(3,'Item',2,'INSERT',NULL,_binary '\0','\0','apollo','2021-01-05 22:07:56',NULL,'2021-01-05 22:07:56'),(4,'Item',2,'UPDATE',NULL,_binary '\0','\0','apollo','2021-01-05 22:14:39',NULL,'2021-01-05 22:14:39'),(5,'Release',2,'INSERT',NULL,_binary '\0','\0','apollo','2021-01-05 22:14:43',NULL,'2021-01-05 22:14:43'),(6,'ReleaseHistory',2,'INSERT',NULL,_binary '\0','\0','apollo','2021-01-05 22:14:43',NULL,'2021-01-05 22:14:43');
+
 INSERT INTO `Cluster` (`Name`, `AppId`)
 VALUES
     ('default', 'SampleApp');
