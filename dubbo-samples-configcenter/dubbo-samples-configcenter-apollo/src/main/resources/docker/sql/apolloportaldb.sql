@@ -371,27 +371,17 @@ VALUES
     (2, 'CreateNamespace', 'SampleApp'),
     (3, 'AssignRole', 'SampleApp'),
     (4, 'ModifyNamespace', 'SampleApp+application'),
-    (5, 'ReleaseNamespace', 'SampleApp+application');
-
-INSERT INTO `Permission` (`Id`, `PermissionType`, `TargetId`)
-VALUES
-    (1, 'CreateCluster', 'SampleApp'),
-    (2, 'CreateNamespace', 'SampleApp'),
-    (3, 'AssignRole', 'SampleApp'),
-    (4, 'ModifyNamespace', 'SampleApp+dubbo'),
-    (5, 'ReleaseNamespace', 'SampleApp+dubbo');
+    (5, 'ReleaseNamespace', 'SampleApp+application'),
+    (6, 'ModifyNamespace', 'SampleApp+dubbo'),
+    (7, 'ReleaseNamespace', 'SampleApp+dubbo');
 
 INSERT INTO `Role` (`Id`, `RoleName`)
 VALUES
     (1, 'Master+SampleApp'),
     (2, 'ModifyNamespace+SampleApp+application'),
-    (3, 'ReleaseNamespace+SampleApp+application');
-
-INSERT INTO `Role` (`Id`, `RoleName`)
-VALUES
-    (1, 'Master+SampleApp'),
-    (2, 'ModifyNamespace+SampleApp+dubbo'),
-    (3, 'ReleaseNamespace+SampleApp+dubbo');
+    (3, 'ReleaseNamespace+SampleApp+application'),
+    (4, 'ModifyNamespace+SampleApp+dubbo'),
+    (5, 'ReleaseNamespace+SampleApp+dubbo');
 
 INSERT INTO `RolePermission` (`RoleId`, `PermissionId`)
 VALUES
@@ -399,7 +389,9 @@ VALUES
     (1, 2),
     (1, 3),
     (2, 4),
-    (3, 5);
+    (3, 5)
+    (4, 6),
+    (5, 7);;
 
 INSERT INTO `UserRole` (`UserId`, `RoleId`)
 VALUES
