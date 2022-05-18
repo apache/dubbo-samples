@@ -424,13 +424,13 @@ INSERT INTO `App` (`AppId`, `Name`, `OrgId`, `OrgName`, `OwnerName`, `OwnerEmail
 VALUES
 	('SampleApp', 'Sample App', 'TEST1', '样例部门1', 'apollo', 'apollo@acme.com');
 
-INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
+INSERT INTO `AppNamespace` (`Id`,`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
 VALUES
-    ('application', 'SampleApp', 'properties', 0, 'default app namespace');
+    (1, 'application', 'SampleApp', 'properties', 0, 'default app namespace');
 
 INSERT INTO `AppNamespace` (`Name`, `AppId`, `Format`, `IsPublic`, `Comment`)
 VALUES
-    ('dubbo', 'SampleApp', 'properties', 0, 'apollo');
+    (2, 'dubbo', 'SampleApp', 'properties', 0, 'apollo');
 
 INSERT INTO `Cluster` (`Name`, `AppId`)
 VALUES
@@ -450,6 +450,11 @@ INSERT INTO `Commit` VALUES (1,'{\"createItems\":[{\"namespaceId\":2,\"key\":\"d
 INSERT INTO `Item` (`NamespaceId`, `Key`, `Value`, `Comment`, `LineNum`)
 VALUES
     (1, 'timeout', '100', 'sample timeout配置', 1);
+
+INSERT INTO `Item` (`NamespaceId`, `Key`, `Value`, `Comment`, `LineNum`)
+VALUES
+    (2, 'dubbo.registry.address', 'zookeeper://dubbo-samples-configcenter-apollo:2181?backup=127.0.0.1:2181', 'registry adress', 1);
+
 
 INSERT INTO `Release` (`ReleaseKey`, `Name`, `Comment`, `AppId`, `ClusterName`, `NamespaceName`, `Configurations`)
 VALUES
