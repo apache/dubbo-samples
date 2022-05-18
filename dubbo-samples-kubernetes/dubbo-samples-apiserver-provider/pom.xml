@@ -118,7 +118,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.6</version>
+                <version>2.6.4</version>
                 <configuration>
                     <mainClass>org.apache.dubbo.samples.ProviderBootstrap</mainClass>
                     <image>
