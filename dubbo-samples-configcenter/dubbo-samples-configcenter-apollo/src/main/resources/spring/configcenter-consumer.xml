@@ -27,7 +27,7 @@
 
     <dubbo:application name="dubbo-configcenter-apollo-consumer"/>
 
-    <dubbo:config-center highest-priority="false" protocol="apollo" address="${apollo.address:localhost}:8080" />
+    <dubbo:config-center highest-priority="false" protocol="apollo" address="${apollo.address:localhost}:8080" namespace="dubbo"/>
 
     <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.configcenter.api.DemoService"/>
 

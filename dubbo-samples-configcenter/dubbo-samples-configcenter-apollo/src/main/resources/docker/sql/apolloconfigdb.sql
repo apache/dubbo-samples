@@ -462,7 +462,7 @@ VALUES
 
 INSERT INTO `Release` (`ReleaseKey`, `Name`, `Comment`, `AppId`, `ClusterName`, `NamespaceName`, `Configurations`)
 VALUES
-    ('20161009155425-d3a0749c6e20bc16', '20161009155424-release', 'Sample发布', 'SampleApp', 'default', 'dubbo', '{\"timeout\":\"100\"}');
+    ('20161009155425-d3a0749c6e20bc16', '20161009155425-release', 'Sample发布', 'SampleApp', 'default', 'dubbo', '{\"timeout\":\"100\"}');
 
 INSERT INTO `ReleaseHistory` (`AppId`, `ClusterName`, `NamespaceName`, `BranchName`, `ReleaseId`, `PreviousReleaseId`, `Operation`, `OperationContext`, `DataChange_CreatedBy`, `DataChange_LastModifiedBy`)
 VALUES
@@ -470,7 +470,7 @@ VALUES
 
 INSERT INTO `ReleaseHistory` (`AppId`, `ClusterName`, `NamespaceName`, `BranchName`, `ReleaseId`, `PreviousReleaseId`, `Operation`, `OperationContext`, `DataChange_CreatedBy`, `DataChange_LastModifiedBy`)
 VALUES
-    ('SampleApp', 'default', 'dubbo', 'default', 1, 0, 0, '{}', 'apollo', 'apollo');
+    ('SampleApp', 'default', 'dubbo', 'default', 2, 0, 0, '{}', 'apollo', 'apollo');
 
 INSERT INTO `ReleaseMessage` (`Message`)
 VALUES
