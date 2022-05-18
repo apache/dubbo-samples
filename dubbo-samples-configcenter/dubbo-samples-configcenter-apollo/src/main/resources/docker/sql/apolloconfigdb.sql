@@ -464,7 +464,7 @@ VALUES
 
 INSERT INTO `Release` (`ReleaseKey`, `Name`, `Comment`, `AppId`, `ClusterName`, `NamespaceName`, `Configurations`)
 VALUES
-    ('20161009155425-d3a0749c6e20bc16', '20161009155425-release', 'Sample发布', 'SampleApp', 'default', 'dubbo', '{\"timeout\":\"100\"}');
+    ('20210106201443-f273857abac82340', '20210106201440-release', 'Sample发布', 'SampleApp', 'default', 'dubbo', '{\"dubbo.registry.address\":\"zookeeper://dubbo-samples-configcenter-apollo:2181?backup\\u003d127.0.0.1:2181\"}');
 
 INSERT INTO `ReleaseHistory` (`AppId`, `ClusterName`, `NamespaceName`, `BranchName`, `ReleaseId`, `PreviousReleaseId`, `Operation`, `OperationContext`, `DataChange_CreatedBy`, `DataChange_LastModifiedBy`)
 VALUES
