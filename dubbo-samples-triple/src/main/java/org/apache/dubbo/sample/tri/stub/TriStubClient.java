@@ -60,8 +60,8 @@ public class TriStubClient extends TriSampleClient {
     public static void main(String[] args) throws IOException {
         final TriStubClient consumer = new TriStubClient();
         consumer.unary();
-        consumer.stream();
-        consumer.serverStream();
+//        consumer.stream();
+//        consumer.serverStream();
         System.in.read();
     }
 }
