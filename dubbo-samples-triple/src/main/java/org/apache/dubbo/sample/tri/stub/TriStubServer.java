@@ -41,6 +41,7 @@ public class TriStubServer implements Lifecycle {
         TriStubServer server = new TriStubServer(TriSampleConstants.SERVER_PORT);
         server.initialize();
         server.start();
+        System.out.println("Dubbo triple stub server started, port=" + TriSampleConstants.SERVER_PORT);
         System.in.read();
     }
 
