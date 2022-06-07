@@ -44,6 +44,7 @@ public class DemoServiceIT {
 
     @Test
     public void test() throws InterruptedException {
+        FrameworkStatusReporterImpl.clearReport();
         // FORCE_INTERFACE --> APPLICATION_FIRST
         testInterface();
         testApplication();
