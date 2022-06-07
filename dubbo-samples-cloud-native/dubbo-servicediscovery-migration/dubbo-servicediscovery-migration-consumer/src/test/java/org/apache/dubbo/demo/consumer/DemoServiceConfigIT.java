@@ -26,8 +26,10 @@ import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.rpc.model.FrameworkModel;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +40,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.HashMap;
 
 public class DemoServiceConfigIT {
-    private ApplicationModel applicationModel;
+    private static ApplicationModel applicationModel;
 
-    @Before
-    public void setup() {
+    @After
+    public void teardown() {
+        System.clearProperty("dubbo.application.service-discovery.migration");
+    }
+
+    @BeforeClass
+    public static void setup() {
         applicationModel = FrameworkModel.defaultModel().newApplication();
         ApplicationConfig applicationConfig = new ApplicationConfig(applicationModel);
         applicationConfig.setName("dubbo-servicediscovery-migration-consumer");
@@ -55,12 +62,6 @@ public class DemoServiceConfigIT {
         applicationModel.getApplicationConfigManager().addRegistry(registryConfig);
         applicationModel.getDeployer().start();
         UpgradeUtil.clearRule(applicationModel);
-    }
-
-    @After
-    public void teardown() {
-        System.clearProperty("dubbo.application.service-discovery.migration");
-        applicationModel.destroy();
     }
 
     private DemoService buildNormal(String mode) {
