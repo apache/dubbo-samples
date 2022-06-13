@@ -39,7 +39,7 @@
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <protoc.version>3.19.4</protoc.version>
-        <dubbo.compiler.version>3.0.9-SNAPSHOT</dubbo.compiler.version>
+        <compiler.version>3.0.9-SNAPSHOT</compiler.version>
     </properties>
 
     <dependencies>
@@ -126,7 +126,7 @@
                             <id>dubbo</id>
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
-                            <version>${dubbo.compiler.version}</version>
+                            <version>${compiler.version}</version>
                             <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>
                         </protocPlugin>
                     </protocPlugins>
