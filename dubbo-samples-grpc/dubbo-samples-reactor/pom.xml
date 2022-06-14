@@ -32,6 +32,7 @@
         <junit.version>4.12</junit.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <grpc.version>1.31.1</grpc.version>
+        <compiler.version>0.0.1</compiler.version>
     </properties>
 
     <dependencyManagement>
@@ -166,7 +167,7 @@
                             <id>reactor-dubbo-grpc</id>
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
-                            <version>0.0.1</version>
+                            <version>${compiler.version}</version>
                             <mainClass>org.apache.dubbo.gen.grpc.reactive.ReactorDubboGrpcGenerator</mainClass>
                         </protocPlugin>
                     </protocPlugins>
