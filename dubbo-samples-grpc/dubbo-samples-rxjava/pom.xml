@@ -42,7 +42,7 @@
         <main-class>org.apache.dubbo.samples.basic.BasicProvider</main-class>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <grpc.version>1.19.0</grpc.version>
-        <dubbo.compiler.version>0.0.1</dubbo.compiler.version>
+        <compiler.version>0.0.2</compiler.version>
         <reactive.grpc.version>1.0.0</reactive.grpc.version>
     </properties>
 
@@ -174,7 +174,7 @@
                             <id>rxjava-dubbo-grpc</id>
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
-                            <version>${dubbo.compiler.version}</version>
+                            <version>${compiler.version}</version>
                             <mainClass>org.apache.dubbo.gen.grpc.reactive.RxDubboGrpcGenerator</mainClass>
                         </protocPlugin>
                     </protocPlugins>
