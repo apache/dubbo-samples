@@ -28,7 +28,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <skip_maven_deploy>true</skip_maven_deploy>
-        <dubbo.compiler.version>0.0.2</dubbo.compiler.version>
+        <compiler.version>0.0.2</compiler.version>
         <dubbo.version>2.7.13</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
     </properties>
@@ -123,7 +123,7 @@
                             <id>dubbo</id>
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
-                            <version>${dubbo.compiler.version}</version>
+                            <version>${compiler.version}</version>
                             <mainClass>org.apache.dubbo.gen.dubbo.Dubbo3Generator</mainClass>
                         </protocPlugin>
                     </protocPlugins>
