@@ -19,15 +19,17 @@
 
 package org.apache.dubbo.samples;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import java.util.concurrent.CountDownLatch;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import java.util.concurrent.CountDownLatch;
-
 public class ProviderBootstrap {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderBootstrap.class);
 
     public static void main(String[] args) throws Exception {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProviderConfiguration.class);

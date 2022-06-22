@@ -29,8 +29,6 @@ spec:
               unhealthy_interval: 5s
               unhealthy_edge_interval: 10s
               healthy_edge_interval: 10s
-              #              event_log_path: /tmp
-              #              always_log_health_check_failures: true
               tls_options:
                 alpn_protocols:
                   - http1.1

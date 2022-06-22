@@ -19,6 +19,7 @@
 
 package org.apache.dubbo.samples;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.action.GreetingServiceConsumer;
@@ -35,12 +36,15 @@ public class ConsumerBootstrap {
         System.out.println("==================== dubbo invoke loop started ====================");
         GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
         AtomicInteger count = new AtomicInteger(0);
-        while (true) {
+
+        for (int i = 0; i < 30; i++) {
             greetingServiceConsumer.doSayHello("service mesh");
             System.out.println("==================== dubbo invoke " + count.get() + " end ====================");
             count.getAndIncrement();
             Thread.sleep(10000);
         }
+
+        new CountDownLatch(1).await();
     }
 
     @Configuration

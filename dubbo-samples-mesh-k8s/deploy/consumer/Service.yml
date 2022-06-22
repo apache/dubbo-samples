@@ -11,13 +11,5 @@ spec:
   ports:
     - name: grpc-dubbo
       protocol: TCP
-      port: 20880
-      targetPort: 20880
-    - name: qos
-      protocol: TCP
-      port: 22222
-      targetPort: 22222
-    - name: test
-      protocol: TCP
-      port: 31000
-      targetPort: 31000
+      port: 50052
+      targetPort: 50052

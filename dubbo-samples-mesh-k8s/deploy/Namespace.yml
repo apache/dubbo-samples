@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-demo
+  labels:
+    istio-injection: enabled

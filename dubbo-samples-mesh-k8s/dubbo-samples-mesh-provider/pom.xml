@@ -11,13 +11,14 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.0.7</dubbo.version>
+        <dubbo.version>3.1.0-SNAPSHOT</dubbo.version>
         <grpc.version>1.31.1</grpc.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <protoc.version>3.19.4</protoc.version>
+        <protoc.version>3.20.1</protoc.version>
         <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
+        <log4j.version>2.17.2</log4j.version>
     </properties>
 
     <dependencyManagement>
@@ -36,6 +37,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-bom</artifactId>
+                <version>${grpc.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -44,19 +52,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
-            <!--            <version>3.1.0-SNAPSHOT</version>-->
         </dependency>
 
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>3.20.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo.extensions</groupId>
-            <artifactId>dubbo-registry-kubernetes</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -69,7 +70,6 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-all</artifactId>
-            <version>${grpc.version}</version>
         </dependency>
 
         <dependency>

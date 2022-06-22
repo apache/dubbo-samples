@@ -19,6 +19,8 @@
 
 package org.apache.dubbo.samples.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -26,12 +28,8 @@ import org.apache.dubbo.rpc.protocol.tri.ServerStreamObserver;
 import org.apache.dubbo.samples.DubboGreeterTriple;
 import org.apache.dubbo.samples.GreeterReply;
 import org.apache.dubbo.samples.GreeterRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author conghuhu
