@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dubbo-samples-apiserver-provider
+  name: dubbo-samples-mesh-provider
   namespace: dubbo-demo
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: dubbo-samples-apiserver-provider
+      app: dubbo-samples-mesh-provider
   template:
     metadata:
       labels:
-        app: dubbo-samples-apiserver-provider
+        app: dubbo-samples-mesh-provider
     spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: 15841721425/dubbo-samples-apiserver-provider
+          image: 15841721425/dubbo-samples-mesh-provider
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 50052

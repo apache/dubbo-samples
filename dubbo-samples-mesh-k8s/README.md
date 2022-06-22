@@ -50,7 +50,7 @@ kubectl cluster-info
 
 ```shell
 # 初始化命名空间和账号
-kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-provider/src/main/resources/k8s/ServiceAccount.yml
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/dubbo-samples-mesh-provider/src/main/resources/k8s/ServiceAccount.yml
 
 # 切换命名空间
 kubens dubbo-demo
@@ -81,7 +81,7 @@ https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
 namespace、trustCerts 两个参数
 
 ```properties
-dubbo.application.name=dubbo-samples-apiserver-provider
+dubbo.application.name=dubbo-samples-mesh-provider
 dubbo.application.metadataServicePort=20885
 dubbo.registry.address=kubernetes://DEFAULT_MASTER_HOST?registry-type=service&duplicate=false&namespace=dubbo-demo&trustCerts=true
 dubbo.protocol.name=tri
@@ -95,19 +95,21 @@ dubbo.application.qosAcceptForeignIp=true
 
 ```shell
 # 打包镜像
-docker build -f ./Dockerfile -t dubbo-samples-apiserver-provider .
+cd dubbo-samples-mesh-provider
+docker build -f ./Dockerfile -t dubbo-samples-mesh-provider .
 
-docker build -f ./Dockerfile -t dubbo-samples-apiserver-consumer .
+cd dubbo-samples-mesh-consumer
+docker build -f ./Dockerfile -t dubbo-samples-mesh-consumer .
 
 # 重命名镜像
-docker tag dubbo-samples-apiserver-provider:latest 15841721425/dubbo-samples-apiserver-provider
+docker tag dubbo-samples-mesh-provider:latest 15841721425/dubbo-samples-mesh-provider
 
-docker tag dubbo-samples-apiserver-consumer:latest 15841721425/dubbo-samples-apiserver-consumer
+docker tag dubbo-samples-mesh-consumer:latest 15841721425/dubbo-samples-mesh-consumer
 
 # 推到镜像仓库
-docker push 15841721425/dubbo-samples-apiserver-provider
+docker push 15841721425/dubbo-samples-mesh-provider
 
-docker push 15841721425/dubbo-samples-apiserver-consumer
+docker push 15841721425/dubbo-samples-mesh-consumer
 ```
 
 ### 3.4 部署到 Kubernetes
@@ -116,20 +118,20 @@ docker push 15841721425/dubbo-samples-apiserver-consumer
 
 ```shell
 # 部署 Service
-kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-provider/src/main/resources/k8s/Service.yml
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/dubbo-samples-mesh-provider/src/main/resources/k8s/Service.yml
 
 # 部署 Deployment
-kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-provider/src/main/resources/k8s/Deployment.yml
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/dubbo-samples-mesh-provider/src/main/resources/k8s/Deployment.yml
 ```
 
-以上命令创建了一个名为 `dubbo-samples-apiserver-provider` 的 Service，注意这里的 service name 与项目中的 dubbo 应用名是一样的。
+以上命令创建了一个名为 `dubbo-samples-mesh-provider` 的 Service，注意这里的 service name 与项目中的 dubbo 应用名是一样的。
 
 接着 Deployment 部署了一个 2 副本的 pod 实例，至此 Provider 启动完成。  
 可以通过如下命令检查启动日志。
 
 ```shell
 # 查看 pod 列表
-kubectl get pods -l app=dubbo-samples-apiserver-provider
+kubectl get pods -l app=dubbo-samples-mesh-provider
 
 # 查看 pod 部署日志
 kubectl logs your-pod-id
@@ -139,19 +141,19 @@ kubectl logs your-pod-id
 
 ```shell
 # 部署 Service
-kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-consumer/src/main/resources/k8s/Service.yml
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/dubbo-samples-mesh-consumer/src/main/resources/k8s/Service.yml
 
 # 部署 Deployment
-kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-kubernetes/dubbo-samples-apiserver-consumer/src/main/resources/k8s/Deployment.yml
+kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/dubbo-samples-mesh-consumer/src/main/resources/k8s/Deployment.yml
 ```
 
-部署 consumer 与 provider 是一样的，这里也保持了 K8S Service 与 Dubbo consumer 名字一致： dubbo-samples-apiserver-consumer。
+部署 consumer 与 provider 是一样的，这里也保持了 K8S Service 与 Dubbo consumer 名字一致： dubbo-samples-mesh-consumer。
 
 检查启动日志，consumer 完成对 provider 服务的消费。
 
 ```shell
 # 查看 pod 列表
-kubectl get pods -l app=dubbo-samples-apiserver-consumer
+kubectl get pods -l app=dubbo-samples-mesh-consumer
 
 # 查看 pod 部署日志
 kubectl logs your-pod-id
@@ -257,29 +259,29 @@ Service.yml
 apiVersion: v1
 kind: Service
 metadata:
-   name: dubbo-samples-apiserver-provider
-   namespace: dubbo-demo
+  name: dubbo-samples-apiserver-provider
+  namespace: dubbo-demo
 spec:
-   clusterIP: None
-   selector:
-      app: dubbo-samples-apiserver-provider
-   ports:
-      - name: tri
-        protocol: TCP
-        port: 50052
-        targetPort: 50052
-      - name: dubbo
-        protocol: TCP
-        port: 20880
-        targetPort: 20880
-      - name: qos
-        protocol: TCP
-        port: 22222
-        targetPort: 22222
-      - name: test
-        protocol: TCP
-        port: 31000
-        targetPort: 31000
+  clusterIP: None
+  selector:
+    app: dubbo-samples-apiserver-provider
+  ports:
+    - name: tri
+      protocol: TCP
+      port: 50052
+      targetPort: 50052
+    - name: dubbo
+      protocol: TCP
+      port: 20880
+      targetPort: 20880
+    - name: qos
+      protocol: TCP
+      port: 22222
+      targetPort: 22222
+    - name: test
+      protocol: TCP
+      port: 31000
+      targetPort: 31000
 ```
 
 Deployment.yml
@@ -288,48 +290,48 @@ Deployment.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-   name: dubbo-samples-apiserver-provider
-   namespace: dubbo-demo
+  name: dubbo-samples-apiserver-provider
+  namespace: dubbo-demo
 spec:
-   replicas: 2
-   selector:
-      matchLabels:
-         app: dubbo-samples-apiserver-provider
-   template:
-      metadata:
-         labels:
-            app: dubbo-samples-apiserver-provider
-      spec:
-         serviceAccountName: dubbo-sa
-         containers:
-            - name: server
-              image: 15841721425/dubbo-samples-apiserver-provider
-              imagePullPolicy: IfNotPresent
-              ports:
-                 - containerPort: 50052
-                   protocol: TCP
-                 - containerPort: 22222
-                   protocol: TCP
-                 - containerPort: 31000
-                   protocol: TCP
-              livenessProbe:
-                 httpGet:
-                    path: /live
-                    port: 22222
-                 initialDelaySeconds: 5
-                 periodSeconds: 5
-              readinessProbe:
-                 httpGet:
-                    path: /ready
-                    port: 22222
-                 initialDelaySeconds: 5
-                 periodSeconds: 5
-              startupProbe:
-                 httpGet:
-                    path: /startup
-                    port: 22222
-                 failureThreshold: 30
-                 periodSeconds: 10
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dubbo-samples-apiserver-provider
+  template:
+    metadata:
+      labels:
+        app: dubbo-samples-apiserver-provider
+    spec:
+      serviceAccountName: dubbo-sa
+      containers:
+        - name: server
+          image: 15841721425/dubbo-samples-apiserver-provider
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 50052
+              protocol: TCP
+            - containerPort: 22222
+              protocol: TCP
+            - containerPort: 31000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: 22222
+            failureThreshold: 30
+            periodSeconds: 10
 ```
 
 Service.yml
@@ -338,25 +340,25 @@ Service.yml
 apiVersion: v1
 kind: Service
 metadata:
-   name: dubbo-samples-apiserver-consumer
-   namespace: dubbo-demo
+  name: dubbo-samples-apiserver-consumer
+  namespace: dubbo-demo
 spec:
-   clusterIP: None
-   selector:
-      app: dubbo-samples-apiserver-consumer
-   ports:
-      - name: dubbo
-        protocol: TCP
-        port: 20880
-        targetPort: 20880
-      - name: qos
-        protocol: TCP
-        port: 22222
-        targetPort: 22222
-      - name: test
-        protocol: TCP
-        port: 31000
-        targetPort: 31000
+  clusterIP: None
+  selector:
+    app: dubbo-samples-apiserver-consumer
+  ports:
+    - name: dubbo
+      protocol: TCP
+      port: 20880
+      targetPort: 20880
+    - name: qos
+      protocol: TCP
+      port: 22222
+      targetPort: 22222
+    - name: test
+      protocol: TCP
+      port: 31000
+      targetPort: 31000
 ```
 
 Deployment.yml
@@ -365,46 +367,46 @@ Deployment.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-   name: dubbo-samples-apiserver-consumer
-   namespace: dubbo-demo
+  name: dubbo-samples-apiserver-consumer
+  namespace: dubbo-demo
 spec:
-   replicas: 1
-   selector:
-      matchLabels:
-         app: dubbo-samples-apiserver-consumer
-   template:
-      metadata:
-         labels:
-            app: dubbo-samples-apiserver-consumer
-      spec:
-         serviceAccountName: dubbo-sa
-         containers:
-            - name: server
-              image: 15841721425/dubbo-samples-apiserver-consumer
-              imagePullPolicy: IfNotPresent
-              ports:
-                 - containerPort: 20880
-                   protocol: TCP
-                 - containerPort: 22222
-                   protocol: TCP
-                 - containerPort: 31000
-                   protocol: TCP
-              livenessProbe:
-                 httpGet:
-                    path: /live
-                    port: 22222
-                 initialDelaySeconds: 5
-                 periodSeconds: 5
-              readinessProbe:
-                 httpGet:
-                    path: /ready
-                    port: 22222
-                 initialDelaySeconds: 5
-                 periodSeconds: 5
-              startupProbe:
-                 httpGet:
-                    path: /startup
-                    port: 22222
-                 failureThreshold: 30
-                 periodSeconds: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo-samples-apiserver-consumer
+  template:
+    metadata:
+      labels:
+        app: dubbo-samples-apiserver-consumer
+    spec:
+      serviceAccountName: dubbo-sa
+      containers:
+        - name: server
+          image: 15841721425/dubbo-samples-apiserver-consumer
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 20880
+              protocol: TCP
+            - containerPort: 22222
+              protocol: TCP
+            - containerPort: 31000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: 22222
+            failureThreshold: 30
+            periodSeconds: 10
 ```
