@@ -38,8 +38,8 @@ public class GreetingServiceConsumer {
 
     public void doSayHello(String name) {
         final GreeterReply reply = greeter.greet(GreeterRequest.newBuilder()
-                .setName(name)
-                .build());
+            .setName(name)
+            .build());
         LOGGER.info("consumer Unary reply <-{}", reply);
     }
 
