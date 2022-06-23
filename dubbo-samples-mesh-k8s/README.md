@@ -63,8 +63,7 @@ kubectl label namespace dubbo-demo istio-injection=enabled
 
 ### 3.3 项目与镜像打包（可跳过）
 
-示例项目及相关镜像均已就绪，以下仅为指引说明，可直接跳过此步骤直接查看 3.4 小节。  
-https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
+示例项目及相关镜像均已就绪，以下仅为指引说明，可直接跳过此步骤直接查看 3.4 小节。
 
 注意，由于 kubernetes 为独立扩展项目，开启 Kubernetes 支持前请添加如下依赖到 pom.xml
 
@@ -74,6 +73,19 @@ https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
     <groupId>org.apache.dubbo.extensions</groupId>
     <artifactId>dubbo-registry-kubernetes</artifactId>
     <version>1.0.2-SNAPSHOT</version>
+</dependency>
+```
+
+如果为 dubbo 3.1 的贡献者，在dubbo-samples-mesh-consumer和dubbo-samples-mesh-provider的pom.xml中，可作如下修改，
+前提是本地需要对 dubbo 3.1.0-SNAPSHOT mvn install 后。
+
+```xml
+
+<dependency>
+    <groupId>org.apache.dubbo</groupId>
+    <artifactId>dubbo</artifactId>
+    <!--            <version>${dubbo.version}</version>-->
+    <version>3.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -162,6 +174,8 @@ kubectl logs your-pod-id
 kubectl logs your-pod-id -c istio-proxy
 ```
 
+### 3.5 检查 Provider 和 Consumer 正常通信
+
 可以看到 consumer pod 日志输出如下:
 
 ```bash
@@ -173,8 +187,8 @@ consumer istio-proxy 日志输出如下:
 
 ```shell
 [2022-06-22T08:25:02.647Z] "POST /org.apache.dubbo.samples.Greeter/greet HTTP/2" 200 
-- via_upstream - "-" 28 34 25 3 "-" "-" "11830c24-e1d0-997f-9f40-0237f272cd37" "dubbo-samples-apiserver-provider:50052" "172.17.0.9:50052" 
-outbound|50052||dubbo-samples-apiserver-provider.dubbo-demo.svc.cluster.local 172.17.0.5:34826 172.17.0.9:50052 172.17.0.5:34824 - default
+- via_upstream - "-" 28 34 25 3 "-" "-" "11830c24-e1d0-997f-9f40-0237f272cd37" "dubbo-samples-mesh-provider:50052" "172.17.0.9:50052" 
+outbound|50052||dubbo-samples-mesh-provider.dubbo-demo.svc.cluster.local 172.17.0.5:34826 172.17.0.9:50052 172.17.0.5:34824 - default
 ```
 
 可以看到 provider pod 日志输出如下:
@@ -188,27 +202,16 @@ provider istio-proxy 日志输出如下:
 
 ```shell
 [2022-06-22T08:23:28.440Z] "POST /org.apache.dubbo.samples.Greeter/greet HTTP/2" 200 
-- via_upstream - "-" 28 34 15 2 "-" "-" "4ed30165-83d5-9c58-8458-9d558ba3bc5a" "dubbo-samples-apiserver-provider:50052" "172.17.0.9:50052" 
-inbound|50052|| 127.0.0.6:40761 172.17.0.9:50052 172.17.0.5:33626 outbound_.50052_._.dubbo-samples-apiserver-provider.dubbo-demo.svc.cluster.local default
+- via_upstream - "-" 28 34 15 2 "-" "-" "4ed30165-83d5-9c58-8458-9d558ba3bc5a" "dubbo-samples-mesh-provider:50052" "172.17.0.9:50052" 
+inbound|50052|| 127.0.0.6:40761 172.17.0.9:50052 172.17.0.5:33626 outbound_.50052_._.dubbo-samples-mesh-provider.dubbo-demo.svc.cluster.local default
 ```
 
-### 3.5 检查 Consumer 正常消费服务
+## 5 下一步计划
 
-TBD
-> * 改造 consumer 支持 spring-web
-> * Consumer service 暴露对外地址与端口
-> * 访问 http 地址验证行为
+TODO
 
-## 4 最佳实践
-
-TBD
-
-* rediness probe
-* liveness probe
-
-## 5 CI/CD
-
-* 接入 Skalfold
+* 基于Triple的health服务，envoy探测应用的健康状况，然后模拟应用不健康后envoy的行为是否正常。
+* 探索envoy和istio支持的服务治理的内容，比如开发者需要实现重试，API处要传什么值。
 
 ## 6 附录 k8s manifests
 
@@ -259,12 +262,12 @@ Service.yml
 apiVersion: v1
 kind: Service
 metadata:
-  name: dubbo-samples-apiserver-provider
+  name: dubbo-samples-mesh-provider
   namespace: dubbo-demo
 spec:
   clusterIP: None
   selector:
-    app: dubbo-samples-apiserver-provider
+    app: dubbo-samples-mesh-provider
   ports:
     - name: tri
       protocol: TCP
@@ -290,22 +293,22 @@ Deployment.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dubbo-samples-apiserver-provider
+  name: dubbo-samples-mesh-provider
   namespace: dubbo-demo
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: dubbo-samples-apiserver-provider
+      app: dubbo-samples-mesh-provider
   template:
     metadata:
       labels:
-        app: dubbo-samples-apiserver-provider
+        app: dubbo-samples-mesh-provider
     spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: 15841721425/dubbo-samples-apiserver-provider
+          image: 15841721425/dubbo-samples-mesh-provider
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 50052
@@ -340,12 +343,12 @@ Service.yml
 apiVersion: v1
 kind: Service
 metadata:
-  name: dubbo-samples-apiserver-consumer
+  name: dubbo-samples-mesh-consumer
   namespace: dubbo-demo
 spec:
   clusterIP: None
   selector:
-    app: dubbo-samples-apiserver-consumer
+    app: dubbo-samples-mesh-consumer
   ports:
     - name: dubbo
       protocol: TCP
@@ -367,22 +370,22 @@ Deployment.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dubbo-samples-apiserver-consumer
+  name: dubbo-samples-mesh-consumer
   namespace: dubbo-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dubbo-samples-apiserver-consumer
+      app: dubbo-samples-mesh-consumer
   template:
     metadata:
       labels:
-        app: dubbo-samples-apiserver-consumer
+        app: dubbo-samples-mesh-consumer
     spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: 15841721425/dubbo-samples-apiserver-consumer
+          image: 15841721425/dubbo-samples-mesh-consumer
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 20880
