@@ -48,6 +48,7 @@
         <module>dubbo-samples-jetty</module>
         <module>dubbo-samples-local</module>
         <module>dubbo-samples-merge</module>
+        <module>dubbo-samples-mesh-k8s</module>
         <module>dubbo-samples-metadata-report</module>
         <module>dubbo-samples-migration</module>
         <module>dubbo-samples-mock</module>
