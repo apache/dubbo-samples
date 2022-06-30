@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dubbo-samples-apiserver-consumer
+  name: dubbo-samples-mesh-consumer
   namespace: dubbo-demo
 spec:
   replicas: 1
@@ -26,20 +26,26 @@ spec:
             - containerPort: 31000
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /live
-              port: 22222
+            #            httpGet:
+            #              path: /live
+            #              port: 22222
+            grpc:
+              port: 20880
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
-            httpGet:
-              path: /ready
-              port: 22222
+            #            httpGet:
+            #              path: /ready
+            #              port: 22222
+            grpc:
+              port: 20880
             initialDelaySeconds: 5
             periodSeconds: 5
           startupProbe:
-            httpGet:
-              path: /startup
-              port: 22222
+            #            httpGet:
+            #              path: /startup
+            #              port: 22222
+            grpc:
+              port: 20880
             failureThreshold: 30
             periodSeconds: 10

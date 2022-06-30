@@ -4,7 +4,7 @@ metadata:
   name: dubbo-samples-mesh-provider
   namespace: dubbo-demo
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: dubbo-samples-mesh-provider
@@ -26,20 +26,29 @@ spec:
             - containerPort: 31000
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /live
-              port: 22222
+            #            httpGet:
+            #              path: /live
+            #              port: 22222
+            grpc:
+              port: 50052
+#              service: Health
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
-            httpGet:
-              path: /ready
-              port: 22222
+            #            httpGet:
+            #              path: /ready
+            #              port: 22222
+            grpc:
+              port: 50052
+#              service: Health
             initialDelaySeconds: 5
             periodSeconds: 5
           startupProbe:
-            httpGet:
-              path: /startup
-              port: 22222
+            #            httpGet:
+            #              path: /startup
+            #              port: 22222
+            grpc:
+              port: 50052
+#              service: Health
             failureThreshold: 30
             periodSeconds: 10
