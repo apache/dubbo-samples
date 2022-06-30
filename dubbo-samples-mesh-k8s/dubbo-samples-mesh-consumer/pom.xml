@@ -37,7 +37,7 @@
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <grpc.version>1.31.1</grpc.version>
         <protoc.version>3.19.4</protoc.version>
-        <dubbo.compiler.version>0.0.4.1-SNAPSHOT</dubbo.compiler.version>
+        <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
     </properties>
 
     <dependencyManagement>
