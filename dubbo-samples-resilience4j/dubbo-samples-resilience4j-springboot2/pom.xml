@@ -37,7 +37,7 @@
         <zookeeper.version>3.4.13</zookeeper.version>
         <curator.version>4.0.1</curator.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
-        <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
         <curator-client.version>4.0.1</curator-client.version>
         <swagger.version>1.5.19</swagger.version>
