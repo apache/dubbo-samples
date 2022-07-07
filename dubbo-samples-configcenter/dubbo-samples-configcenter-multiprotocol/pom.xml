@@ -35,7 +35,7 @@
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <hessian.version>4.0.63</hessian.version>
-        <jetty.version>9.4.11.v20180605</jetty.version>
+        <jetty.version>10.0.10</jetty.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
 
