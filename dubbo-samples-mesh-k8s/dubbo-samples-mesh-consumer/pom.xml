@@ -30,13 +30,13 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.0.7</dubbo.version>
+        <dubbo.version>3.1.0-SNAPSHOT</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <grpc.version>1.31.1</grpc.version>
+        <grpc.version>1.44.0</grpc.version>
         <protoc.version>3.19.4</protoc.version>
-        <dubbo.compiler.version>0.0.4.1-SNAPSHOT</dubbo.compiler.version>
+        <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
     </properties>
 
     <dependencyManagement>
