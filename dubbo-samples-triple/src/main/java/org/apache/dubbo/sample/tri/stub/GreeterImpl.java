@@ -216,10 +216,18 @@ public class GreeterImpl extends GreeterImplBase {
     @Override
     public void greetServerStream(GreeterRequest request,
                                   StreamObserver<GreeterReply> replyStream) {
+        long last = System.currentTimeMillis();
         for (int i = 0; i < 10; i++) {
+            System.out.println(System.currentTimeMillis() - last);
             replyStream.onNext(GreeterReply.newBuilder()
                     .setMessage(request.getName() + "--" + i)
                     .build());
+            last = System.currentTimeMillis();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         replyStream.onCompleted();
     }
