@@ -31,7 +31,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.0.10-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.0.10</dubbo.version>
         <grpc.version>1.44.1</grpc.version>
         <junit.version>4.12</junit.version>
         <spring-test.version>4.3.16.RELEASE</spring-test.version>
