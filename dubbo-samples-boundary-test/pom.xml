@@ -23,9 +23,12 @@
     <artifactId>dubbo-samples-boundary-test</artifactId>
 
     <modules>
-      <module>dubbo-samples-mybatis</module>
-    <module>dubbo-samples-hibernate</module>
-  </modules>
+        <module>dubbo-samples-mybatis</module>
+        <module>dubbo-samples-hibernate</module>
+        <module>dubbo-samples-sd-group</module>
+        <module>dubbo-samples-sd-version</module>
+        <module>dubbo-samples-sd-merge</module>
+    </modules>
 
     <repositories>
         <repository>
