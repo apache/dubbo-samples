@@ -16,17 +16,21 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.microservices.sc.rest;
 
-import java.util.concurrent.atomic.AtomicLong;
+package org.apache.dubbo.samples.version;
 
-public class UserServiceImpl implements UserService {
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    private final AtomicLong idGen = new AtomicLong();
+import java.util.concurrent.CountDownLatch;
 
-    @Override
-    public User getUser(Long id) {
-        return new User(id, "username" + id);
+public class VersionProvider2 {
+
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/version-provider2.xml");
+        context.start();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }
