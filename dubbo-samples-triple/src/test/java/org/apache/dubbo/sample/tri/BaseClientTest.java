@@ -44,7 +44,6 @@ public abstract class BaseClientTest {
                 "sayGreeterServerStream") {
             @Override
             public void onNext(GreeterReply data) {
-                super.onNext(data);
                 long lastTimestamp = map.getOrDefault(key, 0L);
                 long now = System.currentTimeMillis();
                 map.put(key, now);
@@ -57,6 +56,7 @@ public abstract class BaseClientTest {
                         latch.countDown();
                     }
                 }
+                super.onNext(data);
             }
         };
         delegate.greetServerStream(request, observer);
