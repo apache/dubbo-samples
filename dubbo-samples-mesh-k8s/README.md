@@ -12,8 +12,8 @@
 ## 2 基本流程
 
 1. 创建一个 Dubbo
-   应用( [dubbo-samples-kubernetes](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes) )
-2. 构建容器镜像并推送到镜像仓库（ [dubboteam 示例例镜像](https://hub.docker.com/u/dubboteam) ）
+   应用( [dubbo-samples-kubernetes](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-mesh-k8s) )
+2. 构建容器镜像并推送到镜像仓库（ [dubbomesh 示例例镜像](https://hub.docker.com/u/15841721425) ）
 3. 分别部署 Dubbo Provider 与 Dubbo Consumer 到 Kubernetes
 4. 验证服务发现与调用正常
 
@@ -80,13 +80,8 @@ kubectl label namespace dubbo-demo istio-injection=enabled
 前提是本地需要对 dubbo 3.1.0-SNAPSHOT mvn install 后。
 
 ```xml
-
-<dependency>
-    <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo</artifactId>
-    <!--            <version>${dubbo.version}</version>-->
-    <version>3.1.0-SNAPSHOT</version>
-</dependency>
+<dubbo.version>3.1.0-SNAPSHOT</dubbo.version>
+<!--<dubbo.version>3.0.7</dubbo.version>-->
 ```
 
 设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
@@ -112,6 +107,8 @@ docker build -f ./Dockerfile -t dubbo-samples-mesh-provider .
 
 cd dubbo-samples-mesh-consumer
 docker build -f ./Dockerfile -t dubbo-samples-mesh-consumer .
+
+# 下面的15841721425是私人地址，大家用的时候推到自己的仓库即可
 
 # 重命名镜像
 docker tag dubbo-samples-mesh-provider:latest 15841721425/dubbo-samples-mesh-provider
