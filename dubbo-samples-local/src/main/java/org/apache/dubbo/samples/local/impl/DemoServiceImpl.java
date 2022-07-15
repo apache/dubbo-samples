@@ -19,7 +19,9 @@
 
 package org.apache.dubbo.samples.local.impl;
 
+import org.apache.dubbo.rpc.AsyncContext;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcServiceContext;
 import org.apache.dubbo.samples.local.api.DemoService;
 
 import java.text.SimpleDateFormat;
@@ -33,4 +35,18 @@ public class DemoServiceImpl implements DemoService {
         return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
     }
 
+    @Override
+    public String sayHelloAsync(String name) {
+        AsyncContext asyncContext = RpcServiceContext.startAsync();
+        new Thread(() -> {
+            asyncContext.signalContextSwitch();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignore) {
+
+            }
+            asyncContext.write(sayHello(name));
+        }).start();
+        return null;
+    }
 }
