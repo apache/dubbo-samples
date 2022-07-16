@@ -44,7 +44,7 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     public static final Map<String, Boolean> cancelResultMap = new HashMap<>();
 
     public GreeterImpl() {
-        this.serverName = "test dubbo tri k8s";
+        this.serverName = "test dubbo tri mesh";
     }
 
     public GreeterImpl(String serverName) {
@@ -54,8 +54,15 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     @Override
     public GreeterReply greet(GreeterRequest request) {
         LOGGER.info("Server {} received greet request {}", serverName, request);
+        boolean isProviderSide = RpcContext.getContext().isProviderSide();
+        String clientIP = RpcContext.getContext().getRemoteHost();
+        String remoteApplication = RpcContext.getContext().getRemoteApplicationName();
+        String application = RpcContext.getContext().getUrl().getParameter("application");
+        String protocol = RpcContext.getContext().getProtocol();
         return GreeterReply.newBuilder()
-            .setMessage("hello," + request.getName())
+            .setMessage("hello," + request.getName() + ", response from provider: " + RpcContext.getContext().getLocalAddress() +
+                ", client: " + clientIP + ", local: " + application + ", remote: " + remoteApplication +
+                ", isProviderSide: " + isProviderSide)
             .build();
     }
 

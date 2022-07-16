@@ -26,26 +26,20 @@ spec:
             - containerPort: 31000
               protocol: TCP
           livenessProbe:
-            #            httpGet:
-            #              path: /live
-            #              port: 22222
-            grpc:
-              port: 20880
+            httpGet:
+              path: /live
+              port: 22222
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
-            #            httpGet:
-            #              path: /ready
-            #              port: 22222
-            grpc:
-              port: 20880
+            httpGet:
+              path: /ready
+              port: 22222
             initialDelaySeconds: 5
             periodSeconds: 5
           startupProbe:
-            #            httpGet:
-            #              path: /startup
-            #              port: 22222
-            grpc:
-              port: 20880
+            httpGet:
+              path: /startup
+              port: 22222
             failureThreshold: 30
             periodSeconds: 10
