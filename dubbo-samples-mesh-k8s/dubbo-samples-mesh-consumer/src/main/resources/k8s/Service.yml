@@ -4,11 +4,12 @@ metadata:
   name: dubbo-samples-mesh-consumer
   namespace: dubbo-demo
 spec:
-  clusterIP: None
+  type: ClusterIP
+  sessionAffinity: None
   selector:
     app: dubbo-samples-mesh-consumer
   ports:
-    - name: dubbo
+    - name: grpc-dubbo
       protocol: TCP
       port: 20880
       targetPort: 20880

@@ -19,9 +19,9 @@
 
 package org.apache.dubbo.samples;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.action.GreetingServiceConsumer;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,13 +29,18 @@ import org.springframework.context.annotation.PropertySource;
 
 public class ConsumerBootstrap {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
-        System.out.println("==================== dubbo invoke started ====================");
+        System.out.println("==================== dubbo invoke loop started ====================");
         GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
-        greetingServiceConsumer.doSayHello("Kubernetes Api Server");
-        System.out.println("==================== dubbo invoke end ====================");
+        AtomicInteger count = new AtomicInteger(0);
+        while (true) {
+            greetingServiceConsumer.doSayHello("service mesh");
+            System.out.println("==================== dubbo invoke " + count.get() + " end ====================");
+            count.getAndIncrement();
+            Thread.sleep(10000);
+        }
     }
 
     @Configuration

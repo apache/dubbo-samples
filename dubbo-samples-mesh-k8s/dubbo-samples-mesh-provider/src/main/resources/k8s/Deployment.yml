@@ -31,7 +31,6 @@ spec:
             #              port: 22222
             grpc:
               port: 50052
-#              service: Health
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
@@ -40,7 +39,6 @@ spec:
             #              port: 22222
             grpc:
               port: 50052
-#              service: Health
             initialDelaySeconds: 5
             periodSeconds: 5
           startupProbe:
@@ -49,6 +47,5 @@ spec:
             #              port: 22222
             grpc:
               port: 50052
-#              service: Health
             failureThreshold: 30
             periodSeconds: 10

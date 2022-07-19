@@ -33,13 +33,14 @@ public class GreetingServiceConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GreetingServiceConsumer.class);
 
-    @DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", url = "tri://dubbo-samples-mesh-provider:50052")
+    @DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", url = "tri://dubbo-samples-mesh-provider:50052", lazy = true)
+//    @DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", url = "tri://localhost:50052")
     private Greeter greeter;
 
     public void doSayHello(String name) {
         final GreeterReply reply = greeter.greet(GreeterRequest.newBuilder()
-                .setName(name)
-                .build());
+            .setName(name)
+            .build());
         LOGGER.info("consumer Unary reply <-{}", reply);
     }
 
