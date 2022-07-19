@@ -77,8 +77,9 @@ dubbo.provider.token=true
 
 ```shell
 # 打包镜像
-mvn package
+mvn compile jib:build
 ```
+
 > Jib 插件会自动打包并发布镜像。注意，请将 jib 插件配置中的 docker registry 组织 dubboteam 改为自己有权限的组织（包括其他 kubernetes manifests 中的 dubboteam 也要修改，以确保 kubernetes 部署的是自己定制后的镜像），如遇到 jib 插件认证问题，请参考[相应链接](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#what-should-i-do-when-the-registry-responds-with-unauthorized)配置 docker registry 认证信息。
 
 ### 3.4 部署到 Kubernetes
