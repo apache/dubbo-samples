@@ -92,6 +92,7 @@
         <module>dubbo-samples-boundary-test</module>
         <module>dubbo-samples-kubernetes</module>
         <module>dubbo-samples-dns</module>
+        <module>dubbo-samples-spring-boot</module>
     </modules>
 
     <repositories>
