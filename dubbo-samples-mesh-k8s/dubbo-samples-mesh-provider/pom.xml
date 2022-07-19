@@ -13,7 +13,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>3.0.7</dubbo.version>
         <grpc.version>1.31.1</grpc.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <spring.version>4.3.29.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <protoc.version>3.19.4</protoc.version>
