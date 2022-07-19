@@ -54,22 +54,12 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/d
 kubens dubbo-demo
 ```
 
-### 3.3 项目与镜像打包（可跳过）
+### 3.3 项目与镜像打包（可跳过，仅在修改示例代码后需要重新打包）
 
 示例项目及相关镜像均已就绪，以下仅为指引说明，可直接跳过此步骤直接查看 3.4 小节。  
 https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
 
-注意，由于 kubernetes 为独立扩展项目，开启 Kubernetes 支持前请添加如下依赖到 pom.xml
-
-```xml
-<dependency>
-    <groupId>org.apache.dubbo.extensions</groupId>
-    <artifactId>dubbo-registry-kubernetes</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
-</dependency>
-```
-
-设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
+设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST 占位符指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
 namespace、trustCerts 两个参数
 
 ```properties
@@ -83,18 +73,13 @@ dubbo.application.qosAcceptForeignIp=true
 dubbo.provider.token=true
 ```
 
-如果要在本地打包镜像，可通过 spring-boot-maven-plugin 插件打包镜像（也可以直接使用示例提供好的镜像包）
+可通过以下命令打包镜像（此步骤非必需，可以直接使用示例提供好的镜像包）
 
 ```shell
 # 打包镜像
-mvn spring-boot:build-image
-
-# 重命名镜像
-docker tag docker.io/dubboteam/dubbo-samples-apiserver-provider:latest your-image-space/dubbo-samples-apiserver-provider
-
-# 推到镜像仓库
-docker push your-image-space/dubbo-samples-apiserver-provider
+mvn package
 ```
+> Jib 插件会自动打包并发布镜像。注意，请将 jib 插件配置中的 docker registry 组织 dubboteam 改为自己有权限的组织（包括其他 kubernetes manifests 中的 dubboteam 也要修改，以确保 kubernetes 部署的是自己定制后的镜像），如遇到 jib 插件认证问题，请参考[相应链接](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#what-should-i-do-when-the-registry-responds-with-unauthorized)配置 docker registry 认证信息。
 
 ### 3.4 部署到 Kubernetes
 
