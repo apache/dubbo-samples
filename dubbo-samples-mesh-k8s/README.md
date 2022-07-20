@@ -7,16 +7,16 @@
 * [3 详细步骤](#detail)
     + [3.1 环境要求](#env)
     + [3.2 前置条件](#prepare)
-    + [3.3 项目与镜像打包（可跳过）](#image)
-    + [3.4 部署到 Kubernetes](#deploy)
+    + [3.3 部署到 Kubernetes](#deploy)
         - [3.4.1 部署 Provider](#deploy_provider)
         - [3.4.2 部署 Consumer](#deploy_consumer)
     + [3.5 检查 Provider 和 Consumer 正常通信](#check)
-* [4 健康检查](#health_check)
-    + [4.1 Istio 服务的健康检查](#health_check_istio)
-    + [4.2 Envoy 主动健康检查](#health_check_envoy)
-* [5 下一步计划](#next)
-* [6 常用命令](#common)
+* [4 修改示例](#4-修改示例)
+* [5 配置健康检查](#health_check)
+    + [5.1 Istio 服务的健康检查](#health_check_istio)
+    + [5.2 Envoy 主动健康检查](#health_check_envoy)
+* [6 下一步计划](#next)
+* [7 常用命令](#common)
 
 <h2 id="target">1 总体目标</h2>
 
@@ -26,14 +26,20 @@
 * 利用 Envoy 代理实现服务调用、负载均衡
 * 基于 EnvoyFilter 对 consumer 的上游集群做主动健康检查
 
-<h2 id="basic">2 基本流程</h2>
+<h2 id="basic">2 基本流程与工作原理</h2>
+这个示例演示了如何将 Dubbo 开发的应用部署在 Istio 体系下，以实现 Envoy 对 Dubbo 服务的自动代理，示例总体架构如下图所示。
+
+[thinsdk](./assets/thinsdk.png)
+
+完成示例将需要的步骤如下：
 
 1. 创建一个 Dubbo 应用( [dubbo-samples-mesh-k8s](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-mesh-k8s) )
 2. 构建容器镜像并推送到镜像仓库（ [dubbomesh 示例镜像](https://hub.docker.com/u/15841721425) ）
-
 3. 分别部署 Dubbo Provider 与 Dubbo Consumer 到 Kubernetes
 4. 验证服务发现与调用正常
 5. 观测负载均衡与主动健康检查
+
+
 
 <h2 id="detail">3 详细步骤</h2>
 
@@ -44,8 +50,8 @@
 * [Docker](https://www.docker.com/get-started/)
 * [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 * [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+* [Istio](https://istio.io/latest/docs/setup/getting-started/)
 * [Kubens(optional)](https://github.com/ahmetb/kubectx)
-* [Istio](https://istio.io/latest/zh/)
 
 通过以下命令启动本地 Kubernetes 集群
 
@@ -76,83 +82,6 @@ kubens dubbo-demo
 # dubbo-demo 开启自动注入
 kubectl label namespace dubbo-demo istio-injection=enabled
 
-# 注意项目路径一定是英文，否则protobuf编译失败
-```
-
-<h3 id="image">3.3 项目与镜像打包（可跳过）</h3>
-
-示例项目及相关镜像均已就绪，以下仅为指引说明，可直接跳过此步骤直接查看 3.4 小节。
-
-注意，由于 kubernetes 为独立扩展项目，开启 Kubernetes 支持前请添加如下依赖到 pom.xml
-
-```xml
-
-<dependency>
-    <groupId>org.apache.dubbo.extensions</groupId>
-    <artifactId>dubbo-registry-kubernetes</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
-</dependency>
-```
-
-如果为 dubbo 3.1 的贡献者，在dubbo-samples-mesh-consumer和dubbo-samples-mesh-provider的pom.xml中，可作如下修改，
-前提是本地需要对 dubbo 3.1.0-SNAPSHOT mvn install 后。
-
-```xml
-
-<dubbo.version>3.1.0-SNAPSHOT</dubbo.version>
-    <!--<dubbo.version>3.0.7</dubbo.version>-->
-```
-
-设置 Dubbo 项目配置：
-
-```properties
-# provider
-dubbo.application.name=dubbo-samples-mesh-provider
-dubbo.application.metadataServicePort=20885
-dubbo.registry.address=N/A
-dubbo.protocol.name=tri
-dubbo.protocol.port=50052
-dubbo.application.qosEnable=true
-# 为了使 Kubernetes 集群能够正常访问到探针，需要开启 QOS 允许远程访问，此操作有可能带来安全风险，请仔细评估后再打开
-dubbo.application.qosAcceptForeignIp=true
-
-```
-
-```properties
-# consumer
-dubbo.application.name=dubbo-samples-mesh-consumer
-dubbo.application.metadataServicePort=20885
-dubbo.registry.address=N/A
-dubbo.protocol.name=tri
-dubbo.protocol.port=20880
-dubbo.consumer.timeout=30000
-dubbo.application.qosEnable=true
-# 为了使 Kubernetes 集群能够正常访问到探针，需要开启 QOS 允许远程访问，此操作有可能带来安全风险，请仔细评估后再打开
-dubbo.application.qosAcceptForeignIp=true
-
-```
-
-如果要在本地打包镜像，可通过提供的Dockerfile打包镜像（也可以直接使用示例提供好的镜像包）
-
-```shell
-# 打包镜像
-cd dubbo-samples-mesh-provider
-docker build -f ./Dockerfile -t dubbo-samples-mesh-provider .
-
-cd dubbo-samples-mesh-consumer
-docker build -f ./Dockerfile -t dubbo-samples-mesh-consumer .
-
-# 下面的15841721425是私人地址，大家用的时候推到自己的仓库即可
-
-# 重命名镜像
-docker tag dubbo-samples-mesh-provider:latest 15841721425/dubbo-samples-mesh-provider
-
-docker tag dubbo-samples-mesh-consumer:latest 15841721425/dubbo-samples-mesh-consumer
-
-# 推到镜像仓库
-docker push 15841721425/dubbo-samples-mesh-provider
-
-docker push 15841721425/dubbo-samples-mesh-consumer
 ```
 
 <h3 id="deploy">3.4 部署到 Kubernetes</h3>
@@ -180,6 +109,8 @@ kubectl get pods -l app=dubbo-samples-mesh-provider
 kubectl logs your-pod-id
 ```
 
+这时 pod 中应该有一个 dubbo provider 容器实例，同时还有一个 Envoy Sidecar 容器实例。
+
 <h4 id="deploy_consumer">3.4.2 部署 Consumer</h3>
 
 ```shell
@@ -190,28 +121,11 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/d
 kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/dubbo-samples-mesh-consumer/src/main/resources/k8s/Deployment.yml
 ```
 
-部署 consumer 与 provider 是一样的，这里也保持了 K8S Service 与 Dubbo consumer 名字一致： dubbo-samples-mesh-consumer。
+部署 consumer 与 provider 是一样的，这里也保持了 K8S Service 与 Dubbo consumer Application Name 一致： `dubbo.application.name=dubbo-samples-mesh-consumer`。
+
+> Dubbo Consumer 服务声明中还指定了消费的 Provider 服务（应用）名 `@DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", lazy = true)`
 
 <h3 id="check">3.5 检查 Provider 和 Consumer 正常通信</h3>
-
-**注：**
-
-grpc 通过 HTTP/2 运行，与通过 HTTP/1.1 运行相比具有若干优点，例如高效的二进制编码显著降低序列化成本，通过单个连接复用请求和响应减少 TCP
-管理开销，以及自动类型检查。但是kubernetes的默认负载平衡通常不能对grpc起到作用，需要添加其他grpc负载均衡服务。
-
-- 为什么 grpc 需要特殊的负载均衡
-
-因为 grpc 构建在HTTP/2上，而 HTTP/2 被设计为具有单个长期 TCP
-连接，所有请求都被多路复用，意味着多个请求可以在任何时间点在同一连接上处于活动状态。这减少了连接管理开销，但也意味着连接级的均衡没有作用。一旦建立连接，就不再需要进行平衡。所有的请求都将固定到单个目标实例上，如下所示：
-
-<div style="text-align: center"><img src="./assets/grpc_load.png" width="600" alt="grpc负载不均"></div>
-
-Kubernetes 的 kube-proxy 本质上是一个L4负载平衡器，因此我们不能依靠它来平衡微服务之间的gRPC调用。
-
-使用 Envoy 就可以优雅的解决上诉问题。 详细配置在 Service.yml 中，其中：
-
-- grpc对应的服务端口，name要加 **grpc-** 前缀；
-- Service不能配置成Headless服务。
 
 继执行 3.4 步骤后， 检查启动日志，查看 consumer 完成对 provider 服务的消费。
 
@@ -413,6 +327,86 @@ TODO
 
 * 探索envoy和istio支持的服务治理的内容，比如开发者需要实现重试，API处要传什么值。
 * 精简SDK。
+
+## 工作原理说明
+
+grpc 通过 HTTP/2 运行，与通过 HTTP/1.1 运行相比具有若干优点，例如高效的二进制编码显著降低序列化成本，通过单个连接复用请求和响应减少 TCP 管理开销，以及自动类型检查。
+但是kubernetes的默认负载平衡通常不能对grpc起到作用，需要添加其他grpc负载均衡服务。
+
+- 为什么 grpc 需要特殊的负载均衡
+
+因为 grpc 构建在HTTP/2上，而 HTTP/2 被设计为具有单个长期 TCP
+连接，所有请求都被多路复用，意味着多个请求可以在任何时间点在同一连接上处于活动状态。这减少了连接管理开销，但也意味着连接级的均衡没有作用。一旦建立连接，就不再需要进行平衡。所有的请求都将固定到单个目标实例上，如下所示：
+
+<div style="text-align: center"><img src="./assets/grpc_load.png" width="600" alt="grpc负载不均"></div>
+
+Kubernetes 的 kube-proxy 本质上是一个L4负载平衡器，因此我们不能依靠它来平衡微服务之间的gRPC调用。
+
+使用 Envoy 就可以优雅的解决上诉问题。 详细配置在 Service.yml 中，其中：
+
+- grpc对应的服务端口，name要加 **grpc-** 前缀；
+- Service不能配置成Headless服务。
+
+
+<h3 id="image">3.3 项目与镜像打包（可跳过，仅在修改示例并重新打包时需要）</h3>
+
+> 1. 注意项目存储路径一定是英文，否则 protobuf 编译失败。
+> 2. 以下仅为打包指引说明，可直接跳过此步骤直接查看 3.4 小节。
+
+修改 Dubbo Provider 配置 `dubbo-provider.properties`
+
+```properties
+# provider
+dubbo.application.name=dubbo-samples-mesh-provider
+dubbo.application.metadataServicePort=20885
+dubbo.registry.address=N/A
+dubbo.protocol.name=tri
+dubbo.protocol.port=50052
+dubbo.application.qosEnable=true
+# 为了使 Kubernetes 集群能够正常访问到探针，需要开启 QOS 允许远程访问，此操作有可能带来安全风险，请仔细评估后再打开
+dubbo.application.qosAcceptForeignIp=true
+
+```
+
+修改 Dubbo Consumer 配置 `dubbo-consumer.properties`
+
+```properties
+# consumer
+dubbo.application.name=dubbo-samples-mesh-consumer
+dubbo.application.metadataServicePort=20885
+dubbo.registry.address=N/A
+dubbo.protocol.name=tri
+dubbo.protocol.port=20880
+dubbo.consumer.timeout=30000
+dubbo.application.qosEnable=true
+# 为了使 Kubernetes 集群能够正常访问到探针，需要开启 QOS 允许远程访问，此操作有可能带来安全风险，请仔细评估后再打开
+dubbo.application.qosAcceptForeignIp=true
+
+```
+
+完成代码修改后，通过项目提供的 Dockerfile 打包镜像
+
+```shell
+# 打包镜像
+cd dubbo-samples-mesh-provider
+docker build -f ./Dockerfile -t dubbo-samples-mesh-provider .
+
+cd dubbo-samples-mesh-consumer
+docker build -f ./Dockerfile -t dubbo-samples-mesh-consumer .
+
+# 下面的15841721425是私人地址，大家用的时候推到自己的仓库即可
+
+# 重命名镜像
+docker tag dubbo-samples-mesh-provider:latest 15841721425/dubbo-samples-mesh-provider
+
+docker tag dubbo-samples-mesh-consumer:latest 15841721425/dubbo-samples-mesh-consumer
+
+# 推到镜像仓库
+docker push 15841721425/dubbo-samples-mesh-provider
+
+docker push 15841721425/dubbo-samples-mesh-consumer
+```
+
 
 <h2 id="common">6 常用命令</h2>
 
