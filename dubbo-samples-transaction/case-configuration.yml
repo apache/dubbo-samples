@@ -46,7 +46,7 @@ services:
   seata-server:
     #build: ${_basedir}/src/main/resources/docker/seata
     #removeOnExit: true
-    image: seataio/seata-server:1.5.2
+    image: seataio/seata-server:1.4.2
     volumes:
       - ${_basedir}/src/main/resources/docker/seata/conf:/root/seata-config
     expose:
