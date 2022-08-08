@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-external-zookeeper.yml
+from: app-builtin-zookeeper.yml
 
 props:
   project_name: dubbo-samples-sentinel
   main_class: org.apache.samples.sentinel.FooProviderBootstrap
+  zookeeper_port: 2181
   dubbo_port: 20880
-
