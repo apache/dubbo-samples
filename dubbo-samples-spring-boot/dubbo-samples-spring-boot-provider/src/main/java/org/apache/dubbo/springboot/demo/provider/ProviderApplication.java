@@ -33,6 +33,6 @@ public class ProviderApplication {
 
         SpringApplication.run(ProviderApplication.class, args);
         System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
+//        new CountDownLatch(1).await();
     }
 }

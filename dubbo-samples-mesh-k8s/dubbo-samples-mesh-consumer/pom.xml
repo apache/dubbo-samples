@@ -34,8 +34,8 @@
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <grpc.version>1.44.0</grpc.version>
-        <protoc.version>3.19.4</protoc.version>
+        <grpc.version>1.31.1</grpc.version>
+        <protoc.version>3.20.1</protoc.version>
         <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
     </properties>
 
@@ -55,6 +55,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-bom</artifactId>
+                <version>${grpc.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -63,19 +70,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
-            <!--            <version>3.1.0-SNAPSHOT</version>-->
         </dependency>
 
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>3.20.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo.extensions</groupId>
-            <artifactId>dubbo-registry-kubernetes</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -88,7 +88,6 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-all</artifactId>
-            <version>${grpc.version}</version>
         </dependency>
 
         <dependency>
