@@ -12,12 +12,14 @@ spec:
     metadata:
       labels:
         app: dubbo-samples-mesh-provider
+    #      annotations:
+    #        sidecar.istio.io/rewriteAppHTTPProbers: "false"
     spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: 15841721425/dubbo-samples-mesh-provider
-          imagePullPolicy: IfNotPresent
+          image: dubboteam/dubbo-samples-mesh-provider
+          imagePullPolicy: Always
           ports:
             - containerPort: 50052
               protocol: TCP
@@ -26,26 +28,29 @@ spec:
             - containerPort: 31000
               protocol: TCP
           livenessProbe:
-            #            httpGet:
-            #              path: /live
-            #              port: 22222
-            grpc:
-              port: 50052
+            httpGet:
+              path: /live
+              port: 22222
+            #            grpc:
+            #              port: 50052
             initialDelaySeconds: 5
             periodSeconds: 5
+            timeoutSeconds: 30
           readinessProbe:
-            #            httpGet:
-            #              path: /ready
-            #              port: 22222
-            grpc:
-              port: 50052
+            httpGet:
+              path: /ready
+              port: 22222
+            #            grpc:
+            #              port: 50052
             initialDelaySeconds: 5
             periodSeconds: 5
+            timeoutSeconds: 30
           startupProbe:
-            #            httpGet:
-            #              path: /startup
-            #              port: 22222
-            grpc:
-              port: 50052
+            httpGet:
+              path: /startup
+              port: 22222
+            #            grpc:
+            #              port: 50052
             failureThreshold: 30
             periodSeconds: 10
+            timeoutSeconds: 30

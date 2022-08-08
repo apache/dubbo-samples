@@ -16,8 +16,8 @@ spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: 15841721425/dubbo-samples-mesh-consumer
-          imagePullPolicy: IfNotPresent
+          image: dubboteam/dubbo-samples-mesh-consumer
+          imagePullPolicy: Always
           ports:
             - containerPort: 20880
               protocol: TCP

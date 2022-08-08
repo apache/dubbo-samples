@@ -1,6 +1,6 @@
 # Dubbo mesh using Istio
 
-可以按照下文步骤，将 Demo 部署到本地集群，也可在 [KataCoda 在线快速体验]()。
+可以按照下文步骤，将 Demo 部署到本地集群。
 
 * [1 总体目标](#target)
 * [2 基本流程](#basic)
@@ -11,19 +11,18 @@
         - [3.4.1 部署 Provider](#deploy_provider)
         - [3.4.2 部署 Consumer](#deploy_consumer)
     + [3.5 检查 Provider 和 Consumer 正常通信](#check)
-* [4 修改示例](#4-修改示例)
-* [5 配置健康检查](#health_check)
-    + [5.1 Istio 服务的健康检查](#health_check_istio)
-    + [5.2 Envoy 主动健康检查](#health_check_envoy)
+* [4 配置健康检查](#health_check)
+    + [4.1 Istio 服务的健康检查](#health_check_istio)
+    + [4.2 Envoy 主动健康检查](#health_check_envoy)
+* [5 修改示例与镜像打包](#5-修改示例与镜像打包)
 * [6 下一步计划](#next)
 * [7 常用命令](#common)
 
 <h2 id="target">1 总体目标</h2>
 
-* 部署 Dubbo 应用到 Kubernetes + Istio
-* 基于 Kubernetes 内置 Service 实现服务发现, Pilot 监听 api-server ，通过 XDS 下发给 Envoy 实例，去掉注册中心
-* 将 Dubbo 应用对接到 Kubernetes 生命周期
-* 利用 Envoy 代理实现服务调用、负载均衡
+* 部署 Dubbo 应用到 Kubernetes
+* Istio 实现服务发现
+* Istio 自动注入 Envoy 并实现流量拦截
 * 基于 EnvoyFilter 对 consumer 的上游集群做主动健康检查
 
 <h2 id="basic">2 基本流程与工作原理</h2>
@@ -35,11 +34,9 @@
 
 1. 创建一个 Dubbo 应用( [dubbo-samples-mesh-k8s](https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-mesh-k8s) )
 2. 构建容器镜像并推送到镜像仓库（ [dubbomesh 示例镜像](https://hub.docker.com/u/15841721425) ）
-3. 分别部署 Dubbo Provider 与 Dubbo Consumer 到 Kubernetes
-4. 验证服务发现与调用正常
-5. 观测负载均衡与主动健康检查
-
-
+3. 分别部署 Dubbo Provider 与 Dubbo Consumer 到 Kubernetes 并验证 Envoy 代理注入成功
+4. 验证 Envoy 发现服务地址、正常拦截 RPC 流量并实现负载均衡
+5. 优化并配置健康检查流程
 
 <h2 id="detail">3 详细步骤</h2>
 
@@ -321,37 +318,11 @@ Envoy健康检查的配置说明(
 - [Istio 服务的健康检查官方文档](https://istio.io/latest/zh/docs/ops/configuration/mesh/app-health-check/)
 - [Envoy 健康检查文档](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/health_check.proto#envoy-v3-api-msg-config-core-v3-healthcheck)
 
-<h2 id="next">5 下一步计划</h2>
 
-TODO
-
-* 探索envoy和istio支持的服务治理的内容，比如开发者需要实现重试，API处要传什么值。
-* 精简SDK。
-
-## 工作原理说明
-
-grpc 通过 HTTP/2 运行，与通过 HTTP/1.1 运行相比具有若干优点，例如高效的二进制编码显著降低序列化成本，通过单个连接复用请求和响应减少 TCP 管理开销，以及自动类型检查。
-但是kubernetes的默认负载平衡通常不能对grpc起到作用，需要添加其他grpc负载均衡服务。
-
-- 为什么 grpc 需要特殊的负载均衡
-
-因为 grpc 构建在HTTP/2上，而 HTTP/2 被设计为具有单个长期 TCP
-连接，所有请求都被多路复用，意味着多个请求可以在任何时间点在同一连接上处于活动状态。这减少了连接管理开销，但也意味着连接级的均衡没有作用。一旦建立连接，就不再需要进行平衡。所有的请求都将固定到单个目标实例上，如下所示：
-
-<div style="text-align: center"><img src="./assets/grpc_load.png" width="600" alt="grpc负载不均"></div>
-
-Kubernetes 的 kube-proxy 本质上是一个L4负载平衡器，因此我们不能依靠它来平衡微服务之间的gRPC调用。
-
-使用 Envoy 就可以优雅的解决上诉问题。 详细配置在 Service.yml 中，其中：
-
-- grpc对应的服务端口，name要加 **grpc-** 前缀；
-- Service不能配置成Headless服务。
-
-
-<h3 id="image">3.3 项目与镜像打包（可跳过，仅在修改示例并重新打包时需要）</h3>
+<h3 id="image">5 修改示例与镜像打包（仅在修改示例并重新打包时需要）</h3>
 
 > 1. 注意项目存储路径一定是英文，否则 protobuf 编译失败。
-> 2. 以下仅为打包指引说明，可直接跳过此步骤直接查看 3.4 小节。
+> 2. 以为应用开发与打包的指引说明。
 
 修改 Dubbo Provider 配置 `dubbo-provider.properties`
 
@@ -387,28 +358,40 @@ dubbo.application.qosAcceptForeignIp=true
 完成代码修改后，通过项目提供的 Dockerfile 打包镜像
 
 ```shell
-# 打包镜像
-cd dubbo-samples-mesh-provider
-docker build -f ./Dockerfile -t dubbo-samples-mesh-provider .
-
-cd dubbo-samples-mesh-consumer
-docker build -f ./Dockerfile -t dubbo-samples-mesh-consumer .
-
-# 下面的15841721425是私人地址，大家用的时候推到自己的仓库即可
-
-# 重命名镜像
-docker tag dubbo-samples-mesh-provider:latest 15841721425/dubbo-samples-mesh-provider
-
-docker tag dubbo-samples-mesh-consumer:latest 15841721425/dubbo-samples-mesh-consumer
-
-# 推到镜像仓库
-docker push 15841721425/dubbo-samples-mesh-provider
-
-docker push 15841721425/dubbo-samples-mesh-consumer
+# 打包并推送镜像
+mvn compile jib:build
 ```
 
+> Jib 插件会自动打包并发布镜像。注意，本地开发需将 jib 插件配置中的 docker registry 组织 dubboteam 改为自己有权限的组织（包括其他 kubernetes manifests 中的 dubboteam 也要修改，以确保 kubernetes 部署的是自己定制后的镜像），如遇到 jib 插件认证问题，请参考[相应链接](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#what-should-i-do-when-the-registry-responds-with-unauthorized)配置 docker registry 认证信息。
 
-<h2 id="common">6 常用命令</h2>
+
+<h2 id="next">6 下一步计划</h2>
+
+TODO
+
+* 探索envoy和istio支持的服务治理的内容，比如开发者需要实现重试，API处要传什么值。
+* 精简SDK。
+
+## 工作原理说明
+
+grpc 通过 HTTP/2 运行，与通过 HTTP/1.1 运行相比具有若干优点，例如高效的二进制编码显著降低序列化成本，通过单个连接复用请求和响应减少 TCP 管理开销，以及自动类型检查。
+但是kubernetes的默认负载平衡通常不能对grpc起到作用，需要添加其他grpc负载均衡服务。
+
+- 为什么 grpc 需要特殊的负载均衡
+
+因为 grpc 构建在HTTP/2上，而 HTTP/2 被设计为具有单个长期 TCP
+连接，所有请求都被多路复用，意味着多个请求可以在任何时间点在同一连接上处于活动状态。这减少了连接管理开销，但也意味着连接级的均衡没有作用。一旦建立连接，就不再需要进行平衡。所有的请求都将固定到单个目标实例上，如下所示：
+
+<div style="text-align: center"><img src="./assets/grpc_load.png" width="600" alt="grpc负载不均"></div>
+
+Kubernetes 的 kube-proxy 本质上是一个L4负载平衡器，因此我们不能依靠它来平衡微服务之间的gRPC调用。
+
+使用 Envoy 就可以优雅的解决上诉问题。 详细配置在 Service.yml 中，其中：
+
+- grpc对应的服务端口，name要加 **grpc-** 前缀；
+- Service不能配置成Headless服务。
+
+<h2 id="common">7 常用命令</h2>
 
 ```shell
 # dump current Envoy configs
