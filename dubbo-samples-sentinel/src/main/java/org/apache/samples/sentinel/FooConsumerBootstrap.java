@@ -43,10 +43,13 @@ public class FooConsumerBootstrap {
             try {
                 String message = service.sayHello("dubbo");
                 System.out.println("Success: " + message);
-            } catch (SentinelRpcException ex) {
-                System.out.println("Blocked");
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (RuntimeException ex) {
+                if (ex.getMessage().contains("SentinelBlockException: FlowException")) {
+                    System.out.println("Blocked");
+                }
+                else {
+                    ex.printStackTrace();
+                }
             }
         }
     }
