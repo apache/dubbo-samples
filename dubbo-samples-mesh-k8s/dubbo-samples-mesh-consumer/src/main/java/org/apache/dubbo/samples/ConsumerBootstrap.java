@@ -37,14 +37,12 @@ public class ConsumerBootstrap {
         GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
         AtomicInteger count = new AtomicInteger(0);
 
-        for (int i = 0; i < 30; i++) {
+        while (true) {
             greetingServiceConsumer.doSayHello("service mesh");
             System.out.println("==================== dubbo invoke " + count.get() + " end ====================");
             count.getAndIncrement();
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         }
-
-        new CountDownLatch(1).await();
     }
 
     @Configuration

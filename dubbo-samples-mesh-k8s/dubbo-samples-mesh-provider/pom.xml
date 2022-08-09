@@ -182,7 +182,7 @@
                 <version>3.2.1</version>
                 <configuration>
                     <to>
-                        <image>dubboteam/dubbo-samples-mesh-provider</image>
+                        <image>dubboteam/dubbo-samples-mesh-provider-v1:0.1</image>
                     </to>
                     <container>
                         <jvmFlags>

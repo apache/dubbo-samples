@@ -58,9 +58,9 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
         String application = RpcContext.getContext().getUrl().getParameter("application");
         String protocol = RpcContext.getContext().getProtocol();
         return GreeterReply.newBuilder()
-            .setMessage("hello," + request.getName() + ", response from provider: " + RpcContext.getContext().getLocalAddress() +
-                ", client: " + clientIP + ", local: " + application + ", remote: " + remoteApplication +
-                ", isProviderSide: " + isProviderSide)
+                .setMessage("hello," + request.getName() + ", response from provider-v1: " + RpcContext.getContext().getLocalAddress() +
+                        ", client: " + clientIP + ", local: " + application + ", remote: " + remoteApplication +
+                        ", isProviderSide: " + isProviderSide)
             .build();
     }
 
