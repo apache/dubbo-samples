@@ -18,9 +18,8 @@
 <h2 id="target">1 总体目标</h2>
 
 * 部署 Dubbo 应用到 Kubernetes
-* Istio 实现服务发现
 * Istio 自动注入 Envoy 并实现流量拦截
-* 基于 EnvoyFilter 对 consumer 的上游集群做主动健康检查
+* 基于 Istio 规则进行流量治理
 
 <h2 id="basic">2 基本流程与工作原理</h2>
 这个示例演示了如何将 Dubbo 开发的应用部署在 Istio 体系下，以实现 Envoy 对 Dubbo 服务的自动代理，示例总体架构如下图所示。
@@ -135,18 +134,12 @@ kubectl logs your-pod-id -c istio-proxy
 可以看到 consumer pod 日志输出如下( Triple 协议被 Envoy 代理负载均衡):
 
 ```bash
-[15/07/22 11:37:50:050 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: 
-"hello,service mesh, response from provider-v1: 172.17.0.11:50052, client: 172.17.0.11, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+==================== dubbo invoke 0 end ====================
+[10/08/22 07:07:36:036 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.22:50052, client: 172.18.96.22, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
 
-==================== dubbo invoke 1513 end ====================
-[15/07/22 11:38:00:000 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: 
-"hello,service mesh, response from provider-v1: 172.17.0.8:50052, client: 172.17.0.8, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+==================== dubbo invoke 1 end ====================
+[10/08/22 07:07:42:042 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.18:50052, client: 172.18.96.18, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
 
-==================== dubbo invoke 1514 end ====================
-[15/07/22 11:38:10:010 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: 
-"hello,service mesh, response from provider-v1: 172.17.0.6:50052, client: 172.17.0.6, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
-
-==================== dubbo invoke 1515 end ====================
 ```
 
 consumer istio-proxy 日志输出如下:
@@ -161,8 +154,9 @@ outbound|50052||dubbo-samples-mesh-provider.dubbo-demo.svc.cluster.local 172.17.
 可以看到 provider pod 日志输出如下:
 
 ```shell
-[22/06/22 08:22:36:036 UTC] Dubbo-protocol-50052-thread-8  INFO impl.GreeterImpl: 
-Server test dubbo tri k8s received greet request name: "Kubernetes Api Server"
+[10/08/22 07:08:47:047 UTC] tri-protocol-50052-thread-8  INFO impl.GreeterImpl: Server test dubbo tri mesh received greet request name: "service mesh"
+
+[10/08/22 07:08:57:057 UTC] tri-protocol-50052-thread-9  INFO impl.GreeterImpl: Server test dubbo tri mesh received greet request name: "service mesh"
 ```
 
 provider istio-proxy 日志输出如下:
@@ -187,9 +181,39 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/d
 kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/deploy/traffic/virtual-service.yml
 ```
 
-从消费端日志输出中，观察流量分布效果如下图
+从消费端日志输出中，观察流量分布效果如下图：
 
 ```java
+==================== dubbo invoke 100 end ====================
+[10/08/22 07:15:58:058 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.18:50052, client: 172.18.96.18, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 101 end ====================
+[10/08/22 07:16:03:003 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.22:50052, client: 172.18.96.22, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 102 end ====================
+[10/08/22 07:16:08:008 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.18:50052, client: 172.18.96.18, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 103 end ====================
+[10/08/22 07:16:13:013 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v2: 172.18.96.6:50052, client: 172.18.96.6, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 104 end ====================
+[10/08/22 07:16:18:018 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.22:50052, client: 172.18.96.22, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 105 end ====================
+[10/08/22 07:16:24:024 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.18:50052, client: 172.18.96.18, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 106 end ====================
+[10/08/22 07:16:29:029 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.22:50052, client: 172.18.96.22, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 107 end ====================
+[10/08/22 07:16:34:034 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.18:50052, client: 172.18.96.18, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 108 end ====================
+[10/08/22 07:16:39:039 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.22:50052, client: 172.18.96.22, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
+==================== dubbo invoke 109 end ====================
+[10/08/22 07:16:44:044 UTC] main  INFO action.GreetingServiceConsumer: consumer Unary reply <-message: "hello,service mesh, response from provider-v1: 172.18.96.18:50052, client: 172.18.96.18, local: dubbo-samples-mesh-provider, remote: null, isProviderSide: true"
+
 
 ```
 
