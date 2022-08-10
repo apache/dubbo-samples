@@ -17,11 +17,9 @@
 
 package org.apache.samples.sentinel;
 
-import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
-import org.apache.dubbo.rpc.RpcException;
-
 import org.apache.samples.sentinel.consumer.ConsumerConfiguration;
 import org.apache.samples.sentinel.consumer.FooServiceConsumer;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +41,13 @@ public class FooServiceIT {
         }
     }
 
-    @Test(expected = com.alibaba.csp.sentinel.slots.block.flow.FlowException.class)
-    public void testFlowControl2() throws Throwable {
+    @Test
+    public void testFlowControl2() {
         for (int i = 0; i < 11; i++) {
             try {
                 consumer.sayHello("dubbo");
             } catch (Throwable e) {
-                if (e.getMessage().contains("com.alibaba.csp.sentinel.slots.block.flow.FlowException")) {
-                    throw new FlowException(e.getMessage());
-                }
-                e.printStackTrace();
-                throw e.getCause();
+                Assert.assertTrue(e.getMessage().contains("SentinelBlockException: FlowException"));
             }
         }
     }
