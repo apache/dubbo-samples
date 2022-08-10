@@ -20,8 +20,8 @@ spec:
     spec:
       containers:
         - name: server
-          image: 15841721425/dubbo-samples-mesh-consumer-v1.0
-          imagePullPolicy: IfNotPresent
+          image: dubboteam/dubbo-samples-mesh-consumer
+          imagePullPolicy: Always
           ports:
             - name: grpc-tri
               containerPort: 50052

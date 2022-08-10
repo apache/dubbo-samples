@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dubbo-samples-mesh-provider-v1
+  name: dubbo-samples-mesh-provider-v2
   namespace: dubbo-demo
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: dubbo-samples-mesh-provider
-      version: v1
+      version: v2
   template:
     metadata:
       labels:
         app: dubbo-samples-mesh-provider
-        version: v1
+        version: v2
       annotations:
         # Prevent istio rewrite http probe
         sidecar.istio.io/rewriteAppHTTPProbers: "false"
     spec:
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-mesh-provider-v1:0.1
+          image: dubboteam/dubbo-samples-mesh-provider-v2:0.1
           imagePullPolicy: Always
           ports:
             - name: grpc-tri
