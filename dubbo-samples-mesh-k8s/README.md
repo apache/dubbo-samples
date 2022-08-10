@@ -8,11 +8,11 @@
     + [3.1 环境要求](#env)
     + [3.2 前置条件](#prepare)
     + [3.3 部署到 Kubernetes](#deploy)
-        - [3.4.1 部署 Provider](#deploy_provider)
-        - [3.4.2 部署 Consumer](#deploy_consumer)
-    + [3.5 检查 Provider 和 Consumer 正常通信](#check)
-    + [3.6 Istio 流量治理](#3.6-Istio-流量治理)
-* [4 修改示例与镜像打包](#4-修改示例)
+        - [3.3.1 部署 Provider](#deploy_provider)
+        - [3.3.2 部署 Consumer](#deploy_consumer)
+    + [3.4 检查 Provider 和 Consumer 正常通信](#check)
+    + [3.5 Istio 流量治理](#traffic)
+* [4 修改示例与镜像打包](#edit)
 * [5 附录：常用命令](#common)
 
 <h2 id="target">1 总体目标</h2>
@@ -63,20 +63,17 @@ kubectl cluster-info
 通过以下命令为示例项目创建独立的 Namespace `dubbo-demo`，同时开启 sidecar 自动注入。
 
 ```shell
-# 初始化命名空间
+# 初始化命名空间并开启sidecar自动注入
 kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/dubbo-samples-mesh-k8s/deploy/Namespace.yml
 
 # 切换命名空间
 kubens dubbo-demo
 
-# dubbo-demo 开启自动注入
-kubectl label namespace dubbo-demo istio-injection=enabled
-
 ```
 
-<h3 id="deploy">3.4 部署到 Kubernetes</h3>
+<h3 id="deploy">3.3 部署到 Kubernetes</h3>
 
-<h4 id="deploy_provider">3.4.1 部署 Provider</h3>
+<h4 id="deploy_provider">3.3.1 部署 Provider</h3>
 
 ```shell
 # 部署 Service
@@ -102,7 +99,7 @@ kubectl logs your-pod-id
 
 这时 pod 中应该有一个 dubbo provider 容器实例，同时还有一个 Envoy Sidecar 容器实例。
 
-<h4 id="deploy_consumer">3.4.2 部署 Consumer</h3>
+<h4 id="deploy_consumer">3.3.2 部署 Consumer</h3>
 
 ```shell
 # 部署 Service
@@ -116,9 +113,9 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/d
 
 > Dubbo Consumer 服务声明中还指定了消费的 Provider 服务（应用）名 `@DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", lazy = true)`
 
-<h3 id="check">3.5 检查 Provider 和 Consumer 正常通信</h3>
+<h3 id="check">3.4 检查 Provider 和 Consumer 正常通信</h3>
 
-继执行 3.4 步骤后， 检查启动日志，查看 consumer 完成对 provider 服务的消费。
+继执行 3.3 步骤后， 检查启动日志，查看 consumer 完成对 provider 服务的消费。
 
 ```shell
 # 查看 pod 列表
@@ -168,8 +165,8 @@ provider istio-proxy 日志输出如下:
  inbound|50052|| 127.0.0.6:47013 172.17.0.10:50052 172.17.0.7:60244
   outbound_.50052_._.dubbo-samples-mesh-provider.dubbo-demo.svc.cluster.local default
 ```
-
-#### 3.6 Istio 流量治理
+ 
+<h3 id="traffic">3.5 Istio 流量治理</h3>
 
 部署 v2 版本的 demo provider
 ```shell
@@ -220,7 +217,7 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/d
 #### 查看 dashboard
 Istio 官网查看 [如何启动 dashboard](https://istio.io/latest/docs/setup/getting-started/#dashboard)。
 
-<h3 id="image">4 修改示例</h3>
+<h3 id="edit">4 修改示例</h3>
 
 > 1. 注意项目存储路径一定是英文，否则 protobuf 编译失败。
 > 2. 以为应用开发与打包的指引说明。
