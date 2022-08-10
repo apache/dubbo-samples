@@ -1,6 +1,6 @@
 # Dubbo using Kubernetes as registry
 
-可以按照下文步骤，将 Demo 部署到本地集群，也可在 [KataCoda 在线快速体验]()。
+可以按照下文步骤，将 Demo 部署到本地集群。
 
 ## 1 总体目标
 
@@ -54,51 +54,9 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/d
 kubens dubbo-demo
 ```
 
-### 3.3 项目与镜像打包（可跳过）
+### 3.3 部署到 Kubernetes
 
-示例项目及相关镜像均已就绪，以下仅为指引说明，可直接跳过此步骤直接查看 3.4 小节。  
-https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
-
-注意，由于 kubernetes 为独立扩展项目，开启 Kubernetes 支持前请添加如下依赖到 pom.xml
-
-```xml
-<dependency>
-    <groupId>org.apache.dubbo.extensions</groupId>
-    <artifactId>dubbo-registry-kubernetes</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
-</dependency>
-```
-
-设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
-namespace、trustCerts 两个参数
-
-```properties
-dubbo.application.name=dubbo-samples-apiserver-provider
-dubbo.application.metadataServicePort=20885
-dubbo.registry.address=kubernetes://DEFAULT_MASTER_HOST?registry-type=service&duplicate=false&namespace=dubbo-demo&trustCerts=true
-dubbo.protocol.name=dubbo
-dubbo.protocol.port=20880
-dubbo.application.qosEnable=true
-dubbo.application.qosAcceptForeignIp=true
-dubbo.provider.token=true
-```
-
-如果要在本地打包镜像，可通过 spring-boot-maven-plugin 插件打包镜像（也可以直接使用示例提供好的镜像包）
-
-```shell
-# 打包镜像
-mvn spring-boot:build-image
-
-# 重命名镜像
-docker tag docker.io/dubboteam/dubbo-samples-apiserver-provider:latest your-image-space/dubbo-samples-apiserver-provider
-
-# 推到镜像仓库
-docker push your-image-space/dubbo-samples-apiserver-provider
-```
-
-### 3.4 部署到 Kubernetes
-
-#### 3.4.1 部署 Provider
+#### 3.3.1 部署 Provider
 
 ```shell
 # 部署 Service
@@ -121,7 +79,7 @@ kubectl get pods -l app=dubbo-samples-apiserver-provider
 kubectl logs your-pod-id
 ```
 
-#### 3.4.2 部署 Consumer
+#### 3.3.2 部署 Consumer
 
 ```shell
 # 部署 Service
@@ -150,12 +108,34 @@ kubectl logs your-pod-id
         result:hello,Kubernetes Api Server
 ```
 
-### 3.5 检查 Consumer 正常消费服务
+### 3.4 修改项目并打包（可跳过）
 
-TBD
-> * 改造 consumer 支持 spring-web
-> * Consumer service 暴露对外地址与端口 
-> * 访问 http 地址验证行为
+示例项目及相关镜像均已就绪，此小节仅面向需要修改示例并查看部署效果的用户。
+https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
+
+设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
+namespace、trustCerts 两个参数
+
+```properties
+dubbo.application.name=dubbo-samples-apiserver-provider
+dubbo.application.metadataServicePort=20885
+dubbo.registry.address=kubernetes://DEFAULT_MASTER_HOST?registry-type=service&duplicate=false&namespace=dubbo-demo&trustCerts=true
+dubbo.protocol.name=dubbo
+dubbo.protocol.port=20880
+dubbo.application.qosEnable=true
+dubbo.application.qosAcceptForeignIp=true
+dubbo.provider.token=true
+```
+
+如果要在本地打包镜像，可通过 jib-maven-plugin 插件打包镜像
+
+```shell
+# 打包并推送镜像
+mvn compile jib:build
+```
+
+> Jib 插件会自动打包并发布镜像。注意，本地开发需将 jib 插件配置中的 docker registry 组织 dubboteam 改为自己有权限的组织（包括其他 kubernetes manifests 中的 dubboteam 也要修改，以确保 kubernetes 部署的是自己定制后的镜像），如遇到 jib 插件认证问题，请参考[相应链接](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#what-should-i-do-when-the-registry-responds-with-unauthorized)配置 docker registry 认证信息。
+> 可以通过直接在命令行指定 `mvn compile jib:build -Djib.to.auth.username=x -Djib.to.auth.password=x -Djib.from.auth.username=x -Djib.from.auth.username=x`，或者使用 docker-credential-helper.
 
 ## 4 最佳实践
 
@@ -163,12 +143,9 @@ TBD
 
 * rediness probe
 * liveness probe
+* ci/cd 接入 Skalfold
 
-## 5 CI/CD
-
-* 接入 Skalfold
-
-## 6 附录 k8s manifests
+## 5 附录 k8s manifests
 
 ServiceAccount.yml
 

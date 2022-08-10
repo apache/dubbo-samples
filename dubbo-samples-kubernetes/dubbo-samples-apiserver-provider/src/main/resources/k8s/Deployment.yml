@@ -17,6 +17,7 @@ spec:
       containers:
         - name: server
           image: dubboteam/dubbo-samples-apiserver-provider
+          imagePullPolicy: Always
           ports:
             - containerPort: 20880
           livenessProbe:
