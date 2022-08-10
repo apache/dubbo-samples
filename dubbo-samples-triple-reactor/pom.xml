@@ -26,7 +26,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-reactor</artifactId>
+    <artifactId>dubbo-samples-triple-reactor</artifactId>
 
     <properties>
         <source.level>1.8</source.level>

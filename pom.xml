@@ -92,7 +92,7 @@
         <module>dubbo-samples-boundary-test</module>
         <module>dubbo-samples-kubernetes</module>
         <module>dubbo-samples-spring-boot</module>
-        <module>dubbo-samples-reactor</module>
+        <module>dubbo-samples-triple-reactor</module>
     </modules>
 
     <repositories>

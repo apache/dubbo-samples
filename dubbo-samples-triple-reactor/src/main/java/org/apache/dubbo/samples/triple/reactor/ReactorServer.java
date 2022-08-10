@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.samples.reactor;
+package org.apache.dubbo.samples.triple.reactor;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
@@ -23,9 +23,8 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.sample.reactor.GreeterService;
-import org.apache.dubbo.samples.reactor.impl.GreeterServiceImpl;
-import org.apache.dubbo.samples.reactor.util.EmbeddedZooKeeper;
+import org.apache.dubbo.samples.triple.reactor.impl.GreeterServiceImpl;
+import org.apache.dubbo.samples.triple.reactor.util.EmbeddedZooKeeper;
 
 public class ReactorServer {
 

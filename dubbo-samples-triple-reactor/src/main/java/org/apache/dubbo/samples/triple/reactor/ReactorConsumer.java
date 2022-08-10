@@ -15,15 +15,13 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.samples.reactor;
+package org.apache.dubbo.samples.triple.reactor;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.sample.reactor.GreeterRequest;
-import org.apache.dubbo.sample.reactor.GreeterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;

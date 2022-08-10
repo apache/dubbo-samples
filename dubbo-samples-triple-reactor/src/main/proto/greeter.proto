@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option java_multiple_files = true;
 
-package org.apache.dubbo.sample.reactor;
+package org.apache.dubbo.samples.triple.reactor;
 
 // The request message containing the user's name.
 message GreeterRequest {
