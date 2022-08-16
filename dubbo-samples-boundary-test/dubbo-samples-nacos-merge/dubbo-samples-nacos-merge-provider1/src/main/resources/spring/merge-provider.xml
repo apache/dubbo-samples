@@ -25,7 +25,7 @@
 
     <dubbo:application name="merge-provider-1"/>
 
-    <dubbo:registry address="nacos://127.0.0.1:8848"/>
+    <dubbo:registry address="nacos://${nacos.address:127.0.0.1}:8848?username=nacos&amp;password=nacos"/>
 
     <dubbo:provider token="true"/>
 
