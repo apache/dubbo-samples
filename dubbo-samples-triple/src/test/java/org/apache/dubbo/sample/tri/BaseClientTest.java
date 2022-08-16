@@ -299,20 +299,6 @@ public abstract class BaseClientTest {
         Assert.assertNotNull(reply);
     }
 
-    @Test
-    public void unaryGreeterWithStream() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-        delegate.greet(GreeterRequest.newBuilder()
-                .setName("name")
-                .build(), new StdoutStreamObserver<GreeterReply>("unaryGreeterWithStream") {
-            @Override
-            public void onNext(GreeterReply data) {
-                super.onNext(data);
-                latch.countDown();
-            }
-        });
-        Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
-    }
 
     @Test(expected = RpcException.class)
     public void clientSendLargeSizeHeader() {
