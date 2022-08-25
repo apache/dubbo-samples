@@ -37,7 +37,7 @@
         <protoc.version>3.19.4</protoc.version>
         <grpc.version>1.44.1</grpc.version>
         <compiler.version>3.1.0</compiler.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
 
