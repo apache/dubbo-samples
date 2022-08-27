@@ -15,21 +15,21 @@
 # limitations under the License.
 
 services:
-  dubbo-samples-reactor:
+  dubbo-samples-triple-reactor:
     type: app
     basedir: .
     checkPorts:
       - 2181
       - 50052
-    mainClass: org.apache.dubbo.samples.reactor.ReactorServer
+    mainClass: org.apache.dubbo.samples.triple.reactor.ReactorServer
 
   dubbo-samples-triple-test:
     type: test
     basedir: .
     tests:
-      - "org.apache.dubbo.samples.reactor/ReactorServerTest.class"
+      - "org.apache.dubbo.samples.triple.reactor/ReactorServerTest.class"
     waitPortsBeforeRun:
-      - dubbo-samples-triple:2181
-      - dubbo-samples-triple:50052
+      - dubbo-samples-triple-reactor:2181
+      - dubbo-samples-triple-reactor:50052
     depends_on:
-      - dubbo-samples-reactor
+      - dubbo-samples-triple-reactor
