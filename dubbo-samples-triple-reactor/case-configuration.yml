@@ -23,7 +23,7 @@ services:
       - 50052
     mainClass: org.apache.dubbo.samples.triple.reactor.ReactorServer
 
-  dubbo-samples-triple-test:
+  dubbo-samples-triple-reactor-test:
     type: test
     basedir: .
     tests:
@@ -31,5 +31,8 @@ services:
     waitPortsBeforeRun:
       - dubbo-samples-triple-reactor:2181
       - dubbo-samples-triple-reactor:50052
+    systemProps:
+      - zookeeper.host=dubbo-samples-triple-reactor
+      - zookeeper.port=2181
     depends_on:
       - dubbo-samples-triple-reactor

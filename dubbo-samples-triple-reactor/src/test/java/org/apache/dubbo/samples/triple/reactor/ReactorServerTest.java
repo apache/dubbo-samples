@@ -44,7 +44,7 @@ public class ReactorServerTest {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("tri-reactor-stub-server"))
-                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                .registry(new RegistryConfig("zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}"))
                 .reference(referenceConfig)
                 .start();
 
