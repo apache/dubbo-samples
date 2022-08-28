@@ -32,7 +32,7 @@ services:
       - dubbo-samples-triple-reactor:2181
       - dubbo-samples-triple-reactor:50052
     systemProps:
-      - zookeeper.host=dubbo-samples-triple-reactor
+      - zookeeper.address=dubbo-samples-triple-reactor
       - zookeeper.port=2181
     depends_on:
       - dubbo-samples-triple-reactor
