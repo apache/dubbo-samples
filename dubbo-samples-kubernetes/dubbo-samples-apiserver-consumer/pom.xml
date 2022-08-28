@@ -63,6 +63,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-kubernetes</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
