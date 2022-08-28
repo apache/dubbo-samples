@@ -113,7 +113,7 @@ kubectl logs your-pod-id
 示例项目及相关镜像均已就绪，此小节仅面向需要修改示例并查看部署效果的用户。
 https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
 
-设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
+设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.svc，同时还指定了
 namespace、trustCerts 两个参数
 
 ```properties
