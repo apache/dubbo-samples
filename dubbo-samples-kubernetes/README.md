@@ -119,7 +119,7 @@ namespace、trustCerts 两个参数
 ```properties
 dubbo.application.name=dubbo-samples-apiserver-provider
 dubbo.application.metadataServicePort=20885
-dubbo.registry.address=kubernetes://DEFAULT_MASTER_HOST?registry-type=service&duplicate=false&namespace=dubbo-demo&trustCerts=true
+dubbo.registry.address=kubernetes://DEFAULT_MASTER_HOST:443?registry-type=service&duplicate=false&namespace=dubbo-demo&trustCerts=true
 dubbo.protocol.name=dubbo
 dubbo.protocol.port=20880
 dubbo.application.qosEnable=true
