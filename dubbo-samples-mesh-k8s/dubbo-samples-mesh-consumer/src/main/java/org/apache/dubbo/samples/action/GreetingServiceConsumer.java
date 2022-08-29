@@ -35,7 +35,7 @@ public class GreetingServiceConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GreetingServiceConsumer.class);
 
-    @DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", lazy = true)
+    @DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", lazy = true, providerPort = 50052)
     private Greeter greeter;
 
     public void doSayHello(String name) {
