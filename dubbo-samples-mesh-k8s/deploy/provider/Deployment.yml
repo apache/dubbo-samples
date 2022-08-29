@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: apache/dubbo-demo:dubbo-samples-mesh-provider-v1:0.0.1
+          image: apache/dubbo-demo:dubbo-samples-mesh-provider-v1_0.0.1
           imagePullPolicy: Always
           ports:
             - name: grpc-tri
