@@ -227,7 +227,7 @@ spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-apiserver-provider
+          image: apache/dubbo-demo:dubbo-samples-apiserver-provider_0.0.1
           ports:
             - containerPort: 20880
           livenessProbe:
@@ -289,7 +289,7 @@ spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-apiserver-consumer
+          image: apache/dubbo-demo:dubbo-samples-apiserver-consumer_0.0.1
           ports:
             - containerPort: 20880
           livenessProbe:
