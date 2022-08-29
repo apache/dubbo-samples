@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-xds-provider:1.0.0
+          image: apache/dubbo-demo:dubbo-samples-xds-provider_0.0.1
           livenessProbe:
             httpGet:
               path: /live
