@@ -12,6 +12,8 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+import java.util.concurrent.CountDownLatch;
+
 public class GrpcBenchmarkTest {
 
     @Test
@@ -20,6 +22,24 @@ public class GrpcBenchmarkTest {
                 .include(RunBenchMark.class.getSimpleName())
                 .build();
         new Runner(build).run();
+    }
+
+    private volatile boolean running = true;
+
+    @Test
+    public void runProfiler() throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(() -> {
+            RunBenchMark runBenchMark = new RunBenchMark();
+            while(running) {
+                runBenchMark.test();
+            }
+            countDownLatch.countDown();
+        }).start();
+
+        Thread.sleep(60000);
+        running = false;
+        countDownLatch.await();
     }
 
     @State(Scope.Benchmark)
