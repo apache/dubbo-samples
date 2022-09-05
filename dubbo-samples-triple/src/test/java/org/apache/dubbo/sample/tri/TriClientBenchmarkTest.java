@@ -7,7 +7,6 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.util.TriSampleConstants;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
