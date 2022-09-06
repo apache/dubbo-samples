@@ -15,31 +15,25 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.sample.tri.util;
+package org.apache.dubbo.sample.tri;
 
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+import org.apache.dubbo.sample.tri.interop.client.GrpcGreeterImpl;
 
-import io.grpc.stub.StreamObserver;
+import java.io.IOException;
 
-public class GrpcStreamObserverAdapter<T> implements StreamObserver<T> {
+public class GrpcServers {
+    public static void main(String[] args) throws InterruptedException, IOException {
+        int port = 9091;
+        GrpcGreeterImpl greeterImpl = new GrpcGreeterImpl();
 
-    private final org.apache.dubbo.common.stream.StreamObserver<T> delegate;
-
-    public GrpcStreamObserverAdapter(org.apache.dubbo.common.stream.StreamObserver<T> delegate) {
-        this.delegate = delegate;
-    }
-
-    @Override
-    public void onNext(T data) {
-        delegate.onNext(data);
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        delegate.onError(throwable);
-    }
-
-    @Override
-    public void onCompleted() {
-        delegate.onCompleted();
+        Server server = ServerBuilder
+                .forPort(port)
+                .addService(greeterImpl)
+                .build()
+                .start();
+        System.out.println("server started, port : " + port);
+        server.awaitTermination();
     }
 }
