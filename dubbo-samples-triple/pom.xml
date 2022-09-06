@@ -41,6 +41,7 @@
         <protoc.version>3.19.4</protoc.version>
         <compiler.version>0.0.4.1</compiler.version>
         <jmh.version>1.35</jmh.version>
+        <apache-rat-plugin.version>0.13</apache-rat-plugin.version>
     </properties>
 
     <dependencies>
@@ -166,6 +167,59 @@
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+                <version>${apache-rat-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>rat-validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*.versionsBackup</exclude>
+                        <exclude>**/.idea/</exclude>
+                        <exclude>**/*.iml</exclude>
+                        <exclude>**/*.txt</exclude>
+                        <exclude>**/*.load</exclude>
+                        <exclude>**/*.flex</exclude>
+                        <exclude>**/*.fc</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.sh</exclude>
+                        <exclude>**/*.bat</exclude>
+                        <exclude>**/*.md</exclude>
+                        <exclude>.git/</exclude>
+                        <exclude>.gitignore</exclude>
+                        <!-- ASF jenkins box puts the Maven repo in our root directory. -->
+                        <exclude>.repository/</exclude>
+                        <exclude>**/.settings/*</exclude>
+                        <exclude>**/.classpath</exclude>
+                        <exclude>**/.project</exclude>
+                        <exclude>**/target/**</exclude>
+                        <exclude>**/*.log</exclude>
+                        <exclude>CODE_OF_CONDUCT.md</exclude>
+                        <exclude>.codecov.yml</exclude>
+                        <exclude>.travis.yml</exclude>
+                        <exclude>PULL_REQUEST_TEMPLATE.md</exclude>
+                        <exclude>CONTRIBUTING.md</exclude>
+                        <exclude>README.md</exclude>
+                        <exclude>Jenkinsfile</exclude>
+                        <exclude>**/codestyle/*</exclude>
+                        <exclude>**/resources/META-INF/**</exclude>
+                        <exclude>.github/**</exclude>
+                        <exclude>compiler/**</exclude>
+                        <exclude>**/generated/**</exclude>
+                        <!-- exclude mockito extensions spi files -->
+                        <exclude>**/mockito-extensions/*</exclude>
+                        <exclude>**/*.dubbo.cache</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
