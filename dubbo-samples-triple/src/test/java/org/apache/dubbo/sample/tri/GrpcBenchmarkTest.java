@@ -41,6 +41,14 @@ public class GrpcBenchmarkTest {
         new Runner(build).run();
     }
 
+    @Test
+    public void runTriBenchmark() throws RunnerException, InterruptedException {
+        Options build = new OptionsBuilder()
+                .include(RunTriBenchMark.class.getSimpleName())
+                .build();
+        new Runner(build).run();
+    }
+
     private volatile boolean running = true;
 
     @Test
@@ -71,6 +79,32 @@ public class GrpcBenchmarkTest {
 
         public RunBenchMark() {
             this.channel = ManagedChannelBuilder.forAddress("127.0.0.1", 9091).usePlaintext().build();
+            this.greeterBlockingStub = GreeterGrpc.newBlockingStub(channel);
+        }
+        @Benchmark
+        public void test() {
+            this.greeterBlockingStub.greet(request);
+        }
+
+        @Test
+        public void mytest() {
+            GreeterReply greet = greeterBlockingStub.greet(request);
+            Assert.assertNotNull(greet);
+        }
+    }
+
+    @State(Scope.Benchmark)
+    public static class RunTriBenchMark {
+
+        ManagedChannel channel;
+        GreeterGrpc.GreeterBlockingStub greeterBlockingStub;
+
+        protected GreeterRequest request = GreeterRequest.newBuilder()
+                .setName("name")
+                .build();
+
+        public RunTriBenchMark() {
+            this.channel = ManagedChannelBuilder.forAddress("127.0.0.1", 50053).usePlaintext().build();
             this.greeterBlockingStub = GreeterGrpc.newBlockingStub(channel);
         }
         @Benchmark

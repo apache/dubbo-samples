@@ -184,6 +184,8 @@
                 </executions>
                 <configuration>
                     <excludes>
+                        <exclude>**/README.MD</exclude>
+                        <exclude>**/*.proto</exclude>
                         <exclude>**/*.versionsBackup</exclude>
                         <exclude>**/.idea/</exclude>
                         <exclude>**/*.iml</exclude>
