@@ -516,7 +516,11 @@ public class ConfigurationImpl implements IConfiguration {
 
     @Override
     public String ipv6Cidr() {
-        return caseConfiguration().getProps().get("ipv6Cidr");
+        if (caseConfiguration().getProps() != null) {
+            return caseConfiguration().getProps().get("ipv6Cidr");
+        } else {
+            return null;
+        }
     }
 
     @Override
