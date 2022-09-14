@@ -38,6 +38,8 @@ public interface IConfiguration {
 
     String testImageVersion();
 
+    String ipv6Cidr();
+
     String scenarioHome();
 
     String outputDir();
