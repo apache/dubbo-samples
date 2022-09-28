@@ -223,4 +223,30 @@ public class GreeterImpl extends GreeterImplBase {
         }
         replyStream.onCompleted();
     }
+
+    @Override
+    public StreamObserver<org.apache.dubbo.sample.tri.GreeterRequest> greetClientStream(
+            StreamObserver<org.apache.dubbo.sample.tri.GreeterReply> responseObserver) {
+        return new StreamObserver<GreeterRequest>() {
+            private StringBuilder sb = new StringBuilder();
+
+            @Override
+            public void onNext(GreeterRequest data) {
+                sb.append("hello, ").append(data.getName()).append("\n");
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onCompleted() {
+                responseObserver.onNext(GreeterReply.newBuilder()
+                        .setMessage(sb.toString())
+                        .build());
+                responseObserver.onCompleted();
+            }
+        };
+    }
 }

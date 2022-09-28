@@ -99,4 +99,9 @@ public class MetadataGreeterImpl implements Greeter {
     public StreamObserver<GreeterRequest> serverCompressorBiStream(StreamObserver<GreeterReply> responseObserver) {
         return delegate.serverCompressorBiStream(responseObserver);
     }
+
+    @Override
+    public StreamObserver<GreeterRequest> greetClientStream(StreamObserver<GreeterReply> responseObserver) {
+        return delegate.greetClientStream(responseObserver);
+    }
 }
