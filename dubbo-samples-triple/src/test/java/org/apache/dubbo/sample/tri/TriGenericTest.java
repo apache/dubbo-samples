@@ -6,6 +6,7 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.service.GenericException;
 import org.apache.dubbo.rpc.service.GenericService;
 
 import org.apache.dubbo.sample.tri.api.PojoGreeter;
@@ -67,7 +68,7 @@ public class TriGenericTest {
             new String[]{String.class.getName()}, new Object[]{"unary"}));
     }
 
-    @Test(expected = RpcException.class)
+    @Test(expected = GenericException.class)
     public void greetException() {
         generic.$invoke("greetException", new String[]{String.class.getName()},
             new Object[]{"exception"});
