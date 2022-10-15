@@ -74,7 +74,7 @@ public class TriPojoClientTest {
         Assert.assertEquals("hello,unary", delegate.greet("unary"));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = RpcException.class)
     public void greetException() {
         delegate.greetException("exception");
     }
