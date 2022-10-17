@@ -1,4 +1,4 @@
-package org.apache.dubbo.sample.tri;
+package org.apache.dubbo.sample.tri.flowcontrol;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.StreamObserver;
@@ -6,10 +6,9 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.sample.tri.api.PojoGreeter;
-import org.apache.dubbo.sample.tri.generic.GenericClient;
-import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
-import org.apache.dubbo.sample.tri.util.TriSampleConstants;
+import org.apache.dubbo.sample.tri.flowcontrol.api.PojoGreeter;
+import org.apache.dubbo.sample.tri.flowcontrol.util.StdoutStreamObserver;
+import org.apache.dubbo.sample.tri.flowcontrol.util.TriSampleConstants;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class TriFlowcontrolClientTest {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TriFlowcontrolClientTest.class);
 
     private static PojoGreeter delegate;
 
@@ -45,7 +44,7 @@ public class TriFlowcontrolClientTest {
         ref2.setProtocol(CommonConstants.TRIPLE);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        ApplicationConfig applicationConfig = new ApplicationConfig(TriPojoClientTest.class.getName());
+        ApplicationConfig applicationConfig = new ApplicationConfig(TriFlowcontrolClientTest.class.getName());
         applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
         bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))

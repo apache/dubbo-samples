@@ -1,11 +1,10 @@
-package org.apache.dubbo.sample.tri.flowcontrol;
+package org.apache.dubbo.sample.tri.flowcontrol.flowcontrol;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.sample.tri.Greeter;
-import org.apache.dubbo.sample.tri.api.PojoGreeter;
-import org.apache.dubbo.sample.tri.stub.GreeterImpl;
-import org.apache.dubbo.sample.tri.util.EchoStreamObserver;
+import org.apache.dubbo.sample.tri.flowcontrol.Greeter;
+import org.apache.dubbo.sample.tri.flowcontrol.api.PojoGreeter;
+import org.apache.dubbo.sample.tri.flowcontrol.util.EchoStreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
