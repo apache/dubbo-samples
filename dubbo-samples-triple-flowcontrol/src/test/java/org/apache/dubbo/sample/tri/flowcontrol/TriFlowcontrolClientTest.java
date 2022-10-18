@@ -76,7 +76,7 @@ public class TriFlowcontrolClientTest {
     @Test
     public void greetStreamFlowControl() throws InterruptedException {
         int n = 10000;
-        CountDownLatch latch = new CountDownLatch(1310);
+        CountDownLatch latch = new CountDownLatch(n);
         final StreamObserver<String> request = delegate.greetStream(new StdoutStreamObserver<String>(
                 "greetStream") {
             @Override
@@ -89,6 +89,7 @@ public class TriFlowcontrolClientTest {
             request.onNext("stream request");
         }
         request.onCompleted();
-        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
+        Assert.assertFalse(latch.await(10, TimeUnit.SECONDS));
+//        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
     }
 }

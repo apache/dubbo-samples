@@ -58,6 +58,8 @@ public class TriFlowcontrolServer implements Lifecycle {
         service.setInterface(PojoGreeter.class);
         service.setRef(new PojoGreeterImpl());
 
+        System.setProperty("dubbo.rpc.tri.initial-window-size","65535");
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("tri-stub-server"))
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
