@@ -23,6 +23,7 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.flowcontrol.api.PojoGreeter;
+import org.apache.dubbo.sample.tri.flowcontrol.util.Cache;
 import org.apache.dubbo.sample.tri.flowcontrol.util.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.flowcontrol.util.TriSampleConstants;
 import org.junit.Assert;
@@ -75,7 +76,7 @@ public class TriFlowcontrolClientTest {
 
     @Test
     public void greetStreamFlowControl() throws InterruptedException {
-        int n = 10000;
+        int n = 2000;
         CountDownLatch latch = new CountDownLatch(n);
         final StreamObserver<String> request = delegate.greetStream(new StdoutStreamObserver<String>(
                 "greetStream") {
@@ -85,11 +86,12 @@ public class TriFlowcontrolClientTest {
                 latch.countDown();
             }
         });
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < n; i++) {
             request.onNext("stream request");
         }
+        Thread.sleep(1000);
         request.onCompleted();
-        Assert.assertFalse(latch.await(10, TimeUnit.SECONDS));
-//        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
+        latch.await(10, TimeUnit.SECONDS);
+        Assert.assertTrue(Cache.getCount() == 34465);
     }
 }
