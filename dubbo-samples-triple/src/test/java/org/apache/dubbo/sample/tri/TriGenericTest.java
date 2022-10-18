@@ -78,7 +78,7 @@ public class TriGenericTest {
             Assert.fail();
         } catch (RpcException e) {
             Assert.assertEquals(isSupportSelfDefineException, true);
-        } catch (GenericException e) {
+        } catch (IllegalStateException e) {
             Assert.assertEquals(isSupportSelfDefineException, false);
         }
     }
