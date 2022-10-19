@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class TriFlowcontrolClientTest {
 
@@ -87,10 +86,16 @@ public class TriFlowcontrolClientTest {
                 latch.countDown();
             }
         });
-        Throwable throwable;
+        Throwable throwable = new Exception();
+        int times = 10000;
         while(true){
             try{
+                if(times <= 0){
+                    break;
+                }
                 request.onNext(getRandomStr());
+                Thread.sleep(1);
+                times--;
             }catch (Exception e){
                 throwable = e;
                 break;
@@ -106,7 +111,7 @@ public class TriFlowcontrolClientTest {
         Random random1=new Random();
         //指定字符串长度，拼接字符并toString
         StringBuffer sb=new StringBuffer();
-        for (int i = 0; i < 6000; i++) {
+        for (int i = 0; i < 1000; i++) {
             //获取指定长度的字符串中任意一个字符的索引值int number=random1.nextInt(str.length());
             //根据索引值获取对应的字符char charAt = str.charAt(number);
             int num = random1.nextInt(62);

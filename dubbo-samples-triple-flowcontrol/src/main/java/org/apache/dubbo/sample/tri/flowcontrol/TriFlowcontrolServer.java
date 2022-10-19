@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.sample.tri.flowcontrol.flowcontrol;
+package org.apache.dubbo.sample.tri.flowcontrol;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.context.Lifecycle;
@@ -25,6 +25,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.flowcontrol.api.PojoGreeter;
+import org.apache.dubbo.sample.tri.flowcontrol.flowcontrol.PojoGreeterImpl;
 import org.apache.dubbo.sample.tri.flowcontrol.util.EmbeddedZooKeeper;
 import org.apache.dubbo.sample.tri.flowcontrol.util.TriSampleConstants;
 

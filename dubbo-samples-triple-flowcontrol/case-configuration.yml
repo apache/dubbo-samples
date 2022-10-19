@@ -15,44 +15,34 @@
 # limitations under the License.
 
 services:
-  dubbo-samples-triple:
+  dubbo-samples-triple-flowcontrol:
     type: app
     basedir: .
     checkPorts:
       - 2181
       - 50052
       - 50053
-    mainClass: org.apache.dubbo.sample.tri.TestServers
+    mainClass: org.apache.dubbo.sample.tri.flowcontrol.TriFlowcontrolServer
 
-  dubbo-samples-triple-test:
+  dubbo-samples-triple-flowcontrol-test:
     type: test
     basedir: .
     tests:
       # tri-->tri
-      - "org.apache.dubbo.sample.tri/TriStubClientTest.class"
-      - "org.apache.dubbo.sample.tri/TriClientTest.class"
-      - "org.apache.dubbo.sample.tri/TriPojoClientTest.class"
-      - "org.apache.dubbo.sample.tri/TriGenericTest.class"
-      # use url direct
-      - "org.apache.dubbo.sample.tri/direct/TriDirectClientTest.class"
-      - "org.apache.dubbo.sample.tri/direct/TriDirectStubClientTest.class"
-      - "org.apache.dubbo.sample.tri/direct/TriDirectPojoClientTest.class"
-      # grpc-->tri
-      - "org.apache.dubbo.sample.tri/grpc/GrpcClientTest.class"
-      # tri-->grpc
-      - "org.apache.dubbo.sample.tri/grpc/TriGrpcDirectClientTest.class"
+      - "org.apache.dubbo.sample.tri.flowcontrol/TriFlowcontrolClientTest.class"
+
     systemProps:
-      - zookeeper.host=dubbo-samples-triple
+      - zookeeper.host=dubbo-samples-triple-flowcontrol
       - zookeeper.port=2181
-      - provider.host=dubbo-samples-triple
+      - provider.host=dubbo-samples-triple-flowcontrol
       - provider.port=50052
       - grpc.provider.port=50053
     waitPortsBeforeRun:
-      - dubbo-samples-triple:2181
-      - dubbo-samples-triple:50052
-      - dubbo-samples-triple:50053
+      - dubbo-samples-triple-flowcontrol:2181
+      - dubbo-samples-triple-flowcontrol:50052
+      - dubbo-samples-triple-flowcontrol:50053
     depends_on:
-      - dubbo-samples-triple
+      - dubbo-samples-triple-flowcontrol
 
 
 
