@@ -83,10 +83,6 @@ public class TriGenericTest {
         }
     }
 
-    public static void main(String[] args) {
-        boolean isSupportSelfDefineException = "3.2.0-beta".compareTo("3.2.0") >= 0;
-        System.out.println(isSupportSelfDefineException);
-    }
 
     @Test(expected = RpcException.class)
     public void notFoundMethod() {
