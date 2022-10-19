@@ -90,7 +90,7 @@ public class PojoGreeterImpl implements PojoGreeter {
             public void onNext(String data) {
                 LOGGER.info(data);
                 try {
-                    Thread.sleep(10010);
+                   Thread.sleep(10000000);
                 }catch (Exception e){
 
                 }

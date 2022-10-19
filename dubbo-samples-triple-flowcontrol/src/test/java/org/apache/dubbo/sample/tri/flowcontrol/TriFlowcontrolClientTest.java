@@ -23,7 +23,6 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.flowcontrol.api.PojoGreeter;
-import org.apache.dubbo.sample.tri.flowcontrol.util.Cache;
 import org.apache.dubbo.sample.tri.flowcontrol.util.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.flowcontrol.util.TriSampleConstants;
 import org.junit.Assert;
@@ -32,6 +31,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -63,6 +63,7 @@ public class TriFlowcontrolClientTest {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ApplicationConfig applicationConfig = new ApplicationConfig(TriFlowcontrolClientTest.class.getName());
         applicationConfig.setMetadataServicePort(TriSampleConstants.CONSUMER_METADATA_SERVICE_PORT);
+        System.setProperty("dubbo.rpc.tri.initial-window-size","65535");
         bootstrap.application(applicationConfig)
                 .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
                 .reference(ref)
@@ -86,12 +87,31 @@ public class TriFlowcontrolClientTest {
                 latch.countDown();
             }
         });
-        for (int i = 0; i < n; i++) {
-            request.onNext("stream request");
+        Throwable throwable;
+        while(true){
+            try{
+                request.onNext(getRandomStr());
+            }catch (Exception e){
+                throwable = e;
+                break;
+            }
         }
-        Thread.sleep(1000);
-        request.onCompleted();
-        latch.await(10, TimeUnit.SECONDS);
-        Assert.assertTrue(Cache.getCount() == 34465);
+        Assert.assertEquals("Due flowcontrol over pendingbytes, Call already canceled",throwable.getMessage());
+
+    }
+
+
+    public String getRandomStr(){
+        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random1=new Random();
+        //指定字符串长度，拼接字符并toString
+        StringBuffer sb=new StringBuffer();
+        for (int i = 0; i < 6000; i++) {
+            //获取指定长度的字符串中任意一个字符的索引值int number=random1.nextInt(str.length());
+            //根据索引值获取对应的字符char charAt = str.charAt(number);
+            int num = random1.nextInt(62);
+            sb.append(str.charAt(num));
+        }
+        return sb.toString();
     }
 }
