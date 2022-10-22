@@ -58,7 +58,7 @@ public class ReactorServerTest {
         StepVerifier.create(greeterService.greetOneToOne(Mono.just(GreeterRequest.newBuilder().setName("request-1").build())))
                 .expectNext(GreeterReply.newBuilder().setMessage("request-1 -> server get").build())
                 .expectComplete()
-                .verify(Duration.ofSeconds(3));
+                .verify(Duration.ofMinutes(3));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class ReactorServerTest {
                 .expectNextCount(10)
                 .expectComplete()
                 .log()
-                .verify(Duration.ofSeconds(3));
+                .verify(Duration.ofMinutes(3));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ReactorServerTest {
                         Flux.range(1, 10).map(num -> GreeterRequest.newBuilder().setName(String.valueOf(num)).build())))
                 .expectNext(GreeterReply.newBuilder().setMessage("55").build())
                 .expectComplete()
-                .verify(Duration.ofSeconds(3));
+                .verify(Duration.ofMinutes(3));
     }
 
     @Test
@@ -87,6 +87,6 @@ public class ReactorServerTest {
                 .expectNext(GreeterReply.newBuilder().setMessage("1 -> server get").build())
                 .expectNextCount(9)
                 .expectComplete()
-                .verify(Duration.ofSeconds(3));
+                .verify(Duration.ofMinutes(3));
     }
 }
