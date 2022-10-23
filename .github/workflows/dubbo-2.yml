@@ -27,7 +27,7 @@ env:
     spring-boot.version:1.5.22.RELEASE;
     spring-boot.version:2.4.1;
     '
-  DUBBO_REF: 'master'
+  DUBBO_REF: 'feature/split_rpcContext_2'
 
 jobs:
   build-samples:
@@ -62,7 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: 'apache/dubbo'
+          repository: 'aamingaa/dubbo'
           ref: ${{env.DUBBO_REF}}
       - name: Get commit id and dubbo version
         id: git-checker
