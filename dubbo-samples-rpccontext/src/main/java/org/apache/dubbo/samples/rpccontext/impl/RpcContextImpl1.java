@@ -24,17 +24,23 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService1;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService2;
+import org.apache.dubbo.samples.rpccontext.dto.Service1DTO;
+import org.apache.dubbo.samples.rpccontext.dto.Service2DTO;
 import org.apache.dubbo.samples.rpccontext.utils.RpcContextUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+@Service
+@Component("demoService")
 public class RpcContextImpl1 implements RpcContextService1 {
 
     @Override
-    public void sayHello(){
+    public Service1DTO sayHello(){
+        Service1DTO service1DTO = new Service1DTO();
         String consumerReq = RpcContext.getServerAttachment().getAttachment(RpcContextUtils.consumer_req_key);
         System.out.println("get request from consumer："+ consumerReq);
         ReferenceConfig<RpcContextService2> ref = new ReferenceConfig<>();
@@ -44,9 +50,13 @@ public class RpcContextImpl1 implements RpcContextService1 {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         RpcContextService2 greeterSayHi = bootstrap.getCache().get(ref);
         RpcContext.getClientAttachment().setObjectAttachment(RpcContextUtils.provider1_req_key, RpcContextUtils.provider1_req_key);
-        greeterSayHi.sayHi();
+        Service2DTO service2DTO = greeterSayHi.sayHi();
         String provider2Res = (String)RpcContext.getClientResponseContext().getObjectAttachment(RpcContextUtils.provider2_res_key);
         System.out.println("get response from provider2："+ provider2Res);
         RpcContext.getServerResponseContext().setObjectAttachment(RpcContextUtils.provider1_res_key, RpcContextUtils.provider1_res_key);
+        service1DTO.setConsumerReq(consumerReq);
+        service1DTO.setProvider2Res(provider2Res);
+        service1DTO.setService2DTO(service2DTO);
+        return service1DTO;
     }
 }

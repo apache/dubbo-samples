@@ -19,36 +19,43 @@
 
 package org.apache.dubbo.samples.rpccontext;
 
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ProtocolConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.ServiceConfig;
+import org.apache.dubbo.config.*;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.samples.rpccontext.api.RpcContextService1;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService2;
+import org.apache.dubbo.samples.rpccontext.impl.RpcContextImpl1;
 import org.apache.dubbo.samples.rpccontext.impl.RpcContextImpl2;
 import org.apache.dubbo.samples.rpccontext.utils.RpcContextUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
 
 public class RpcContextProvider2 {
-
-    public static void main(String[] args) throws IOException {
-        ServiceConfig<RpcContextService2> service = new ServiceConfig<>();
-        service.setInterface(RpcContextService2.class);
-        service.setRef(new RpcContextImpl2());
-
-        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(new ApplicationConfig("rpccontext-provider-2"))
-                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
-                .protocol(new ProtocolConfig(RpcContextUtils.dubbo_protocol, 8001))
-                .service(service)
-                .start()
-                .await()
-        ;
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-rpccontext-provider2.xml");
+        context.start();
         System.out.println("Rpc context provider2 started");
-        System.in.read();
+        new CountDownLatch(1).await();
     }
+//    public static void main(String[] args) throws IOException {
+//        new EmbeddedZooKeeper(2181, false).start();
+//        ServiceConfig<RpcContextService2> service = new ServiceConfig<>();
+//        service.setInterface(RpcContextService2.class);
+//        service.setRef(new RpcContextImpl2());
+//
+//        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+//        bootstrap.application(new ApplicationConfig("rpccontext-provider-2"))
+//                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+//                .protocol(new ProtocolConfig(RpcContextUtils.dubbo_protocol, 8001))
+//                .service(service)
+//                .start()
+////                .await()
+//        ;
+//        System.out.println("Rpc context provider2 started");
+//        System.in.read();
+//    }
 }

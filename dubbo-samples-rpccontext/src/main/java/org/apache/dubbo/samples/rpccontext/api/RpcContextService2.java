@@ -20,6 +20,8 @@
 package org.apache.dubbo.samples.rpccontext.api;
 
 
+import org.apache.dubbo.samples.rpccontext.dto.Service2DTO;
+
 public interface RpcContextService2 {
-    void sayHi();
+    Service2DTO sayHi();
 }

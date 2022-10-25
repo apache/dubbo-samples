@@ -22,20 +22,26 @@ package org.apache.dubbo.samples.rpccontext.impl;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService1;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService2;
+import org.apache.dubbo.samples.rpccontext.dto.Service2DTO;
 import org.apache.dubbo.samples.rpccontext.utils.RpcContextUtils;
+import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+@Service
 public class RpcContextImpl2 implements RpcContextService2 {
 
     @Override
-    public void sayHi(){
+    public Service2DTO sayHi(){
+        Service2DTO service2DTO = new Service2DTO();
         String consumerReq = RpcContext.getServerAttachment().getAttachment(RpcContextUtils.consumer_req_key);
         System.out.println("get request from consumer："+ consumerReq);
         String provider1Req =  (String) RpcContext.getServerAttachment().getObjectAttachment(RpcContextUtils.provider1_req_key);
         System.out.println("get request from provider1："+ provider1Req);
         RpcContext.getServerResponseContext().setAttachment(RpcContextUtils.provider2_res_key, RpcContextUtils.provider2_res_key);
+        service2DTO.setConsumerReq(consumerReq);
+        service2DTO.setProvider1Req(provider1Req);
+        return service2DTO;
     }
 }
