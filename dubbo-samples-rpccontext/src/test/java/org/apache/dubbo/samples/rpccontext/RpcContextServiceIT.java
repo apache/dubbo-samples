@@ -45,7 +45,7 @@ public class RpcContextServiceIT {
      */
 
     @Test
-    public void testAttachment1() {
+    public void testRpcContext1() {
         RpcContext.getClientAttachment().setAttachment(RpcContextUtils.consumer_req_key, RpcContextUtils.consumer_req_key);
         Service1DTO service1DTO = service.sayHello();
         Service2DTO service2DTO = service1DTO.getService2DTO();
@@ -61,57 +61,4 @@ public class RpcContextServiceIT {
         Assert.assertEquals(null, provider2Res);
         Assert.assertEquals(RpcContextUtils.provider2_res_key, service1DTO.getProvider2Res());
     }
-
-    /**
-     * A -> B -> C
-     * Only C can receive the client attachment from A
-     */
-    @Test
-    public void testAttachment2() {
-        RpcContext.getClientAttachment().setObjectAttachment(RpcContextUtils.provider1_req_key, RpcContextUtils.provider1_req_key);
-//        String result = service.sayHello();
-//        Assert.assertTrue(result.startsWith("Hello dubbo"));
-//        Assert.assertTrue(result.endsWith("index: 1"));
-//        RpcContext.getContext().setAttachment("index", "2");
-//        result = service.sayHello("dubbo");
-//        Assert.assertTrue(result.endsWith("index: 2"));
-//        result = service.sayHello("dubbo");
-//        Assert.assertTrue(result.endsWith("index: null"));
-    }
-
-    /**
-     * A -> B -> C
-     * Both A and B can receive the response context from C
-     */
-    @Test
-    public void testResponseContext1() {
-        RpcContext.getClientAttachment().setObjectAttachment(RpcContextUtils.provider1_req_key, RpcContextUtils.provider1_req_key);
-//        String result = service.sayHello();
-//        Assert.assertTrue(result.startsWith("Hello dubbo"));
-//        Assert.assertTrue(result.endsWith("index: 1"));
-//        RpcContext.getContext().setAttachment("index", "2");
-//        result = service.sayHello("dubbo");
-//        Assert.assertTrue(result.endsWith("index: 2"));
-//        result = service.sayHello("dubbo");
-//        Assert.assertTrue(result.endsWith("index: null"));
-    }
-
-    /**
-     * A -> B -> C
-     * Only A can receive the response context from C
-     */
-    @Test
-    public void testResponseContext2() {
-        RpcContext.getClientAttachment().setObjectAttachment(RpcContextUtils.provider1_req_key, RpcContextUtils.provider1_req_key);
-//        String result = service.sayHello();
-//        Assert.assertTrue(result.startsWith("Hello dubbo"));
-//        Assert.assertTrue(result.endsWith("index: 1"));
-//        RpcContext.getContext().setAttachment("index", "2");
-//        result = service.sayHello("dubbo");
-//        Assert.assertTrue(result.endsWith("index: 2"));
-//        result = service.sayHello("dubbo");
-//        Assert.assertTrue(result.endsWith("index: null"));
-    }
-
-
 }
