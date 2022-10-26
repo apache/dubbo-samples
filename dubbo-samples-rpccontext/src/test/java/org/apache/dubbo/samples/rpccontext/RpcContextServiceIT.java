@@ -48,6 +48,9 @@ public class RpcContextServiceIT {
     /**
      * A -> B -> C
      * Both B and C can receive the client attachment from A
+     * consumer_req_key means the A request data
+     * provider1_req_key 、provider1_res_key respectively means the B request data and response data
+     * provider2_res_key means the C response data
      */
 
     @Test
