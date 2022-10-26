@@ -17,26 +17,17 @@
 
 package org.apache.dubbo.samples.rpccontext;
 
-import org.apache.dubbo.config.*;
-import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService1;
-import org.apache.dubbo.samples.rpccontext.api.RpcContextService2;
 import org.apache.dubbo.samples.rpccontext.dto.Service1DTO;
 import org.apache.dubbo.samples.rpccontext.dto.Service2DTO;
-import org.apache.dubbo.samples.rpccontext.impl.RpcContextImpl1;
 import org.apache.dubbo.samples.rpccontext.utils.RpcContextUtils;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring/dubbo-rpccontext-consumer.xml"})
