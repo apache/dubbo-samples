@@ -41,21 +41,4 @@ public class RpcContextProvider2 {
         System.out.println("Rpc context provider2 started");
         new CountDownLatch(1).await();
     }
-//    public static void main(String[] args) throws IOException {
-//        new EmbeddedZooKeeper(2181, false).start();
-//        ServiceConfig<RpcContextService2> service = new ServiceConfig<>();
-//        service.setInterface(RpcContextService2.class);
-//        service.setRef(new RpcContextImpl2());
-//
-//        DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-//        bootstrap.application(new ApplicationConfig("rpccontext-provider-2"))
-//                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
-//                .protocol(new ProtocolConfig(RpcContextUtils.dubbo_protocol, 8001))
-//                .service(service)
-//                .start()
-////                .await()
-//        ;
-//        System.out.println("Rpc context provider2 started");
-//        System.in.read();
-//    }
 }
