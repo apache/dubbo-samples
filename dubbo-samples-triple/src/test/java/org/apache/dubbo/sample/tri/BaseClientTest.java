@@ -112,6 +112,7 @@ public abstract class BaseClientTest {
         CancelableStreamObserver<GreeterRequest> streamObserver =
                 (CancelableStreamObserver<GreeterRequest>) requestObserver;
         streamObserver.onNext(request);
+        Thread.sleep(1000);
         streamObserver.cancel(new RuntimeException());
         streamObserver.onCompleted();
         Thread.sleep(2000);
@@ -153,6 +154,7 @@ public abstract class BaseClientTest {
         for (int i = 0; i < n; i++) {
             streamObserver.onNext(request);
         }
+        Thread.sleep(1000);
         streamObserver.cancel(null);
         // streamObserver.onCompleted();
         Thread.sleep(2000);

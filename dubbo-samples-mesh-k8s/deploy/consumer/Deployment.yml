@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-mesh-consumer
+          image: apache/dubbo-demo:dubbo-samples-mesh-consumer_0.0.1
           imagePullPolicy: Always
           ports:
             - name: grpc-tri
@@ -43,12 +43,12 @@ spec:
               port: http-health
             initialDelaySeconds: 5
             periodSeconds: 5
-          #          readinessProbe:
-          #            httpGet:
-          #              path: /ready
-          #              port: http-health
-          #            initialDelaySeconds: 5
-          #            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http-health
+            initialDelaySeconds: 5
+            periodSeconds: 5
           startupProbe:
             httpGet:
               path: /startup

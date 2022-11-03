@@ -1,7 +1,9 @@
 package org.apache.dubbo.sample.tri.pojo;
 
+import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.sample.tri.Greeter;
 import org.apache.dubbo.sample.tri.api.PojoGreeter;
 import org.apache.dubbo.sample.tri.stub.GreeterImpl;

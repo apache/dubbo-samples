@@ -113,13 +113,13 @@ kubectl logs your-pod-id
 示例项目及相关镜像均已就绪，此小节仅面向需要修改示例并查看部署效果的用户。
 https://github.com/apache/dubbo-samples/tree/master/dubbo-samples-kubernetes/
 
-设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.srv，同时还指定了
+设置 Dubbo 项目使用 Kubernetes 作为注册中心，这里通过 DEFAULT_MASTER_HOST指定使用默认 API-SERVER 集群地址 kubernetes.default.svc，同时还指定了
 namespace、trustCerts 两个参数
 
 ```properties
 dubbo.application.name=dubbo-samples-apiserver-provider
 dubbo.application.metadataServicePort=20885
-dubbo.registry.address=kubernetes://DEFAULT_MASTER_HOST?registry-type=service&duplicate=false&namespace=dubbo-demo&trustCerts=true
+dubbo.registry.address=kubernetes://DEFAULT_MASTER_HOST:443?registry-type=service&duplicate=false&namespace=dubbo-demo&trustCerts=true
 dubbo.protocol.name=dubbo
 dubbo.protocol.port=20880
 dubbo.application.qosEnable=true
@@ -227,7 +227,7 @@ spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-apiserver-provider
+          image: apache/dubbo-demo:dubbo-samples-apiserver-provider_0.0.1
           ports:
             - containerPort: 20880
           livenessProbe:
@@ -289,7 +289,7 @@ spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-apiserver-consumer
+          image: apache/dubbo-demo:dubbo-samples-apiserver-consumer_0.0.1
           ports:
             - containerPort: 20880
           livenessProbe:

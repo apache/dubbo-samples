@@ -19,11 +19,13 @@
 
 package org.apache.dubbo.samples.action;
 
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.Greeter;
 import org.apache.dubbo.samples.GreeterReply;
 import org.apache.dubbo.samples.GreeterRequest;
 
+import org.apache.dubbo.samples.util.StdoutStreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -33,7 +35,7 @@ public class GreetingServiceConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GreetingServiceConsumer.class);
 
-    @DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", lazy = true)
+    @DubboReference(version = "1.0.0", providedBy = "dubbo-samples-mesh-provider", lazy = true, providerPort = 50052)
     private Greeter greeter;
 
     public void doSayHello(String name) {
@@ -41,6 +43,23 @@ public class GreetingServiceConsumer {
             .setName(name)
             .build());
         LOGGER.info("consumer Unary reply <-{}", reply);
+    }
+
+    public void doBISayHello(String name) {
+        String clientName = "consumer";
+        final StreamObserver<GreeterRequest> request = greeter.greetStream(new StdoutStreamObserver<>(name));
+        for (int i = 0; i < 10; i++) {
+            LOGGER.info("{} Send stream request-> {}", clientName, i);
+            request.onNext(GreeterRequest.newBuilder()
+                .setName("request")
+                .build());
+        }
+        request.onCompleted();
+    }
+
+    public void getHelloFromServer() {
+        GreeterRequest greeterRequest = GreeterRequest.newBuilder().setName("consumer").build();
+        greeter.greetServerStream(greeterRequest, new StdoutStreamObserver<>("consumer"));
     }
 
 }

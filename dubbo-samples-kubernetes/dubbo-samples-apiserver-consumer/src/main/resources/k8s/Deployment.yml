@@ -16,7 +16,7 @@ spec:
       serviceAccountName: dubbo-sa
       containers:
         - name: server
-          image: dubboteam/dubbo-samples-apiserver-consumer
+          image: apache/dubbo-demo:dubbo-samples-apiserver-consumer_0.0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 20880
