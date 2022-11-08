@@ -18,13 +18,11 @@
 package org.apache.dubbo.samples;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.samples.action.GreetingServiceConsumer;
 import org.apache.dubbo.samples.api.GreetingService;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -32,7 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = ConsumerBootstrap.ConsumerConfiguration.class)
 public class GreetingServiceIT {
 
-    @DubboReference(version = "1.0.0", group = "*")
+    @DubboReference(version = "1.0.0", group = "*", merger = "true")
     private GreetingService greetingServiceWildcard;
 
     @DubboReference(version = "1.0.0", group = "1")
@@ -46,18 +44,7 @@ public class GreetingServiceIT {
         Assert.assertTrue(greetingServiceGroup1.sayHello("nacos").contains("group 1"));
         Assert.assertTrue(greetingServiceGroup2.sayHello("nacos").contains("group 2"));
 
-        boolean match1 = false, match2 = false;
-
-        for (int i = 0; i < 100; i++) {
-            if (greetingServiceWildcard.sayHello("nacos").contains("group 1")) {
-                match1 = true;
-            } else if (greetingServiceWildcard.sayHello("nacos").contains("group 2")) {
-                match2 = true;
-            }
-            if (match1 && match2) {
-                break;
-            }
-        }
-        Assert.assertTrue(match1 && match2);
+        Assert.assertTrue(greetingServiceWildcard.sayHelloList("nacos").contains("hello, nacos from group 1"));
+        Assert.assertTrue(greetingServiceWildcard.sayHelloList("nacos").contains("hello, nacos from group 2"));
     }
 }

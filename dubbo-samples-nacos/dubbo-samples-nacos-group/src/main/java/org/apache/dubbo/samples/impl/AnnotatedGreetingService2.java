@@ -22,6 +22,9 @@ package org.apache.dubbo.samples.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.api.GreetingService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @DubboService(version = "1.0.0", group = "2")
 public class AnnotatedGreetingService2 implements GreetingService {
 
@@ -30,4 +33,11 @@ public class AnnotatedGreetingService2 implements GreetingService {
         return "hello, " + name + " from group 2";
     }
 
+    @Override
+    public List<String> sayHelloList(String name) {
+        System.out.println("greeting service received: " + name);
+        List<String> result = new ArrayList<>();
+        result.add("hello, " + name + " from group 2");
+        return result;
+    }
 }
