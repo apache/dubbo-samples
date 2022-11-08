@@ -31,6 +31,7 @@
         <module>dubbo-samples-sd-version</module>
         <module>dubbo-samples-sd-merge</module>
         <module>dubbo-samples-nacos-merge</module>
+        <module>dubbo-samples-port-unification-netty3</module>
     </modules>
 
     <repositories>
