@@ -23,17 +23,15 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.sample.tri.IGreeter2Impl;
-import org.apache.dubbo.sample.tri.IWrapperGreeter;
-import org.apache.dubbo.sample.tri.TriSampleConstants;
+import org.apache.dubbo.sample.tri.util.TriSampleConstants;
 
-class ApiMigrationBothProvider {
+public class ApiMigrationBothProvider {
 
     public static void main(String[] args) {
 
         ServiceConfig<IWrapperGreeter> service = new ServiceConfig<>();
         service.setInterface(IWrapperGreeter.class);
-        service.setRef(new IGreeter2Impl());
+        service.setRef(new IGreeterImpl());
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("demo-migration-both-provider"))

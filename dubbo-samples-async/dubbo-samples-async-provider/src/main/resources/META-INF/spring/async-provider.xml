@@ -33,8 +33,13 @@
 
     <dubbo:provider token="true"/>
 
-    <bean id="asyncService" class="org.apache.dubbo.samples.async.impl.AsyncServiceImpl"/>
-
+    <bean id="asyncService" class="org.apache.dubbo.samples.async.impl.AsyncServiceImpl">
+        <property name="embeddedService" ref="embeddedAsyncService"/>
+    </bean>
     <dubbo:service interface="org.apache.dubbo.samples.async.api.AsyncService" ref="asyncService"/>
+
+    <dubbo:reference interface="org.apache.dubbo.samples.async.api.EmbeddedAsyncService" id="embeddedAsyncService"
+                     check="false"/>
+
 
 </beans>

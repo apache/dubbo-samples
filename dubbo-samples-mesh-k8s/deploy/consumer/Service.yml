@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dubbo-samples-mesh-consumer
+  namespace: dubbo-demo
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: dubbo-samples-mesh-consumer
+  ports:
+    - name: grpc-dubbo
+      protocol: TCP
+      port: 50052
+      targetPort: 50052

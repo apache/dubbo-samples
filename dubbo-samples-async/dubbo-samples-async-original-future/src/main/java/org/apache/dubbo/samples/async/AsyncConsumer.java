@@ -40,10 +40,9 @@ public class AsyncConsumer {
         RpcContext.getContext().setAttachment("consumer-key1", "consumer-value1");
 
         CompletableFuture<String> future = asyncService.sayHello("async call request");
-        RpcContext savedServerContext = RpcContext.getServerContext();
         CountDownLatch latch = new CountDownLatch(1);
         future.whenComplete((v, t) -> {
-            System.out.println((String) savedServerContext.getAttachment("server-key1"));
+            System.out.println((String) RpcContext.getServerContext().getAttachment("server-key1"));
             if (t != null) {
                 logger.warn("Exception: ", t);
             } else {

@@ -22,8 +22,7 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.sample.tri.IWrapperGreeter;
-import org.apache.dubbo.sample.tri.TriSampleConstants;
+import org.apache.dubbo.sample.tri.util.TriSampleConstants;
 
 class ApiMigrationDubboConsumer {
     private final IWrapperGreeter delegate;

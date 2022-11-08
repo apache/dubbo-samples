@@ -22,6 +22,12 @@ import org.apache.dubbo.rpc.model.ApplicationModel;
 public class UpgradeUtil {
     private static final String DUBBO_SERVICEDISCOVERY_MIGRATION = "DUBBO_SERVICEDISCOVERY_MIGRATION";
 
+    public static void clearRule(ApplicationModel applicationModel) {
+        String RULE_KEY = applicationModel.getApplicationName() + ".migration";
+        DynamicConfiguration configuration = applicationModel.getModelEnvironment().getDynamicConfiguration().get();
+        configuration.publishConfig(RULE_KEY, DUBBO_SERVICEDISCOVERY_MIGRATION, "");
+    }
+
     public static void writeApplicationFirstRule(int proportion) {
         String content = "step: APPLICATION_FIRST\r\n" +
                 "proportion: " + proportion;

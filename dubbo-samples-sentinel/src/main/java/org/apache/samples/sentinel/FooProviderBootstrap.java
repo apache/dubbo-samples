@@ -40,6 +40,7 @@ public class FooProviderBootstrap {
     private static final String RES_KEY = INTERFACE_RES_KEY + ":sayHello(java.lang.String)";
 
     public static void main(String[] args) throws InterruptedException {
+        new EmbeddedZooKeeper(2181, false).start();
         // Users don't need to manually call this method.
         // Only for eager initialization.
         InitExecutor.doInit();
@@ -55,7 +56,7 @@ public class FooProviderBootstrap {
     }
 
     private static void initFlowRule() {
-        FlowRule flowRule = new FlowRule(INTERFACE_RES_KEY)
+        FlowRule flowRule = new FlowRule(FooService.class.getName())
                 .setCount(10)
                 .setGrade(RuleConstant.FLOW_GRADE_QPS);
         FlowRuleManager.loadRules(Collections.singletonList(flowRule));

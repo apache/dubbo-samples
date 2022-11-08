@@ -44,6 +44,10 @@ public class DemoServiceIT {
         // InjvmInvoker set remote address to 127.0.0.1:0
         String result = demoService.sayHello("world");
         Assert.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
+
+        result = demoService.sayHelloAsync("world");
+        Assert.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
+
     }
 
 }

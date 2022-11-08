@@ -94,7 +94,7 @@ services:
       retries: 40
     volumes:
       - ${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d
-      - ./sql_data:/var/lib/mysql
+        #- ./sql_data:/var/lib/mysql
 #    volumes_from:
 #      - apollo-dbdata
 #    depends_on:

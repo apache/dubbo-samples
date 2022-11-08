@@ -38,11 +38,15 @@ public interface IConfiguration {
 
     String testImageVersion();
 
+    String ipv6Cidr();
+
     String scenarioHome();
 
     String outputDir();
 
     String jacocoHome();
+
+    boolean enableJacoco();
 
     String debugMode();
 

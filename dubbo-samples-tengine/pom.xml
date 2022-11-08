@@ -8,8 +8,9 @@
     <description>The demo module of tengine dubbo</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
-        <dubbo.version>3.0.2.1</dubbo.version>
+        <dubbo.version>3.0.7</dubbo.version>
         <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
     <modules>
         <module>dubbo-samples-tengine-interface</module>
@@ -56,6 +57,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>

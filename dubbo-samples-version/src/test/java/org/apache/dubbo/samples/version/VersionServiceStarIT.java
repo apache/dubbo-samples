@@ -20,16 +20,19 @@ package org.apache.dubbo.samples.version;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.version.api.VersionService;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/version-consumer-star.xml"})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class VersionServiceStarIT {
     @Autowired
     private VersionService service;
@@ -38,6 +41,11 @@ public class VersionServiceStarIT {
     public static void setUp() {
         DubboBootstrap.reset();
         MyNettyTransporter.reset();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        DubboBootstrap.reset();
     }
 
     @Test
@@ -53,7 +61,7 @@ public class VersionServiceStarIT {
 
         boolean version1 = false;
         boolean version2 = false;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             String result = service.sayHello("dubbo");
             System.out.println("result: " + result);
             if (result.equals("hello, dubbo")) {

@@ -18,59 +18,46 @@
 package org.apache.dubbo.samples.basic.spi;
 
 import org.apache.dubbo.common.URL;
-import org.apache.dubbo.registry.client.ServiceDiscovery;
+import org.apache.dubbo.registry.client.AbstractServiceDiscovery;
 import org.apache.dubbo.registry.client.ServiceInstance;
+import org.apache.dubbo.rpc.model.ApplicationModel;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
-public class CompatibleServiceDiscovery implements ServiceDiscovery {
+public class CompatibleServiceDiscovery extends AbstractServiceDiscovery {
 
-    protected ServiceInstance serviceInstance;
+    private ServiceInstance serviceInstance;
+    private URL url;
 
-    protected URL url;
-
-    //@Override
-    public ServiceInstance getLocalInstance() {
-        return serviceInstance;
+    public CompatibleServiceDiscovery(ApplicationModel applicationModel, URL registryURL) {
+        super(applicationModel, registryURL);
+        this.url = registryURL;
     }
 
     @Override
-    public void register(ServiceInstance serviceInstance) throws RuntimeException {
+    protected void doRegister(ServiceInstance serviceInstance) throws RuntimeException {
         this.serviceInstance = serviceInstance;
     }
 
     @Override
-    public void update(ServiceInstance serviceInstance) throws RuntimeException {
-        this.serviceInstance = serviceInstance;
+    protected void doUnregister(ServiceInstance serviceInstance) {
+        this.serviceInstance = null;
     }
 
     @Override
-    public void initialize(URL registryURL) throws Exception {
-        url = registryURL;
-    }
-
-    @Override
-    public void destroy() throws Exception {
-
-    }
-
-    //For compatible, 3.0 service discovery need isDestroy to judgement.
-    public boolean isDestroy() {
-        return false;
-    }
-
-    @Override
-    public void unregister(ServiceInstance serviceInstance) throws RuntimeException {
+    protected void doDestroy() throws Exception {
 
     }
 
     @Override
     public Set<String> getServices() {
-        return null;
+        return Collections.emptySet();
     }
 
     @Override
-    public URL getUrl() {
-        return url;
+    public List<ServiceInstance> getInstances(String serviceName) throws NullPointerException {
+        return Collections.emptyList();
     }
 }

@@ -23,19 +23,11 @@
 
     <dubbo:application name="servicediscovery-transfer-provider"/>
 
-    <dubbo:registry id="service-discovery" address="zookeeper://127.0.0.1:2181?registry-type=service"/>
-    <dubbo:registry id="normal" address="zookeeper://127.0.0.1:2181"/>
-
-    <dubbo:protocol name="dubbo"/>
-
-    <dubbo:provider token="true"/>
+    <!-- Register app-level address only -->
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181" register-mode="interface"/>
+    <dubbo:protocol name="dubbo" port="20880"/>
 
     <bean id="demoService" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
-    <bean id="greetingService" class="org.apache.dubbo.demo.provider.GreetingServiceImpl"/>
-
-    <!-- only to normal registry -->
-    <dubbo:service registry="normal" interface="org.apache.dubbo.demo.DemoService" ref="demoService"/>
-    <!-- to both sides -->
-    <dubbo:service interface="org.apache.dubbo.demo.GreetingService" ref="greetingService"/>
+    <dubbo:service interface="org.apache.dubbo.demo.DemoService" ref="demoService"/>
 
 </beans>

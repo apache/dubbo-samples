@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: cluster
+  namespace: dubbo-demo
+spec:
+  workloadSelector:
+    labels:
+      app: dubbo-samples-mesh-consumer
+  configPatches:
+    - applyTo: CLUSTER
+      match:
+        cluster:
+          name: outbound|50052||dubbo-samples-mesh-provider.dubbo-demo.svc.cluster.local
+      patch:
+        operation: MERGE
+        value:
+          health_checks:
+            - timeout: 5s
+              interval: 5s
+              initial_jitter: 1s
+              interval_jitter: 1s
+              interval_jitter_percent: 50
+              unhealthy_threshold: 1
+              healthy_threshold: 20
+              reuse_connection: true
+              no_traffic_interval: 2s
+              no_traffic_healthy_interval: 4s
+              unhealthy_interval: 5s
+              unhealthy_edge_interval: 10s
+              healthy_edge_interval: 10s
+              tls_options:
+                alpn_protocols:
+                  - http1.1
+                  - h2
+              transport_socket_match_criteria:
+                useMTLS: true
+              grpc_health_check:
+                authority: dubbo-samples-mesh-provider.dubbo-demo.svc.cluster.local

@@ -13,7 +13,7 @@
 
     <properties>
         <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
-        <dubbo.version>3.0.2.1</dubbo.version>
+        <dubbo.version>3.0.7</dubbo.version>
     </properties>
 
     <dependencyManagement>

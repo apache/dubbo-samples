@@ -27,7 +27,7 @@
 
     <dubbo:application name="simplified-registry-nosimple-consumer"/>
 
-    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181" username="xxx" password="yyy"
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"
                     check="true"/>
 
     <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.simplified.registry.nosimple.api.DemoService"

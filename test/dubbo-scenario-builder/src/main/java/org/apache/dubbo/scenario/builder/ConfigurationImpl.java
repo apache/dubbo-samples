@@ -17,11 +17,12 @@
 
 package org.apache.dubbo.scenario.builder;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.scenario.builder.exception.ConfigureFileNotFoundException;
 import org.apache.dubbo.scenario.builder.vo.CaseConfiguration;
 import org.apache.dubbo.scenario.builder.vo.DockerService;
 import org.apache.dubbo.scenario.builder.vo.ServiceComponent;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -72,6 +73,7 @@ public class ConfigurationImpl implements IConfiguration {
     private String configBasedir;
     private String scenarioName;
     private final String scenarioLogDir;
+    private final boolean jacocoEnable = Boolean.parseBoolean(System.getProperty("jacoco.enable"));
     private int scenarioTimeout = 200;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
@@ -241,12 +243,13 @@ public class ConfigurationImpl implements IConfiguration {
 
     private void fillupServices(CaseConfiguration caseConfiguration) throws IOException {
         List<String> caseSystemProps = caseConfiguration.getSystemProps();
+        int index = 0;
         for (Map.Entry<String, ServiceComponent> entry : caseConfiguration.getServices().entrySet()) {
             String serviceName = entry.getKey();
             ServiceComponent service = entry.getValue();
             String type = service.getType();
             if (isAppOrTestService(type)) {
-                service.setImage(SAMPLE_TEST_IMAGE+":"+testImageVersion);
+                service.setImage(SAMPLE_TEST_IMAGE + ":" + testImageVersion);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
                 if (service.getVolumes() == null) {
                     service.setVolumes(new ArrayList<>());
@@ -272,7 +275,7 @@ public class ConfigurationImpl implements IConfiguration {
 
                 //set run delay
                 if (service.getRunDelay() > 0) {
-                    setEnv(service, ENV_RUN_DELAY, service.getRunDelay()+"");
+                    setEnv(service, ENV_RUN_DELAY, service.getRunDelay() + "");
                 }
 
                 //set check timeout
@@ -286,7 +289,7 @@ public class ConfigurationImpl implements IConfiguration {
                         String debugOpts;
                         if (isJdk9OrLater) {
                             debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:%s", debugPort);
-                        }else {
+                        } else {
                             debugOpts = String.format("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=%s", debugPort);
                         }
                         appendEnv(service, ENV_DEBUG_OPTS, debugOpts);
@@ -375,6 +378,12 @@ public class ConfigurationImpl implements IConfiguration {
             if (isNotEmpty(systemProps)) {
                 String str = convertSystemPropsToJvmFlags(systemProps);
                 appendEnv(service, ENV_JAVA_OPTS, str);
+            }
+
+            if (jacocoEnable) {
+                //set jacoco agent
+                String jacoco = "-javaagent:/usr/local/dubbo/app/jacocoagent.jar=destfile=/usr/local/dubbo/app/jacoco/" + index++ + "-jacoco.exec";
+                appendEnv(service, ENV_JAVA_OPTS, jacoco);
             }
 
             if (service.getHealthcheck() != null) {
@@ -506,6 +515,15 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     @Override
+    public String ipv6Cidr() {
+        if (caseConfiguration().getProps() != null) {
+            return caseConfiguration().getProps().get("ipv6Cidr");
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public String dockerNetworkName() {
         return (scenarioName() + "-" + testImageVersion()).toLowerCase();
     }
@@ -531,6 +549,11 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     @Override
+    public boolean enableJacoco() {
+        return jacocoEnable;
+    }
+
+    @Override
     public String debugMode() {
         return isDebug() ? "1" : "0";
     }
@@ -552,6 +575,7 @@ public class ConfigurationImpl implements IConfiguration {
         root.put("debug_mode", debugMode());
         root.put("docker_compose_file", outputDir() + File.separator + "docker-compose.yml");
         root.put("network_name", dockerNetworkName());
+        root.put("ipv6_cidr", ipv6Cidr());
         root.put("timeout", scenarioTimeout);
 
         final StringBuilder removeImagesScript = new StringBuilder();

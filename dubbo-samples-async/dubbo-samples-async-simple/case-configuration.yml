@@ -17,7 +17,7 @@
 from: app-builtin-zookeeper.yml
 
 props:
-  project_name: dubbo-samples-async-simple
+  project_name: dubbo-samples-async-provider
   main_class: org.apache.dubbo.samples.async.AsyncProvider
   zookeeper_port: 2181
   dubbo_port: 20880
