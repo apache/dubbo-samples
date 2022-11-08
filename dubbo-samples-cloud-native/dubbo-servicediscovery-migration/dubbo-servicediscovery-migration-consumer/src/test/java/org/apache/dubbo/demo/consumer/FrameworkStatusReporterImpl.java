@@ -30,7 +30,7 @@ public class FrameworkStatusReporterImpl implements FrameworkStatusReporter {
     public void report(String type, Object obj) {
         if (obj instanceof String) {
             Object group = new Gson().fromJson((String) obj, Map.class).get("group");
-            report.put((String) group, (String) obj);
+//            report.put((String) group, (String) obj);
         }
     }
 
