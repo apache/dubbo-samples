@@ -44,9 +44,10 @@ public class Application {
         service.setInterface(GreetingService.class);
         service.setRef(new GreetingServiceImpl());
 
+        String zookeeperAddress = System.getProperty("zookeeper.address", "127.0.0.1");
         DubboBootstrap.getInstance()
                 .application(applicationConfig)
-                .registry(new RegistryConfig("zookeeper://" + "127.0.0.1" + ":" + "2181"))
+                .registry(new RegistryConfig("zookeeper://" + zookeeperAddress + ":" + "2181"))
                 .protocol(protocolConfig)
                 .service(service)
                 .start();
