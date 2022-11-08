@@ -74,7 +74,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-remoting-netty4</artifactId>
+            <artifactId>dubbo-remoting-netty</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
     </dependencies>

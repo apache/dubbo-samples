@@ -22,6 +22,7 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.api.GreetingService;
 import org.apache.dubbo.samples.zookeeper.EmbeddedZooKeeper;
 
@@ -31,19 +32,24 @@ public class Application {
 
 
     public static void main(String[] args) throws Exception {
-
         new EmbeddedZooKeeper(2181, false).start();
-        ProtocolConfig protocolConfig = new ProtocolConfig(CommonConstants.TRIPLE, -1);
-        protocolConfig.setExtProtocol(CommonConstants.DUBBO);
+
+        ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-provider");
+        applicationConfig.setMetadataType("remote");
+
+        ProtocolConfig protocolConfig = new ProtocolConfig(CommonConstants.DUBBO, -1);
         protocolConfig.setServer("netty3");
+
         ServiceConfig<GreetingService> service = new ServiceConfig<>();
-        service.setApplication(new ApplicationConfig("first-dubbo-provider"));
-        service.setRegistry(new RegistryConfig(
-                "zookeeper://" + "127.0.0.1" + ":" + "2181"));
         service.setInterface(GreetingService.class);
         service.setRef(new GreetingServiceImpl());
-        service.setProtocol(protocolConfig);
-        service.export();
+
+        DubboBootstrap.getInstance()
+                .application(applicationConfig)
+                .registry(new RegistryConfig("zookeeper://" + "127.0.0.1" + ":" + "2181"))
+                .protocol(protocolConfig)
+                .service(service)
+                .start();
 
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();
