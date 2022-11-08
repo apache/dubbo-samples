@@ -19,6 +19,7 @@ package org.apache.dubbo.samples.version;
 
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.version.api.VersionService;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -60,7 +61,7 @@ public class VersionServiceStarIT {
 
         boolean version1 = false;
         boolean version2 = false;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             String result = service.sayHello("dubbo");
             System.out.println("result: " + result);
             if (result.equals("hello, dubbo")) {

@@ -31,7 +31,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.1.0-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.1.0</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -168,7 +168,7 @@
                 <configuration>
                     <mainClass>org.apache.dubbo.samples.ConsumerBootstrap</mainClass>
                     <image>
-                        <name>dubboteam/${project.artifactId}</name>
+                        <name>apache/dubbo-demo:${project.artifactId}_0.0.1</name>
                         <!--                        <pullPolicy>IF_NOT_PRESENT</pullPolicy>-->
                     </image>
                 </configuration>
