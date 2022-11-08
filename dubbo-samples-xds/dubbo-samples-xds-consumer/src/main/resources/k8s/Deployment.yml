@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-samples-xds-consumer
+  namespace: dubbo-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dubbo-samples-xds-consumer
+  template:
+    metadata:
+      labels:
+        app: dubbo-samples-xds-consumer
+    spec:
+      containers:
+        - name: server
+          image: apache/dubbo-demo:dubbo-samples-xds-consumer_0.0.1
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: 22222
+            failureThreshold: 30
+            periodSeconds: 10

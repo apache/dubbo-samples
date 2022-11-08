@@ -34,7 +34,7 @@
         <dubbo.version>3.0.7</dubbo.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <sentinel.version>1.6.2</sentinel.version>
+        <sentinel.version>1.8.4</sentinel.version>
     </properties>
 
     <dependencyManagement>
@@ -139,6 +139,19 @@
                     <source>${source.level}</source>
                     <target>${target.level}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -1,5 +1,7 @@
 package org.apache.dubbo.sample.tri;
 
+import com.alibaba.dubbo.rpc.service.GenericException;
+import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -67,11 +69,20 @@ public class TriGenericTest {
             new String[]{String.class.getName()}, new Object[]{"unary"}));
     }
 
-    @Test(expected = RpcException.class)
+    @Test
     public void greetException() {
+        boolean isSupportSelfDefineException = Version.getVersion().compareTo("3.2.0") >= 0;
+        try {
         generic.$invoke("greetException", new String[]{String.class.getName()},
             new Object[]{"exception"});
+            Assert.fail();
+        } catch (RpcException e) {
+            Assert.assertEquals(isSupportSelfDefineException, false);
+        } catch (GenericException e) {
+            Assert.assertEquals(isSupportSelfDefineException, true);
+        }
     }
+
 
     @Test(expected = RpcException.class)
     public void notFoundMethod() {

@@ -91,6 +91,10 @@
         <module>dubbo-samples-autowire</module>
         <module>dubbo-samples-boundary-test</module>
         <module>dubbo-samples-kubernetes</module>
+        <module>dubbo-samples-xds</module>
+        <module>dubbo-samples-spring-boot</module>
+        <module>dubbo-samples-triple-reactor</module>
+        <module>dubbo-samples-port-unification</module>
     </modules>
 
     <repositories>

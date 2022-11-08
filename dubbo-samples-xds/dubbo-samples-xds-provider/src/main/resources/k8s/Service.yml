@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dubbo-samples-xds-provider
+  namespace: dubbo-demo
+spec:
+  clusterIP: None
+  selector:
+    app: dubbo-samples-xds-provider
+  ports:
+    - name: grpc
+      protocol: TCP
+      port: 50051
+      targetPort: 50051

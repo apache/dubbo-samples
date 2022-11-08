@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-samples-mesh-consumer
+  namespace: dubbo-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo-samples-mesh-consumer
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: dubbo-samples-mesh-consumer
+        version: v1
+      annotations:
+        # Prevent istio rewrite http probe
+        sidecar.istio.io/rewriteAppHTTPProbers: "false"
+    spec:
+      containers:
+        - name: server
+          image: apache/dubbo-demo:dubbo-samples-mesh-consumer_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: grpc-tri
+              containerPort: 50052
+              protocol: TCP
+            - name: http-health
+              containerPort: 22222
+              protocol: TCP
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            # This environment variable does not need to be configured by default. When the domain name suffix used inside k8s is artificially changed, it is only necessary to configure this
+            #- name: CLUSTER_DOMAIN
+            #  value: cluster.local
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: http-health
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http-health
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: http-health
+            failureThreshold: 30
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2

@@ -515,6 +515,15 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     @Override
+    public String ipv6Cidr() {
+        if (caseConfiguration().getProps() != null) {
+            return caseConfiguration().getProps().get("ipv6Cidr");
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public String dockerNetworkName() {
         return (scenarioName() + "-" + testImageVersion()).toLowerCase();
     }
@@ -566,6 +575,7 @@ public class ConfigurationImpl implements IConfiguration {
         root.put("debug_mode", debugMode());
         root.put("docker_compose_file", outputDir() + File.separator + "docker-compose.yml");
         root.put("network_name", dockerNetworkName());
+        root.put("ipv6_cidr", ipv6Cidr());
         root.put("timeout", scenarioTimeout);
 
         final StringBuilder removeImagesScript = new StringBuilder();

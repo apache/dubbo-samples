@@ -1,5 +1,6 @@
 package org.apache.dubbo.sample.tri;
 
+import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
@@ -49,9 +50,17 @@ public abstract class BaseTriPojoClientTest {
         Assert.assertEquals("hello,unary", delegate.greet("unary"));
     }
 
-    @Test(expected = RpcException.class)
+    @Test
     public void greetException() {
-        delegate.greetException("exception");
+        boolean isSupportSelfDefineException = Version.getVersion().compareTo("3.2.0") < 0;
+        try {
+            delegate.greetException("exception");
+            Assert.fail();
+        } catch (RpcException e) {
+            Assert.assertEquals(isSupportSelfDefineException, true);
+        } catch (IllegalStateException e) {
+            Assert.assertEquals(isSupportSelfDefineException, false);
+        }
     }
 
     @Test
