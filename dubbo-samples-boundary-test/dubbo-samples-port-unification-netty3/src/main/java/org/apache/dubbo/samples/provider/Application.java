@@ -28,10 +28,7 @@ import org.apache.dubbo.samples.zookeeper.EmbeddedZooKeeper;
 import java.util.concurrent.CountDownLatch;
 
 public class Application {
-//    private static String zookeeperHost = System
-//            .getProperty("zookeeper.address", "127.0.0.1");
-//    private static String zookeeperPort = System.getProperty("zookeeper.port",
-//            "2181");
+
 
     public static void main(String[] args) throws Exception {
 
