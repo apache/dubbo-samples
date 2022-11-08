@@ -16,17 +16,20 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.microservices.sc.rest;
 
-import java.util.concurrent.atomic.AtomicLong;
+package org.apache.dubbo.samples.merge;
 
-public class UserServiceImpl implements UserService {
+import org.apache.dubbo.samples.merge.api.MergeService;
 
-    private final AtomicLong idGen = new AtomicLong();
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    @Override
-    public User getUser(Long id) {
-        return new User(id, "username" + id);
+public class MergeConsumer2 {
+
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/merge-consumer2.xml");
+        context.start();
+
+        MergeService mergeService = (MergeService) context.getBean("mergeService");
+        System.out.println(mergeService.mergeResult());
     }
-
 }
