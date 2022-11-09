@@ -32,8 +32,9 @@ public class DemoClientIT {
         ReferenceConfig<GreetingService> reference = new ReferenceConfig<>();
         reference.setInterface(GreetingService.class);
         reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
+        String zookeeperAddress = System.getProperty("zookeeper.address", "127.0.0.1");
         reference.setRegistry(new RegistryConfig(
-                "zookeeper://" + "127.0.0.1" + ":" + "2181"));
+                "zookeeper://" + zookeeperAddress + ":" + "2181"));
         GreetingService service = reference.get();
         String message = service.sayHi(CommonConstants.TRIPLE);
         System.out.println(message);
