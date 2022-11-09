@@ -41,4 +41,8 @@
     <dubbo:service id="merge2Service" group="merge2" interface="org.apache.dubbo.samples.merge.api.MergeService"
                    ref="mergeService2"/>
 
+    <bean id="dubboService" class="org.apache.dubbo.samples.merge.impl.DubboServiceImpl"/>
+
+    <dubbo:service group="hhh" interface="org.apache.dubbo.samples.merge.api.IDubboService" ref="dubboService"/>
+
 </beans>
