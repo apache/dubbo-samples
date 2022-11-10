@@ -1,21 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dubbo-samples-xds-provider
+  name: dubbo-samples-xds-consumer
   namespace: dubbo-demo
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: dubbo-samples-xds-provider
+      app: dubbo-samples-xds-consumer
   template:
     metadata:
       labels:
-        app: dubbo-samples-xds-provider
+        app: dubbo-samples-xds-consumer
+    annotations:
+      inject.istio.io/templates: grpc-agent
+      proxy.istio.io/config: '{"holdApplicationUntilProxyStarts": true}'
     spec:
       containers:
         - name: server
-          image: apache/dubbo-demo:dubbo-samples-xds-provider_0.0.1
+          image: apache/dubbo-demo:dubbo-samples-xds-consumer_0.0.1
           livenessProbe:
             httpGet:
               path: /live
