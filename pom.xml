@@ -95,6 +95,7 @@
         <module>dubbo-samples-spring-boot</module>
         <module>dubbo-samples-triple-reactor</module>
         <module>dubbo-samples-port-unification</module>
+        <module>dubbo-samples-isolation-executor</module>
     </modules>
 
     <repositories>
