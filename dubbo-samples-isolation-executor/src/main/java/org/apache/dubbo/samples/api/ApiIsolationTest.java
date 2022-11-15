@@ -45,7 +45,7 @@ public class ApiIsolationTest {
     private static final String version2 = "2.0";
     private static final String version3 = "3.0";
 
-    public static void main(String[] args) throws Exception {
+    public void test() {
         RegistryConfig registryConfig = new RegistryConfig("zookeeper://127.0.0.1:2181");
 
         DubboBootstrap providerBootstrap = null;

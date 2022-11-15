@@ -24,12 +24,7 @@ import java.util.Map;
 
 public class XmlIsolationTest extends BaseTest {
 
-    public static void main(String[] args) throws Exception {
-        XmlIsolationTest xmlIsolationTest = new XmlIsolationTest();
-        xmlIsolationTest.test();
-    }
-
-    public void test() throws Exception {
+    public void test() {
         // start provider app
         ClassPathXmlApplicationContext providerContext = new ClassPathXmlApplicationContext("META-INF/isolation/dubbo-provider.xml");
         providerContext.start();

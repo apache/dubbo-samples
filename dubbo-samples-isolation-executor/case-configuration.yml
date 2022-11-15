@@ -16,4 +16,4 @@ from: app-external-zookeeper.yml
 
 props:
   project_name: dubbo-samples-isolation-executor
-  main_class: ApiIsolationTest,AnnotationIsolationTest,XmlIsolationTest
+  main_class: Application

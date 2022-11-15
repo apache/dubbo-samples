@@ -36,12 +36,7 @@ import static org.apache.dubbo.common.constants.CommonConstants.EXECUTOR_MANAGEM
 
 public class AnnotationIsolationTest extends BaseTest {
 
-    public static void main(String[] args) throws Exception {
-        AnnotationIsolationTest annotationIsolationTest = new AnnotationIsolationTest();
-        annotationIsolationTest.test();
-    }
-
-    public void test() throws Exception {
+    public void test() {
         // start provider app
         AnnotationConfigApplicationContext providerContext = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
         providerContext.start();
