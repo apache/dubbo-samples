@@ -44,13 +44,13 @@ public class ProtectIT {
         serviceConfig.setInterface(GreetingsService.class);
         serviceConfig.setRef(new GreetingsServiceImpl());
         serviceConfig.setApplication(new ApplicationConfig("provider"));
-        serviceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?enable-empty-protection=true"));
+        serviceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?enable-empty-protection=true&username=nacos&password=nacos"));
         serviceConfig.export();
         Thread.sleep(1000);
 
         ReferenceConfig<GreetingsService> referenceConfig = new ReferenceConfig<>();
         referenceConfig.setInterface(GreetingsService.class);
-        referenceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?enable-empty-protection=true"));
+        referenceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?enable-empty-protection=true&username=nacos&password=nacos"));
         referenceConfig.setScope("remote");
         GreetingsService greetingsService = referenceConfig.get();
 

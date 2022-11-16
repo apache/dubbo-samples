@@ -17,6 +17,7 @@
 package org.apache.dubbo.samples.empty;
 
 import org.apache.dubbo.common.Version;
+import org.apache.dubbo.common.logger.LoggerFactory;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -38,6 +39,7 @@ public class DefaultIT {
 
     @Test
     public void testDefault() throws InterruptedException {
+        LoggerFactory.setLoggerAdapter(FrameworkModel.defaultModel(), "log4j");
         String nacosAddress = System.getProperty("nacos.address", "localhost");
         String nacosPort = System.getProperty("nacos.port", "8848");
 
@@ -45,13 +47,13 @@ public class DefaultIT {
         serviceConfig.setInterface(GreetingsService.class);
         serviceConfig.setRef(new GreetingsServiceImpl());
         serviceConfig.setApplication(new ApplicationConfig("provider"));
-        serviceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort));
+        serviceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?username=nacos&password=nacos"));
         serviceConfig.export();
         Thread.sleep(1000);
 
         ReferenceConfig<GreetingsService> referenceConfig = new ReferenceConfig<>();
         referenceConfig.setInterface(GreetingsService.class);
-        referenceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort));
+        referenceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?username=nacos&password=nacos"));
         referenceConfig.setScope("remote");
         GreetingsService greetingsService = referenceConfig.get();
 
