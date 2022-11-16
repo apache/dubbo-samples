@@ -23,7 +23,6 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.qos.command.impl.Offline;
 import org.apache.dubbo.rpc.model.FrameworkModel;
-import org.apache.dubbo.samples.EmbeddedZooKeeper;
 import org.apache.dubbo.samples.api.GreetingsService;
 import org.apache.dubbo.samples.provider.GreetingsServiceImpl;
 
@@ -39,18 +38,20 @@ public class DefaultIT {
 
     @Test
     public void testDefault() throws InterruptedException {
-        new EmbeddedZooKeeper(2181, false).start();
+        String nacosAddress = System.getProperty("nacos.address", "localhost");
+        String nacosPort = System.getProperty("nacos.port", "8848");
 
         ServiceConfig<GreetingsService> serviceConfig = new ServiceConfig<>();
         serviceConfig.setInterface(GreetingsService.class);
         serviceConfig.setRef(new GreetingsServiceImpl());
         serviceConfig.setApplication(new ApplicationConfig("provider"));
-        serviceConfig.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        serviceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort));
         serviceConfig.export();
+        Thread.sleep(1000);
 
         ReferenceConfig<GreetingsService> referenceConfig = new ReferenceConfig<>();
         referenceConfig.setInterface(GreetingsService.class);
-        referenceConfig.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        referenceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort));
         referenceConfig.setScope("remote");
         GreetingsService greetingsService = referenceConfig.get();
 

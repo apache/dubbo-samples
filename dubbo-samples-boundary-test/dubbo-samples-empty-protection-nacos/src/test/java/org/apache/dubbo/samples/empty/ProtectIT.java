@@ -16,14 +16,12 @@
  */
 package org.apache.dubbo.samples.empty;
 
-import org.apache.dubbo.common.Version;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.qos.command.impl.Offline;
 import org.apache.dubbo.rpc.model.FrameworkModel;
-import org.apache.dubbo.samples.EmbeddedZooKeeper;
 import org.apache.dubbo.samples.api.GreetingsService;
 import org.apache.dubbo.samples.provider.GreetingsServiceImpl;
 
@@ -31,26 +29,28 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DefaultIT {
+public class ProtectIT {
     @After
     public void after() {
         FrameworkModel.destroyAll();
     }
 
     @Test
-    public void testDefault() throws InterruptedException {
-        new EmbeddedZooKeeper(2181, false).start();
+    public void testProtect() throws InterruptedException {
+        String nacosAddress = System.getProperty("nacos.address", "localhost");
+        String nacosPort = System.getProperty("nacos.port", "8848");
 
         ServiceConfig<GreetingsService> serviceConfig = new ServiceConfig<>();
         serviceConfig.setInterface(GreetingsService.class);
         serviceConfig.setRef(new GreetingsServiceImpl());
         serviceConfig.setApplication(new ApplicationConfig("provider"));
-        serviceConfig.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        serviceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?enable-empty-protection=true"));
         serviceConfig.export();
+        Thread.sleep(1000);
 
         ReferenceConfig<GreetingsService> referenceConfig = new ReferenceConfig<>();
         referenceConfig.setInterface(GreetingsService.class);
-        referenceConfig.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        referenceConfig.setRegistry(new RegistryConfig("nacos://" + nacosAddress + ":" + nacosPort + "?enable-empty-protection=true"));
         referenceConfig.setScope("remote");
         GreetingsService greetingsService = referenceConfig.get();
 
@@ -59,15 +59,6 @@ public class DefaultIT {
         new Offline(FrameworkModel.defaultModel()).offline("org.apache.dubbo.samples.api.GreetingsService");
         Thread.sleep(1000);
 
-        if (Version.getVersion().compareTo("3.2.0") >= 0) {
-            try {
-                greetingsService.sayHi("dubbo");
-                Assert.fail();
-            } catch (Exception e) {
-                Assert.assertTrue(e.getMessage().contains("No provider available"));
-            }
-        } else {
-            Assert.assertEquals("hi, dubbo", greetingsService.sayHi("dubbo"));
-        }
+        Assert.assertEquals("hi, dubbo", greetingsService.sayHi("dubbo"));
     }
 }

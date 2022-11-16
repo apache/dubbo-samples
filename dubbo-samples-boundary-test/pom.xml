@@ -33,6 +33,7 @@
         <module>dubbo-samples-nacos-merge</module>
         <module>dubbo-samples-port-unification-netty3</module>
         <module>dubbo-samples-empty-protection</module>
+        <module>dubbo-samples-empty-protection-nacos</module>
     </modules>
 
     <repositories>
