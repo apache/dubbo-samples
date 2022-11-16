@@ -16,7 +16,7 @@
 
 services:
   nacos:
-    image: nacos/nacos-server:2.0.0
+    image: nacos/nacos-server:2.1.2
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
@@ -25,7 +25,7 @@ services:
       - JVM_XMX=350m
       - JVM_XMN=150m
 
-  dubbo-samples-empty-protection:
+  dubbo-samples-empty-protection-nacos:
     type: test
     basedir: .
     tests:
