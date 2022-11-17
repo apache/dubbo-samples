@@ -1,4 +1,4 @@
-name: Dubbo 3
+name: Dubbo 3.2
 
 on:
   pull_request:

@@ -36,6 +36,16 @@ public class Consumer1IT {
 
     @Test
     public void test() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            System.out.println("address received: " + MyAddressListener.getAddressSize());
+            if (3 == MyAddressListener.getAddressSize()) {
+                break;
+            }
+            Thread.sleep(200);
+        }
+        Assert.assertEquals(3, MyAddressListener.getAddressSize());
+        Thread.sleep(100);
+
         List<String> result = mergeService.mergeResult();
         Assert.assertTrue(result.contains("group-2.1"));
         Assert.assertTrue(result.contains("group-2.2"));
