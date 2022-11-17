@@ -19,6 +19,12 @@ version: '2.4'
 networks:
    default:
      name: ${network_name}
+     <#if ipv6_cidr?has_content>
+     enable_ipv6: true
+     ipam:
+       config:
+         - subnet: ${ipv6_cidr}
+     </#if>
 
 services:
 <#list services as service>

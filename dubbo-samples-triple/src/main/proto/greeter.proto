@@ -20,11 +20,14 @@ service Greeter{
   // unary
   rpc greet(GreeterRequest) returns (GreeterReply);
 
-  // bi streaming
-  rpc greetStream(stream GreeterRequest) returns (stream GreeterReply);
+  // clientStream
+  rpc greetClientStream(stream GreeterRequest) returns (GreeterReply);
 
   // serverStream
   rpc greetServerStream(GreeterRequest) returns (stream GreeterReply);
+
+  // bi streaming
+  rpc greetStream(stream GreeterRequest) returns (stream GreeterReply);
 
   //  upper case method
   rpc UpperCaseGreet(GreeterRequest) returns (GreeterReply);
