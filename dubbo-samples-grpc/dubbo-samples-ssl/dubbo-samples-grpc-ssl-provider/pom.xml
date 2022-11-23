@@ -35,7 +35,7 @@
         <jib-maven-plugin.version>1.2.0</jib-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
-        <image.name>${artifactId}:${dubbo.version}</image.name>
+        <image.name>${project.artifactId}:${dubbo.version}</image.name>
         <java-image.name>openjdk:8</java-image.name>
         <dubbo.port>20880</dubbo.port>
         <zookeeper.port>2181</zookeeper.port>
@@ -200,6 +200,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -218,6 +219,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <executable>true</executable>
                     <mainClass>org.apache.dubbo.samples.basic.SslBasicProvider</mainClass>

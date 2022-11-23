@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-perf</artifactId>
+    <name>Dubbo Samples Perf</name>
+    <description>Dubbo Samples Perf</description>
 
     <modules>
         <module>registry</module>

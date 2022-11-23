@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-nacos</artifactId>
+    <name>Dubbo Samples Nacos</name>
+    <description>Dubbo Samples Nacos</description>
 
     <modules>
         <module>dubbo-samples-nacos-override</module>

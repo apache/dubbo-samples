@@ -21,7 +21,7 @@
     <artifactId>dubbo-samples-tengine</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>${project.artifactId}</name>
+    <name>Dubbo Samples Tengine</name>
     <description>The demo module of tengine dubbo</description>
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>

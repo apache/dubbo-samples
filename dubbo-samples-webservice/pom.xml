@@ -30,6 +30,8 @@
 
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-webservice</artifactId>
+    <name>Dubbo Samples Webservice</name>
+    <description>Dubbo Samples Webservice</description>
 
     <properties>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>

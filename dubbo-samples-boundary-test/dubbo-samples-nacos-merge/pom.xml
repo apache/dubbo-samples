@@ -32,6 +32,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-nacos-merge</artifactId>
+    <name>Dubbo Samples Nacos Merge</name>
+    <description>Dubbo Samples Nacos Merge</description>
+
     <properties>
         <dubbo.version>3.1.1</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>

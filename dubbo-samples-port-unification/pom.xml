@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-port-unification</artifactId>
+    <name>Dubbo Samples Port Unification</name>
+    <description>Dubbo Samples Port Unification</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-triple</artifactId>
+    <name>Dubbo Samples Triple</name>
+    <description>Dubbo Samples Triple</description>
 
     <properties>
         <source.level>1.8</source.level>

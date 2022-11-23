@@ -24,6 +24,8 @@
     <version>1.0-SNAPSHOT</version>
     <artifactId>dubbo-samples-grpc</artifactId>
     <packaging>pom</packaging>
+    <name>Dubbo Samples Grpc</name>
+    <description>Dubbo Samples Grpc</description>
 
     <modules>
         <module>dubbo-samples-original</module>

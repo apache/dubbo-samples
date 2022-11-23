@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-transaction</artifactId>
+    <name>Dubbo Samples Transaction</name>
+    <description>Dubbo Samples Transaction</description>
 
     <properties>
         <source.level>1.8</source.level>
@@ -147,6 +149,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.4.1</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>

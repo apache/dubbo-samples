@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-echo</artifactId>
+    <name>Dubbo Samples Echo</name>
+    <description>Dubbo Samples Echo</description>
 
     <properties>
         <source.level>1.8</source.level>

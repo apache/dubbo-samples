@@ -24,6 +24,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-switch-serialization-thread</artifactId>
+    <name>Dubbo Samples Switch Serialization Thread</name>
+    <description>Dubbo Samples Switch Serialization Thread</description>
 
     <properties>
         <source.level>1.8</source.level>

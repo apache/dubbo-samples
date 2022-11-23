@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-sd-merge-consumer</artifactId>
+    <name>Dubbo Samples Sd Merge Consumer</name>
+    <description>Dubbo Samples Sd Merge Consumer</description>
 
     <dependencies>
         <dependency>

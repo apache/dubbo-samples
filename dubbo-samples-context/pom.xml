@@ -24,6 +24,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-context</artifactId>
+    <name>Dubbo Samples Context</name>
+    <description>Dubbo Samples Context</description>
 
     <properties>
         <source.level>1.8</source.level>

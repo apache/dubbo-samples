@@ -26,6 +26,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-empty-protection-nacos</artifactId>
+    <name>Dubbo Samples Empty Protection Nacos</name>
+    <description>Dubbo Samples Empty Protection Nacos</description>
 
     <properties>
         <source.level>1.8</source.level>

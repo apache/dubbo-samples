@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-sd-merge-provider2</artifactId>
+    <name>Dubbo Samples Sd Merge Provider2</name>
+    <description>Dubbo Samples Sd Merge Provider2</description>
 
     <dependencies>
         <dependency>

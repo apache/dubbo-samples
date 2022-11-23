@@ -26,6 +26,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-metrics</artifactId>
+    <name>Dubbo Samples Metrics</name>
+    <description>Dubbo Samples Metrics</description>
 
     <properties>
         <source.level>1.8</source.level>

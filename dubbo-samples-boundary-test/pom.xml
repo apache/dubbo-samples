@@ -23,6 +23,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-boundary-test</artifactId>
+    <name>Dubbo Samples Boundary Test</name>
+    <description>Dubbo Samples Boundary Test</description>
 
     <modules>
         <module>dubbo-samples-mybatis</module>
