@@ -24,9 +24,9 @@
     </parent>
     <artifactId>dubbo-sc-api</artifactId>
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
+    <name>Dubbo Sc Api</name>
     <description>The demo module of dubbo project</description>
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 </project>

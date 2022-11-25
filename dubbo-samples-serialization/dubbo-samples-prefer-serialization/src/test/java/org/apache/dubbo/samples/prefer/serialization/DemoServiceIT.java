@@ -35,7 +35,7 @@ public class DemoServiceIT {
     private DemoService service;
 
     @Test
-    public void testGreeting() throws Exception {
+    public void testSayHello() throws Exception {
         Assert.assertTrue(service.sayHello("dubbo").startsWith("Hello dubbo"));
     }
 }

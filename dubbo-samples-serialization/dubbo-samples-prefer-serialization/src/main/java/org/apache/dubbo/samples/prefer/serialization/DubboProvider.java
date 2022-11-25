@@ -20,6 +20,7 @@ package org.apache.dubbo.samples.prefer.serialization;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.LockSupport;
 
 public class DubboProvider {
 
@@ -30,10 +31,10 @@ public class DubboProvider {
 
         new EmbeddedZooKeeper(2181, false).start();
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/dubbo-demo-provider.xml");
         context.start();
 
         System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
+        LockSupport.park();
     }
 }

@@ -25,10 +25,10 @@
     </parent>
     <artifactId>servicediscovery-provider</artifactId>
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
-    <description>The demo provider module of dubbo project</description>
+    <name>Service Discovery Provider</name>
+    <description>Service Discovery Provider</description>
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.deploy.skip>true</maven.deploy.skip>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
     </properties>
 

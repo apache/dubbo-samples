@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-generic-call</artifactId>
+    <name>Dubbo Samples Generic Call</name>
+    <description>Dubbo Samples Generic Call</description>
 
     <properties>
         <source.level>1.8</source.level>
@@ -36,7 +38,6 @@
         <dubbo.version>3.0.7</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
 
     <modules>

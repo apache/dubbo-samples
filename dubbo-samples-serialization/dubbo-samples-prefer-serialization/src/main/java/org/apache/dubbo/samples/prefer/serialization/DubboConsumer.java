@@ -21,6 +21,8 @@ package org.apache.dubbo.samples.prefer.serialization;
 import org.apache.dubbo.samples.prefer.serialization.api.DemoService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.locks.LockSupport;
+
 public class DubboConsumer {
 
     public static void main(String[] args) {

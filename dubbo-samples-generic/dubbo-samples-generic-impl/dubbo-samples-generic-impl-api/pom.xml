@@ -30,4 +30,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-generic-impl-api</artifactId>
+    <name>Dubbo Samples Generic Impl Api</name>
+    <description>Dubbo Samples Generic Impl Api</description>
 </project>

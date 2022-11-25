@@ -30,6 +30,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-chain-backend</artifactId>
+    <name>Dubbo Samples Chain Backend</name>
+    <description>Dubbo Samples Chain Backend</description>
 
     <dependencies>
         <dependency>

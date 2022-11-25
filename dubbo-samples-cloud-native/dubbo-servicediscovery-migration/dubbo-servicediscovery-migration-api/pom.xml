@@ -29,10 +29,11 @@
     <artifactId>dubbo-servicediscovery-migration-api</artifactId>
 
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
+    <name>Dubbo Service Discovery Migration Api</name>
+    <description>Dubbo Service Discovery Migration Api</description>
 
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
 </project>
