@@ -17,7 +17,6 @@
 package org.apache.dubbo.samples.empty;
 
 import org.apache.dubbo.common.Version;
-import org.apache.dubbo.common.logger.LoggerFactory;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -39,7 +38,6 @@ public class DefaultIT {
 
     @Test
     public void testDefault() throws InterruptedException {
-        LoggerFactory.setLoggerAdapter(FrameworkModel.defaultModel(), "log4j");
         String nacosAddress = System.getProperty("nacos.address", "localhost");
         String nacosPort = System.getProperty("nacos.port", "8848");
 
