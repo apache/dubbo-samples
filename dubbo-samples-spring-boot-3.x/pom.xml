@@ -18,7 +18,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <spring.version>6.0.2</spring.version>
-        <dubbo.version>3.2.0-beta.2-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.2.0-beta.2</dubbo.version>
         <junit.version>4.13.2</junit.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <spring-boot.version>3.0.0</spring-boot.version>
@@ -95,26 +95,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>

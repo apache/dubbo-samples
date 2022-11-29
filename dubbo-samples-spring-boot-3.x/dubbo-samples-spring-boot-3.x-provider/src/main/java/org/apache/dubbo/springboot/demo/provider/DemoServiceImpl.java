@@ -26,11 +26,6 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.CompletableFuture;
 
 
-/**
- *
- * @author <a href="changningbo1995@gmail.com">James</a>
- * @since 2022/11/13
- */
 @DubboService
 public class DemoServiceImpl  implements DemoService {
 

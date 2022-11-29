@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.dubbo.springboot.demo.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -28,10 +27,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
-/**
- * @author <a href="changningbo1995@gmail.com">James</a>
- * @since 2022/11/13
- */
 @SpringBootApplication
 @Service
 @EnableDubbo

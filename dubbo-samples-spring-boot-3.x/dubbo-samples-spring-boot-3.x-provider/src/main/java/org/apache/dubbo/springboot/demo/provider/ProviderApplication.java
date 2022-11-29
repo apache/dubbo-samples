@@ -20,11 +20,6 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- *
- * @author <a href="changningbo1995@gmail.com">James</a>
- * @since 2022/11/13
- */
 @SpringBootApplication
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.springboot.demo.provider"})
 public class ProviderApplication {
