@@ -40,7 +40,7 @@
         <junit.version>4.13.2</junit.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <spring-boot.version>3.0.0</spring-boot.version>
-        <spring-boot-maven-plugin.version>2.1.4.RELEASE</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>3.0.0</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
