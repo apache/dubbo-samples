@@ -93,6 +93,7 @@
         <module>dubbo-samples-triple-reactor</module>
         <module>dubbo-samples-rocketmq</module>
         <module>dubbo-samples-port-unification</module>
+        <module>dubbo-samples-spring-boot-3.x</module>
     </modules>
 
     <repositories>
@@ -110,4 +111,5 @@
             </snapshots>
         </repository>
     </repositories>
+
 </project>
