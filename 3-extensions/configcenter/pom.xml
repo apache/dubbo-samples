@@ -19,20 +19,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>3_2-protocol</artifactId>
+    <artifactId>configcenter</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>dubbo-samples-grpc</module>
-        <module>dubbo-samples-http</module>
-        <module>dubbo-samples-jetty</module>
-        <module>dubbo-samples-port-unification</module>
-        <module>dubbo-samples-resilience4j</module>
-        <module>dubbo-samples-rest</module>
-        <module>dubbo-samples-rocketmq</module>
-        <module>dubbo-samples-thrift</module>
-        <module>dubbo-samples-triple</module>
-        <module>dubbo-samples-triple-reactor</module>
-        <module>dubbo-samples-webservice</module>
+        <module>dubbo-samples-configcenter-annotation</module>
+        <module>dubbo-samples-configcenter-api</module>
+        <module>dubbo-samples-configcenter-apollo</module>
+        <module>dubbo-samples-configcenter-externalconfiguration</module>
+        <module>dubbo-samples-configcenter-multi-registries</module>
+        <module>dubbo-samples-configcenter-multiprotocol</module>
+        <module>dubbo-samples-configcenter-xml</module>
     </modules>
 </project>

@@ -16,29 +16,30 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.rest.impl;
+package org.apache.dubbo.samples.rest;
 
-import java.util.concurrent.atomic.AtomicLong;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 
-import org.apache.dubbo.samples.rest.api.User;
-import org.apache.dubbo.samples.rest.api.UserService;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import org.springframework.stereotype.Service;
+import java.util.concurrent.CountDownLatch;
 
-@Service("userService")
-public class UserServiceImpl implements UserService {
+public class RestProvider {
 
-    private final AtomicLong idGen = new AtomicLong();
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"spring/rest-provider.xml"});
+        context.start();
 
-    @Override
-    public User getUser(Long id) {
-        return new User(id, "username" + id);
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
+    @Configuration
+    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.rest.impl.facade")
+    static public class ProviderConfiguration {
 
-    @Override
-    public Long registerUser(User user) {
-//        System.out.println("Username is " + user.getName());
-        return idGen.incrementAndGet();
     }
+
 }
