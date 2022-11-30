@@ -20,6 +20,7 @@ import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.rpc.RpcException;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class DemoServiceIT {
     @Autowired
     @Qualifier("demoServiceFromDual")
     private DemoService demoServiceFromDual;
+
+    @Before
+    public void setUp() throws Exception {
+        FrameworkStatusReporterImpl.clearReport();
+    }
 
     @Test
     public void test() throws InterruptedException {
