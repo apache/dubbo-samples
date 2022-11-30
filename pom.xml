@@ -109,6 +109,7 @@
         <module>dubbo-samples-triple-reactor</module>
         <module>dubbo-samples-rocketmq</module>
         <module>dubbo-samples-port-unification</module>
+        <module>dubbo-samples-isolation-executor</module>
     </modules>
 
 

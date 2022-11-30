@@ -32,6 +32,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -54,18 +56,29 @@ public abstract class BaseClientTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
+        String key = "lastTimestamp";
+        Map<String, Long> map = new HashMap<>();
         StreamObserver<GreeterReply> observer = new StdoutStreamObserver<GreeterReply>(
                 "sayGreeterServerStream") {
             @Override
             public void onNext(GreeterReply data) {
+                long lastTimestamp = map.getOrDefault(key, 0L);
+                long now = System.currentTimeMillis();
+                map.put(key, now);
+                if (lastTimestamp == 0) {
+                    latch.countDown();
+                } else {
+                    long diff = Math.abs(now - lastTimestamp - 1000);
+                    System.out.println(diff);
+                    if (diff < 50) {
+                        latch.countDown();
+                    }
+                }
                 super.onNext(data);
-                RpcContext.getCancellationContext().cancel(null);
-                latch.countDown();
             }
         };
-
         delegate.greetServerStream(request, observer);
-        Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
+        Assert.assertTrue(latch.await(12, TimeUnit.SECONDS));
     }
 
 
@@ -229,7 +242,7 @@ public abstract class BaseClientTest {
         StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
             @Override
             public void onNext(GreeterReply data) {
-                LOGGER.info("{}",data);
+                LOGGER.info("{}", data);
                 latch.countDown();
             }
 
@@ -263,7 +276,7 @@ public abstract class BaseClientTest {
         StreamObserver<GreeterReply> observer = new CancelableStreamObserver<GreeterReply>() {
             @Override
             public void onNext(GreeterReply data) {
-                LOGGER.info("{}",data);
+                LOGGER.info("{}", data);
                 latch.countDown();
             }
 

@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/async-consumer.xml"})
@@ -41,13 +42,16 @@ public class AsyncServiceIT {
         asyncService.sayHello("completable future");
         CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
         CountDownLatch latch = new CountDownLatch(1);
+        AtomicReference<Throwable> exceptionRef = new AtomicReference<>();
+        AtomicReference<String> retValueRef = new AtomicReference<>();
         helloFuture.whenComplete((retValue, exception) -> {
-            Assert.assertNull(exception);
-            Assert.assertEquals("hello, completable future", retValue);
+            exceptionRef.set(exception);
+            retValueRef.set(retValue);
             latch.countDown();
         });
-
         latch.await();
+        Assert.assertNull(exceptionRef.get());
+        Assert.assertEquals("hello, completable future", retValueRef.get());
     }
 
     @Test
