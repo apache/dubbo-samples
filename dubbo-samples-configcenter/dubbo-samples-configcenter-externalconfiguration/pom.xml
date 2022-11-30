@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-configcenter-externalconfiguration</artifactId>
+    <name>Dubbo Samples Config Center External Configuration</name>
+    <description>Dubbo Samples Config Center External Configuration</description>
 
     <properties>
         <source.level>1.8</source.level>

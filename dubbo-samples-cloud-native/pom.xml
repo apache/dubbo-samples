@@ -21,7 +21,7 @@
     <artifactId>dubbo-samples-cloud-native</artifactId>
 
     <packaging>pom</packaging>
-    <name>${project.artifactId}</name>
+    <name>Dubbo Samples Cloud Native</name>
     <description>The cloud native demo module of dubbo project</description>
 
     <modules>

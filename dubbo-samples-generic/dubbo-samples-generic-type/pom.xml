@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-generic-type</artifactId>
+    <name>Dubbo Samples Generic Type</name>
+    <description>Dubbo Samples Generic Type</description>
 
     <properties>
         <source.level>1.8</source.level>

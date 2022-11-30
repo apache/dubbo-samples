@@ -27,4 +27,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-sd-group-api</artifactId>
+    <name>Dubbo Samples Sd Group Api</name>
+    <description>Dubbo Samples Sd Group Api</description>
 </project>

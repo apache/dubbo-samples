@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-generic-call-consumer</artifactId>
+    <name>Dubbo Samples Generic Call Consumer</name>
+    <description>Dubbo Samples Generic Call Consumer</description>
 
     <dependencies>
         <dependency>

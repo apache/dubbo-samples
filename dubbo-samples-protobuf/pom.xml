@@ -14,20 +14,21 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.dubbo</groupId>
     <version>1.0-SNAPSHOT</version>
     <artifactId>dubbo-samples-protobuf</artifactId>
 
     <packaging>pom</packaging>
-    <name>${project.artifactId}</name>
+    <name>Dubbo Samples Protobuf</name>
     <description>The protobuf demo module of dubbo project</description>
 
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.deploy.skip>true</maven.deploy.skip>
         <compiler.version>0.0.2</compiler.version>
         <dubbo.version>2.7.13</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
@@ -140,6 +141,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>

@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-generic-impl-consumer</artifactId>
+    <name>Dubbo Samples Generic Impl Consumer</name>
+    <description>Dubbo Samples Generic Impl Consumer</description>
 
     <dependencies>
         <dependency>

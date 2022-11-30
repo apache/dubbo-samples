@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-async-simple</artifactId>
+    <name>Dubbo Samples Async Simple</name>
+    <description>Dubbo Samples Async Simple</description>
 
     <properties>
         <source.level>1.8</source.level>

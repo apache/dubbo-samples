@@ -27,7 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-configcenter-annotation</artifactId>
-
+    <name>Dubbo Samples Config Center Annotation</name>
+    <description>Dubbo Samples Config Center Annotation</description>
 
     <properties>
         <source.level>1.8</source.level>

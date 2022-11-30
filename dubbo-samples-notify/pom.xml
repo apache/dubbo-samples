@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-notify</artifactId>
+    <name>Dubbo Samples Notify</name>
+    <description>Dubbo Samples Notify</description>
 
     <properties>
         <source.level>1.8</source.level>

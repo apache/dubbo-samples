@@ -39,6 +39,8 @@
 
 
     <artifactId>dubbo-samples-configcenter</artifactId>
+    <name>Dubbo Samples Config Center</name>
+    <description>Dubbo Samples Config Center</description>
 
     <repositories>
         <repository>

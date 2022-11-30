@@ -24,6 +24,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-spi-compatible</artifactId>
+    <name>Dubbo Samples Spi Compatible</name>
+    <description>Dubbo Samples Spi Compatible</description>
 
     <properties>
         <source.level>1.8</source.level>

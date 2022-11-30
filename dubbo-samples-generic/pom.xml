@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-generic</artifactId>
+    <name>Dubbo Samples Generic</name>
+    <description>Dubbo Samples Generic</description>
 
     <modules>
         <module>dubbo-samples-generic-call</module>
