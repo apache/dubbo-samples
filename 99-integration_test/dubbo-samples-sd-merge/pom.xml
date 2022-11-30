@@ -32,6 +32,9 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>Dubbo Samples Sd Merge</name>
+    <description>Dubbo Samples Sd Merge</description>
+
     <modules>
         <module>dubbo-samples-sd-merge-api</module>
         <module>dubbo-samples-sd-merge-provider1</module>

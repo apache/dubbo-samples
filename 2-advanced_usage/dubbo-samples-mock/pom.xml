@@ -26,6 +26,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-mock</artifactId>
+    <name>Dubbo Samples Mock</name>
+    <description>Dubbo Samples Mock</description>
 
     <properties>
         <source.level>1.8</source.level>

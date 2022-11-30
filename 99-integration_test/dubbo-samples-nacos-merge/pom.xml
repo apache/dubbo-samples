@@ -31,6 +31,10 @@
     <artifactId>dubbo-samples-nacos-merge</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>Dubbo Samples Nacos Merge</name>
+    <description>Dubbo Samples Nacos Merge</description>
+
     <modules>
         <module>dubbo-samples-nacos-merge-api</module>
         <module>dubbo-samples-nacos-merge-provider1</module>

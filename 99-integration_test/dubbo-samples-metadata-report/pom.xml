@@ -33,6 +33,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
+    <name>Dubbo Samples Metadata Report</name>
+    <description>Dubbo Samples Metadata Report</description>
+
     <modules>
         <module>dubbo-samples-metadata-report-configcenter</module>
         <module>dubbo-samples-metadata-report-local-annotation</module>

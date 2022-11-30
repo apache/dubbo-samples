@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-chain</artifactId>
+    <name>Dubbo Samples Chain</name>
+    <description>Dubbo Samples Chain</description>
 
     <properties>
         <source.level>1.8</source.level>

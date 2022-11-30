@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-api</artifactId>
+    <name>Dubbo Samples Api</name>
+    <description>Dubbo Samples Api</description>
 
     <properties>
         <spring.version>4.3.16.RELEASE</spring.version>

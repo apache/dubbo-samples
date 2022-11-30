@@ -184,6 +184,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
@@ -195,16 +196,20 @@
                                 </filter>
                             </filters>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>org.apache.dubbo.samples.ConsumerBootstrap</mainClass>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/dubbo/internal/org.apache.dubbo.registry.client.ServiceDiscoveryFactory</resource>
+                                    <resource>
+                                        META-INF/dubbo/internal/org.apache.dubbo.registry.client.ServiceDiscoveryFactory
+                                    </resource>
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/dubbo/internal/org.apache.dubbo.registry.RegistryFactory</resource>
+                                    <resource>META-INF/dubbo/internal/org.apache.dubbo.registry.RegistryFactory
+                                    </resource>
                                 </transformer>
                             </transformers>
                         </configuration>

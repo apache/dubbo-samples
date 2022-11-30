@@ -31,6 +31,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-xds</artifactId>
+    <name>Dubbo Samples XDS</name>
+    <description>Dubbo Samples XDS</description>
 
     <repositories>
         <repository>

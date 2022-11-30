@@ -29,6 +29,9 @@
     <artifactId>dubbo-samples-port-unification</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <name>Dubbo Samples Port Unification</name>
+    <description>Dubbo Samples Port Unification</description>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <dubbo.version>3.1.1</dubbo.version>

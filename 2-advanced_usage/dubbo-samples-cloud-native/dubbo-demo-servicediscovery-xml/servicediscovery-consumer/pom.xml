@@ -25,10 +25,10 @@
     </parent>
     <artifactId>servicediscovery-consumer</artifactId>
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
-    <description>The demo consumer module of dubbo project</description>
+    <name>Service Discovery Consumer</name>
+    <description>Service Discovery Consumer</description>
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <dependencies>
         <dependency>

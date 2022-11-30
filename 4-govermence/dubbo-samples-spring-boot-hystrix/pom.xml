@@ -25,7 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-spring-boot-hystrix</artifactId>
-
+    <name>Dubbo Samples Spring Boot Hystrix</name>
+    <description>Dubbo Samples Spring Boot Hystrix</description>
 
     <properties>
         <source.level>1.8</source.level>

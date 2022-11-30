@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-default-config</artifactId>
+    <name>Dubbo Samples Default Config</name>
+    <description>Dubbo Samples Default Config</description>
 
     <properties>
         <source.level>1.8</source.level>

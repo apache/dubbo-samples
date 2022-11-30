@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>war</packaging>
     <artifactId>dubbo-samples-rest</artifactId>
+    <name>Dubbo Samples Rest</name>
+    <description>Dubbo Samples Rest</description>
 
     <properties>
         <source.level>1.8</source.level>
@@ -129,10 +131,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>

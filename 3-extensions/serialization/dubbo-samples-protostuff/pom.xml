@@ -29,7 +29,9 @@
     <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-samples-protostuff</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>dubbo-samples-protostuff</name>
+
+    <name>Dubbo Samples Protostuff</name>
+    <description>Dubbo Samples Protostuff</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

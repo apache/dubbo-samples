@@ -25,6 +25,8 @@
     <version>1.0-SNAPSHOT</version>
     <artifactId>dubbo-samples-spring-boot</artifactId>
     <packaging>pom</packaging>
+    <name>Dubbo Samples Spring Boot</name>
+    <description>Dubbo Samples Spring Boot</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

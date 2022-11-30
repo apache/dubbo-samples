@@ -25,6 +25,9 @@
 
     <artifactId>dubbo-samples-protobuf-json</artifactId>
     <packaging>pom</packaging>
+    <name>Dubbo Samples Protobuf Json</name>
+    <description>Dubbo Samples Protobuf Json</description>
+
     <modules>
         <module>protobuf-json-serialization-api</module>
         <module>protobuf-json-serialization-demo</module>

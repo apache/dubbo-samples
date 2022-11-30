@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sc-dubbo-consumer</artifactId>
+    <name>Sc Dubbo Consumer</name>
+    <description>Sc Dubbo Consumer</description>
 
     <dependencyManagement>
         <dependencies>

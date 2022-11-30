@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-async-generated-future</artifactId>
+    <name>Dubbo Samples Async Generated Future</name>
+    <description>Dubbo Samples Async Generated Future</description>
 
     <properties>
         <source.level>1.8</source.level>

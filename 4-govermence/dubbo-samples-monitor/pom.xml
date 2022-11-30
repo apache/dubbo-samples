@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-monitor</artifactId>
+    <name>Dubbo Samples Monitor</name>
+    <description>Dubbo Samples Monitor</description>
 
     <properties>
         <source.level>1.8</source.level>

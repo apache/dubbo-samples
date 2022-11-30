@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-tagrouter</artifactId>
+    <name>Dubbo Samples Tag Router</name>
+    <description>Dubbo Samples Tag Router</description>
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>

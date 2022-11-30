@@ -31,6 +31,9 @@
     <artifactId>dubbo-samples-sd-group</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    
+    <name>Dubbo Samples Sd Group</name>
+    <description>Dubbo Samples Sd Group</description>
 
     <modules>
         <module>dubbo-samples-sd-group-api</module>

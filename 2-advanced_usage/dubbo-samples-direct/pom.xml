@@ -24,6 +24,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-direct</artifactId>
+    <name>Dubbo Samples Direct</name>
+    <description>Dubbo Samples Direct</description>
 
     <properties>
         <source.level>1.8</source.level>

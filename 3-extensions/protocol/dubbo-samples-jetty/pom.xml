@@ -23,9 +23,8 @@
   <artifactId>dubbo-samples-jetty</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>dubbo-samples-jetty</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>Dubbo Samples Jetty</name>
+  <description>Dubbo Samples Jetty</description>
 
   <properties>
     <source.level>1.8</source.level>

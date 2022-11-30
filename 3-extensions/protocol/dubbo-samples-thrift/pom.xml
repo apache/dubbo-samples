@@ -31,6 +31,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-thrift</artifactId>
+    <name>Dubbo Samples Thrift</name>
+    <description>Dubbo Samples Thrift</description>
 
     <properties>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>

@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-servicediscovery-migration</artifactId>
+    <name>Dubbo Service Discovery Migration</name>
+    <description>Dubbo Service Discovery Migration</description>
 
     <modules>
         <module>dubbo-servicediscovery-migration-api</module>

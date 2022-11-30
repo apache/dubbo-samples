@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-configconditionrouter</artifactId>
+    <name>Dubbo Samples Config Condition Router</name>
+    <description>Dubbo Samples Config Condition Router</description>
 
     <properties>
         <source.level>1.8</source.level>
