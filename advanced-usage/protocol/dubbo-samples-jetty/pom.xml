@@ -41,8 +41,6 @@
     <swagger.version>1.5.19</swagger.version>
     <tomcat.version>7.0.88</tomcat.version>
     <servlet.version>3.0.1</servlet.version>
-    <maven_checkstyle_version>3.0.0</maven_checkstyle_version>
-    <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
     <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
@@ -274,56 +272,6 @@
           <source>${source.level}</source>
           <target>${target.level}</target>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>${apache-rat-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>verify.rat</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <excludes>
-                <exclude>**/*.versionsBackup</exclude>
-                <exclude>**/.idea/</exclude>
-                <exclude>**/*.iml</exclude>
-                <exclude>**/*.txt</exclude>
-                <exclude>**/*.load</exclude>
-                <exclude>**/*.flex</exclude>
-                <exclude>**/*.fc</exclude>
-                <exclude>**/*.javascript</exclude>
-                <exclude>**/*.properties</exclude>
-                <exclude>**/*.thrift</exclude>
-                <exclude>**/*.sh</exclude>
-                <exclude>**/*.bat</exclude>
-                <exclude>**/*.md</exclude>
-                <exclude>.git/</exclude>
-                <exclude>.gitignore</exclude>
-                <!-- ASF jenkins box puts the Maven repo in our root directory. -->
-                <exclude>.repository/</exclude>
-                <exclude>**/.settings/*</exclude>
-                <exclude>**/.classpath</exclude>
-                <exclude>**/.project</exclude>
-                <exclude>**/target/**</exclude>
-                <exclude>**/*.log</exclude>
-                <exclude>CODE_OF_CONDUCT.md</exclude>
-                <exclude>.codecov.yml</exclude>
-                <exclude>.travis.yml</exclude>
-                <exclude>PULL_REQUEST_TEMPLATE.md</exclude>
-                <exclude>CONTRIBUTING.md</exclude>
-                <exclude>README.md</exclude>
-                <exclude>**/codestyle/*</exclude>
-                <exclude>**/resources/META-INF/**</exclude>
-                <exclude>**/webapp/swagger/**</exclude>
-                <exclude>**/org/apache/dubbo/samples/rpc/nativethrift/api/DemoService.java</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
