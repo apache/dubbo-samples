@@ -55,6 +55,7 @@
         <module>dubbo-samples-notify</module>
         <module>dubbo-samples-resilience4j</module>
         <module>dubbo-samples-rest</module>
+        <module>dubbo-samples-rpccontext</module>
         <module>dubbo-samples-scala</module>
         <module>dubbo-samples-simplified-registry</module>
         <module>dubbo-samples-spi-compatible</module>
