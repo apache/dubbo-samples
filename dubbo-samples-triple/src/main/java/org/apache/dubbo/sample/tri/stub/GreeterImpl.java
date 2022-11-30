@@ -235,9 +235,22 @@ public class GreeterImpl extends GreeterImplBase {
     public void greetServerStream(GreeterRequest request,
                                   StreamObserver<GreeterReply> replyStream) {
         for (int i = 0; i < 10; i++) {
+            long start = System.currentTimeMillis();
             replyStream.onNext(GreeterReply.newBuilder()
                     .setMessage(request.getName() + "--" + i)
                     .build());
+            long onNextEnd = System.currentTimeMillis();
+            long sleepEnd = 0;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+                sleepEnd = System.currentTimeMillis();
+            }
+            long nextDiff = onNextEnd - start;
+            long sleepDiff = sleepEnd - onNextEnd;
+            System.out.println("onNext diff:" + nextDiff + " sleep diff:" + sleepDiff);
         }
         replyStream.onCompleted();
     }
