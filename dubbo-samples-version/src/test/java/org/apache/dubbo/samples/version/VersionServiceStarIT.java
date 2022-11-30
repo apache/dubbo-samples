@@ -17,8 +17,10 @@
 
 package org.apache.dubbo.samples.version;
 
+import org.apache.dubbo.common.Version;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.version.api.VersionService;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -58,9 +60,21 @@ public class VersionServiceStarIT {
         }
         Assert.assertEquals(2, MyNettyTransporter.getConnectedCount());
 
+        if (Version.getVersion().compareTo("3.1.0") > 0) {
+            for (int i = 0; i < 10; i++) {
+                System.out.println("address received: " + MyAddressListener.getAddressSize());
+                if (2 == MyAddressListener.getAddressSize()) {
+                    break;
+                }
+                Thread.sleep(200);
+            }
+            Assert.assertEquals(2, MyAddressListener.getAddressSize());
+            Thread.sleep(100);
+        }
+
         boolean version1 = false;
         boolean version2 = false;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             String result = service.sayHello("dubbo");
             System.out.println("result: " + result);
             if (result.equals("hello, dubbo")) {

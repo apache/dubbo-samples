@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -11,13 +28,14 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.1.0-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.1.0</dubbo.version>
         <grpc.version>1.31.1</grpc.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <protoc.version>3.19.4</protoc.version>
-        <dubbo.compiler.version>0.0.4.1-SNAPSHOT</dubbo.compiler.version>
+        <protoc.version>3.20.1</protoc.version>
+        <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
+        <log4j.version>2.17.2</log4j.version>
     </properties>
 
     <dependencyManagement>
@@ -36,6 +54,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-bom</artifactId>
+                <version>${grpc.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -44,19 +69,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
-            <!--            <version>3.1.0-SNAPSHOT</version>-->
         </dependency>
 
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.20.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo.extensions</groupId>
-            <artifactId>dubbo-registry-kubernetes</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>3.20.3</version>
         </dependency>
 
         <dependency>
@@ -69,7 +87,6 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-all</artifactId>
-            <version>${grpc.version}</version>
         </dependency>
 
         <dependency>
@@ -175,6 +192,34 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <to>
+                        <image>apache/dubbo-demo:dubbo-samples-mesh-provider-v1:0.0.1</image>
+                    </to>
+                    <container>
+                        <jvmFlags>
+                            <jvmFlag>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=31000</jvmFlag>
+                        </jvmFlags>
+                        <ports>
+                            <port>50052</port>
+                            <port>31000</port>
+                            <port>22222</port>
+                        </ports>
+                    </container>
+                </configuration>
+                <!--                <executions>-->
+                <!--                    <execution>-->
+                <!--                        <phase>package</phase>-->
+                <!--                        <goals>-->
+                <!--                            <goal>build</goal>-->
+                <!--                        </goals>-->
+                <!--                    </execution>-->
+                <!--                </executions>-->
             </plugin>
         </plugins>
     </build>

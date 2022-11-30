@@ -19,6 +19,8 @@
 
 package org.apache.dubbo.samples.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -26,12 +28,8 @@ import org.apache.dubbo.rpc.protocol.tri.ServerStreamObserver;
 import org.apache.dubbo.samples.DubboGreeterTriple;
 import org.apache.dubbo.samples.GreeterReply;
 import org.apache.dubbo.samples.GreeterRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author conghuhu
@@ -44,7 +42,7 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     public static final Map<String, Boolean> cancelResultMap = new HashMap<>();
 
     public GreeterImpl() {
-        this.serverName = "test dubbo tri k8s";
+        this.serverName = "test dubbo tri mesh";
     }
 
     public GreeterImpl(String serverName) {
@@ -54,9 +52,16 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     @Override
     public GreeterReply greet(GreeterRequest request) {
         LOGGER.info("Server {} received greet request {}", serverName, request);
+        boolean isProviderSide = RpcContext.getContext().isProviderSide();
+        String clientIP = RpcContext.getContext().getRemoteHost();
+        String remoteApplication = RpcContext.getContext().getRemoteApplicationName();
+        String application = RpcContext.getContext().getUrl().getParameter("application");
+        String protocol = RpcContext.getContext().getProtocol();
         return GreeterReply.newBuilder()
-                .setMessage("hello," + request.getName())
-                .build();
+                .setMessage("hello," + request.getName() + ", response from provider-v1: " + RpcContext.getContext().getLocalAddress() +
+                        ", client: " + clientIP + ", local: " + application + ", remote: " + remoteApplication +
+                        ", isProviderSide: " + isProviderSide)
+            .build();
     }
 
     @Override
@@ -81,32 +86,32 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
 
     @Override
     public void cancelServerStream(GreeterRequest request,
-                                   StreamObserver<GreeterReply> replyStream) {
+        StreamObserver<GreeterReply> replyStream) {
         RpcContext.getCancellationContext().addListener(context -> {
             LOGGER.info("cancel--cancelServerStream");
             cancelResultMap.put("cancelServerStream", true);
         });
         for (int i = 0; i < 10; i++) {
             replyStream.onNext(GreeterReply.newBuilder()
-                    .setMessage(request.getName() + "--" + i)
-                    .build());
+                .setMessage(request.getName() + "--" + i)
+                .build());
         }
     }
 
     @Override
     public StreamObserver<GreeterRequest> cancelBiStream(StreamObserver<GreeterReply> replyStream) {
         RpcContext.getCancellationContext()
-                .addListener(context -> {
-                    LOGGER.info("cancel--cancelBiStream");
-                    cancelResultMap.put("cancelBiStream", true);
-                });
+            .addListener(context -> {
+                LOGGER.info("cancel--cancelBiStream");
+                cancelResultMap.put("cancelBiStream", true);
+            });
         return new StreamObserver<GreeterRequest>() {
             @Override
             public void onNext(GreeterRequest data) {
                 LOGGER.info("Bi-Stream-Request:" + data.getName());
                 replyStream.onNext(GreeterReply.newBuilder()
-                        .setMessage(data.getName())
-                        .build());
+                    .setMessage(data.getName())
+                    .build());
             }
 
             @Override
@@ -124,19 +129,19 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
 
     @Override
     public StreamObserver<GreeterRequest> cancelBiStream2(
-            StreamObserver<GreeterReply> replyStream) {
+        StreamObserver<GreeterReply> replyStream) {
         RpcContext.getCancellationContext()
-                .addListener(context -> {
-                    LOGGER.info("cancel--cancelBiStream2");
-                    cancelResultMap.put("cancelBiStream2", true);
-                });
+            .addListener(context -> {
+                LOGGER.info("cancel--cancelBiStream2");
+                cancelResultMap.put("cancelBiStream2", true);
+            });
         return new StreamObserver<GreeterRequest>() {
             @Override
             public void onNext(GreeterRequest data) {
                 LOGGER.info("Bi-Stream-Request:" + data.getName());
                 replyStream.onNext(GreeterReply.newBuilder()
-                        .setMessage(data.getName())
-                        .build());
+                    .setMessage(data.getName())
+                    .build());
             }
 
             @Override
@@ -154,20 +159,20 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
 
     @Override
     public StreamObserver<GreeterRequest> compressorBiStream(
-            StreamObserver<GreeterReply> replyStream) {
+        StreamObserver<GreeterReply> replyStream) {
         ServerStreamObserver<GreeterReply> replyServerStreamObserver = (ServerStreamObserver<GreeterReply>) replyStream;
         replyServerStreamObserver.setCompression("gzip");
         return getGreeterRequestStreamObserver(replyServerStreamObserver);
     }
 
     private StreamObserver<GreeterRequest> getGreeterRequestStreamObserver(
-            StreamObserver<GreeterReply> streamObserver) {
+        StreamObserver<GreeterReply> streamObserver) {
         return new StreamObserver<GreeterRequest>() {
             @Override
             public void onNext(GreeterRequest data) {
                 streamObserver.onNext(GreeterReply.newBuilder()
-                        .setMessage(data.getName())
-                        .build());
+                    .setMessage(data.getName())
+                    .build());
             }
 
             @Override
@@ -185,14 +190,14 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
 
     @Override
     public StreamObserver<GreeterRequest> clientCompressorBiStream(
-            StreamObserver<GreeterReply> replyStream) {
+        StreamObserver<GreeterReply> replyStream) {
         ServerStreamObserver<GreeterReply> replyServerStreamObserver = (ServerStreamObserver<GreeterReply>) replyStream;
         return getGreeterRequestStreamObserver(replyServerStreamObserver);
     }
 
     @Override
     public StreamObserver<GreeterRequest> serverCompressorBiStream(
-            StreamObserver<GreeterReply> replyStream) {
+        StreamObserver<GreeterReply> replyStream) {
         ServerStreamObserver<GreeterReply> replyServerStreamObserver = (ServerStreamObserver<GreeterReply>) replyStream;
         replyServerStreamObserver.setCompression("gzip");
         return getGreeterRequestStreamObserver(replyServerStreamObserver);
@@ -202,15 +207,14 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     public GreeterReply queryCancelResult(GreeterRequest request) {
         boolean canceled = cancelResultMap.getOrDefault(request.getName(), false);
         return GreeterReply.newBuilder()
-                .setMessage(String.valueOf(canceled))
-                .build();
+            .setMessage(String.valueOf(canceled))
+            .build();
     }
-
 
     public GreeterReply greetException(GreeterRequest request) {
         RpcContext.getServerContext().setAttachment("str", "str")
-                .setAttachment("integer", 1)
-                .setAttachment("raw", new byte[]{1, 2, 3, 4});
+            .setAttachment("integer", 1)
+            .setAttachment("raw", new byte[] {1, 2, 3, 4});
         throw new RuntimeException("Biz Exception");
     }
 
@@ -224,8 +228,8 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
                 n++;
                 LOGGER.info(data.getName() + " " + n);
                 replyStream.onNext(GreeterReply.newBuilder()
-                        .setMessage(data.getName() + " " + n)
-                        .build());
+                    .setMessage(data.getName() + " " + n)
+                    .build());
             }
 
             @Override
@@ -244,11 +248,11 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
 
     @Override
     public void greetServerStream(GreeterRequest request,
-                                  StreamObserver<GreeterReply> replyStream) {
+        StreamObserver<GreeterReply> replyStream) {
         for (int i = 0; i < 10; i++) {
             replyStream.onNext(GreeterReply.newBuilder()
-                    .setMessage(request.getName() + "--" + i)
-                    .build());
+                .setMessage(request.getName() + "--" + i)
+                .build());
         }
         replyStream.onCompleted();
     }

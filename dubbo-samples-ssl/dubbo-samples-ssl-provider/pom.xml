@@ -92,6 +92,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.6.4</version>
                 <configuration>
                     <executable>true</executable>
                     <mainClass>org.apache.dubbo.samples.basic.SslBasicProvider</mainClass>

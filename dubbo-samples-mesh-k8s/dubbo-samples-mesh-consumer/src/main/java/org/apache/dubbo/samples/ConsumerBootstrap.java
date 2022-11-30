@@ -19,9 +19,10 @@
 
 package org.apache.dubbo.samples;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.action.GreetingServiceConsumer;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,13 +30,31 @@ import org.springframework.context.annotation.PropertySource;
 
 public class ConsumerBootstrap {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
         context.start();
-        System.out.println("==================== dubbo invoke started ====================");
         GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
-        greetingServiceConsumer.doSayHello("Kubernetes Api Server");
-        System.out.println("==================== dubbo invoke end ====================");
+        AtomicInteger count = new AtomicInteger(0);
+
+        System.out.println("==================== dubbo unary invoke loop started ====================");
+        do {
+            Thread.sleep(5000);
+            greetingServiceConsumer.doSayHello("service mesh");
+            System.out.println("==================== dubbo unary invoke " + count.get() + " end ====================");
+            count.getAndIncrement();
+        }
+        while (count.get() != 20);
+
+        System.out.println("==================== dubbo start bi streaming ====================");
+        greetingServiceConsumer.doBISayHello("service mesh");
+        System.out.println("==================== dubbo bi stream done ====================");
+
+        System.out.println("==================== dubbo start server streaming ====================");
+        greetingServiceConsumer.getHelloFromServer();
+        System.out.println("==================== dubbo server stream done ====================");
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        countDownLatch.await();
     }
 
     @Configuration
