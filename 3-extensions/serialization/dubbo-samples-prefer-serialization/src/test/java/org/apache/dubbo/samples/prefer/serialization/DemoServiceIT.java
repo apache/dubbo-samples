@@ -19,6 +19,7 @@ package org.apache.dubbo.samples.prefer.serialization;
 
 
 import org.apache.dubbo.samples.prefer.serialization.api.DemoService;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

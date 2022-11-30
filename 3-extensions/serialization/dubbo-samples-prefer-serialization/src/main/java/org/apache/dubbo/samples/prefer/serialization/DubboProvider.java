@@ -19,7 +19,6 @@ package org.apache.dubbo.samples.prefer.serialization;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.LockSupport;
 
 public class DubboProvider {

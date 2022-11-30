@@ -15,13 +15,19 @@
         xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-samples-all</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
     </parent>
+
+    <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-samples-rocketmq</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
     <name>Dubbo Samples Rocketmq</name>
     <description>Dubbo Samples Rocketmq</description>
+
     <properties>
         <spring.version>4.3.16.RELEASE</spring.version>
         <dubbo.version>3.0.7</dubbo.version>
@@ -30,6 +36,7 @@
         <swagger.version>1.5.19</swagger.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -48,6 +55,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
