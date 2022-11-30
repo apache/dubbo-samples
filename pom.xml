@@ -14,7 +14,8 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
@@ -22,93 +23,5 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>dubbo-maven-address-plugin</module>
-        <module>dubbo-samples-annotation</module>
-        <module>dubbo-samples-api</module>
-        <module>dubbo-samples-async</module>
-        <module>dubbo-samples-attachment</module>
-        <module>dubbo-samples-basic</module>
-        <module>dubbo-samples-cache</module>
-        <module>dubbo-samples-chain</module>
-        <module>dubbo-samples-callback</module>
-        <module>dubbo-samples-compatible</module>
-        <module>dubbo-samples-configcenter</module>
-        <module>dubbo-samples-context</module>
-        <module>dubbo-samples-direct</module>
-        <module>dubbo-samples-docker</module>
-        <module>dubbo-samples-echo</module>
-        <module>dubbo-samples-gateway</module>
-        <module>dubbo-samples-generic</module>
-        <module>dubbo-samples-group</module>
-        <module>dubbo-samples-governance</module>
-        <module>dubbo-samples-http</module>
-        <module>dubbo-samples-jetty</module>
-        <module>dubbo-samples-local</module>
-        <module>dubbo-samples-merge</module>
-        <module>dubbo-samples-mesh-k8s</module>
-        <module>dubbo-samples-metadata-report</module>
-        <module>dubbo-samples-migration</module>
-        <module>dubbo-samples-mock</module>
-        <module>dubbo-samples-monitor</module>
-        <module>dubbo-samples-multi-registry</module>
-        <module>dubbo-samples-default-config</module>
-        <module>dubbo-samples-notify</module>
-        <module>dubbo-samples-resilience4j</module>
-        <module>dubbo-samples-rest</module>
-        <module>dubbo-samples-scala</module>
-        <module>dubbo-samples-simplified-registry</module>
-        <module>dubbo-samples-spi-compatible</module>
-        <module>dubbo-samples-spring-hystrix</module>
-        <module>dubbo-samples-spring-boot-hystrix</module>
-        <module>dubbo-samples-stub</module>
-        <module>dubbo-samples-switch-serialization-thread</module>
-        <module>dubbo-samples-thrift</module>
-        <module>dubbo-samples-validation</module>
-        <module>dubbo-samples-version</module>
-        <module>dubbo-samples-zipkin</module>
-        <module>dubbo-samples-zookeeper</module>
-        <module>dubbo-samples-transaction</module>
-        <module>dubbo-samples-consul</module>
-        <module>dubbo-samples-edas</module>
-        <module>dubbo-samples-nacos</module>
-        <module>dubbo-samples-metrics</module>
-        <module>dubbo-samples-environment-keys</module>
-        <module>dubbo-samples-protostuff</module>
-        <module>dubbo-samples-serialization</module>
-        <module>dubbo-samples-sentinel</module>
-        <module>dubbo-samples-grpc</module>
-        <module>dubbo-samples-cloud-native</module>
-        <module>dubbo-samples-protobuf</module>
-        <module>dubbo-samples-protobuf-json</module>
-        <module>dubbo-samples-triple</module>
-        <module>dubbo-samples-ssl</module>
-        <module>dubbo-samples-perf</module>
-        <module>dubbo-samples-tengine</module>
-        <module>dubbo-samples-webservice</module>
-        <module>dubbo-samples-autowire</module>
-        <module>dubbo-samples-boundary-test</module>
-        <module>dubbo-samples-kubernetes</module>
-        <module>dubbo-samples-xds</module>
-        <module>dubbo-samples-spring-boot</module>
-        <module>dubbo-samples-triple-reactor</module>
-        <module>dubbo-samples-rocketmq</module>
-        <module>dubbo-samples-port-unification</module>
-        <module>dubbo-samples-isolation-executor</module>
     </modules>
-
-    <repositories>
-        <repository>
-            <id>apache.snapshots.https</id>
-            <name>Apache Development Snapshot Repository</name>
-            <url>https://repository.apache.org/content/repositories/snapshots</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
