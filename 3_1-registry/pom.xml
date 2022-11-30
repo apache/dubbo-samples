@@ -19,17 +19,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-all</artifactId>
+    <artifactId>3_1-registry</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>1-basic_usage</module>
-        <module>2-advanced_usage</module>
-        <module>3_1-registry</module>
-        <module>3_2-protocol</module>
-        <module>3_3-configcenter</module>
-        <module>3_4-serialization</module>
-        <module>4-govermence</module>
-        <module>99-integration_test</module>
+        <module>dubbo-samples-consul</module>
+        <module>dubbo-samples-default-config</module>
+        <module>dubbo-samples-kubernetes</module>
+        <module>dubbo-samples-mesh-k8s</module>
+        <module>dubbo-samples-multi-registry</module>
+        <module>dubbo-samples-nacos</module>
+        <module>dubbo-samples-simplified-registry</module>
+        <module>dubbo-samples-xds</module>
+        <module>dubbo-samples-zookeeper</module>
     </modules>
 </project>

@@ -19,17 +19,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-all</artifactId>
+    <artifactId>4-govermence</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>1-basic_usage</module>
-        <module>2-advanced_usage</module>
-        <module>3_1-registry</module>
-        <module>3_2-protocol</module>
-        <module>3_3-configcenter</module>
-        <module>3_4-serialization</module>
-        <module>4-govermence</module>
-        <module>99-integration_test</module>
+        <module>dubbo-samples-applevel-override</module>
+        <module>dubbo-samples-configconditionrouter</module>
+        <module>dubbo-samples-meshrule-router</module>
+        <module>dubbo-samples-metrics</module>
+        <module>dubbo-samples-monitor</module>
+        <module>dubbo-samples-sentinel</module>
+        <module>dubbo-samples-servicelevel-override</module>
+        <module>dubbo-samples-spring-boot-hystrix</module>
+        <module>dubbo-samples-spring-hystrix</module>
+        <module>dubbo-samples-ssl</module>
+        <module>dubbo-samples-tagrouter</module>
+        <module>dubbo-samples-zipkin</module>
     </modules>
 </project>

@@ -19,17 +19,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-all</artifactId>
+    <artifactId>3_2-protocol</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>1-basic_usage</module>
-        <module>2-advanced_usage</module>
-        <module>3_1-registry</module>
-        <module>3_2-protocol</module>
-        <module>3_3-configcenter</module>
-        <module>3_4-serialization</module>
-        <module>4-govermence</module>
-        <module>99-integration_test</module>
+        <module>dubbo-samples-grpc</module>
+        <module>dubbo-samples-http</module>
+        <module>dubbo-samples-jetty</module>
+        <module>dubbo-samples-port-unification</module>
+        <module>dubbo-samples-resilience4j</module>
+        <module>dubbo-samples-rest</module>
+        <module>dubbo-samples-rocketmq</module>
+        <module>dubbo-samples-thrift</module>
+        <module>dubbo-samples-triple</module>
+        <module>dubbo-samples-triple-reactor</module>
+        <module>dubbo-samples-webservice</module>
     </modules>
 </project>
