@@ -17,20 +17,21 @@
 
 package org.apache.dubbo.sample.tri.grpc;
 
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.Metadata;
+import io.grpc.stub.MetadataUtils;
 import org.apache.dubbo.sample.tri.GreeterGrpc;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
 import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.util.TriSampleConstants;
-
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.Metadata;
-import io.grpc.stub.MetadataUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -69,15 +70,31 @@ public class GrpcClientTest {
         final GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("request")
                 .build();
-        stub.greetServerStream(request, new StdoutStreamObserver<GreeterReply>("grpc sayGreeterServerStream") {
+        String key = "lastTimestamp";
+        Map<String, Long> map = new HashMap<>();
+        StdoutStreamObserver<GreeterReply> observer = new StdoutStreamObserver<GreeterReply>(
+                "sayGreeterServerStream") {
             @Override
             public void onNext(GreeterReply data) {
+                long lastTimestamp = map.getOrDefault(key, 0L);
+                long now = System.currentTimeMillis();
+                map.put(key, now);
+                if (lastTimestamp == 0) {
+                    latch.countDown();
+                } else {
+                    long diff = Math.abs(now - lastTimestamp - 1000);
+                    System.out.println(diff);
+                    if (diff < 50) {
+                        latch.countDown();
+                    }
+                }
                 super.onNext(data);
-                latch.countDown();
             }
-        });
-        Assert.assertTrue(latch.await(3, TimeUnit.SECONDS));
+        };
+        stub.greetServerStream(request, observer);
+        Assert.assertTrue(latch.await(12, TimeUnit.SECONDS));
     }
+
 
 
     @Test
