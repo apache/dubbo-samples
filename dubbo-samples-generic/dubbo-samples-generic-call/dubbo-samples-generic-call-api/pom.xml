@@ -29,6 +29,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-generic-call-api</artifactId>
-
+    <name>Dubbo Samples Generic Call Api</name>
+    <description>Dubbo Samples Generic Call Api</description>
 
 </project>

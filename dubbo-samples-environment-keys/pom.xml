@@ -24,6 +24,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-environment-keys</artifactId>
+    <name>Dubbo Samples Environment Keys</name>
+    <description>Dubbo Samples Environment Keys</description>
 
     <properties>
         <source.level>1.8</source.level>

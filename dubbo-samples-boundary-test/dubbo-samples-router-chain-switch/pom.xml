@@ -26,6 +26,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-router-chain-switch</artifactId>
+    <name>Dubbo Samples Router Chain Switch</name>
+    <description>Dubbo Samples Router Chain Switch</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

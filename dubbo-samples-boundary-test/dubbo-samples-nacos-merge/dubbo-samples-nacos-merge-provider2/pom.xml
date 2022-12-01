@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-nacos-merge-provider2</artifactId>
+    <name>Dubbo Samples Nacos Merge Provider2</name>
+    <description>Dubbo Samples Nacos Merge Provider2</description>
 
     <dependencies>
         <dependency>

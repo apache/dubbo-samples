@@ -25,6 +25,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-multi-registry</artifactId>
+    <name>Dubbo Samples Multi Registry</name>
+    <description>Dubbo Samples Multi Registry</description>
 
     <properties>
         <source.level>1.8</source.level>

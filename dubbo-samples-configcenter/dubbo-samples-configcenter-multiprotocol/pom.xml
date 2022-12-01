@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-configcenter-multiprotocol</artifactId>
+    <name>Dubbo Samples Config Center Multi Protocol</name>
+    <description>Dubbo Samples Config Center Multi Protocol</description>
 
     <properties>
         <source.level>1.8</source.level>

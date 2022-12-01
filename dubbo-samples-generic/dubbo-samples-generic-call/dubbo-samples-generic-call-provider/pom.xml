@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-generic-call-provider</artifactId>
+    <name>Dubbo Samples Generic Call Provider</name>
+    <description>Dubbo Samples Generic Call Provider</description>
 
     <dependencies>
         <dependency>

@@ -29,6 +29,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-generic-impl-provider</artifactId>
+    <name>Dubbo Samples Generic Impl Provider</name>
+    <description>Dubbo Samples Generic Impl Provider</description>
 
     <dependencies>
         <dependency>

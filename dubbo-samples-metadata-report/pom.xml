@@ -27,6 +27,9 @@
 
     <artifactId>dubbo-samples-metadata-report</artifactId>
     <packaging>pom</packaging>
+    <name>Dubbo Samples Metadata Report</name>
+    <description>Dubbo Samples Metadata Report</description>
+
     <modules>
         <module>dubbo-samples-metadata-report-configcenter</module>
         <module>dubbo-samples-metadata-report-local-annotation</module>

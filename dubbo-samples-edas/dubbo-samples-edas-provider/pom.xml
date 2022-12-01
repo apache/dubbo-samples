@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-edas-provider</artifactId>
+    <name>Dubbo Samples Edas Provider</name>
+    <description>Dubbo Samples Edas Provider</description>
 
     <properties>
         <source.level>1.8</source.level>
@@ -174,6 +176,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>

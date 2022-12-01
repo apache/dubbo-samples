@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-servicelevel-override</artifactId>
+    <name>Dubbo Samples Service Level Override</name>
+    <description>Dubbo Samples Service Level Override</description>
 
     <properties>
         <source.level>1.8</source.level>

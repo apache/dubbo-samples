@@ -30,5 +30,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-chain-api</artifactId>
+    <name>Dubbo Samples Chain Api</name>
+    <description>Dubbo Samples Chain Api</description>
 
 </project>

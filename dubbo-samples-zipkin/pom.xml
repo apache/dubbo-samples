@@ -24,6 +24,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-zipkin</artifactId>
+    <name>Dubbo Samples Zipkin</name>
+    <description>Dubbo Samples Zipkin</description>
 
     <properties>
         <source.level>1.8</source.level>
@@ -139,12 +141,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
         </dependency>
     </dependencies>
 

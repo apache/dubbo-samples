@@ -32,6 +32,8 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-kubernetes</artifactId>
+    <name>Dubbo Samples Kubernetes</name>
+    <description>Dubbo Samples Kubernetes</description>
 
     <repositories>
         <repository>

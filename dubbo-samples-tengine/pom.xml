@@ -21,10 +21,10 @@
     <artifactId>dubbo-samples-tengine</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>${project.artifactId}</name>
+    <name>Dubbo Samples Tengine</name>
     <description>The demo module of tengine dubbo</description>
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.deploy.skip>true</maven.deploy.skip>
         <dubbo.version>3.0.7</dubbo.version>
         <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>

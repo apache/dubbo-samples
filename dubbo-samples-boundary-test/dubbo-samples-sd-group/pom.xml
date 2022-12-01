@@ -32,6 +32,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-sd-group</artifactId>
+    <name>Dubbo Samples Sd Group</name>
+    <description>Dubbo Samples Sd Group</description>
+
     <properties>
         <dubbo.version>3.1.1</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>

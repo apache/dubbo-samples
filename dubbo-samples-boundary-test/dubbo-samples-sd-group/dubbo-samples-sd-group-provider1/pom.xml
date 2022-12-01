@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-sd-group-provider1</artifactId>
+    <name>Dubbo Samples Sd Group Provider1</name>
+    <description>Dubbo Samples Sd Group Provider1</description>
 
     <dependencies>
         <dependency>

@@ -32,7 +32,6 @@
                 </repository>
             </repositories>
         </profile>
-
     </profiles>
 
     <activeProfiles>

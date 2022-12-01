@@ -32,6 +32,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-sd-merge</artifactId>
+    <name>Dubbo Samples Sd Merge</name>
+    <description>Dubbo Samples Sd Merge</description>
+
     <properties>
         <dubbo.version>3.1.1</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>

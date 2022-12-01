@@ -27,6 +27,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-samples-applevel-override</artifactId>
+    <name>Dubbo Samples App Level Override</name>
+    <description>Dubbo Samples App Level Override</description>
 
     <properties>
         <source.level>1.8</source.level>

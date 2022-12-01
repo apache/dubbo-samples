@@ -25,6 +25,8 @@
     <packaging>pom</packaging>
 
     <artifactId>dubbo-samples-async</artifactId>
+    <name>Dubbo Samples Async</name>
+    <description>Dubbo Samples Async</description>
 
     <modules>
         <module>dubbo-samples-async-simple</module>

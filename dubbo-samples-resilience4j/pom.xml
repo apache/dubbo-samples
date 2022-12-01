@@ -28,6 +28,9 @@
 
     <artifactId>dubbo-samples-resilience4j</artifactId>
     <packaging>pom</packaging>
+    <name>Dubbo Samples Resilience4j</name>
+    <description>Dubbo Samples Resilience4j</description>
+
     <modules>
         <module>dubbo-samples-resilience4j-filter</module>
         <module>dubbo-samples-resilience4j-springboot2</module>

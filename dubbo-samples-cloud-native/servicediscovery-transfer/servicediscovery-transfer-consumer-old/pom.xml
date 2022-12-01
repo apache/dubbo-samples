@@ -24,10 +24,10 @@
     </parent>
     <artifactId>servicediscovery-transfer-consumer-old</artifactId>
     <packaging>jar</packaging>
-    <name>${project.artifactId}</name>
-    <description>The demo consumer module of dubbo project</description>
+    <name>Service Discovery Transfer Consumer Old</name>
+    <description>Service Discovery Transfer Consumer Old</description>
     <properties>
-        <skip_maven_deploy>true</skip_maven_deploy>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <dependencies>
         <dependency>
