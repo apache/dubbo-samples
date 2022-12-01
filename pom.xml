@@ -38,11 +38,11 @@
     </properties>
 
     <modules>
-        <module>1-basic_usage</module>
-        <module>2-advanced_usage</module>
+        <module>1-basic</module>
+        <module>2-advanced</module>
         <module>3-extensions</module>
-        <module>4-govermence</module>
-        <module>99-integration_test</module>
+        <module>4-governance</module>
+        <module>99-integration</module>
     </modules>
 
     <build>
