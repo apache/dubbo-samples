@@ -67,20 +67,12 @@ header:
     - 'CNAME'
     - 'Jenkinsfile'
     - '**/vendor/**'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/threadlocal/InternalThreadLocal.java'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/threadlocal/InternalThreadLocalMap.java'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/timer/HashedWheelTimer.java'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/timer/Timeout.java'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/timer/Timer.java'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/timer/TimerTask.java'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/utils/CIDRUtils.java'
-    - 'dubbo-common/src/main/java/org/apache/dubbo/common/utils/Utf8Utils.java'
     - '**/EmbeddedZooKeeper.java'
     - 'test/scripts/case-versions.conf.*'
     - '**/*.md'
     - '**/*.MD'
     - '**/src/main/resources/certs/**'
-    - 'dubbo-samples-tengine/dubbo-samples-tengine-provider/src/main/resources/docker/sources.list'
+    - '**/dubbo-samples-tengine/dubbo-samples-tengine-provider/src/main/resources/docker/sources.list'
 
   comment: on-failure
 

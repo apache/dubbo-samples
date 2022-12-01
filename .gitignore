@@ -40,7 +40,7 @@ Thumbs.db
 
 # generated code
 **/build/*
-
+**/dependency-reduced-pom.xml
 
 # Binaries for programs and plugins
 *.exe
