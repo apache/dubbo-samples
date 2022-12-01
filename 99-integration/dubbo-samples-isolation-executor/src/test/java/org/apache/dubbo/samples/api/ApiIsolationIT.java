@@ -32,6 +32,8 @@ import org.apache.dubbo.samples.support.DemoServiceImpl;
 import org.apache.dubbo.samples.support.HelloService;
 import org.apache.dubbo.samples.support.HelloServiceImpl;
 
+import org.junit.Test;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -39,14 +41,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.apache.dubbo.common.constants.CommonConstants.EXECUTOR_MANAGEMENT_MODE_ISOLATION;
 
-public class ApiIsolationTest {
+public class ApiIsolationIT {
 
     private static final String version1 = "1.0";
     private static final String version2 = "2.0";
     private static final String version3 = "3.0";
 
+    @Test
     public void test() {
-        RegistryConfig registryConfig = new RegistryConfig("zookeeper://127.0.0.1:2181");
+        String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+        RegistryConfig registryConfig = new RegistryConfig("zookeeper://" + zookeeperHost + ":2181");
 
         DubboBootstrap providerBootstrap = null;
         DubboBootstrap consumerBootstrap1 = null;

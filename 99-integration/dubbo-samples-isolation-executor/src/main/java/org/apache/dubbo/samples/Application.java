@@ -16,22 +16,7 @@
  */
 package org.apache.dubbo.samples;
 
-import org.apache.dubbo.samples.api.ApiIsolationTest;
-import org.apache.dubbo.samples.spring.annotation.AnnotationIsolationTest;
-import org.apache.dubbo.samples.spring.xml.XmlIsolationTest;
-
 public class Application {
     public static void main(String[] args) {
-        // Use the Api configuration way and test it
-        ApiIsolationTest apiIsolationTest = new ApiIsolationTest();
-        apiIsolationTest.test();
-
-        // Use the Spring-XML configuration way and test it
-        XmlIsolationTest xmlIsolationTest = new XmlIsolationTest();
-        xmlIsolationTest.test();
-
-        // Use the Spring-Annotation configuration way and test it
-        AnnotationIsolationTest annotationIsolationTest = new AnnotationIsolationTest();
-        annotationIsolationTest.test();
     }
 }

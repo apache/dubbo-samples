@@ -25,6 +25,7 @@ import org.apache.dubbo.samples.spring.BaseTest;
 import org.apache.dubbo.samples.spring.support.DemoServiceExecutor;
 import org.apache.dubbo.samples.spring.support.HelloServiceExecutor;
 
+import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,8 +36,9 @@ import java.util.concurrent.Executor;
 
 import static org.apache.dubbo.common.constants.CommonConstants.EXECUTOR_MANAGEMENT_MODE_ISOLATION;
 
-public class AnnotationIsolationTest extends BaseTest {
+public class AnnotationIsolationIT extends BaseTest {
 
+    @Test
     public void test() {
         // start provider app
         AnnotationConfigApplicationContext providerContext = new AnnotationConfigApplicationContext(ProviderConfiguration.class);
@@ -73,7 +75,8 @@ public class AnnotationIsolationTest extends BaseTest {
         @Bean
         public RegistryConfig registryConfig() {
             RegistryConfig registryConfig = new RegistryConfig();
-            registryConfig.setAddress("zookeeper://127.0.0.1:2181");
+            String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+            registryConfig.setAddress("zookeeper://" + zookeeperHost + ":2181");
             return registryConfig;
         }
 
@@ -91,7 +94,8 @@ public class AnnotationIsolationTest extends BaseTest {
         @Bean
         public RegistryConfig registryConfig() {
             RegistryConfig registryConfig = new RegistryConfig();
-            registryConfig.setAddress("zookeeper://127.0.0.1:2181");
+            String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+            registryConfig.setAddress("zookeeper://" + zookeeperHost + ":2181");
             return registryConfig;
         }
 

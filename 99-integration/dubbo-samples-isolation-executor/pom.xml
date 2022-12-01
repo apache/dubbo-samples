@@ -26,7 +26,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <dubbo.version>3.2.0-beta.1</dubbo.version>
+        <dubbo.version>3.2.0-beta.2</dubbo.version>
         <junit.version>4.12</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <source.level>1.8</source.level>
@@ -84,6 +84,12 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

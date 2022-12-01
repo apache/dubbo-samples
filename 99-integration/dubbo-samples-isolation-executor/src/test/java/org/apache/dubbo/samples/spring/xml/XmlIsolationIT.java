@@ -19,12 +19,14 @@ package org.apache.dubbo.samples.spring.xml;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.samples.spring.BaseTest;
 
+import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
 
-public class XmlIsolationTest extends BaseTest {
+public class XmlIsolationIT extends BaseTest {
 
+    @Test
     public void test() {
         // start provider app
         ClassPathXmlApplicationContext providerContext = new ClassPathXmlApplicationContext("META-INF/isolation/dubbo-provider.xml");

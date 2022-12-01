@@ -38,7 +38,6 @@
         <module>dubbo-samples-environment-keys</module>
         <module>dubbo-samples-generic</module>
         <module>dubbo-samples-group</module>
-        <module>dubbo-samples-isolation-executor</module>
         <module>dubbo-samples-local</module>
         <module>dubbo-samples-merge</module>
         <module>dubbo-samples-migration</module>
