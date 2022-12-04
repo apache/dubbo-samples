@@ -30,6 +30,7 @@
         <module>dubbo-samples-empty-protection</module>
         <module>dubbo-samples-empty-protection-nacos</module>
         <module>dubbo-samples-hibernate</module>
+        <module>dubbo-samples-isolation-executor</module>
         <module>dubbo-samples-metadata-report</module>
         <module>dubbo-samples-mybatis</module>
         <module>dubbo-samples-nacos-merge</module>
