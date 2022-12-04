@@ -19,6 +19,6 @@ package org.apache.dubbo.samples.support;
 public class HelloServiceImpl implements HelloService {
 
     public String sayHello(String name) {
-        return "Hello, " + name;
+        return "Hello, " + name + " from " + Thread.currentThread().getName();
     }
 }

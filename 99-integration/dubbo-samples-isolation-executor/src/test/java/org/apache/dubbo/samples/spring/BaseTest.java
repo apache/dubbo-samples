@@ -27,6 +27,7 @@ import org.apache.dubbo.samples.spring.support.HelloServiceExecutor;
 import org.apache.dubbo.samples.support.DemoService;
 import org.apache.dubbo.samples.support.HelloService;
 
+import org.junit.Assert;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Map;
@@ -88,16 +89,17 @@ public abstract class BaseTest {
     private void rpcInvoke(DemoService demoServiceV1, HelloService helloServiceV2, HelloService helloServiceV3) {
         for (int i = 0; i < 250; i++) {
             String response = demoServiceV1.sayName("name");
-            assert response.equals("say:" + response);
+            Assert.assertTrue(response.startsWith("say: name from DemoServiceExecutor"));
         }
         for (int i = 0; i < 250; i++) {
             String response = helloServiceV2.sayHello("hello");
-            assert response.equals("Hello, " + response);
+            Assert.assertTrue(response.startsWith("Hello, hello from HelloServiceExecutor"));
         }
         for (int i = 0; i < 250; i++) {
             String response = helloServiceV3.sayHello("hello");
-            assert response.equals("Hello, " + response);
+            Assert.assertTrue(response.startsWith("Hello, hello from DubboServerHandler"));
         }
+
     }
 
 }

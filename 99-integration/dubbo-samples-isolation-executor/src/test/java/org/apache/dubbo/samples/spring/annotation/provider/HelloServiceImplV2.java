@@ -28,6 +28,6 @@ public class HelloServiceImplV2 implements HelloService {
 
     @Override
     public String sayHello(String name) {
-        return "server hello";
+        return "Hello, " + name + " from " + Thread.currentThread().getName();
     }
 }

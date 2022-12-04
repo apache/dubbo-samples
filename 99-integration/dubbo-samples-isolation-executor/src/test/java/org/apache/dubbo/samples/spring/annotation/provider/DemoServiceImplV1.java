@@ -23,6 +23,6 @@ import org.apache.dubbo.samples.support.DemoService;
 public class DemoServiceImplV1 implements DemoService {
     @Override
     public String sayName(String name) {
-        return "server name";
+        return "say: " + name + " from " + Thread.currentThread().getName();
     }
 }

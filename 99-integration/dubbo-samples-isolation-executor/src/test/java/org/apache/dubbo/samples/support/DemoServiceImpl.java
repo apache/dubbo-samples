@@ -18,9 +18,9 @@ package org.apache.dubbo.samples.support;
 
 public class DemoServiceImpl implements DemoService {
 
-    private String prefix = "say:";
+    private String prefix = "say: ";
 
     public String sayName(String name) {
-        return prefix + name;
+        return prefix + name + " from " + Thread.currentThread().getName();
     }
 }

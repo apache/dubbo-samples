@@ -32,6 +32,7 @@ import org.apache.dubbo.samples.support.DemoServiceImpl;
 import org.apache.dubbo.samples.support.HelloService;
 import org.apache.dubbo.samples.support.HelloServiceImpl;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
@@ -66,7 +67,7 @@ public class ApiIsolationIT {
             serviceConfig1.setRef(new DemoServiceImpl());
             serviceConfig1.setVersion(version1);
             // set executor1 for serviceConfig1, max threads is 10
-            NamedThreadFactory threadFactory1 = new NamedThreadFactory("DemoService-executor");
+            NamedThreadFactory threadFactory1 = new NamedThreadFactory("DemoServiceExecutor");
             ExecutorService executor1 = Executors.newFixedThreadPool(10, threadFactory1);
             serviceConfig1.setExecutor(executor1);
 
@@ -75,7 +76,7 @@ public class ApiIsolationIT {
             serviceConfig2.setRef(new HelloServiceImpl());
             serviceConfig2.setVersion(version2);
             // set executor2 for serviceConfig2, max threads is 100
-            NamedThreadFactory threadFactory2 = new NamedThreadFactory("HelloService-executor");
+            NamedThreadFactory threadFactory2 = new NamedThreadFactory("HelloServiceExecutor");
             ExecutorService executor2 = Executors.newFixedThreadPool(100, threadFactory2);
             serviceConfig2.setExecutor(executor2);
 
@@ -151,17 +152,19 @@ public class ApiIsolationIT {
         HelloService helloServiceV2 = consumerBootstrap.getCache().get(HelloService.class.getName() + ":" + version2);
         HelloService helloServiceV3 = consumerBootstrap.getCache().get(HelloService.class.getName() + ":" + version3);
         for (int i = 0; i < 250; i++) {
-            String response = demoServiceV1.sayName("name, version = " + version1);
-            assert response.equals("say:" + "name, version = " + version1);
+            String invocation = "hello, version = " + version1;
+            String response = demoServiceV1.sayName(invocation);
+            Assert.assertTrue(response.startsWith("say: " + invocation + " from DemoServiceExecutor"));
         }
         for (int i = 0; i < 250; i++) {
-            String response = helloServiceV2.sayHello("hello, version = " + version2);
-            assert response.equals("Hello, " + response);
-
+            String invocation = "hello, version = " + version2;
+            String response = helloServiceV2.sayHello(invocation);
+            Assert.assertTrue(response.startsWith("Hello, " + invocation + " from HelloServiceExecutor"));
         }
         for (int i = 0; i < 250; i++) {
-            String response = helloServiceV3.sayHello("hello, version = " + version3);
-            assert response.equals("Hello, " + response);
+            String invocation = "hello, version = " + version3;
+            String response = helloServiceV3.sayHello(invocation);
+            Assert.assertTrue(response.startsWith("Hello, " + invocation + " from DubboServerHandler"));
         }
     }
 
