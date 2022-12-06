@@ -38,7 +38,11 @@ public class DemoServiceConfigIT {
     @After
     public void teardown() {
         System.clearProperty("dubbo.application.service-discovery.migration");
-        applicationModel.getModelEnvironment().getSystemConfiguration().clearCache();
+        try {
+            applicationModel.getModelEnvironment().getSystemConfiguration().clearCache();
+        }catch (Exception e){
+
+        }
     }
 
     @BeforeClass
@@ -98,7 +102,11 @@ public class DemoServiceConfigIT {
     public void testApplicationConfig1() throws InterruptedException {
         // Application level config (default:APPLCIATION_FIRST)
         System.clearProperty("dubbo.application.service-discovery.migration");
-        applicationModel.getModelEnvironment().getSystemConfiguration().clearCache();
+        try {
+            applicationModel.getModelEnvironment().getSystemConfiguration().clearCache();
+        }catch (Exception e){
+
+        }
 
         DemoService demoServiceFromNormal = buildNormal(null);
         DemoService demoServiceFromService = buildService(null);
