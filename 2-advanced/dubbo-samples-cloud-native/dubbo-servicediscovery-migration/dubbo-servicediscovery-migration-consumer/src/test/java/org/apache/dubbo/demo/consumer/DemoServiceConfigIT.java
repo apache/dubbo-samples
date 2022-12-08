@@ -24,10 +24,9 @@ import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.rpc.model.FrameworkModel;
-
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -38,15 +37,10 @@ public class DemoServiceConfigIT {
     @After
     public void teardown() {
         System.clearProperty("dubbo.application.service-discovery.migration");
-        try {
-            applicationModel.getModelEnvironment().getSystemConfiguration().clearCache();
-        }catch (Exception e){
-
-        }
     }
 
-    @BeforeClass
-    public static void setup() {
+    @Before
+    public void setup() {
         applicationModel = FrameworkModel.defaultModel().newApplication();
         ApplicationConfig applicationConfig = new ApplicationConfig(applicationModel);
         applicationConfig.setName("dubbo-servicediscovery-migration-consumer");
@@ -102,11 +96,6 @@ public class DemoServiceConfigIT {
     public void testApplicationConfig1() throws InterruptedException {
         // Application level config (default:APPLCIATION_FIRST)
         System.clearProperty("dubbo.application.service-discovery.migration");
-        try {
-            applicationModel.getModelEnvironment().getSystemConfiguration().clearCache();
-        }catch (Exception e){
-
-        }
 
         DemoService demoServiceFromNormal = buildNormal(null);
         DemoService demoServiceFromService = buildService(null);
