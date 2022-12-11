@@ -35,6 +35,7 @@
         <module>dubbo-samples-mybatis</module>
         <module>dubbo-samples-nacos-merge</module>
         <module>dubbo-samples-port-unification-netty3</module>
+        <module>dubbo-samples-prefer-serialization-test</module>
         <module>dubbo-samples-router-chain-switch</module>
         <module>dubbo-samples-sd-group</module>
         <module>dubbo-samples-sd-merge</module>

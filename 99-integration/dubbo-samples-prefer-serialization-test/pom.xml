@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>org.apache.dubbo</groupId>
+    <artifactId>dubbo-samples-prefer-serialization-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Dubbo Samples Prefer Serialization Test</name>
+    <description>Dubbo Samples Prefer Serialization Integration Test</description>
+
+    <properties>
+        <dubbo.version>3.2.0-beta.3-SNAPSHOT</dubbo.version>
+        <dubbo-serialization-fastjson.version>1.0.1</dubbo-serialization-fastjson.version>
+        <dubbo-serialization-gson.version>1.0.1</dubbo-serialization-gson.version>
+        <dubbo-serialization-fst.version>1.0.1</dubbo-serialization-fst.version>
+        <spring.version>4.3.16.RELEASE</spring.version>
+        <junit.version>4.12</junit.version>
+        <source.level>1.8</source.level>
+        <target.level>1.8</target.level>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+    </properties>
+
+    <modules>
+        <module>dubbo-samples-prefer-serialization-test-api</module>
+        <module>dubbo-samples-prefer-serialization-test-consumer</module>
+        <module>dubbo-samples-prefer-serialization-test-consumer-31x</module>
+        <module>dubbo-samples-prefer-serialization-test-provider</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-samples-prefer-serialization-test-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo.extensions</groupId>
+                <artifactId>dubbo-serialization-fastjson</artifactId>
+                <version>${dubbo-serialization-fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo.extensions</groupId>
+                <artifactId>dubbo-serialization-gson</artifactId>
+                <version>${dubbo-serialization-gson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo.extensions</groupId>
+                <artifactId>dubbo-serialization-fst</artifactId>
+                <version>${dubbo-serialization-fst.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${source.level}</source>
+                    <target>${target.level}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
