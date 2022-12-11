@@ -30,6 +30,7 @@ import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MetadataIT {
@@ -96,6 +97,41 @@ public class MetadataIT {
             Assert.fail();
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getMessage().contains("Please specify valid protocol or address for metadata report"));
+        }
+
+        applicationModel.destroy();
+    }
+
+    @Test
+    public void test3() {
+        ApplicationModel applicationModel = FrameworkModel.defaultModel().newApplication();
+
+        ServiceConfig<DemoService> serviceConfig = new ServiceConfig<>();
+        serviceConfig.setInterface(DemoService.class);
+        serviceConfig.setRef(new DemoServiceImpl());
+
+        RegistryConfig registryConfig = new RegistryConfig();
+        registryConfig.setAddress("zookeeper://" + System.getProperty("zookeeper.address", "127.0.0.1") + ":2181");
+        registryConfig.setUseAsMetadataCenter(false);
+
+        MetadataReportConfig metadataReportConfig = new MetadataReportConfig();
+        metadataReportConfig.setAddress(System.getProperty("zookeeper.address", "127.0.0.1"));
+        metadataReportConfig.setPort(2183);
+        metadataReportConfig.setProtocol("zookeeper");
+        metadataReportConfig.setParameters(new HashMap<>());
+        metadataReportConfig.getParameters().put("timeout", "1000");
+
+        DubboBootstrap dubboBootstrap = DubboBootstrap.getInstance(applicationModel);
+        dubboBootstrap.application("metadata-test")
+                .registry(registryConfig)
+                .service(serviceConfig)
+                .metadataReport(metadataReportConfig);
+
+        try {
+            dubboBootstrap.start();
+            Assert.fail();
+        } catch (IllegalStateException e) {
+            Assert.assertTrue(e.getMessage().contains("zookeeper not connected"));
         }
 
         applicationModel.destroy();
