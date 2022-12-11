@@ -19,9 +19,9 @@ services:
   zookeeper:
     image: zookeeper:latest
 
-  dubbo-samples-prefer-serialization-test-provider:
+  dubbo-samples-prefer-serialization-test-31x-provider:
     type: app
-    basedir: dubbo-samples-prefer-serialization-test-provider
+    basedir: dubbo-samples-prefer-serialization-test-31x-provider
     mainClass: org.apache.dubbo.samples.prefer.serialization.DubboProvider
     systemProps:
       - zookeeper.address=zookeeper
@@ -33,16 +33,16 @@ services:
     depends_on:
       - zookeeper
 
-  dubbo-samples-prefer-serialization-test-consumer:
+  dubbo-samples-prefer-serialization-test-31x-consumer:
     type: test
-    basedir: dubbo-samples-prefer-serialization-test-consumer
+    basedir: dubbo-samples-prefer-serialization-test-31x-consumer
     tests:
       - "**/*IT.class"
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
-      - dubbo-samples-prefer-serialization-test-provider:20880
+      - dubbo-samples-prefer-serialization-test-31x-provider:20880
     depends_on:
       - zookeeper
-      - dubbo-samples-prefer-serialization-test-provider
+      - dubbo-samples-prefer-serialization-test-31x-provider

@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-prefer-serialization-test</artifactId>
+    <artifactId>dubbo-samples-prefer-serialization-test-31x</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -31,9 +31,9 @@
     </properties>
 
     <modules>
-        <module>dubbo-samples-prefer-serialization-test-api</module>
-        <module>dubbo-samples-prefer-serialization-test-consumer</module>
-        <module>dubbo-samples-prefer-serialization-test-provider</module>
+        <module>dubbo-samples-prefer-serialization-test-31x-api</module>
+        <module>dubbo-samples-prefer-serialization-test-31x-consumer</module>
+        <module>dubbo-samples-prefer-serialization-test-31x-provider</module>
     </modules>
 
     <dependencyManagement>
