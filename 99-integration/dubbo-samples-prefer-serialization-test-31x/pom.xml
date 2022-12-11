@@ -15,8 +15,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Dubbo Samples Prefer Serialization Test</name>
-    <description>Dubbo Samples Prefer Serialization Integration Test</description>
+    <name>Dubbo Samples Prefer Serialization Test For 3.1.x compatibility</name>
+    <description>Dubbo Samples Prefer Serialization Integration Test For 3.1.x compatibility</description>
 
     <properties>
         <dubbo.version>3.2.0-beta.3-SNAPSHOT</dubbo.version>
