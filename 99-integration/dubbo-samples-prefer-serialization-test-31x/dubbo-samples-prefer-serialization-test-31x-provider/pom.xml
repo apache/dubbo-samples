@@ -33,7 +33,7 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-samples-prefer-serialization-test-api</artifactId>
+            <artifactId>dubbo-samples-prefer-serialization-test-31x-api</artifactId>
         </dependency>
 
         <dependency>
