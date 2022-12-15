@@ -43,5 +43,6 @@
         <module>dubbo-samples-test-9806</module>
         <module>dubbo-samples-test-10704</module>
         <module>dubbo-samples-test-11096</module>
+        <module>dubbo-samples-test-11137</module>
     </modules>
 </project>
