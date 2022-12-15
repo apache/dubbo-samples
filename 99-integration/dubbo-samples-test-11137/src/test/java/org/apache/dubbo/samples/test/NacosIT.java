@@ -32,7 +32,7 @@ import org.junit.Test;
 import static org.awaitility.Awaitility.await;
 
 public class NacosIT {
-    private static final String nacosAddress = "nacos://" + System.getProperty("nacos.address", "127.0.0.1") + ":8848?namingLoadCacheAtStart=false";
+    private static final String nacosAddress = "nacos://" + System.getProperty("nacos.address", "127.0.0.1") + ":8848?namingLoadCacheAtStart=false&username=nacos&password=nacos";
     private static final String providerNamePrefix = "provider" + System.currentTimeMillis();
 
     @Test
