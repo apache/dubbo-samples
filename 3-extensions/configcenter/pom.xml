@@ -22,6 +22,10 @@
     <artifactId>configcenter</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <name>Config Center</name>
+    <description>Dubbo Config Center Samples</description>
+
     <modules>
         <module>dubbo-samples-configcenter-annotation</module>
         <module>dubbo-samples-configcenter-api</module>
