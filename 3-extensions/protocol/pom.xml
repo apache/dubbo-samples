@@ -22,6 +22,10 @@
     <artifactId>protocol</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <name>Protocol</name>
+    <description>Dubbo Protocol Samples</description>
+
     <modules>
         <module>dubbo-samples-grpc</module>
         <module>dubbo-samples-http</module>

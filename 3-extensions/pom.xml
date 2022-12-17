@@ -22,6 +22,10 @@
     <artifactId>3-extensions</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <name>Extensions</name>
+    <description>Dubbo Extensions Samples</description>
+
     <modules>
         <module>configcenter</module>
         <module>protocol</module>
