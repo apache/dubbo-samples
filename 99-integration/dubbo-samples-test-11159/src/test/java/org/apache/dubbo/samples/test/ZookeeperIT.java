@@ -41,6 +41,6 @@ public class ZookeeperIT {
         service.export();
 
         String val = ConfigurationUtils.getProperty(service.getScopeModel(), "a", "c");
-        Assert.assertEquals("bad value", "c", val);
+        Assert.assertEquals("bad value", "b", val);
     }
 }
