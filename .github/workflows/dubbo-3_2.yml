@@ -34,6 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        java: [ '8', '17' ]
     steps:
       - uses: actions/checkout@v1
       - name: Cache local Maven repository
@@ -43,13 +45,18 @@ jobs:
           key: ${{ runner.os }}-samples-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-samples-maven-
-      - name: Set up JDK 8
+      - name: Set up JDK ${{ matrix.Java }}
         uses: actions/setup-java@v1
         with:
-          java-version: 8
-      - name: Build with Maven
+          java-version: ${{ matrix.Java }}
+      - name: Build for compiler 8 with Maven
+        if: matrix.java == '8'
         run: |
-          ./mvnw $BUILD_OPTS
+          ./mvnw $BUILD_OPTS -pl "-:dubbo-samples-spring-boot-consumer","-:dubbo-samples-spring-boot-provider","-:dubbo-samples-spring-boot-interface","-:dubbo-samples-spring-boot"
+      - name: Build for compiler 17 with Maven
+        if: matrix.java == '17'
+        run: |
+          ./mvnw $BUILD_OPTS -pl "+:dubbo-samples-spring-boot-consumer","+:dubbo-samples-spring-boot-provider" -am   
 
   build-dubbo:
     runs-on: ubuntu-latest
