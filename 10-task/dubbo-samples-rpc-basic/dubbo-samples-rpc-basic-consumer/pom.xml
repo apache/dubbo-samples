@@ -30,7 +30,7 @@
     <artifactId>dubbo-samples-rpc-basic-consumer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Consumer</name>
+    <name>Dubbo RPC Basic Task - Consumer</name>
     <description>Dubbo RPC Basic Task - Consumer</description>
 
     <properties>

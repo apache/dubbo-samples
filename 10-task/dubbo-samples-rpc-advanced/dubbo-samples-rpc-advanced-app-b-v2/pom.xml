@@ -29,7 +29,7 @@
     <artifactId>dubbo-samples-rpc-advanced-app-b-v2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>App B V2</name>
+    <name>Dubbo RPC Advanced Task - App B V2</name>
     <description>Dubbo RPC Basic Task - App B - Version 2</description>
 
     <properties>

@@ -30,7 +30,7 @@
     <artifactId>dubbo-samples-rpc-advanced-api-c</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>App C's API</name>
+    <name>Dubbo RPC Advanced Task - App C's API</name>
     <description>Dubbo RPC Advanced Task - App C's API</description>
 
 </project>

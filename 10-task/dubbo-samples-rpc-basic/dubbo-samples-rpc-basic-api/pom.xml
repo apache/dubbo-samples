@@ -30,7 +30,7 @@
     <artifactId>dubbo-samples-rpc-basic-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>API</name>
+    <name>Dubbo RPC Basic Task - API</name>
     <description>Dubbo RPC Basic Task - API</description>
 
 </project>
