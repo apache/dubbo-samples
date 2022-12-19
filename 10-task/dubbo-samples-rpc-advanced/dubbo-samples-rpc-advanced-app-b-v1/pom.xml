@@ -87,6 +87,25 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <to>
+                        <image>apache/dubbo-demo:dubbo-samples-rpc-advanced_app_b_v1_0.0.1</image>
+                    </to>
+                    <container>
+                        <jvmFlags>
+                            <jvmFlag>-Dnacos.address=nacos.dubbo-system.svc</jvmFlag>
+                        </jvmFlags>
+                        <ports>
+                            <port>20882</port>
+                            <port>20992</port>
+                        </ports>
+                    </container>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

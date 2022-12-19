@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -39,12 +40,16 @@ public class BenchmarkClient implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Executors.newScheduledThreadPool(1)
-                .scheduleAtFixedRate(()->{
-                    List<String> names = Arrays.asList("John", "Mike", "Kevin", "Grace", "Mark");
-                    String name = names.get(ThreadLocalRandom.current().nextInt(names.size()));
-                    String result = serviceA.sayHello(name);
-                    logger.info(result);
-                }, 0, 1, TimeUnit.SECONDS);
+        Runnable task = () -> {
+            long startTime = System.currentTimeMillis();
+            List<String> names = Arrays.asList("John", "Mike", "Kevin", "Grace", "Mark");
+            String name = names.get(ThreadLocalRandom.current().nextInt(names.size()));
+            String result = serviceA.sayHello(name) + "Usage Time: " + (System.currentTimeMillis() - startTime) + "ms";
+            logger.info(result);
+        };
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(50);
+        for (int i = 0; i < 50; i++) {
+            executorService.scheduleAtFixedRate(task, ThreadLocalRandom.current().nextInt(1000), 1000, TimeUnit.MILLISECONDS);
+        }
     }
 }

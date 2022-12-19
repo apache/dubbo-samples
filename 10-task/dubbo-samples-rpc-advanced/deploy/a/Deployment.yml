@@ -16,23 +16,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dubbo-samples-rpc-basic-provider
+  name: a
   namespace: dubbo-demo
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: dubbo-samples-rpc-basic-provider
+      app: a
   template:
     metadata:
       labels:
-        app: dubbo-samples-rpc-basic-provider
+        app: a
     spec:
       containers:
-        - name: consumer
-          image: apache/dubbo-demo:dubbo-samples-rpc-basic-provider_0.0.1
+        - name: a
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_a_0.0.1
           imagePullPolicy: Always
           ports:
             - name: dubbo
-              containerPort: 20880
+              containerPort: 20881
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20991
               protocol: TCP

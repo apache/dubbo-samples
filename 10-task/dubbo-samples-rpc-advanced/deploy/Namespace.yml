@@ -13,26 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: dubbo-samples-rpc-basic-provider
-  namespace: dubbo-demo
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: dubbo-samples-rpc-basic-provider
-  template:
-    metadata:
-      labels:
-        app: dubbo-samples-rpc-basic-provider
-    spec:
-      containers:
-        - name: consumer
-          image: apache/dubbo-demo:dubbo-samples-rpc-basic-provider_0.0.1
-          imagePullPolicy: Always
-          ports:
-            - name: dubbo
-              containerPort: 20880
-              protocol: TCP
+  name: dubbo-demo
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-system
