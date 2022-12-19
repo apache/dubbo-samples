@@ -1,0 +1,232 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-demo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-system
+---
+
+# Nacos
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nacos
+  template:
+    metadata:
+      labels:
+        app: nacos
+    spec:
+      containers:
+        - name: consumer
+          image: nacos/nacos-server:v2.1.2
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8848
+              name: client
+            - containerPort: 9848
+              name: client-rpc
+          env:
+            - name: NACOS_SERVER_PORT
+              value: "8848"
+            - name: NACOS_APPLICATION_PORT
+              value: "8848"
+            - name: PREFER_HOST_MODE
+              value: "hostname"
+            - name: MODE
+              value: "standalone"
+            - name: NACOS_AUTH_ENABLE
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: nacos
+  ports:
+    - port: 8848
+      name: server
+      targetPort: 8848
+    - port: 9848
+      name: client-rpc
+      targetPort: 9848
+---
+
+# App A
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: a
+  namespace: dubbo-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: a
+  template:
+    metadata:
+      labels:
+        app: a
+    spec:
+      containers:
+        - name: a
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_a_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20881
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20991
+              protocol: TCP
+---
+
+# App B V1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b-v1
+  namespace: dubbo-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: b-v1
+  template:
+    metadata:
+      labels:
+        app: b-v1
+    spec:
+      containers:
+        - name: b-v1
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_b_v1_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20882
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20992
+              protocol: TCP
+---
+
+# App B V2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b-v2
+  namespace: dubbo-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: b-v2
+  template:
+    metadata:
+      labels:
+        app: b-v2
+    spec:
+      containers:
+        - name: b-v2
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_b_v2_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20883
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20993
+              protocol: TCP
+
+---
+
+# App C
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: c
+  namespace: dubbo-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: c
+  template:
+    metadata:
+      labels:
+        app: c
+    spec:
+      containers:
+        - name: c
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_c_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20884
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20994
+              protocol: TCP
+---
+
+# App D
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: d
+  namespace: dubbo-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: d
+  template:
+    metadata:
+      labels:
+        app: d
+    spec:
+      containers:
+        - name: d
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_d_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20885
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20995
+              protocol: TCP
+---
