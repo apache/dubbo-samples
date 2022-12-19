@@ -28,9 +28,9 @@
     <name>Basic RPC Task</name>
     <description>Dubbo Samples Basic RPC Task</description>
 
-<!--    <modules>-->
-<!--        <module>dubbo-samples-rpc-basic-api</module>-->
-<!--        <module>dubbo-samples-rpc-basic-consumer</module>-->
+    <modules>
+        <module>dubbo-samples-rpc-basic-api</module>
+        <module>dubbo-samples-rpc-basic-consumer</module>
 <!--        <module>dubbo-samples-rpc-basic-provider</module>-->
-<!--    </modules>-->
+    </modules>
 </project>
