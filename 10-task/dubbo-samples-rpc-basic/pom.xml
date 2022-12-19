@@ -31,6 +31,6 @@
     <modules>
         <module>dubbo-samples-rpc-basic-api</module>
         <module>dubbo-samples-rpc-basic-consumer</module>
-<!--        <module>dubbo-samples-rpc-basic-provider</module>-->
+        <module>dubbo-samples-rpc-basic-provider</module>
     </modules>
 </project>
