@@ -28,18 +28,9 @@
     <name>Basic RPC Task</name>
     <description>Dubbo Samples Basic RPC Task</description>
 
-    <!-- Fix: Child module xxx of xxx does not exist -->
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>dubbo-samples-rpc-basic-api</module>
-                <module>dubbo-samples-rpc-basic-consumer</module>
-                <module>dubbo-samples-rpc-basic-provider</module>
-            </modules>
-        </profile>
-    </profiles>
+    <modules>
+        <module>dubbo-samples-rpc-basic-api</module>
+        <module>dubbo-samples-rpc-basic-consumer</module>
+        <module>dubbo-samples-rpc-basic-provider</module>
+    </modules>
 </project>
