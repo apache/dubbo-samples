@@ -17,12 +17,12 @@
  *
  */
 
-package org.apache.dubbo.springboot.mybatis.demo.dao;
+package org.apache.dubbo.springboot.mybatis.samples;
 
 import lombok.Data;
 
 @Data
-public class UserModel {
-    private Long id;
+public class User implements java.io.Serializable {
+    private long id;
     private String name;
 }

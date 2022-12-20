@@ -16,7 +16,7 @@
 
 dubbo:
   application:
-    name: dubbo-springboot-mybatis-demo-consumer
+    name: dubbo-samples-spring-boot-mybatis-consumer
   protocol:
     name: dubbo
     port: 20081

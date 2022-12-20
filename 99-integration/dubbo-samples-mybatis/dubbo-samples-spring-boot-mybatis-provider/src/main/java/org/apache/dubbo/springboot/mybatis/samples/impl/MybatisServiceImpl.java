@@ -17,12 +17,12 @@
  *
  */
 
-package org.apache.dubbo.springboot.mybatis.demo.impl;
+package org.apache.dubbo.springboot.mybatis.samples.impl;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.springboot.mybatis.demo.MybatisService;
-import org.apache.dubbo.springboot.mybatis.demo.User;
-import org.apache.dubbo.springboot.mybatis.demo.dao.UserDao;
-import org.apache.dubbo.springboot.mybatis.demo.dao.UserModel;
+import org.apache.dubbo.springboot.mybatis.samples.MybatisService;
+import org.apache.dubbo.springboot.mybatis.samples.User;
+import org.apache.dubbo.springboot.mybatis.samples.dao.UserDao;
+import org.apache.dubbo.springboot.mybatis.samples.dao.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

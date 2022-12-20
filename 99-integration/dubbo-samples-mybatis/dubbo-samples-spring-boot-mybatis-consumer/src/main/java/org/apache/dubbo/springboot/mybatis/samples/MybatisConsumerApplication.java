@@ -1,4 +1,4 @@
-package org.apache.dubbo.springboot.mybatis.demo;
+package org.apache.dubbo.springboot.mybatis.samples;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;

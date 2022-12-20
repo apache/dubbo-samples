@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.springboot.mybatis.demo;
+package org.apache.dubbo.springboot.mybatis.samples;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
@@ -26,7 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableDubbo
-@MapperScan("org.apache.dubbo.springboot.mybatis.demo.dao")
+@MapperScan("org.apache.dubbo.springboot.mybatis.samples.dao")
 public class MybatisProviderApplication {
 
     public static void main(String[] args) throws Exception {

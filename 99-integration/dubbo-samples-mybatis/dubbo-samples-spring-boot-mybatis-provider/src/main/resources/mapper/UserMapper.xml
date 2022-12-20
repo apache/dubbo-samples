@@ -16,9 +16,9 @@
   limitations under the License.
   -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.apache.dubbo.springboot.mybatis.demo.dao.UserDao">
+<mapper namespace="org.apache.dubbo.springboot.mybatis.samples.dao.UserDao">
 
-    <resultMap id="BASE_RESULT" type="org.apache.dubbo.springboot.mybatis.demo.dao.UserModel">
+    <resultMap id="BASE_RESULT" type="org.apache.dubbo.springboot.mybatis.samples.dao.UserModel">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
     </resultMap>
