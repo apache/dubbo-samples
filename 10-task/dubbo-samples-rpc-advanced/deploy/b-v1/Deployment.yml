@@ -28,6 +28,19 @@ spec:
       labels:
         app: b-v1
     spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.7.0-alpine
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
       containers:
         - name: b-v1
           image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_b_v1_0.0.1
@@ -39,3 +52,13 @@ spec:
             - name: dubbo-qos
               containerPort: 20992
               protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: "App B"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap-server.dubbo-system.svc:12800"
