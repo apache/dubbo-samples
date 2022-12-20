@@ -16,17 +16,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: a
+  name: advanced-a
   namespace: dubbo-demo
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: a
+      app: advanced-a
   template:
     metadata:
       labels:
-        app: a
+        app: advanced-a
     spec:
       volumes:
         - name: skywalking-agent
@@ -34,7 +34,7 @@ spec:
 
       initContainers:
         - name: agent-container
-          image: apache/skywalking-java-agent:8.7.0-alpine
+          image: apache/skywalking-java-agent:8.13.0-java17
           volumeMounts:
             - name: skywalking-agent
               mountPath: /agent
@@ -42,7 +42,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
 
       containers:
-        - name: a
+        - name: advanced-a
           image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_a_0.0.1
           imagePullPolicy: Always
           ports:
@@ -59,6 +59,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
             - name: SW_AGENT_NAME
-              value: "App A"
+              value: "rpc-advanced::a"
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-              value: "skywalking-oap-server.dubbo-system.svc:12800"
+              value: "skywalking-oap-server.dubbo-system.svc:11800"
+---
