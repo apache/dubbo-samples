@@ -10,10 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @author ouyangcan
- * @date 2022/12/18 23:56
- */
 @Service
 @EnableDubbo
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})

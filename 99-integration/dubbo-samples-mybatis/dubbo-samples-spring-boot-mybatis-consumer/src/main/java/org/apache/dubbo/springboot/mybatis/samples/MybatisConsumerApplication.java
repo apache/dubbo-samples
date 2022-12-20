@@ -8,10 +8,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
-/**
- * @author ouyangcan
- * @date 2022/12/18 23:56
- */
 @Service
 @EnableDubbo
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
