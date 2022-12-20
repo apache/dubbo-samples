@@ -18,25 +18,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-shop</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>org.apache.dubbo.samples</groupId>
+    <artifactId>dubbo-samples-shop-detail-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-    <name>RPC Task - Shop</name>
-    <description>Dubbo Samples RPC Task - Shop</description>
+    <name>Dubbo Task - Shop - Detail's API</name>
+    <description>Dubbo Task - Shop - Detail's API</description>
 
-    <modules>
-        <module>dubbo-samples-shop-detail</module>
-        <module>dubbo-samples-shop-detail-api</module>
-        <module>dubbo-samples-shop-frontend</module>
-        <module>dubbo-samples-shop-frontend-api</module>
-        <module>dubbo-samples-shop-order-v1</module>
-        <module>dubbo-samples-shop-order-v2</module>
-        <module>dubbo-samples-shop-order-api</module>
-        <module>dubbo-samples-shop-user</module>
-        <module>dubbo-samples-shop-user-api</module>
-    </modules>
 </project>
