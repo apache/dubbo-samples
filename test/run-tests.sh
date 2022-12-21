@@ -27,8 +27,12 @@ echo "DEBUG=$DEBUG"
 
 DUBBO_VERSION=${DUBBO_VERSION:-2.7.12}
 if [ "$CANDIDATE_VERSIONS" == "" ];then
-  CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE;java.version:$JAVA_VER"
+  CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 #  CANDIDATE_VERSIONS="dubbo.version:2.7.12;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+fi
+JAVA_VERSION="java.version"
+if [[ $CANDIDATE_VERSIONS != *$JAVA_VERSION* ]];then
+  CANDIDATE_VERSIONS="$CANDIDATE_VERSIONS;java.version:$JAVA_VER"
 fi
 export CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS
 echo "CANDIDATE_VERSIONS: ${CANDIDATE_VERSIONS[@]}"
