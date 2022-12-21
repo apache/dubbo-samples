@@ -428,7 +428,7 @@ fi
 
 echo "Total: $totalCount, Success: $successTest, Failures: $failedTest, Ignored: $ignoredTest"
 
-if [[ $successTest -gt 0 && $(($successTest + $ignoredTest)) == $totalCount ]]; then
+if [[ $(($successTest + $ignoredTest)) == $totalCount ]]; then
   test_result=0
   echo "All tests pass"
 else
