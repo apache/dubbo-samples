@@ -126,7 +126,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [8, 11]
+        java: [8, 11, 17]
         #testjob id list MUST match 'JOB_COUNT' of 'prepare_test'
         job_id: [1,2,3,4,5]
     steps:
