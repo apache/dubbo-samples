@@ -60,6 +60,7 @@ public class VersionMatcher {
     public static final String CASE_VERSION_SOURCES_FILE = "caseVersionSourcesFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
+    public static final String ALL_REMOTE_VERSION = "ALL_REMOTE_VERSION";
     public static final String INCLUDE_CASE_SPECIFIC_VERSION = "includeCaseSpecificVersion";
 
     public static void main(String[] args) throws Exception {
@@ -397,6 +398,8 @@ public class VersionMatcher {
             errorAndExit(Constants.EXIT_FAILED, "Parse case versions sources failed: {}", caseVersionSourcesFile, e);
         }
 
+        boolean onlyLatest = !Boolean.parseBoolean(System.getenv(ALL_REMOTE_VERSION));
+
         try (AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient()) {
             for (Map.Entry<String, String> entry : sources.entrySet()) {
                 String component = entry.getKey();
@@ -406,14 +409,24 @@ public class VersionMatcher {
                 if (r.hasResponseBody()) {
                     SAXReader reader = new SAXReader();
                     Document document = reader.read(r.getResponseBodyAsStream());
-                    List<String> result = document.getRootElement()
-                            .element("versioning")
-                            .element("versions")
-                            .elements("version")
-                            .stream()
-                            .map(Element::getText)
-                            .collect(Collectors.toList());
-                    versionMap.put(component, result);
+
+                    if (onlyLatest) {
+                        String latest = document.getRootElement()
+                                .element("versioning")
+                                .elementText("release");
+                        List<String> result = new ArrayList<>();
+                        result.add(latest);
+                        versionMap.put(component, result);
+                    } else {
+                        List<String> result = document.getRootElement()
+                                .element("versioning")
+                                .element("versions")
+                                .elements("version")
+                                .stream()
+                                .map(Element::getText)
+                                .collect(Collectors.toList());
+                        versionMap.put(component, result);
+                    }
                 }
             }
         } catch (IOException | InterruptedException | ExecutionException | DocumentException e) {

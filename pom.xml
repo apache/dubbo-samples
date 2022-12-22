@@ -44,6 +44,7 @@
         <module>4-governance</module>
         <module>10-task</module>
         <module>99-integration</module>
+        <module>test</module>
     </modules>
 
     <build>

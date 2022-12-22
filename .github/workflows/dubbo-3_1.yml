@@ -123,6 +123,7 @@ jobs:
     env:
       JAVA_VER: ${{matrix.java}}
       TEST_CASE_FILE: jobs/testjob_${{matrix.job_id}}.txt
+      ALL_REMOTE_VERSION: true
     strategy:
       fail-fast: false
       matrix:
