@@ -18,6 +18,13 @@
 package org.apache.dubbo.scenario.builder;
 
 import org.apache.commons.lang3.StringUtils;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.asynchttpclient.Response;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +40,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -48,13 +57,16 @@ public class VersionMatcher {
      * Java Property names 
      */
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
+    public static final String CASE_VERSION_SOURCES_FILE = "caseVersionSourcesFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
+    public static final String ALL_REMOTE_VERSION = "ALL_REMOTE_VERSION";
     public static final String INCLUDE_CASE_SPECIFIC_VERSION = "includeCaseSpecificVersion";
 
     public static void main(String[] args) throws Exception {
 
         String caseVersionsFile = System.getProperty(CASE_VERSIONS_FILE);
+        String caseVersionSourcesFile = System.getProperty(CASE_VERSION_SOURCES_FILE);
         String candidateVersionListStr = System.getProperty(CANDIDATE_VERSIONS);
         String outputFile = System.getProperty(OUTPUT_FILE);
         // whether include specific version which defined in case-versions.conf
@@ -67,9 +79,16 @@ public class VersionMatcher {
         if (StringUtils.isBlank(caseVersionsFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSIONS_FILE);
         }
+        if (StringUtils.isBlank(caseVersionSourcesFile)) {
+            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSION_SOURCES_FILE);
+        }
         File file = new File(caseVersionsFile);
         if (!file.exists() || !file.isFile()) {
             errorAndExit(Constants.EXIT_FAILED, "File not exists or isn't a file: {}", file.getAbsolutePath());
+        }
+        file = new File(caseVersionSourcesFile);
+        if (!file.exists() || !file.isFile()) {
+            caseVersionSourcesFile = null;
         }
         if (StringUtils.isBlank(outputFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", OUTPUT_FILE);
@@ -77,16 +96,23 @@ public class VersionMatcher {
         new File(outputFile).getParentFile().mkdirs();
 
         VersionMatcher versionMatcher = new VersionMatcher();
-        versionMatcher.doMatch(caseVersionsFile, candidateVersionListStr, outputFile, includeCaseSpecificVersion);
+        versionMatcher.doMatch(caseVersionsFile, caseVersionSourcesFile, candidateVersionListStr, outputFile, includeCaseSpecificVersion);
     }
 
-    private void doMatch(String caseVersionsFile, String candidateVersionListStr, String outputFile, boolean includeCaseSpecificVersion) throws Exception {
+    private void doMatch(String caseVersionsFile, String caseVersionSourcesFile, String candidateVersionListStr, String outputFile, boolean includeCaseSpecificVersion) throws Exception {
         logger.info("{}: {}", CANDIDATE_VERSIONS, candidateVersionListStr);
         logger.info("{}: {}", CASE_VERSIONS_FILE, caseVersionsFile);
+        logger.info("{}: {}", CASE_VERSION_SOURCES_FILE, caseVersionSourcesFile);
         logger.info("{}: {}", OUTPUT_FILE, outputFile);
 
         // parse and expand to versions list
         Map<String, List<String>> candidateVersionMap = parseVersionList(candidateVersionListStr);
+
+        Map<String, List<String>> candidateVersionFromRemoteMap = parseVersionSources(caseVersionSourcesFile);
+
+        candidateVersionFromRemoteMap.forEach((k, v)->
+                candidateVersionMap.computeIfAbsent(k, i -> new ArrayList<>())
+                        .addAll(v));
 
         // parse case version match rules
         Map<String, List<MatchRule>> caseVersionMatchRules = parseCaseVersionMatchRules(caseVersionsFile);
@@ -344,6 +370,69 @@ public class VersionMatcher {
                 versionList.add(ver.trim());
             }
         }
+        return versionMap;
+    }
+
+    private Map<String, List<String>> parseVersionSources(String caseVersionSourcesFile) {
+        Map<String, List<String>> versionMap = new LinkedHashMap<>();
+        if (caseVersionSourcesFile == null) {
+            return versionMap;
+        }
+
+        Map<String, String> sources = new HashMap<>();
+        try {
+            String content = FileUtil.readFully(caseVersionSourcesFile);
+            BufferedReader br = new BufferedReader(new StringReader(content));
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith("#") || StringUtils.isBlank(line)) {
+                    continue;
+                }
+                int p = line.indexOf('=');
+                String component = line.substring(0, p).trim();
+                String source = line.substring(p + 1).trim();
+                sources.put(component, source);
+            }
+        } catch (IOException e) {
+            errorAndExit(Constants.EXIT_FAILED, "Parse case versions sources failed: {}", caseVersionSourcesFile, e);
+        }
+
+        boolean onlyLatest = !Boolean.parseBoolean(System.getenv(ALL_REMOTE_VERSION));
+
+        try (AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient()) {
+            for (Map.Entry<String, String> entry : sources.entrySet()) {
+                String component = entry.getKey();
+                String source = entry.getValue();
+                Future<Response> f = asyncHttpClient.prepareGet(source).execute();
+                Response r = f.get();
+                if (r.hasResponseBody()) {
+                    SAXReader reader = new SAXReader();
+                    Document document = reader.read(r.getResponseBodyAsStream());
+
+                    if (onlyLatest) {
+                        String latest = document.getRootElement()
+                                .element("versioning")
+                                .elementText("release");
+                        List<String> result = new ArrayList<>();
+                        result.add(latest);
+                        versionMap.put(component, result);
+                    } else {
+                        List<String> result = document.getRootElement()
+                                .element("versioning")
+                                .element("versions")
+                                .elements("version")
+                                .stream()
+                                .map(Element::getText)
+                                .collect(Collectors.toList());
+                        versionMap.put(component, result);
+                    }
+                }
+            }
+        } catch (IOException | InterruptedException | ExecutionException | DocumentException e) {
+            errorAndExit(Constants.EXIT_FAILED, "Request remote versions failed: {}", caseVersionSourcesFile, e);
+        }
+
         return versionMap;
     }
 

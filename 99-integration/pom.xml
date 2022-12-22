@@ -39,6 +39,8 @@
         <module>dubbo-samples-sd-group</module>
         <module>dubbo-samples-sd-merge</module>
         <module>dubbo-samples-sd-version</module>
+        <module>dubbo-samples-sentinel-compact</module>
+        <module>dubbo-samples-sentinel-dubbo3</module>
         <module>dubbo-samples-switch-serialization-thread</module>
         <module>dubbo-samples-test-9806</module>
         <module>dubbo-samples-test-10704</module>
