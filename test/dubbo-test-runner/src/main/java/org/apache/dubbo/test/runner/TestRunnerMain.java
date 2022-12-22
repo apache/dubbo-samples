@@ -221,8 +221,10 @@ public class TestRunnerMain {
         List<String> classpath = new ArrayList<>();
         ClassLoader cl = ClassLoader.getSystemClassLoader();
         URL[] urls = ClassLoaderUtils.getUrls(cl);
-        for (URL url : urls) {
-            classpath.add(url.getFile());
+        if (urls != null) {
+            for (URL url : urls) {
+                classpath.add(url.getFile());
+            }
         }
         return new Classpath(classpath);
     }
