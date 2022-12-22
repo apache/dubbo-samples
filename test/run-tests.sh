@@ -212,6 +212,7 @@ function process_case() {
       -Dscenario.version=$version \
       -Dtest.image.version=$JAVA_VER \
       -Ddebug.service=$DEBUG \
+      $version_profile \
       -jar $test_builder_jar  &> $scenario_builder_log
     result=$?
     if [ $result -ne 0 ]; then
