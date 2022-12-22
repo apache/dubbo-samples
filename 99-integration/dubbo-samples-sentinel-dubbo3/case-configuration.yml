@@ -17,7 +17,7 @@
 from: app-builtin-zookeeper.yml
 
 props:
-  project_name: dubbo-samples-sentinel-compact
+  project_name: dubbo-samples-sentinel-dubbo3
   main_class: org.apache.samples.sentinel.FooProviderBootstrap
   zookeeper_port: 2181
   dubbo_port: 20880
