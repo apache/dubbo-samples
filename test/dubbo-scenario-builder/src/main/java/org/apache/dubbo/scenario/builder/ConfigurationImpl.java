@@ -38,8 +38,8 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConfigurationImpl implements IConfiguration {
@@ -213,6 +213,12 @@ public class ConfigurationImpl implements IConfiguration {
         props.put(PROP_BASEDIR, configBasedir);
         props.put(PROP_SCENARIO_HOME, scenarioHome);
         props.put(PROP_SCENARIO_NAME, scenarioName);
+        Properties properties = System.getProperties();
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            if (entry.getKey() instanceof String && entry.getValue() instanceof String) {
+                props.put((String) entry.getKey(), (String) entry.getValue());
+            }
+        }
     }
 
     private List<String> mergeSystemProps(List<String> parentSystemProps, List<String> childSystemProps) {
@@ -475,18 +481,25 @@ public class ConfigurationImpl implements IConfiguration {
         throw new RuntimeException("Illegal service type: " + type);
     }
 
-    private Pattern pattern = Pattern.compile("\\$\\{(.+?)}");
+    private Pattern pattern = Pattern.compile("\\$\\{.*}");
 
     private String replaceHolders(String str, Map<String, String> props) {
-        StringBuffer buf = new StringBuffer(str.length());
-        Matcher matcher = pattern.matcher(str);
-        while (matcher.find()) {
-            String var = matcher.group(1);
-            String value = props.get(var);
-            matcher.appendReplacement(buf, value != null ? value : matcher.group());
+        while (str.contains("${")) {
+            String prefix = str.substring(0, str.indexOf("${"));
+            String suffix = str.substring(str.indexOf("}") + 1);
+            String placeholder = str.substring(str.indexOf("${") + 2, str.indexOf("}"));
+            String propertyName;
+            String defaultValue = "";
+            if (placeholder.contains(":")) {
+                propertyName = placeholder.substring(0, placeholder.indexOf(":"));
+                defaultValue = placeholder.substring(placeholder.indexOf(":") + 1);
+            } else {
+                propertyName = placeholder;
+            }
+            str = prefix + props.getOrDefault(propertyName, defaultValue) + suffix;
         }
-        matcher.appendTail(buf);
-        return buf.toString();
+
+        return str;
     }
 
     @Override

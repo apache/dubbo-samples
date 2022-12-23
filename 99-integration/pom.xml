@@ -23,7 +23,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Dubbo Integration Test</name>
+    <name>Integration Test</name>
     <description>Dubbo Samples Integration Test</description>
 
     <modules>
@@ -41,7 +41,13 @@
         <module>dubbo-samples-sd-group</module>
         <module>dubbo-samples-sd-merge</module>
         <module>dubbo-samples-sd-version</module>
+        <module>dubbo-samples-sentinel-compact</module>
+        <module>dubbo-samples-sentinel-dubbo3</module>
         <module>dubbo-samples-switch-serialization-thread</module>
+        <module>dubbo-samples-test-9806</module>
         <module>dubbo-samples-test-10704</module>
+        <module>dubbo-samples-test-11096</module>
+        <module>dubbo-samples-test-11137</module>
+        <module>dubbo-samples-test-11159</module>
     </modules>
 </project>
