@@ -48,6 +48,7 @@
         <module>dubbo-samples-mock</module>
         <module>dubbo-samples-notify</module>
         <module>dubbo-samples-scala</module>
+        <module>dubbo-samples-seata</module>
         <module>dubbo-samples-spi-compatible</module>
         <module>dubbo-samples-stub</module>
         <module>dubbo-samples-tengine</module>
