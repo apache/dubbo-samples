@@ -65,6 +65,7 @@ ERROR_MSG_FLAG=":ErrorMsg:"
 
 CONFIG_FILE="case-configuration.yml"
 VERSONS_FILE="case-versions.conf"
+VERSIONS_SOURCE_FILE="case-version-sources.conf"
 
 # Exit codes
 # version matrix not match
@@ -132,6 +133,8 @@ function process_case() {
     return 1
   fi
 
+  ver_src_file=$case_dir/$VERSIONS_SOURCE_FILE
+
   case_start_time=$SECONDS
   project_home=`dirname $file`
   scenario_home=$project_home/target
@@ -144,6 +147,7 @@ function process_case() {
   version_matrix_file=$project_home/version-matrix.txt
   java -DcandidateVersions="$CANDIDATE_VERSIONS" \
     -DcaseVersionsFile="$ver_file" \
+    -DcaseVersionSourcesFile="$ver_src_file" \
     -DoutputFile="$version_matrix_file" \
     -cp $test_builder_jar \
     org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
@@ -208,6 +212,7 @@ function process_case() {
       -Dscenario.version=$version \
       -Dtest.image.version=$JAVA_VER \
       -Ddebug.service=$DEBUG \
+      $version_profile \
       -jar $test_builder_jar  &> $scenario_builder_log
     result=$?
     if [ $result -ne 0 ]; then

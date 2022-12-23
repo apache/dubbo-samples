@@ -14,13 +14,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-external-zookeeper.yml
+services:
+  zookeeper:
+    image: zookeeper:${zookeeper-server.version}
 
-props:
-  project_name: dubbo-samples-zookeeper
-  main_class: org.apache.dubbo.samples.ProviderBootstrap
-  zookeeper_port: 2181
-  dubbo_port: 20880
+  dubbo-samples-zookeeper:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.ProviderBootstrap
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
 
+  dubbo-samples-zookeeper-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-zookeeper
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - dubbo-samples-zookeeper:20880
+    depends_on:
+      - dubbo-samples-zookeeper
 
 
