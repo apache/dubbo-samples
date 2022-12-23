@@ -17,6 +17,9 @@
 
 package org.apache.dubbo.scenario.builder;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
@@ -54,7 +57,7 @@ public class VersionMatcher {
     private static final Logger logger = LoggerFactory.getLogger(VersionMatcher.class);
 
     /**
-     * Java Property names 
+     * Java Property names
      */
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
     public static final String CASE_VERSION_SOURCES_FILE = "caseVersionSourcesFile";
@@ -110,8 +113,9 @@ public class VersionMatcher {
 
         Map<String, List<String>> candidateVersionFromRemoteMap = parseVersionSources(caseVersionSourcesFile);
 
-        candidateVersionFromRemoteMap.forEach((k, v)->
-                candidateVersionMap.computeIfAbsent(k, i -> new ArrayList<>())
+        // remote version first
+        candidateVersionMap.forEach((k, v) ->
+                candidateVersionFromRemoteMap.computeIfAbsent(k, i -> new ArrayList<>())
                         .addAll(v));
 
         // parse case version match rules
@@ -119,34 +123,34 @@ public class VersionMatcher {
 
         // Filter caseVersionMatchRules
         chooseActiveDubboVersionRule(caseVersionMatchRules);
-        
+
         Map<String, List<String>> matchedVersionMap = new LinkedHashMap<>();
 
-        candidateVersionMap.forEach((component, candidateVersionList) -> {
+        candidateVersionFromRemoteMap.forEach((component, candidateVersionList) -> {
             Map<String, List<MatchRule>> matchRulesMap;
-            if (Constants.DUBBO_VERSION_KEY.equals(component) && 
-                !caseVersionMatchRules.containsKey(Constants.DUBBO_VERSION_KEY)
+            if (Constants.DUBBO_VERSION_KEY.equals(component) &&
+                    !caseVersionMatchRules.containsKey(Constants.DUBBO_VERSION_KEY)
             ) {
                 matchRulesMap = caseVersionMatchRules.keySet().stream()
-                    .filter(key -> !extractDubboServiceName(key).isEmpty())
-                    .collect(Collectors.toMap(
-                            key -> key,
-                            key -> caseVersionMatchRules.get(key)
-                    ));
+                        .filter(key -> !extractDubboServiceName(key).isEmpty())
+                        .collect(Collectors.toMap(
+                                key -> key,
+                                key -> caseVersionMatchRules.get(key)
+                        ));
             } else {
                 matchRulesMap = new HashMap<>();
                 if (caseVersionMatchRules.get(component) != null) {
                     matchRulesMap.put(component, caseVersionMatchRules.get(component));
                 }
             }
-            
+
             if (matchRulesMap.isEmpty()) {
                 return;
             }
 
             for (String matchRulesKey : matchRulesMap.keySet()) {
                 List<MatchRule> matchRules = matchRulesMap.get(matchRulesKey);
-                
+
                 // matching rules
                 List<String> matchedVersionList = new ArrayList<>();
                 for (String version : candidateVersionList) {
@@ -188,11 +192,13 @@ public class VersionMatcher {
         if (versionProfiles.isEmpty()) {
             errorAndExit(Constants.EXIT_UNMATCHED, "Version matrix is empty");
         }
+        boolean onlyLatest = !Boolean.parseBoolean(System.getenv(ALL_REMOTE_VERSION));
+
         try (FileOutputStream fos = new FileOutputStream(outputFile);
              PrintWriter pw = new PrintWriter(fos)) {
             StringBuilder sb = new StringBuilder();
             int size = versionProfiles.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < (onlyLatest ? 1 : size); i++) {
                 List<String> profile = versionProfiles.get(i);
                 for (String version : profile) {
                     //-Dxxx.version=1.0.0
@@ -208,11 +214,12 @@ public class VersionMatcher {
     }
 
     /**
-     * Choose only one final active Dubbo version rule from following case: 
+     * Choose only one final active Dubbo version rule from following case:
      * <br>
      * 1. dubbo.version - original usage
      * <br>
      * 2. dubbo.{service}.version - different services can have different dubbo version for supporting compatibility-test
+     *
      * @param caseVersionMatchRules
      */
     private static void chooseActiveDubboVersionRule(Map<String, List<MatchRule>> caseVersionMatchRules) {
@@ -225,6 +232,7 @@ public class VersionMatcher {
 
     /**
      * Extract service name from the given key
+     *
      * @return the key or empty string when not matched.
      */
     public static String extractDubboServiceName(String key) {
@@ -232,15 +240,15 @@ public class VersionMatcher {
         if (matcher.matches()) {
             return matcher.group(1);
         }
-        
+
         return "";
     }
-    
+
     private static boolean hasIncludeVersion(List<MatchRule> matchRules, String version) {
         boolean included = false;
-        version = trimVersion(version);
+        String trimVersion = trimVersion(version);
         for (MatchRule matchRule : matchRules) {
-            if (matchRule.match(version)) {
+            if (matchRule.match(matchRule instanceof WildcardMatchRule ? version : trimVersion)) {
                 // excluded rule has higher priority than included rule
                 if (matchRule.isExcluded()) {
                     return false;
@@ -342,10 +350,10 @@ public class VersionMatcher {
     private String trimRule(String rule, String begin, String end) {
         rule = rule.trim();
         if (rule.startsWith(begin)) {
-            if (rule.endsWith(end)){
-                return rule.substring(1, rule.length()-1);
+            if (rule.endsWith(end)) {
+                return rule.substring(1, rule.length() - 1);
             } else {
-                throw new IllegalArgumentException("Version match rule is invalid: "+rule);
+                throw new IllegalArgumentException("Version match rule is invalid: " + rule);
             }
         }
         return rule;
@@ -398,26 +406,18 @@ public class VersionMatcher {
             errorAndExit(Constants.EXIT_FAILED, "Parse case versions sources failed: {}", caseVersionSourcesFile, e);
         }
 
-        boolean onlyLatest = !Boolean.parseBoolean(System.getenv(ALL_REMOTE_VERSION));
-
         try (AsyncHttpClient asyncHttpClient = new DefaultAsyncHttpClient()) {
             for (Map.Entry<String, String> entry : sources.entrySet()) {
                 String component = entry.getKey();
                 String source = entry.getValue();
-                Future<Response> f = asyncHttpClient.prepareGet(source).execute();
-                Response r = f.get();
-                if (r.hasResponseBody()) {
-                    SAXReader reader = new SAXReader();
-                    Document document = reader.read(r.getResponseBodyAsStream());
+                if (source.contains("repo1.maven.org")) {
+                    // maven
+                    Future<Response> f = asyncHttpClient.prepareGet(source).execute();
+                    Response r = f.get();
+                    if (r.hasResponseBody()) {
+                        SAXReader reader = new SAXReader();
+                        Document document = reader.read(r.getResponseBodyAsStream());
 
-                    if (onlyLatest) {
-                        String latest = document.getRootElement()
-                                .element("versioning")
-                                .elementText("release");
-                        List<String> result = new ArrayList<>();
-                        result.add(latest);
-                        versionMap.put(component, result);
-                    } else {
                         List<String> result = document.getRootElement()
                                 .element("versioning")
                                 .element("versions")
@@ -426,7 +426,29 @@ public class VersionMatcher {
                                 .map(Element::getText)
                                 .collect(Collectors.toList());
                         versionMap.put(component, result);
+                    } else {
+                        errorAndExit(Constants.EXIT_FAILED, "Request remote versions failed: {}", r);
                     }
+                } else if (source.contains("hub")) {
+                    // Dockerhub
+                    while (source != null) {
+                        Future<Response> f = asyncHttpClient.prepareGet(source).execute();
+                        Response r = f.get();
+                        if (r.hasResponseBody() && r.getStatusCode() == 200) {
+                            JSONObject root = JSON.parseObject(r.getResponseBody());
+                            source = root.getString("next");
+                            JSONArray results = root.getJSONArray("results");
+                            for (int i = 0; i < results.size(); i++) {
+                                JSONObject jsonObject = results.getJSONObject(i);
+                                String tag = jsonObject.getString("name");
+                                versionMap.computeIfAbsent(component, k -> new ArrayList<>()).add(tag);
+                            }
+                        } else {
+                            errorAndExit(Constants.EXIT_FAILED, "Request remote versions failed: {}", r);
+                        }
+                    }
+                } else {
+                    errorAndExit(Constants.EXIT_FAILED, "Not supported remote type: {}", source);
                 }
             }
         } catch (IOException | InterruptedException | ExecutionException | DocumentException e) {
@@ -453,6 +475,7 @@ public class VersionMatcher {
 
         /**
          * Get service the MatchRule bind to
+         *
          * @return
          */
         default String getServiceName() {
@@ -460,7 +483,7 @@ public class VersionMatcher {
         }
     }
 
-    private static abstract class ExcludableMatchRule implements MatchRule {
+    private static abstract class ExcludableMatchRule implements VersionMatcher.MatchRule {
         boolean excluded;
         protected String serviceName;
 
@@ -499,7 +522,7 @@ public class VersionMatcher {
 
         @Override
         public String toString() {
-            return (excluded?"!":"")+version;
+            return (excluded ? "!" : "") + version;
         }
     }
 
@@ -518,13 +541,14 @@ public class VersionMatcher {
         public boolean match(String version) {
             return this.versionPattern.matcher(version).matches();
         }
+
         @Override
         public String toString() {
-            return (excluded?"!":"")+versionWildcard;
+            return (excluded ? "!" : "") + versionWildcard;
         }
     }
 
-    private static class RangeMatchRule implements MatchRule {
+    private static class RangeMatchRule implements VersionMatcher.MatchRule {
         private VersionComparator comparator;
         private String operator;
         private String version;
@@ -550,14 +574,14 @@ public class VersionMatcher {
 
         @Override
         public String toString() {
-            return operator+version;
+            return operator + version;
         }
     }
 
-    private static class CombineMatchRule implements MatchRule {
-        List<MatchRule> matchRules = new ArrayList<>();
+    private static class CombineMatchRule implements VersionMatcher.MatchRule {
+        List<VersionMatcher.MatchRule> matchRules = new ArrayList<>();
 
-        public CombineMatchRule(List<MatchRule> matchRules) {
+        public CombineMatchRule(List<VersionMatcher.MatchRule> matchRules) {
             this.matchRules.addAll(matchRules);
         }
 
@@ -568,7 +592,7 @@ public class VersionMatcher {
 
         @Override
         public boolean match(String version) {
-            for (MatchRule matchRule : matchRules) {
+            for (VersionMatcher.MatchRule matchRule : matchRules) {
                 if (!matchRule.match(version)) {
                     return false;
                 }
@@ -579,7 +603,7 @@ public class VersionMatcher {
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            for (MatchRule rule : matchRules) {
+            for (VersionMatcher.MatchRule rule : matchRules) {
                 sb.append(rule.toString()).append(' ');
             }
             return sb.toString();
@@ -622,20 +646,21 @@ public class VersionMatcher {
         } else if (operator.startsWith("<")) {
             return lessThanComparator;
         }
-        throw new IllegalArgumentException("Comparison operator is invalid: "+operator);
+        throw new IllegalArgumentException("Comparison operator is invalid: " + operator);
     }
 
     private Pattern cmpExprPattern = Pattern.compile("<=|>=|<|>|[\\d\\.]+");
+
     private MatchRule parseRangeMatchRule(String versionPattern) {
         List<MatchRule> matchRules = new ArrayList<>();
         Matcher matcher = cmpExprPattern.matcher(versionPattern);
         while (matcher.find()) {
             if (matchRules.size() == 2) {
-                throw new IllegalArgumentException("Invalid range match rule: "+versionPattern);
+                throw new IllegalArgumentException("Invalid range match rule: " + versionPattern);
             }
             String operator = matcher.group();
-            if(!matcher.find()){
-                throw new IllegalArgumentException("Parse range match rule failed, unexpected EOF: "+versionPattern);
+            if (!matcher.find()) {
+                throw new IllegalArgumentException("Parse range match rule failed, unexpected EOF: " + versionPattern);
             }
             String version = matcher.group();
             matchRules.add(new RangeMatchRule(operator, version));
@@ -646,7 +671,7 @@ public class VersionMatcher {
         } else if (matchRules.size() == 2) {
             return new CombineMatchRule(matchRules);
         }
-        throw new IllegalArgumentException("Parse range match rule failed: "+versionPattern);
+        throw new IllegalArgumentException("Parse range match rule failed: " + versionPattern);
     }
 
     private interface VersionComparator {
