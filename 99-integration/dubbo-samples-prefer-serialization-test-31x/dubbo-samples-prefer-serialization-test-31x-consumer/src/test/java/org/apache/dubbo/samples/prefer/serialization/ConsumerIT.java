@@ -20,7 +20,7 @@ import org.apache.dubbo.common.serialize.fastjson.FastJsonSerialization;
 import org.apache.dubbo.common.serialize.fastjson2.FastJson2Serialization;
 import org.apache.dubbo.common.serialize.gson.GsonSerialization;
 import org.apache.dubbo.common.serialize.hessian2.Hessian2Serialization;
-import org.apache.dubbo.common.serialize.java.JavaSerialization;
+import org.apache.dubbo.common.serialize.protostuff.ProtostuffSerialization;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -46,7 +46,7 @@ public class ConsumerIT {
     private static final Byte FASTJSON2_SERIALIZATION_ID = new FastJson2Serialization(FrameworkModel.defaultModel()).getContentTypeId();
     private static final Byte GSON_SERIALIZATION_ID = new GsonSerialization().getContentTypeId();
     private static final Byte FASTJSON_SERIALIZATION_ID = new FastJsonSerialization().getContentTypeId();
-    private static final Byte JAVA_SERIALIZATION_ID = new JavaSerialization().getContentTypeId();
+    private static final Byte PROTOSTUFF_SERIALIZATION_ID = new ProtostuffSerialization().getContentTypeId();
 
     @BeforeClass
     public static void setup() {
@@ -75,32 +75,32 @@ public class ConsumerIT {
     }
 
 
-    // protocol config set serialization as java, prefer serialization is set as null
+    // protocol config set serialization as protostuff, prefer serialization is set as null
     // service config set serialization as null, prefer serialization is set as null
-    // in 3.1.x, will use java serialization
-    // in 3.2.x, will use java serialization
+    // in 3.1.x, will use protostuff serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test2() {
         DemoService demoService = getDemoService("2.0.0");
         Assert.assertEquals("Hello world", demoService.sayHello("world"));
-        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(JAVA_SERIALIZATION_ID)));
+        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(PROTOSTUFF_SERIALIZATION_ID)));
     }
 
     // protocol config set serialization as null, prefer serialization is set as null
-    // service config set serialization as java, prefer serialization is set as null
-    // in 3.1.x, will use java serialization
-    // in 3.2.x, will use java serialization
+    // service config set serialization as protostuff, prefer serialization is set as null
+    // in 3.1.x, will use protostuff serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test3() {
         DemoService demoService = getDemoService("3.0.0");
         Assert.assertEquals("Hello world", demoService.sayHello("world"));
-        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(JAVA_SERIALIZATION_ID)));
+        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(PROTOSTUFF_SERIALIZATION_ID)));
     }
 
-    // protocol config set serialization as null, prefer serialization is set as java
+    // protocol config set serialization as null, prefer serialization is set as protostuff
     // service config set serialization as null, prefer serialization is set as null
     // in 3.1.x, will use hessian2 serialization
-    // in 3.2.x, will use java serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test4() {
         DemoService demoService = getDemoService("4.0.0");
@@ -109,9 +109,9 @@ public class ConsumerIT {
     }
 
     // protocol config set serialization as null, prefer serialization is set as null
-    // service config set serialization as null, prefer serialization is set as java
+    // service config set serialization as null, prefer serialization is set as protostuff
     // in 3.1.x, will use hessian2 serialization
-    // in 3.2.x, will use java serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test5() {
         DemoService demoService = getDemoService("5.0.0");
@@ -119,7 +119,7 @@ public class ConsumerIT {
         Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(HESSIAN2_SERIALIZATION_ID)));
     }
 
-    // protocol config set serialization as java, prefer serialization is set as null
+    // protocol config set serialization as protostuff, prefer serialization is set as null
     // service config set serialization as fastjson, prefer serialization is set as null
     // in 3.1.x, will use fastjson serialization
     // in 3.2.x, will use fastjson serialization
@@ -130,7 +130,7 @@ public class ConsumerIT {
         Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(FASTJSON_SERIALIZATION_ID)));
     }
 
-    // protocol config set serialization as null, prefer serialization is set as java
+    // protocol config set serialization as null, prefer serialization is set as protostuff
     // service config set serialization as null, prefer serialization is set as fastjson
     // in 3.1.x, will use hessian2 serialization
     // in 3.2.x, will use fastjson serialization
@@ -141,32 +141,32 @@ public class ConsumerIT {
         Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(HESSIAN2_SERIALIZATION_ID)));
     }
 
-    // protocol config set serialization as java, prefer serialization is set as fastjson
+    // protocol config set serialization as protostuff, prefer serialization is set as fastjson
     // service config set serialization as null, prefer serialization is set as null
-    // in 3.1.x, will use java serialization
+    // in 3.1.x, will use protostuff serialization
     // in 3.2.x, will use fastjson serialization
     @Test
     public void test8() {
         DemoService demoService = getDemoService("8.0.0");
         Assert.assertEquals("Hello world", demoService.sayHello("world"));
-        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(JAVA_SERIALIZATION_ID)));
+        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(PROTOSTUFF_SERIALIZATION_ID)));
     }
 
     // protocol config set serialization as null, prefer serialization is set as null
-    // service config set serialization as java, prefer serialization is set as fastjson
-    // in 3.1.x, will use java serialization
+    // service config set serialization as protostuff, prefer serialization is set as fastjson
+    // in 3.1.x, will use protostuff serialization
     // in 3.2.x, will use fastjson serialization
     @Test
     public void test9() {
         DemoService demoService = getDemoService("9.0.0");
         Assert.assertEquals("Hello world", demoService.sayHello("world"));
-        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(JAVA_SERIALIZATION_ID)));
+        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(PROTOSTUFF_SERIALIZATION_ID)));
     }
 
     // protocol config set serialization as fastjson, prefer serialization is set as null
-    // service config set serialization as null, prefer serialization is set as java
+    // service config set serialization as null, prefer serialization is set as protostuff
     // in 3.1.x, will use fastjson serialization
-    // in 3.2.x, will use java serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test10() {
         DemoService demoService = getDemoService("10.0.0");
@@ -175,31 +175,31 @@ public class ConsumerIT {
     }
 
     // protocol config set serialization as null, prefer serialization is set as fastjson
-    // service config set serialization as java, prefer serialization is set as null
-    // in 3.1.x, will use java serialization
-    // in 3.2.x, will use java serialization
+    // service config set serialization as protostuff, prefer serialization is set as null
+    // in 3.1.x, will use protostuff serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test11() {
         DemoService demoService = getDemoService("11.0.0");
         Assert.assertEquals("Hello world", demoService.sayHello("world"));
-        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(JAVA_SERIALIZATION_ID)));
+        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(PROTOSTUFF_SERIALIZATION_ID)));
     }
 
     // protocol config set serialization as gson, prefer serialization is set as fastjson
-    // service config set serialization as java, prefer serialization is set as null
-    // in 3.1.x, will use java serialization
-    // in 3.2.x, will use java serialization
+    // service config set serialization as protostuff, prefer serialization is set as null
+    // in 3.1.x, will use protostuff serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test12() {
         DemoService demoService = getDemoService("12.0.0");
         Assert.assertEquals("Hello world", demoService.sayHello("world"));
-        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(JAVA_SERIALIZATION_ID)));
+        Assert.assertTrue(SerializationWrapper.getUsedSerialization().stream().allMatch(s -> s.equals(PROTOSTUFF_SERIALIZATION_ID)));
     }
 
     // protocol config set serialization as gson, prefer serialization is set as fastjson
-    // service config set serialization as null, prefer serialization is set as java
+    // service config set serialization as null, prefer serialization is set as protostuff
     // in 3.1.x, will use gson serialization
-    // in 3.2.x, will use java serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test13() {
         DemoService demoService = getDemoService("13.0.0");
@@ -208,9 +208,9 @@ public class ConsumerIT {
     }
 
     // protocol config set serialization as gson, prefer serialization is set as null
-    // service config set serialization as fastjson, prefer serialization is set as java
+    // service config set serialization as fastjson, prefer serialization is set as protostuff
     // in 3.1.x, will use fastjson serialization
-    // in 3.2.x, will use java serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test14() {
         DemoService demoService = getDemoService("14.0.0");
@@ -219,9 +219,9 @@ public class ConsumerIT {
     }
 
     // protocol config set serialization as null, prefer serialization is set as gson
-    // service config set serialization as fastjson, prefer serialization is set as java
+    // service config set serialization as fastjson, prefer serialization is set as protostuff
     // in 3.1.x, will use fastjson serialization
-    // in 3.2.x, will use java serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test15() {
         DemoService demoService = getDemoService("15.0.0");
@@ -230,9 +230,9 @@ public class ConsumerIT {
     }
 
     // protocol config set serialization as fst, prefer serialization is set as gson
-    // service config set serialization as fastjson, prefer serialization is set as java
+    // service config set serialization as fastjson, prefer serialization is set as protostuff
     // in 3.1.x, will use fastjson serialization
-    // in 3.2.x, will use java serialization
+    // in 3.2.x, will use protostuff serialization
     @Test
     public void test16() {
         DemoService demoService = getDemoService("16.0.0");

@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DubboProvider {
     private static final String FASTJSON_SERIALIZATION = "fastjson";
-    private static final String JAVA_SERIALIZATION = "java";
+    private static final String PROTOSTUFF_SERIALIZATION = "protostuff";
     private static final String GSON_SERIALIZATION = "gson";
     private static final String FST_SERIALIZATION = "fst";
 
@@ -52,12 +52,12 @@ public class DubboProvider {
                 "1.0.0");
         System.out.println("1.0.0 service exported");
 
-        // protocol config set serialization as java, prefer serialization is set as null
+        // protocol config set serialization as protostuff, prefer serialization is set as null
         // service config set serialization as null, prefer serialization is set as null
-        // in 3.1.x, will use java serialization
-        // in 3.2.x, will use java serialization
+        // in 3.1.x, will use protostuff serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 null,
                 null,
                 null,
@@ -65,71 +65,71 @@ public class DubboProvider {
         System.out.println("2.0.0 service exported");
 
         // protocol config set serialization as null, prefer serialization is set as null
-        // service config set serialization as java, prefer serialization is set as null
-        // in 3.1.x, will use java serialization
-        // in 3.2.x, will use java serialization
+        // service config set serialization as protostuff, prefer serialization is set as null
+        // in 3.1.x, will use protostuff serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 null,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 null,
                 null,
                 "3.0.0");
         System.out.println("3.0.0 service exported");
 
-        // protocol config set serialization as null, prefer serialization is set as java
+        // protocol config set serialization as null, prefer serialization is set as protostuff
         // service config set serialization as null, prefer serialization is set as null
         // in 3.1.x, will use hessian2 serialization
-        // in 3.2.x, will use java serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 null,
                 null,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 null,
                 "4.0.0");
         System.out.println("4.0.0 service exported");
 
         // protocol config set serialization as null, prefer serialization is set as null
-        // service config set serialization as null, prefer serialization is set as java
+        // service config set serialization as null, prefer serialization is set as protostuff
         // in 3.1.x, will use hessian2 serialization
-        // in 3.2.x, will use java serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 null,
                 null,
                 null,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 "5.0.0");
         System.out.println("5.0.0 service exported");
 
-        // protocol config set serialization as java, prefer serialization is set as null
+        // protocol config set serialization as protostuff, prefer serialization is set as null
         // service config set serialization as fastjson, prefer serialization is set as null
         // in 3.1.x, will use fastjson serialization
         // in 3.2.x, will use fastjson serialization
         exportService(frameworkModel,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 FASTJSON_SERIALIZATION,
                 null,
                 null,
                 "6.0.0");
         System.out.println("6.0.0 service exported");
 
-        // protocol config set serialization as null, prefer serialization is set as java
+        // protocol config set serialization as null, prefer serialization is set as protostuff
         // service config set serialization as null, prefer serialization is set as fastjson
         // in 3.1.x, will use hessian2 serialization
         // in 3.2.x, will use fastjson serialization
         exportService(frameworkModel,
                 null,
                 null,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 FASTJSON_SERIALIZATION,
                 "7.0.0");
         System.out.println("7.0.0 service exported");
 
-        // protocol config set serialization as java, prefer serialization is set as fastjson
+        // protocol config set serialization as protostuff, prefer serialization is set as fastjson
         // service config set serialization as null, prefer serialization is set as null
-        // in 3.1.x, will use java serialization
+        // in 3.1.x, will use protostuff serialization
         // in 3.2.x, will use fastjson serialization
         exportService(frameworkModel,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 null,
                 FASTJSON_SERIALIZATION,
                 null,
@@ -137,11 +137,11 @@ public class DubboProvider {
         System.out.println("8.0.0 service exported");
 
         // protocol config set serialization as null, prefer serialization is set as null
-        // service config set serialization as java, prefer serialization is set as fastjson
-        // in 3.1.x, will use java serialization
+        // service config set serialization as protostuff, prefer serialization is set as fastjson
+        // in 3.1.x, will use protostuff serialization
         // in 3.2.x, will use fastjson serialization
         exportService(frameworkModel,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 null,
                 FASTJSON_SERIALIZATION,
                 null,
@@ -149,86 +149,86 @@ public class DubboProvider {
         System.out.println("9.0.0 service exported");
 
         // protocol config set serialization as fastjson, prefer serialization is set as null
-        // service config set serialization as null, prefer serialization is set as java
+        // service config set serialization as null, prefer serialization is set as protostuff
         // in 3.1.x, will use fastjson serialization
-        // in 3.2.x, will use java serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 FASTJSON_SERIALIZATION,
                 null,
                 null,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 "10.0.0");
         System.out.println("10.0.0 service exported");
 
         // protocol config set serialization as null, prefer serialization is set as fastjson
-        // service config set serialization as java, prefer serialization is set as null
-        // in 3.1.x, will use java serialization
-        // in 3.2.x, will use java serialization
+        // service config set serialization as protostuff, prefer serialization is set as null
+        // in 3.1.x, will use protostuff serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 null,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 FASTJSON_SERIALIZATION,
                 null,
                 "11.0.0");
         System.out.println("11.0.0 service exported");
 
         // protocol config set serialization as gson, prefer serialization is set as fastjson
-        // service config set serialization as java, prefer serialization is set as null
-        // in 3.1.x, will use java serialization
-        // in 3.2.x, will use java serialization
+        // service config set serialization as protostuff, prefer serialization is set as null
+        // in 3.1.x, will use protostuff serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 GSON_SERIALIZATION,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 FASTJSON_SERIALIZATION,
                 null,
                 "12.0.0");
         System.out.println("12.0.0 service exported");
 
         // protocol config set serialization as gson, prefer serialization is set as fastjson
-        // service config set serialization as null, prefer serialization is set as java
+        // service config set serialization as null, prefer serialization is set as protostuff
         // in 3.1.x, will use gson serialization
-        // in 3.2.x, will use java serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 GSON_SERIALIZATION,
                 null,
                 FASTJSON_SERIALIZATION,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 "13.0.0");
         System.out.println("13.0.0 service exported");
 
         // protocol config set serialization as gson, prefer serialization is set as null
-        // service config set serialization as fastjson, prefer serialization is set as java
+        // service config set serialization as fastjson, prefer serialization is set as protostuff
         // in 3.1.x, will use fastjson serialization
-        // in 3.2.x, will use java serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 GSON_SERIALIZATION,
                 FASTJSON_SERIALIZATION,
                 null,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 "14.0.0");
         System.out.println("14.0.0 service exported");
 
         // protocol config set serialization as null, prefer serialization is set as gson
-        // service config set serialization as fastjson, prefer serialization is set as java
+        // service config set serialization as fastjson, prefer serialization is set as protostuff
         // in 3.1.x, will use fastjson serialization
-        // in 3.2.x, will use java serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 null,
                 FASTJSON_SERIALIZATION,
                 GSON_SERIALIZATION,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 "15.0.0");
         System.out.println("15.0.0 service exported");
 
         // protocol config set serialization as fst, prefer serialization is set as gson
-        // service config set serialization as fastjson, prefer serialization is set as java
+        // service config set serialization as fastjson, prefer serialization is set as protostuff
         // in 3.1.x, will use fastjson serialization
-        // in 3.2.x, will use java serialization
+        // in 3.2.x, will use protostuff serialization
         exportService(frameworkModel,
                 FST_SERIALIZATION,
                 FASTJSON_SERIALIZATION,
                 GSON_SERIALIZATION,
-                JAVA_SERIALIZATION,
+                PROTOSTUFF_SERIALIZATION,
                 "16.0.0");
         System.out.println("16.0.0 service exported");
 
