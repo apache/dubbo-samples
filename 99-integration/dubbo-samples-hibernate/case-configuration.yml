@@ -14,11 +14,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+  zookeeper:
+    image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-hibernate
-  main_class: org.apache.dubbo.springboot.hibernate.samples.HibernateProviderApplication
-  zookeeper_port: 2181
-  dubbo_port: 20880
+  dubbo-samples-spring-boot-hibernate-provider:
+    type: app
+    basedir: dubbo-samples-spring-boot-hibernate-provider
+    mainClass: org.apache.dubbo.springboot.hibernate.samples.HibernateProviderApplication
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+    depends_on:
+      - zookeeper
+
+  dubbo-samples-spring-boot-hibernate-consumer:
+    type: test
+    basedir: dubbo-samples-spring-boot-hibernate-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - dubbo-samples-spring-boot-hibernate-provider:20880
+    depends_on:
+      - zookeeper
+      - dubbo-samples-spring-boot-hibernate-provider
 
