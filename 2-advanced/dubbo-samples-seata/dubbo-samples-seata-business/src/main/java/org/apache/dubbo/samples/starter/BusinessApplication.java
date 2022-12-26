@@ -14,15 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.seata;
+package org.apache.dubbo.samples.starter;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.service.BusinessService;
 import org.apache.dubbo.samples.service.StorageService;
 
-import io.seata.config.Configuration;
-import io.seata.config.ConfigurationFactory;
-import io.seata.rm.datasource.DataSourceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
