@@ -118,7 +118,7 @@
                     </to>
                     <container>
                         <jvmFlags>
-                            <jvmFlag>-Dnacos.address=nacos.dubbo-system.svc</jvmFlag>
+                            <jvmFlag>--add-opens=java.base/java.lang.reflect=ALL-UNNAMED</jvmFlag>
                         </jvmFlags>
                         <ports>
                             <port>20880</port>
