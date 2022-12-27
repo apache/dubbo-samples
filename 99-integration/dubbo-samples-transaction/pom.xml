@@ -85,6 +85,12 @@
             <groupId>io.seata</groupId>
             <artifactId>seata-all</artifactId>
             <version>${seata.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- fix  the fifth problem in https://shirenchuang.blog.csdn.net/article/details/106739176 -->
