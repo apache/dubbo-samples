@@ -65,6 +65,7 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - seata-mysql:3306
+      - seata-server:8091
     checkPorts:
       - 20882
     checkLog: 'storage service started'
@@ -83,6 +84,7 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - seata-mysql:3306
+      - seata-server:8091
     checkPorts:
       - 20881
     checkLog: 'account service started'
@@ -101,6 +103,7 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - seata-mysql:3306
+      - seata-server:8091
     checkPorts:
       - 20883
     checkLog: 'order service started'
@@ -123,6 +126,8 @@ services:
       - storage-service:20882
       - account-service:20881
       - order-service:20883
+      - seata-mysql:3306
+      - seata-server:8091
     depends_on:
       - order-service
       - account-service
