@@ -29,7 +29,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>3.0.7</dubbo.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <spring.version>4.3.16.RELEASE</spring.version>
         <grpc.version>1.31.1</grpc.version>
         <compiler.version>0.0.1</compiler.version>
@@ -123,7 +123,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
 
