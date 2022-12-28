@@ -1,0 +1,116 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+services:
+  nacos:
+    image: nacos/nacos-server:2.0.0
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - NACOS_AUTH_ENABLE=true
+      - JVM_XMS=350m
+      - JVM_XMX=350m
+      - JVM_XMN=150m
+
+  app1:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App1
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app2:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App2
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app3:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App3
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app4:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App4
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app5:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App5
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app6:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App6
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+      - app1
+      - app2
+      - app3
+      - app4
+      - app5
+      - app6
