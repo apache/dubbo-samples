@@ -30,7 +30,7 @@
         <target.level>1.8</target.level>
         <spring.version>4.3.16.RELEASE</spring.version>
         <dubbo.version>3.0.7</dubbo.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <grpc.version>1.34.1</grpc.version>
         <compiler.version>0.0.1</compiler.version>
     </properties>

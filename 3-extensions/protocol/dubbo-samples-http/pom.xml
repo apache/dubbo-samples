@@ -33,7 +33,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>2.7.13</dubbo.version>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
