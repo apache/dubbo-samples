@@ -36,7 +36,7 @@
     <properties>
         <dubbo.version>3.0.7</dubbo.version>
         <junit.version>4.13.1</junit.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <spring.version>4.3.29.RELEASE</spring.version>
         <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
     </properties>
 

@@ -40,7 +40,7 @@
         <dubbo.version>2.7.13</dubbo.version>
         <protobuf.java>3.16.3</protobuf.java>
         <junit.version>4.13.1</junit.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <spring.version>4.3.29.RELEASE</spring.version>
     </properties>
 
     <dependencyManagement>
