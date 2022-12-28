@@ -22,10 +22,15 @@ systemProps:
   - mysql.port=3306
 
 services:
-  zookeeper:
-    image: zookeeper:latest
-    expose:
-      - 2181
+  nacos:
+    image: nacos/nacos-server:2.0.0
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - NACOS_AUTH_ENABLE=true
+      - JVM_XMS=350m
+      - JVM_XMX=350m
+      - JVM_XMN=150m
 
   seata-mysql:
     image: mysql:5.7
@@ -35,7 +40,7 @@ services:
     expose:
       - 3306
     volumes:
-      - ${_basedir}/src/main/resources/docker/mysql/sql:/docker-entrypoint-initdb.d
+      - ${_basedir}/deploy/docker-compose/mysql/sql:/docker-entrypoint-initdb.d
     healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
       test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
@@ -46,9 +51,10 @@ services:
   seata-server:
     #build: ${_basedir}/src/main/resources/docker/seata
     #removeOnExit: true
-    image: seataio/seata-server:1.4.2
-    volumes:
-      - ${_basedir}/src/main/resources/docker/seata/conf:/root/seata-config
+    image: seataio/seata-server:latest
+    environment:
+      - SEATA_PORT=8091
+      - STORE_MODE=file
     expose:
       - 8091
     depends_on:
@@ -56,74 +62,93 @@ services:
 
   storage-service:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.starter.DubboStorageServiceStarter
+    basedir: dubbo-samples-seata-storage
+    mainClass: org.apache.dubbo.samples.seata.StorageApplication
     systemProps:
-      - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-      - seata.address=seata-server:8091
+      - nacos.address=nacos
+      - nacos.port=8848
+      - seata.address=seata-server
+    jvmFlags:
+      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
-      - zookeeper:2181
+      - nacos:8848
       - seata-mysql:3306
+      - seata-server:8091
+    checkLog: "Current Spring Boot Application is await"
     checkPorts:
-      - 20882
-    checkLog: 'storage service started'
+      - 20884
     depends_on:
       - seata-mysql
       - seata-server
+      - nacos
 
   account-service:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.starter.DubboAccountServiceStarter
+    basedir: dubbo-samples-seata-account
+    mainClass: org.apache.dubbo.samples.seata.AccountApplication
     systemProps:
-      - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-      - seata.address=seata-server:8091
+      - nacos.address=nacos
+      - nacos.port=8848
+      - seata.address=seata-server
+    jvmFlags:
+      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
-      - zookeeper:2181
+      - nacos:8848
       - seata-mysql:3306
+      - seata-server:8091
+    checkLog: "Current Spring Boot Application is await"
     checkPorts:
       - 20881
-    checkLog: 'account service started'
     depends_on:
+      - nacos
       - seata-mysql
       - seata-server
 
   order-service:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.starter.DubboOrderServiceStarter
+    basedir: dubbo-samples-seata-order
+    mainClass: org.apache.dubbo.samples.seata.OrderApplication
     systemProps:
-      - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-      - seata.address=seata-server:8091
+      - nacos.address=nacos
+      - nacos.port=8848
+      - seata.address=seata-server
+    jvmFlags:
+      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
-      - zookeeper:2181
+      - nacos:8848
       - seata-mysql:3306
+      - seata-server:8091
+    checkLog: "Current Spring Boot Application is await"
     checkPorts:
       - 20883
-    checkLog: 'order service started'
     depends_on:
+      - nacos
       - seata-mysql
       - seata-server
       - account-service
 
-  transaction-test:
+  business-test:
     type: test
-    basedir: .
+    basedir: dubbo-samples-seata-business
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-      - seata.address=seata-server:8091
+      - nacos.address=nacos
+      - nacos.port=8848
+      - seata.address=seata-server
+    jvmFlags:
+      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
-      - zookeeper:2181
-      - storage-service:20882
+      - nacos:8848
+      - seata-mysql:3306
+      - seata-server:8091
+      - storage-service:20884
       - account-service:20881
       - order-service:20883
     depends_on:
+      - nacos
+      - seata-mysql
+      - seata-server
       - order-service
       - account-service
       - storage-service
