@@ -40,7 +40,7 @@
         <dubbo.version>3.0.7</dubbo.version>
         <seata.version>1.4.2</seata.version>
         <spring.version>4.3.16.RELEASE</spring.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
 
