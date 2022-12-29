@@ -368,8 +368,10 @@ public abstract class BaseClientTest {
         GreeterReply reply = delegate.greetWithAttachment(
                 GreeterRequest.newBuilder().setName("meta").build());
         Assert.assertEquals("hello,meta", reply.getMessage());
-        final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
-        Assert.assertEquals("hello," + value, returned);
+        validUpperHeader(key2, value2);
+    }
+
+    protected void validUpperHeader(String key2, String value2) {
         final String returned2 = (String) RpcContext.getServerContext().getObjectAttachment(key2);
         Assert.assertEquals(value2, returned2);
     }
