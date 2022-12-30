@@ -31,13 +31,13 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.impl;
+package org.apache.dubbo.samples.metrics.prometheus.impl;
 
 import org.apache.dubbo.common.logger.Logger;
 import org.apache.dubbo.common.logger.LoggerFactory;
-import org.apache.dubbo.samples.metrics.prometheus.api.DemoService;
 import org.apache.dubbo.samples.metrics.prometheus.model.Result;
 import org.apache.dubbo.samples.metrics.prometheus.model.User;
+import org.apache.dubbo.samples.metrics.prometheus.api.DemoService;
 
 import com.alibaba.dubbo.rpc.RpcContext;
 
@@ -47,7 +47,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DemoServiceImpl implements DemoService {
 
-    public static final Logger logger = LoggerFactory.getLogger(org.apache.dubbo.samples.metrics.prometheus.impl.DemoServiceImpl.class);
+    public static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);
 
     private String name = "Han MeiMei";
 

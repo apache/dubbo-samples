@@ -31,6 +31,7 @@
         <module>dubbo-samples-configconditionrouter</module>
         <module>dubbo-samples-meshrule-router</module>
         <module>dubbo-samples-metrics</module>
+        <module>dubbo-samples-metrics-prometheus</module>
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-sentinel</module>
         <module>dubbo-samples-servicelevel-override</module>

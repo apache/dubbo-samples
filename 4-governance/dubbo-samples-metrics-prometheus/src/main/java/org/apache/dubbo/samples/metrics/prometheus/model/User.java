@@ -31,22 +31,36 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics;
+package org.apache.dubbo.samples.metrics.prometheus.model;
 
-import org.apache.dubbo.samples.metrics.prometheus.EmbeddedZooKeeper;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.io.Serializable;
 
-import java.util.concurrent.CountDownLatch;
+public class User implements Serializable {
+    private Long id;
+    private String username;
 
-public class MetricsProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
-        context.start();
-
-        System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
+    public User() {
     }
+
+    public User(final Long id, final String username) {
+        this.id = id;
+        this.username = username;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
 }

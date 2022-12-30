@@ -28,5 +28,9 @@
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <dubbo:reference id="demoService" check="true" interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService"/>
+    <dubbo:metrics protocol="prometheus" >
+        <dubbo:aggregation enabled="true"/>
+        <dubbo:prometheus-exporter enabled="true" metrics-port="20889"/>
+    </dubbo:metrics>
 
 </beans>

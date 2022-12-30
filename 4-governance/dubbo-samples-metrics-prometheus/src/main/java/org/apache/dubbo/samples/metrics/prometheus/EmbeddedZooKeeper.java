@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.metrics;
+package org.apache.dubbo.samples.metrics.prometheus;
 
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
@@ -46,7 +46,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * Logger.
      */
-    private static final Logger logger = LoggerFactory.getLogger(org.apache.dubbo.samples.metrics.prometheus.EmbeddedZooKeeper.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmbeddedZooKeeper.class);
 
     /**
      * ZooKeeper client port. This will be determined dynamically upon startup.

@@ -33,8 +33,8 @@
 
 package org.apache.dubbo.samples.metrics;
 
-import org.apache.dubbo.samples.metrics.api.DemoService;
-import org.apache.dubbo.samples.metrics.model.Result;
+import org.apache.dubbo.samples.metrics.prometheus.api.DemoService;
+import org.apache.dubbo.samples.metrics.prometheus.model.Result;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

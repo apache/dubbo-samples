@@ -31,9 +31,8 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics;
+package org.apache.dubbo.samples.metrics.prometheus;
 
-import org.apache.dubbo.samples.metrics.prometheus.EmbeddedZooKeeper;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CountDownLatch;
