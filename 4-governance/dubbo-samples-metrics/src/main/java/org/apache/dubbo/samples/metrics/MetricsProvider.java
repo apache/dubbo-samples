@@ -33,7 +33,7 @@
 
 package org.apache.dubbo.samples.metrics;
 
-import org.apache.dubbo.samples.metrics.prometheus.EmbeddedZooKeeper;
+import org.apache.dubbo.samples.metrics.EmbeddedZooKeeper;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CountDownLatch;

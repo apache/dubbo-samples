@@ -33,8 +33,8 @@
 
 package org.apache.dubbo.samples.metrics.api;
 
-import org.apache.dubbo.samples.metrics.prometheus.model.Result;
-import org.apache.dubbo.samples.metrics.prometheus.model.User;
+import org.apache.dubbo.samples.metrics.model.Result;
+import org.apache.dubbo.samples.metrics.model.User;
 
 import java.util.concurrent.CompletableFuture;
 

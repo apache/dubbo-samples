@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-metrics</artifactId>
+    <artifactId>dubbo-samples-metrics-prometheus</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <name>Dubbo Samples Metrics</name>
