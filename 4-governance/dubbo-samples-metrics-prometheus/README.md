@@ -27,7 +27,7 @@ Dubbo使用开源的[Dubbo Metrics](https://github.com/alibaba/metrics)进行数
 ```xml
  <dubbo:metrics protocol="prometheus">
     <dubbo:aggregation enabled="true"/>
-    <dubbo:prometheus-exporter enabled="true"/>
+    <dubbo:prometheus-exporter enabled="true" metrics-port="20889"/>
 </dubbo:metrics>
 
 ```
@@ -35,7 +35,7 @@ Dubbo使用开源的[Dubbo Metrics](https://github.com/alibaba/metrics)进行数
 提供端监控指标：http://localhost:20888/metrics
 消费端监控指标：http://localhost:20889/metrics
 
-其中，`<dubbo:metrics />`的配置指定了metrics暴露的协议和端口，这些信息会被放在元数据里面，而`<dubbo:provider />`和`<dubbo: consuer />`则在服务端和客户端分别激活了metrics的filter，如果你的服务分别含有服务端和客户端，选择在一端激活就可以。
+其中，`<dubbo:metrics />`的配置指定了metrics暴露的协议和端口，这些信息会被放在元数据里面，而`<dubbo:provider />`和`<dubbo: consumer />`则在服务端和客户端分别激活了metrics的filter，如果你的服务分别含有服务端和客户端，选择在一端激活就可以。
 
 可观测性文档如下链接：
   [https://cn.dubbo.apache.org/zh/docs3-v2/java-sdk/advanced-features-and-usage/observability/](https://cn.dubbo.apache.org/zh/docs3-v2/java-sdk/advanced-features-and-usage/observability/)
