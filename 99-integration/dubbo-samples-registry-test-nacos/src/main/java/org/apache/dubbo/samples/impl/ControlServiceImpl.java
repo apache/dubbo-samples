@@ -28,23 +28,17 @@ import org.apache.dubbo.samples.api.DemoService3;
 
 public class ControlServiceImpl implements ControlService {
 
-    private FrameworkModel frameworkModel;
-
-    public ControlServiceImpl(FrameworkModel frameworkModel) {
-        this.frameworkModel = frameworkModel;
-    }
-
     @Override
     public void exportService(String serviceName) {
         switch (serviceName) {
             case "DemoService1":
-                new Online(frameworkModel).online(DemoService1.class.getName());
+                new Online(FrameworkModel.defaultModel()).online(DemoService1.class.getName());
                 break;
             case "DemoService2":
-                new Online(frameworkModel).online(DemoService2.class.getName());
+                new Online(FrameworkModel.defaultModel()).online(DemoService2.class.getName());
                 break;
             case "DemoService3":
-                new Online(frameworkModel).online(DemoService3.class.getName());
+                new Online(FrameworkModel.defaultModel()).online(DemoService3.class.getName());
                 break;
             default:
                 throw new IllegalArgumentException(serviceName);
@@ -55,13 +49,13 @@ public class ControlServiceImpl implements ControlService {
     public void unExportService(String serviceName) {
         switch (serviceName) {
             case "DemoService1":
-                new Offline(frameworkModel).offline(DemoService1.class.getName());
+                new Offline(FrameworkModel.defaultModel()).offline(DemoService1.class.getName());
                 break;
             case "DemoService2":
-                new Offline(frameworkModel).offline(DemoService2.class.getName());
+                new Offline(FrameworkModel.defaultModel()).offline(DemoService2.class.getName());
                 break;
             case "DemoService3":
-                new Offline(frameworkModel).offline(DemoService3.class.getName());
+                new Offline(FrameworkModel.defaultModel()).offline(DemoService3.class.getName());
                 break;
             default:
                 throw new IllegalArgumentException(serviceName);

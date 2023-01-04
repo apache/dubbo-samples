@@ -56,17 +56,77 @@ services:
     depends_on:
       - nacos-mysql
 
-  app:
+  app1:
     type: app
     basedir: .
-    mainClass: org.apache.dubbo.samples.App
+    mainClass: org.apache.dubbo.samples.App1
     systemProps:
       - nacos.address=nacos
     waitPortsBeforeRun:
       - nacos:8848
     depends_on:
       - nacos
-    checkLog: "dubbo service started"
+    checkLog: "DubboBootstrap awaiting"
+
+  app2:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App2
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app3:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App3
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app4:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App4
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app5:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App5
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
+
+  app6:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.App6
+    systemProps:
+      - nacos.address=nacos
+    waitPortsBeforeRun:
+      - nacos:8848
+    depends_on:
+      - nacos
+    checkLog: "DubboBootstrap awaiting"
 
   test:
     type: test
@@ -79,4 +139,9 @@ services:
       - nacos:8848
     depends_on:
       - nacos
-      - app
+      - app1
+      - app2
+      - app3
+      - app4
+      - app5
+      - app6
