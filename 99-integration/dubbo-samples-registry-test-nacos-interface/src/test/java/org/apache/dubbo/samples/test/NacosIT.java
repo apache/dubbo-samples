@@ -18,6 +18,10 @@
  */
 package org.apache.dubbo.samples.test;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
@@ -26,28 +30,40 @@ import org.apache.dubbo.samples.api.ControlService;
 import org.apache.dubbo.samples.api.DemoService1;
 import org.apache.dubbo.samples.api.DemoService2;
 import org.apache.dubbo.samples.api.DemoService3;
-
 import org.awaitility.Awaitility;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
 public class NacosIT {
+    @Before
+    public void setup() {
+        DubboBootstrap.reset();
+        FrameworkModel.destroyAll();
+    }
+
+    @After
+    public void teardown() {
+        DubboBootstrap.reset();
+        FrameworkModel.destroyAll();
+    }
+
     @Test
     public void test() {
         String nacosAddress = "nacos://" + System.getProperty("nacos.address", "127.0.0.1") + ":8848?namingLoadCacheAtStart=false&username=nacos&password=nacos";
 
         ReferenceConfig<DemoService1> referenceConfig1 = new ReferenceConfig<>();
         referenceConfig1.setInterface(DemoService1.class);
+        referenceConfig1.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService2> referenceConfig2 = new ReferenceConfig<>();
         referenceConfig2.setInterface(DemoService2.class);
+        referenceConfig2.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService3> referenceConfig3 = new ReferenceConfig<>();
         referenceConfig3.setInterface(DemoService3.class);
+        referenceConfig3.setLoadbalance("roundrobin");
 
         RegistryConfig registryConfig = new RegistryConfig(nacosAddress);
 
@@ -227,12 +243,15 @@ public class NacosIT {
 
         ReferenceConfig<DemoService1> referenceConfig1 = new ReferenceConfig<>();
         referenceConfig1.setInterface(DemoService1.class);
+        referenceConfig1.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService2> referenceConfig2 = new ReferenceConfig<>();
         referenceConfig2.setInterface(DemoService2.class);
+        referenceConfig2.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService3> referenceConfig3 = new ReferenceConfig<>();
         referenceConfig3.setInterface(DemoService3.class);
+        referenceConfig3.setLoadbalance("roundrobin");
 
         RegistryConfig registryConfig = new RegistryConfig(nacosAddress);
 
