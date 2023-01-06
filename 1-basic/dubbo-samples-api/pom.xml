@@ -29,7 +29,7 @@
     <description>Dubbo Samples Api</description>
 
     <properties>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <spring.version>4.3.29.RELEASE</spring.version>
         <dubbo.version>3.0.7</dubbo.version>
         <junit.version>4.13.1</junit.version>
     </properties>
