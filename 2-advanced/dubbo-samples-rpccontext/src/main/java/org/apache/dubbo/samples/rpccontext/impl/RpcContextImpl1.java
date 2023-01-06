@@ -29,10 +29,6 @@ import org.apache.dubbo.samples.rpccontext.dto.Service2DTO;
 import org.apache.dubbo.samples.rpccontext.utils.RpcContextUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Service
 @Component("demoService")

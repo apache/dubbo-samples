@@ -20,14 +20,10 @@
 package org.apache.dubbo.samples.rpccontext.impl;
 
 import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.rpccontext.api.RpcContextService1;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService2;
 import org.apache.dubbo.samples.rpccontext.dto.Service2DTO;
 import org.apache.dubbo.samples.rpccontext.utils.RpcContextUtils;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Service
 public class RpcContextImpl2 implements RpcContextService2 {
