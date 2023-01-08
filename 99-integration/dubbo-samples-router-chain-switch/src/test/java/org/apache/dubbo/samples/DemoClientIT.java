@@ -16,9 +16,12 @@
  */
 package org.apache.dubbo.samples;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.utils.NetUtils;
 import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.MetadataReportConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -27,38 +30,45 @@ import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.rpc.model.ModuleModel;
 import org.apache.dubbo.samples.api.GreetingService;
 import org.apache.dubbo.samples.provider.GreetingServiceImpl;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DemoClientIT {
 
     @Test
     public void testInterfaceDiscovery() throws InterruptedException {
         ApplicationModel applicationModel = ApplicationModel.defaultModel();
-        applicationModel.getApplicationConfigManager().setApplication(new ApplicationConfig("first-dubbo-consumer"));
+        ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-consumer");
+        applicationConfig.setRegisterMode("interface");
+        applicationModel.getApplicationConfigManager().setApplication(applicationConfig);
         ModuleModel moduleModel = applicationModel.newModule();
         String zookeeperAddress = System.getProperty("zookeeper.address", "127.0.0.1");
 
         ReferenceConfig<GreetingService> reference = new ReferenceConfig<>(moduleModel);
         reference.setInterface(GreetingService.class);
         reference.setRegistry(new RegistryConfig(
+                "zookeeper://" + zookeeperAddress + ":" + "2181?file.cache=false&registry-protocol-type=mock-registry-protocol"));
+        reference.setMetadataReportConfig(new MetadataReportConfig(
                 "zookeeper://" + zookeeperAddress + ":" + "2181?file.cache=false"));
+
         GreetingService service = reference.get();
 
         AtomicBoolean stop = new AtomicBoolean(false);
 
-        new Thread(() -> {
-            while (!stop.get()) {
-                try {
-                    service.sayHi();
-                } catch (Exception e) {
-                    e.printStackTrace();
+        for (int i = 0; i < 32; i++) {
+            new Thread(() -> {
+                while (!stop.get()) {
+                    try {
+                        service.sayHi();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }).start();
+            }).start();
+        }
+
+        LongWaitRouter.setEnd(false);
+        MockRegistryDirectory.getShouldWait().set(true);
 
         ServiceConfig<GreetingService> serviceConfig = new ServiceConfig<>(moduleModel);
         serviceConfig.setInterface(GreetingService.class);
@@ -76,7 +86,8 @@ public class DemoClientIT {
             Assert.assertFalse(LongWaitRouter.isFoundFailed());
         } finally {
             stop.set(true);
-            LongWaitRouter.setEnd();
+            LongWaitRouter.setEnd(true);
+            MockRegistryDirectory.getShouldWait().set(false);
         }
     }
 

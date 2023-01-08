@@ -16,6 +16,10 @@
  */
 package org.apache.dubbo.samples;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.utils.Holder;
 import org.apache.dubbo.rpc.Invocation;
@@ -25,10 +29,6 @@ import org.apache.dubbo.rpc.cluster.router.RouterSnapshotNode;
 import org.apache.dubbo.rpc.cluster.router.state.AbstractStateRouter;
 import org.apache.dubbo.rpc.cluster.router.state.BitList;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
-
 public class LongWaitRouter<T> extends AbstractStateRouter<T> {
     public LongWaitRouter(URL url) {
         super(url);
@@ -37,7 +37,7 @@ public class LongWaitRouter<T> extends AbstractStateRouter<T> {
     private final AtomicReference<BitList<Invoker<T>>> expectedInvokers = new AtomicReference<>();
 
     private static final AtomicBoolean foundFailed = new AtomicBoolean(false);
-    private static final AtomicBoolean end = new AtomicBoolean(false);
+    private static final AtomicBoolean end = new AtomicBoolean(true);
 
     private static final AtomicInteger invokeCount = new AtomicInteger(0);
 
@@ -73,7 +73,7 @@ public class LongWaitRouter<T> extends AbstractStateRouter<T> {
         return foundFailed.get();
     }
 
-    public static void setEnd() {
-        end.set(true);
+    public static void setEnd(boolean end) {
+        LongWaitRouter.end.set(end);
     }
 }

@@ -17,6 +17,8 @@
 
 package org.apache.dubbo.samples.provider;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
@@ -26,8 +28,6 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.samples.api.GreetingService;
 import org.apache.dubbo.samples.zookeeper.EmbeddedZooKeeper;
-
-import java.util.concurrent.CountDownLatch;
 
 public class Application {
 
@@ -39,7 +39,8 @@ public class Application {
             FrameworkModel frameworkModel = new FrameworkModel();
 
             ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-provider");
-            applicationConfig.setMetadataType("remote");
+            applicationConfig.setMetadataType("interface");
+            applicationConfig.setRegisterMode("instance");
 
             ServiceConfig<GreetingService> service = new ServiceConfig<>();
             service.setInterface(GreetingService.class);
@@ -59,6 +60,7 @@ public class Application {
 
             ApplicationConfig applicationConfig = new ApplicationConfig("second-dubbo-provider");
             applicationConfig.setMetadataType("remote");
+            applicationConfig.setRegisterMode("interface");
 
             ServiceConfig<GreetingService> service = new ServiceConfig<>();
             service.setInterface(GreetingService.class);
