@@ -30,5 +30,6 @@
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181?delay-notification=0"/>
 
     <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService"/>
+    <dubbo:reference id="demoService2" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService2"/>
 
 </beans>

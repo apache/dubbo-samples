@@ -17,22 +17,23 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.governance.impl;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import java.util.concurrent.CountDownLatch;
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.governance.api.DemoService2;
 
-public class BasicProvider {
+public class DemoService2Impl implements DemoService2 {
+    private static AtomicInteger count = new AtomicInteger(0);
 
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider-20880.xml");
-        context.start();
-
-        System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
+    @Override
+    public String sayHello(String name) {
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +
+                ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress() +
+                ", count: " + count.incrementAndGet();
     }
-
 }

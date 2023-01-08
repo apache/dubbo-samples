@@ -29,7 +29,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <dubbo.consumer.version>2.7.13</dubbo.consumer.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>

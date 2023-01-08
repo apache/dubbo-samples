@@ -25,14 +25,19 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <context:property-placeholder/>
 
-    <dubbo:application name="governance-appoverride-provider"/>
+    <dubbo:application name="governance-tagrouter-provider"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+
     <dubbo:provider token="true"/>
-    <dubbo:protocol name="dubbo" port="${dubbo.port:20880}"/>
+
+    <dubbo:protocol name="dubbo" port="${dubbo.port:20881}" heartbeat="10000"/>
+
+    <dubbo:config-center highest-priority="false" address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl"/>
-    <bean id="demoService2" class="org.apache.dubbo.samples.governance.impl.DemoService2Impl"/>
     <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService" ref="demoService"/>
+
+    <bean id="demoService2" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl2"/>
     <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService2" ref="demoService2"/>
 </beans>

@@ -28,7 +28,7 @@
     <description>The demo consumer module of dubbo project</description>
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencies>

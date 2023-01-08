@@ -17,22 +17,10 @@
  *
  */
 
-package org.apache.dubbo.samples.governance;
+package org.apache.dubbo.samples.governance.api;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public interface DemoService2 {
 
-import java.util.concurrent.CountDownLatch;
-
-public class BasicProvider {
-
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider-20880.xml");
-        context.start();
-
-        System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
-    }
+    String sayHello(String name);
 
 }

@@ -43,7 +43,7 @@
         <target.level>1.8</target.level>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <dubbo.version>2.7.13</dubbo.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
     </properties>
 
