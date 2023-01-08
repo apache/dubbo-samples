@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring/dubbo-demo-provider.xml"})
+@ContextConfiguration(locations = {"classpath:/spring/dubbo-demo-consumer.xml"})
 public class ConsumerMetricsTest {
 
 
