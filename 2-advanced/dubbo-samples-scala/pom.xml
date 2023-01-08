@@ -31,10 +31,10 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <spring.version>4.3.29.RELEASE</spring.version>
         <dubbo.version>3.0.7</dubbo.version>
         <scala.version>2.12.5</scala.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
