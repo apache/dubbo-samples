@@ -32,5 +32,7 @@
     <dubbo:protocol name="dubbo" port="${dubbo.port:20880}"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl"/>
+    <bean id="demoService2" class="org.apache.dubbo.samples.governance.impl.DemoService2Impl"/>
     <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService2" ref="demoService2"/>
 </beans>
