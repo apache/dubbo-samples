@@ -46,7 +46,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * Logger.
      */
-    private static final Logger logger = LoggerFactory.getLogger(org.apache.dubbo.samples.metrics.EmbeddedZooKeeper.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmbeddedZooKeeper.class);
 
     /**
      * ZooKeeper client port. This will be determined dynamically upon startup.

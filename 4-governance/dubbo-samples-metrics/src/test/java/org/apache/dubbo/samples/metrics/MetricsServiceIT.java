@@ -20,7 +20,7 @@ package org.apache.dubbo.samples.metrics;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.monitor.MetricsService;
-import org.apache.dubbo.samples.metrics.prometheus.api.DemoService;
+import org.apache.dubbo.samples.metrics.api.DemoService;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

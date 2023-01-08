@@ -47,7 +47,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class DemoServiceImpl implements DemoService {
 
-    public static final Logger logger = LoggerFactory.getLogger(org.apache.dubbo.samples.metrics.impl.DemoServiceImpl.class);
+    public static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);
 
     private String name = "Han MeiMei";
 
