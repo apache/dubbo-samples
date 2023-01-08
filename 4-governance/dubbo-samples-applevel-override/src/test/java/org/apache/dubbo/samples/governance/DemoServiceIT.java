@@ -202,6 +202,9 @@ public class DemoServiceIT {
                             })) {
                         match.set(false);
                     }
+                    if (directory.getAllInvokers().size() != 2) {
+                        match.set(false);
+                    }
                 });
         return match.get();
     }
