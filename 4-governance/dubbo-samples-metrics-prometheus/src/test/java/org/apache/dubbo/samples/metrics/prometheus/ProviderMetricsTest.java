@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @ContextConfiguration(locations = {"classpath:/spring/dubbo-demo-provider.xml"})
 public class ProviderMetricsTest {
 
-    private  final String port = "20889";
+    private  final String port = "20888";
 
     @Test
     public void test() throws Exception {

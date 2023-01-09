@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class ConsumerMetricsTest {
 
 
-    private final String port = "20888";
+    private final String port = "20889";
 
     @Test
     public void test() throws Exception {
