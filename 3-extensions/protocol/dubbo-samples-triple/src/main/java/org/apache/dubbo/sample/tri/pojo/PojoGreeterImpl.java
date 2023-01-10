@@ -20,10 +20,11 @@ package org.apache.dubbo.sample.tri.pojo;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.sample.tri.Greeter;
+import org.apache.dubbo.sample.tri.api.ChildPojo;
+import org.apache.dubbo.sample.tri.api.ParentPojo;
 import org.apache.dubbo.sample.tri.api.PojoGreeter;
 import org.apache.dubbo.sample.tri.stub.GreeterImpl;
 import org.apache.dubbo.sample.tri.util.EchoStreamObserver;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,14 @@ public class PojoGreeterImpl implements PojoGreeter {
 
     public PojoGreeterImpl() {
         this.delegate = new GreeterImpl("tri-wrap");
+    }
+
+    @Override
+    public ParentPojo greetChildPojo(Byte test) {
+        ChildPojo childPojo = new ChildPojo();
+        childPojo.setChild("test");
+        childPojo.setParent("test");
+        return childPojo;
     }
 
     @Override
@@ -79,7 +88,7 @@ public class PojoGreeterImpl implements PojoGreeter {
 
     @Override
     public String greetWithAttachment(String request) {
-        LOGGER.info("{} Received request attachments:{}", "",RpcContext.getServerAttachment().getObjectAttachments());
+        LOGGER.info("{} Received request attachments:{}", "", RpcContext.getServerAttachment().getObjectAttachments());
         RpcContext.getServerContext().setAttachment("str", "str")
                 .setAttachment("integer", 1)
                 .setAttachment("raw", new byte[]{1, 2, 3, 4});

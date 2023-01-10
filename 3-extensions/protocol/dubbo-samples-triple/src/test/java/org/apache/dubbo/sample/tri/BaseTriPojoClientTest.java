@@ -21,9 +21,9 @@ import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.sample.tri.api.ParentPojo;
 import org.apache.dubbo.sample.tri.api.PojoGreeter;
 import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
@@ -65,6 +65,15 @@ public abstract class BaseTriPojoClientTest {
     @Test
     public void greetUnary() {
         Assert.assertEquals("hello,unary", delegate.greet("unary"));
+    }
+
+    @Test
+    public void greetChildPojo() {
+        Byte byte1 = Byte.valueOf("1");
+
+        ParentPojo childPojo = delegate.greetChildPojo(byte1);
+
+        Assert.assertEquals(byte1, childPojo.getByte1());
     }
 
     @Test
