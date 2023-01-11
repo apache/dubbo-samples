@@ -31,29 +31,36 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics;
+package org.apache.dubbo.samples.metrics.prometheus.model;
 
+import java.io.Serializable;
 
-import org.apache.dubbo.samples.metrics.api.DemoService;
-import org.apache.dubbo.samples.metrics.model.Result;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class User implements Serializable {
+    private Long id;
+    private String username;
 
-public class MetricsConsumer {
-
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
-        context.start();
-
-        DemoService demoService = context.getBean("demoService", DemoService.class);
-
-        while (true) {
-            try {
-                Thread.sleep(3000);
-                Result hello = demoService.sayHello("world");
-                System.out.println(hello.getMsg());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    public User() {
     }
+
+    public User(final Long id, final String username) {
+        this.id = id;
+        this.username = username;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
 }

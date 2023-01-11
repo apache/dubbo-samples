@@ -31,29 +31,21 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics;
+package org.apache.dubbo.samples.metrics.prometheus.api;
 
+import org.apache.dubbo.samples.metrics.prometheus.model.Result;
+import org.apache.dubbo.samples.metrics.prometheus.model.User;
 
-import org.apache.dubbo.samples.metrics.api.DemoService;
-import org.apache.dubbo.samples.metrics.model.Result;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.concurrent.CompletableFuture;
 
-public class MetricsConsumer {
+public interface DemoService {
+    CompletableFuture<Integer> sayHello();
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
-        context.start();
+    Result sayHello(String name);
 
-        DemoService demoService = context.getBean("demoService", DemoService.class);
+    Result sayHello(Long id, String name);
 
-        while (true) {
-            try {
-                Thread.sleep(3000);
-                Result hello = demoService.sayHello("world");
-                System.out.println(hello.getMsg());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    Result sayHello(User user);
+
+    String stringArray(String[] bytes);
 }

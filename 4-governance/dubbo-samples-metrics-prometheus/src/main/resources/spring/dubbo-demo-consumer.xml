@@ -23,17 +23,14 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <context:property-placeholder/>
 
-    <dubbo:application name="metrics-provider"/>
+    <dubbo:application name="metrics-demo-consumer"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
-    <dubbo:config-center address="zookeeper://${zookeepr.address:127.0.0.1}:2181" />
-    <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
 
+    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService"/>
+    <dubbo:metrics protocol="prometheus" enable-jvm-metrics="true">
+        <dubbo:aggregation enabled="true"/>
+        <dubbo:prometheus-exporter enabled="true" metrics-port="20889"/>
+    </dubbo:metrics>
 
-    <dubbo:metrics port="20880" protocol="dubbo"/>
-    <dubbo:provider filter="metrics" />
-
-    <bean id="demoService" class="org.apache.dubbo.samples.metrics.impl.DemoServiceImpl"/>
-
-    <dubbo:service interface="org.apache.dubbo.samples.metrics.api.DemoService" ref="demoService"/>
 </beans>

@@ -31,29 +31,21 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics;
+package org.apache.dubbo.samples.metrics.prometheus;
 
-
-import org.apache.dubbo.samples.metrics.api.DemoService;
-import org.apache.dubbo.samples.metrics.model.Result;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class MetricsConsumer {
+import java.util.concurrent.CountDownLatch;
 
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
+public class MetricsProvider {
+
+    public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
         context.start();
 
-        DemoService demoService = context.getBean("demoService", DemoService.class);
-
-        while (true) {
-            try {
-                Thread.sleep(3000);
-                Result hello = demoService.sayHello("world");
-                System.out.println(hello.getMsg());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 }
