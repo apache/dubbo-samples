@@ -33,7 +33,7 @@
     <dubbo:metrics port="20880" protocol="dubbo"/>
     <dubbo:provider filter="metrics" />
 
-    <bean id="demoService" class="org.apache.dubbo.samples.metrics.prometheus.impl.DemoServiceImpl"/>
+    <bean id="demoService" class="org.apache.dubbo.samples.metrics.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.metrics.api.DemoService" ref="demoService"/>
 </beans>
