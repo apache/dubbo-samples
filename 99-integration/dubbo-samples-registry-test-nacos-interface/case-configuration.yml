@@ -46,9 +46,9 @@ services:
       - MYSQL_SERVICE_USER=nacos
       - MYSQL_SERVICE_PASSWORD=nacos
       - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
-      - JVM_XMS=350m
-      - JVM_XMX=350m
-      - JVM_XMN=150m
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=256m
     expose:
       - 8848
       - 9848
