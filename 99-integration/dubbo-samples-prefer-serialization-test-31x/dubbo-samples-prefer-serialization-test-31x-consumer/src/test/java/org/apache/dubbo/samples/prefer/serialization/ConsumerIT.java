@@ -16,11 +16,7 @@
  */
 package org.apache.dubbo.samples.prefer.serialization;
 
-import org.apache.dubbo.common.serialize.fastjson.FastJsonSerialization;
-import org.apache.dubbo.common.serialize.fastjson2.FastJson2Serialization;
-import org.apache.dubbo.common.serialize.gson.GsonSerialization;
-import org.apache.dubbo.common.serialize.hessian2.Hessian2Serialization;
-import org.apache.dubbo.common.serialize.protostuff.ProtostuffSerialization;
+import org.apache.dubbo.common.serialize.Serialization;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -28,7 +24,6 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.samples.prefer.serialization.api.DemoService;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -42,11 +37,11 @@ public class ConsumerIT {
     private static FrameworkModel frameworkModel;
     private static ApplicationModel applicationModel;
 
-    private static final Byte HESSIAN2_SERIALIZATION_ID = new Hessian2Serialization().getContentTypeId();
-    private static final Byte FASTJSON2_SERIALIZATION_ID = new FastJson2Serialization(FrameworkModel.defaultModel()).getContentTypeId();
-    private static final Byte GSON_SERIALIZATION_ID = new GsonSerialization().getContentTypeId();
-    private static final Byte FASTJSON_SERIALIZATION_ID = new FastJsonSerialization().getContentTypeId();
-    private static final Byte PROTOSTUFF_SERIALIZATION_ID = new ProtostuffSerialization().getContentTypeId();
+    private static final Byte HESSIAN2_SERIALIZATION_ID = FrameworkModel.defaultModel().getExtensionLoader(Serialization.class).getExtension("hessian2", false).getContentTypeId();
+    private static final Byte FASTJSON2_SERIALIZATION_ID = FrameworkModel.defaultModel().getExtensionLoader(Serialization.class).getExtension("fastjson2", false).getContentTypeId();
+    private static final Byte GSON_SERIALIZATION_ID = FrameworkModel.defaultModel().getExtensionLoader(Serialization.class).getExtension("gson", false).getContentTypeId();
+    private static final Byte FASTJSON_SERIALIZATION_ID = FrameworkModel.defaultModel().getExtensionLoader(Serialization.class).getExtension("fastjson", false).getContentTypeId();
+    private static final Byte PROTOSTUFF_SERIALIZATION_ID = FrameworkModel.defaultModel().getExtensionLoader(Serialization.class).getExtension("protostuff", false).getContentTypeId();
 
     @BeforeClass
     public static void setup() {
