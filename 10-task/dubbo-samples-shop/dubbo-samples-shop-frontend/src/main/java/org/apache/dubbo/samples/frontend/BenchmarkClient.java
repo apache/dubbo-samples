@@ -95,7 +95,7 @@ public class BenchmarkClient implements CommandLineRunner {
         logger.info("Start CreateItem Bench with 5 Concurrent.");
 
         // SubmitOrder (50 Concurrent)
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             executorService.submit(() -> {
                 while (true) {
                     try {
