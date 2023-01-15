@@ -53,6 +53,8 @@ services:
       - 8848
       - 9848
       - 9555
+    volumes:
+      - ${_basedir}/src/test/resources/nacos-logback-stdout.xml:/home/nacos/conf/nacos-logback.xml
     depends_on:
       - nacos-mysql
 
