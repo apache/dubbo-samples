@@ -23,7 +23,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-context</artifactId>
+    <artifactId>dubbo-samples-rpccontext</artifactId>
     <name>Dubbo Samples Context</name>
     <description>Dubbo Samples Context</description>
 
