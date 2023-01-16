@@ -24,6 +24,8 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.metadata.MetadataConstants;
+import org.apache.dubbo.rpc.model.ApplicationModel;
+import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.samples.api.ControlService;
 import org.apache.dubbo.samples.api.DemoService1;
 import org.apache.dubbo.samples.api.DemoService2;
@@ -34,16 +36,20 @@ import org.apache.dubbo.samples.impl.DemoService2Impl;
 import org.apache.dubbo.samples.impl.DemoService3Impl;
 
 public class App1 {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+        FrameworkModel frameworkModel = new FrameworkModel();
+        ApplicationModel applicationModel = frameworkModel.newApplication();
+
         System.setProperty(MetadataConstants.METADATA_PUBLISH_DELAY_KEY, "10");
         ApplicationConfig applicationConfig = new ApplicationConfig("App1");
         applicationConfig.setRegisterMode("instance");
+        applicationConfig.setQosPort(20991);
 
         RegistryConfig registryConfig = new RegistryConfig();
         String nacosAddress = System.getProperty("nacos.address", "127.0.0.1");
         registryConfig.setAddress("nacos://" + nacosAddress + ":8848?username=nacos&password=nacos");
 
-        ProtocolConfig protocolConfig = new ProtocolConfig("dubbo", -1);
+        ProtocolConfig protocolConfig = new ProtocolConfig("dubbo", 20881);
 
         ServiceConfig<DemoService1> serviceConfig1 = new ServiceConfig<>();
         serviceConfig1.setInterface(DemoService1.class);
@@ -61,10 +67,10 @@ public class App1 {
 
         ServiceConfig<ControlService> serviceConfig = new ServiceConfig<>();
         serviceConfig.setInterface(ControlService.class);
-        serviceConfig.setRef(new ControlServiceImpl());
+        serviceConfig.setRef(new ControlServiceImpl(frameworkModel));
         serviceConfig.setVersion("App1");
 
-        DubboBootstrap.getInstance()
+        DubboBootstrap.getInstance(applicationModel)
                 .application(applicationConfig)
                 .registry(registryConfig)
                 .protocol(protocolConfig)
@@ -72,7 +78,6 @@ public class App1 {
                 .service(serviceConfig1)
                 .service(serviceConfig2)
                 .service(serviceConfig3)
-                .start()
-                .await();
+                .start();
     }
 }

@@ -45,7 +45,7 @@ services:
       - MYSQL_SERVICE_PORT=3306
       - MYSQL_SERVICE_USER=nacos
       - MYSQL_SERVICE_PASSWORD=nacos
-      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=10000&socketTimeout=30000&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
@@ -58,77 +58,17 @@ services:
     depends_on:
       - nacos-mysql
 
-  app1:
+  app:
     type: app
     basedir: .
-    mainClass: org.apache.dubbo.samples.App1
+    mainClass: org.apache.dubbo.samples.App
     systemProps:
       - nacos.address=nacos
     waitPortsBeforeRun:
       - nacos:8848
     depends_on:
       - nacos
-    checkLog: "DubboBootstrap awaiting"
-
-  app2:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.App2
-    systemProps:
-      - nacos.address=nacos
-    waitPortsBeforeRun:
-      - nacos:8848
-    depends_on:
-      - nacos
-    checkLog: "DubboBootstrap awaiting"
-
-  app3:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.App3
-    systemProps:
-      - nacos.address=nacos
-    waitPortsBeforeRun:
-      - nacos:8848
-    depends_on:
-      - nacos
-    checkLog: "DubboBootstrap awaiting"
-
-  app4:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.App4
-    systemProps:
-      - nacos.address=nacos
-    waitPortsBeforeRun:
-      - nacos:8848
-    depends_on:
-      - nacos
-    checkLog: "DubboBootstrap awaiting"
-
-  app5:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.App5
-    systemProps:
-      - nacos.address=nacos
-    waitPortsBeforeRun:
-      - nacos:8848
-    depends_on:
-      - nacos
-    checkLog: "DubboBootstrap awaiting"
-
-  app6:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.App6
-    systemProps:
-      - nacos.address=nacos
-    waitPortsBeforeRun:
-      - nacos:8848
-    depends_on:
-      - nacos
-    checkLog: "DubboBootstrap awaiting"
+    checkLog: "All apps started"
 
   test:
     type: test
@@ -141,9 +81,4 @@ services:
       - nacos:8848
     depends_on:
       - nacos
-      - app1
-      - app2
-      - app3
-      - app4
-      - app5
-      - app6
+      - app
