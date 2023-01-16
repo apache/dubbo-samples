@@ -26,7 +26,7 @@
     <dubbo:application name="metrics-provider"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
-    <dubbo:config-center address="zookeeper://${zookeepr.address:127.0.0.1}:2181" />
+    <dubbo:config-center address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
     <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
 
     <dubbo:metrics protocol="prometheus" enable-jvm-metrics="true">
