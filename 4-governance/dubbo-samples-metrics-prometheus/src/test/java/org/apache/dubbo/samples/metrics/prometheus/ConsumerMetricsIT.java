@@ -34,10 +34,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring/dubbo-demo-provider.xml"})
-public class ProviderMetricsTest {
+@ContextConfiguration(locations = {"classpath:/spring/dubbo-demo-consumer.xml"})
+public class ConsumerMetricsIT {
 
-    private  final String port = "20888";
+
+    private final String port = "20889";
 
     @Test
     public void test() throws Exception {
@@ -48,7 +49,7 @@ public class ProviderMetricsTest {
             String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
             Assert.assertTrue(text.contains("jvm_gc_memory_promoted_bytes_total"));
         } catch (Exception e) {
-            Assert.fail(e.getMessage());
+           Assert.fail(e.getMessage());
         }
     }
 }
