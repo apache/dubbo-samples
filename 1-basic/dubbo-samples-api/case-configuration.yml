@@ -20,4 +20,4 @@ props:
   project_name: dubbo-samples-api
   main_class: org.apache.dubbo.samples.provider.Application
   dubbo_port: 20880
-
+  check_log: "DubboBootstrap awaiting ..."

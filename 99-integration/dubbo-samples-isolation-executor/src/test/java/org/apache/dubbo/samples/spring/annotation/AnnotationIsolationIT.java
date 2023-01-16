@@ -16,6 +16,9 @@
  */
 package org.apache.dubbo.samples.spring.annotation;
 
+import java.util.Map;
+import java.util.concurrent.Executor;
+
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -24,15 +27,11 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.spring.BaseTest;
 import org.apache.dubbo.samples.spring.support.DemoServiceExecutor;
 import org.apache.dubbo.samples.spring.support.HelloServiceExecutor;
-
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Map;
-import java.util.concurrent.Executor;
 
 import static org.apache.dubbo.common.constants.CommonConstants.EXECUTOR_MANAGEMENT_MODE_ISOLATION;
 
@@ -55,8 +54,8 @@ public class AnnotationIsolationIT extends BaseTest {
         assertExecutor(providerContext, consumerContext);
 
         // close context
-        providerContext.close();
         consumerContext.close();
+        providerContext.close();
 
     }
 
