@@ -34,6 +34,9 @@
         <module>dubbo-samples-metadata-report</module>
         <module>dubbo-samples-mybatis</module>
         <module>dubbo-samples-nacos-merge</module>
+        <module>dubbo-samples-registry-test-nacos</module>
+        <module>dubbo-samples-registry-test-nacos-interface</module>
+        <module>dubbo-samples-registry-test-nacos-instance</module>
         <module>dubbo-samples-port-unification-netty3</module>
         <module>dubbo-samples-prefer-serialization-test</module>
         <module>dubbo-samples-prefer-serialization-test-31x</module>
