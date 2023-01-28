@@ -41,5 +41,6 @@
         <module>dubbo-samples-tagrouter</module>
         <module>dubbo-samples-tracing</module>
         <module>dubbo-samples-zipkin</module>
+        <module>dubbo-samples-spring-boot3-tracing</module>
     </modules>
 </project>
