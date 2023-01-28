@@ -30,9 +30,9 @@ dubbo:
     name: dubbo
     port: -1
   registry:
-    id: zk-registry
-    address: nacos://124.222.60.243:8848
+    id: nacos-registry
+    address: nacos://127.0.0.1:8848
   config-center:
-    address: nacos://124.222.60.243:8848
+    address: nacos://127.0.0.1:8848
   metadata-report:
-    address: nacos://124.222.60.243:8848
+    address: nacos://127.0.0.1:8848
