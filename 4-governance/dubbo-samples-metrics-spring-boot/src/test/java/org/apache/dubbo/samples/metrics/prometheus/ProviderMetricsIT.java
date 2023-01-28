@@ -37,12 +37,12 @@ import java.util.stream.Collectors;
 @SpringBootTest(classes = {org.apache.dubbo.samples.metrics.springboot.MetricsApplication.class})
 public class ProviderMetricsIT {
 
-    private final String port = "20888";
+    private final String port = "8081";
 
     @Test
     public void test() throws Exception {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet("http://localhost:" + port + "/metrics");
+            HttpGet request = new HttpGet("http://localhost:" + port + "/management/prometheus");
             CloseableHttpResponse response = client.execute(request);
             InputStream inputStream = response.getEntity().getContent();
             String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
