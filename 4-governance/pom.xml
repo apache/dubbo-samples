@@ -39,6 +39,7 @@
         <module>dubbo-samples-spring-hystrix</module>
         <module>dubbo-samples-ssl</module>
         <module>dubbo-samples-tagrouter</module>
+        <module>dubbo-samples-tagrouter-static</module>
         <module>dubbo-samples-zipkin</module>
     </modules>
 </project>
