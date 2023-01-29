@@ -17,8 +17,8 @@
 from: app-builtin-zookeeper.yml
 
 props:
-  project_name: dubbo-samples-metrics-prometheus
-  main_class: org.apache.dubbo.samples.metrics.prometheus.MetricsProvider
+  project_name: dubbo-samples-metrics-spring-boot
+  main_class: org.apache.dubbo.samples.metrics.springboot.MetricsApplication
   zookeeper_port: 2181
   dubbo_port: 20880
 
