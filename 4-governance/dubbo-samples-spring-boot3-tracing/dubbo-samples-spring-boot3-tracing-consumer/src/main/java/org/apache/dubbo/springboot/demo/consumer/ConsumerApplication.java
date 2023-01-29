@@ -21,7 +21,8 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.springboot.demo.DemoService;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -32,7 +33,7 @@ import org.springframework.stereotype.Service;
 @EnableDubbo
 public class ConsumerApplication {
 
-    private static final Logger LOGGER = Logger.getLogger(ConsumerApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerApplication.class);
 
     @DubboReference
     private DemoService demoService;
@@ -41,7 +42,7 @@ public class ConsumerApplication {
         ConfigurableApplicationContext context = SpringApplication.run(ConsumerApplication.class, args);
         ConsumerApplication application = context.getBean(ConsumerApplication.class);
         String result = application.doSayHello("world");
-        LOGGER.info("result: " + result);
+        LOGGER.info("result: {}", result);
     }
 
     public String doSayHello(String name) {

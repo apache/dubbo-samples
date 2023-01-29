@@ -21,16 +21,17 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.springboot.demo.DemoService;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @DubboService
 public class DemoServiceImpl implements DemoService {
 
-    private static final Logger LOGGER = Logger.getLogger(DemoServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DemoServiceImpl.class);
 
     @Override
     public String sayHello(String name) {
-        LOGGER.info("Hello " + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        LOGGER.info("Hello {}, request from consumer: {}", name, RpcContext.getContext().getRemoteAddress());
         return "Hello " + name;
     }
 
