@@ -18,13 +18,14 @@
 package org.apache.dubbo.samples.client;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.api.GreetingsService;
 
-public class Application {
+public class AlwaysApplication {
     private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
     private static final String ZOOKEEPER_PORT = System.getProperty("zookeeper.port", "2181");
     private static final String ZOOKEEPER_ADDRESS = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
@@ -40,10 +41,15 @@ public class Application {
                 .start();
 
         GreetingsService service = reference.get();
-        String message = service.sayHi("dubbo");
-        System.out.println("Receive result ======> " + message);
-        System.in.read();
-        System.exit(0);
+        while (true) {
+            try {
+                String message = service.sayHi("dubbo");
+                System.out.println(new Date() + " Receive result ======> " + message);
+                Thread.sleep(1000);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
     }
 
 }
