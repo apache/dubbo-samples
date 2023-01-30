@@ -167,7 +167,6 @@
                     <target>${target.level}</target>
                 </configuration>
             </plugin>
-            <!-- 将依赖包放到lib文件夹中 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -186,7 +185,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
