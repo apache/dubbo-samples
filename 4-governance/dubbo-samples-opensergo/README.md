@@ -4,7 +4,7 @@
 > it will start an zookeeper and register two service with dubbo port 20880
 2. step2 run `BasicProviderOtherPort.java`
 > it will register another two service with dubbo port 20881
-3. step2 Start OpenSergoControlPlane and apply traffic config
+3. step3 Start OpenSergoControlPlane and apply traffic config
 [First start OpenSergo control plane](https://opensergo.io/docs/quick-start/opensergo-control-plane/) , Then we publish the label routing rules through the OpenSergo control plane. We publish a TrafficRouter rule.
 ```YAML
 kubectl apply -f - << EOF
