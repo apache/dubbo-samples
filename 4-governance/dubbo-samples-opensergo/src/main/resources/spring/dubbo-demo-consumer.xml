@@ -31,6 +31,10 @@
 
     <dubbo:config-center highest-priority="false" address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
+    <dubbo:consumer>
+        <dubbo:parameter key="opensergo.host" value="127.0.0.1"/>
+    </dubbo:consumer>
+
     <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService"/>
     <dubbo:reference id="demoService2" check="false" interface="org.apache.dubbo.samples.governance.api.DemoService2"/>
 

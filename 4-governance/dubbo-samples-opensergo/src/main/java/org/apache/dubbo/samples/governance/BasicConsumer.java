@@ -36,10 +36,9 @@ public class BasicConsumer {
         DemoService demoService = context.getBean("demoService", DemoService.class);
         DemoService2 demoService2 = context.getBean("demoService2", DemoService2.class);
 
-        RpcContext.getContext().setAttachment("x-mse-tag", "v3");
+        RpcContext.getContext().setAttachment("x-opensergo-tag", "v3");
         String hello = demoService.sayHello("world");
-
-//        System.out.println(hello);
+        System.out.println(hello);
 
         String hello2 = demoService2.sayHello("world again");
         System.out.println(hello2);
