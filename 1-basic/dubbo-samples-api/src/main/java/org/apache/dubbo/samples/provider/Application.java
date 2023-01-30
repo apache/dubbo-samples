@@ -17,6 +17,7 @@
 
 package org.apache.dubbo.samples.provider;
 
+import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
@@ -35,6 +36,7 @@ public class Application {
         DubboBootstrap.getInstance()
                 .application("first-dubbo-provider")
                 .registry(new RegistryConfig(ZOOKEEPER_ADDRESS))
+                .protocol(new ProtocolConfig("dubbo", -1))
                 .service(service)
                 .start()
                 .await();
