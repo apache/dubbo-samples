@@ -14,29 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.seata;
+package org.apache.dubbo.samples.extensibility.filter.api;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+public interface ExtensibilityFilterService {
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import javax.sql.DataSource;
-
-@EnableDubbo
-@SpringBootApplication
-public class OrderApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(dataSource);
-        return jdbcTemplate;
-    }
+    String sayHello(String name);
 }
