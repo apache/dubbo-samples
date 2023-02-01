@@ -14,29 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.seata;
+package org.apache.dubbo.samples.extensibility.filter.consumer;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.samples.extensibility.filter.api.ExtensibilityFilterService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
+@Component
+public class ExtensibilityFilterConsumerTask implements CommandLineRunner {
+    @DubboReference
+    private ExtensibilityFilterService extensibilityFilterService;
 
-import javax.sql.DataSource;
-
-@EnableDubbo
-@SpringBootApplication
-public class OrderApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(dataSource);
-        return jdbcTemplate;
+    @Override
+    public void run(String... args) {
+        System.out.println("Dubbo Remote Return ======> " + this.extensibilityFilterService.sayHello("dubbo"));
     }
 }

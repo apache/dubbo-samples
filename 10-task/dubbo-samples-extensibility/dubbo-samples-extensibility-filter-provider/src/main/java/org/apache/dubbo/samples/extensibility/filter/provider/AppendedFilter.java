@@ -14,29 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.seata;
+package org.apache.dubbo.samples.extensibility.filter.provider;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.rpc.Filter;
+import org.apache.dubbo.rpc.Result;
+import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.Invocation;
+import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.AsyncRpcResult;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
+public class AppendedFilter implements Filter {
 
-import javax.sql.DataSource;
-
-@EnableDubbo
-@SpringBootApplication
-public class OrderApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(dataSource);
-        return jdbcTemplate;
+    @Override
+    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+        Result result= invoker.invoke(invocation);
+        // Obtain the returned value
+        Result appResponse = ((AsyncRpcResult) result).getAppResponse();
+        // Appended value
+        appResponse.setValue(appResponse.getValue()+"'s customized AppendedFilter");
+        return result;
     }
 }
