@@ -17,8 +17,8 @@
 
 package org.apache.dubbo.samples.metrics.springboot;
 
-import org.apache.dubbo.common.metrics.collector.DefaultMetricsCollector;
 import org.apache.dubbo.common.utils.Assert;
+import org.apache.dubbo.metrics.collector.DefaultMetricsCollector;
 import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
