@@ -42,7 +42,7 @@ public class GenericImpl implements GenericService {
                     Class<?>[] pts = m.getParameterTypes();
                     result.set(m.invoke(target, PojoUtils.realize(args, pts)));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         });

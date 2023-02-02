@@ -46,7 +46,7 @@ public class BeanGenericImpl implements GenericService {
                     }
                     result.set(m.invoke(target, objects));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         });

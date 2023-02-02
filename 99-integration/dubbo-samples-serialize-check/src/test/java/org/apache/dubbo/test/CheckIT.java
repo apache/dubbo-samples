@@ -20,10 +20,12 @@ package org.apache.dubbo.test;
 
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.apache.dubbo.common.beanutil.JavaBeanDescriptor;
 import org.apache.dubbo.common.beanutil.JavaBeanSerializeUtil;
 import org.apache.dubbo.common.utils.PojoUtils;
+import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
@@ -44,8 +46,11 @@ import io.dubbo.test2.OthersSerializable;
 public class CheckIT {
     @BeforeClass
     public static void setup() {
+        ApplicationConfig applicationConfig = new ApplicationConfig();
+        applicationConfig.setSerializeCheckStatus("STRICT");
+        applicationConfig.setName("consumer");
         DubboBootstrap.getInstance()
-                .application("consumer")
+                .application(applicationConfig)
                 .registry(new RegistryConfig("zookeeper://" + System.getProperty("zookeeper.address", "127.0.0.1") + ":2181"))
                 .start();
     }
@@ -255,9 +260,9 @@ public class CheckIT {
         notSerializable.setName("sendNotSerializable");
 
         try {
-            demoService1.requestOtherPackageNotSerializable(notSerializable);
-            Assert.fail();
-        } catch (Throwable t) {
+            Object o = demoService1.requestOtherPackageNotSerializable(notSerializable);
+            Assert.assertTrue(o instanceof Map);
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
@@ -269,16 +274,16 @@ public class CheckIT {
         try {
             demoService1.sendOtherPackageNotSerializable(notSerializable);
             Assert.fail();
-        } catch (Throwable t) {
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
 
     private static void returnOtherNotSerializable(DemoService1 demoService1) {
         try {
-            demoService1.returnOtherPackageNotSerializable();
-            Assert.fail();
-        } catch (Throwable t) {
+            Object o = demoService1.returnOtherPackageNotSerializable();
+            Assert.assertTrue(o instanceof Map);
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
@@ -288,9 +293,9 @@ public class CheckIT {
         othersSerializable.setName("sendNotSerializable");
 
         try {
-            demoService1.requestOtherPackage(othersSerializable);
-            Assert.fail();
-        } catch (Throwable t) {
+            Object o = demoService1.requestOtherPackage(othersSerializable);
+            Assert.assertTrue(o instanceof Map);
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
@@ -302,16 +307,16 @@ public class CheckIT {
         try {
             demoService1.sendOtherPackage(othersSerializable);
             Assert.fail();
-        } catch (Throwable t) {
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
 
     private static void returnOtherPackage(DemoService1 demoService1) {
         try {
-            demoService1.returnOtherPackage();
-            Assert.fail();
-        } catch (Throwable t) {
+            Object o = demoService1.returnOtherPackage();
+            Assert.assertTrue(o instanceof Map);
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
@@ -321,9 +326,9 @@ public class CheckIT {
         notSerializable.setName("sendNotSerializable");
 
         try {
-            demoService1.requestNotSerializable(notSerializable);
-            Assert.fail();
-        } catch (Throwable t) {
+            Object o = demoService1.requestNotSerializable(notSerializable);
+            Assert.assertTrue(o instanceof Map);
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
@@ -335,16 +340,16 @@ public class CheckIT {
         try {
             demoService1.sendNotSerializable(notSerializable);
             Assert.fail();
-        } catch (Throwable t) {
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }
 
     private static void returnNotSerializable(DemoService1 demoService1) {
         try {
-            demoService1.returnNotSerializable();
-            Assert.fail();
-        } catch (Throwable t) {
+            Object o = demoService1.returnNotSerializable();
+            Assert.assertTrue(o instanceof Map);
+        } catch (Exception t) {
             t.printStackTrace();
         }
     }

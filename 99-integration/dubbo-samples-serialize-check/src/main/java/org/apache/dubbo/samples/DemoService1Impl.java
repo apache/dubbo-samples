@@ -18,6 +18,8 @@
  */
 package org.apache.dubbo.samples;
 
+import java.util.Map;
+
 import org.junit.Assert;
 
 import io.dubbo.test2.OthersSerializable;
@@ -88,7 +90,9 @@ public class DemoService1Impl implements DemoService1 {
 
     @Override
     public void sendNotSerializable(NotSerializable notSerializable) {
-        // no-op
+        if (notSerializable instanceof Map) {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
@@ -105,7 +109,9 @@ public class DemoService1Impl implements DemoService1 {
 
     @Override
     public void sendOtherPackage(Object otherPackage) {
-        // no-op
+        if (otherPackage instanceof Map) {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
@@ -122,7 +128,9 @@ public class DemoService1Impl implements DemoService1 {
 
     @Override
     public void sendOtherPackageNotSerializable(Object otherPackageNotSerializable) {
-        // no-op
+        if (otherPackageNotSerializable instanceof Map) {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override

@@ -18,6 +18,7 @@
  */
 package org.apache.dubbo.samples;
 
+import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
@@ -108,8 +109,11 @@ public class Provider {
         serviceConfig12.setGeneric("bean");
         serviceConfig12.setRef(new BeanGenericImpl(new DemoService2Impl()));
 
+        ApplicationConfig applicationConfig = new ApplicationConfig();
+        applicationConfig.setSerializeCheckStatus("STRICT");
+        applicationConfig.setName("provider");
         DubboBootstrap.getInstance()
-                .application("provider")
+                .application(applicationConfig)
                 .registry(new RegistryConfig("zookeeper://" + System.getProperty("zookeeper.address", "127.0.0.1") + ":2181"))
                 .service(serviceConfig1)
                 .service(serviceConfig2)
