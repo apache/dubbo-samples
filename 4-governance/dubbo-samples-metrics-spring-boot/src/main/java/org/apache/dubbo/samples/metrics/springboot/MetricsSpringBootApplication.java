@@ -33,32 +33,19 @@
 
 package org.apache.dubbo.samples.metrics.springboot;
 
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.metrics.springboot.api.DemoService;
-import org.apache.dubbo.samples.metrics.springboot.model.Result;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.ImportResource;
 
 
 @SpringBootApplication(scanBasePackages = { "org.apache.dubbo"})
 @EnableDubbo(scanBasePackages = "org.apache.dubbo")
 @ImportResource("classpath*:spring/dubbo-demo-*.xml")
-public class MetricsApplication  {
-
-
+public class MetricsSpringBootApplication {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-        SpringApplication.run(MetricsApplication.class, args);
+        SpringApplication.run(MetricsSpringBootApplication.class, args);
     }
-
-
-
 }

@@ -15,44 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.prometheus;
+package org.apache.dubbo.samples.metrics.springboot;
 
 import org.apache.dubbo.common.metrics.collector.DefaultMetricsCollector;
-import org.apache.dubbo.common.metrics.model.sample.MetricSample;
+import org.apache.dubbo.common.utils.Assert;
 import org.apache.dubbo.rpc.model.ApplicationModel;
-import org.apache.dubbo.samples.metrics.springboot.EmbeddedZooKeeper;
-import org.apache.dubbo.samples.metrics.springboot.MetricsApplication;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.stream.Collectors;
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {MetricsApplication.class})
-public class ProviderMetricsIT {
+@SpringBootTest(classes = {MetricsSpringBootApplication.class})
+public class ProviderMetricsSpringBootIT {
 
     @Test
     public void test() throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-
         DefaultMetricsCollector bean = ApplicationModel.defaultModel().getBeanFactory().getBean(DefaultMetricsCollector.class);
-        List<MetricSample> collect = bean.collect();
-        collect.forEach(metricSample -> {
-            System.out.println(metricSample);
-        });
+        Assert.notNull(bean,"collector is null");
     }
 }
