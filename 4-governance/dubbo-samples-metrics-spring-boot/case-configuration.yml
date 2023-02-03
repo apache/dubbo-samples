@@ -14,11 +14,43 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+  zookeeper:
+    image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-metrics-spring-boot
-  main_class: org.apache.dubbo.samples.metrics.springboot.MetricsApplication
-  zookeeper_port: 2181
-  dubbo_port: 20880
+  provider:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.metrics.springboot.provider.MetricsProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkLog: "dubbo service started"
+    depends_on:
+      - zookeeper
 
+  consumer:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.metrics.springboot.consumer.MetricsConsumer
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkLog: "dubbo service started"
+    depends_on:
+      - provider
+      - zookeeper
+
+  test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - provider=provider
+      - consumer=consumer
+    depends_on:
+      - provider
+      - consumer

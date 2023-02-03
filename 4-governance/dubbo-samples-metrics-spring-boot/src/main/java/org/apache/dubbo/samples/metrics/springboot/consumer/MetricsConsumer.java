@@ -31,41 +31,42 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.springboot;
+package org.apache.dubbo.samples.metrics.springboot.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.metrics.springboot.api.DemoService;
-import org.apache.dubbo.samples.metrics.springboot.model.Result;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.samples.metrics.springboot.api.Result;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ImportResource;
 
 
-@SpringBootApplication(scanBasePackages = { "org.apache.dubbo"})
-@EnableDubbo(scanBasePackages = "org.apache.dubbo")
-@ImportResource("classpath*:spring/dubbo-demo-*.xml")
-public class MetricsApplication implements CommandLineRunner {
+@SpringBootApplication
+@EnableDubbo
+public class MetricsConsumer implements CommandLineRunner {
 
     @DubboReference
     private DemoService demoService;
 
-    public static void main(String[] args) throws Exception {
-        new EmbeddedZooKeeper(2181, false).start();
-        SpringApplication.run(MetricsApplication.class, args);
+    public static void main(String[] args) {
+        System.setProperty("spring.profiles.active", "consumer");
+        SpringApplication.run(MetricsConsumer.class, args);
+        System.out.println("dubbo service started");
     }
+
     @Override
     public void run(String... args) throws Exception {
-        while (true) {
-            try {
-                Thread.sleep(3000);
-                Result hello = demoService.sayHello("world");
-                System.out.println(hello.getMsg());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        new Thread(()->{
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                    Result hello = demoService.sayHello("world");
+                    System.out.println(hello.getMsg());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        }).start();
     }
 }

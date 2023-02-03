@@ -33,7 +33,37 @@
 
 package org.apache.dubbo.samples.metrics.springboot.api;
 
-public interface DemoService {
+import java.io.Serializable;
 
-    Result sayHello(String name);
+/**
+ * @author zmx ON 2019-07-03
+ */
+public class Result implements Serializable {
+    public Result(){
+
+    }
+
+    public Result(String userName, String msg){
+        this.msg = msg;
+        this.userName = userName;
+    }
+
+    private String userName;
+    private String msg;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 }
