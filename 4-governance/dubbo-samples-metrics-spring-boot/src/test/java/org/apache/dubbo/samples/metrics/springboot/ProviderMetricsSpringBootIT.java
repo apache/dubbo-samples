@@ -31,6 +31,7 @@ public class ProviderMetricsSpringBootIT {
 
     @Test
     public void test() throws Exception {
+
 //        DefaultMetricsCollector bean = ApplicationModel.defaultModel().getBeanFactory().getBean(DefaultMetricsCollector.class);
 //        Assert.notNull(bean,"collector is null");
     }
