@@ -31,39 +31,20 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.springboot.model;
+package org.apache.dubbo.samples.metrics.springboot.provider;
 
-import java.io.Serializable;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * @author zmx ON 2019-07-03
- */
-public class Result implements Serializable {
-    public Result(){
 
-    }
+@SpringBootApplication
+@EnableDubbo
+public class MetricsProvider {
 
-    public Result(String userName, String msg){
-        this.msg = msg;
-        this.userName = userName;
-    }
-
-    private String userName;
-    private String msg;
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public static void main(String[] args) {
+        System.setProperty("spring.profiles.active", "provider");
+        SpringApplication.run(MetricsProvider.class, args);
+        System.out.println("dubbo service started");
     }
 }

@@ -31,36 +31,30 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.springboot.model;
+package org.apache.dubbo.samples.metrics.springboot.provider;
 
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class User implements Serializable {
-    private Long id;
-    private String username;
+import org.apache.dubbo.common.logger.Logger;
+import org.apache.dubbo.common.logger.LoggerFactory;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.samples.metrics.springboot.api.DemoService;
+import org.apache.dubbo.samples.metrics.springboot.api.Result;
 
-    public User() {
+import com.alibaba.dubbo.rpc.RpcContext;
+
+@DubboService
+public class DemoServiceImpl implements DemoService {
+
+    public static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);
+
+    private String name = "Han MeiMei";
+
+    @Override
+    public Result sayHello(String localName) {
+        logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext
+                .getContext().getRemoteAddress());
+        return new Result(name, "Hello " + localName + ", response from provider: " + RpcContext.getContext().getLocalAddress());
     }
-
-    public User(final Long id, final String username) {
-        this.id = id;
-        this.username = username;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(final String username) {
-        this.username = username;
-    }
-
 }
