@@ -44,6 +44,11 @@ public class TriGrpcDirectClientTest extends BaseClientTest {
                 .reference(ref)
                 .start();
         delegate = ref.get();
-        appDubboBootstrap=bootstrap;
+        appDubboBootstrap = bootstrap;
+    }
+
+    @Override
+    protected void validUpperHeader(String key2, String value2) {
+        // grpc not support upper header
     }
 }
