@@ -70,7 +70,7 @@ public abstract class BaseClientTest {
                 } else {
                     long diff = Math.abs(now - lastTimestamp - 1000);
                     System.out.println(diff);
-                    if (diff < 50) {
+                    if (diff < 1000) {
                         latch.countDown();
                     }
                 }

@@ -26,7 +26,9 @@ import java.util.concurrent.CountDownLatch;
 public class BasicProvider {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
+        new EmbeddedZooKeeper(2181, false).start();
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider-20880.xml");
         context.start();
 
         System.out.println("dubbo service started");

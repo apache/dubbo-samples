@@ -16,6 +16,11 @@
  */
 package org.apache.dubbo.samples.api;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.dubbo.common.threadlocal.NamedInternalThreadFactory;
 import org.apache.dubbo.common.threadpool.manager.ExecutorRepository;
 import org.apache.dubbo.common.threadpool.manager.IsolationExecutorRepository;
@@ -31,14 +36,8 @@ import org.apache.dubbo.samples.support.DemoService;
 import org.apache.dubbo.samples.support.DemoServiceImpl;
 import org.apache.dubbo.samples.support.HelloService;
 import org.apache.dubbo.samples.support.HelloServiceImpl;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.apache.dubbo.common.constants.CommonConstants.EXECUTOR_MANAGEMENT_MODE_ISOLATION;
 
@@ -133,14 +132,14 @@ public class ApiIsolationIT {
             assert threadNum3.get() == 201;
 
         } finally {
-            if (providerBootstrap != null) {
-                providerBootstrap.destroy();
-            }
             if (consumerBootstrap1 != null) {
                 consumerBootstrap1.destroy();
             }
             if (consumerBootstrap2 != null) {
                 consumerBootstrap2.destroy();
+            }
+            if (providerBootstrap != null) {
+                providerBootstrap.destroy();
             }
             FrameworkModel.destroyAll();
         }
