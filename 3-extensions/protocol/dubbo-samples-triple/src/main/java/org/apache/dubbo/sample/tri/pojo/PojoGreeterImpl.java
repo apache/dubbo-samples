@@ -41,6 +41,7 @@ public class PojoGreeterImpl implements PojoGreeter {
         ChildPojo childPojo = new ChildPojo();
         childPojo.setChild("test");
         childPojo.setParent("test");
+        childPojo.setByte1(test);
         return childPojo;
     }
 
