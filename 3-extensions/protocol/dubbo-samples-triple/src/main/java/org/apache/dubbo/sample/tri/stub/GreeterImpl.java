@@ -51,8 +51,11 @@ public class GreeterImpl extends GreeterImplBase {
     @Override
     public GreeterReply greetWithAttachment(GreeterRequest request) {
         final String key = "user-attachment";
+        final String key2 = "Test";
         final String value = "hello," + RpcContext.getServerAttachment().getAttachment(key);
+        String value2 = RpcContext.getServerAttachment().getAttachment(key2);
         RpcContext.getServerContext().setObjectAttachment(key, value);
+        RpcContext.getServerContext().setObjectAttachment(key2, value2);
         return GreeterReply.newBuilder().setMessage("hello," + request.getName()).build();
     }
 
