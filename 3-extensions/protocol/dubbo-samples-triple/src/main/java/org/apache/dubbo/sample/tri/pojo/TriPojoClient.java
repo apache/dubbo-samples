@@ -26,7 +26,6 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.sample.tri.api.PojoGreeter;
 import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
 import org.apache.dubbo.sample.tri.util.TriSampleConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
