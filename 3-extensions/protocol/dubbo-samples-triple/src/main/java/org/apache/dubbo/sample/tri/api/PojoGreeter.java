@@ -24,6 +24,9 @@ import org.apache.dubbo.common.stream.StreamObserver;
  */
 public interface PojoGreeter {
 
+
+    ParentPojo greetChildPojo(Byte test);
+
     String overload();
 
     String overload(String param);
