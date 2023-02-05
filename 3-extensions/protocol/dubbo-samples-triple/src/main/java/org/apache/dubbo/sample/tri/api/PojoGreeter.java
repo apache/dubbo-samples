@@ -19,6 +19,8 @@ package org.apache.dubbo.sample.tri.api;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * Triple supports manual interface with POJO to support migrating from original protocols.
  */
@@ -27,7 +29,11 @@ public interface PojoGreeter {
 
     ParentPojo greetChildPojo(Byte test);
 
+    CompletableFuture<String> unaryFuture(String request);
+
     String overload();
+
+    String methodNotFound();
 
     String overload(String param);
 

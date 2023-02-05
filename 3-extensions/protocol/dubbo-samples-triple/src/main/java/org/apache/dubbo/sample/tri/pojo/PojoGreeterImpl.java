@@ -28,12 +28,18 @@ import org.apache.dubbo.sample.tri.util.EchoStreamObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.CompletableFuture;
+
 public class PojoGreeterImpl implements PojoGreeter {
     private static final Logger LOGGER = LoggerFactory.getLogger(PojoGreeterImpl.class);
     private final Greeter delegate;
 
     public PojoGreeterImpl() {
         this.delegate = new GreeterImpl("tri-wrap");
+    }
+
+    public CompletableFuture<String> unaryFuture(String request) {
+        return CompletableFuture.completedFuture(request);
     }
 
     @Override
@@ -48,6 +54,11 @@ public class PojoGreeterImpl implements PojoGreeter {
     @Override
     public String overload() {
         return "overload";
+    }
+
+    @Override
+    public String methodNotFound() {
+        return "methodNotFound";
     }
 
     @Override

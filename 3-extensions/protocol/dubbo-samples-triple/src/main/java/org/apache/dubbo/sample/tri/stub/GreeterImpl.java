@@ -23,7 +23,6 @@ import org.apache.dubbo.rpc.protocol.tri.ServerStreamObserver;
 import org.apache.dubbo.sample.tri.DubboGreeterTriple.GreeterImplBase;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
