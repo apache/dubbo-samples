@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class GreeterImpl extends GreeterImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(GreeterImpl.class);
@@ -45,6 +46,11 @@ public class GreeterImpl extends GreeterImplBase {
         return GreeterReply.newBuilder()
                 .setMessage("hello," + request.getName())
                 .build();
+    }
+
+
+    public CompletableFuture<GreeterReply> greetAsync(org.apache.dubbo.sample.tri.GreeterRequest request){
+        return CompletableFuture.completedFuture(greet(request));
     }
 
     @Override

@@ -334,7 +334,9 @@ public abstract class BaseClientTest {
                 .build());
         future.whenComplete((s, throwable) -> {
             System.out.println(s);
-            map.put("val", map.get("val") + 1);
+            if ("hello,name".equals(s.getMessage())) {
+                map.put("val", map.get("val") + 1);
+            }
             latch.countDown();
         });
         map.put("val", 2);
