@@ -19,6 +19,11 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>dubbo-samples-spring-boot-mybatis-api</module>
+        <module>dubbo-samples-spring-boot-mybatis-provider</module>
+        <module>dubbo-samples-spring-boot-mybatis-consumer</module>
+    </modules>
     <parent>
         <groupId>org.apache</groupId>
         <artifactId>apache</artifactId>
@@ -31,6 +36,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Dubbo Samples Mybatis</name>
     <description>Dubbo Samples Mybatis</description>
+    <packaging>pom</packaging>
 
     <properties>
         <source.level>1.8</source.level>
@@ -74,33 +80,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus-starter.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
             <version>${dubbo.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.200</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.2.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>4.4.0</version>
         </dependency>
 
         <dependency>
