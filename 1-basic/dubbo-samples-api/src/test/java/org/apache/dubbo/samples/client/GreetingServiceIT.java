@@ -21,9 +21,8 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.samples.api.GreetingsService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import junit.framework.TestCase;
 
 public class GreetingServiceIT {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
@@ -36,6 +35,6 @@ public class GreetingServiceIT {
         reference.setInterface(GreetingsService.class);
         GreetingsService service = reference.get();
         String message = service.sayHi("dubbo");
-        TestCase.assertEquals(message, "hi, dubbo");
+        Assertions.assertEquals(message, "hi, dubbo");
     }
 }
