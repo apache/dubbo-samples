@@ -15,17 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.springboot.demo.consumer;
+package org.apache.dubbo.samples.client;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.io.IOException;
 
-@SpringBootApplication
-@EnableDubbo
-public class ConsumerApplication {
+import org.apache.dubbo.samples.api.GreetingsService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+public class Application {
+    public static void main(String[] args) throws IOException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-consumer.xml");
+        context.start();
+        GreetingsService greetingsService = (GreetingsService) context.getBean("greetingsService");
+
+        String message = greetingsService.sayHi("dubbo");
+        System.out.println("Receive result ======> " + message);
+        System.in.read();
+        System.exit(0);
     }
+
 }

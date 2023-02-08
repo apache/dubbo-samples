@@ -14,18 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.springboot.demo.test;
 
-package org.apache.dubbo.springboot.demo.consumer;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.springboot.demo.DemoService;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class ConsumerIT {
+    @DubboReference
+    private DemoService demoService;
 
-@SpringBootApplication
-@EnableDubbo
-public class ConsumerApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+    @Test
+    public void test() {
+        String result = demoService.sayHello("world");
+        Assert.assertEquals("Hello world", result);
     }
 }
