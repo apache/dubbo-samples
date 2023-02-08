@@ -21,9 +21,9 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.samples.api.GreetingsService;
+import org.junit.jupiter.api.Test;
 
 import junit.framework.TestCase;
-import org.junit.Test;
 
 public class GreetingServiceIT {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
