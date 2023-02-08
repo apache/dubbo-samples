@@ -24,7 +24,6 @@ import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
 import org.apache.dubbo.rpc.protocol.tri.ClientStreamObserver;
 import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -34,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -322,6 +322,26 @@ public abstract class BaseClientTest {
         }
         requestObserver.onCompleted();
         Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void unaryGreeterAsync() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("val", 1);
+        final CompletableFuture<GreeterReply> future = delegate.greetAsync(GreeterRequest.newBuilder()
+                .setName("name")
+                .build());
+        future.whenComplete((s, throwable) -> {
+            System.out.println(s);
+            if ("hello,name".equals(s.getMessage())) {
+                map.put("val", map.get("val") + 1);
+            }
+            latch.countDown();
+        });
+        map.put("val", 2);
+        latch.await(3, TimeUnit.SECONDS);
+        Assert.assertEquals(3, map.get("val").intValue());
     }
 
     @Test

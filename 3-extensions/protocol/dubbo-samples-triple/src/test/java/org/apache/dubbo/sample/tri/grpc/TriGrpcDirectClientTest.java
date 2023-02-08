@@ -51,4 +51,9 @@ public class TriGrpcDirectClientTest extends BaseClientTest {
     protected void validUpperHeader(String key2, String value2) {
         // grpc not support upper header
     }
+
+    @Override
+    public void unaryGreeterAsync() throws InterruptedException {
+        // grpc not support
+    }
 }

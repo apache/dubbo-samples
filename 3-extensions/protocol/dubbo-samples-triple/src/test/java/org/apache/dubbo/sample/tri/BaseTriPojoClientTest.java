@@ -30,6 +30,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +46,24 @@ public abstract class BaseTriPojoClientTest {
     protected static PojoGreeter longDelegate;
 
     protected static DubboBootstrap appDubboBootstrap;
+
+
+    @Test
+    public void unaryFuture() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("val", 1);
+        CompletableFuture<String> future = delegate.unaryFuture("unaryFuture");
+        future.whenComplete((s, throwable) -> {
+            if ("unaryFuture".equals(s)) {
+                map.put("val", map.get("val") + 1);
+            }
+            latch.countDown();
+        });
+        map.put("val", 2);
+        latch.await(3, TimeUnit.SECONDS);
+        Assert.assertEquals(3, map.get("val").intValue());
+    }
 
     @Test
     public void overload() {
