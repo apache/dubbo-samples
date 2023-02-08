@@ -28,7 +28,7 @@ services:
       - zookeeper:2181
     checkPorts:
       - 20880
-    checkLog: "DubboBootstrap awaiting ..."
+    checkLog: "Current Spring Boot Application is await..."
 
   test:
     type: test

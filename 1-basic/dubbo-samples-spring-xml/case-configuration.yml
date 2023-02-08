@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+from: app-external-zookeeper.yml
 
 props:
   project_name: dubbo-samples-spring-xml
