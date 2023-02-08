@@ -15,17 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.springboot.demo.consumer;
+package org.apache.dubbo.samples.provider;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.apache.dubbo.samples.api.GreetingsService;
 
-@SpringBootApplication
-@EnableDubbo
-public class ConsumerApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+public class GreetingsServiceImpl implements GreetingsService {
+    @Override
+    public String sayHi(String name) {
+        return "hi, " + name;
     }
 }

@@ -15,17 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.springboot.demo.consumer;
+package org.apache.dubbo.samples.provider;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.concurrent.CountDownLatch;
 
-@SpringBootApplication
-@EnableDubbo
-public class ConsumerApplication {
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-    public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+public class Application {
+
+    public static void main(String[] args) throws InterruptedException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider.xml");
+        context.start();
+
+        System.out.println("dubbo service started");
+        // to hang up main thread
+        new CountDownLatch(1).await();
     }
 }
