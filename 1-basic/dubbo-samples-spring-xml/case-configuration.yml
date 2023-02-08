@@ -20,5 +20,5 @@ props:
   project_name: dubbo-samples-spring-xml
   main_class: org.apache.dubbo.samples.provider.Application
   dubbo_port: 20880
-  check_log: "DubboBootstrap awaiting ..."
+  check_log: "dubbo service started"
 
