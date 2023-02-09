@@ -25,7 +25,7 @@ management:
 
 dubbo:
   application:
-    name: dubbo-springboot-skywalking-demo-consumer
+    name: ${spring.application.name}
   protocol:
     name: dubbo
     port: -1

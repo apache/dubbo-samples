@@ -48,12 +48,14 @@ bash startup.sh
 ## 5. Start Provider and Application With Skywalking Agent
 After starting the registration center, we start provider and Consumer with skywalking agent, so skywalking can report trace data.
 And because skywalking java agent have instrumented the dubbo and spring framework, to verify dubbo integrates with skywalking by micrometer,
-**we should delete plugin jars in "plugins" directory.**
+**we should delete plugin jars in "plugins" directory**.
+To connect the skywalking oap, we should config the backend address in /path/to/skywalking-agent/agent.config.
+The relevant field is **collector.backend_service**.
 ```shell
-java -javaagent:/path/to/skywalking-agent.jar -jar dubbo-samples-spring-boot-tracing-skwalking-provider-1.0-SNAPSHOT.jar
+java -javaagent:/path/to/skywalking-agent/skywalking-agent.jar -jar dubbo-samples-spring-boot-tracing-skwalking-provider-1.0-SNAPSHOT.jar
 ```
 ```shell
-java -javaagent:/path/to/skywalking-agent.jar -jar dubbo-samples-spring-boot-tracing-skwalking-consumer-1.0-SNAPSHOT.jar
+java -javaagent:/path/to/skywalking-agent/skywalking-agent.jar -jar dubbo-samples-spring-boot-tracing-skwalking-consumer-1.0-SNAPSHOT.jar
 ```
 ## 6. Result
 Open [skywalking-webapp](http://localhost:8080/) in browser.
