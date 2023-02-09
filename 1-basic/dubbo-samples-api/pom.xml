@@ -37,7 +37,7 @@
 
     <properties>
         <dubbo.version>3.2.0-beta.3</dubbo.version>
-        <junit.version>4.13.1</junit.version>
+        <junit5.version>5.9.2</junit5.version>
     </properties>
 
     <dependencies>
@@ -55,9 +55,21 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
