@@ -35,8 +35,8 @@ public class JacocoReport {
         List<File> classFiles = loadClassFiles(new File(dubboRepo));
         List<File> sourceFiles = loadSourceFiles(new File(dubboRepo));
 
-        if (!new File(basePath + File.separator + "target" + File.separator + "jacoco.exec").exists()) {
-            System.out.println(basePath + File.separator + "target" + File.separator + "jacoco.exec" + " does not exist");
+        if (execFiles.isEmpty())
+            System.out.println(basePath + File.separator + "target" + File.separator + "jacoco*.exec" + " does not exist");
             return;
         }
 
