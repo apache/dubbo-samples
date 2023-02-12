@@ -46,6 +46,7 @@ public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
     public static final String DUBBO_APP_DIR = "/usr/local/dubbo/app";
     public static final String DUBBO_JACOCO_RESULT_DIR = "/usr/local/dubbo/target-jacoco";
+    public static final String DUBBO_JACOCO_RUNNER_FILE = "/usr/local/dubbo/jacocoagent.jar";
     public static final String DUBBO_LOG_DIR = "/usr/local/dubbo/logs";
 
     //ENV
@@ -317,9 +318,11 @@ public class ConfigurationImpl implements IConfiguration {
                     //mount ${project.basedir}/target : DUBBO_APP_DIR
                     String jacocoPath = new File(service.getBasedir(), "target-jacoco").getCanonicalPath();
                     service.getVolumes().add(jacocoPath + ":" + DUBBO_JACOCO_RESULT_DIR);
+                    String jacocoRunnerPath = new File(outputDir() + File.separator + "jacocoagent.jar").getCanonicalPath();
+                    service.getVolumes().add(jacocoRunnerPath + ":" + DUBBO_JACOCO_RUNNER_FILE);
 
                     //set jacoco agent
-                    String jacoco = "-javaagent:/usr/local/dubbo/app/jacocoagent.jar=destfile=/usr/local/dubbo/target-jacoco/" + index++ + "-" + System.currentTimeMillis() + "-jacoco.exec";
+                    String jacoco = "-javaagent:" + DUBBO_JACOCO_RUNNER_FILE + "=destfile=/usr/local/dubbo/target-jacoco/" + index++ + "-" + System.currentTimeMillis() + "-jacoco.exec";
                     appendEnv(service, ENV_JAVA_OPTS, jacoco);
                 }
 
