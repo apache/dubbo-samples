@@ -35,7 +35,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <dubbo.version>3.2.0-beta.3</dubbo.version>
+        <dubbo.version>3.2.0-beta.4</dubbo.version>
         <nacos.version>2.2.0</nacos.version>
         <seata.version>1.6.1</seata.version>
         <druid.version>1.2.15</druid.version>

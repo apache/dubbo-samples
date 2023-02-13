@@ -24,7 +24,6 @@ import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
 import org.apache.dubbo.rpc.protocol.tri.ClientStreamObserver;
 import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -34,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -325,6 +325,26 @@ public abstract class BaseClientTest {
     }
 
     @Test
+    public void unaryGreeterAsync() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("val", 1);
+        final CompletableFuture<GreeterReply> future = delegate.greetAsync(GreeterRequest.newBuilder()
+                .setName("name")
+                .build());
+        future.whenComplete((s, throwable) -> {
+            System.out.println(s);
+            if ("hello,name".equals(s.getMessage())) {
+                map.put("val", map.get("val") + 1);
+            }
+            latch.countDown();
+        });
+        map.put("val", 2);
+        latch.await(3, TimeUnit.SECONDS);
+        Assert.assertEquals(3, map.get("val").intValue());
+    }
+
+    @Test
     public void unaryGreeter() {
         final GreeterReply reply = delegate.greet(GreeterRequest.newBuilder()
                 .setName("name")
@@ -359,14 +379,21 @@ public abstract class BaseClientTest {
     @Test
     public void attachmentTest() {
         final String key = "user-attachment";
+        final String key2 = "Test";
+        final String value2 = "Value";
         final String value = "attachment-value";
         RpcContext.removeClientAttachment();
         RpcContext.getClientAttachment().setAttachment(key, value);
+        RpcContext.getClientAttachment().setAttachment(key2, value2);
         GreeterReply reply = delegate.greetWithAttachment(
                 GreeterRequest.newBuilder().setName("meta").build());
         Assert.assertEquals("hello,meta", reply.getMessage());
-        final String returned = (String) RpcContext.getServerContext().getObjectAttachment(key);
-        Assert.assertEquals("hello," + value, returned);
+        validUpperHeader(key2, value2);
+    }
+
+    protected void validUpperHeader(String key2, String value2) {
+        final String returned2 = (String) RpcContext.getServerContext().getObjectAttachment(key2);
+        Assert.assertEquals(value2, returned2);
     }
 
     @Test

@@ -23,9 +23,9 @@ services:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
       - NACOS_AUTH_ENABLE=true
-      - JVM_XMS=350m
-      - JVM_XMX=350m
-      - JVM_XMN=150m
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=256m
 
   dubbo-samples-nacos-configcenter:
     type: app

@@ -31,7 +31,6 @@
         <module>dubbo-samples-rpc-advanced</module>
         <module>dubbo-samples-shop</module>
         <module>dubbo-samples-develop</module>
-        <module>dubbo-samples-develop-api</module>
-        <module>dubbo-samples-develop-consumer</module>
+        <module>dubbo-samples-extensibility</module>
     </modules>
 </project>

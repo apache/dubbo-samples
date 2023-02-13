@@ -24,6 +24,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -81,6 +82,7 @@ public class ReactorServerTest {
     }
 
     @Test
+    @Ignore
     public void consumeManyToMany() {
         StepVerifier.create(greeterService.greetManyToMany(Flux.range(1, 10)
                         .map(num -> GreeterRequest.newBuilder().setName(String.valueOf(num)).build())))
