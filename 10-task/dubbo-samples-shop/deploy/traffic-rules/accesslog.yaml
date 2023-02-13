@@ -1,0 +1,10 @@
+# This rule sets the timeout value of service 'UserService' to 5000ms
+---
+configVersion: v3.0
+scope: application
+key: shop-detail
+configs:
+  - side: provier
+    parameters:
+      accesslog: true
+...

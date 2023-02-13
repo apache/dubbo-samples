@@ -1,0 +1,29 @@
+---
+configVersion: v3.0
+force: true
+runtime: false
+enabled: true
+priority: 1
+key: shop-comment
+tags:
+  - name: gray
+    match:
+      - key: env
+        value:
+          exact: gray
+...
+
+---
+configVersion: v3.0
+force: true
+runtime: false
+enabled: true
+priority: 1
+key: shop-detail
+tags:
+  - name: gray
+    match:
+      - key: env
+        value:
+          exact: gray
+...

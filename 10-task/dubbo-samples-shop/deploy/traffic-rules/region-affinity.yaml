@@ -1,0 +1,10 @@
+---
+scope: service
+key: org.apache.dubbo.samples.CommentService
+force: false
+runtime: false
+enabled: true
+priority: 1
+conditions:
+  - => region=$region
+...

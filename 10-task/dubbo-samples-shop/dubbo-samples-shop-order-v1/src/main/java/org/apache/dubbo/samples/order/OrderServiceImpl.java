@@ -18,6 +18,7 @@ package org.apache.dubbo.samples.order;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.Order;
+import org.apache.dubbo.samples.OrderDetail;
 import org.apache.dubbo.samples.OrderService;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -25,16 +26,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @DubboService
 public class OrderServiceImpl implements OrderService {
     @Override
-    public boolean submitOrder(Order order) {
-        try {
-            // Do something that consumes resources
-            for (int i = 0; i < 1000; i++) {
-                Math.pow(ThreadLocalRandom.current().nextDouble(10), ThreadLocalRandom.current().nextDouble(5));
-            }
-            Thread.sleep(ThreadLocalRandom.current().nextInt(200));
-        } catch (InterruptedException ignore) {
-            Thread.currentThread().interrupt();
-        }
-        return true;
+    public OrderDetail submitOrder(Order order) {
+        // Do something that consumes resources
+        return null;
     }
 }

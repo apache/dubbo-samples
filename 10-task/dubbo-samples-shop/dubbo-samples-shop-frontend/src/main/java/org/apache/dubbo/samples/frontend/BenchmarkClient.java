@@ -30,7 +30,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Component
 public class BenchmarkClient implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(BenchmarkClient.class);
 
@@ -85,7 +84,7 @@ public class BenchmarkClient implements CommandLineRunner {
                 while (true) {
                     try {
                         long sku = ThreadLocalRandom.current().nextLong();
-                        shopService.createItem(sku, "Test Item", "Desc", 100);
+                        shopService.checkItem(sku, "username");
                     } catch (Throwable t) {
                         logger.error("Running CreateItem Bench Failed.", t);
                     }

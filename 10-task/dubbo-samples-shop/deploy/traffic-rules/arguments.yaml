@@ -1,0 +1,10 @@
+---
+scope: service
+force: false
+runtime: false
+enabled: true
+priority: 1
+key: org.apache.dubbo.samples.DetailService
+conditions:
+  - arguments[1]=dubbo => orderVersion=v2
+...

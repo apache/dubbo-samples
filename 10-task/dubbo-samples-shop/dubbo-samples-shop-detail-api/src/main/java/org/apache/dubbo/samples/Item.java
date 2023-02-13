@@ -23,6 +23,8 @@ public class Item implements Serializable {
     private String itemName;
     private String description;
     private int stock;
+    private long price;
+    private String comment;
 
     public long getSku() {
         return sku;
@@ -54,5 +56,21 @@ public class Item implements Serializable {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

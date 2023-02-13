@@ -1,0 +1,15 @@
+# This rule sets the timeout value of service 'UserService' to 5000ms
+---
+configVersion: v3.0
+scope: service
+key: org.apache.dubbo.samples.OrderService
+configs:
+  - side: provider
+    match:
+      param:
+        - key: orderVersion
+          value:
+            exact: v2
+    parameters:
+      weight: 25
+...

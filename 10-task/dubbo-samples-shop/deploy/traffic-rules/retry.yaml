@@ -1,0 +1,15 @@
+# This rule tells shop-frontend to retry 2 times when encounters failure calling UserService
+---
+configVersion: v3.0
+scope: service
+key: org.apache.dubbo.samples.UserService
+configs:
+  - match:
+      application:
+        oneof:
+          - shop-frontend
+    side: consumer
+    parameters:
+      retries: 4
+      cluster: failover
+...

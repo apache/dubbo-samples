@@ -22,11 +22,13 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: shop-order-v2
+      app: shop-order
+      orderVersion: v2
   template:
     metadata:
       labels:
-        app: shop-order-v2
+        app: shop-order
+        orderVersion: v2
     spec:
       volumes:
         - name: skywalking-agent
@@ -62,3 +64,5 @@ spec:
               value: shop::shop-order
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
+            - name: DUBBO_LABELS
+              value: "orderVersion=v2"
