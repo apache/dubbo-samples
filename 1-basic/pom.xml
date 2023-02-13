@@ -29,7 +29,7 @@
     <modules>
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-api</module>
-        <module>dubbo-samples-basic</module>
+        <module>dubbo-samples-spring-xml</module>
         <module>dubbo-samples-spring-boot</module>
     </modules>
 </project>

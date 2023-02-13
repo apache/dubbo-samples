@@ -16,13 +16,12 @@
  */
 package org.apache.dubbo.samples.spring.xml;
 
+import java.util.Map;
+
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.samples.spring.BaseTest;
-
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.Map;
 
 public class XmlIsolationIT extends BaseTest {
 
@@ -43,8 +42,8 @@ public class XmlIsolationIT extends BaseTest {
         assertExecutor(providerContext, consumerContext);
 
         // close context
-        providerContext.close();
         consumerContext.close();
+        providerContext.close();
     }
 
     private void setServiceConfig(ClassPathXmlApplicationContext providerContext) {

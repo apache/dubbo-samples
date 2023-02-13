@@ -23,7 +23,6 @@ import org.apache.dubbo.samples.CommentService;
 import org.apache.dubbo.samples.DetailService;
 import org.apache.dubbo.samples.Item;
 
-import java.math.BigInteger;
 import java.util.concurrent.ThreadLocalRandom;
 
 @DubboService

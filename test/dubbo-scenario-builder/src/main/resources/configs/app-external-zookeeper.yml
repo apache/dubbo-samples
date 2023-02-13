@@ -30,6 +30,7 @@ props:
   project_dir: .
   dubbo_port: 20880
   zookeeper_version: latest
+  check_log: "dubbo service started"
 
 services:
   zookeeper:
@@ -46,7 +47,7 @@ services:
       - zookeeper:2181
     checkPorts:
       - ${dubbo_port}
-    checkLog: "dubbo service started"
+    checkLog: ${check_log}
 
   ${project_name}-test:
     type: test

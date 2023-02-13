@@ -36,8 +36,8 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.1.4-SNAPSHOT</dubbo.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <dubbo.version>3.1.6</dubbo.version>
+        <spring.version>4.3.29.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <awaitility.version>4.2.0</awaitility.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>

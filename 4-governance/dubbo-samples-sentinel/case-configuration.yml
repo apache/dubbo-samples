@@ -14,10 +14,43 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
 
-props:
-  project_name: dubbo-samples-sentinel
-  main_class: org.apache.samples.sentinel.FooProviderBootstrap
-  zookeeper_port: 2181
-  dubbo_port: 20880
+services:
+  nacos:
+    image: nacos/nacos-server:2.0.0
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - NACOS_AUTH_ENABLE=true
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=256m
+
+  dubbo-samples-sentinel-provider:
+    type: app
+    basedir: dubbo-samples-sentinel-provider
+    mainClass: org.apache.dubbo.samples.provider.ProviderApplication
+    systemProps:
+      - nacos.address=nacos
+      - nacos.port=8848
+    waitPortsBeforeRun:
+      - nacos:8848
+    checkPorts:
+      - 20880
+    depends_on:
+      - nacos
+
+  dubbo-samples-sentinel-consumer:
+    type: test
+    basedir: dubbo-samples-sentinel-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - nacos.address=nacos
+      - nacos.port=8848
+    waitPortsBeforeRun:
+      - nacos:8848
+      - dubbo-samples-sentinel-provider:20880
+    depends_on:
+      - nacos
+      - dubbo-samples-sentinel-provider

@@ -23,12 +23,12 @@ import org.apache.dubbo.rpc.protocol.tri.ServerStreamObserver;
 import org.apache.dubbo.sample.tri.DubboGreeterTriple.GreeterImplBase;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class GreeterImpl extends GreeterImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(GreeterImpl.class);
@@ -48,11 +48,19 @@ public class GreeterImpl extends GreeterImplBase {
                 .build();
     }
 
+
+    public CompletableFuture<GreeterReply> greetAsync(org.apache.dubbo.sample.tri.GreeterRequest request){
+        return CompletableFuture.completedFuture(greet(request));
+    }
+
     @Override
     public GreeterReply greetWithAttachment(GreeterRequest request) {
         final String key = "user-attachment";
+        final String key2 = "Test";
         final String value = "hello," + RpcContext.getServerAttachment().getAttachment(key);
+        String value2 = RpcContext.getServerAttachment().getAttachment(key2);
         RpcContext.getServerContext().setObjectAttachment(key, value);
+        RpcContext.getServerContext().setObjectAttachment(key2, value2);
         return GreeterReply.newBuilder().setMessage("hello," + request.getName()).build();
     }
 

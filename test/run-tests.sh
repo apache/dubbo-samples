@@ -25,10 +25,14 @@ echo "FORK_COUNT: $maxForks"
 export DEBUG=$DEBUG
 echo "DEBUG=$DEBUG"
 
-DUBBO_VERSION=${DUBBO_VERSION:-2.7.12}
+DUBBO_VERSION=${DUBBO_VERSION:-3.1.3}
 if [ "$CANDIDATE_VERSIONS" == "" ];then
   CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 #  CANDIDATE_VERSIONS="dubbo.version:2.7.12;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+fi
+JAVA_VERSION="java.version"
+if [[ $CANDIDATE_VERSIONS != *$JAVA_VERSION* ]];then
+  CANDIDATE_VERSIONS="$CANDIDATE_VERSIONS;java.version:$JAVA_VER"
 fi
 export CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS
 echo "CANDIDATE_VERSIONS: ${CANDIDATE_VERSIONS[@]}"
@@ -61,6 +65,7 @@ ERROR_MSG_FLAG=":ErrorMsg:"
 
 CONFIG_FILE="case-configuration.yml"
 VERSONS_FILE="case-versions.conf"
+VERSIONS_SOURCE_FILE="case-version-sources.conf"
 
 # Exit codes
 # version matrix not match
@@ -128,6 +133,8 @@ function process_case() {
     return 1
   fi
 
+  ver_src_file=$case_dir/$VERSIONS_SOURCE_FILE
+
   case_start_time=$SECONDS
   project_home=`dirname $file`
   scenario_home=$project_home/target
@@ -140,6 +147,7 @@ function process_case() {
   version_matrix_file=$project_home/version-matrix.txt
   java -DcandidateVersions="$CANDIDATE_VERSIONS" \
     -DcaseVersionsFile="$ver_file" \
+    -DcaseVersionSourcesFile="$ver_src_file" \
     -DoutputFile="$version_matrix_file" \
     -cp $test_builder_jar \
     org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
@@ -204,6 +212,7 @@ function process_case() {
       -Dscenario.version=$version \
       -Dtest.image.version=$JAVA_VER \
       -Ddebug.service=$DEBUG \
+      $version_profile \
       -jar $test_builder_jar  &> $scenario_builder_log
     result=$?
     if [ $result -ne 0 ]; then
@@ -428,7 +437,7 @@ fi
 
 echo "Total: $totalCount, Success: $successTest, Failures: $failedTest, Ignored: $ignoredTest"
 
-if [[ $successTest -gt 0 && $(($successTest + $ignoredTest)) == $totalCount ]]; then
+if [[ $(($successTest + $ignoredTest)) == $totalCount ]]; then
   test_result=0
   echo "All tests pass"
 else

@@ -38,13 +38,15 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
     public static final String DUBBO_APP_DIR = "/usr/local/dubbo/app";
+    public static final String DUBBO_JACOCO_RESULT_DIR = "/usr/local/dubbo/target-jacoco";
+    public static final String DUBBO_JACOCO_RUNNER_FILE = "/usr/local/dubbo/jacocoagent.jar";
     public static final String DUBBO_LOG_DIR = "/usr/local/dubbo/logs";
 
     //ENV
@@ -73,7 +75,7 @@ public class ConfigurationImpl implements IConfiguration {
     private String configBasedir;
     private String scenarioName;
     private final String scenarioLogDir;
-    private final boolean jacocoEnable = Boolean.parseBoolean(System.getProperty("jacoco.enable"));
+    private final boolean jacocoEnable = Boolean.parseBoolean(System.getenv("JACOCO_ENABLE"));
     private int scenarioTimeout = 200;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
@@ -213,6 +215,12 @@ public class ConfigurationImpl implements IConfiguration {
         props.put(PROP_BASEDIR, configBasedir);
         props.put(PROP_SCENARIO_HOME, scenarioHome);
         props.put(PROP_SCENARIO_NAME, scenarioName);
+        Properties properties = System.getProperties();
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            if (entry.getKey() instanceof String && entry.getValue() instanceof String) {
+                props.put((String) entry.getKey(), (String) entry.getValue());
+            }
+        }
     }
 
     private List<String> mergeSystemProps(List<String> parentSystemProps, List<String> childSystemProps) {
@@ -305,6 +313,19 @@ public class ConfigurationImpl implements IConfiguration {
                     setEnv(service, ENV_WAIT_TIMEOUT, service.getWaitTimeout() + "");
                 }
 
+                // set jacoco
+                if (jacocoEnable) {
+                    //mount ${project.basedir}/target : DUBBO_APP_DIR
+                    String jacocoPath = new File(service.getBasedir(), "target-jacoco").getCanonicalPath();
+                    service.getVolumes().add(jacocoPath + ":" + DUBBO_JACOCO_RESULT_DIR);
+                    String jacocoRunnerPath = new File(outputDir() + File.separator + "jacocoagent.jar").getCanonicalPath();
+                    service.getVolumes().add(jacocoRunnerPath + ":" + DUBBO_JACOCO_RUNNER_FILE);
+
+                    //set jacoco agent
+                    String jacoco = "-javaagent:" + DUBBO_JACOCO_RUNNER_FILE + "=destfile=/usr/local/dubbo/target-jacoco/" + index++ + "-" + System.currentTimeMillis() + "-jacoco.exec";
+                    appendEnv(service, ENV_JAVA_OPTS, jacoco);
+                }
+
                 if ("app".equals(type)) {
                     String mainClass = service.getMainClass();
                     if (StringUtils.isBlank(mainClass)) {
@@ -378,12 +399,6 @@ public class ConfigurationImpl implements IConfiguration {
             if (isNotEmpty(systemProps)) {
                 String str = convertSystemPropsToJvmFlags(systemProps);
                 appendEnv(service, ENV_JAVA_OPTS, str);
-            }
-
-            if (jacocoEnable) {
-                //set jacoco agent
-                String jacoco = "-javaagent:/usr/local/dubbo/app/jacocoagent.jar=destfile=/usr/local/dubbo/app/jacoco/" + index++ + "-jacoco.exec";
-                appendEnv(service, ENV_JAVA_OPTS, jacoco);
             }
 
             if (service.getHealthcheck() != null) {
@@ -475,18 +490,25 @@ public class ConfigurationImpl implements IConfiguration {
         throw new RuntimeException("Illegal service type: " + type);
     }
 
-    private Pattern pattern = Pattern.compile("\\$\\{(.+?)}");
+    private Pattern pattern = Pattern.compile("\\$\\{.*}");
 
     private String replaceHolders(String str, Map<String, String> props) {
-        StringBuffer buf = new StringBuffer(str.length());
-        Matcher matcher = pattern.matcher(str);
-        while (matcher.find()) {
-            String var = matcher.group(1);
-            String value = props.get(var);
-            matcher.appendReplacement(buf, value != null ? value : matcher.group());
+        while (str.contains("${")) {
+            String prefix = str.substring(0, str.indexOf("${"));
+            String suffix = str.substring(str.indexOf("}") + 1);
+            String placeholder = str.substring(str.indexOf("${") + 2, str.indexOf("}"));
+            String propertyName;
+            String defaultValue = "";
+            if (placeholder.contains(":")) {
+                propertyName = placeholder.substring(0, placeholder.indexOf(":"));
+                defaultValue = placeholder.substring(placeholder.indexOf(":") + 1);
+            } else {
+                propertyName = placeholder;
+            }
+            str = prefix + props.getOrDefault(propertyName, defaultValue) + suffix;
         }
-        matcher.appendTail(buf);
-        return buf.toString();
+
+        return str;
     }
 
     @Override
