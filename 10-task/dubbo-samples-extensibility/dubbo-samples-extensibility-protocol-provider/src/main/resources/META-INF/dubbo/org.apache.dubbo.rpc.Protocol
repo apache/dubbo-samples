@@ -1,0 +1,1 @@
+hjson=org.apache.dubbo.samples.extensibility.protocol.common.HessianJsonProtocol
