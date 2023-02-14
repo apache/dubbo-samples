@@ -65,7 +65,7 @@ spec:
               value: "skywalking-oap-server.dubbo-system.svc:11800"
 ---
 
-# App Order V1
+# App Order V1-1
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -75,11 +75,13 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: shop-order-v1
+      app: shop-order
+      orderVersion: v1
   template:
     metadata:
       labels:
-        app: shop-order-v1
+        app: shop-order
+        orderVersion: v1
     spec:
       volumes:
         - name: skywalking-agent
@@ -116,7 +118,7 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "region=beijing"
+              value: "orderVersion=v1"
 ---
 
 # App Order V2
@@ -129,11 +131,13 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: shop-order-v2
+      app: shop-order
+      orderVersion: v2
   template:
     metadata:
       labels:
-        app: shop-order-v2
+        app: shop-order
+        orderVersion: v2
     spec:
       volumes:
         - name: skywalking-agent
@@ -170,7 +174,7 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "order_version=v2; region=hangzhou; type=vip"
+              value: "orderVersion=v2;"
 ---
 
 # App User
@@ -225,7 +229,7 @@ spec:
               value: "skywalking-oap-server.dubbo-system.svc:11800"
 ---
 
-# App Detail V1
+# App Detail-1
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -236,10 +240,12 @@ spec:
   selector:
     matchLabels:
       app: shop-detail
+      detailVersion: v1
   template:
     metadata:
       labels:
         app: shop-detail
+        detailVersion: v1
     spec:
       volumes:
         - name: skywalking-agent
@@ -276,7 +282,7 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "region=beijing"
+              value: "detailVersion=v1; region=beijing"
 ---
 
 # App Detail-2
@@ -289,11 +295,13 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: shop-detail-v2
+      app: shop-detail
+      detailVersion: v2
   template:
     metadata:
       labels:
-        app: shop-detail-v2
+        app: shop-detail
+        detailVersion: v2
     spec:
       volumes:
         - name: skywalking-agent
@@ -330,7 +338,7 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "region=hangzhou; type=vip"
+              value: "detailVersion=v2; region=hangzhou;"
 ---
 
 #App Comment v1
@@ -344,10 +352,12 @@ spec:
   selector:
     matchLabels:
       app: shop-comment
+      commentVersion: v1
   template:
     metadata:
       labels:
         app: shop-comment
+        commentVersion: v1
     spec:
       volumes:
         - name: skywalking-agent
@@ -384,7 +394,7 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "region=beijing"
+              value: "commentVersion=v1; region=beijing"
 ---
 
 #App Comment v2
@@ -397,11 +407,13 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: shop-comment-v2
+      app: shop-comment
+      commentVersion: v2
   template:
     metadata:
       labels:
-        app: shop-comment-v2
+        app: shop-comment
+        commentVersion: v2
     spec:
       volumes:
         - name: skywalking-agent
@@ -417,7 +429,7 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
 
       containers:
-        - name: shop-detail
+        - name: shop-comment
           image: apache/dubbo-demo:dubbo-samples-shop-comment_v2_0.0.1
           imagePullPolicy: Always
           ports:
@@ -438,5 +450,4 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "region=hangzhou; type=vip"
-
+              value: "commentVersion=v2; region=hangzhou;"
