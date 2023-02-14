@@ -16,19 +16,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shop-comment-v1-gray
+  name: shop-order-v1-gray
   namespace: dubbo-demo
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: shop-comment
-      commentVersion: v1
+      app: shop-order
+      orderVersion: v1
   template:
     metadata:
       labels:
-        app: shop-comment
-        commentVersion: v1
+        app: shop-order
+        orderVersion: v1
     spec:
       volumes:
         - name: skywalking-agent
@@ -44,15 +44,15 @@ spec:
           args: [ "-c", "cp -R /skywalking/agent /agent/" ]
 
       containers:
-        - name: shop-comment
-          image: apache/dubbo-demo:dubbo-samples-shop-comment_gray_0.0.1
+        - name: shop-order
+          image: apache/dubbo-demo:dubbo-samples-shop-order_gray_0.0.1
           imagePullPolicy: Always
           ports:
             - name: dubbo
-              containerPort: 20889
+              containerPort: 20891
               protocol: TCP
             - name: dubbo-qos
-              containerPort: 20999
+              containerPort: 21001
               protocol: TCP
           volumeMounts:
             - name: skywalking-agent
@@ -61,7 +61,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
             - name: SW_AGENT_NAME
-              value: shop::shop-comment
+              value: shop::shop-order
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS

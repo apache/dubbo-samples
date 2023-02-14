@@ -16,7 +16,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shop-detail-v1
+  name: shop-detail-v1-gray
   namespace: dubbo-demo
 spec:
   replicas: 3
@@ -45,14 +45,14 @@ spec:
 
       containers:
         - name: shop-detail
-          image: apache/dubbo-demo:dubbo-samples-shop-detail_0.0.1
+          image: apache/dubbo-demo:dubbo-samples-shop-detail_gray_0.0.1
           imagePullPolicy: Always
           ports:
             - name: dubbo
-              containerPort: 20885
+              containerPort: 20890
               protocol: TCP
             - name: dubbo-qos
-              containerPort: 20995
+              containerPort: 21000
               protocol: TCP
           volumeMounts:
             - name: skywalking-agent
@@ -65,4 +65,4 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "detailVersion=v1"
+              value: "env=gray"

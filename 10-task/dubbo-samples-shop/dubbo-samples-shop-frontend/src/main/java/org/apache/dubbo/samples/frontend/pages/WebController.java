@@ -33,6 +33,7 @@ public class WebController {
     @Autowired
     private ShopService shopService;
 
+    // user GET to avoid resubmit warning on browser side.
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     ModelAndView login(@RequestParam String username, @RequestParam String password) {
         shopService.login(username, password);
@@ -47,6 +48,7 @@ public class WebController {
         return modelAndView;
     }
 
+    // user GET to avoid resubmit warning on browser side.
     @RequestMapping(value = "/timeoutLogin", method = RequestMethod.GET)
     ModelAndView timeoutLogin(@RequestParam String username, @RequestParam String password) {
         ModelAndView modelAndView;
@@ -64,6 +66,7 @@ public class WebController {
         return modelAndView;
     }
 
+    // user GET to avoid resubmit warning on browser side.
     @RequestMapping(value = "/grayLogin", method = RequestMethod.GET)
     ModelAndView grayLogin(@RequestParam String username, @RequestParam String password) {
         ModelAndView modelAndView;
@@ -81,7 +84,7 @@ public class WebController {
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     @ResponseBody
-    User grayLogin(@RequestParam String username) {
+    User userInfo(@RequestParam String username) {
         // retry
         try {
             return shopService.getUserInfo(username);

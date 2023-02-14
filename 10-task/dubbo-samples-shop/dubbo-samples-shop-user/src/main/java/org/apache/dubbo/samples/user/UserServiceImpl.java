@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getInfo(String username) {
+        System.out.println("Received getInfo request......");
         try {
             if (++count % 3 != 0) {
                 Thread.sleep(3000);

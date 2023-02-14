@@ -65,4 +65,4 @@ spec:
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
               value: "skywalking-oap-server.dubbo-system.svc:11800"
             - name: DUBBO_LABELS
-              value: "detailVersion=v2; env=gray; region=hangzhou; type=vip"
+              value: "detailVersion=v2; region=hangzhou; type=vip"
