@@ -18,7 +18,7 @@ package org.apache.dubbo.samples;
 
 public interface DetailService {
 
-    boolean createItem(Item item);
+    Item getItem(long sku, String username);
 
     boolean deductStock(long sku, int count);
 }

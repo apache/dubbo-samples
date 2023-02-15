@@ -22,36 +22,61 @@ import org.apache.dubbo.samples.UserService;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@DubboService
+@DubboService(timeout = 1000)
 public class UserServiceImpl implements UserService {
     @Override
     public boolean register(User user) {
-        try {
-            // Do something that consumes resources
-            for (int i = 0; i < 1000; i++) {
-                Math.pow(ThreadLocalRandom.current().nextDouble(10), ThreadLocalRandom.current().nextDouble(5));
-            }
-            Thread.sleep(ThreadLocalRandom.current().nextInt(100));
-        } catch (InterruptedException ignore) {
-            Thread.currentThread().interrupt();
+        // Do something that consumes resources
+        for (int i = 0; i < 100; i++) {
+            Math.pow(ThreadLocalRandom.current().nextDouble(10), ThreadLocalRandom.current().nextDouble(5));
         }
+
         return true;
     }
 
     @Override
     public User login(String username, String password) {
+        // Do something that consumes resources
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setPhone("13912345678");
+        user.setMail("dev@dubbo.apache.org");
+        user.setRealName("Dubbo Test");
+        return user;
+    }
+
+    @Override
+    public User timeoutLogin(String username, String password) {
         try {
-            // Do something that consumes resources
-            for (int i = 0; i < 200; i++) {
-                Math.pow(ThreadLocalRandom.current().nextDouble(10), ThreadLocalRandom.current().nextDouble(5));
-            }
-            Thread.sleep(ThreadLocalRandom.current().nextInt(50));
+            Thread.sleep(1100);
         } catch (InterruptedException ignore) {
             Thread.currentThread().interrupt();
         }
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+        user.setPhone("13912345678");
+        user.setMail("dev@dubbo.apache.org");
+        user.setRealName("Dubbo Test");
+        return user;
+    }
+
+    private int count = 1;
+
+    @Override
+    public User getInfo(String username) {
+        System.out.println("Received getInfo request......");
+        try {
+            if (++count % 3 != 0) {
+                Thread.sleep(3000);
+            }
+        } catch (InterruptedException ignore) {
+            Thread.currentThread().interrupt();
+        }
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword("password");
         user.setPhone("13912345678");
         user.setMail("dev@dubbo.apache.org");
         user.setRealName("Dubbo Test");

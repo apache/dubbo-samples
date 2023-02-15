@@ -18,23 +18,27 @@ package org.apache.dubbo.samples.frontend;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.DetailService;
 import org.apache.dubbo.samples.Item;
 import org.apache.dubbo.samples.Order;
+import org.apache.dubbo.samples.OrderDetail;
 import org.apache.dubbo.samples.OrderService;
 import org.apache.dubbo.samples.ShopService;
 import org.apache.dubbo.samples.User;
 import org.apache.dubbo.samples.UserService;
 
-@DubboService
+import org.springframework.stereotype.Component;
+
+@Component
 public class ShopServiceImpl implements ShopService {
-    @DubboReference
+    @DubboReference(check = false, retries = 0)
     private UserService userService;
 
-    @DubboReference
+    @DubboReference(check = false)
     private OrderService orderService;
 
-    @DubboReference
+    @DubboReference(check = false)
     private DetailService detailService;
 
     @Override
@@ -54,17 +58,26 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public boolean createItem(long sku, String itemName, String description, int stock) {
-        Item item = new Item();
-        item.setSku(sku);
-        item.setItemName(itemName);
-        item.setDescription(description);
-        item.setStock(stock);
-        return detailService.createItem(item);
+    public User getUserInfo(String username) {
+        return userService.getInfo(username);
     }
 
     @Override
-    public boolean submitOrder(long sku, int count, String address, String phone, String receiver) {
+    public boolean timeoutLogin(String username, String password) {
+        return userService.timeoutLogin(username, password) != null;
+    }
+
+    @Override
+    public Item checkItem(long sku, String username) {
+        return detailService.getItem(sku, username);
+    }
+
+    public Item checkItemGray(long sku, String username) {
+        return detailService.getItem(sku, username);
+    }
+
+    @Override
+    public OrderDetail submitOrder(long sku, int count, String address, String phone, String receiver) {
         Order order = new Order();
         order.setSku(sku);
         order.setCount(count);
