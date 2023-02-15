@@ -84,7 +84,7 @@ public class BenchmarkClient implements CommandLineRunner {
                 while (true) {
                     try {
                         long sku = ThreadLocalRandom.current().nextLong();
-                        shopService.checkItem(sku, "username");
+                        shopService.checkItem(sku, "dubbo");
                     } catch (Throwable t) {
                         logger.error("Running CreateItem Bench Failed.", t);
                     }
