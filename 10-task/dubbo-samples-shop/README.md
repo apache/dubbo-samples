@@ -3,7 +3,7 @@
 ## 架构
 线上商城的架构图如下：
 
-![shop-arc](/.images/shop-arc.png)
+![shop-arc](./.images/shop-arc.png)
 
 系统由 5 个微服务应用组成：
 * `Frontend 商城主页`，作为与用户交互的 web 界面，通过调用 `User`、`Detail`、`Order` 等提供用户登录、商品展示和订单管理等服务。
@@ -18,12 +18,12 @@
 ### 本地 IDE 部署
 把当前项目导入 IDEA 后，通过点击 IDEA 上方的可运行命令列表，可以看到一系列预先配置好的可运行 Shop 子任务示例，比如 `FrontEndApplication`、`UserApplication` 等。
 
-![ide_runnable_task](/.images/ide_runnable_task.png)
+![ide_runnable_task](./.images/ide_runnable_task.png)
 
 这些预先配置的可运行任务都已经被正确的打标，比如 `CommentApplicationGray` 的配置如下图所示，因此，如果直接运行
 `CommentApplicationGray`，则启动的进程将自动带有 `env=gray` 的标签。
 
-![ide_runnable_task_configuration](/.images/ide_runnable_task_configuration.png)
+![ide_runnable_task_configuration](./.images/ide_runnable_task_configuration.png)
 
 接下来，你就可以跟随 Dubbo 官网描述的任务，启动相应的任务示例，并运行查看效果。
 
@@ -39,7 +39,7 @@ kubectl apply -f https://raw.githubusercontent.com/apache/dubbo-samples/master/1
 
 完整的部署架构图如下：
 
-![shop-arc](/.images/shop-arc-deploy2.png)
+![shop-arc](./.images/shop-arc-deploy2.png)
 
 `Order 订单服务`有两个版本 `v1` 和 `v2`，`v2` 是订单服务优化后发布的新版本。
 * 版本 v1 只是简单的创建订单，不展示订单详情
