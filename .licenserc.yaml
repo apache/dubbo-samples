@@ -73,6 +73,8 @@ header:
     - '**/*.MD'
     - '**/src/main/resources/certs/**'
     - '**/dubbo-samples-tengine/dubbo-samples-tengine-provider/src/main/resources/docker/sources.list'
+    - '**/.run/**'
+    - '**/*.js'
 
   comment: on-failure
 
