@@ -26,6 +26,19 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface PojoGreeter {
 
+    String SAY_HELLO_01_RESP = "sayHello01";
+    String SAY_HELLO_02_RESP = "sayHello02";
+
+    // 1. primitive type
+    default String sayHello(int age) {
+        return SAY_HELLO_01_RESP;
+    }
+
+    // 2. Boxed type
+    default String sayHello(Integer age) {
+        return SAY_HELLO_02_RESP;
+    }
+
 
     ParentPojo greetChildPojo(Byte test);
 
