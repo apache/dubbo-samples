@@ -85,7 +85,7 @@ spec:
       targetPort: 9848
 ---
 
-# Provider
+# Filter Provider
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -111,7 +111,7 @@ spec:
               protocol: TCP
 ---
 
-# Consumer
+# Filter Consumer
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -130,6 +130,57 @@ spec:
       containers:
         - name: consumer
           image: apache/dubbo-demo:dubbo-samples-extensibility-filter-consumer_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20880
+              protocol: TCP
+---
+# Router Provider
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-samples-extensibility-router-provider
+  namespace: dubbo-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dubbo-samples-extensibility-router-provider
+  template:
+    metadata:
+      labels:
+        app: dubbo-samples-extensibility-router-provider
+    spec:
+      containers:
+        - name: consumer
+          image: apache/dubbo-demo:dubbo-samples-extensibility-router-provider_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20880
+              protocol: TCP
+---
+
+# Router Consumer
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-samples-extensibility-router-consumer
+  namespace: dubbo-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo-samples-extensibility-router-consumer
+  template:
+    metadata:
+      labels:
+        app: dubbo-samples-extensibility-router-consumer
+    spec:
+      containers:
+        - name: consumer
+          image: apache/dubbo-demo:dubbo-samples-extensibility-router-consumer_0.0.1
           imagePullPolicy: Always
           ports:
             - name: dubbo

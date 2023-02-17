@@ -18,23 +18,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo.samples</groupId>
-    <artifactId>dubbo-samples-extensibility</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>dubbo-samples-extensibility-router-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-    <name>Extensibility Task</name>
-    <description>Dubbo Samples Extensibility Task</description>
-
-    <modules>
-        <module>dubbo-samples-extensibility-filter-api</module>
-        <module>dubbo-samples-extensibility-filter-provider</module>
-        <module>dubbo-samples-extensibility-filter-consumer</module>
-        <module>dubbo-samples-extensibility-router-api</module>
-        <module>dubbo-samples-extensibility-router-provider</module>
-        <module>dubbo-samples-extensibility-router-consumer</module>
-    </modules>
+    <name>Dubbo Extensibility Router Task - API</name>
+    <description>Dubbo Extensibility Router Task - API</description>
 
 </project>
