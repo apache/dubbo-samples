@@ -47,7 +47,7 @@ public class UserServiceClient implements SmartInitializingSingleton {
         assertThrowable(()->{
             bindSecurityContext(null);
             userService.queryAll();
-        }, ex-> ex instanceof RpcException && ((RpcException) ex).isForbidden());
+        }, ex-> ex instanceof RpcException && ((RpcException) ex).isBiz());
     }
 
     private void findByUsername() {
