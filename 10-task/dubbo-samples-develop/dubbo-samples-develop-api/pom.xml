@@ -15,22 +15,22 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.apache.dubbo</groupId>
-    <artifactId>10-task</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
+    </parent>
 
-    <name>Task</name>
-    <description>Dubbo Learning Task</description>
+    <groupId>org.apache.dubbo.samples</groupId>
+    <artifactId>dubbo-samples-develop-api</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Dubbo Task - Shop - Develop's API</name>
+    <description>Dubbo Task - Shop - Develop's API</description>
 
-    <modules>
-        <module>dubbo-samples-rpc-basic</module>
-        <module>dubbo-samples-rpc-advanced</module>
-        <module>dubbo-samples-shop</module>
-        <module>dubbo-samples-develop</module>
-        <module>dubbo-samples-extensibility</module>
-    </modules>
 </project>
