@@ -32,7 +32,6 @@
         <module>dubbo-samples-meshrule-router</module>
         <module>dubbo-samples-metrics</module>
         <module>dubbo-samples-metrics-prometheus</module>
-        <module>dubbo-samples-metrics-prometheus-k8s</module>
         <module>dubbo-samples-metrics-spring-boot</module>
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-sentinel</module>
