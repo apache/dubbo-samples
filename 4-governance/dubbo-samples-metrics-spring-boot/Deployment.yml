@@ -13,6 +13,53 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#zookeeper
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  namespace: dubbo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: zookeeper:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 2181
+              name: rpc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  namespace: dubbo-system
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: zookeeper
+  ports:
+    - port: 2181
+      name: rpc
+      targetPort: 2181
+---
+
+#provider
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,15 +79,19 @@ spec:
     spec:
       containers:
         - name: ddubbo-samples-provider
-          image: provider:1.0
+          image: provider:1.0 # 修改为自己的镜像
+          env:
+            - name: ZOOKEEPER_ADDRESS
+              value: zookeeper.dubbo-system.svc
           imagePullPolicy: Never
           ports:
             - name: dubbo
               containerPort: 20880
               protocol: TCP
-            - name: http
-              containerPort: 80
+            - name: metrics
+              containerPort: 18081
               protocol: TCP
+
   selector:
     matchLabels:
       app: ddubbo-samples-provider
