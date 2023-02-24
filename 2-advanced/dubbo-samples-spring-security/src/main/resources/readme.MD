@@ -42,8 +42,8 @@ A --> B --> C
 </dependency>
 
 <dependency>
-   <groupId>org.springframework.security</groupId>
-    <artifactId>spring-securityconfig</artifactId>
+<groupId>org.springframework.security</groupId>
+<artifactId>spring-security-config</artifactId>
 </dependency>
 
 ```
