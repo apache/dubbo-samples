@@ -14,29 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services:
-  zookeeper:
-    image: zookeeper:latest
-
-  provider:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.metrics.springboot.provider.MetricsProvider
-    systemProps:
-      - ZOOKEEPER_ADDRESS=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkLog: "dubbo service started"
-    depends_on:
-      - zookeeper
+FROM openjdk:8u342-jdk
 
 
-  test:
-    type: test
-    basedir: .
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - provider=provider
-    depends_on:
-      - provider
+ADD ./target/*.jar /app/app.jar
+
+# 暴露对应的端口
+EXPOSE 20880
+EXPOSE 18081
+
+ENTRYPOINT exec java -jar /app/app.jar
