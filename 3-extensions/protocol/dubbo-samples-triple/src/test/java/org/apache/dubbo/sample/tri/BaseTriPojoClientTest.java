@@ -110,6 +110,12 @@ public abstract class BaseTriPojoClientTest {
     }
 
     @Test
+    public void greetMethodParamIsNull() {
+        String ret = delegate.methodParamIsNull(null);
+        Assert.assertEquals(ret, "ok");
+    }
+
+    @Test
     @Ignore
     public void greetException() {
         boolean isSupportSelfDefineException = Version.getVersion().compareTo("3.2.0") < 0;
