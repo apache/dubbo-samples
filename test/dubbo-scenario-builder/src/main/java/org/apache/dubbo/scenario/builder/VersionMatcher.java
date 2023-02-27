@@ -248,7 +248,8 @@ public class VersionMatcher {
         boolean included = false;
         String trimVersion = trimVersion(version);
         for (MatchRule matchRule : matchRules) {
-            if (matchRule.match(matchRule instanceof WildcardMatchRule ? version : trimVersion)) {
+            if (matchRule.match(matchRule instanceof WildcardMatchRule || matchRule instanceof PlainMatchRule ?
+                    version : trimVersion)) {
                 // excluded rule has higher priority than included rule
                 if (matchRule.isExcluded()) {
                     return false;
