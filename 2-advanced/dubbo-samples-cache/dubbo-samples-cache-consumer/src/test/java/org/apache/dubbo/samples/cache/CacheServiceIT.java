@@ -17,25 +17,28 @@
 
 package org.apache.dubbo.samples.cache;
 
-import org.apache.dubbo.samples.cache.api.CacheService;
-
 import junit.framework.TestCase;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.samples.cache.api.CacheService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/cache-consumer.xml")
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class CacheServiceIT {
-    @Autowired
-    @Qualifier("cacheService")
+    @DubboReference
     private CacheService service;
 
     @Test
+    //if wanna test code, please Comment out the code in org.apache.dubbo.samples.cache.Task
     public void findCache() throws Exception {
         Assert.assertEquals(service.findCache("0"), service.findCache("0"));
     }
