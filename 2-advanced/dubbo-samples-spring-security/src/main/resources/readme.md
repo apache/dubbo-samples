@@ -1,6 +1,6 @@
 #### introduction
 
-Dubbo Security is an RPC communication authentication module based on Spring Security. It follows Spring Security's security configuration and uses Spring Security context authorization information to complete authorized access between clients and servers.
+Dubbo Security is based on spring security built rpc communication authentication module , following spring security configuration to complete the client and server authorization access through the Spring security context authorization information .
 
 #### service call
 
