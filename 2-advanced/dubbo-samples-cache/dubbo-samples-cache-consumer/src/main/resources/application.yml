@@ -16,7 +16,8 @@
 
 dubbo:
   application:
-    name: dubbo-springboot-demo-consumer
+    name: cache-consumer
+    qos-enable: false
   protocol:
     name: dubbo
     port: -1
