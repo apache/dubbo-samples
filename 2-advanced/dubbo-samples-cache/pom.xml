@@ -37,7 +37,7 @@
     <description>Dubbo Samples Cache</description>
 
     <properties>
-        <dubbo.version>3.2.0-beta.4</dubbo.version>
+        <dubbo.version>3.1.6</dubbo.version>
         <junit.version>4.13.1</junit.version>
         <spring-boot.version>2.7.8</spring-boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -91,6 +91,7 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 
