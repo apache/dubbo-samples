@@ -43,6 +43,13 @@ public class PojoGreeterImpl implements PojoGreeter {
     }
 
     @Override
+    public String methodParamIsNull(String request) {
+        System.out.println("methodParamIsNull request:" + request);
+        assert request == null;
+        return "ok";
+    }
+
+    @Override
     public ParentPojo greetChildPojo(Byte test) {
         ChildPojo childPojo = new ChildPojo();
         childPojo.setChild("test");
