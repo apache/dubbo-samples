@@ -145,11 +145,6 @@ public class ObservationConfiguration {
         return new ObservationHandlerRegistrar(observationRegistry, tracer, propagator, meterRegistry);
     }
 
-    @Bean
-    MetricsDumper metricsDumper(MeterRegistry meterRegistry) {
-        return new MetricsDumper(meterRegistry);
-    }
-
     static class ObservationHandlerRegistrar {
 
         private final ObservationRegistry observationRegistry;
@@ -172,22 +167,6 @@ public class ObservationConfiguration {
             observationRegistry.observationConfig().observationHandler(new TracingAwareMeterObservationHandler<>(new DefaultMeterObservationHandler(meterRegistry), tracer));
             observationRegistry.observationConfig()
                     .observationHandler(new ObservationHandler.FirstMatchingCompositeObservationHandler(new PropagatingReceiverTracingObservationHandler<>(tracer, propagator), new PropagatingSenderTracingObservationHandler<>(tracer, propagator), new DefaultTracingObservationHandler(tracer)));
-        }
-    }
-
-
-    static class MetricsDumper {
-        private final MeterRegistry meterRegistry;
-
-        MetricsDumper(MeterRegistry meterRegistry) {
-            this.meterRegistry = meterRegistry;
-        }
-
-        @PreDestroy
-        void dumpMetrics() {
-            System.out.println("==== METRICS ====");
-            this.meterRegistry.getMeters().forEach(meter -> System.out.println(" - Metric type \t[" + meter.getId().getType() + "],\tname [" + meter.getId().getName() + "],\ttags " + meter.getId().getTags() + ",\tmeasurements " + meter.measure()));
-            System.out.println("=================");
         }
     }
 }
