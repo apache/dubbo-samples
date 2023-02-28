@@ -9,7 +9,7 @@ graph LR
 A --> B --> C
 ```
 
-+ Scene one: A, B, C dependency Dubbo Spring Security. B and C enable authorization config. During the invocation process, B will perform authorization check first, and if the verification is successful, it will call C for verification.
++ Scene one: A,B,C dependency Dubbo Spring Security. B and C enable authorization config. During the invocation process, B will perform authorization check first, and if the verification is successful, it will call C for verification.
 
 + Scene two: A,C dependency Dubbo Spring Security. A calls B and during the process of B calling C, the authorization information will be transparently passed through. C will receive the authorization information and perform authorization verification.
 
