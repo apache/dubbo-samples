@@ -19,7 +19,6 @@
 
 package org.apache.dubbo.samples.cache.impl;
 
-import org.apache.dubbo.cache.Cache;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.cache.api.CacheService;
 
