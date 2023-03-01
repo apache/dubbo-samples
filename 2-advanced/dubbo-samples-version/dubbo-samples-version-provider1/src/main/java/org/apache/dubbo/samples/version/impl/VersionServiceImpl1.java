@@ -28,7 +28,7 @@ public class VersionServiceImpl1 implements VersionService {
 
     @Override
     public String sayHello(String name) {
-        return "hello1, " + name;
+        return "hello, " + name;
     }
 
 }
