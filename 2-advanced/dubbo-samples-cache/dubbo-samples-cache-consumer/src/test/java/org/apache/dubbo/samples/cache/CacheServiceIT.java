@@ -23,15 +23,10 @@ import org.apache.dubbo.samples.cache.api.CacheService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest
+@SpringBootTest(classes = {CacheConsumer.class})
 @RunWith(SpringRunner.class)
 public class CacheServiceIT {
     @DubboReference
@@ -39,12 +34,12 @@ public class CacheServiceIT {
 
     @Test
     //if wanna test code, please Comment out the code in org.apache.dubbo.samples.cache.Task
-    public void findCache() throws Exception {
+    public void findCache() {
         Assert.assertEquals(service.findCache("0"), service.findCache("0"));
     }
 
     @Test
-    public void verifyLRU() throws Exception {
+    public void verifyLRU() {
         // this test is for LRU-2 cache only.
         // verify cache, same result is returned for multiple invocations (in fact, the return value increases
         // on every invocation on the server side)
@@ -63,6 +58,4 @@ public class CacheServiceIT {
         TestCase.assertFalse(value.equals(service.findCache("0")));
         TestCase.assertEquals(service.findCache("0"), service.findCache("0"));
     }
-
-
 }

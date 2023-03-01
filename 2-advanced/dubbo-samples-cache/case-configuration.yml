@@ -13,26 +13,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-from: app-builtin-zookeeper.yml
-
 services:
-  provider:
+  cache-provider:
     type: app
     basedir: dubbo-samples-cache-provider
     mainClass: org.apache.dubbo.samples.cache.CacheProvider
-    zookeeper_port: 2181
-    dubbo_port: 20880
-
-  test:
+  cache-consumer:
     type: test
     basedir: dubbo-samples-cache-consumer
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
+      - zookeeper.address=cache-provider
+      - zookeeper.port=2181
+      - dubbo.address=cache-provider
+      - dubbo.port=20880
     waitPortsBeforeRun:
-      - zookeeper:2181
-      - provider:20880
+      - cache-provider:2181
+      - cache-provider:20880
     depends_on:
-      - provider
+      - cache-provider
