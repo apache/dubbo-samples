@@ -16,9 +16,23 @@
 
 from: app-builtin-zookeeper.yml
 
-props:
-  project_name: dubbo-samples-cache
-  main_class: org.apache.dubbo.samples.cache.CacheProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+services:
+  provider:
+    type: app
+    basedir: dubbo-samples-cache-provider
+    mainClass: org.apache.dubbo.samples.cache.CacheProvider
+    zookeeper_port: 2181
+    dubbo_port: 20880
 
+  test:
+    type: test
+    basedir: dubbo-samples-cache-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - provider:20880
+    depends_on:
+      - provider

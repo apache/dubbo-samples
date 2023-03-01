@@ -29,7 +29,6 @@ public class Task implements CommandLineRunner {
     @DubboReference(cache = "true")
     CacheService cacheService;
 
-
     @Override
     public void run(String... args) {
         System.out.println("ready to run task");
