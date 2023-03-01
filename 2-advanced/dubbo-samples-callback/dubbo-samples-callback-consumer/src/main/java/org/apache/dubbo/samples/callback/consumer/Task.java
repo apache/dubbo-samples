@@ -17,20 +17,21 @@
  *
  */
 
-package org.apache.dubbo.samples.callback;
+package org.apache.dubbo.samples.callback.consumer;
 
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.samples.callback.api.CallbackListener;
 import org.apache.dubbo.samples.callback.api.CallbackService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class CallbackConsumer {
-
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/callback-consumer.xml");
-        context.start();
-
-        CallbackService callbackService = context.getBean("callbackService", CallbackService.class);
-        callbackService.addListener("foo.bar", msg -> System.out.println("callback:" + msg));
+@Component
+public class Task implements CommandLineRunner {
+    @DubboReference
+    private CallbackService callbackService;
+    @Override
+    public void run(String... args) {
+        callbackService.addListener("foo.bar", msg -> System.out.println(msg));
     }
-
 }

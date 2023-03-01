@@ -17,8 +17,11 @@
  *
  */
 
-package org.apache.dubbo.samples.callback.impl;
+package org.apache.dubbo.samples.callback.provider;
 
+import org.apache.dubbo.config.annotation.Argument;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.samples.callback.api.CallbackListener;
 import org.apache.dubbo.samples.callback.api.CallbackService;
 
@@ -27,6 +30,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@DubboService(token = "true", connections = 1, callbacks = 1000, methods = @Method(name = "addListener", arguments = @Argument(index = 1, callback = true)))
 public class CallbackServiceImpl implements CallbackService {
 
     private final Map<String, CallbackListener> listeners = new ConcurrentHashMap<String, CallbackListener>();
