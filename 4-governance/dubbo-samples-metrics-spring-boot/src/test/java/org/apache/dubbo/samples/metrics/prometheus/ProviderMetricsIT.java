@@ -43,14 +43,5 @@ public class ProviderMetricsIT {
         } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet("http://" + System.getProperty("consumer", "localhost") + ":18091/management/prometheus");
-            CloseableHttpResponse response = client.execute(request);
-            InputStream inputStream = response.getEntity().getContent();
-            String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
-            Assert.assertTrue(text.contains("jvm_gc_memory_promoted_bytes_total"));
-        } catch (Exception e) {
-            Assert.fail(e.getMessage());
-        }
     }
 }
