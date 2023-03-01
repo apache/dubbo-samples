@@ -18,10 +18,10 @@ services:
   zookeeper:
     image: zookeeper:latest
 
-  dubbo-samples-version-provider:
+  dubbo-samples-version-provider1:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.version.VersionProvider
+    basedir: dubbo-samples-version-provider1
+    mainClass: org.apache.dubbo.samples.version.ProviderApplication
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
@@ -34,8 +34,8 @@ services:
 
   dubbo-samples-version-provider2:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.version.VersionProvider2
+    basedir: dubbo-samples-version-provider2
+    mainClass: org.apache.dubbo.samples.version.ProviderApplication
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
@@ -48,16 +48,16 @@ services:
 
   dubbo-samples-version-consumer:
     type: test
-    basedir: .
+    basedir: dubbo-samples-version-consumer
     tests:
       - "**/*IT.class"
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
-      - dubbo-samples-version-provider:20880
+      - dubbo-samples-version-provider1:20880
       - dubbo-samples-version-provider2:20882
     depends_on:
       - zookeeper
-      - dubbo-samples-version-provider
+      - dubbo-samples-version-provider1
       - dubbo-samples-version-provider2
