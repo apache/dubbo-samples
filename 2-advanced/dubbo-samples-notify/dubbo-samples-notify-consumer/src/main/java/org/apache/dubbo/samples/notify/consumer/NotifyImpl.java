@@ -39,4 +39,9 @@ public class NotifyImpl implements Notify {
         ret.put(id, ex);
         System.out.println("onThrow: " + ex);
     }
+
+    @Override
+    public void onInvoke(int id) {
+        System.out.println("onInvoke: " + id);
+    }
 }

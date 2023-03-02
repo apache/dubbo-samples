@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class NotifyIT {
     // @DubboReference
-    @DubboReference(methods = @Method(name = "sayHello", onreturn = "notify.onReturn", onthrow = "notify.onThrow"))
+    @DubboReference(timeout = 6000, methods = @Method(name = "sayHello", onreturn = "notify.onReturn", onthrow = "notify.onThrow"))
     private DemoService demoService;
 
     @Autowired
