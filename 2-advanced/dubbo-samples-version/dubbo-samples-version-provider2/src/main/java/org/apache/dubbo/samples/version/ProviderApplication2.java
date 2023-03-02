@@ -23,8 +23,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableDubbo
-public class ProviderApplication {
+public class ProviderApplication2 {
     public static void main(String[] args) {
-        SpringApplication.run(ProviderApplication.class, args);
+        SpringApplication.run(ProviderApplication2.class, args);
     }
 }
