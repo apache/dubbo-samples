@@ -14,14 +14,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dubbo:
-  application:
-    name: samples-annotation-provider
+services:
+  zookeeper:
+    image: zookeeper:latest
+
   provider:
-    token: "true"
-  protocol:
-    name: dubbo
-    port: 20880
-  registry:
-    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
-    simplifed: true
+    type: app
+    basedir: dubbo-samples-autowire-provider
+    mainClass: org.apache.dubbo.samples.autowire.provider
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "Current Spring Boot Application is await..."
+
+  test:
+    type: test
+    basedir: dubbo-samples-autowire-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - provider:20880
+    depends_on:
+      - provider
+

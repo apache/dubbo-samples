@@ -19,13 +19,17 @@ package org.apache.dubbo.samples.autowire.provider;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.autowire.api.HelloService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @DubboService(token = "true")
 public class HelloServiceImpl implements HelloService {
 
+    private static Logger logger = LoggerFactory.getLogger(HelloServiceImpl.class);
+
     @Override
     public String sayHello(String name) {
-        System.out.println("provider received invoke of sayHello: " + name);
+        logger.info("provider received invoke of sayHello: " + name);
         return "hello " + name;
     }
 

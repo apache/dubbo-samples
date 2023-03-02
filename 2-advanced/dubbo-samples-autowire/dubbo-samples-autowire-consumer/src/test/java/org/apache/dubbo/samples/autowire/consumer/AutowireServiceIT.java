@@ -18,6 +18,7 @@
 package org.apache.dubbo.samples.autowire.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.samples.autowire.api.HelloService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,11 +30,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class AutowireServiceIT {
 
     @DubboReference
-    private HelloServiceConsumer helloServiceConsumer;
+    private HelloService helloService;
 
     @Test
     public void testSayHello() throws Exception {
-        Assert.assertEquals("HelloServiceConsumer say hello dubbo", helloServiceConsumer.helloServiceConsumerSayHello("dubbo"));
+        Assert.assertEquals("hello dubbo",
+                helloService.sayHello("dubbo"));
     }
 
 }

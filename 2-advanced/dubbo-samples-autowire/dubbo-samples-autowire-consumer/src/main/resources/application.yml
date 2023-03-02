@@ -21,6 +21,6 @@ dubbo:
     timeout: 1000
   protocol:
     name: dubbo
-    port: 20880
+    port: -1
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181

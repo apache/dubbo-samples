@@ -18,15 +18,23 @@
 package org.apache.dubbo.samples.autowire.consumer;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.samples.autowire.api.HelloService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 @EnableDubbo
 public class ConsumerBootstrap {
 
+    private static Logger logger = LoggerFactory.getLogger(ConsumerBootstrap.class);
+
     public static void main(String[] args) {
-        SpringApplication.run(ConsumerBootstrap.class, args);
+        ConfigurableApplicationContext ctx = SpringApplication.run(ConsumerBootstrap.class, args);
+        HelloService helloService = ctx.getBean(HelloService.class);
+        logger.info("result: " + helloService.sayHello("dubbo"));
     }
 
 }

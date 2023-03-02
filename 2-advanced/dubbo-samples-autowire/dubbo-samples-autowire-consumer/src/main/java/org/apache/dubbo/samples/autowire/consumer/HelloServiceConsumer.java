@@ -19,16 +19,20 @@ package org.apache.dubbo.samples.autowire.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.autowire.api.HelloService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HelloServiceConsumer {
 
+    private static Logger logger = LoggerFactory.getLogger(HelloServiceConsumer.class);
+
     @DubboReference
     private HelloService helloService;
 
     public String helloServiceConsumerSayHello(String name) {
-        System.out.println("HelloServiceConsumer.name = " + name);
+        logger.info("HelloServiceConsumer.name = " + name);
         return "HelloServiceConsumer say " + helloService.sayHello(name);
     }
 
