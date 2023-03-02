@@ -28,7 +28,6 @@ services:
       - zookeeper:2181
     checkPorts:
       - 20880
-    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
 
@@ -42,7 +41,6 @@ services:
       - zookeeper:2181
     checkPorts:
       - 20882
-    checkLog: "dubbo service started"
     depends_on:
       - zookeeper
 
