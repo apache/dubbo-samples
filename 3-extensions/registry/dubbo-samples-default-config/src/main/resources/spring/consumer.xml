@@ -30,7 +30,7 @@
 
     <dubbo:consumer registry="beijingRegistry">
         <dubbo:reference id="demoServiceFormBeijing"
-                         interface="org.apache.dubbo.samples.multi.registry.api.DemoService"/>
+                         interface="org.apache.dubbo.samples.multi.registry.api.org.apache.dubbo.samples.local.api.LocalService"/>
         <dubbo:reference id="helloServiceFormBeijing"
                          interface="org.apache.dubbo.samples.multi.registry.api.HelloService" protocol="hessian"/>
     </dubbo:consumer>

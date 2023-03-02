@@ -37,7 +37,7 @@
 
     <dubbo:service interface="org.apache.dubbo.samples.multi.registry.api.HelloService" ref="helloService"
                    registry="shanghaiRegistry,beijingRegistry"/>
-    <dubbo:service interface="org.apache.dubbo.samples.multi.registry.api.DemoService" ref="demoService"
+    <dubbo:service interface="org.apache.dubbo.samples.multi.registry.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"
                    registry="shanghaiRegistry,beijingRegistry"/>
 
 </beans>

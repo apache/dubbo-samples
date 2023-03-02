@@ -45,7 +45,7 @@
 
     <!-- this service use [executor="executor-demo-service"] as isolated thread pool-->
     <dubbo:service executor="executor-demo-service"
-                   interface="org.apache.dubbo.samples.support.DemoService" version="1.0.0" group="Group1"
+                   interface="org.apache.dubbo.samples.support.org.apache.dubbo.samples.local.api.LocalService" version="1.0.0" group="Group1"
                    timeout="3000" ref="demoServiceV1" registry="registry1" protocol="dubbo,tri"/>
 
     <!-- this service use [executor="executor-hello-service"] as isolated thread pool-->

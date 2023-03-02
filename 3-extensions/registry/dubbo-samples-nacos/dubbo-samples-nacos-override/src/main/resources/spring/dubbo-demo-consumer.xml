@@ -32,6 +32,6 @@
     <dubbo:config-center address="nacos://${nacos.address:127.0.0.1}:8848?username=nacos&amp;password=nacos"/>
 
     <dubbo:reference timeout="1000" id="demoService" check="false"
-                     interface="org.apache.dubbo.samples.governance.api.DemoService"/>
+                     interface="org.apache.dubbo.samples.governance.api.org.apache.dubbo.samples.local.api.LocalService"/>
 
 </beans>

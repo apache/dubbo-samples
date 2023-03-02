@@ -33,6 +33,6 @@
 
     <bean id="demoService" class="org.apache.dubbo.samples.prefer.serialization.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.prefer.serialization.api.DemoService" ref="demoService" prefer-serialization="fastjson"/>
+    <dubbo:service interface="org.apache.dubbo.samples.prefer.serialization.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService" prefer-serialization="fastjson"/>
 
 </beans>

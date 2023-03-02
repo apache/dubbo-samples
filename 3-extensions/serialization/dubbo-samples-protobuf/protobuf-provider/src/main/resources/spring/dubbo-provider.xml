@@ -31,7 +31,7 @@
 
     <bean id="demoServiceImpl" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
 
-    <dubbo:service serialization="protobuf" interface="org.apache.dubbo.demo.DemoService"
+    <dubbo:service serialization="protobuf" interface="org.apache.dubbo.demo.org.apache.dubbo.samples.local.api.LocalService"
                    ref="demoServiceImpl"/>
 
 </beans>

@@ -35,7 +35,7 @@
 
     <bean id="demoService" class="org.apache.dubbo.samples.notify.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.notify.api.DemoService" ref="demoService" version="1.0.0"
+    <dubbo:service interface="org.apache.dubbo.samples.notify.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService" version="1.0.0"
                    group="cn"/>
 
 </beans>

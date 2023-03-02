@@ -25,8 +25,8 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:localhost}:${zookeeper.port:2181}"/>
 
-    <dubbo:reference id="demoServiceFromNormal" check="false" group="normal" interface="org.apache.dubbo.demo.DemoService"/>
-    <dubbo:reference id="demoServiceFromService" check="false" group="service" interface="org.apache.dubbo.demo.DemoService"/>
-    <dubbo:reference id="demoServiceFromDual" check="false" group="dual" interface="org.apache.dubbo.demo.DemoService"/>
+    <dubbo:reference id="demoServiceFromNormal" check="false" group="normal" interface="org.apache.dubbo.demo.org.apache.dubbo.samples.local.api.LocalService"/>
+    <dubbo:reference id="demoServiceFromService" check="false" group="service" interface="org.apache.dubbo.demo.org.apache.dubbo.samples.local.api.LocalService"/>
+    <dubbo:reference id="demoServiceFromDual" check="false" group="dual" interface="org.apache.dubbo.demo.org.apache.dubbo.samples.local.api.LocalService"/>
 
 </beans>

@@ -30,6 +30,6 @@
 
     <dubbo:config-center highest-priority="false" address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <dubbo:reference group="*" id="demoService" interface="org.apache.dubbo.samples.configcenter.api.DemoService"/>
+    <dubbo:reference group="*" id="demoService" interface="org.apache.dubbo.samples.configcenter.api.org.apache.dubbo.samples.local.api.LocalService"/>
 
 </beans>

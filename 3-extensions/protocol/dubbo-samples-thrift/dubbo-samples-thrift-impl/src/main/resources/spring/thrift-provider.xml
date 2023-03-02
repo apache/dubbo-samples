@@ -30,7 +30,7 @@
 
     <bean id="demoService" class="org.apache.dubbo.samples.rpc.nativethrift.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.rpc.nativethrift.api.DemoService$Iface" ref="demoService"
+    <dubbo:service interface="org.apache.dubbo.samples.rpc.nativethrift.api.org.apache.dubbo.samples.local.api.LocalService$Iface" ref="demoService"
                    version="1.0.0"/>
 
 </beans>

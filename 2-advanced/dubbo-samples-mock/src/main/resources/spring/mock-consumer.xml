@@ -30,7 +30,7 @@
 
     <!-- generate proxy for the remote service, then demoService can be used in the same way as the
     local regular interface -->
-    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.mock.api.DemoService"
+    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.mock.api.org.apache.dubbo.samples.local.api.LocalService"
                      mock="true"/>
 
 </beans>

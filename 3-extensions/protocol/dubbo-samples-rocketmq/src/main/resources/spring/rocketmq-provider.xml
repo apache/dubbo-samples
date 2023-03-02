@@ -36,5 +36,5 @@
 
     <bean id="demoService" class="org.apache.dubbo.samples.rocketmq.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.rocketmq.api.DemoService" ref="demoService" protocol="rocketmq"/>
+    <dubbo:service interface="org.apache.dubbo.samples.rocketmq.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService" protocol="rocketmq"/>
 </beans>

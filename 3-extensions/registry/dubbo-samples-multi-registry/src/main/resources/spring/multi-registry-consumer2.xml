@@ -27,7 +27,7 @@
 
     <dubbo:registry id="shanghaiRegistry" address="zookeeper://${zookeeper.address.2:127.0.0.1}:${zookeeper.port:2181}" />
 
-    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.multi.registry.api.DemoService"/>
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.multi.registry.api.org.apache.dubbo.samples.local.api.LocalService"/>
     <dubbo:reference id="helloService" interface="org.apache.dubbo.samples.multi.registry.api.HelloService"/>
 
 </beans>

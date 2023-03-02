@@ -36,7 +36,7 @@
     <!--    <dubbo:protocol name="dubbo" port="20880" />-->
 
     <!-- 声明需要暴露的服务接口 -->
-    <dubbo:service interface="org.apache.dubbo.samples.webservice.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.webservice.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"/>
 
     <!-- 和本地bean一样实现服务 -->
     <bean id="demoService" class="org.apache.dubbo.samples.webservice.provider.impl.DemoServiceImpl"/>

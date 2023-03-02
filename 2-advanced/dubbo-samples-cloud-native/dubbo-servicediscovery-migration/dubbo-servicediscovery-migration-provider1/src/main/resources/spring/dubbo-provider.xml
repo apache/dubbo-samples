@@ -33,8 +33,8 @@
     <bean id="demoServiceFromDual" class="org.apache.dubbo.demo.provider.DemoServiceFromDual"/>
 
     <!-- only to normal registry -->
-    <dubbo:service registry="normal" group="normal" interface="org.apache.dubbo.demo.DemoService" ref="demoServiceFromNormal"/>
+    <dubbo:service registry="normal" group="normal" interface="org.apache.dubbo.demo.org.apache.dubbo.samples.local.api.LocalService" ref="demoServiceFromNormal"/>
     <!-- to both sides -->
-    <dubbo:service group="dual" interface="org.apache.dubbo.demo.DemoService" ref="demoServiceFromDual"/>
+    <dubbo:service group="dual" interface="org.apache.dubbo.demo.org.apache.dubbo.samples.local.api.LocalService" ref="demoServiceFromDual"/>
 
 </beans>

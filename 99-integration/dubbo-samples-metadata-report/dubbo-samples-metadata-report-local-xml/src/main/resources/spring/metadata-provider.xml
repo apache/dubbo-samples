@@ -33,6 +33,6 @@
                            retry-period="4590" sync-report="true" retry-times="23"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.metadatareport.local.xml.impl.DemoServiceImpl"/>
-    <dubbo:service interface="org.apache.dubbo.samples.metadatareport.local.xml.api.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.metadatareport.local.xml.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"/>
 
 </beans>

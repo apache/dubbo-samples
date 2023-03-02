@@ -28,6 +28,6 @@
 
     <dubbo:protocol name="native-thrift"/>
 
-    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.rpc.nativethrift.api.DemoService$Iface"
+    <dubbo:reference id="demoService" interface="org.apache.dubbo.samples.rpc.nativethrift.api.org.apache.dubbo.samples.local.api.LocalService$Iface"
                      version="1.0.0"/>
 </beans>

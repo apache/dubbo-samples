@@ -69,7 +69,7 @@ proportion: 60
 delay: 60
 force: false
 interfaces: # Interface level migration
-  - serviceKey: org.apache.dubbo.demo.DemoService:1.0.0
+  - serviceKey: org.apache.dubbo.demo.org.apache.dubbo.samples.local.api.LocalService:1.0.0
     threshold: 1
     delay: 30
     step: APPLICATION_FIRST

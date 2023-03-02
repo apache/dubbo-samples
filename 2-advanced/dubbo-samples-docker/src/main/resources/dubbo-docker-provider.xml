@@ -34,7 +34,7 @@
 
     <dubbo:provider delay="-1"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.docker.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.docker.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.docker.DemoServiceImpl"/>
 </beans>

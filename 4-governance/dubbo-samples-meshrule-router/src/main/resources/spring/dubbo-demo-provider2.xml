@@ -36,7 +36,7 @@
     <dubbo:config-center highest-priority="false" address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <bean id="demoService2" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl2"/>
-    <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService" ref="demoService2">
+    <dubbo:service interface="org.apache.dubbo.samples.governance.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService2">
         <dubbo:parameter key="ut" value="CENTER"/>
     </dubbo:service>
 </beans>

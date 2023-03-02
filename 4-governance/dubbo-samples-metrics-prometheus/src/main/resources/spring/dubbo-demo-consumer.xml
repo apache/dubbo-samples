@@ -27,7 +27,7 @@
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
-    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService"/>
+    <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.samples.metrics.prometheus.api.org.apache.dubbo.samples.local.api.LocalService"/>
     <dubbo:metrics protocol="prometheus" enable-jvm-metrics="true">
         <dubbo:aggregation enabled="true"/>
         <dubbo:prometheus-exporter enabled="true" metrics-port="20889"/>

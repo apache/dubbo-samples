@@ -40,5 +40,5 @@
     </dubbo:consumer>
 
     <dubbo:reference id="demoService"
-                     interface="org.apache.dubbo.samples.rocketmq.api.DemoService" protocol="rocketmq"/>
+                     interface="org.apache.dubbo.samples.rocketmq.api.org.apache.dubbo.samples.local.api.LocalService" protocol="rocketmq"/>
 </beans>

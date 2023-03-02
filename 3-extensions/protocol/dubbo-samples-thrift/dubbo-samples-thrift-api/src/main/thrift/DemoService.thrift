@@ -2,7 +2,7 @@ namespace java org.apache.dubbo.samples.rpc.nativethrift.api
 namespace go demo
 /*Demo service define file,can be generated to inteface files*/
 /*Here test the 7 kind of data type*/
-service DemoService {
+service org.apache.dubbo.samples.local.api.LocalService {
     bool echoBool( 1:required bool arg );
     i8 echoByte( 1:required i8 arg );
     i16  echoI16 ( 1:required i16  arg );

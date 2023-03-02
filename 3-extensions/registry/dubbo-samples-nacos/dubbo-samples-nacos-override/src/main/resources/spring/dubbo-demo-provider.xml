@@ -37,5 +37,5 @@
 
     <bean id="demoService" class="org.apache.dubbo.samples.governance.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.governance.api.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.governance.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"/>
 </beans>

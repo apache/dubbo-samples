@@ -40,7 +40,7 @@
     </dubbo:provider>
 
     <dubbo:provider id="defaultHessianCofig" protocol="hessian" registry="beijingRegistry">
-        <dubbo:service interface="org.apache.dubbo.samples.multi.registry.api.DemoService" ref="demoService"/>
+        <dubbo:service interface="org.apache.dubbo.samples.multi.registry.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"/>
     </dubbo:provider>
 
 

@@ -31,7 +31,7 @@
 
     <bean id="demoService" class="org.apache.dubbo.samples.serialization.impl.DemoServiceImpl"/>
 
-    <dubbo:service interface="org.apache.dubbo.samples.serialization.api.DemoService" ref="demoService"
+    <dubbo:service interface="org.apache.dubbo.samples.serialization.api.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"
                    serialization="java"/>
 
 </beans>

@@ -30,5 +30,5 @@
     <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
 
     <dubbo:reference id="demoService" init="true"
-                     interface="org.apache.dubbo.samples.metadatareport.local.properties.api.DemoService"/>
+                     interface="org.apache.dubbo.samples.metadatareport.local.properties.api.org.apache.dubbo.samples.local.api.LocalService"/>
 </beans>

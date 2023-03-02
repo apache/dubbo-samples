@@ -34,6 +34,6 @@
     <bean id="demoService" class="org.apache.dubbo.samples.tengine.provider.DemoServiceImpl"/>
 
     <!-- declare the service interface to be exported -->
-    <dubbo:service interface="org.apache.dubbo.samples.tengine.DemoService" ref="demoService"/>
+    <dubbo:service interface="org.apache.dubbo.samples.tengine.org.apache.dubbo.samples.local.api.LocalService" ref="demoService"/>
 
 </beans>

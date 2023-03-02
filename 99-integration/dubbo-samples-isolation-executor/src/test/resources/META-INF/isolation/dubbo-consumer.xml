@@ -30,7 +30,7 @@
 
     <!-- refer with dubbo protocol-->
     <dubbo:reference version="1.0.0" group="Group1" id="dubbo-demoServiceV1" check="false" scope="remote"
-                     interface="org.apache.dubbo.samples.support.DemoService" protocol="dubbo"/>
+                     interface="org.apache.dubbo.samples.support.org.apache.dubbo.samples.local.api.LocalService" protocol="dubbo"/>
 
     <dubbo:reference version="2.0.0" group="Group2" id="dubbo-helloServiceV2" check="false" scope="remote"
                      interface="org.apache.dubbo.samples.support.HelloService" protocol="dubbo"/>
@@ -40,7 +40,7 @@
 
     <!-- refer with tri protocol-->
     <dubbo:reference version="1.0.0" group="Group1" id="tri-demoServiceV1" check="false" scope="remote"
-                     interface="org.apache.dubbo.samples.support.DemoService" protocol="tri"/>
+                     interface="org.apache.dubbo.samples.support.org.apache.dubbo.samples.local.api.LocalService" protocol="tri"/>
 
     <dubbo:reference version="2.0.0" group="Group2" id="tri-helloServiceV2" check="false" scope="remote"
                      interface="org.apache.dubbo.samples.support.HelloService" protocol="tri"/>

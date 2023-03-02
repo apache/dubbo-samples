@@ -25,7 +25,7 @@
     <dubbo:application name="simplified-registry-properties-provider"/>
 
     <bean id="demoService" class="org.apache.dubbo.samples.simplified.registry.properties.impl.DemoServiceImpl"/>
-    <dubbo:service async="true" interface="org.apache.dubbo.samples.simplified.registry.properties.api.DemoService"
+    <dubbo:service async="true" interface="org.apache.dubbo.samples.simplified.registry.properties.api.org.apache.dubbo.samples.local.api.LocalService"
                    version="1.2.3" group="dubbo-simple" ref="demoService" executes="4500" retries="7" owner="vict"
                    timeout="5300"/>
 
