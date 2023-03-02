@@ -3,6 +3,7 @@ package org.apache.dubbo.samples.version;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.version.api.VersionService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,10 +18,19 @@ public class ConsumerIT {
 
     @Test
     public void test() throws Exception {
-        for (int i = 0; i < 10000; i++) {
-            String hello = versionService.sayHello("world");
-            System.out.println(hello);
-            Thread.sleep(2000);
+        boolean version1 = false;
+        boolean version2 = false;
+
+        for (int i = 0; i < 100; i++) {
+            String result = versionService.sayHello("dubbo");
+            System.out.println("result: " + result);
+            if (result.equals("hello, dubbo")) {
+                version1 = true;
+            }
+            if (result.equals("hello2, dubbo")) {
+                version2 = true;
+            }
         }
+        Assert.assertTrue(version1 && version2);
     }
 }
