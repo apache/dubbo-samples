@@ -19,8 +19,8 @@
 
 package org.apache.dubbo.samples.stub;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.dubbo.common.logger.Logger;
+import org.apache.dubbo.common.logger.LoggerFactory;
 
 public class DemoServiceStub implements DemoService {
     private static Logger logger = LoggerFactory.getLogger(DemoServiceStub.class);

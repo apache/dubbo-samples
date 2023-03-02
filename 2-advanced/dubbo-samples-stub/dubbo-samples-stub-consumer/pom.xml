@@ -58,11 +58,6 @@
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
-<!--        &lt;!&ndash; registry dependency &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.nacos</groupId>-->
-<!--            <artifactId>nacos-client</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
