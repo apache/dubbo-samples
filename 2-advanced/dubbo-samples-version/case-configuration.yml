@@ -35,7 +35,7 @@ services:
   dubbo-samples-version-provider2:
     type: app
     basedir: dubbo-samples-version-provider2
-    mainClass: org.apache.dubbo.samples.version.Provider2Application
+    mainClass: org.apache.dubbo.samples.version.ProviderApplication2
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
