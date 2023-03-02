@@ -29,7 +29,7 @@ public class Task implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10; i++) {
             String hello = versionService.sayHello("world");
             System.out.println(hello);
             Thread.sleep(2000);

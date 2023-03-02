@@ -17,7 +17,7 @@ public class ConsumerIT {
     private VersionService versionService;
 
     @Test
-    public void test() throws Exception {
+    public void test() {
         boolean version1 = false;
         boolean version2 = false;
 
@@ -30,6 +30,7 @@ public class ConsumerIT {
             if (result.equals("hello2, dubbo")) {
                 version2 = true;
             }
+            if (version1&&version2==true)break;
         }
         Assert.assertTrue(version1 && version2);
     }
