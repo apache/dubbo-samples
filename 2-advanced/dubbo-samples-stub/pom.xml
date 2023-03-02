@@ -43,8 +43,8 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
 <!--        <nacos.version>2.2.0</nacos.version>-->
@@ -53,7 +53,7 @@
         <dubbo.version>3.2.0-beta.4</dubbo.version>
         <spring-boot.version>3.0.2</spring-boot.version>
         <spring-boot-maven-plugin.version>2.6.8</spring-boot-maven-plugin.version>
-        <build.plugins.plugin.version>3.8.1</build.plugins.plugin.version>
+<!--        <build.plugins.plugin.version>3.8.1</build.plugins.plugin.version>-->
     </properties>
 
     <dependencyManagement>
@@ -104,19 +104,5 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>${build.plugins.plugin.version}</version>
-        </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${build.plugins.plugin.version}</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>
