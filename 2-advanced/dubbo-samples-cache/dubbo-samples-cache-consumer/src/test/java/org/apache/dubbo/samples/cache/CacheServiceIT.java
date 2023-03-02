@@ -20,6 +20,7 @@ package org.apache.dubbo.samples.cache;
 import junit.framework.TestCase;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.cache.api.CacheService;
+import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,14 +28,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-@SpringBootTest(classes = {org.apache.dubbo.samples.cache.CacheConsumer.class})
+@SpringBootTest(classes = {DubboAutoConfiguration.class})
 @RunWith(SpringRunner.class)
 public class CacheServiceIT {
-    @DubboReference
+    @DubboReference(cache = "true")
     private CacheService service;
 
     @Test
-    //if wanna test code, please Comment out the code in org.apache.dubbo.samples.cache.Task
     public void findCache() {
         Assert.assertEquals(service.findCache("0"), service.findCache("0"));
     }

@@ -24,7 +24,7 @@ import org.apache.dubbo.samples.cache.api.CacheService;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-@DubboService(token = "true")
+@DubboService(token = "true", cache = "true")
 public class CacheServiceImpl implements CacheService {
 
     private final AtomicInteger i = new AtomicInteger();
