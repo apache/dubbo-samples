@@ -18,28 +18,23 @@ services:
   zookeeper:
     image: zookeeper:latest
 
-  provider:
+  autowire-provider:
     type: app
     basedir: dubbo-samples-autowire-provider
-    mainClass: org.apache.dubbo.samples.autowire.provider
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20880
-    checkLog: "Current Spring Boot Application is await..."
+    mainClass: org.apache.dubbo.samples.autowire.provider.ProviderBootstrap
 
-  test:
+  autowire-consumer:
     type: test
     basedir: dubbo-samples-autowire-consumer
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
+      - zookeeper.address=autowire-provider
+      - zookeeper.port=2181
+      - dubbo.address=autowire-provider
+      - dubbo.port=20880
     waitPortsBeforeRun:
-      - zookeeper:2181
-      - provider:20880
+      - autowire-provider:2181
+      - autowire-provider:20880
     depends_on:
-      - provider
-
+      - autowire-provider

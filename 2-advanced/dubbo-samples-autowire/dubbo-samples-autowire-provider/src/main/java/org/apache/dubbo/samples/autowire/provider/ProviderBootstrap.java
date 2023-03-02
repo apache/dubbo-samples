@@ -30,7 +30,6 @@ public class ProviderBootstrap {
     public static void main(String[] args) throws InterruptedException {
         new EmbeddedZooKeeper(2181, false).start();
         SpringApplication.run(ProviderBootstrap.class, args);
-        new CountDownLatch(1).await();
     }
 
 }

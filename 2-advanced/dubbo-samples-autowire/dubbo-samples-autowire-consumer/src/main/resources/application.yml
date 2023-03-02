@@ -16,11 +16,12 @@
 
 dubbo:
   application:
-    name: samples-annotation-consumer
-  consumer:
-    timeout: 1000
+    name: autowire-consumer
+    qos-enable: false
   protocol:
     name: dubbo
     port: -1
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+  consumer:
+    timeout: 1000
