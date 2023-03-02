@@ -16,7 +16,7 @@ public class ConsumerIT {
     private VersionService versionService;
 
     @Test
-    public void test(String... args) throws Exception {
+    public void test() throws Exception {
         for (int i = 0; i < 10000; i++) {
             String hello = versionService.sayHello("world");
             System.out.println(hello);
