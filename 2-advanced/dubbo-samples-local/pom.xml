@@ -45,27 +45,6 @@
 
     <dependencyManagement>
         <dependencies>
-<!--            <dependency>-->
-<!--                <groupId>org.springframework</groupId>-->
-<!--                <artifactId>spring-framework-bom</artifactId>-->
-<!--                <version>${spring.version}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.dubbo</groupId>-->
-<!--                <artifactId>dubbo-bom</artifactId>-->
-<!--                <version>${dubbo.version}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.dubbo</groupId>-->
-<!--                <artifactId>dubbo-dependencies-zookeeper</artifactId>-->
-<!--                <version>${dubbo.version}</version>-->
-<!--                <type>pom</type>-->
-<!--            </dependency>-->
-
             <!-- Spring Boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -93,17 +72,6 @@
     </dependencyManagement>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.dubbo</groupId>-->
-<!--            <artifactId>dubbo</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.apache.dubbo</groupId>-->
-<!--            <artifactId>dubbo-dependencies-zookeeper</artifactId>-->
-<!--            <type>pom</type>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -146,15 +114,4 @@
             </plugins>
         </pluginManagement>
     </build>
-    <!--        <plugins>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-    <!--                <version>${maven-compiler-plugin.version}</version>-->
-    <!--                <configuration>-->
-    <!--                    <source>${source.level}</source>-->
-    <!--                    <target>${target.level}</target>-->
-    <!--                </configuration>-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
 </project>

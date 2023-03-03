@@ -38,7 +38,6 @@
             <artifactId>dubbo-samples-local-interface</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
         <!-- dubbo -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
