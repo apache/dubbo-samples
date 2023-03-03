@@ -14,27 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services:
-  zookeeper:
-    image: zookeeper:latest
-
-  autowire-provider:
-    type: app
-    basedir: dubbo-samples-autowire-provider
-    mainClass: org.apache.dubbo.samples.autowire.provider.ProviderBootstrap
-
-  autowire-consumer:
-    type: test
-    basedir: dubbo-samples-autowire-consumer
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=autowire-provider
-      - zookeeper.port=2181
-      - dubbo.address=autowire-provider
-      - dubbo.port=20880
-    waitPortsBeforeRun:
-      - autowire-provider:2181
-      - autowire-provider:20880
-    depends_on:
-      - autowire-provider
+dubbo:
+  application:
+    name: autowire-provider
+    qos-enable: false
+  protocol:
+    name: dubbo
+    port: 20880
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    simplifed: true
+  provider:
+    token: "true"
