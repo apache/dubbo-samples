@@ -16,7 +16,7 @@
 
 spring:
   application:
-    name: dubbo-springboot-demo-provider
+    name: dubbo-springboot3-tracing-provider
 
 management:
   tracing:
@@ -25,7 +25,7 @@ management:
 
 dubbo:
   application:
-    name: dubbo-springboot-demo-provider
+    name: ${dubbo.application.name}
   protocol:
     name: dubbo
     port: -1
