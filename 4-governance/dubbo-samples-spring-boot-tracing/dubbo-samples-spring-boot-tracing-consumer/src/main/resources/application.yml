@@ -16,7 +16,7 @@
 
 spring:
   application:
-    name: dubbo-springboot3-tracing-consumer
+    name: dubbo-springboot-demo-consumer
 
 dubbo:
   application:
@@ -25,12 +25,12 @@ dubbo:
     name: dubbo
     port: -1
   registry:
-    id: nacos-registry
-    address: nacos://127.0.0.1:8848
+    id: zk-registry
+    address: zookeeper://127.0.0.1:2181
   config-center:
-    address: nacos://127.0.0.1:8848
+    address: zookeeper://127.0.0.1:2181
   metadata-report:
-    address: nacos://127.0.0.1:8848
+    address: zookeeper://127.0.0.1:2181
   tracing:
     enabled: true
     sampling:

@@ -18,14 +18,9 @@ spring:
   application:
     name: dubbo-springboot3-tracing-provider
 
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-
 dubbo:
   application:
-    name: ${dubbo.application.name}
+    name: ${spring.application.name}
   protocol:
     name: dubbo
     port: -1
@@ -36,3 +31,11 @@ dubbo:
     address: nacos://127.0.0.1:8848
   metadata-report:
     address: nacos://127.0.0.1:8848
+  tracing:
+    enabled: true
+    sampling:
+      probability: 0.5
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
