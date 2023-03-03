@@ -14,25 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.dubbo.samples.version;
+
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.version.api.VersionService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class VersionServer1IT {
 
-@Component
-public class Task implements CommandLineRunner {
-    @DubboReference(version = "*")
+    @DubboReference(version = "1.0.0")
     private VersionService versionService;
 
-    @Override
-    public void run(String... args) throws Exception {
-        for (int i = 0; i < 10; i++) {
-            String hello = versionService.sayHello("world");
-            System.out.println(hello);
-            Thread.sleep(200);
-        }
+    @Test
+    public void test() {
+        Assert.assertEquals("hello, dubbo", versionService.sayHello("dubbo"));
     }
 }

@@ -23,7 +23,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.version.api.VersionService;
 
 
-@DubboService
+@DubboService(version = "2.0.0")
 public class VersionServiceImpl2 implements VersionService {
 
     @Override

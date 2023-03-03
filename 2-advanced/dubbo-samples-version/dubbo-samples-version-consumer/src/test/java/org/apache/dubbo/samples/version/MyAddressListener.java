@@ -16,23 +16,28 @@
  */
 package org.apache.dubbo.samples.version;
 
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.samples.version.api.VersionService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.registry.AddressListener;
+import org.apache.dubbo.registry.client.ServiceDiscoveryRegistryDirectory;
+import org.apache.dubbo.rpc.cluster.Directory;
 
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
-public class Task implements CommandLineRunner {
-    @DubboReference(version = "*")
-    private VersionService versionService;
+@Activate
+public class MyAddressListener implements AddressListener {
+    private final static AtomicInteger addressSize = new AtomicInteger(0);
 
     @Override
-    public void run(String... args) throws Exception {
-        for (int i = 0; i < 10; i++) {
-            String hello = versionService.sayHello("world");
-            System.out.println(hello);
-            Thread.sleep(200);
+    public List<URL> notify(List<URL> addresses, URL consumerUrl, Directory registryDirectory) {
+        if (registryDirectory instanceof ServiceDiscoveryRegistryDirectory) {
+            addressSize.set(addresses.size());
         }
+        return addresses;
+    }
+
+    public static int getAddressSize() {
+        return addressSize.get();
     }
 }
