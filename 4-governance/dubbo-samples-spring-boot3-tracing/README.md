@@ -44,13 +44,13 @@ Open [http://localhost:9411/zipkin/](http://localhost:9411/zipkin/) in browser.
 
 ### 1. Adding Micrometer Observation To Your Project
 
-In order to add Micrometer to the classpath and add metrics for Dubbo you need to add the `dubbo-metrics-api` dependency
+In order to add Micrometer to the classpath and add metrics for Dubbo you need to add the `dubbo-metrics-default` dependency
 as shown below:
 
 ```xml
 <dependency>
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-metrics-api</artifactId>
+    <artifactId>dubbo-metrics-default</artifactId>
 </dependency>
 ```
 

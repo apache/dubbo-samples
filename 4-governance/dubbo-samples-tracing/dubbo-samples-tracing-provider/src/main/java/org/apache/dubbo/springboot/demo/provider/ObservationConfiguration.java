@@ -51,7 +51,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.Collections;
 
 import static io.opentelemetry.sdk.trace.samplers.Sampler.alwaysOn;
@@ -117,18 +116,10 @@ public class ObservationConfiguration {
         return new OtelCurrentTraceContext();
     }
 
-    Slf4JEventListener slf4JEventListener() {
-        return new Slf4JEventListener();
-    }
-
-    Slf4JBaggageEventListener slf4JBaggageEventListener() {
-        return new Slf4JBaggageEventListener(Collections.emptyList());
-    }
-
     @Bean
     OtelTracer tracer(io.opentelemetry.api.trace.Tracer otelTracer, OtelCurrentTraceContext otelCurrentTraceContext) {
-        Slf4JEventListener slf4JEventListener = slf4JEventListener();
-        Slf4JBaggageEventListener slf4JBaggageEventListener = slf4JBaggageEventListener();
+        Slf4JEventListener slf4JEventListener = new Slf4JEventListener();
+        Slf4JBaggageEventListener slf4JBaggageEventListener = new Slf4JBaggageEventListener(Collections.emptyList());
         return new OtelTracer(otelTracer, otelCurrentTraceContext, event -> {
             slf4JEventListener.onEvent(event);
             slf4JBaggageEventListener.onEvent(event);
@@ -143,11 +134,6 @@ public class ObservationConfiguration {
     @Bean
     ObservationHandlerRegistrar observationHandlerRegistrar(ObservationRegistry observationRegistry, OtelTracer tracer, Propagator propagator, MeterRegistry meterRegistry) {
         return new ObservationHandlerRegistrar(observationRegistry, tracer, propagator, meterRegistry);
-    }
-
-    @Bean
-    MetricsDumper metricsDumper(MeterRegistry meterRegistry) {
-        return new MetricsDumper(meterRegistry);
     }
 
     static class ObservationHandlerRegistrar {
@@ -172,22 +158,6 @@ public class ObservationConfiguration {
             observationRegistry.observationConfig().observationHandler(new TracingAwareMeterObservationHandler<>(new DefaultMeterObservationHandler(meterRegistry), tracer));
             observationRegistry.observationConfig()
                     .observationHandler(new ObservationHandler.FirstMatchingCompositeObservationHandler(new PropagatingReceiverTracingObservationHandler<>(tracer, propagator), new PropagatingSenderTracingObservationHandler<>(tracer, propagator), new DefaultTracingObservationHandler(tracer)));
-        }
-    }
-
-
-    static class MetricsDumper {
-        private final MeterRegistry meterRegistry;
-
-        MetricsDumper(MeterRegistry meterRegistry) {
-            this.meterRegistry = meterRegistry;
-        }
-
-        @PreDestroy
-        void dumpMetrics() {
-            System.out.println("==== METRICS ====");
-            this.meterRegistry.getMeters().forEach(meter -> System.out.println(" - Metric type \t[" + meter.getId().getType() + "],\tname [" + meter.getId().getName() + "],\ttags " + meter.getId().getTags() + ",\tmeasurements " + meter.measure()));
-            System.out.println("=================");
         }
     }
 }
