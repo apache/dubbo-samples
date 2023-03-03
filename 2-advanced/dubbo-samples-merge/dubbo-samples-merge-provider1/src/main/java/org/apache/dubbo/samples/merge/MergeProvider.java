@@ -24,6 +24,7 @@ import java.util.concurrent.CountDownLatch;
 public class MergeProvider {
 
     public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/merge-provider.xml");
         context.start();
 
