@@ -18,6 +18,7 @@ package org.apache.dubbo.samples.callback;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.callback.api.CallbackService;
+import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest()
+@SpringBootTest(classes = {DubboAutoConfiguration.class})
 @RunWith(SpringRunner.class)
 public class CallbackServiceIT {
     @DubboReference
