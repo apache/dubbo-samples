@@ -25,17 +25,17 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/version-consumer-star.xml"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class VersionServerStarIT {
 
-    @DubboReference(version = "*",loadbalance = "roundrobin",client = "myNetty")
-    private VersionService versionService;
+    @DubboReference(version = "*")
+    private VersionService service;
 
     @BeforeClass
     public static void setUp() {
@@ -44,7 +44,6 @@ public class VersionServerStarIT {
 
     @Test
     public void test() throws Exception {
-
         for (int i = 0; i < 10; i++) {
             System.out.println("transporter connected count: " + MyNettyTransporter.getConnectedCount());
             if (2 == MyNettyTransporter.getConnectedCount()) {
@@ -68,9 +67,8 @@ public class VersionServerStarIT {
 
         boolean version1 = false;
         boolean version2 = false;
-
         for (int i = 0; i < 100; i++) {
-            String result = versionService.sayHello("dubbo");
+            String result = service.sayHello("dubbo");
             System.out.println("result: " + result);
             if (result.equals("hello, dubbo")) {
                 version1 = true;
@@ -78,7 +76,7 @@ public class VersionServerStarIT {
             if (result.equals("hello2, dubbo")) {
                 version2 = true;
             }
-            if (version1&&version2==true)break;
+            if(version1&&version2)break;
         }
         Assert.assertTrue(version1 && version2);
     }
