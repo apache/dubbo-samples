@@ -14,27 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services:
-  zookeeper:
-    image: zookeeper:latest
-
-  metrics-prometheus-provider:
-    type: app
-    basedir: dubbo-samples-metrics-prometheus-provider
-    mainClass: org.apache.dubbo.samples.metrics.prometheus.provider.MetricsProvider
-
-  metrics-prometheus-consumer:
-    type: test
-    basedir: dubbo-samples-metrics-prometheus-consumer
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=metrics-prometheus-provider
-      - zookeeper.port=2181
-      - dubbo.address=metrics-prometheus-provider
-      - dubbo.port=20880
-    waitPortsBeforeRun:
-      - metrics-prometheus-provider:2181
-      - metrics-prometheus-provider:20880
-    depends_on:
-      - metrics-prometheus-provider
+dubbo:
+  application:
+    name: metrics-prometheus-consumer
+    qos-enable: false
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+  metrics:
+    protocol: prometheus
+    enable-jvm-metrics: true
+    aggregation:
+      enabled: true
+    prometheus:
+      exporter:
+        enabled: true
+        metrics-port: 20889
