@@ -14,32 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services:
-  zookeeper:
-    image: zookeeper:latest
+spring:
+  application:
+    name: dubbo-stub-demo-consumer
 
-  provider:
-    type: app
-    basedir: dubbo-samples-stub-provider
-    mainClass: org.apache.dubbo.samples.stub.provider.StubProvider
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20880
-    checkLog: "Current Spring Boot Application is await..."
-
-  test:
-    type: test
-    basedir: dubbo-samples-stub-consumer
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-      - provider:20880
-    depends_on:
-      - provider
-
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-port: 33333
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
