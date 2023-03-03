@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
-
-props:
-  project_name: dubbo-samples-group
-  main_class: org.apache.dubbo.samples.group.provider.ProviderApplication
-  zookeeper_port: 2181
-  dubbo_port: 20880
-
+dubbo:
+  application:
+    name: dubbo-samples-group-provider
+  protocol:
+    name: dubbo
+    port: 20080
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
