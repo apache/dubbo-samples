@@ -17,8 +17,22 @@
 
 # local call through injvm, start test container only
 services:
-  dubbo-samples-local-test:
+  local-provider:
+    type: app
+    basedir: dubbo-samples-local-provider
+    mainClass: org.apache.dubbo.samples.local.LocalProvider
+  local-consumer:
     type: test
-    basedir: .
+    basedir: dubbo-samples-local-consumer
     tests:
       - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=local-provider
+      - zookeeper.port=2181
+      - dubbo.address=local-provider
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - local-provider:2181
+      - local-provider:20880
+    depends_on:
+      - local-provider
