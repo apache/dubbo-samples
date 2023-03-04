@@ -20,12 +20,6 @@ services:
     type: app
     basedir: dubbo-samples-echo-provider
     mainClass: org.apache.dubbo.samples.echo.EchoProvider
-  systemProps:
-    - zookeeper.address=zookeeper
-  waitPortsBeforeRun:
-    - zookeeper:2181
-  checkPorts:
-    - 20880
 
   cache-consumer:
     type: test
