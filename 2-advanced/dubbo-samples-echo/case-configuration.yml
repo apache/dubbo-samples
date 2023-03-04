@@ -14,11 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+  echo-provider:
+    type: app
+    basedir: dubbo-samples-echo-provider
+    mainClass: org.apache.dubbo.samples.echo.EchoProvider
 
-props:
-  project_name: dubbo-samples-echo
-  main_class: org.apache.dubbo.samples.echo.EchoProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
-
+  cache-consumer:
+    type: test
+    basedir: dubbo-samples-echo-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=echo-provider
+      - zookeeper.port=2181
+      - dubbo.address=echo-provider
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - echo-zookeeper:2181
+      - echo-provider:20880
+    depends_on:
+      - echo-provider
