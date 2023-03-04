@@ -14,27 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.dubbo.samples.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.service.EchoService;
 import org.apache.dubbo.samples.echo.api.DemoService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
+@SpringBootTest(classes = {DubboAutoConfiguration.class})
+@RunWith(SpringRunner.class)
+public class DemoServiceIT {
+    @DubboReference(cache = "true")
+    private DemoService demoService;
 
-@Component
-public class TaskIT implements CommandLineRunner {
-    @DubboReference
-    DemoService demoService;
+    @Test
+    public void service() throws Exception {
+        Assert.assertTrue(demoService.sayHello("dubbo").startsWith("Hello dubbo"));
+    }
 
-    @Override
-    public void run(String... args) throws IOException {
+    @Test
+    public void echo() throws Exception {
+        Assert.assertTrue(demoService instanceof EchoService);
         EchoService echoService = (EchoService) demoService;
-        String status = (String) echoService.$echo("OK");
-        System.out.println("echo result: " + status);
-        System.in.read();
-        System.exit(1);
+        Assert.assertEquals("OK", echoService.$echo("OK"));
     }
 }
