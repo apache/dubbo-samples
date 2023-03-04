@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# 方案一:
 services:
 
   echo-provider:
@@ -32,7 +33,16 @@ services:
       - dubbo.address=echo-provider
       - dubbo.port=20880
     waitPortsBeforeRun:
-      - echo-zookeeper:2181
+      - echo-provider:2181
       - echo-provider:20880
     depends_on:
       - echo-provider
+
+# 方案二:
+#from: app-builtin-zookeeper.yml
+#
+#props:
+#  project_name: dubbo-samples-echo-provider
+#  main_class: org.apache.dubbo.samples.echo.EchoProvider
+#  zookeeper_port: 2181
+#  dubbo_port: 20880
