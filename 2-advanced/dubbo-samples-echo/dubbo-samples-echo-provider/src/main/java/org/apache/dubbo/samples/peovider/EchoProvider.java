@@ -24,8 +24,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class EchoProvider {
     public static void main(String[] args) {
+        // Start the registry
         new EmbeddedZooKeeper(2181, false).start();
 
+        // run service provider
         SpringApplication.run(EchoProvider.class,args);
         System.out.println("dubbo service started");
     }

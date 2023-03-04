@@ -64,6 +64,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
+        <!-- The following dependency registries need -->
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>

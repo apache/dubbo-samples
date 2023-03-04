@@ -25,6 +25,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EchoConsumer {
 
     public static void main(String[] args) {
+        // Start the service consumer
         SpringApplication.run(EchoConsumer.class, args);
         System.out.println("Consumer start");
     }
