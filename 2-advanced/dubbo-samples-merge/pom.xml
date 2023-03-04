@@ -36,7 +36,8 @@
         <module>dubbo-samples-merge-api</module>
         <module>dubbo-samples-merge-provider1</module>
         <module>dubbo-samples-merge-provider2</module>
-        <module>dubbo-samples-merge-consumer</module>
+        <module>dubbo-samples-merge-consumer1</module>
+        <module>dubbo-samples-merge-consumer2</module>
     </modules>
 
     <artifactId>dubbo-samples-merge</artifactId>
