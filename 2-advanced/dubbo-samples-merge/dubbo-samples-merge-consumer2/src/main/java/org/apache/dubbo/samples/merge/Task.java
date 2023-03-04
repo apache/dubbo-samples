@@ -19,18 +19,19 @@
 
 package org.apache.dubbo.samples.merge;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.merge.api.MergeService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+@Component
+public class Task implements CommandLineRunner {
+    @DubboReference(group = "merge2,merge3", merger = "true")
+    MergeService mergeService;
 
-@EnableDubbo
-@SpringBootApplication
-public class MergeConsumer {
-
-    public static void main(String[] args) {
-        SpringApplication.run(MergeConsumer.class, args);
+    @Override
+    public void run(String... args) {
+        System.out.println(mergeService.mergeResult());
     }
 }
+

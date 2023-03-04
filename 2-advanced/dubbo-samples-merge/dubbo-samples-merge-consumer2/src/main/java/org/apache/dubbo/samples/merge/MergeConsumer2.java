@@ -19,17 +19,19 @@
 
 package org.apache.dubbo.samples.merge;
 
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.merge.api.MergeService;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+@EnableDubbo
+@SpringBootApplication
 public class MergeConsumer2 {
 
-    public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/merge-consumer2.xml");
-        context.start();
-
-        MergeService mergeService = (MergeService) context.getBean("mergeService");
-        System.out.println(mergeService.mergeResult());
+    public static void main(String[] args) {
+        SpringApplication.run(MergeConsumer2.class, args);
     }
 }

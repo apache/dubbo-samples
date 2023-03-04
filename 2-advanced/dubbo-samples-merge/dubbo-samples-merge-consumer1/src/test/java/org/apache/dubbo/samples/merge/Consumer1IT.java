@@ -18,21 +18,21 @@
 package org.apache.dubbo.samples.merge;
 
 import org.apache.dubbo.common.Version;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.merge.api.MergeService;
-
+import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring/merge-consumer.xml"})
+@SpringBootTest(classes = {DubboAutoConfiguration.class})
+@RunWith(SpringRunner.class)
 public class Consumer1IT {
-    @Autowired
+    @DubboReference(group = "*", merger = "true")
     private MergeService mergeService;
 
     @Test
@@ -43,7 +43,7 @@ public class Consumer1IT {
                 if (3 == MyAddressListener.getAddressSize()) {
                     break;
                 }
-                Thread.sleep(200);
+                Thread.sleep(300);
             }
             Assert.assertEquals(3, MyAddressListener.getAddressSize());
             Thread.sleep(100);
