@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-
-package org.apache.dubbo.samples.direct;
+package org.apache.dubbo.samples.direct.api;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
@@ -24,8 +23,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableDubbo
-public class DirectConsumerApplication {
+public class DirectProviderApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DirectConsumerApplication.class,args);
+        SpringApplication.run(DirectProviderApplication.class, args);
     }
 }

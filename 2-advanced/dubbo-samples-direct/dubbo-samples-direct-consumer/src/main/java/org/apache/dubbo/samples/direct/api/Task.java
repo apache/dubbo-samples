@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.direct;
+package org.apache.dubbo.samples.direct.api;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.samples.direct.api.DirectService;
+import org.apache.dubbo.config.annotation.Method;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Task implements CommandLineRunner {
-    @DubboReference
+    @DubboReference(interfaceClass = DirectService.class,
+            check = false,
+            group = "test",
+            version = "1.0.0-daily")
     private DirectService directService;
 
     @Override
