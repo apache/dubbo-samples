@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.echo;
+package org.apache.dubbo.samples.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.rpc.service.EchoService;
 import org.apache.dubbo.samples.echo.api.DemoService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -24,14 +25,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class Task implements CommandLineRunner {
+public class TaskIT implements CommandLineRunner {
     @DubboReference
     DemoService demoService;
 
     @Override
     public void run(String... args) throws IOException {
-        String result = demoService.sayHello("world");
-        System.out.println("Receive result ======> " + result);
+        EchoService echoService = (EchoService) demoService;
+        String status = (String) echoService.$echo("OK");
+        System.out.println("echo result: " + status);
         System.in.read();
         System.exit(1);
     }

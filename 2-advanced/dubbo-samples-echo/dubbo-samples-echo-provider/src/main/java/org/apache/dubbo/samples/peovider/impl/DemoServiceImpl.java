@@ -17,16 +17,17 @@
  *
  */
 
-package org.apache.dubbo.samples.echo.impl;
+package org.apache.dubbo.samples.peovider.impl;
 
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.echo.api.DemoService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@DubboService
 public class DemoServiceImpl implements DemoService {
-
     @Override
     public String sayHello(String name) {
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " +
