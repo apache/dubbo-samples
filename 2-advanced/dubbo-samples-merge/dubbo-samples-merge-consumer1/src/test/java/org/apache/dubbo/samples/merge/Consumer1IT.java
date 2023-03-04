@@ -29,11 +29,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@SpringBootTest(classes = {DubboAutoConfiguration.class})
+@SpringBootTest(classes = {DubboAutoConfiguration.class, MyAddressListener.class})
 @RunWith(SpringRunner.class)
 public class Consumer1IT {
     @DubboReference(group = "*", merger = "true")
-    private MergeService mergeService;
+    private  MergeService mergeService;
 
     @Test
     public void test() throws Exception {

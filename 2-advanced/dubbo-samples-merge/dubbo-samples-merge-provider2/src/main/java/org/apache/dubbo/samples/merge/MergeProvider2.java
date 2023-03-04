@@ -26,7 +26,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableDubbo
 public class MergeProvider2 {
-
     public static void main(String[] args) {
         SpringApplication.run(MergeProvider2.class, args);
         System.out.println("dubbo service started");

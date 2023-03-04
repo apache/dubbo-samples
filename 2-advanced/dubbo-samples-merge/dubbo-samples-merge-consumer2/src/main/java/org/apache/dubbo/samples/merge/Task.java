@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Task implements CommandLineRunner {
-    @DubboReference(group = "merge2,merge3", merger = "true")
+    @DubboReference(group = "merge2,merge3")
     MergeService mergeService;
 
     @Override

@@ -17,25 +17,25 @@
 
 package org.apache.dubbo.samples.merge;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.merge.api.MergeService;
-
+import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring/merge-consumer2.xml"})
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {DubboAutoConfiguration.class})
 public class Consumer2IT {
-    @Autowired
+    @DubboReference(group = "merge2,merge3")
     private MergeService mergeService;
 
     @Test
-    public void test() throws Exception {
+    public void test() {
         List<String> result = mergeService.mergeResult();
         Assert.assertTrue(result.contains("group-2.1"));
         Assert.assertTrue(result.contains("group-2.2"));

@@ -33,11 +33,6 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-samples-merge-api</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-samples-merge-api</artifactId>
-        </dependency>
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
