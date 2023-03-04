@@ -38,11 +38,3 @@ services:
       - callback-provider:20880
     depends_on:
       - callback-provider
-
-#from: app-builtin-zookeeper.yml
-#
-#props:
-#  project_name: dubbo-samples-callback
-#  main_class: org.apache.dubbo.samples.callback.provider.ProviderApplication
-#  zookeeper_port: 2181
-#  dubbo_port: 20880
