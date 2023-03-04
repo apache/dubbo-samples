@@ -19,18 +19,17 @@
 
 package org.apache.dubbo.samples.merge;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.concurrent.CountDownLatch;
-
+@SpringBootApplication
+@EnableDubbo
 public class MergeProvider2 {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/merge-provider2.xml");
-        context.start();
-
+        SpringApplication.run(MergeProvider2.class, args);
         System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
     }
 
 }
