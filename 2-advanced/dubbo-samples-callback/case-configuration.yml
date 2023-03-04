@@ -14,27 +14,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services:
-  zookeeper:
-    image: zookeeper:latest
+#services:
+#  zookeeper:
+#    image: zookeeper:latest
+#
+#  callback-provider:
+#    type: app
+#    basedir: dubbo-samples-callback-provider
+#    mainClass: org.apache.dubbo.samples.callback.provider.ProviderApplication
+#
+#  callback-consumer:
+#    type: test
+#    basedir: dubbo-samples-callback-consumer
+#    tests:
+#      - "**/*IT.class"
+#    systemProps:
+#      - zookeeper.address=callback-provider
+#      - zookeeper.port=2181
+#      - dubbo.address=callback-provider
+#      - dubbo.port=20880
+#    waitPortsBeforeRun:
+#      - callback-provider:2181
+#      - callback-provider:20880
+#    depends_on:
+#      - callback-provider
 
-  callback-provider:
-    type: app
-    basedir: dubbo-samples-callback-provider
-    mainClass: org.apache.dubbo.samples.callback.provider.ProviderApplication
+from: app-builtin-zookeeper.yml
 
-  callback-consumer:
-    type: test
-    basedir: dubbo-samples-callback-consumer
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=callback-provider
-      - zookeeper.port=2181
-      - dubbo.address=callback-provider
-      - dubbo.port=20880
-    waitPortsBeforeRun:
-      - callback-provider:2181
-      - callback-provider:20880
-    depends_on:
-      - callback-provider
+props:
+  project_name: dubbo-samples-callback
+  main_class: org.apache.dubbo.samples.callback.provider.ProviderApplication
+  zookeeper_port: 2181
+  dubbo_port: 20880
