@@ -14,11 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-service:
+services:
+  zookeeper:
+    image: zookeeper:latest
+
   callback-provider:
     type: app
     basedir: dubbo-samples-callback-provider
     mainClass: org.apache.dubbo.samples.callback.provider.ProviderApplication
+
   callback-consumer:
     type: test
     basedir: dubbo-samples-callback-consumer
