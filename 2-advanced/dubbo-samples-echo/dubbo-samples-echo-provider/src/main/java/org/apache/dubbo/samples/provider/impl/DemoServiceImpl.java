@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.peovider.impl;
+package org.apache.dubbo.samples.provider.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;

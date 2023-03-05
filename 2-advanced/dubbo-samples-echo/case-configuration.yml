@@ -16,11 +16,10 @@
 
 # 方案一:
 services:
-
   echo-provider:
     type: app
     basedir: dubbo-samples-echo-provider
-    mainClass: org.apache.dubbo.samples.echo.EchoProvider
+    mainClass: org.apache.dubbo.samples.provider.EchoProvider
 
   cache-consumer:
     type: test
@@ -43,6 +42,6 @@ services:
 #
 #props:
 #  project_name: dubbo-samples-echo-provider
-#  main_class: org.apache.dubbo.samples.echo.EchoProvider
+#  main_class: org.apache.dubbo.samples.provider.EchoProvider
 #  zookeeper_port: 2181
 #  dubbo_port: 20880
