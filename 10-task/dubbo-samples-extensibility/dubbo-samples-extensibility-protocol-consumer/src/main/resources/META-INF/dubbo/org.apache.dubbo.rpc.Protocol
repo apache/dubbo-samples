@@ -1,1 +1,1 @@
-hjson=org.apache.dubbo.samples.extensibility.protocol.common.HessianJsonProtocol
+etri=org.apache.dubbo.samples.extensibility.protocol.common.EnhancedProtocol

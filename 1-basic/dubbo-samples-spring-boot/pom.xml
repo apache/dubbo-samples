@@ -19,24 +19,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <version>1.0-SNAPSHOT</version>
     <artifactId>dubbo-samples-spring-boot</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <name>Dubbo Samples Spring Boot</name>
     <description>Dubbo Samples Spring Boot</description>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <spring.version>4.3.29.RELEASE</spring.version>
-        <dubbo.version>3.0.7</dubbo.version>
+        <dubbo.version>3.2.0-beta.4</dubbo.version>
         <junit.version>4.13.1</junit.version>
-        <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
-        <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
-        <spring-boot-maven-plugin.version>2.1.4.RELEASE</spring-boot-maven-plugin.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <modules>
@@ -66,7 +71,7 @@
 
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
             </dependency>
@@ -82,37 +87,26 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
     </dependencies>
 
+
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

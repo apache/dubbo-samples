@@ -18,5 +18,5 @@ package org.apache.dubbo.samples;
 
 public interface OrderService {
 
-    boolean submitOrder(Order order);
+    OrderDetail submitOrder(Order order);
 }

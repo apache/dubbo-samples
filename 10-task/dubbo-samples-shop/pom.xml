@@ -29,14 +29,22 @@
     <description>Dubbo Samples RPC Task - Shop</description>
 
     <modules>
-        <module>dubbo-samples-shop-detail</module>
-        <module>dubbo-samples-shop-detail-api</module>
-        <module>dubbo-samples-shop-frontend</module>
         <module>dubbo-samples-shop-frontend-api</module>
+        <module>dubbo-samples-shop-frontend</module>
+        <module>dubbo-samples-shop-order-api</module>
         <module>dubbo-samples-shop-order-v1</module>
         <module>dubbo-samples-shop-order-v2</module>
-        <module>dubbo-samples-shop-order-api</module>
+        <module>dubbo-samples-shop-order-gray</module>
+        <module>dubbo-samples-shop-comment-api</module>
+        <module>dubbo-samples-shop-comment-v1</module>
+        <module>dubbo-samples-shop-comment-v2</module>
+        <module>dubbo-samples-shop-comment-gray</module>
+        <module>dubbo-samples-shop-detail-api</module>
+        <module>dubbo-samples-shop-detail-v1</module>
+        <module>dubbo-samples-shop-detail-v2</module>
+        <module>dubbo-samples-shop-detail-gray</module>
         <module>dubbo-samples-shop-user</module>
+        <module>dubbo-samples-shop-user-gray</module>
         <module>dubbo-samples-shop-user-api</module>
     </modules>
 </project>

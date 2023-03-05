@@ -66,3 +66,4 @@ coverage.txt
 test/jobs
 test/nacos-mysql
 version-matrix.txt
+target-jacoco/

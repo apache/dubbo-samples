@@ -45,6 +45,8 @@ import java.util.regex.Pattern;
 public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
     public static final String DUBBO_APP_DIR = "/usr/local/dubbo/app";
+    public static final String DUBBO_JACOCO_RESULT_DIR = "/usr/local/dubbo/target-jacoco";
+    public static final String DUBBO_JACOCO_RUNNER_FILE = "/usr/local/dubbo/jacocoagent.jar";
     public static final String DUBBO_LOG_DIR = "/usr/local/dubbo/logs";
 
     //ENV
@@ -73,7 +75,7 @@ public class ConfigurationImpl implements IConfiguration {
     private String configBasedir;
     private String scenarioName;
     private final String scenarioLogDir;
-    private final boolean jacocoEnable = Boolean.parseBoolean(System.getProperty("jacoco.enable"));
+    private final boolean jacocoEnable = Boolean.parseBoolean(System.getenv("JACOCO_ENABLE"));
     private int scenarioTimeout = 200;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
@@ -311,6 +313,19 @@ public class ConfigurationImpl implements IConfiguration {
                     setEnv(service, ENV_WAIT_TIMEOUT, service.getWaitTimeout() + "");
                 }
 
+                // set jacoco
+                if (jacocoEnable) {
+                    //mount ${project.basedir}/target : DUBBO_APP_DIR
+                    String jacocoPath = new File(service.getBasedir(), "target-jacoco").getCanonicalPath();
+                    service.getVolumes().add(jacocoPath + ":" + DUBBO_JACOCO_RESULT_DIR);
+                    String jacocoRunnerPath = new File(outputDir() + File.separator + "jacocoagent.jar").getCanonicalPath();
+                    service.getVolumes().add(jacocoRunnerPath + ":" + DUBBO_JACOCO_RUNNER_FILE);
+
+                    //set jacoco agent
+                    String jacoco = "-javaagent:" + DUBBO_JACOCO_RUNNER_FILE + "=destfile=/usr/local/dubbo/target-jacoco/" + index++ + "-" + System.currentTimeMillis() + "-jacoco.exec";
+                    appendEnv(service, ENV_JAVA_OPTS, jacoco);
+                }
+
                 if ("app".equals(type)) {
                     String mainClass = service.getMainClass();
                     if (StringUtils.isBlank(mainClass)) {
@@ -384,12 +399,6 @@ public class ConfigurationImpl implements IConfiguration {
             if (isNotEmpty(systemProps)) {
                 String str = convertSystemPropsToJvmFlags(systemProps);
                 appendEnv(service, ENV_JAVA_OPTS, str);
-            }
-
-            if (jacocoEnable) {
-                //set jacoco agent
-                String jacoco = "-javaagent:/usr/local/dubbo/app/jacocoagent.jar=destfile=/usr/local/dubbo/app/jacoco/" + index++ + "-jacoco.exec";
-                appendEnv(service, ENV_JAVA_OPTS, jacoco);
             }
 
             if (service.getHealthcheck() != null) {

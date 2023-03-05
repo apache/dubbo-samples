@@ -19,12 +19,36 @@ package org.apache.dubbo.sample.tri.api;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * Triple supports manual interface with POJO to support migrating from original protocols.
  */
 public interface PojoGreeter {
 
+    String SAY_HELLO_01_RESP = "sayHello01";
+    String SAY_HELLO_02_RESP = "sayHello02";
+
+    // 1. primitive type
+    default String sayHello(int age) {
+        return SAY_HELLO_01_RESP;
+    }
+
+    // 2. Boxed type
+    default String sayHello(Integer age) {
+        return SAY_HELLO_02_RESP;
+    }
+
+    String methodParamIsNull(String request);
+
+
+    ParentPojo greetChildPojo(Byte test);
+
+    CompletableFuture<String> unaryFuture(String request);
+
     String overload();
+
+    String methodNotFound();
 
     String overload(String param);
 

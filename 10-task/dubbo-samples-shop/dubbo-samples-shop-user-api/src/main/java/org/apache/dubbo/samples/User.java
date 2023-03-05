@@ -24,6 +24,7 @@ public class User implements Serializable {
     private String realName;
     private String mail;
     private String phone;
+    private String env;
 
     public String getUsername() {
         return username;
@@ -63,5 +64,13 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEnv() {
+        return env;
+    }
+
+    public void setEnv(String env) {
+        this.env = env;
     }
 }

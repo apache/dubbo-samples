@@ -22,7 +22,13 @@ public interface ShopService {
 
     boolean login(String username, String password);
 
-    boolean createItem(long sku, String itemName, String description, int stock);
+    User getUserInfo(String username);
 
-    boolean submitOrder(long sku, int count, String address, String phone, String receiver);
+    boolean timeoutLogin(String username, String password);
+
+    Item checkItem(long sku, String username);
+
+    Item checkItemGray(long sku, String username);
+
+    OrderDetail submitOrder(long sku, int count, String address, String phone, String receiver);
 }

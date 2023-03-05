@@ -32,6 +32,7 @@
         <module>dubbo-samples-meshrule-router</module>
         <module>dubbo-samples-metrics</module>
         <module>dubbo-samples-metrics-prometheus</module>
+        <module>dubbo-samples-metrics-spring-boot</module>
         <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-sentinel</module>
         <module>dubbo-samples-servicelevel-override</module>
@@ -42,5 +43,6 @@
         <module>dubbo-samples-tracing</module>
         <module>dubbo-samples-zipkin</module>
         <module>dubbo-samples-spring-boot3-tracing</module>
+        <module>dubbo-samples-spring-boot-tracing-skywalking</module>
     </modules>
 </project>

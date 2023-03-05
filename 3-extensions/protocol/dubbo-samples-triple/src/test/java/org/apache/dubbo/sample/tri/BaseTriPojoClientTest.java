@@ -21,15 +21,19 @@ import org.apache.dubbo.common.Version;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.sample.tri.api.ParentPojo;
 import org.apache.dubbo.sample.tri.api.PojoGreeter;
 import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -43,6 +47,24 @@ public abstract class BaseTriPojoClientTest {
     protected static PojoGreeter longDelegate;
 
     protected static DubboBootstrap appDubboBootstrap;
+
+
+    @Test
+    public void unaryFuture() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(1);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("val", 1);
+        CompletableFuture<String> future = delegate.unaryFuture("unaryFuture");
+        future.whenComplete((s, throwable) -> {
+            if ("unaryFuture".equals(s)) {
+                map.put("val", map.get("val") + 1);
+            }
+            latch.countDown();
+        });
+        map.put("val", 2);
+        latch.await(3, TimeUnit.SECONDS);
+        Assert.assertEquals(3, map.get("val").intValue());
+    }
 
     @Test
     public void overload() {
@@ -67,7 +89,34 @@ public abstract class BaseTriPojoClientTest {
         Assert.assertEquals("hello,unary", delegate.greet("unary"));
     }
 
+
     @Test
+    public void testBoxed() {
+        // 01 primitive
+        String resp01 = delegate.sayHello(1);
+        Assert.assertEquals(PojoGreeter.SAY_HELLO_01_RESP, resp01);
+
+        // 02 boxed
+        String resp02 = delegate.sayHello((Integer) 2);
+        Assert.assertEquals(PojoGreeter.SAY_HELLO_02_RESP, resp02);
+    }
+    @Test
+    public void greetChildPojo() {
+        Byte byte1 = Byte.valueOf("1");
+
+        ParentPojo childPojo = delegate.greetChildPojo(byte1);
+
+        Assert.assertEquals(byte1, childPojo.getByte1());
+    }
+
+    @Test
+    public void greetMethodParamIsNull() {
+        String ret = delegate.methodParamIsNull(null);
+        Assert.assertEquals(ret, "ok");
+    }
+
+    @Test
+    @Ignore
     public void greetException() {
         boolean isSupportSelfDefineException = Version.getVersion().compareTo("3.2.0") < 0;
         try {

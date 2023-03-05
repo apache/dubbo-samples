@@ -18,14 +18,11 @@
  */
 package org.apache.dubbo.samples.rest.api;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
@@ -37,8 +34,8 @@ public class User implements Serializable {
     @Min(1L)
     private Long id;
 
-    @JsonProperty("username")
-    @XmlElement(name = "username")
+//    @JsonProperty("username")
+//    @XmlElement(name = "username")
     @NotNull
     @Size(min = 6, max = 50)
     private String name;

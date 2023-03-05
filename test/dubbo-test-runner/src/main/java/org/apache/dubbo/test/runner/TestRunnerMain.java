@@ -18,7 +18,15 @@
 package org.apache.dubbo.test.runner;
 
 
-import org.apache.maven.plugin.surefire.InPluginVMSurefireStarter;
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.maven.plugin.surefire.StartupReportConfiguration;
 import org.apache.maven.plugin.surefire.log.api.ConsoleLogger;
 import org.apache.maven.plugin.surefire.log.api.PrintStreamLogger;
@@ -31,23 +39,18 @@ import org.apache.maven.surefire.booter.ClasspathConfiguration;
 import org.apache.maven.surefire.booter.ProviderConfiguration;
 import org.apache.maven.surefire.booter.Shutdown;
 import org.apache.maven.surefire.booter.StartupConfiguration;
+import org.apache.maven.surefire.booter.SurefireExecutionException;
 import org.apache.maven.surefire.cli.CommandLineOption;
 import org.apache.maven.surefire.junit4.JUnit4Provider;
+import org.apache.maven.surefire.junitplatform.JUnitPlatformProvider;
 import org.apache.maven.surefire.report.ReporterConfiguration;
 import org.apache.maven.surefire.suite.RunResult;
 import org.apache.maven.surefire.testset.DirectoryScannerParameters;
 import org.apache.maven.surefire.testset.RunOrderParameters;
 import org.apache.maven.surefire.testset.TestListResolver;
 import org.apache.maven.surefire.testset.TestRequest;
+import org.apache.maven.surefire.testset.TestSetFailedException;
 import org.apache.maven.surefire.util.DefaultScanResult;
-
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 import static java.util.Collections.emptyList;
 
@@ -150,6 +153,50 @@ public class TestRunnerMain {
                 30
         );
 
+        int runCodeJunit4 = runInJunit4(testClassesDir, targetClassesDir, dependencyJarsDir, tests, startupReportConfiguration, providerConfiguration);
+        int runCodeJunit5 = runInJunit5(testClassesDir, targetClassesDir, dependencyJarsDir, tests, startupReportConfiguration, providerConfiguration);
+
+        ConsoleLogger consoleLogger = new PrintStreamLogger(System.out);
+
+        if (runCodeJunit4 == 255) {
+            consoleLogger.info("There are some failure test in junit 4.");
+            System.exit(1);
+        }
+        if (runCodeJunit5 == 255) {
+            consoleLogger.info("There are some failure test in junit 5.");
+            System.exit(1);
+        }
+
+        if (runCodeJunit4 == 254 && runCodeJunit5 == 254) {
+            consoleLogger.info("No test case found both in junit 4 and junit 5.");
+            System.exit(1);
+        }
+
+        boolean runSuccess = runCodeJunit4 == 0 || runCodeJunit5 == 0;
+
+//        File tmpDirectory = new File(reportsDirectory, "tmp");
+//        tmpDirectory.mkdirs();
+//        ForkConfiguration forkConfiguration = new ClasspathForkConfiguration(inprocClasspath, tmpDirectory,  null,
+//                reportsDirectory, new Properties(), "", System.getenv(), false, 1, true,
+//                new Platform(), consoleLogger);
+//        ForkStarter forkStarter = new ForkStarter(providerConfiguration,
+//                startupConfiguration,
+//                forkConfiguration,
+//                30,
+//                startupReportConfiguration,
+//                consoleLogger);
+//        RunResult runResult = forkStarter.run(new SurefireProperties(), scanResult);
+//        System.out.println(String.format("RunResult: %d, Failures: %d, Errors: %d, failure: %s",
+//                runResult.getCompletedCount(), runResult.getFailures(), runResult.getErrors(), runResult.getFailure()));
+
+        if (runSuccess) {
+            System.exit(0);
+        } else {
+            System.exit(1);
+        }
+    }
+
+    private static int runInJunit4(File testClassesDir, File targetClassesDir, File dependencyJarsDir, List<String> tests, StartupReportConfiguration startupReportConfiguration, ProviderConfiguration providerConfiguration) throws SurefireExecutionException, TestSetFailedException {
         String providerClassName = JUnit4Provider.class.getName();//"org.apache.maven.surefire.junit4.JUnit4Provider";
         Classpath testClasspath = generateTestClasspath(testClassesDir, targetClassesDir, dependencyJarsDir);
         Classpath inprocClasspath = getInprocClasspath();
@@ -173,6 +220,7 @@ public class TestRunnerMain {
 
         DefaultScanResult scanResult = getScanResult(testClassesDir, tests);
         ConsoleLogger consoleLogger = new PrintStreamLogger(System.out);
+        consoleLogger.info("Run JUnit4 tests...");
 
         // Fix Class loading problem in java9+:
         // CompletableFuture.supplyAsync() is executed in the ForkJoinWorkerThread
@@ -186,30 +234,54 @@ public class TestRunnerMain {
         boolean runSuccess = runResult.getCompletedCount() > 0 && runResult.isErrorFree() && !runResult.isTimeout();
 
         String line = "------------------------------------------------------------------------\n";
-        consoleLogger.info(String.format(line + "TEST %s, Total: %d, Failures: %d, Errors: %d, Skipped: %d\n" + line,
+        consoleLogger.info(String.format(line + "Junit4: TEST %s, Total: %d, Failures: %d, Errors: %d, Skipped: %d\n" + line,
                 runSuccess ? "SUCCESS" : "FAILURE", runResult.getCompletedCount(), runResult.getFailures(), runResult.getErrors(),
                 runResult.getSkipped()));
+        return Optional.ofNullable(runResult.getFailsafeCode()).orElse(0);
+    }
 
-//        File tmpDirectory = new File(reportsDirectory, "tmp");
-//        tmpDirectory.mkdirs();
-//        ForkConfiguration forkConfiguration = new ClasspathForkConfiguration(inprocClasspath, tmpDirectory,  null,
-//                reportsDirectory, new Properties(), "", System.getenv(), false, 1, true,
-//                new Platform(), consoleLogger);
-//        ForkStarter forkStarter = new ForkStarter(providerConfiguration,
-//                startupConfiguration,
-//                forkConfiguration,
-//                30,
-//                startupReportConfiguration,
-//                consoleLogger);
-//        RunResult runResult = forkStarter.run(new SurefireProperties(), scanResult);
-//        System.out.println(String.format("RunResult: %d, Failures: %d, Errors: %d, failure: %s",
-//                runResult.getCompletedCount(), runResult.getFailures(), runResult.getErrors(), runResult.getFailure()));
+    private static int runInJunit5(File testClassesDir, File targetClassesDir, File dependencyJarsDir, List<String> tests, StartupReportConfiguration startupReportConfiguration, ProviderConfiguration providerConfiguration) throws SurefireExecutionException, TestSetFailedException {
+        String providerClassName = JUnitPlatformProvider.class.getName();//"org.apache.maven.surefire.junitplatform.JUnitPlatformProvider";
+        Classpath testClasspath = generateTestClasspath(testClassesDir, targetClassesDir, dependencyJarsDir);
+        Classpath inprocClasspath = getInprocClasspath();
+        Classpath surefireClasspath = inprocClasspath;
+        AbstractPathConfiguration classpathConfiguration = new ClasspathConfiguration(
+                testClasspath,
+                surefireClasspath,
+                inprocClasspath,
+                false,
+                false
+        );
 
-        if (runSuccess) {
-            System.exit(0);
-        } else {
-            System.exit(1);
-        }
+        ClassLoaderConfiguration classloaderConfiguration = new ClassLoaderConfiguration(false, false);
+        StartupConfiguration startupConfiguration = new StartupConfiguration(
+                providerClassName,
+                classpathConfiguration,
+                classloaderConfiguration,
+                false,
+                false);
+
+
+        DefaultScanResult scanResult = getScanResult(testClassesDir, tests);
+        ConsoleLogger consoleLogger = new PrintStreamLogger(System.out);
+        consoleLogger.info("Run JUnit5 tests...");
+
+        // Fix Class loading problem in java9+:
+        // CompletableFuture.supplyAsync() is executed in the ForkJoinWorkerThread
+        // and it only uses system classloader to load classes instead of the IsolatedClassLoader
+        ClassloaderSurefireStarter testStarter = new ClassloaderSurefireStarter(startupConfiguration, providerConfiguration,
+                startupReportConfiguration, consoleLogger, ClassLoader.getSystemClassLoader());
+//        InPluginVMSurefireStarter testStarter = new InPluginVMSurefireStarter(startupConfiguration, providerConfiguration,
+//                startupReportConfiguration, consoleLogger);
+
+        RunResult runResult = testStarter.runSuitesInProcess(scanResult);
+        boolean runSuccess = runResult.getCompletedCount() > 0 && runResult.isErrorFree() && !runResult.isTimeout();
+
+        String line = "------------------------------------------------------------------------\n";
+        consoleLogger.info(String.format(line + "Junit5: TEST %s, Total: %d, Failures: %d, Errors: %d, Skipped: %d\n" + line,
+                runSuccess ? "SUCCESS" : "FAILURE", runResult.getCompletedCount(), runResult.getFailures(), runResult.getErrors(),
+                runResult.getSkipped()));
+        return Optional.ofNullable(runResult.getFailsafeCode()).orElse(0);
     }
 
     public static DefaultScanResult getScanResult(File testClassesDir, Collection<String> tests) {

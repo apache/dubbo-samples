@@ -33,4 +33,21 @@
     <name>Dubbo Task - Shop - FrontEnd's API</name>
     <description>Dubbo Task - Shop - FrontEnd's API</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.dubbo.samples</groupId>
+            <artifactId>dubbo-samples-shop-detail-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo.samples</groupId>
+            <artifactId>dubbo-samples-shop-order-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo.samples</groupId>
+            <artifactId>dubbo-samples-shop-user-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

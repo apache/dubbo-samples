@@ -14,11 +14,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+  zookeeper:
+    image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-mybatis
-  main_class: org.apache.dubbo.samples.boundary.mybatis.MybatisProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+  dubbo-samples-spring-boot-mybatis-provider:
+    type: app
+    basedir: dubbo-samples-spring-boot-mybatis-provider
+    mainClass: org.apache.dubbo.springboot.mybatis.samples.MybatisProviderApplication
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+    depends_on:
+      - zookeeper
+
+  dubbo-samples-spring-boot-mybatis-consumer:
+    type: test
+    basedir: dubbo-samples-spring-boot-mybatis-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - dubbo-samples-spring-boot-mybatis-provider:20880
+    depends_on:
+      - zookeeper
+      - dubbo-samples-spring-boot-mybatis-provider
 
