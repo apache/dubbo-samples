@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = {DubboAutoConfiguration.class})
 @RunWith(SpringRunner.class)
 public class DemoServiceIT {
-    @DubboReference(cache = "true")
+    @DubboReference
     private DemoService demoService;
 
     @Test
