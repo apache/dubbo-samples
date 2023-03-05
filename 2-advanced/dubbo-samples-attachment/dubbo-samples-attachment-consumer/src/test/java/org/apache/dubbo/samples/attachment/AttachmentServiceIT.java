@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.samples.attachment;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.attachment.api.AttachmentService;
 import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
@@ -31,7 +32,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = {DubboAutoConfiguration.class})
 @RunWith(SpringRunner.class)
 public class AttachmentServiceIT {
-    @Autowired
+
+    @DubboReference
     private AttachmentService service;
 
     @Test
