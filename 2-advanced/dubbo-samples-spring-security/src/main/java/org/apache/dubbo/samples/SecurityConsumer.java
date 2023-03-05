@@ -35,6 +35,5 @@ public class SecurityConsumer {
     @PropertySource("classpath:/spring/dubbo-consumer.properties")
     @ComponentScan(value = { "org.apache.dubbo.samples.client" })
     static public class ConsumerConfiguration {
-
     }
 }
