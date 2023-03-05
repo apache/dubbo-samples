@@ -29,8 +29,18 @@ services:
     type: app
     basedir: dubbo-samples-merge-provider2
     mainClass: org.apache.dubbo.samples.merge.MergeProvider2
+    systemProps:
+      - zookeeper.address=dubbo-samples-merge-provider1
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-merge-provider1
+      - dubbo.port=20880
     checkPorts:
       - 20881
+    depends_on:
+      - dubbo-samples-merge-provider1
+    waitPortsBeforeRun:
+      - dubbo-samples-merge-provider1:2181
+      - dubbo-samples-merge-provider1:20880
     checkLog: "dubbo service started"
 
   dubbo-samples-merge-consumer1:
