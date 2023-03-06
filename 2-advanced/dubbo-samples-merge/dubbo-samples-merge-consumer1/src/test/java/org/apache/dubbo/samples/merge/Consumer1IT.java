@@ -18,7 +18,9 @@
 package org.apache.dubbo.samples.merge;
 
 import org.apache.dubbo.common.Version;
+import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.registry.AddressListener;
 import org.apache.dubbo.samples.merge.api.MergeService;
 import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
@@ -29,11 +31,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@SpringBootTest(classes = {DubboAutoConfiguration.class, MyAddressListener.class})
+@SpringBootTest
 @RunWith(SpringRunner.class)
 public class Consumer1IT {
     @DubboReference(group = "*", merger = "true")
-    private  MergeService mergeService;
+    private MergeService mergeService;
 
     @Test
     public void test() throws Exception {
