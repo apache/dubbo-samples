@@ -55,5 +55,6 @@
         <module>dubbo-samples-validation</module>
         <module>dubbo-samples-version</module>
         <module>dubbo-samples-rpccontext</module>
+        <module>dubbo-samples-spring-security</module>
     </modules>
 </project>
