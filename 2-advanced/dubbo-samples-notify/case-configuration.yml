@@ -14,15 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
-
-props:
-  project_name: dubbo-samples-notify
-  main_class: org.apache.dubbo.samples.notify.provider.ProviderApplication
-  zookeeper_port: 2181
-  dubbo_port: 20880
-
-
 services:
   zookeeper:
     image: zookeeper:latest
