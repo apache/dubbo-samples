@@ -16,7 +16,7 @@
 
 dubbo:
   application:
-    name: dubbo-springboot-demo-provider2
+    name: version-provider2
   protocol:
     name: dubbo
     port: 20882

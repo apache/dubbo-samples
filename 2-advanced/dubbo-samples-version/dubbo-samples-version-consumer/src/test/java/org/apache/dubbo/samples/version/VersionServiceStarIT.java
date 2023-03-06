@@ -17,7 +17,6 @@
 
 package org.apache.dubbo.samples.version;
 
-
 import org.apache.dubbo.common.Version;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.version.api.VersionService;
@@ -30,10 +29,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/version-consumer-star.xml"})
+@ContextConfiguration(locations = {"classpath:/spring/version-consumer-star.xml"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class VersionServerStarIT {
-
+public class VersionServiceStarIT {
     @DubboReference(version = "*")
     private VersionService service;
 
@@ -76,7 +74,6 @@ public class VersionServerStarIT {
             if (result.equals("hello2, dubbo")) {
                 version2 = true;
             }
-            if(version1&&version2)break;
         }
         Assert.assertTrue(version1 && version2);
     }
