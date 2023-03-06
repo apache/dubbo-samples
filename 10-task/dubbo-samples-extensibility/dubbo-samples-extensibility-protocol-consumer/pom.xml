@@ -47,6 +47,12 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.dubbo.samples</groupId>
+            <artifactId>dubbo-samples-extensibility-protocol-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- registry dependency -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
