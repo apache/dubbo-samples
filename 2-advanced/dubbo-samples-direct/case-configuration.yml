@@ -34,12 +34,12 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
+      - zookeeper.address=direct-provider
       - zookeeper.port=2181
       - dubbo.address=direct-provider
       - dubbo.port=20880
     waitPortsBeforeRun:
-      - zookeeper:2181
+      - cache-provider:2181
       - direct-provider:20880
     depends_on:
       - direct-provider
