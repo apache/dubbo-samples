@@ -13,28 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-services:
-  zookeeper:
-    image: zookeeper:latest
-
-  callback-provider:
-    type: app
-    basedir: dubbo-samples-callback-provider
-    mainClass: org.apache.dubbo.samples.callback.provider.ProviderApplication
-
-  callback-consumer:
-    type: test
-    basedir: dubbo-samples-callback-consumer
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=callback-provider
-      - zookeeper.port=2181
-      - dubbo.address=callback-provider
-      - dubbo.port=20880
-    waitPortsBeforeRun:
-      - callback-provider:2181
-      - callback-provider:20880
-    depends_on:
-      - callback-provider
+dubbo:
+  application:
+    name: callback-provider
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+  protocol:
+    name: dubbo
+    port: 20880
+  provider:
+    token: true
+    callbacks: 1000
