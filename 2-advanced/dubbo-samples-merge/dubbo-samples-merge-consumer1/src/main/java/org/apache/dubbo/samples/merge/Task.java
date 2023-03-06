@@ -17,23 +17,21 @@
  *
  */
 
-package org.apache.dubbo.samples.merge.impl;
+package org.apache.dubbo.samples.merge;
 
-import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.merge.api.MergeService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@DubboService(group = "merge")
-public class MergeServiceImpl implements MergeService {
+@Component
+public class Task implements CommandLineRunner {
+    @DubboReference(group = "*",merger = "true")
+    MergeService mergeService;
 
     @Override
-    public List<String> mergeResult() {
-        List<String> menus = new ArrayList<>();
-        menus.add("group-1.1");
-        menus.add("group-1.2");
-        return menus;
+    public void run(String... args) {
+        System.out.println(mergeService.mergeResult());
     }
-
 }
+
