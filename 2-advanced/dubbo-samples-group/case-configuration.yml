@@ -18,7 +18,7 @@ services:
   group-provider:
     type: app
     basedir: dubbo-samples-group-provider
-    mainClass: org.apache.dubbo.samples.group.ProviderApplication
+    mainClass: org.apache.dubbo.samples.group.provider.ProviderApplication
   group-consumer:
     type: test
     basedir: dubbo-samples-group-consumer
