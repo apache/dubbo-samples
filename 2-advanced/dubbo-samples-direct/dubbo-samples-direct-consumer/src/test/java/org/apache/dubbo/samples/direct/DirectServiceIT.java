@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.direct.api;
+package org.apache.dubbo.samples.direct;
 
 import junit.framework.TestCase;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.service.GenericService;
+import org.apache.dubbo.samples.direct.api.DirectService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,11 +44,13 @@ public class DirectServiceIT {
 
     @Test
     public void testXml() throws Exception {
+
         Assert.assertTrue(directService.sayHello("dubbo").startsWith("Hello dubbo"));
     }
 
     @Test
     public void testGeneric() throws Exception {
+
         ApplicationConfig application = new ApplicationConfig();
         application.setName("direct-consumer");
         System.out.println(application.getClass());

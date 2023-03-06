@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.direct.api.impl;
+package org.apache.dubbo.samples.direct.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
@@ -24,8 +24,8 @@ import org.apache.dubbo.samples.direct.api.DirectService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@DubboService(interfaceClass = DirectService.class,group = "test2",version = "1.0.0-daily")
-public class DirectServiceImpl2 implements DirectService {
+@DubboService(interfaceClass = DirectService.class,group = "test",version = "1.0.0-daily")
+public class DirectServiceImpl implements DirectService {
     @Override
     public String sayHello(String name) {
             System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " +

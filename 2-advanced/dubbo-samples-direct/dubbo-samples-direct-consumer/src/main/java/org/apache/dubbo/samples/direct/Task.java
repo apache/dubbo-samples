@@ -15,22 +15,27 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.direct.api.impl;
+package org.apache.dubbo.samples.direct;
 
-import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.direct.api.DirectService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-@DubboService(interfaceClass = DirectService.class,group = "test",version = "1.0.0-daily")
-public class DirectServiceImpl implements DirectService {
+@Component
+public class Task implements CommandLineRunner {
+    @DubboReference(interfaceClass = DirectService.class,
+            check = false,
+            group = "test",
+            version = "1.0.0-daily")
+    private DirectService directService;
+
     @Override
-    public String sayHello(String name) {
-            System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " +
-                    name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
-            return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
+    public void run(String... args) throws Exception {
+        String hello = directService.sayHello("world");
+        System.out.println(hello);
+
     }
 }
