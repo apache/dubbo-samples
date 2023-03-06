@@ -19,7 +19,7 @@ services:
   direct-provider:
     type: app
     basedir: dubbo-samples-direct-provider
-    mainClass: org.apache.dubbo.samples.direct.DirectProviderApplication
+    mainClass: org.apache.dubbo.samples.direct.api.DirectProviderApplication
 #    systemProps:
 #      - zookeeper.address=zookeeper
 #    waitPortsBeforeRun:
