@@ -31,7 +31,7 @@ dubbo.metrics.protocol=prometheus
 本示例通过[kube-prometheus](https://github.com/prometheus-operator/kube-prometheus)
 构建k8s的prometheus环境
 
-为了方便访问验证可以将`alertmanager-service.yaml``grafana-service.yaml``prometheus-service.yaml`设置为NodePort
+为了方便访问验证可以将`alertmanager-service.yaml` `grafana-service.yaml` `prometheus-service.yaml`设置为NodePort
 
 1. 添加 `dubboPodMoitor.yaml` 到 `kube-prometheus`的`manifests` 目录。配置如下
  ```yaml
