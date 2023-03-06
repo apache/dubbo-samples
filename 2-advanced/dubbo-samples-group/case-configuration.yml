@@ -28,9 +28,9 @@ services:
       - zookeeper.address=group-provider
       - zookeeper.port=2181
       - dubbo.address=group-provider
-      - dubbo.port=20880
+      - dubbo.port=20881
     waitPortsBeforeRun:
       - group-provider:2181
-      - group-provider:20880
+      - group-provider:20881
     depends_on:
       - group-provider

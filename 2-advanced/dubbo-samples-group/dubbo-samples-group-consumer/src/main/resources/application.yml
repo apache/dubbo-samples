@@ -16,9 +16,9 @@
 
 dubbo:
   application:
-    name: dubbo-samples-group-consumer
+    name: group-consumer
   protocol:
     name: dubbo
-    port: 20081
+    port: -1
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
