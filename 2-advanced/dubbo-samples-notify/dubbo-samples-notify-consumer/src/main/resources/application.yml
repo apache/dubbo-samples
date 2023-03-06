@@ -17,6 +17,7 @@
 dubbo:
   application:
     name: dubbo-samples-notify-consumer
+    logger: slf4j
   protocol:
     name: dubbo
     port: -1
