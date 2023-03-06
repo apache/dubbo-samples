@@ -15,31 +15,32 @@
 # limitations under the License.
 
 services:
-  zookeeper:
-    image: zookeeper:latest
 
-  provider:
+  direct-provider:
     type: app
     basedir: dubbo-samples-direct-provider
     mainClass: org.apache.dubbo.samples.direct.DirectProviderApplication
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20880
-    checkLog: "Current Spring Boot Application is await..."
+#    systemProps:
+#      - zookeeper.address=zookeeper
+#    waitPortsBeforeRun:
+#      - zookeeper:2181
+#    checkPorts:
+#      - 20880
+#    checkLog: "Current Spring Boot Application is await..."
 
-  test:
+  direct-consumer:
     type: test
     basedir: dubbo-samples-direct-consumer
     tests:
       - "**/*IT.class"
     systemProps:
       - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+      - dubbo.address=direct-provider
+      - dubbo.port=20880
     waitPortsBeforeRun:
       - zookeeper:2181
-      - provider:20880
+      - direct-provider:20880
     depends_on:
-      - provider
+      - direct-provider
 

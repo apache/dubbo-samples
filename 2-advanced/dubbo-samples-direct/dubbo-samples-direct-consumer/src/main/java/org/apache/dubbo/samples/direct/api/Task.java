@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 public class Task implements CommandLineRunner {
     @DubboReference(interfaceClass = DirectService.class,
             check = false,
-            group = "test",
+            group = "*",
             version = "1.0.0-daily")
     private DirectService directService;
 
