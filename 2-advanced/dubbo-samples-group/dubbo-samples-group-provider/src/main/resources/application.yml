@@ -17,6 +17,7 @@
 dubbo:
   application:
     name: dubbo-samples-group-provider
+    logger: slf4j
   protocol:
     name: dubbo
     port: 20080
