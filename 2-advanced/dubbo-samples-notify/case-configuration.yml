@@ -22,3 +22,35 @@ props:
   zookeeper_port: 2181
   dubbo_port: 20880
 
+
+services:
+  zookeeper:
+    image: zookeeper:latest
+
+  dubbo-samples-notify-provider:
+    type: app
+    basedir: dubbo-samples-notify-provider
+    mainClass: org.apache.dubbo.samples.notify.provider.ProviderApplication
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "Current Spring Boot Application is await"
+    depends_on:
+      - zookeeper
+
+  dubbo-samples-notify-test:
+    type: test
+    basedir: dubbo-samples-notify-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - dubbo-samples-notify-provider:20880
+    depends_on:
+      - zookeeper
+      - dubbo-samples-notify-provider

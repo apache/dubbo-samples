@@ -14,14 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#dubbo:
-#  application:
-#    name: dubbo-samples-notify-consumer
-#  protocol:
-#    name: dubbo
-#    port: -1
-#  registry:
-#    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
-#dubbo:
-#  reference:
-#    org.apache.dubbo.samples.notify.DemoService.sayHello.onreturn: notify.onReturn
+dubbo:
+  application:
+    name: dubbo-samples-notify-consumer
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
