@@ -14,11 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+  zookeeper:
+    image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-metrics-prometheus
-  main_class: org.apache.dubbo.samples.metrics.prometheus.MetricsProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+  metrics-prometheus-provider:
+    type: app
+    basedir: dubbo-samples-metrics-prometheus-provider
+    mainClass: org.apache.dubbo.samples.metrics.prometheus.provider.MetricsProvider
 
+  metrics-prometheus-consumer:
+    type: test
+    basedir: dubbo-samples-metrics-prometheus-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=metrics-prometheus-provider
+      - zookeeper.port=2181
+      - dubbo.address=metrics-prometheus-provider
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - metrics-prometheus-provider:2181
+      - metrics-prometheus-provider:20880
+    depends_on:
+      - metrics-prometheus-provider

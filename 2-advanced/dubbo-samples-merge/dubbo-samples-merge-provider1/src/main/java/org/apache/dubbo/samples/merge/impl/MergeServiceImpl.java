@@ -19,11 +19,13 @@
 
 package org.apache.dubbo.samples.merge.impl;
 
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.merge.api.MergeService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@DubboService(group = "merge")
 public class MergeServiceImpl implements MergeService {
 
     @Override
