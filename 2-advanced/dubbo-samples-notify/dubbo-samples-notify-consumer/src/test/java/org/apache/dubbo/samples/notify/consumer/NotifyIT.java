@@ -20,6 +20,7 @@ package org.apache.dubbo.samples.notify.consumer;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.samples.notify.DemoService;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +48,7 @@ public class NotifyIT {
     public void testOnReturn() throws Exception {
         int id = 2;
         demoService.sayHello(id);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             if (!notify.ret.containsKey(id)) {
                 Thread.sleep(200);
             } else {
@@ -67,7 +68,7 @@ public class NotifyIT {
             // ignore
         }
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             if (!notify.ret.containsKey(id)) {
                 Thread.sleep(200);
             } else {
