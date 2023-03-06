@@ -24,15 +24,15 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 @ContextConfiguration(locations = {"classpath:/spring/version-consumer-star.xml"})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class VersionServiceStarIT {
-    @DubboReference(version = "*")
+    @DubboReference(version = "*",loadbalance="roundrobin",client = "myNetty")
     private VersionService service;
 
     @BeforeClass
@@ -74,6 +74,7 @@ public class VersionServiceStarIT {
             if (result.equals("hello2, dubbo")) {
                 version2 = true;
             }
+            if(version1&&version2)break;
         }
         Assert.assertTrue(version1 && version2);
     }
