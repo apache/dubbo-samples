@@ -27,7 +27,7 @@ dubbo.metrics.protocol=prometheus
 可观测性文档如下链接：
 [https://cn.dubbo.apache.org/zh/docs3-v2/java-sdk/advanced-features-and-usage/observability/](https://cn.dubbo.apache.org/zh/docs3-v2/java-sdk/advanced-features-and-usage/observability/)
 
-# 部署到K8S
+# 部署到K8S(kube-prometheus)
 本示例通过[kube-prometheus](https://github.com/prometheus-operator/kube-prometheus)
 构建k8s的prometheus环境
 
@@ -66,3 +66,20 @@ podMonitorSelector:
 4. 使用`./Deployment.yaml` 部署dubbo 应用
 5. 打开prometheus查看结果如下
    ![result.png](result.png)
+
+
+# 部署到K8S(helm-charts)
+1. 部署[prometheus](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus)
+2. 修改Deployment.yml 并部署
+ ```yaml
+     annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /management/prometheus 
+        prometheus.io/port: "18081"
+ ```
+3. 打开prometheus查看结果如下
+```shell
+ export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9090
+```
+![helm_result.png](helm_result.png)
