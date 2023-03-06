@@ -1,8 +1,8 @@
 # Overview
 
 This example demonstrates the basic usage of tracing in Dubbo application and report tracing information to zipkin. This
-example contains three parts, `dubbo-samples-spring-boot3-tracing-provider`
-, `dubbo-samples-spring-boot3-tracing-consumer` and `dubbo-samples-spring-boot3-tracing-interface`.
+example contains three parts, `dubbo-samples-spring-boot-tracing-provider`
+, `dubbo-samples-spring-boot-tracing-consumer` and `dubbo-samples-spring-boot-tracing-interface`.
 
 Apache Dubbo has inbuilt tracing through [Micrometer Observations](https://micrometer.io/)
 and [Micrometer Tracing](https://github.com/micrometer-metrics/tracing).
@@ -22,10 +22,6 @@ docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin
 Then you can verify zipkin server works by access [http://localhost:9411](http://localhost:9411)
 
 ![zipkin_home](static/zipkin_home.png)
-
-### Install & Start Nacos
-
-Follow [Nacos's quick start](https://nacos.io/zh-cn/docs/v2/quickstart/quick-start.html) to install and start nacos.
 
 ### Start Provider
 
@@ -62,11 +58,11 @@ required.
 
 > NOTE: Tracer is a library that handles lifecycle of spans (e.g. it can create, start, stop, sample, report spans).
 
-Micrometer Tracing supports  [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-java)
-and [Brave](https://github.com/openzipkin/brave) as Tracers. Dubbo recommends using OpenTelemetry as the protocol of
-tracing, you can add dependency as shown below:
+Micrometer Tracing supports [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-java)
+and [Brave](https://github.com/openzipkin/brave) as Tracers as shown below:
 
 ```xml
+
 <!-- OpenTelemetry Tracer -->
 <dependency>
     <groupId>io.micrometer</groupId>
@@ -74,11 +70,11 @@ tracing, you can add dependency as shown below:
 </dependency>
 ```
 
-### 3. Adding Micrometer Tracing Exporter To Your Project
+## 3. Adding Micrometer Tracing Exporter To Your Project
 
 After having added the Tracer, an exporter (also known as a reporter) is required. It's a component that will export the
 finished span and send it to a reporting system. Micrometer Tracer natively supports Tanzu Observability by Wavefront
-and Zipkin. Let's take zipkin as an example as shown below:
+and Zipkin as shown below:
 
 OpenZipkin Zipkin with OpenTelemetry
 
@@ -117,7 +113,7 @@ dubbo:
     enabled: true
     sampling:
       probability: 0.5
-      
+
 # tracing info output to logging
 logging:
   pattern:

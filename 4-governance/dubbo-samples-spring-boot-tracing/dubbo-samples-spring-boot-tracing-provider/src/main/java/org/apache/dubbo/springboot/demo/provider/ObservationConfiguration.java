@@ -29,4 +29,5 @@ public class ObservationConfiguration {
     SpanExporter spanExporter() {
         return new ZipkinSpanExporterBuilder().setEndpoint("http://localhost:9411/api/v2/spans").build();
     }
+
 }
