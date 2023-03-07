@@ -83,8 +83,17 @@ public class DemoServiceImpl implements DemoService {
     @Override
     public Result randomResponseTime(String localName) throws InterruptedException {
         Random random = new Random();
-        int responseTime = random.nextInt() % 2999 + 1;
+        int responseTime = Math.abs(random.nextInt() % 2999 + 1);
         Thread.sleep(responseTime);
+        logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + localName +
+                ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        return new Result(localName, "Hello " + localName + ", resp from provider: " +
+                RpcContext.getContext().getLocalAddress());
+    }
+
+    @Override
+    public Result runTimeException(String localName) {
+        int i = 1 / 0;
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + localName +
                 ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return new Result(localName, "Hello " + localName + ", resp from provider: " +
