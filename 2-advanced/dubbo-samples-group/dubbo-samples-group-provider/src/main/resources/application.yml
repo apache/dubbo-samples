@@ -16,10 +16,10 @@
 
 dubbo:
   application:
-    name: group-provider
+    name: dubbo-samples-group-provider
     logger: slf4j
   protocol:
     name: dubbo
-    port: 20081
+    port: 20080
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181

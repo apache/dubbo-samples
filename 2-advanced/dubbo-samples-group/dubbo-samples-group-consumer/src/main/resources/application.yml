@@ -16,7 +16,8 @@
 
 dubbo:
   application:
-    name: group-consumer
+    name: dubbo-samples-group-consumer
+    logger: slf4j
   protocol:
     name: dubbo
     port: -1

@@ -15,22 +15,33 @@
 # limitations under the License.
 
 services:
-  group-provider:
+  zookeeper:
+    image: zookeeper:latest
+
+  dubbo-samples-group-provider:
     type: app
     basedir: dubbo-samples-group-provider
     mainClass: org.apache.dubbo.samples.group.provider.ProviderApplication
-  group-consumer:
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "Current Spring Boot Application is await"
+    depends_on:
+      - zookeeper
+
+  dubbo-samples-group-test:
     type: test
     basedir: dubbo-samples-group-consumer
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=group-provider
-      - zookeeper.port=2181
-      - dubbo.address=group-provider
-      - dubbo.port=20881
+      - zookeeper.address=zookeeper
     waitPortsBeforeRun:
-      - group-provider:2181
-      - group-provider:20881
+      - zookeeper:2181
+      - dubbo-samples-group-provider:20880
     depends_on:
-      - group-provider
+      - zookeeper
+      - dubbo-samples-group-provider
