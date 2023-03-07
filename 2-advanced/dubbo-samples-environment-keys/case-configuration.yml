@@ -26,14 +26,14 @@ services:
     basedir: dubbo-samples-environment-keys-consumer
     tests:
       - "**/*IT.class"
-      systemProps:
-        - zookeeper.address=environment-keys-provider
-        - zookeeper.port=2181
-        - dubbo.address=environment-keys-provider
-        - dubbo.port=20880
-      waitPortsBeforeRun:
-        - environment-keys-provider:2181
-        - environment-keys-provider:20880
-      depends_on:
-        - environment-keys-provider
+    systemProps:
+      - zookeeper.address=environment-keys-provider
+      - zookeeper.port=2181
+      - dubbo.address=environment-keys-provider
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - environment-keys-provider:2181
+      - environment-keys-provider:20880
+    depends_on:
+      - environment-keys-provider
 
