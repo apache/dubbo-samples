@@ -13,25 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-services:
-
-  direct-provider:
-    type: app
-    basedir: dubbo-samples-direct-provider
-    mainClass: org.apache.dubbo.samples.direct.DirectProviderApplication
-  direct-consumer:
-    type: test
-    basedir: dubbo-samples-direct-consumer
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=direct-provider
-      - zookeeper.port=2181
-      - dubbo.address=direct-provider
-      - dubbo.port=20880
-    waitPortsBeforeRun:
-      - direct-provider:2181
-      - direct-provider:20880
-    depends_on:
-      - direct-provider
+dubbo:
+  application:
+    name: context-provider
+    qos-enable: false
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
