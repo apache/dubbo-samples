@@ -39,6 +39,8 @@ public interface PojoGreeter {
         return SAY_HELLO_02_RESP;
     }
 
+    String methodParamIsNull(String request);
+
 
     ParentPojo greetChildPojo(Byte test);
 

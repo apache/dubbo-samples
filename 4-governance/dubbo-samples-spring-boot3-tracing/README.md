@@ -4,7 +4,8 @@ This example demonstrates the basic usage of tracing in Dubbo application and re
 example contains three parts, `dubbo-samples-spring-boot3-tracing-provider`
 , `dubbo-samples-spring-boot3-tracing-consumer` and `dubbo-samples-spring-boot3-tracing-interface`.
 
-Apache Dubbo has inbuilt tracing through [Micrometer Observations](https://micrometer.io/) and [Micrometer Tracing](https://github.com/micrometer-metrics/tracing).
+Apache Dubbo has inbuilt tracing through [Micrometer Observations](https://micrometer.io/)
+and [Micrometer Tracing](https://github.com/micrometer-metrics/tracing).
 
 ## Quick Start
 
@@ -42,21 +43,17 @@ Open [http://localhost:9411/zipkin/](http://localhost:9411/zipkin/) in browser.
 
 ## How To Use Dubbo Tracing In Your Project
 
-### 1. Adding Micrometer Observation To Your Project
+### 1. Adding `dubbo-spring-boot-observability-starter` To Your Project
 
-In order to add Micrometer to the classpath and add metrics for Dubbo you need to add the `dubbo-metrics-api` dependency
-as shown below:
+For the Springboot project, you can use `dubbo-spring-boot-observability-starter` to easily have observability:
 
 ```xml
+
 <dependency>
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-metrics-api</artifactId>
+    <artifactId>dubbo-spring-boot-observability-starter</artifactId>
 </dependency>
 ```
-
-Thanks to the usage of [Micrometer Observations](https://micrometer.io/) Dubbo got instrumented once, but depending on
-the setup will allow emission of metrics, tracer or other signals via custom `ObservationHandlers`. Please read
-the [documentation under docs/observation](https://micrometer.io) for more information.
 
 ### 2. Adding Micrometer Tracing Bridge To Your Project
 
@@ -65,7 +62,9 @@ required.
 
 > NOTE: Tracer is a library that handles lifecycle of spans (e.g. it can create, start, stop, sample, report spans).
 
-Micrometer Tracing supports  [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-java) and [Brave](https://github.com/openzipkin/brave) as Tracers. Dubbo recommends using OpenTelemetry as the protocol of tracing, you can add dependency as shown below:
+Micrometer Tracing supports  [OpenTelemetry](https://github.com/open-telemetry/opentelemetry-java)
+and [Brave](https://github.com/openzipkin/brave) as Tracers. Dubbo recommends using OpenTelemetry as the protocol of
+tracing, you can add dependency as shown below:
 
 ```xml
 <!-- OpenTelemetry Tracer -->
@@ -84,6 +83,7 @@ and Zipkin. Let's take zipkin as an example as shown below:
 OpenZipkin Zipkin with OpenTelemetry
 
 ```xml
+
 <dependency>
     <groupId>io.opentelemetry</groupId>
     <artifactId>opentelemetry-exporter-zipkin</artifactId>
@@ -92,19 +92,14 @@ OpenZipkin Zipkin with OpenTelemetry
 
 You can read more about tracing setup [this documentation, under docs/tracing](https://micrometer.io/).
 
-### 4. Configuration ObservationRegistry
+### 4. Configuration Report Endpoint & Sampling Probability
+
+#### Zipkin Server Endpoint:
 
 ```java
+
 @Configuration
 public class ObservationConfiguration {
-
-    // reuse the applicationModel in your system
-    @Bean
-    ApplicationModel applicationModel(ObservationRegistry observationRegistry) {
-        ApplicationModel applicationModel = ApplicationModel.defaultModel();
-        applicationModel.getBeanFactory().registerBean(observationRegistry);
-        return applicationModel;
-    }
 
     // zipkin endpoint url
     @Bean
@@ -114,6 +109,21 @@ public class ObservationConfiguration {
 }
 ```
 
+#### Tracing Sampling Probability:
+
+```yaml
+dubbo:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 0.5
+      
+# tracing info output to logging
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+```
+
 ### 5. Customizing Observation Filters
 
 To customize the tags present in metrics (low cardinality tags) and in spans (low and high cardinality tags) you should
@@ -121,8 +131,6 @@ create your own versions of `DubboServerObservationConvention` (server side) and
 client side) and register them in the `ApplicationModel`'s `BeanFactory`. To reuse the existing ones
 check `DefaultDubboServerObservationConvention` (server side) and `DefaultDubboClientObservationConvention` (client
 side).
-
-
 
 ## Extension
 
@@ -136,13 +144,12 @@ side).
 </dependency>
 ```
 
-
-
 ### Other Micrometer Tracing Exporter
 
 Tanzu Observability by Wavefront
 
 ```xml
+
 <dependency>
     <groupId>io.micrometer</groupId>
     <artifactId>micrometer-tracing-reporter-wavefront</artifactId>
@@ -152,6 +159,7 @@ Tanzu Observability by Wavefront
 OpenZipkin Zipkin with Brave
 
 ```xml
+
 <dependency>
     <groupId>io.zipkin.reporter2</groupId>
     <artifactId>zipkin-reporter-brave</artifactId>
@@ -161,6 +169,7 @@ OpenZipkin Zipkin with Brave
 An OpenZipkin URL sender dependency to send out spans to Zipkin via a URLConnectionSender
 
 ```xml
+
 <dependency>
     <groupId>io.zipkin.reporter2</groupId>
     <artifactId>zipkin-sender-urlconnection</artifactId>

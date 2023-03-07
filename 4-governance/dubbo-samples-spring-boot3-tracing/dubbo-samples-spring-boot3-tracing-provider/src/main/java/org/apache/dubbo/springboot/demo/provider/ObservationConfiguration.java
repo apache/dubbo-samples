@@ -17,9 +17,6 @@
 
 package org.apache.dubbo.springboot.demo.provider;
 
-import org.apache.dubbo.rpc.model.ApplicationModel;
-
-import io.micrometer.observation.ObservationRegistry;
 import io.opentelemetry.exporter.zipkin.ZipkinSpanExporterBuilder;
 import io.opentelemetry.sdk.trace.export.SpanExporter;
 import org.springframework.context.annotation.Bean;
@@ -27,13 +24,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ObservationConfiguration {
-
-    @Bean
-    ApplicationModel applicationModel(ObservationRegistry observationRegistry) {
-        ApplicationModel applicationModel = ApplicationModel.defaultModel();
-        applicationModel.getBeanFactory().registerBean(observationRegistry);
-        return applicationModel;
-    }
 
     @Bean
     SpanExporter spanExporter() {
