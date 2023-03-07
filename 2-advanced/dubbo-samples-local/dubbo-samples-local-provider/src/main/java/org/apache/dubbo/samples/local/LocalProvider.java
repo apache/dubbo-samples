@@ -26,6 +26,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableDubbo
 public class LocalProvider {
     public static void main(String[] args) {
+        // Start the registry
+        new EmbeddedZooKeeper(2181, false).start();
         SpringApplication.run(LocalProvider.class, args);
     }
 }

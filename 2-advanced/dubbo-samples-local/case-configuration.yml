@@ -17,6 +17,8 @@
 
 # local call through injvm, start test container only
 services:
+  zookeeper:
+    image: zookeeper:latest
   local-provider:
     type: app
     basedir: dubbo-samples-local-provider
