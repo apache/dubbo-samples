@@ -16,7 +16,7 @@
 
 dubbo:
   application:
-    name: dubbo-samples-group-provider
+    name: group-provider
     logger: slf4j
   protocol:
     name: dubbo

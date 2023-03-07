@@ -13,35 +13,23 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 services:
-  zookeeper:
-    image: zookeeper:latest
-
-  dubbo-samples-group-provider:
+  group-provider:
     type: app
     basedir: dubbo-samples-group-provider
     mainClass: org.apache.dubbo.samples.group.provider.ProviderApplication
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20880
-    checkLog: "Current Spring Boot Application is await"
-    depends_on:
-      - zookeeper
-
-  dubbo-samples-group-test:
+  group-consumer:
     type: test
     basedir: dubbo-samples-group-consumer
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
+      - zookeeper.address=group-provider
+      - zookeeper.port=2181
+      - dubbo.address=group-provider
+      - dubbo.port=20880
     waitPortsBeforeRun:
-      - zookeeper:2181
-      - dubbo-samples-group-provider:20880
+      - group-provider:2181
+      - group-provider:20880
     depends_on:
-      - zookeeper
-      - dubbo-samples-group-provider
+      - group-provider
