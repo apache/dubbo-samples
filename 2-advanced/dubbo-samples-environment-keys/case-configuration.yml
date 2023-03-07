@@ -14,11 +14,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
-
-props:
-  project_name: dubbo-samples-environment-keys
-  main_class: org.apache.dubbo.samples.basic.BasicProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+services:
+  zookeeper:
+    image: zookeeper:latest
+  environment-keys-provider:
+    type: app
+    basedir: dubbo-samples-environment-keys-provider
+    mainClass: org.apache.dubbo.samples.environment.keys.provider.EnvironmentKeysProviderApplication
+  environment-keys-consumer:
+    type: test
+    basedir: dubbo-samples-environment-keys-consumer
+    tests:
+      - "**/*IT.class"
+      systemProps:
+        - zookeeper.address=environment-keys-provider
+        - zookeeper.port=2181
+        - dubbo.address=environment-keys-provider
+        - dubbo.port=20880
+      waitPortsBeforeRun:
+        - environment-keys-provider:2181
+        - environment-keys-provider:20880
+      depends_on:
+        - environment-keys-provider
 
