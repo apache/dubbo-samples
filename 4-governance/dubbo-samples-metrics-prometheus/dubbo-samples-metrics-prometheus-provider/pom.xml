@@ -38,15 +38,11 @@
             <artifactId>httpclient</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-samples-metrics-prometheus-interface</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>
-        <!-- dubbo -->
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

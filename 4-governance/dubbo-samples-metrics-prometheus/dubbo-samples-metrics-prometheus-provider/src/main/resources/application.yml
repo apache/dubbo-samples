@@ -18,6 +18,8 @@ dubbo:
   application:
     name: metrics-prometheus-provider
     qos-enable: false
+  provider:
+    timeout: 4000
   protocol:
     name: dubbo
     port: 20880
@@ -26,6 +28,8 @@ dubbo:
   metrics:
     protocol: prometheus
     enable-jvm-metrics: true
+    enable-metadata-metrics: true
+    enable-registry-metrics: true
     aggregation:
       enabled: true
     prometheus:

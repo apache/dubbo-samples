@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 @DubboService
@@ -67,6 +68,27 @@ public class DemoServiceImpl implements DemoService {
     @Override
     public String stringArray(String[] bytes) {
         return bytes.toString();
+    }
+
+    @Override
+    public Result timeLimitedMethod(String localName) throws InterruptedException {
+        //Simulate a response timeout scenario
+        Thread.sleep(5000);
+        logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + localName +
+                ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        return new Result(localName, "Hello " + localName + ", resp from provider: " +
+                RpcContext.getContext().getLocalAddress());
+    }
+
+    @Override
+    public Result randomResponseTime(String localName) throws InterruptedException {
+        Random random = new Random();
+        int responseTime = random.nextInt() % 2999 + 1;
+        Thread.sleep(responseTime);
+        logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + localName +
+                ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        return new Result(localName, "Hello " + localName + ", resp from provider: " +
+                RpcContext.getContext().getLocalAddress());
     }
 
 }

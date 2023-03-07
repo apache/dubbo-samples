@@ -41,7 +41,7 @@ public class MetricsConsumer {
         while (true) {
             try {
                 Thread.sleep(3000);
-                System.out.println(demoService.sayHello("Dubbo").getMsg());
+                System.out.println(demoService.timeLimitedMethod("Dubbo").getMsg());
             } catch (InterruptedException e) {
                 logger.error("MetricsConsumer failed: ", e);
             }

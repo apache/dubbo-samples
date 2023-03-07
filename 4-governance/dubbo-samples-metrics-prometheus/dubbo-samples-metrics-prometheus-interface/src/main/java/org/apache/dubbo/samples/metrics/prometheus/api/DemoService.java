@@ -34,4 +34,9 @@ public interface DemoService {
 
     String stringArray(String[] bytes);
 
+    //To Simulate a response timeout scenario
+    Result timeLimitedMethod(String name) throws InterruptedException;
+
+    Result randomResponseTime(String name) throws InterruptedException;
+
 }
