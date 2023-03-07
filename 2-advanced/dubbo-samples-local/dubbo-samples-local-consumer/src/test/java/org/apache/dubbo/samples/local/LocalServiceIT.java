@@ -23,6 +23,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.local.api.LocalService;
 import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,11 +35,16 @@ public class LocalServiceIT {
     @DubboReference
     private LocalService localService;
 
+    @BeforeClass
+    public static void setUp() throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
+    }
+
     @Test
     public void test() throws Exception {
         String result = localService.sayHello("world");
-        Assert.assertEquals(result, "Hello world, response from provider: 10.193.180.32:20880");
+        Assert.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
         result = localService.sayHelloAsync("world");
-        Assert.assertEquals(result, "Hello world, response from provider: 10.193.180.32:20880");
+        Assert.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
     }
 }

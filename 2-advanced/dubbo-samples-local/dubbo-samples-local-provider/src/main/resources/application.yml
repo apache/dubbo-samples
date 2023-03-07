@@ -19,6 +19,7 @@
 dubbo:
   application:
     name: local-provider
+    logger: slf4j
   protocol:
     name: dubbo
     port: 20880

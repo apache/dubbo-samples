@@ -18,6 +18,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
+    </parent>
+
     <modules>
         <module>dubbo-samples-local-provider</module>
         <module>dubbo-samples-local-consumer</module>
@@ -37,7 +44,6 @@
     <properties>
         <dubbo.version>3.2.0-beta.4</dubbo.version>
         <spring-boot.version>2.7.8</spring-boot.version>
-        <junit.version>4.13.1</junit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

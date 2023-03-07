@@ -20,6 +20,7 @@
 dubbo:
   application:
     name: local-consumer
+    logger: slf4j
   protocol:
     name: dubbo
     port: -1
