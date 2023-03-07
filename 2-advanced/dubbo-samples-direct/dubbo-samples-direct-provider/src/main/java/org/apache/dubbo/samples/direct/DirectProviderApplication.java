@@ -24,7 +24,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableDubbo
 public class DirectProviderApplication {
+
     public static void main(String[] args) {
+        new EmbeddedZooKeeper(2181,false).start();
         SpringApplication.run(DirectProviderApplication.class, args);
     }
 }
