@@ -36,7 +36,7 @@
         <module>dubbo-samples-metrics-prometheus-provider2</module>
         <module>dubbo-samples-metrics-prometheus-interface</module>
         <module>dubbo-samples-metrics-prometheus-consumer</module>
-
+        <module>dubbo-samples-metrics-prometheus-consumer2</module>
     </modules>
 
     <name>Dubbo Samples Metrics Prometheus</name>
