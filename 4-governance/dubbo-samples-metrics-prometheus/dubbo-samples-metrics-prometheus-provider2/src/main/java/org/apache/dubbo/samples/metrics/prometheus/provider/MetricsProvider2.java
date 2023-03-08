@@ -15,37 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.prometheus.consumer;
+package org.apache.dubbo.samples.metrics.prometheus.provider;
 
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.metrics.prometheus.api.DemoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 @EnableDubbo
 @SpringBootApplication
-public class MetricsConsumer {
-
-    private static Logger logger = LoggerFactory.getLogger(MetricsConsumer.class);
-
-    @DubboReference
-    private DemoService demoService;
-
+public class MetricsProvider2 {
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(MetricsConsumer.class, args);
-        DemoService demoService = ctx.getBean(DemoService.class);
-        while (true) {
-            try {
-                Thread.sleep(3000);
-                System.out.println(demoService.sayHello("Dubbo").getMsg());
-            } catch (InterruptedException e) {
-                logger.error("MetricsConsumer failed: ", e);
-            }
-        }
+        SpringApplication.run(MetricsProvider2.class, args);
     }
-
 }
