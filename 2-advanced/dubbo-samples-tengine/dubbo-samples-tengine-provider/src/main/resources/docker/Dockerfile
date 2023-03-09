@@ -30,7 +30,7 @@ RUN tar xvf tengine.tar.gz \
     && wget https://www.openssl.org/source/openssl-1.0.2s.tar.gz \
     && tar xvf openssl-1.0.2s.tar.gz \
     && wget https://www.zlib.net/fossils/zlib-1.2.11.tar.gz \
-    && tar xvf zlib-1.2.13.tar.gz \
+    && tar xvf zlib-1.2.11.tar.gz \
     && ./configure --add-module=./modules/mod_dubbo --add-module=./modules/ngx_multi_upstream_module --add-module=./modules/mod_config --with-pcre=./pcre-8.43/ --with-openssl=./openssl-1.0.2s/ --with-zlib=./zlib-1.2.11 \
     && make \
     && make install
