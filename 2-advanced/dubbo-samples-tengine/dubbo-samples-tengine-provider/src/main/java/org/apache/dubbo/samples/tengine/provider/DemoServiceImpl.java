@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@DubboService
+@DubboService(registry="multicast")
 public class DemoServiceImpl implements DemoService {
     @Override
     public Map<String, Object> tengineDubbo(Map<String, Object> context) {

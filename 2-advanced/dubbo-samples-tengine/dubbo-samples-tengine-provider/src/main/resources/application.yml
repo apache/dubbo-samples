@@ -21,4 +21,5 @@ dubbo:
     port: 20880
     threads: 1024
   registry:
+    id : multicast
     address: multicast://224.5.6.7:1234
