@@ -16,8 +16,8 @@
  */
 package org.apache.dubbo.samples.tengine.provider;
 
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.tengine.DemoService;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@DubboService
 public class DemoServiceImpl implements DemoService {
     @Override
     public Map<String, Object> tengineDubbo(Map<String, Object> context) {
