@@ -14,25 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.client;
 
-import org.apache.dubbo.common.extension.Activate;
-import org.apache.dubbo.rpc.Filter;
-import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcException;
+package org.apache.dubbo.samples.api;
 
-import static org.apache.dubbo.rpc.RpcException.FORBIDDEN_EXCEPTION;
+public interface GreetingsService {
 
-@Activate(group = "provider")
-public class ProviderFilter implements Filter {
-    @Override
-    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        if (invocation.getMethodName().contains("sayHiWithException")) {
-            throw new RpcException(FORBIDDEN_EXCEPTION, "provider filter exception");
-        } else {
-            return invoker.invoke(invocation);
-        }
-    }
+    String sayHi(String name);
+
 }
