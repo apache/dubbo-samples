@@ -17,8 +17,9 @@
 dubbo:
   application:
     name: dubbo-samples-notify-provider
+    logger: slf4j
   protocol:
     name: dubbo
-    port: 20080
+    port: 20880
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181

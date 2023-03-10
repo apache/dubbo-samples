@@ -19,25 +19,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.dubbo</groupId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>dubbo-samples-merge-api</module>
         <module>dubbo-samples-merge-provider1</module>
         <module>dubbo-samples-merge-provider2</module>
-        <module>dubbo-samples-merge-consumer</module>
+        <module>dubbo-samples-merge-consumer1</module>
+        <module>dubbo-samples-merge-consumer2</module>
     </modules>
 
     <artifactId>dubbo-samples-merge</artifactId>
     <name>Dubbo Samples Merge</name>
     <description>Dubbo Samples Merge</description>
 
+
     <properties>
-        <dubbo.version>3.1.6</dubbo.version>
-        <spring.version>4.3.29.RELEASE</spring.version>
+        <dubbo.version>3.2.0-beta.6-SNAPSHOT</dubbo.version>
         <junit.version>4.13.1</junit.version>
+        <spring.version>4.3.29.RELEASE</spring.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -51,10 +63,11 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- Spring Boot -->
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
