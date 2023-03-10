@@ -17,6 +17,7 @@
 
 package org.apache.dubbo.samples.metrics.prometheus.consumer;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,8 +28,8 @@ public class ConsumerMetricsIT {
 
     private final String port = "20889";
 
-//    @Test
-//    public void test() throws Exception {
+    @Test
+    public void test() throws Exception {
 //        try (CloseableHttpClient client = HttpClients.createDefault()) {
 //            HttpGet request = new HttpGet("http://localhost:" + port + "/metrics");
 //            CloseableHttpResponse response = client.execute(request);
@@ -39,6 +40,6 @@ public class ConsumerMetricsIT {
 //        } catch (Exception e) {
 //           Assert.fail(e.getMessage());
 //        }
-//    }
+    }
 
 }
