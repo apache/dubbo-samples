@@ -46,12 +46,12 @@ public class CatConsumer {
         // Server Tracking
         Transaction t = Cat.newTransaction("Call", NAME);
         try {
-            Cat.logEvent("Call.server", "dubbo-cat");
+            Cat.logEvent("Call.server", NAME);
             Cat.logEvent("Call.app", "business");
             Cat.logEvent("Call.port", "20880");
             CatContext catContext = new CatContext();
             Cat.logRemoteCallClient(catContext);
-            logger.info(demoService.sayHello("dubbo-cat", catContext));
+            logger.info(demoService.sayHello("dubbo and cat", catContext));
         } catch (Exception e) {
             Cat.logError(e);
             t.setStatus(e);

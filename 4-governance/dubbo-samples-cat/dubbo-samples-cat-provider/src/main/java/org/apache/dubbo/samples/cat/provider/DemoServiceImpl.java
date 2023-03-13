@@ -40,7 +40,7 @@ public class DemoServiceImpl implements DemoService {
         // Client Tracking
         Transaction t = Cat.newTransaction("Service", NAME);
         try {
-            Cat.logEvent("Service.client", "dubbo-cat");
+            Cat.logEvent("Service.client", NAME);
             Cat.logEvent("Service.app", NAME);
             Cat.logRemoteCallClient(catContext);
         } catch (Exception e) {
