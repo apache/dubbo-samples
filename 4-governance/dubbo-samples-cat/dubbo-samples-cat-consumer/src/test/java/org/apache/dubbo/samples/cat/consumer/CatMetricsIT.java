@@ -48,7 +48,7 @@ public class CatMetricsIT {
         try {
             Cat.logEvent("Call.server", NAME);
             Cat.logEvent("Call.app", "business");
-            Cat.logEvent("Call.port", "20880");
+            Cat.logEvent("Call.port", "20881");
             CatContext catContext = new CatContext();
             Cat.logRemoteCallClient(catContext);
             Assert.assertEquals("hello dubbo and cat", demoService.sayHello("dubbo and cat", catContext));

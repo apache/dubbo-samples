@@ -48,7 +48,7 @@ public class CatConsumer {
         try {
             Cat.logEvent("Call.server", NAME);
             Cat.logEvent("Call.app", "business");
-            Cat.logEvent("Call.port", "20880");
+            Cat.logEvent("Call.port", "20881");
             CatContext catContext = new CatContext();
             Cat.logRemoteCallClient(catContext);
             logger.info(demoService.sayHello("dubbo and cat", catContext));

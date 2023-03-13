@@ -14,12 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dubbo:
+spring:
   application:
     name: cat-provider
+
+dubbo:
+  application:
+    name: ${spring.application.name}
   protocol:
     name: dubbo
-    port: 20881
+    port: 20880
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
     simplifed: true
