@@ -31,9 +31,9 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 @DubboService
-public class DemoServiceImpl implements DemoService {
+public class DemoServiceImpl2 implements DemoService {
 
-    private static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl2.class);
     private String name = "Dubbo ~";
 
     @Override
@@ -45,7 +45,7 @@ public class DemoServiceImpl implements DemoService {
     public Result sayHello(String localName) {
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +
                 ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
-        return new Result(name, "Hello " + localName + ", resp from provider: " +
+        return new Result(name, "Hello " + localName + ", resp from provider2: " +
                 RpcContext.getContext().getLocalAddress());
     }
 
@@ -61,7 +61,7 @@ public class DemoServiceImpl implements DemoService {
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello "
                 + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return new Result(name, "Hello " + id + " " + localName +
-                ", resp from provider: " + RpcContext.getContext().getLocalAddress());
+                ", resp from provider2: " + RpcContext.getContext().getLocalAddress());
 
     }
 
@@ -76,7 +76,7 @@ public class DemoServiceImpl implements DemoService {
         Thread.sleep(5000);
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + localName +
                 ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
-        return new Result(localName, "Hello " + localName + ", resp from provider: " +
+        return new Result(localName, "Hello " + localName + ", resp from provider2: " +
                 RpcContext.getContext().getLocalAddress());
     }
 
@@ -87,7 +87,7 @@ public class DemoServiceImpl implements DemoService {
         Thread.sleep(responseTime);
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + localName +
                 ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
-        return new Result(localName, "Hello " + localName + ", resp from provider: " +
+        return new Result(localName, "Hello " + localName + ", resp from provider2: " +
                 RpcContext.getContext().getLocalAddress());
     }
 
@@ -96,7 +96,7 @@ public class DemoServiceImpl implements DemoService {
         int i = 1 / 0;
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + localName +
                 ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
-        return new Result(localName, "Hello " + localName + ", resp from provider: " +
+        return new Result(localName, "Hello " + localName + ", resp from provider2: " +
                 RpcContext.getContext().getLocalAddress());
     }
 

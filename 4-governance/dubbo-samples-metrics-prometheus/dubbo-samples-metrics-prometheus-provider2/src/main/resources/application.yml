@@ -16,13 +16,13 @@
 
 dubbo:
   application:
-    name: metrics-prometheus-provider
+    name: metrics-prometheus-provider2
     qos-enable: false
   provider:
     timeout: 4000
   protocol:
     name: dubbo
-    port: 20880
+    port: 20881
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
   metrics:
@@ -35,4 +35,4 @@ dubbo:
     prometheus:
       exporter:
         enabled: true
-        metrics-port: 20888
+        metrics-port: 20900
