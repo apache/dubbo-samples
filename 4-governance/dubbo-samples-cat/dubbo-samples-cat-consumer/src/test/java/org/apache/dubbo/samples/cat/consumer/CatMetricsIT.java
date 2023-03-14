@@ -36,7 +36,8 @@ import javax.annotation.Resource;
 @RunWith(SpringRunner.class)
 public class CatMetricsIT {
 
-    private static String CAT_HOST = "http://192.168.60.48:8080/cat/r/m/cat-consumer-ac171001-466309-1006?domain=cat-consumer";
+    private static String CAT_HOST = "http://" + System.getProperty("cat.host", "127.0.0.1")
+            + ":8080/cat/r/m/cat-consumer-ac171001-466309-1006?domain=cat-consumer";
     private static final String NAME = "cat-consumer";
 
     @Resource

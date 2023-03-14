@@ -33,6 +33,7 @@ services:
       - zookeeper.port=2181
       - dubbo.address=cat-provider
       - dubbo.port=20880
+      - cat.host=cat-consumer
     waitPortsBeforeRun:
       - cat-provider:2181
       - cat-provider:20880
