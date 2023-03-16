@@ -15,29 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.prometheus.api;
+package org.apache.dubbo.samples.metrics.prometheus.provider;
 
-import org.apache.dubbo.samples.metrics.prometheus.api.model.Result;
-import org.apache.dubbo.samples.metrics.prometheus.api.model.User;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.concurrent.CompletableFuture;
-
-public interface DemoService {
-
-    CompletableFuture<Integer> sayHello();
-
-    Result sayHello(String name);
-
-    Result sayHello(Long id, String name);
-
-    Result sayHello(User user);
-
-    String stringArray(String[] bytes);
-
-    Result timeLimitedMethod(String name) throws InterruptedException;
-
-    Result randomResponseTime(String name) throws InterruptedException;
-
-    Result runTimeException(String name);
-
+@EnableDubbo
+@SpringBootApplication
+public class MetricsProvider2 {
+    public static void main(String[] args) {
+        SpringApplication.run(MetricsProvider2.class, args);
+    }
 }

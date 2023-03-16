@@ -25,8 +25,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>dubbo-samples-metrics-prometheus-provider</artifactId>
-    <name>dubbo-samples-metrics-prometheus-provider</name>
+    <artifactId>dubbo-samples-metrics-prometheus-provider2</artifactId>
+    <name>dubbo-samples-metrics-prometheus-provider2</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

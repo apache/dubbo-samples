@@ -33,8 +33,10 @@
 
     <modules>
         <module>dubbo-samples-metrics-prometheus-provider</module>
+        <module>dubbo-samples-metrics-prometheus-provider2</module>
         <module>dubbo-samples-metrics-prometheus-interface</module>
         <module>dubbo-samples-metrics-prometheus-consumer</module>
+        <module>dubbo-samples-metrics-prometheus-consumer2</module>
     </modules>
 
     <name>Dubbo Samples Metrics Prometheus</name>
@@ -43,7 +45,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.2.0-beta.5</dubbo.version>
+        <dubbo.version>3.2.0-beta.6-SNAPSHOT</dubbo.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <junit.version>4.13.1</junit.version>
         <spring-boot.version>2.7.8</spring-boot.version>
