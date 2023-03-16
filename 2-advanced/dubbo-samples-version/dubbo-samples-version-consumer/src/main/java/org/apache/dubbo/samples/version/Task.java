@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Task implements CommandLineRunner {
-    @DubboReference(version = "*")
+    @DubboReference(version = "*",loadbalance="roundrobin",client = "myNetty")
     private VersionService versionService;
 
     @Override
