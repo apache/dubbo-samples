@@ -17,7 +17,11 @@
 dubbo:
   application:
     name: metrics-prometheus-consumer
-    qos-enable: false
+    qos-enable: true
+    qos-port: 20889
+    qos-accept-foreign-ip: false
+    qos-accept-foreign-ip-whitelist: 192.168.1.169,47.96.183.43
+
   consumer:
     timeout: 4000
   protocol:
@@ -32,7 +36,4 @@ dubbo:
     enable-registry-metrics: true
     aggregation:
       enabled: true
-    prometheus:
-      exporter:
-        enabled: true
-        metrics-port: 20889
+

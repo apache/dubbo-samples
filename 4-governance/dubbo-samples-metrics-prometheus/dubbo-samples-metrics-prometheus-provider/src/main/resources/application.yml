@@ -17,7 +17,10 @@
 dubbo:
   application:
     name: metrics-prometheus-provider
-    qos-enable: false
+    qos-enable: true
+    qos-port: 20888
+    qos-accept-foreign-ip: false
+    qos-accept-foreign-ip-whitelist: 192.168.1.169,47.96.183.43
   provider:
     timeout: 4000
   protocol:
@@ -25,6 +28,7 @@ dubbo:
     port: 20880
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+
   metrics:
     protocol: prometheus
     enable-jvm-metrics: true
@@ -32,7 +36,3 @@ dubbo:
     enable-registry-metrics: true
     aggregation:
       enabled: true
-    prometheus:
-      exporter:
-        enabled: true
-        metrics-port: 20888
