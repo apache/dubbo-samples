@@ -14,11 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
-
-props:
-  project_name: dubbo-samples-attachment
-  main_class: org.apache.dubbo.samples.attachment.AttachmentProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+services:
+  attachment-provider:
+    type: app
+    basedir: dubbo-samples-attachment-provider
+    mainClass: org.apache.dubbo.samples.attachment.AttachmentProvider
+  attachment-consumer:
+    type: test
+    basedir: dubbo-samples-attachment-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=attachment-provider
+      - zookeeper.port=2181
+      - dubbo.address=attachment-provider
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - attachment-provider:2181
+      - attachment-provider:20880
+    depends_on:
+      - attachment-provider
 

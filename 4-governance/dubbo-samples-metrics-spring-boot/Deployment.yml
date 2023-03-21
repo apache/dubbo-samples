@@ -76,6 +76,11 @@ spec:
       labels:
         app: ddubbo-samples-provider
         app-type: dubbo
+      #helm-charts 配置  https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /management/prometheus
+        prometheus.io/port: "18081"
     spec:
       containers:
         - name: ddubbo-samples-provider
