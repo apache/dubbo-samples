@@ -33,6 +33,7 @@
         <module>dubbo-samples-isolation-executor</module>
         <module>dubbo-samples-metadata-report</module>
         <module>dubbo-samples-mybatis</module>
+        <module>dubbo-samples-nacos-legacy</module>
         <module>dubbo-samples-nacos-merge</module>
         <module>dubbo-samples-registry-test-nacos</module>
         <module>dubbo-samples-registry-test-nacos-interface</module>
