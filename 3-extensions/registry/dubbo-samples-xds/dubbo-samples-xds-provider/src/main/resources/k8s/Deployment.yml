@@ -19,7 +19,7 @@ metadata:
   name: dubbo-samples-xds-provider
   namespace: dubbo-demo
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: dubbo-samples-xds-provider
@@ -30,13 +30,13 @@ spec:
     spec:
       containers:
         - name: server
-          image: apache/dubbo-demo:dubbo-samples-xds-provider_0.0.1
-          livenessProbe:
-            httpGet:
-              path: /live
-              port: 22222
-            initialDelaySeconds: 5
-            periodSeconds: 5
+          image: aamingaa/dubbo-demo:dubbo-samples-xds-provider_0.0.1
+#          livenessProbe:
+#            httpGet:
+#              path: /live
+#              port: 22222
+#            initialDelaySeconds: 5
+#            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /ready
