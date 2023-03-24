@@ -36,19 +36,19 @@
     <name>Dubbo Samples Async Simple In SpringBoot</name>
     <description>Dubbo Samples Async Simple In SpringBoot</description>
 
-    <properties>
-        <dubbo.version>3.2.0-beta.4</dubbo.version>
-        <junit.version>4.13.1</junit.version>
-        <spring-boot.version>2.7.8</spring-boot.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
     <modules>
         <module>dubbo-samples-async-simple-boot-interface</module>
         <module>dubbo-samples-async-simple-boot-provider</module>
         <module>dubbo-samples-async-simple-boot-consumer</module>
     </modules>
+
+    <properties>
+        <dubbo.version>3.2.0-beta.4</dubbo.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -61,6 +61,7 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Dubbo -->
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-bom</artifactId>
@@ -75,27 +76,8 @@
                 <version>${dubbo.version}</version>
                 <type>pom</type>
             </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-    </dependencies>
 
 
     <build>
