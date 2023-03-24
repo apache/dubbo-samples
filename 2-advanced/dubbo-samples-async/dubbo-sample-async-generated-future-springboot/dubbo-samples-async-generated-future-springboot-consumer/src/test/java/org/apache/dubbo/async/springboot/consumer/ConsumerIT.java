@@ -1,14 +1,3 @@
-package org.apache.dubbo.async.springboot.consumer;
-
-import org.apache.dubbo.async.springboot.api.GreetingService;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.concurrent.CompletableFuture;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -25,6 +14,18 @@ import java.util.concurrent.CompletableFuture;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.apache.dubbo.async.springboot.consumer;
+
+import org.apache.dubbo.async.springboot.api.GreetingService;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.concurrent.CompletableFuture;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
