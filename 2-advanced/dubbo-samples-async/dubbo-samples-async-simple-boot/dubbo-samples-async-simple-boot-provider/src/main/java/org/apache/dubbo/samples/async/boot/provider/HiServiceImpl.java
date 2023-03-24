@@ -12,6 +12,7 @@ import org.apache.dubbo.samples.async.boot.HiService;
 public class HiServiceImpl implements HiService {
     @Override
     public String sayHello(String name) {
+        //System.out.println("call : "+name);
         return "hi, your name is: "+name;
     }
 }

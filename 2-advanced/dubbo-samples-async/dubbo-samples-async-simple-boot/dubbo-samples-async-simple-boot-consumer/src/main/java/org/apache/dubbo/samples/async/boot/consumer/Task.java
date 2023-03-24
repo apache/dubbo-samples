@@ -4,6 +4,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.async.boot.HiService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -12,13 +13,14 @@ import java.util.concurrent.CompletableFuture;
  * @date: 24/3/2023
  * @time: 10:21 PM
  */
+@Component
 public class Task implements CommandLineRunner {
     @DubboReference
     private HiService hiService;
 
     @Override
     public void run(String... args) throws Exception {
-        hiService.sayHello("world");
+        hiService.sayHello("world");//调用远程hiService 的sayHello
 
         CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
         helloFuture.whenComplete((retValue, exception) -> {
