@@ -29,7 +29,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-async-generated-future-springboot</artifactId>
+    <artifactId>dubbo-sample-async-generated-future-springboot</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 

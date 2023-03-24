@@ -4,26 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-samples-async-generated-future-springboot</artifactId>
+        <artifactId>dubbo-sample-async-generated-future-springboot</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
     <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-samples-async-generated-future-springboot-interface</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <name>interface</name>
     <description>interface</description>
-    <properties>
-        <java.version>17</java.version>
-    </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
