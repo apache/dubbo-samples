@@ -183,3 +183,5 @@ For more details, please refer to the following case configurations:
 
 
 That's it, then feel free to add more integration test for the Dubbo project, have fun.
+
+fork by @wuyuda
