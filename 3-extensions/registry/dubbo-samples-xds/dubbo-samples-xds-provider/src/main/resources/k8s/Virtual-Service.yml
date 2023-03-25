@@ -30,14 +30,14 @@ spec:
             port:
               # Specifies the port on the host being addressed. If the service exposes only one port, you don't need to choose the port explicitly
               number: 50051
-          weight: 80
+          weight: 100
         - destination:
             host: dubbo-samples-xds-provider.dubbo-demo.svc.cluster.local
             subset: v2
             port:
               # Specifies the port on the host being addressed. If the service exposes only one port, you don't need to choose the port explicitly
               number: 50051
-          weight: 20
+          weight: 0
 
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -46,7 +46,7 @@ metadata:
   name: dubbo-samples-xds-provider
   namespace: dubbo-demo
 spec:
-  host: dubbo-samples-mesh-provider.dubbo-demo.svc.cluster.local
+  host: dubbo-samples-xds-provider.dubbo-demo.svc.cluster.local
   trafficPolicy:
     loadBalancer:
       # Envoy load balancing strategy

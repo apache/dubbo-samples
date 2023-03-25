@@ -19,7 +19,7 @@ metadata:
   name: dubbo-samples-xds-provider
   namespace: dubbo-demo
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: dubbo-samples-xds-provider
