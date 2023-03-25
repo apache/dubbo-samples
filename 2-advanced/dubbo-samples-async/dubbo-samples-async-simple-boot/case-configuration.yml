@@ -29,6 +29,18 @@ services:
     checkPorts:
       - 20880
     checkLog: "Current Spring Boot Application is await..."
+  test:
+    type: test
+    basedir: dubbo-samples-async-simple-boot-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - provider:20880
+    depends_on:
+      - provider
 
 
 
