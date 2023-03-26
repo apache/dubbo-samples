@@ -21,7 +21,7 @@ services:
   provider:
     type: app
     basedir: dubbo-samples-async-simple-boot-provider
-    mainClass: org.apache.dubbo.samples.async.boot.provider.providerApplication
+    mainClass: org.apache.dubbo.async.boot.provider.ProviderApplication
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:

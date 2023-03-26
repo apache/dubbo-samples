@@ -1,4 +1,4 @@
-package org.apache.dubbo.samples.async.boot.consumer;
+package org.apache.dubbo.async.boot.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.RpcContext;
