@@ -21,6 +21,8 @@ dubbo:
     qos-port: 20888
     qos-accept-foreign-ip: false
     qos-accept-foreign-ip-whitelist: 192.168.1.169,47.96.183.43
+#   only use test metadata data
+    enable-file-cache: false
   provider:
     timeout: 4000
   protocol:
