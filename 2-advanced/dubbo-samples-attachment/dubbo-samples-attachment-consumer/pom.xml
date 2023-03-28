@@ -62,13 +62,6 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-samples-attachment-provider</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-
     </dependencies>
 
     <build>
