@@ -30,6 +30,7 @@
 
     <modules>
         <module>dubbo-samples-async-simple</module>
+        <module>dubbo-samples-async-simple-boot</module>
         <module>dubbo-samples-async-generated-future</module>
         <module>dubbo-samples-async-original-future</module>
         <module>dubbo-samples-async-provider</module>
