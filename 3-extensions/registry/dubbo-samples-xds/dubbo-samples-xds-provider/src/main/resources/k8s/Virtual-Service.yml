@@ -30,14 +30,14 @@ spec:
             port:
               # Specifies the port on the host being addressed. If the service exposes only one port, you don't need to choose the port explicitly
               number: 50051
-          weight: 100
+          weight: 90
         - destination:
             host: dubbo-samples-xds-provider.dubbo-demo.svc.cluster.local
             subset: v2
             port:
               # Specifies the port on the host being addressed. If the service exposes only one port, you don't need to choose the port explicitly
               number: 50051
-          weight: 0
+          weight: 10
 
 ---
 apiVersion: networking.istio.io/v1alpha3
