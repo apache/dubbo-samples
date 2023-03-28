@@ -42,7 +42,10 @@ public class MetricsConsumer {
             try {
                 Thread.sleep(3000);
                 System.out.println(demoService.sayHello("Dubbo").getMsg());
-            } catch (InterruptedException e) {
+                System.out.println(demoService.randomResponseTime("Dubbo").getMsg());
+                System.out.println(demoService.runTimeException("Dubbo").getMsg());
+                System.out.println(demoService.timeLimitedMethod("Dubbo").getMsg());
+            } catch (Exception e) {
                 logger.error("MetricsConsumer failed: ", e);
             }
         }
