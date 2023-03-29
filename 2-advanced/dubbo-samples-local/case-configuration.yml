@@ -17,8 +17,33 @@
 
 # local call through injvm, start test container only
 services:
-  dubbo-samples-local-test:
+  zookeeper:
+    image: zookeeper:latest
+
+  local-provider:
+    type: app
+    basedir: dubbo-samples-local-provider
+    mainClass: org.apache.dubbo.samples.local.LocalProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "Current Spring Boot Application is await"
+    depends_on:
+      - zookeeper
+
+  local-consumer:
     type: test
-    basedir: .
+    basedir: dubbo-samples-local-consumer
     tests:
       - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - local-provider:20880
+    depends_on:
+      - zookeeper
+      - local-provider

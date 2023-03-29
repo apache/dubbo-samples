@@ -15,11 +15,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+#
 
-
-# Supported component versions of the test case
-
-# Spring app
-dubbo.version=2.7*, 3.*
-spring.version=4.*, 5.*
-java.version= [<= 11]
+dubbo:
+  application:
+    name: local-consumer
+    logger: slf4j
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
