@@ -27,7 +27,9 @@ import org.springframework.context.SmartLifecycle;
 import org.springframework.util.ErrorHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.ServerSocket;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -290,8 +292,17 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
 
             port = randomInts.get(counter);
             counter++;
-        } while (NetUtils.isPortInUsed(port));
+        } while (isPortInUsed(port));
 
         return port;
+    }
+
+    private static boolean isPortInUsed(int port) {
+        try (ServerSocket ignored = new ServerSocket(port)) {
+            return false;
+        } catch (IOException e) {
+            // continue
+        }
+        return true;
     }
 }
