@@ -16,6 +16,8 @@
  */
 package org.apache.dubbo.samples.triple.reactor.util;
 
+import org.apache.dubbo.common.utils.NetUtils;
+
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
@@ -23,12 +25,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.util.ErrorHandler;
-import org.springframework.util.SocketUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * from: https://github.com/spring-projects/spring-xd/blob/v1.3.1.RELEASE/spring-xd-dirt/src/main/java/org/springframework/xd/dirt/zookeeper/ZooKeeperUtils.java
@@ -43,6 +47,8 @@ import java.util.UUID;
  * @author David Turanski
  */
 public class EmbeddedZooKeeper implements SmartLifecycle {
+
+    private static final Random RANDOM = new Random();
 
     /**
      * Logger.
@@ -85,7 +91,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
      * Construct an EmbeddedZooKeeper with a random port.
      */
     public EmbeddedZooKeeper() {
-        clientPort = SocketUtils.findAvailableTcpPort();
+        clientPort = findRandomPort(30000, 65535);
     }
 
     /**
@@ -248,4 +254,44 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
         }
     }
 
+    /**
+     * Workaround for SocketUtils.findRandomPort() deprecation.
+     *
+     * @param min min port
+     * @param max max port
+     * @return a random generated available port
+     */
+    private static int findRandomPort(int min, int max) {
+        if (min < 1024) {
+            throw new IllegalArgumentException("Max port shouldn't be less than 1024.");
+        }
+
+        if (max > 65535) {
+            throw new IllegalArgumentException("Max port shouldn't be greater than 65535.");
+        }
+
+        if (min > max) {
+            throw new IllegalArgumentException("Min port shouldn't be greater than max port.");
+        }
+
+        int port = 0;
+        int counter = 0;
+
+        // Workaround for legacy JDK doesn't support Random.nextInt(min, max).
+        List<Integer> randomInts = RANDOM.ints(min, max + 1)
+                .limit(max - min)
+                .mapToObj(Integer::valueOf)
+                .collect(Collectors.toList());
+
+        do {
+            if (counter > max - min) {
+                throw new IllegalStateException("Unable to find a port between " + min + "-" + max);
+            }
+
+            port = randomInts.get(counter);
+            counter++;
+        } while (NetUtils.isPortInUsed(port));
+
+        return port;
+    }
 }
