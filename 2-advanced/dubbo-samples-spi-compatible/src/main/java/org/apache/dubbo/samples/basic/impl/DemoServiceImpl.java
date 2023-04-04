@@ -21,7 +21,7 @@ package org.apache.dubbo.samples.basic.impl;
 
 import org.apache.dubbo.samples.basic.api.DemoService;
 
-import org.apache.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.rpc.RpcContext;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
