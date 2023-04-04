@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package 2-advanced.dubbo-samples-scala.src.main.scala.org.apache.dubbo.samples.scala;
+package org.apache.dubbo.samples.scala;
 
 import org.apache.dubbo.common.utils.NetUtils;
 
