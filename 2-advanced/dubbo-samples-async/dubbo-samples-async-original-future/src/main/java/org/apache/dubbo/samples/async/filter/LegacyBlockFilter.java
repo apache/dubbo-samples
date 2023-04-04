@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.samples.async.filter;
 
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.rpc.Filter;
@@ -25,11 +26,10 @@ import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 
-import com.alibaba.dubbo.common.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
+@Activate(group = {CommonConstants.PROVIDER, CommonConstants.CONSUMER})
 public class LegacyBlockFilter implements Filter {
     private static Logger logger = LoggerFactory.getLogger(LegacyBlockFilter.class);
 

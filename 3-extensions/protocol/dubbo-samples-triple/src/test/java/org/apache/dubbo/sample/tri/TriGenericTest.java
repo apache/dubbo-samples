@@ -28,7 +28,7 @@ import org.apache.dubbo.rpc.service.GenericService;
 import org.apache.dubbo.sample.tri.api.PojoGreeter;
 import org.apache.dubbo.sample.tri.util.TriSampleConstants;
 
-import com.alibaba.dubbo.rpc.service.GenericException;
+import org.apache.dubbo.rpc.service.GenericException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
