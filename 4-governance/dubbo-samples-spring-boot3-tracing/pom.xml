@@ -54,7 +54,7 @@
         <junit.version>4.13.1</junit.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <spring-boot.version>3.0.5</spring-boot.version>
-        <spring-boot-maven-plugin.version>2.6.8</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>3.0.5</spring-boot-maven-plugin.version>
     </properties>
 
     <dependencyManagement>

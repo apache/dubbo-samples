@@ -77,10 +77,9 @@ tracing, you can add dependency as shown below:
 ### 3. Adding Micrometer Tracing Exporter To Your Project
 
 After having added the Tracer, an exporter (also known as a reporter) is required. It's a component that will export the
-finished span and send it to a reporting system. Micrometer Tracer natively supports Tanzu Observability by Wavefront
-and Zipkin. Let's take zipkin as an example as shown below:
+finished span and send it to a reporting system.
 
-OpenZipkin Zipkin with OpenTelemetry
+zipkin as exporter with OpenTelemetry:
 
 ```xml
 
@@ -92,32 +91,24 @@ OpenZipkin Zipkin with OpenTelemetry
 
 You can read more about tracing setup [this documentation, under docs/tracing](https://micrometer.io/).
 
-### 4. Configuration Report Endpoint & Sampling Probability
+### 4. Configuration Tracing
 
-#### Zipkin Server Endpoint:
-
-```java
-
-@Configuration
-public class ObservationConfiguration {
-
-    // zipkin endpoint url
-    @Bean
-    SpanExporter spanExporter() {
-        return new ZipkinSpanExporterBuilder().setEndpoint("http://localhost:9411/api/v2/spans").build();
-    }
-}
-```
-
-#### Tracing Sampling Probability:
+#### application.yml:
 
 ```yaml
 dubbo:
   tracing:
-    enabled: true
+    enabled: true # default is false
     sampling:
-      probability: 0.5
-      
+      probability: 0.5 # sampling rate, default is 0.1
+    propagation:
+      type: W3C # W3C/B3 default is W3C
+    tracing-exporter:
+      zipkin-config:
+        endpoint: http://localhost:9411/api/v2/spans
+        connect-timeout: 1s # connect timeout, default is 1s
+        read-timeout: 10s # read timeout, default is 10s
+
 # tracing info output to logging
 logging:
   pattern:
