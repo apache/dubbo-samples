@@ -20,14 +20,15 @@ package org.apache.dubbo.samples.metrics.prometheus.provider;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@EnableDubbo
-@SpringBootApplication
+
 public class MetricsProvider {
 
     public static void main(String[] args) {
         new EmbeddedZooKeeper(2181, false).start();
-        SpringApplication.run(MetricsProvider.class, args);
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-demo-provider.xml");
+        context.start();
     }
 
 }

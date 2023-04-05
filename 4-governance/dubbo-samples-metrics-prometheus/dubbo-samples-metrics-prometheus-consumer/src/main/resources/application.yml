@@ -20,7 +20,7 @@ dubbo:
     qos-enable: true
     qos-port: 20889
     qos-accept-foreign-ip: false
-    qos-accept-foreign-ip-whitelist: 192.168.1.169,47.96.183.43
+    qos-accept-foreign-ip-whitelist: 192.168.1.169,47.96.183.43,,121.199.25.64
 
   consumer:
     timeout: 4000
