@@ -23,6 +23,7 @@ import com.alibaba.nacos.api.config.ConfigService;
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class NacosUtils {
@@ -41,7 +42,7 @@ public class NacosUtils {
         ConfigService configService = NacosFactory.createConfigService(properties);
 
         try (InputStream is = NacosUtils.class.getClassLoader().getResourceAsStream("dubbo-routers-condition.yml")) {
-            String content = IOUtils.toString(is);
+            String content = IOUtils.toString(is, StandardCharsets.UTF_8);
             if (configService.publishConfig(dataId, group, content)) {
                 System.out.println("write " + dataId + ":" + group + " successfully.");
             }

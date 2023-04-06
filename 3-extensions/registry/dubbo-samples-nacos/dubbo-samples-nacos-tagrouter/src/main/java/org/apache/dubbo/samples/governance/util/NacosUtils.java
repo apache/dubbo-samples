@@ -24,6 +24,7 @@ import com.alibaba.nacos.api.exception.NacosException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class NacosUtils {
@@ -53,7 +54,7 @@ public class NacosUtils {
 
     public static void writeAppRule() throws Throwable {
         try (InputStream is = NacosUtils.class.getClassLoader().getResourceAsStream(YAML)) {
-            String content = IOUtils.toString(is);
+            String content = IOUtils.toString(is, StandardCharsets.UTF_8);
             if (configService.publishConfig(DATAID, GROUP, content)) {
                 System.out.println("write " + DATAID + ":" + GROUP + " successfully.");
             }
