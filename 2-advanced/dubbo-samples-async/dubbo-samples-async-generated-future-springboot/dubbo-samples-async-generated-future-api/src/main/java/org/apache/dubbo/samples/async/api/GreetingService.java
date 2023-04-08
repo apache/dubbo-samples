@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.springboot.demo.provider;
+package org.apache.dubbo.samples.async.api;
 
-import io.opentelemetry.exporter.zipkin.ZipkinSpanExporterBuilder;
-import io.opentelemetry.sdk.trace.export.SpanExporter;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.util.concurrent.CompletableFuture;
 
-@Configuration
-public class ObservationConfiguration {
+public interface GreetingService {
 
-    @Bean
-    SpanExporter spanExporter() {
-        return new ZipkinSpanExporterBuilder().setEndpoint("http://localhost:9411/api/v2/spans").build();
+    String greeting(String name);
+
+    default String replyGreeting(String name) {
+        return "Fine, " + name;
+    }
+
+    default CompletableFuture<String> greeting(String name, byte signal) {
+        return CompletableFuture.completedFuture(greeting(name));
     }
 
 }

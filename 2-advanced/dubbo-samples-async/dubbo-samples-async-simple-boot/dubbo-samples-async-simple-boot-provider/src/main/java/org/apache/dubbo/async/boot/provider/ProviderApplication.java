@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.async.boot.provider;
 
-package org.apache.dubbo.springboot.demo.consumer;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import io.opentelemetry.exporter.zipkin.ZipkinSpanExporterBuilder;
-import io.opentelemetry.sdk.trace.export.SpanExporter;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class ObservationConfiguration {
-
-    @Bean
-    SpanExporter spanExporter() {
-        return new ZipkinSpanExporterBuilder().setEndpoint("http://localhost:9411/api/v2/spans").build();
+/**
+ * @date: 24/3/2023
+ * @time: 10:13 PM
+ */
+@SpringBootApplication
+@EnableDubbo
+public class ProviderApplication {
+    public static void main(String[] args) {
+        //new EmbeddedZooKeeper(2181, false).start();
+        SpringApplication.run(ProviderApplication.class,args);
     }
-
 }
