@@ -57,20 +57,9 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- OpenTelemetry Tracer -->
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-otel</artifactId>
-        </dependency>
-        <!-- Dubbo-Observability-starter -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-observability-starter</artifactId>
-        </dependency>
-        <!-- Exporter-Zipkin -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-zipkin</artifactId>
+            <artifactId>dubbo-spring-boot-observability-otel-zipkin-starter</artifactId>
         </dependency>
     </dependencies>
 
