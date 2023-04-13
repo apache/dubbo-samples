@@ -49,7 +49,7 @@ provides two types of starters at present, select one to add to pom:
 <!-- Opentelemetry as Tracer, Zipkin as exporter -->
 <dependency>
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-spring-boot-observability-otel-zipkin-starter</artifactId>
+    <artifactId>dubbo-spring-boot-tracing-otel-zipkin-starter</artifactId>
 </dependency>
 ```
 
@@ -58,7 +58,7 @@ provides two types of starters at present, select one to add to pom:
 <!-- Brave as Tracer, Zipkin as exporter -->
 <dependency>
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-spring-boot-observability-brave-zipkin-starter</artifactId>
+    <artifactId>dubbo-spring-boot-tracing-brave-zipkin-starter</artifactId>
 </dependency>
 ```
 
