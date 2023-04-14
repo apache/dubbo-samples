@@ -39,7 +39,7 @@ import org.apache.dubbo.samples.metrics.api.DemoService;
 import org.apache.dubbo.samples.metrics.model.Result;
 import org.apache.dubbo.samples.metrics.model.User;
 
-import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcContext;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

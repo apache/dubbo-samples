@@ -32,8 +32,8 @@ public class UpgradeUtil {
         String content = "step: APPLICATION_FIRST\r\n" +
                 "proportion: " + proportion;
 
-        String RULE_KEY = ApplicationModel.getName() + ".migration";
-        DynamicConfiguration configuration = ApplicationModel.getEnvironment().getDynamicConfiguration().get();
+        String RULE_KEY = ApplicationModel.defaultModel().getApplicationName() + ".migration";
+        DynamicConfiguration configuration = ApplicationModel.defaultModel().getModelEnvironment().getDynamicConfiguration().get();
         configuration.publishConfig(RULE_KEY, DUBBO_SERVICEDISCOVERY_MIGRATION, content);
     }
 
@@ -41,8 +41,8 @@ public class UpgradeUtil {
         String content = "step: FORCE_INTERFACE\r\n" +
                 "force: true";
 
-        String RULE_KEY = ApplicationModel.getName() + ".migration";
-        DynamicConfiguration configuration = ApplicationModel.getEnvironment().getDynamicConfiguration().get();
+        String RULE_KEY = ApplicationModel.defaultModel().getApplicationName() + ".migration";
+        DynamicConfiguration configuration = ApplicationModel.defaultModel().getModelEnvironment().getDynamicConfiguration().get();
         configuration.publishConfig(RULE_KEY, DUBBO_SERVICEDISCOVERY_MIGRATION, content);
     }
 
@@ -50,8 +50,8 @@ public class UpgradeUtil {
         String content = "step: FORCE_APPLICATION\r\n" +
                 "force: true";
 
-        String RULE_KEY = ApplicationModel.getName() + ".migration";
-        DynamicConfiguration configuration = ApplicationModel.getEnvironment().getDynamicConfiguration().get();
+        String RULE_KEY = ApplicationModel.defaultModel().getApplicationName() + ".migration";
+        DynamicConfiguration configuration = ApplicationModel.defaultModel().getModelEnvironment().getDynamicConfiguration().get();
         configuration.publishConfig(RULE_KEY, DUBBO_SERVICEDISCOVERY_MIGRATION, content);
     }
 

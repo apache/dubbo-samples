@@ -16,11 +16,6 @@
  */
 package org.apache.dubbo.samples.api;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.dubbo.common.threadlocal.NamedInternalThreadFactory;
 import org.apache.dubbo.common.threadpool.manager.ExecutorRepository;
 import org.apache.dubbo.common.threadpool.manager.IsolationExecutorRepository;
@@ -30,14 +25,23 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
+import org.apache.dubbo.rpc.Protocol;
 import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.samples.support.DemoService;
 import org.apache.dubbo.samples.support.DemoServiceImpl;
 import org.apache.dubbo.samples.support.HelloService;
 import org.apache.dubbo.samples.support.HelloServiceImpl;
+
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import static org.apache.dubbo.common.constants.CommonConstants.EXECUTOR_MANAGEMENT_MODE_ISOLATION;
 
@@ -172,11 +176,18 @@ public class ApiIsolationIT {
         consumerBootstrap = DubboBootstrap.newInstance();
         consumerBootstrap.application("consumer-app")
                 .registry(registryConfig)
-                .reference(builder -> builder.interfaceClass(DemoService.class).version(version1).protocol(protocol).injvm(false))
-                .reference(builder -> builder.interfaceClass(HelloService.class).version(version2).protocol(protocol).injvm(false))
-                .reference(builder -> builder.interfaceClass(HelloService.class).version(version3).protocol(protocol).injvm(false));
+                .reference(generateReferenceConsumer(DemoService.class, version1, protocol))
+                .reference(generateReferenceConsumer(HelloService.class, version2, protocol))
+                .reference(generateReferenceConsumer(HelloService.class, version3, protocol));
         consumerBootstrap.start();
         return consumerBootstrap;
+    }
+
+    private static <S> Consumer<ReferenceBuilder<S>> generateReferenceConsumer(Class interfaceClass, String versionNumber, String protocol) {
+        return builder -> builder.interfaceClass(interfaceClass)
+                .version(versionNumber)
+                .protocol(protocol)
+                .scope("remote");
     }
 
 }
