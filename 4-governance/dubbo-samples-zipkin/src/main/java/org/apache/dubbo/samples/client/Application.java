@@ -19,9 +19,9 @@
 
 package org.apache.dubbo.samples.client;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.api.GreetingService;
 
-import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.Future;

@@ -41,7 +41,7 @@ public class GenericCallConsumer {
         referenceConfig.setInterface("org.apache.dubbo.samples.generic.call.api.HelloService");
         applicationConfig.setRegistry(registryConfig);
         referenceConfig.setApplication(applicationConfig);
-        referenceConfig.setGeneric(true);
+         referenceConfig.setGeneric("true");
         referenceConfig.setAsync(true);
         referenceConfig.setTimeout(7000);
 
