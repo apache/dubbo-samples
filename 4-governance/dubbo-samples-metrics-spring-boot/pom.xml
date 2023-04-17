@@ -36,8 +36,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-<!--        todo 3.2.0-beta.5 没有把指标同步到springboot,下一个稳定版本需要升级此demo的dubbo.version -->
-        <dubbo.version>3.2.0-beta.7-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <junit.version>4.13.1</junit.version>
         <spring.version>5.3.18</spring.version>
         <httpclient.version>4.5.13</httpclient.version>
