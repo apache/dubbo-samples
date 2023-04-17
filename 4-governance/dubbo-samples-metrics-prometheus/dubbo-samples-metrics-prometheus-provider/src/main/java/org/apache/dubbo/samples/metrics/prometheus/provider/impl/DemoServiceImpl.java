@@ -30,7 +30,6 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
-@DubboService
 public class DemoServiceImpl implements DemoService {
 
     private static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);

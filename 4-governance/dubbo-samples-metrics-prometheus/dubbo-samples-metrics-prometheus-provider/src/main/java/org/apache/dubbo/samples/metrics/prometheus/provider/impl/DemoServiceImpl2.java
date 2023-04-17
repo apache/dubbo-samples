@@ -17,9 +17,9 @@
 
 package org.apache.dubbo.samples.metrics.prometheus.provider.impl;
 
-import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.metrics.prometheus.api.DemoService;
+import org.apache.dubbo.samples.metrics.prometheus.api.DemoService2;
 import org.apache.dubbo.samples.metrics.prometheus.api.model.Result;
 import org.apache.dubbo.samples.metrics.prometheus.api.model.User;
 import org.slf4j.Logger;
@@ -30,11 +30,12 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
-@DubboService
-public class DemoServiceImpl2 implements DemoService {
+public class DemoServiceImpl2 implements DemoService2 {
 
     private static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl2.class);
     private String name = "Dubbo ~";
+
+    private Random random = new Random(200);
 
     @Override
     public CompletableFuture<Integer> sayHello() {
@@ -45,6 +46,7 @@ public class DemoServiceImpl2 implements DemoService {
     public Result sayHello(String localName) {
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +
                 ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+        doAction();
         return new Result(name, "Hello " + localName + ", resp from provider2: " +
                 RpcContext.getContext().getLocalAddress());
     }
@@ -54,12 +56,24 @@ public class DemoServiceImpl2 implements DemoService {
         return sayHello(new User(id, name));
     }
 
+
+
+    private void doAction() {
+        try {
+            Thread.sleep(random.nextInt(3000));
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
+    }
+
     @Override
     public Result sayHello(User user) {
         String localName = user.getUsername();
         Long id = user.getId();
         logger.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello "
                 + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+
+        doAction();
         return new Result(name, "Hello " + id + " " + localName +
                 ", resp from provider2: " + RpcContext.getContext().getLocalAddress());
 

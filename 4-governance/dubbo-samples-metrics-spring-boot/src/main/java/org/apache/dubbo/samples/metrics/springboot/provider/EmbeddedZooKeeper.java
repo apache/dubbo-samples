@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.metrics.prometheus.provider;
+package org.apache.dubbo.samples.metrics.springboot.provider;
 
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
  * Helper class to start an embedded instance of standalone (non clustered) ZooKeeper.
  * <p>
  * NOTE: at least an external standalone server (if not an ensemble) are recommended, even for
+ * {@link org.springframework.xd.dirt.server.singlenode.SingleNodeApplication}
  *
  * @author Patrick Peralta
  * @author Mark Fisher
