@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
  * Helper class to start an embedded instance of standalone (non clustered) ZooKeeper.
  * <p>
  * NOTE: at least an external standalone server (if not an ensemble) are recommended, even for
- * {@link org.springframework.xd.dirt.server.singlenode.SingleNodeApplication}
  *
  * @author Patrick Peralta
  * @author Mark Fisher
