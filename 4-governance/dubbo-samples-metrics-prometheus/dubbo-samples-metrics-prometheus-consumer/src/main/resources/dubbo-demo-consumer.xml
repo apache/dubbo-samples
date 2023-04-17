@@ -34,8 +34,8 @@
         <dubbo:aggregation enabled="true"/>
     </dubbo:metrics>
 
-    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService" id="demoService"/>
+    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService" id="demoService" check="false"/>
 
 
-    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService2" id="demoService2"/>
+    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService2" id="demoService2"  check="false"/>
 </beans>
