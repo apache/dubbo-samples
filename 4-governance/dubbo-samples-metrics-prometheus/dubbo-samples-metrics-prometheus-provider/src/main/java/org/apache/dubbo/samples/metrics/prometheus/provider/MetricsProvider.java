@@ -19,13 +19,16 @@ package org.apache.dubbo.samples.metrics.prometheus.provider;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.concurrent.CountDownLatch;
+
 
 public class MetricsProvider {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-demo-provider.xml");
         context.start();
+        new CountDownLatch(1).await();
     }
 
 }
