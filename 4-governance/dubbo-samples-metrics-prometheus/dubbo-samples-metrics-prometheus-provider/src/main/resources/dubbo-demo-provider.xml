@@ -30,11 +30,11 @@
     <dubbo:config-center address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
     <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
 
-    <dubbo:metrics protocol="prometheus" enable-jvm="false">
-        <dubbo:aggregation enabled="true"/>
+    <dubbo:metrics protocol="prometheus" enable-jvm="false" >
+        <dubbo:histogram enabled="true"/>
     </dubbo:metrics>
 
-    <bean id="demoService" class="org.apache.dubbo.samples.metrics.prometheus.provider.impl.DemoServiceImpl"/>
+  <bean id="demoService" class="org.apache.dubbo.samples.metrics.prometheus.provider.impl.DemoServiceImpl"/>
     <dubbo:service interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService" ref="demoService"/>
 
 
