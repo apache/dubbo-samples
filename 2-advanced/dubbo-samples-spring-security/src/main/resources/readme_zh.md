@@ -70,3 +70,5 @@ public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustom
 }
 ```
 
++ 大多数Spring Security的Authentication对象实现都使用了带参数的构造函数。如果您要自定义Authentication对象并使用带参数的构造函数，那么在反序列化时必须为ObjectMapper注册反序列化器。在Dubbo应用中，你可以扩展ObjectMapperCodecCustomer注册序列化和反序列化对象。
++ 如果没有自定义实现反序列化器产生的错误，dubbo 会忽略当前错误

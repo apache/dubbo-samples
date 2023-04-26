@@ -70,3 +70,5 @@ public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustom
 }
 ```
 
++ Most implementations of Authentication objects for Spring Security use a parameterized constructor. If you customize the Authentication object and use a parameterized constructor, you must register the deserializer for the ObjectMapper when deserializing.In a Dubbo application, you can use the ObjectMapperCodecCustomer extension to customize the serialization and deserialization of objects。
++ If you do not have a custom implementation of deserializer errors, Dubbo ignores the current error
