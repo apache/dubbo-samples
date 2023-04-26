@@ -69,6 +69,12 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
+            <!--
+              Warning: do not expose configurations that use dubbo-rpc-hessian to
+              untrusted access without configuring a deserialization whitelist.
+
+              https://dubbo.apache.org/en/docs/notices/security/#some-suggestions-to-deal-with-the-security-vulnerability-of-deserialization
+            -->
             <artifactId>dubbo-rpc-hessian</artifactId>
         </dependency>
 

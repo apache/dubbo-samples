@@ -16,16 +16,11 @@
 
 spring:
   application:
-    name: dubbo-springboot-demo-provider
-
-management:
-  tracing:
-    sampling:
-      probability: 1.0
+    name: dubbo-springboot3-tracing-provider
 
 dubbo:
   application:
-    name: dubbo-springboot-demo-provider
+    name: ${spring.application.name}
   protocol:
     name: dubbo
     port: -1
@@ -36,3 +31,18 @@ dubbo:
     address: nacos://127.0.0.1:8848
   metadata-report:
     address: nacos://127.0.0.1:8848
+  tracing:
+    enabled: true # default is false
+    sampling:
+      probability: 0.5 # sampling rate, default is 0.1
+    propagation:
+      type: W3C # W3C/B3 default is W3C
+    tracing-exporter:
+      zipkin-config:
+        endpoint: http://localhost:9411/api/v2/spans
+        connect-timeout: 1s # connect timeout, default is 1s
+        read-timeout: 10s # read timeout, default is 10s
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'

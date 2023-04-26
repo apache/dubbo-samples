@@ -36,7 +36,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.2.0-beta.5-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <junit.version>4.13.1</junit.version>
         <spring.version>5.3.18</spring.version>
         <httpclient.version>4.5.13</httpclient.version>
@@ -98,8 +98,9 @@
         <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-metrics-prometheus -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-metrics-prometheus</artifactId>
+            <artifactId>dubbo-spring-boot-observability-starter</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -236,6 +237,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.6.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

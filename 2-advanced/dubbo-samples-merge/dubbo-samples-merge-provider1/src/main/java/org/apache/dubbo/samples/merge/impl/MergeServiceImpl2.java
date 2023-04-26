@@ -19,13 +19,14 @@
 
 package org.apache.dubbo.samples.merge.impl;
 
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.merge.api.MergeService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@DubboService(group = "merge2")
 public class MergeServiceImpl2 implements MergeService {
-
     @Override
     public List<String> mergeResult() {
         List<String> menus = new ArrayList<>();

@@ -32,6 +32,13 @@
         <module>dubbo-samples-extensibility-filter-api</module>
         <module>dubbo-samples-extensibility-filter-provider</module>
         <module>dubbo-samples-extensibility-filter-consumer</module>
+        <module>dubbo-samples-extensibility-protocol-api</module>
+        <module>dubbo-samples-extensibility-protocol-common</module>
+        <module>dubbo-samples-extensibility-protocol-consumer</module>
+        <module>dubbo-samples-extensibility-protocol-provider</module>
+        <module>dubbo-samples-extensibility-router-api</module>
+        <module>dubbo-samples-extensibility-router-provider</module>
+        <module>dubbo-samples-extensibility-router-consumer</module>
     </modules>
 
 </project>

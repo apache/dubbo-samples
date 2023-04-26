@@ -23,25 +23,13 @@ services:
     basedir: .
     mainClass: org.apache.dubbo.samples.metrics.springboot.provider.MetricsProvider
     systemProps:
-      - zookeeper.address=zookeeper
+      - ZOOKEEPER_ADDRESS=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
 
-  consumer:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.metrics.springboot.consumer.MetricsConsumer
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkLog: "dubbo service started"
-    depends_on:
-      - provider
-      - zookeeper
 
   test:
     type: test
@@ -50,7 +38,5 @@ services:
       - "**/*IT.class"
     systemProps:
       - provider=provider
-      - consumer=consumer
     depends_on:
       - provider
-      - consumer

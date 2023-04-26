@@ -88,6 +88,17 @@ public abstract class BaseTriPojoClientTest {
         Assert.assertEquals("hello,unary", delegate.greet("unary"));
     }
 
+
+    @Test
+    public void testBoxed() {
+        // 01 primitive
+        String resp01 = delegate.sayHello(1);
+        Assert.assertEquals(PojoGreeter.SAY_HELLO_01_RESP, resp01);
+
+        // 02 boxed
+        String resp02 = delegate.sayHello((Integer) 2);
+        Assert.assertEquals(PojoGreeter.SAY_HELLO_02_RESP, resp02);
+    }
     @Test
     public void greetChildPojo() {
         Byte byte1 = Byte.valueOf("1");
@@ -95,6 +106,12 @@ public abstract class BaseTriPojoClientTest {
         ParentPojo childPojo = delegate.greetChildPojo(byte1);
 
         Assert.assertEquals(byte1, childPojo.getByte1());
+    }
+
+    @Test
+    public void greetMethodParamIsNull() {
+        String ret = delegate.methodParamIsNull(null);
+        Assert.assertEquals(ret, "ok");
     }
 
     @Test
