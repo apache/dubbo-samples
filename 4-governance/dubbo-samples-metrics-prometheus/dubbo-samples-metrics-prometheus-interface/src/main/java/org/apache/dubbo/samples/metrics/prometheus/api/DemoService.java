@@ -34,4 +34,10 @@ public interface DemoService {
 
     String stringArray(String[] bytes);
 
+    Result timeLimitedMethod(String name) throws InterruptedException;
+
+    Result randomResponseTime(String name) throws InterruptedException;
+
+    Result runTimeException(String name);
+
 }

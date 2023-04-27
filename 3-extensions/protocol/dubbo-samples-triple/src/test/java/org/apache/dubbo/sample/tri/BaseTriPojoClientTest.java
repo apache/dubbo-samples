@@ -26,7 +26,6 @@ import org.apache.dubbo.sample.tri.api.PojoGreeter;
 import org.apache.dubbo.sample.tri.util.StdoutStreamObserver;
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,7 +115,6 @@ public abstract class BaseTriPojoClientTest {
     }
 
     @Test
-    @Ignore
     public void greetException() {
         boolean isSupportSelfDefineException = Version.getVersion().compareTo("3.2.0") < 0;
         try {

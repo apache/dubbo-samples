@@ -62,11 +62,26 @@ public class SecurityConfiguration {
 
 ### custom serialization
 
++  In the resources directory, add `/META-INF/dubbo/` directory.
++  Add a configuration file, filename ` org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer` . 
++  File contents `customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer`.
++  Implementation code
+
 ```java
 public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustomer {
     @Override
     public void customize(ObjectMapperCodec objectMapperCodec) {
+         //Add custom codec
     }
 }
 ```
 
+#### notes
+
++ Most implementations of Authentication objects for Spring Security use a parameterized constructor. If you customize the Authentication object and use a parameterized constructor, you must register the deserializer for the ObjectMapper when deserializing.In a Dubbo application, you can use the ObjectMapperCodecCustomer extension to customize the serialization and deserialization of objects。
+
++ If you do not have a custom implementation of deserializer errors, Dubbo ignores the current error
+
++ In spring security, custom deserialization implementation references `UsernamePasswordAuthenticationTokenDeserializer`
+
+  

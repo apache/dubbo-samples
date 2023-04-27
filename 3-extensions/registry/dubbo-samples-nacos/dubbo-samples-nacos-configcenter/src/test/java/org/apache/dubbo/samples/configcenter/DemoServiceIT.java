@@ -17,7 +17,7 @@
 
 package org.apache.dubbo.samples.configcenter;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.configcenter.api.DemoService;
 
@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = "classpath:spring/configcenter-consumer.xml")
 @EnableDubbo
 public class DemoServiceIT {
-    @Reference(id = "demoService") 
+    @DubboReference(id = "demoService")
     private DemoService demoService;
 
     @Test

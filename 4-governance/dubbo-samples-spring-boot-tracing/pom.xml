@@ -45,9 +45,9 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dubbo.version>3.2.0-beta.6-SNAPSHOT</dubbo.version>
-        <micrometer.version>1.10.4</micrometer.version>
-        <micrometer-tracing.version>1.0.2</micrometer-tracing.version>
+        <dubbo.version>3.2.1-SNAPSHOT</dubbo.version>
+        <micrometer.version>1.10.5</micrometer.version>
+        <micrometer-tracing.version>1.0.3</micrometer-tracing.version>
         <opentelemetry.version>1.19.0</opentelemetry.version>
         <junit.version>4.13.1</junit.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
@@ -81,6 +81,15 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-bom</artifactId>
@@ -93,15 +102,6 @@
                 <artifactId>dubbo-dependencies-zookeeper</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
-            </dependency>
-
-            <!-- Spring Boot -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
 
             <dependency>
