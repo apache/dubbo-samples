@@ -64,8 +64,8 @@ public class SecurityConfiguration {
 
 +  In the resources directory, add ```  /META-INF/dubbo/``` directory.
 + Add a configuration file, filename ``` org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer``` 
-+ File contents ``` xxxx=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer```.
-+  Implementation Code
++ File contents ``` customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer```.
++  Implementation code
 
 ```java
 public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustomer {
