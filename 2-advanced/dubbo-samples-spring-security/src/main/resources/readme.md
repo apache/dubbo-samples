@@ -62,7 +62,7 @@ public class SecurityConfiguration {
 
 ### custom serialization
 
-+  In the resources directory, add `  /META-INF/dubbo/`   directory.
++  In the resources directory, add `/META-INF/dubbo/` directory.
 +  Add a configuration file, filename ` org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer` . 
 +  File contents `customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer`.
 +  Implementation code
