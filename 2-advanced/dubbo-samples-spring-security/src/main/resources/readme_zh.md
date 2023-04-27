@@ -62,9 +62,9 @@ public class SecurityConfiguration {
 
 ### 自定义序列化
 
-+ 在 resources 目录下，添加  ``` /META-INF/dubbo/``` 目录。
-+ 添加配置文件，文件名 org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer。
-+ 文件内容 ``` customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer``` 。
++ 在 resources 目录下，添加  `/META-INF/dubbo/` 目录。
++ 添加配置文件，文件名 ` org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer` 。
++ 文件内容 `customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer` 。
 + 自定义实现代码
 
 ```java
@@ -72,7 +72,7 @@ public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustom
     @Override
     public void customize(ObjectMapperCodec objectMapperCodec) {
 
-        objectMapperCodec.registerModule()//Add custom codec module
+       //Add custom codec
     }
 }
 ```
@@ -83,6 +83,8 @@ public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustom
 
 + 如果没有自定义实现反序列化器产生的错误，dubbo 会忽略当前错误
 
-+ 在Spring Security 中，自定义反序列器可以参考``` UsernamePasswordAuthenticationTokenDeserializer``` 
++ 在Spring Security 中，自定义反序列器可以参考`UsernamePasswordAuthenticationTokenDeserializer`
 
+   
+  
   

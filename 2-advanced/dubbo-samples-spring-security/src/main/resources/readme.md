@@ -62,16 +62,16 @@ public class SecurityConfiguration {
 
 ### custom serialization
 
-+  In the resources directory, add ```  /META-INF/dubbo/``` directory.
-+ Add a configuration file, filename ``` org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer``` 
-+ File contents ``` customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer```.
++  In the resources directory, add `  /META-INF/dubbo/`   directory.
++  Add a configuration file, filename ` org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer` . 
++  File contents `customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer`.
 +  Implementation code
 
 ```java
 public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustomer {
     @Override
     public void customize(ObjectMapperCodec objectMapperCodec) {
-         objectMapperCodec.registerModule()//Add custom codec module
+         //Add custom codec
     }
 }
 ```
@@ -82,6 +82,6 @@ public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustom
 
 + If you do not have a custom implementation of deserializer errors, Dubbo ignores the current error
 
-+ In spring security, custom deserialization implementation references ```CustomUsernamePasswordAuthenticationTokenDeserializer```
++ In spring security, custom deserialization implementation references `UsernamePasswordAuthenticationTokenDeserializer`
 
   
