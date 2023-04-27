@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:property-placeholder/>
+
+    <dubbo:application name="demo-provider" register-mode="interface"/>
+
+    <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
+
+    <dubbo:protocol id="dubbo-manage" name="dubbo" threadpool="dubboThreadPool" port="20880" threads="10"/>
+    <dubbo:protocol id="dubbo-h" name="dubbo" threadpool="dubboThreadPool" port="30010" threads="10"/>
+    <dubbo:protocol id="dubbo-m" name="dubbo" threadpool="dubboThreadPool" port="30011" threads="11"/>
+    <dubbo:protocol id="dubbo-l" name="dubbo" threadpool="dubboThreadPool" port="30012" threads="12"/>
+    <dubbo:protocol id="dubbo-danger" name="dubbo" threadpool="dubboThreadPool" port="30013" threads="13"/>
+    <dubbo:protocol id="dubbo-openapi" name="dubbo" threadpool="dubboThreadPool" port="30014" threads="14"/>
+
+    <bean id="blockingServiceA" class="org.apache.dubbo.samples.impl.BlockingServiceA"/>
+    <bean id="blockingServiceB" class="org.apache.dubbo.samples.impl.BlockingServiceB"/>
+    <bean id="blockingServiceC" class="org.apache.dubbo.samples.impl.BlockingServiceC"/>
+    <bean id="blockingServiceD" class="org.apache.dubbo.samples.impl.BlockingServiceD"/>
+    <bean id="blockingServiceE" class="org.apache.dubbo.samples.impl.BlockingServiceE"/>
+    <bean id="managementService" class="org.apache.dubbo.samples.impl.ManagementServiceImpl"/>
+
+    <dubbo:service protocol="dubbo-manage" interface="org.apache.dubbo.samples.api.ManagementService" ref="managementService"/>
+    <dubbo:service protocol="dubbo-h" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-h" ref="blockingServiceA"/>
+    <dubbo:service protocol="dubbo-m" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-m" ref="blockingServiceB"/>
+    <dubbo:service protocol="dubbo-l" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-l" ref="blockingServiceC"/>
+    <dubbo:service protocol="dubbo-danger" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-danger" ref="blockingServiceD"/>
+    <dubbo:service protocol="dubbo-openapi" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-openapi" ref="blockingServiceE"/>
+
+</beans>
