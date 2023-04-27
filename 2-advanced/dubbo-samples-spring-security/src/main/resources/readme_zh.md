@@ -62,13 +62,27 @@ public class SecurityConfiguration {
 
 ### 自定义序列化
 
++ 在 resources 目录下，添加  ``` /META-INF/dubbo/``` 目录。
++ 添加配置文件，文件名 org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer。
++ 文件内容 ``` customizerConfigurationObjectMapperCodecCustomer=org.apache.dubbo.samples.custom.DefaultObjectMapperCodecCustomer``` 。
++ 自定义实现代码
+
 ```java
 public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustomer {
     @Override
     public void customize(ObjectMapperCodec objectMapperCodec) {
+
+        objectMapperCodec.registerModule()//Add custom codec module
     }
 }
 ```
 
+#### 备注：
+
 + 大多数Spring Security的Authentication对象实现都使用了带参数的构造函数。如果您要自定义Authentication对象并使用带参数的构造函数，那么在反序列化时必须为ObjectMapper注册反序列化器。在Dubbo应用中，你可以扩展ObjectMapperCodecCustomer注册序列化和反序列化对象。
+
 + 如果没有自定义实现反序列化器产生的错误，dubbo 会忽略当前错误
+
++ 在Spring Security 中，自定义反序列器可以参考``` UsernamePasswordAuthenticationTokenDeserializer``` 
+
+  
