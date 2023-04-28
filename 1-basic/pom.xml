@@ -31,5 +31,6 @@
         <module>dubbo-samples-api</module>
         <module>dubbo-samples-spring-xml</module>
         <module>dubbo-samples-spring-boot</module>
+        <module>dubbo-samples-triple-unary</module>
     </modules>
 </project>
