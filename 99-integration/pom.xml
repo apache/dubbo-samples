@@ -32,6 +32,8 @@
         <module>dubbo-samples-hibernate</module>
         <module>dubbo-samples-isolation-executor</module>
         <module>dubbo-samples-metadata-report</module>
+        <module>dubbo-samples-memory-server</module>
+        <module>dubbo-samples-memory-tri-server</module>
         <module>dubbo-samples-mybatis</module>
         <module>dubbo-samples-multi-port</module>
         <module>dubbo-samples-nacos-merge</module>
