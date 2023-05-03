@@ -20,53 +20,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>dubbo-samples-nacos-merge</artifactId>
+        <artifactId>dubbo-samples-test-12208</artifactId>
         <groupId>org.apache.dubbo</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-nacos-merge-provider1</artifactId>
-    <name>Dubbo Samples Nacos Merge Provider1</name>
-    <description>Dubbo Samples Nacos Merge Provider1</description>
+    <artifactId>dubbo-samples-test-12208-api</artifactId>
+    <name>Dubbo Samples Test For Issue 12208 - API</name>
+    <description>Dubbo Samples Test For Issue 12208 - API</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-samples-nacos-merge-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
+            <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>2.2.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <version>2.6.12</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <!-- For jdk 11 above JavaEE annotation -->
-        <profile>
-            <id>javax.annotation</id>
-            <activation>
-                <jdk>[1.11,)</jdk>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>javax.annotation</groupId>
-                    <artifactId>javax.annotation-api</artifactId>
-                    <version>1.3.2</version>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>
