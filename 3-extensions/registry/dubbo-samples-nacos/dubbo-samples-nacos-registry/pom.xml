@@ -125,6 +125,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>simpleclient</artifactId>
+            <groupId>io.prometheus</groupId>
+            <version>0.16.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
