@@ -35,7 +35,7 @@
     <description>Dubbo Samples Prefer Serialization Integration Test</description>
 
     <properties>
-        <dubbo.version>3.2.0-beta.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <dubbo-serialization-fastjson.version>1.0.1</dubbo-serialization-fastjson.version>
         <dubbo-serialization-gson.version>1.0.1</dubbo-serialization-gson.version>
         <dubbo-serialization-fst.version>1.0.1</dubbo-serialization-fst.version>
@@ -78,7 +78,7 @@
 
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
             </dependency>

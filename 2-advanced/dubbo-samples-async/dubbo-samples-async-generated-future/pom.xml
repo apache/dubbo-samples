@@ -33,7 +33,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.1.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <spring.version>4.3.29.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <zookeeper_version>3.8.1</zookeeper_version>
@@ -93,6 +93,7 @@
             <type>pom</type>
         </dependency>
 
+        <!-- Embedded Zookeeper Server dependencies START -->
         <dependency>
             <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-annotations</artifactId>
@@ -126,6 +127,7 @@
             <groupId>org.xerial.snappy</groupId>
             <artifactId>snappy-java</artifactId>
         </dependency>
+        <!-- Embedded Zookeeper Server dependencies END -->
 
         <dependency>
             <groupId>junit</groupId>
