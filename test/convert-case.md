@@ -259,7 +259,7 @@ public static GenericContainer zookeeper = new FixedHostPortGenericContainer("zo
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <version>${dubbo.version}</version>
             <type>pom</type>
         </dependency>
@@ -289,7 +289,7 @@ public static GenericContainer zookeeper = new FixedHostPortGenericContainer("zo
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <version>${dubbo.version}</version>
             <type>pom</type>
         </dependency>
@@ -366,7 +366,7 @@ SpringBoot项目不要导入spring-framework-bom，避免因为传递的spring.v
 <dependencies>
     <dependency>
         <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-dependencies-zookeeper</artifactId>
+        <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
         <type>pom</type>
     </dependency>
 </dependencies>

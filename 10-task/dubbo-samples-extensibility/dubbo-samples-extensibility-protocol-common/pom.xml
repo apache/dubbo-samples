@@ -34,7 +34,7 @@
     <description>Dubbo Extensibility Protocol Task - Common</description>
 
     <properties>
-        <dubbo.version>3.2.0-beta.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
     </properties>
 
     <dependencies>
