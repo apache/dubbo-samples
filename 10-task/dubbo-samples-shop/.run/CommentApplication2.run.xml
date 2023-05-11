@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CommentApplication2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="tasks-shop">
+    <module name="dubbo-samples-shop-comment-v2" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="org.apache.dubbo.samples.comment.CommentApplication2" />
+    <option name="VM_PARAMETERS" value="-Ddubbo.labels=&quot;commentVersion=v2;region=hangzhou;type=vip&quot;" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

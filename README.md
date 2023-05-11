@@ -18,7 +18,7 @@ We do not recommend you build the entire project from the root directory, as bui
 For example,
 
 ```bash
-$ cd /1-basic/dubbo-samples-spring-boot
+$ cd 1-basic/dubbo-samples-spring-boot
 $ mvn clean package
 ```
 
@@ -26,7 +26,7 @@ You may need to read each individual README under the sub directories if you hav
 
 ## Integration Test
 
-This project is also used for integration tests for dubbo.
+This project is also used for integration tests for dubbo. If you are just learning how to use Dubbo you don't have to care about this part.
 
 **How to build and run a integration test**
 
