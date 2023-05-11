@@ -98,6 +98,7 @@
             <ul style="list-style-position:inside;">
                 <li>Input any username and password to login.</li>
                 <li>Use username 'dubbo' to test features like traffic isolation, argument routing, etc.</li>
+                <li>Check <a href="https://cn.dubbo.apache.org/zh-cn/overview/tasks/traffic-management/" target="_blank">the official traffic management task</a> for how to use this demo.</li>
             </ul>
             </p>
         </div>
