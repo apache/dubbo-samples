@@ -1,11 +1,11 @@
 # Dubbo Samples
 
-Samples for Apache Dubbo
+Samples for Apache Dubbo.
 
 ![Build Status](https://github.com/apache/dubbo-samples/workflows/Dubbo%202/badge.svg)
 ![license](https://img.shields.io/github/license/apache/dubbo-samples.svg)
 
-This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, pls. check README in each individual sub projects. It is also helpful to cross reference to [Dubbo User Manual](https://dubbo.apache.org/en/docs/v2.7/user/quick-start/) to understand the features demoed in this project.
+This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, pls. check README in each individual sub projects. It is also helpful to cross reference to [Dubbo User Manual](https://dubbo.apache.org/zh-cn/overview/tasks/) to understand the features demoed in this project.
 
 What's more, [dubbo-go](https://github.com/apache/dubbo-go) samples are moved to [dubbo-go-samples](https://github.com/apache/dubbo-go-samples).
 
@@ -13,15 +13,20 @@ What's more, [dubbo-go](https://github.com/apache/dubbo-go) samples are moved to
 
 To compile all samples, run the following command in the top directory of this project, or step into the sub directories to compile one single sample:
 
+We do not recommend you build the entire project from the root directory, as building the entire samples can take a long time. Each module in Samples is designed independently so you can first go to the demo directory you care about, then execute the build and run the demo.
+
+For example,
+
 ```bash
-mvn clean package
+$ cd 1-basic/dubbo-samples-spring-boot
+$ mvn clean package
 ```
 
 You may need to read each individual README under the sub directories if you have to understand how to build and run.
 
 ## Integration Test
 
-This project is also used for integration tests for dubbo.
+This project is also used for integration tests for dubbo. If you are just learning how to use Dubbo you don't have to care about this part.
 
 **How to build and run a integration test**
 

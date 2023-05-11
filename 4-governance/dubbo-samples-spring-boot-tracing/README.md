@@ -84,8 +84,10 @@ dubbo:
 
 # tracing info output to logging
 logging:
+  level:
+    root: info
   pattern:
-    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+    console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId:-}, %X{spanId:-}]: %m%n'
 ```
 
 ### 3. Customizing Observation Filters

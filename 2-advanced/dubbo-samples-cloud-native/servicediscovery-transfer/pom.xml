@@ -43,7 +43,7 @@
         <target.level>1.8</target.level>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <spring.version>4.3.29.RELEASE</spring.version>
-        <dubbo.version>3.1.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -64,6 +64,12 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>27.1-jre</version>
@@ -78,7 +84,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <type>pom</type>
         </dependency>
     </dependencies>
