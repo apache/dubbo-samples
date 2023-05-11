@@ -54,16 +54,16 @@ class GreetingServiceIT {
 
         bench(100);
 
-//        QosService qosService = qosReference.get();
-//        long memoryStart = qosService.usedMemory();
-//
-//        for (int i = 0; i < 10; i++) {
-//            bench(100);
-//            long endMemory = qosService.usedMemory();
-//            System.out.println("Used: " + endMemory);
-//            System.out.println("Delta: " + (endMemory - memoryStart));
-//            Assertions.assertTrue((endMemory - memoryStart) < 100000);
-//        }
+        QosService qosService = qosReference.get();
+        long memoryStart = qosService.usedMemory();
+
+        for (int i = 0; i < 10; i++) {
+            bench(100);
+            long endMemory = qosService.usedMemory();
+            System.out.println("Used: " + endMemory);
+            System.out.println("Delta: " + (endMemory - memoryStart));
+            Assertions.assertTrue((endMemory - memoryStart) < 100000);
+        }
     }
 
     private static void bench(int range) {
