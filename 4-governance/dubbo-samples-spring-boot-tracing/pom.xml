@@ -36,9 +36,7 @@
     <description>Dubbo Samples Tracing</description>
 
     <modules>
-        <module>dubbo-samples-spring-boot-tracing-interface</module>
-        <module>dubbo-samples-spring-boot-tracing-provider</module>
-        <module>dubbo-samples-spring-boot-tracing-consumer</module>
+        <module>dubbo-samples-spring-boot-tracing-zipkin</module>
     </modules>
 
     <properties>
