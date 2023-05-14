@@ -37,6 +37,7 @@
 
     <modules>
         <module>dubbo-samples-spring-boot-tracing-zipkin</module>
+        <module>dubbo-samples-spring-boot-tracing-otel-otlp</module>
     </modules>
 
     <properties>
