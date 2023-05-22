@@ -36,16 +36,15 @@
     <description>Dubbo Samples Tracing</description>
 
     <modules>
-        <module>dubbo-samples-spring-boot-tracing-interface</module>
-        <module>dubbo-samples-spring-boot-tracing-provider</module>
-        <module>dubbo-samples-spring-boot-tracing-consumer</module>
+        <module>dubbo-samples-spring-boot-tracing-zipkin</module>
+        <module>dubbo-samples-spring-boot-tracing-otel-otlp</module>
     </modules>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dubbo.version>3.2.1-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.2.2-SNAPSHOT</dubbo.version>
         <micrometer.version>1.10.5</micrometer.version>
         <micrometer-tracing.version>1.0.3</micrometer-tracing.version>
         <opentelemetry.version>1.19.0</opentelemetry.version>
