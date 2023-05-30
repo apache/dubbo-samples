@@ -1,0 +1,33 @@
+
+spring:
+  application:
+    name: dubbo-samples-nativeimage-provider
+dubbo:
+  application:
+    name: ${spring.application.name}
+    logger: slf4j
+    compiler: jdk
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: fastjson2
+  registry:
+    id: zk-registry
+    address: zookeeper://127.0.0.1:2181
+  config-center:
+    address: zookeeper://127.0.0.1:2181
+  metadata-report:
+    address: zookeeper://127.0.0.1:2181
+  provider:
+    proxy: jdk
+    serialization: fastjson2
+  consumer:
+    proxy: jdk
+    serialization: fastjson2
+
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+
+server:
+  port: 9090
