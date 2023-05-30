@@ -1,0 +1,626 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-shop
+
+---
+
+# Nacos
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nacos
+  template:
+    metadata:
+      labels:
+        app: nacos
+    spec:
+      containers:
+        - name: consumer
+          image: nacos/nacos-server:v2.2.0
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8848
+              name: client
+            - containerPort: 9848
+              name: client-rpc
+          env:
+            - name: NACOS_SERVER_PORT
+              value: "8848"
+            - name: NACOS_APPLICATION_PORT
+              value: "8848"
+            - name: PREFER_HOST_MODE
+              value: "hostname"
+            - name: MODE
+              value: "standalone"
+            - name: NACOS_AUTH_ENABLE
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: nacos
+  ports:
+    - port: 8848
+      name: server
+      targetPort: 8848
+    - port: 9848
+      name: client-rpc
+      targetPort: 9848
+---
+
+# App FrontEnd
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-frontend
+  namespace: dubbo-shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shop-frontend
+  template:
+    metadata:
+      labels:
+        app: shop-frontend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-frontend
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-frontend_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20881
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20991
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-frontend
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+---
+
+# App Order V1-1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-order-v1
+  namespace: dubbo-shop
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shop-order
+      orderVersion: v1
+  template:
+    metadata:
+      labels:
+        app: shop-order
+        orderVersion: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-order
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-order_v1_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20882
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20992
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-order
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+            - name: DUBBO_LABELS
+              value: "orderVersion=v1"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+---
+
+# App Order V2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-order-v2
+  namespace: dubbo-shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop-order
+      orderVersion: v2
+  template:
+    metadata:
+      labels:
+        app: shop-order
+        orderVersion: v2
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-order
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-order_v2_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20883
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20993
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-order
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+            - name: DUBBO_LABELS
+              value: "orderVersion=v2;"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+---
+
+# App User
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-user
+  namespace: dubbo-shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop-user
+  template:
+    metadata:
+      labels:
+        app: shop-user
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-user
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-user_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20884
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20994
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-user
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+---
+
+# App Detail-1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-detail-v1
+  namespace: dubbo-shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop-detail
+      detailVersion: v1
+  template:
+    metadata:
+      labels:
+        app: shop-detail
+        detailVersion: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-detail
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-detail_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20885
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20995
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-detail
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+            - name: DUBBO_LABELS
+              value: "detailVersion=v1; region=beijing"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+---
+
+# App Detail-2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-detail-v2
+  namespace: dubbo-shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop-detail
+      detailVersion: v2
+  template:
+    metadata:
+      labels:
+        app: shop-detail
+        detailVersion: v2
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-detail
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-detail_v2_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20886
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20996
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-detail
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+            - name: DUBBO_LABELS
+              value: "detailVersion=v2; region=hangzhou;"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+---
+
+#App Comment v1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-comment-v1
+  namespace: dubbo-shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop-comment
+      commentVersion: v1
+  template:
+    metadata:
+      labels:
+        app: shop-comment
+        commentVersion: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-comment
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-comment_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20887
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20997
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-comment
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+            - name: DUBBO_LABELS
+              value: "commentVersion=v1; region=beijing"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+---
+
+#App Comment v2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-comment-v2
+  namespace: dubbo-shop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop-comment
+      commentVersion: v2
+  template:
+    metadata:
+      labels:
+        app: shop-comment
+        commentVersion: v2
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "22222"
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: shop-comment
+          image: albumen/dubbo-demo:dubbo-samples-metrics-demo-comment_v2_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20888
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20998
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: shop::shop-comment
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap.dubbo-system.svc:11800"
+            - name: DUBBO_LABELS
+              value: "commentVersion=v2; region=hangzhou;"
+          startupProbe:
+            httpGet:
+              port: 22222
+              path: /startup
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 1
+            failureThreshold: 300
+            successThreshold: 1
+

@@ -35,9 +35,11 @@ public class Application {
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());
+        service.setTimeout(60000);
         ServiceConfig<QosService> qosService = new ServiceConfig<>();
         qosService.setInterface(QosService.class);
         qosService.setRef(new QosServiceImpl());
+        qosService.setTimeout(60000);
         ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-provider");
 
         DubboBootstrap dubboBootstrap = DubboBootstrap.getInstance()

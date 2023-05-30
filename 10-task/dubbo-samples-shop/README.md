@@ -1,4 +1,4 @@
-此任务基于一个简单的线上商城微服务系统演示了 Dubbo 的流量管控能力。用于配合 【Dubbo 官网】-【文档】-【任务】-【流量管控】部分文档。
+此任务基于一个简单的线上商城微服务系统演示了 Dubbo 的流量管控能力。用于配合 [【Dubbo 官网】-【文档】-【任务】-【流量管控】](https://cn.dubbo.apache.org/zh-cn/overview/tasks/traffic-management/)部分文档。
 
 ## 架构
 线上商城的架构图如下：
@@ -27,9 +27,9 @@
 
 ![ide_runnable_task_configuration](./.images/ide_runnable_task_configuration.png)
 
-接下来，你就可以跟随 Dubbo 官网描述的任务，启动相应的任务示例，并运行查看效果。
+接下来，你就可以跟随 [Dubbo 官网描述的任务](https://cn.dubbo.apache.org/zh-cn/overview/tasks/traffic-management/)，启动相应的任务示例，并运行查看效果。
 
-> 注意，要成功的在本地运行这里的示例，还需要先在本地启动 Nacos 注册中心、Dubbo Admin 等基础组件。
+> 注意，要成功的在本地运行这里的示例，还需要先在本地启动 Nacos 注册中心，最好再部署 Dubbo Admin 等以方便进行规则配置。
 
 ### Kubernetes 部署
 

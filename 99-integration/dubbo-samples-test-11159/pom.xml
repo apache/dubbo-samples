@@ -36,7 +36,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.1.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <spring.version>4.3.29.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <awaitility.version>4.2.0</awaitility.version>
@@ -76,6 +76,13 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
@@ -91,7 +98,7 @@
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <type>pom</type>
         </dependency>
 
@@ -121,6 +128,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
         </dependency>
     </dependencies>
 

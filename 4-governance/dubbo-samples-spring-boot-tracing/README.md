@@ -1,109 +1,113 @@
-# Overview
+## 说明
 
-This example demonstrates the basic usage of tracing in Dubbo application and report tracing information to zipkin. This
-example contains three parts, `dubbo-samples-spring-boot-tracing-provider`
-, `dubbo-samples-spring-boot-tracing-consumer` and `dubbo-samples-spring-boot-tracing-interface`.
+目前 Dubbo 内置了 [Micrometer](https://micrometer.io/)（Micrometer 为最流行的可观察性系统在检测客户端上提供了一个统一的门面，相当于日志领域的SLF4J，SpringBoot3
+内置的可观测门面组件）。
 
-Apache Dubbo has inbuilt tracing through [Micrometer Observations](https://micrometer.io/)
-and [Micrometer Tracing](https://github.com/micrometer-metrics/tracing).
+## 案例模块说明
 
-## Quick Start
+- dubbo-samples-spring-boot-tracing-zipkin：在SpringBoot项目中如何使用Dubbo-tracing相关的starter，将trace信息上报到zipkin
+- dubbo-samples-spring-boot-tracing-otel-otlp：在SpringBoot项目中如何使用Dubbo-tracing相关的starter，以 Opentelemetry 作为 Tracer，将 Trace 信息上报到 Otlp（Opentelemetry 自定义的协议，[详细文档](https://opentelemetry.io/docs/specs/otel/protocol/)）
 
-### Install & Start Zipkin
+## Tracing相关概念
 
-Follow [Zipkin's quick start](https://zipkin.io/pages/quickstart.html) to install zipkin.
+- Span：基本工作单元。例如，发送 RPC 是一个新的 span，发送对 RPC 的响应也是如此。Span还有其他数据，例如description、带时间戳的事件、键值注释（标签）、导致它们的跨度的
+  ID 和进程 ID（通常是 IP 地址）。跨度可以启动和停止，并且它们会跟踪它们的时间信息。创建跨度后，您必须在将来的某个时间点停止它。
 
-Here we use docker to quickly start a zipkin server.
+- Trace：一组形成树状结构的跨度。例如，如果您运行分布式大数据存储，则可能会通过请求形成跟踪PUT。
 
-```bash
-docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin
-```
+- Annotation/Event : 用于及时记录一个事件的存在。
 
-Then you can verify zipkin server works by access [http://localhost:9411](http://localhost:9411)
+- Tracing context：为了使分布式跟踪工作，跟踪上下文（跟踪标识符、跨度标识符等）必须通过进程（例如通过线程）和网络传播。
 
-![zipkin_home](static/zipkin_home.png)
+- Log correlation：部分跟踪上下文（例如跟踪标识符、跨度标识符）可以填充到给定应用程序的日志中。然后可以将所有日志收集到一个存储中，并通过跟踪
+  ID 对它们进行分组。这样就可以从所有按时间顺序排列的服务中获取单个业务操作（跟踪）的所有日志。
 
-### Start Provider
+- Latency analysis tools：一种收集导出跨度并可视化整个跟踪的工具。允许轻松进行延迟分析。
 
-Start `org.apache.dubbo.springboot.demo.provider.ProviderApplication` directly from IDE.
+- Tracer: 处理span生命周期的库（Dubbo 目前支持 Opentelemetry 和 Brave）。它可以通过 Exporter 创建、启动、停止和报告 Spans
+  到外部系统（如 Zipkin、Jagger 等）。
 
-### Start Consumer
+- Exporter: 将产生的 Trace 信息通过 http 等接口上报到外部系统，比如上报到 Zipkin。
 
-Start `org.apache.dubbo.springboot.demo.consumer.ConsumerApplication` directly from IDE.
+## SpringBoot Starters
 
-### Check Result
+对于 SpringBoot 用户，Dubbo 提供了 Tracing 相关的 starters，自动装配 Micrometer 相关的配置代码，且用户可自由选择 Tracer
+和Exporter。
 
-Open [http://localhost:9411/zipkin/](http://localhost:9411/zipkin/) in browser.
-
-![zipkin.png](static/zipkin.png)
-
-## How To Use Dubbo Tracing In Your Project
-
-### 1. Adding `dubbo-spring-boot-observability-starter` To Your Project
-
-For the Springboot project, you can use `dubbo-spring-boot-observability-starter` to easily have observability, Dubbo
-provides two types of starters at present, select one to add to pom:
-
-```xml
-
-<!-- Opentelemetry as Tracer, Zipkin as exporter -->
-<dependency>
-    <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-spring-boot-tracing-otel-zipkin-starter</artifactId>
-</dependency>
-```
-
-```xml
-
-<!-- Brave as Tracer, Zipkin as exporter -->
-<dependency>
-    <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-spring-boot-tracing-brave-zipkin-starter</artifactId>
-</dependency>
-```
-
-Dubbo will support more in the future, such as skywalking, Jagger.
-
-### 2. Configuration Tracing
-
-#### application.yml:
+### Opentelemetry 作为 Tracer，将 Trace 信息 export 到 Zipkin
 
 ```yaml
-dubbo:
-  tracing:
-    enabled: true # default is false
-    sampling:
-      probability: 0.5 # sampling rate, default is 0.1
-    propagation:
-      type: W3C # W3C/B3 default is W3C
-    tracing-exporter:
-      zipkin-config:
-        endpoint: http://localhost:9411/api/v2/spans
-        connect-timeout: 1s # connect timeout, default is 1s
-        read-timeout: 10s # read timeout, default is 10s
-
-# tracing info output to logging
-logging:
-  pattern:
-    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+  <dependency>
+      <groupId>org.apache.dubbo</groupId>
+      <artifactId>dubbo-spring-boot-tracing-otel-zipkin-starter</artifactId>
+      <version>${version}</version>
+  </dependency>
 ```
 
-### 3. Customizing Observation Filters
+### Brave 作为 Tracer，将 Trace 信息 export 到 Zipkin
 
-To customize the tags present in metrics (low cardinality tags) and in spans (low and high cardinality tags) you should
-create your own versions of `DubboServerObservationConvention` (server side) and `DubboClientObservationConvention` (
-client side) and register them in the `ApplicationModel`'s `BeanFactory`. To reuse the existing ones
-check `DefaultDubboServerObservationConvention` (server side) and `DefaultDubboClientObservationConvention` (client
-side).
-
-## Extension
-
-An OpenZipkin URL sender dependency to send out spans to Zipkin via a URLConnectionSender
-
-```xml
-
-<dependency>
-    <groupId>io.zipkin.reporter2</groupId>
-    <artifactId>zipkin-sender-urlconnection</artifactId>
-</dependency>
+```yaml
+  <dependency>
+      <groupId>org.apache.dubbo</groupId>
+      <artifactId>dubbo-spring-boot-tracing-brave-zipkin-starter</artifactId>
+      <version>${version}</version>
+  </dependency>
 ```
+
+### Opentelemetry 作为 Tracer，将 Trace 信息 export 到 Otlp Collector
+
+```yaml
+ <dependency>
+      <groupId>org.apache.dubbo</groupId>
+      <artifactId>dubbo-spring-boot-tracing-otel-otlp-starter</artifactId>
+      <version>${version}</version>
+  </dependency>
+```
+
+### 自由组装 Tracer 和 Exporter
+
+如果用户基于 Micrometer 有自定义的需求，想将 Trace 信息上报至其他外部系统观测，可参照如下自由组装 Tracer 和 Exporter：
+
+```yaml
+  <!-- 自动装配 -->
+  <dependency>
+      <groupId>org.apache.dubbo</groupId>
+      <artifactId>dubbo-spring-boot-observability-starter</artifactId>
+      <version>${version}</version>
+  </dependency>
+  <!-- otel作为tracer -->
+  <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-tracing-bridge-otel</artifactId>
+      <version>${version}</version>
+  </dependency>
+  <!-- export到zipkin -->
+  <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-exporter-zipkin</artifactId>
+      <version>${version}</version>
+  </dependency>
+```
+
+```yaml
+  <!-- 自动装配 -->
+  <dependency>
+      <groupId>org.apache.dubbo</groupId>
+      <artifactId>dubbo-spring-boot-observability-starter</artifactId>
+      <version>${version}</version>
+  </dependency>
+  <!-- brave作为tracer  -->
+  <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-tracing-bridge-brave</artifactId>
+      <version>${version}</version>
+  </dependency>
+  <!-- export到zipkin -->
+  <dependency>
+      <groupId>io.zipkin.reporter2</groupId>
+      <artifactId>zipkin-reporter-brave</artifactId>
+      <version>${version}</version>
+  </dependency>
+```
+
+后续还会补齐更多的 starters，如 Jagger、SkyWalking等。

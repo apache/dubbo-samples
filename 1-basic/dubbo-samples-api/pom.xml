@@ -36,7 +36,7 @@
     <description>Dubbo Samples Api</description>
 
     <properties>
-        <dubbo.version>3.2.0-beta.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <junit5.version>5.9.2</junit5.version>
     </properties>
 

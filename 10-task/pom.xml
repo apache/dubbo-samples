@@ -30,6 +30,7 @@
         <module>dubbo-samples-rpc-basic</module>
         <module>dubbo-samples-rpc-advanced</module>
         <module>dubbo-samples-shop</module>
+        <module>dubbo-samples-metrics-demo</module>
         <module>dubbo-samples-develop</module>
         <module>dubbo-samples-extensibility</module>
     </modules>

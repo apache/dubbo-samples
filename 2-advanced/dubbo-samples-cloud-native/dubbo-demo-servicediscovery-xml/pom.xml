@@ -42,7 +42,7 @@
         <target.level>1.8</target.level>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <spring.version>4.3.29.RELEASE</spring.version>
-        <dubbo.version>3.1.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -58,6 +58,13 @@
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-bom</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
