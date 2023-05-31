@@ -4,7 +4,7 @@ package org.apache.dubbo.nativeimage;
 import java.io.Serializable;
 
 public class HelloResponse implements Serializable {
-    private final String response;
+    private String response;
 
     public HelloResponse(String response) {
         this.response = response;
@@ -12,5 +12,9 @@ public class HelloResponse implements Serializable {
 
     public String getResponse() {
         return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 }
