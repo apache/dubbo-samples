@@ -216,9 +216,9 @@ spec:
   selector:
     app: skywalking-oap-dashboard
   ports:
-    - port: 8082
+    - port: 8080
       name: http
-      targetPort: 8082
+      targetPort: 8080
 ---
 
 # App FrontEnd

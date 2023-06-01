@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -15,23 +14,29 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>1-basic</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <groupId>org.apache.dubbo</groupId>
-    <artifactId>1-basic</artifactId>
+    <artifactId>dubbo-samples-native-image</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-
-    <name>Basic Usage</name>
-    <description>Dubbo Basic Usage Samples</description>
-
     <modules>
-        <module>dubbo-samples-annotation</module>
-        <module>dubbo-samples-api</module>
-        <module>dubbo-samples-spring-xml</module>
-        <module>dubbo-samples-spring-boot</module>
-        <module>dubbo-samples-triple-unary</module>
-        <module>dubbo-samples-native-image</module>
+        <module>dubbo-samples-native-image-provider</module>
+        <module>dubbo-samples-native-image-interface</module>
+        <module>dubbo-samples-native-image-consumer</module>
     </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <dubbo.version>3.3.0-beta.1-SNAPSHOT</dubbo.version>
+        <spring-boot.version>3.0.5</spring-boot.version>
+        <spring-boot-maven-plugin.version>3.0.5</spring-boot-maven-plugin.version>
+    </properties>
+
 </project>

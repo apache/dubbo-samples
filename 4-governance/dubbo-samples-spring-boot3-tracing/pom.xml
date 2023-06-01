@@ -46,7 +46,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <dubbo.version>3.2.1-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.2.2</dubbo.version>
         <nacos.version>2.2.0</nacos.version>
         <micrometer.version>1.10.5</micrometer.version>
         <micrometer-tracing.version>1.0.3</micrometer-tracing.version>
