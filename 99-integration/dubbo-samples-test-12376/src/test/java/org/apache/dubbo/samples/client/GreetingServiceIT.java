@@ -26,6 +26,9 @@ import org.apache.dubbo.samples.api.QosService;
 import org.apache.dubbo.samples.filter.ConsumerAlibabaFilter;
 import org.apache.dubbo.samples.filter.ConsumerClusterFilter;
 import org.apache.dubbo.samples.filter.ConsumerFilter;
+import org.apache.dubbo.samples.router.AlibabaRouter;
+import org.apache.dubbo.samples.router.ApacheRouter;
+import org.apache.dubbo.samples.router.ApacheStateRouter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,17 +41,28 @@ class GreetingServiceIT {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setInterface(GreetingsService.class);
 
-        ReferenceConfig<QosService> qosReference = new ReferenceConfig<>();
-        qosReference.setInterface(QosService.class);
+        ReferenceConfig<QosService> qosReference1 = new ReferenceConfig<>();
+        qosReference1.setInterface(QosService.class);
+        qosReference1.setVersion("20881");
+        ReferenceConfig<QosService> qosReference2 = new ReferenceConfig<>();
+        qosReference2.setInterface(QosService.class);
+        qosReference2.setVersion("20882");
+        ReferenceConfig<QosService> qosReference3 = new ReferenceConfig<>();
+        qosReference3.setInterface(QosService.class);
+        qosReference3.setVersion("20883");
 
         DubboBootstrap.getInstance()
                 .application(new ApplicationConfig("first-dubbo-consumer"))
                 .registry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181?enable-empty-protection=false"))
                 .reference(reference)
-                .reference(qosReference)
+                .reference(qosReference1)
+                .reference(qosReference2)
+                .reference(qosReference3)
                 .start();
 
-        QosService qosService = qosReference.get();
+        QosService qosService1 = qosReference1.get();
+        QosService qosService2 = qosReference2.get();
+        QosService qosService3 = qosReference3.get();
 
         GreetingsService service = reference.get();
 
@@ -56,9 +70,15 @@ class GreetingServiceIT {
             Assertions.assertEquals("hi, dubbo", service.sayHi("dubbo"));
         }
 
-        Assertions.assertTrue(qosService.expected());
+        Assertions.assertTrue(qosService1.expected());
+        Assertions.assertTrue(qosService2.expected());
+        Assertions.assertTrue(qosService3.expected());
         Assertions.assertTrue(ConsumerAlibabaFilter.expected());
         Assertions.assertTrue(ConsumerClusterFilter.expected());
         Assertions.assertTrue(ConsumerFilter.expected());
+
+        Assertions.assertTrue(AlibabaRouter.isInvoked());
+        Assertions.assertTrue(ApacheRouter.isInvoked());
+        Assertions.assertTrue(ApacheStateRouter.isInvoked());
     }
 }

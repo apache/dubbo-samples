@@ -22,11 +22,18 @@ import org.apache.dubbo.samples.filter.ConsumerClusterFilter;
 import org.apache.dubbo.samples.filter.ConsumerFilter;
 import org.apache.dubbo.samples.filter.ProviderAlibabaFilter;
 import org.apache.dubbo.samples.filter.ProviderFilter;
+import org.apache.dubbo.samples.loadbalance.AlibabaLoadBalance;
+import org.apache.dubbo.samples.loadbalance.ApacheLoadBalance;
+import org.apache.dubbo.samples.router.AlibabaRouter;
+import org.apache.dubbo.samples.router.ApacheRouter;
+import org.apache.dubbo.samples.router.ApacheStateRouter;
 
 public class QosServiceImpl implements QosService {
     @Override
     public boolean expected() {
         return ProviderAlibabaFilter.expected() && ProviderFilter.expected()
-                && ConsumerAlibabaFilter.expected() && ConsumerFilter.expected() && ConsumerClusterFilter.expected();
+                && ConsumerAlibabaFilter.expected() && ConsumerFilter.expected() && ConsumerClusterFilter.expected()
+                && AlibabaRouter.isInvoked() && ApacheRouter.isInvoked() && ApacheStateRouter.isInvoked()
+                && AlibabaLoadBalance.isInvoked() && ApacheLoadBalance.isInvoked();
     }
 }

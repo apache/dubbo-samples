@@ -14,20 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.provider;
+package org.apache.dubbo.samples.router;
 
-import org.apache.dubbo.samples.api.BackendService;
-import org.apache.dubbo.samples.api.HelloService;
+import org.apache.dubbo.common.extension.Activate;
 
-public class HelloServiceImpl implements HelloService {
-    private final BackendService backendService;
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.rpc.cluster.Router;
+import com.alibaba.dubbo.rpc.cluster.RouterFactory;
 
-    public HelloServiceImpl(BackendService backendService) {
-        this.backendService = backendService;
-    }
-
+@Activate
+public class AlibabaRouterFactory implements RouterFactory {
     @Override
-    public String sayHi(String name) {
-        return backendService.sayHi(name);
+    public Router getRouter(URL url) {
+        return new AlibabaRouter(url);
     }
 }

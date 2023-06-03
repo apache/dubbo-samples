@@ -17,17 +17,10 @@
 package org.apache.dubbo.samples.provider;
 
 import org.apache.dubbo.samples.api.BackendService;
-import org.apache.dubbo.samples.api.HelloService;
 
-public class HelloServiceImpl implements HelloService {
-    private final BackendService backendService;
-
-    public HelloServiceImpl(BackendService backendService) {
-        this.backendService = backendService;
-    }
-
+public class BackendServiceImpl implements BackendService {
     @Override
     public String sayHi(String name) {
-        return backendService.sayHi(name);
+        return "hi, " + name;
     }
 }

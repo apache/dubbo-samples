@@ -14,20 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.provider;
 
-import org.apache.dubbo.samples.api.BackendService;
-import org.apache.dubbo.samples.api.HelloService;
+package org.apache.dubbo.samples.loadbalance;
 
-public class HelloServiceImpl implements HelloService {
-    private final BackendService backendService;
+import org.apache.dubbo.common.URL;
+import org.apache.dubbo.rpc.Invocation;
+import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.cluster.LoadBalance;
 
-    public HelloServiceImpl(BackendService backendService) {
-        this.backendService = backendService;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class ApacheLoadBalance implements LoadBalance {
+    private static final AtomicBoolean invoked = new AtomicBoolean(false);
+    @Override
+    public <T> Invoker<T> select(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException {
+        invoked.set(true);
+        return invokers.get(ThreadLocalRandom.current().nextInt(invokers.size()));
     }
 
-    @Override
-    public String sayHi(String name) {
-        return backendService.sayHi(name);
+    public static boolean isInvoked() {
+        return invoked.get();
     }
 }

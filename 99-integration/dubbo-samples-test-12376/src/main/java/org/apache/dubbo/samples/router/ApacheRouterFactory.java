@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.provider;
+package org.apache.dubbo.samples.router;
 
-import org.apache.dubbo.samples.api.BackendService;
-import org.apache.dubbo.samples.api.HelloService;
+import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.extension.Activate;
+import org.apache.dubbo.rpc.cluster.Router;
+import org.apache.dubbo.rpc.cluster.RouterFactory;
 
-public class HelloServiceImpl implements HelloService {
-    private final BackendService backendService;
-
-    public HelloServiceImpl(BackendService backendService) {
-        this.backendService = backendService;
-    }
-
+@Activate
+public class ApacheRouterFactory implements RouterFactory {
     @Override
-    public String sayHi(String name) {
-        return backendService.sayHi(name);
+    public Router getRouter(URL url) {
+        return new ApacheRouter(url);
     }
 }
