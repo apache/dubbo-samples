@@ -64,7 +64,7 @@ public class Application {
         backendRef.setScope("remote");
 
         ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-provider");
-        applicationConfig.setRegisterMode("instance");
+        applicationConfig.setRegisterMode("interface");
 
         dubboBootstrap = DubboBootstrap.getInstance(applicationModel)
                 .application(applicationConfig)
