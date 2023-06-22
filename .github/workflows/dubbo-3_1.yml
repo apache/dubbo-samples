@@ -1,4 +1,4 @@
-name: Dubbo 3.1
+name: Dubbo 3.3
 
 on:
   pull_request:
@@ -27,7 +27,7 @@ env:
     spring-boot.version:1.5.22.RELEASE;
     spring-boot.version:2.4.1;
     '
-  DUBBO_REF: '3.1'
+  DUBBO_REF: '3.3'
 
 jobs:
   build-samples:
