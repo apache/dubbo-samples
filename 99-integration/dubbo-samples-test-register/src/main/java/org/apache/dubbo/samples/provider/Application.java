@@ -72,11 +72,45 @@ public class Application {
         ServiceConfig<GreetingsService> service6 = new ServiceConfig<>();
         service6.setInterface(GreetingsService.class);
         service6.setVersion("registry-register-false");
-        RegistryConfig registryConfig = new RegistryConfig(ZOOKEEPER_ADDRESS);
-        registryConfig.setRegister(false);
-        registryConfig.setDefault(false);
-        service6.setRegistry(registryConfig);
+        RegistryConfig registry1 = new RegistryConfig(ZOOKEEPER_ADDRESS);
+        registry1.setRegister(false);
+        registry1.setDefault(false);
+        service6.setRegistry(registry1);
         service6.setRef(new GreetingsServiceImpl());
+
+        ServiceConfig<GreetingsService> service7 = new ServiceConfig<>();
+        service7.setInterface(GreetingsService.class);
+        service7.setVersion("register-false-delay");
+        service7.setRegister(false);
+        service7.setDelay(1);
+        service7.setRef(new GreetingsServiceImpl());
+
+        ServiceConfig<GreetingsService> service8 = new ServiceConfig<>();
+        service8.setInterface(GreetingsService.class);
+        service8.setVersion("register-false-delay-manual");
+        service8.setRegister(false);
+        service8.setDelay(-1);
+        service8.setRef(new GreetingsServiceImpl());
+
+        ServiceConfig<GreetingsService> service9 = new ServiceConfig<>();
+        service9.setInterface(GreetingsService.class);
+        service9.setVersion("registry-register-false-delay");
+        RegistryConfig registry2 = new RegistryConfig(ZOOKEEPER_ADDRESS);
+        registry2.setRegister(false);
+        registry2.setDefault(false);
+        service9.setDelay(1);
+        service9.setRegistry(registry2);
+        service9.setRef(new GreetingsServiceImpl());
+
+        ServiceConfig<GreetingsService> service10 = new ServiceConfig<>();
+        service10.setInterface(GreetingsService.class);
+        service10.setVersion("registry-register-false-delay-manual");
+        RegistryConfig registry3 = new RegistryConfig(ZOOKEEPER_ADDRESS);
+        registry3.setRegister(false);
+        registry3.setDefault(false);
+        service10.setDelay(-1);
+        service10.setRegistry(registry3);
+        service10.setRef(new GreetingsServiceImpl());
 
         ApplicationConfig applicationConfig = new ApplicationConfig("first-dubbo-provider");
 
@@ -90,6 +124,10 @@ public class Application {
                 .service(service4)
                 .service(service5)
                 .service(service6)
+                .service(service7)
+                .service(service8)
+                .service(service9)
+                .service(service10)
                 .start();
 
         service1.export();

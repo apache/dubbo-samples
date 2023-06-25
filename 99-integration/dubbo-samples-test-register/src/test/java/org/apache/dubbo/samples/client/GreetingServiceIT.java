@@ -62,6 +62,26 @@ class GreetingServiceIT {
         reference6.setVersion("registry-register-false");
         reference6.setCheck(false);
 
+        ReferenceConfig<GreetingsService> reference7 = new ReferenceConfig<>();
+        reference7.setInterface(GreetingsService.class);
+        reference7.setVersion("register-false-delay");
+        reference7.setCheck(false);
+
+        ReferenceConfig<GreetingsService> reference8 = new ReferenceConfig<>();
+        reference8.setInterface(GreetingsService.class);
+        reference8.setVersion("register-false-delay-manual");
+        reference8.setCheck(false);
+
+        ReferenceConfig<GreetingsService> reference9 = new ReferenceConfig<>();
+        reference9.setInterface(GreetingsService.class);
+        reference9.setVersion("registry-register-false-delay");
+        reference9.setCheck(false);
+
+        ReferenceConfig<GreetingsService> reference10 = new ReferenceConfig<>();
+        reference10.setInterface(GreetingsService.class);
+        reference10.setVersion("registry-register-false-delay-manual");
+        reference10.setCheck(false);
+
         ReferenceConfig<QosService> qosServiceRef = new ReferenceConfig<>();
         qosServiceRef.setInterface(QosService.class);
 
@@ -74,6 +94,10 @@ class GreetingServiceIT {
                 .reference(reference4)
                 .reference(reference5)
                 .reference(reference6)
+                .reference(reference7)
+                .reference(reference8)
+                .reference(reference9)
+                .reference(reference10)
                 .reference(qosServiceRef)
                 .start();
 
@@ -83,6 +107,10 @@ class GreetingServiceIT {
         GreetingsService auto = reference4.get();
         GreetingsService registerFalse = reference5.get();
         GreetingsService registryRegisterFalse = reference6.get();
+        GreetingsService registerFalseDelay = reference7.get();
+        GreetingsService registerFalseDelayManual = reference8.get();
+        GreetingsService registryRegisterFalseDelay = reference9.get();
+        GreetingsService registryRegisterFalseDelayManual = reference10.get();
 
         Assertions.assertThrows(RpcException.class, () -> manual.sayHi("test"));
         Assertions.assertEquals("hi, delay", delay.sayHi("delay"));
@@ -90,6 +118,11 @@ class GreetingServiceIT {
         Assertions.assertEquals("hi, auto", auto.sayHi("auto"));
         Assertions.assertThrows(RpcException.class, () -> registerFalse.sayHi("test"));
         Assertions.assertThrows(RpcException.class, () -> registryRegisterFalse.sayHi("test"));
+        Assertions.assertThrows(RpcException.class, () -> registerFalseDelay.sayHi("test"));
+        Assertions.assertThrows(RpcException.class, () -> registerFalseDelayManual.sayHi("test"));
+        Assertions.assertThrows(RpcException.class, () -> registryRegisterFalseDelay.sayHi("test"));
+        Assertions.assertThrows(RpcException.class, () -> registryRegisterFalseDelayManual.sayHi("test"));
+
 
         QosService qosService = qosServiceRef.get();
         qosService.online();
@@ -121,6 +154,42 @@ class GreetingServiceIT {
                 result = "";
             }
             Assertions.assertEquals("hi, registry-register-false", result);
+        });
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = registerFalseDelay.sayHi("registry-register-delay");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, registry-register-delay", result);
+        });
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = registerFalseDelayManual.sayHi("registry-register-delay-manual");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, registry-register-delay-manual", result);
+        });
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = registryRegisterFalseDelay.sayHi("registry-register-false-delay");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, registry-register-false-delay", result);
+        });
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = registryRegisterFalseDelayManual.sayHi("registry-register-false-delay-manual");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, registry-register-false-delay-manual", result);
         });
     }
 }
