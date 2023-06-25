@@ -94,8 +94,33 @@ class GreetingServiceIT {
         QosService qosService = qosServiceRef.get();
         qosService.online();
 
-        await().untilAsserted(()->Assertions.assertEquals("hi, manual", manual.sayHi("manual")));
-        await().untilAsserted(()->Assertions.assertEquals("hi, register-false", registerFalse.sayHi("register-false")));
-        await().untilAsserted(()->Assertions.assertEquals("hi, registry-register-false", registryRegisterFalse.sayHi("registry-register-false")));
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = manual.sayHi("manual");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, manual", result);
+        });
+
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = registerFalse.sayHi("register-false");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, register-false", result);
+        });
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = registryRegisterFalse.sayHi("registry-register-false");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, registry-register-false", result);
+        });
     }
 }

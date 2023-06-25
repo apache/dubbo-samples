@@ -94,7 +94,21 @@ class GreetingServiceIT {
         QosService qosService = qosServiceRef.get();
         qosService.online();
 
-        await().untilAsserted(()->Assertions.assertEquals("hi, manual", manual.sayHi("manual")));
+        await().untilAsserted(() -> {
+            String result;
+            try {
+                result = manual.sayHi("manual");
+            } catch (Throwable t) {
+                result = "";
+            }
+            Assertions.assertEquals("hi, manual", result);
+        });
+        try {
+            // sleep for 3s to make sure the services need to be registered are registered
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         Assertions.assertThrows(RpcException.class, () -> registerFalse.sayHi("test"));
         Assertions.assertThrows(RpcException.class, () -> registryRegisterFalse.sayHi("test"));
     }
