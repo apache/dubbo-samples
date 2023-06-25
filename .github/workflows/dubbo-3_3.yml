@@ -91,12 +91,12 @@ jobs:
           key: ${{ runner.os }}-dubbo-${{env.DUBBO_REF}}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-dubbo-${{env.DUBBO_REF}}-maven-
-      - name: Set up JDK 8
+      - name: Set up JDK 17
         if: steps.dubbocache.outputs.cache-hit != 'true'
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 8
+          java-version: 17
       - name: Build dubbo
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
