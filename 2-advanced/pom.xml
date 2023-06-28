@@ -56,5 +56,6 @@
         <module>dubbo-samples-version</module>
         <module>dubbo-samples-rpccontext</module>
         <module>dubbo-samples-spring-security</module>
+        <module>dubbo-samples-triple-streaming</module>
     </modules>
 </project>

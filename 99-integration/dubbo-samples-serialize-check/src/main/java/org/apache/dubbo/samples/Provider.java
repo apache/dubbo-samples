@@ -111,6 +111,7 @@ public class Provider {
 
         ApplicationConfig applicationConfig = new ApplicationConfig();
         applicationConfig.setSerializeCheckStatus("STRICT");
+        applicationConfig.setTrustSerializeClassLevel(3);
         applicationConfig.setName("provider");
         DubboBootstrap.getInstance()
                 .application(applicationConfig)

@@ -37,7 +37,7 @@
     <description>Dubbo Samples Attachment</description>
 
     <properties>
-        <dubbo.version>3.2.0-beta.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <junit.version>4.13.1</junit.version>
         <spring-boot.version>2.7.8</spring-boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -71,7 +71,7 @@
 
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
             </dependency>
