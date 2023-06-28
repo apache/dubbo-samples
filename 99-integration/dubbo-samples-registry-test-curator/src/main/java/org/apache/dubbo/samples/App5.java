@@ -47,7 +47,7 @@ public class App5 {
         ServiceConfig<DemoService1> serviceConfig1 = new ServiceConfig<>();
         serviceConfig1.setInterface(DemoService1.class);
         serviceConfig1.setRef(new DemoService1Impl("App5"));
-        serviceConfig1.setRegister(false);
+        serviceConfig1.setDelay(-1);
 
         ServiceConfig<DemoService2> serviceConfig2 = new ServiceConfig<>();
         serviceConfig2.setInterface(DemoService2.class);
@@ -56,7 +56,7 @@ public class App5 {
         ServiceConfig<DemoService3> serviceConfig3 = new ServiceConfig<>();
         serviceConfig3.setInterface(DemoService3.class);
         serviceConfig3.setRef(new DemoService3Impl("App5"));
-        serviceConfig3.setRegister(false);
+        serviceConfig3.setDelay(-1);
 
         ServiceConfig<ControlService> serviceConfig = new ServiceConfig<>();
         serviceConfig.setInterface(ControlService.class);
