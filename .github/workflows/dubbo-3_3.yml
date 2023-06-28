@@ -1,4 +1,4 @@
-name: Dubbo 3.1
+name: Dubbo 3.3
 
 on:
   pull_request:
@@ -27,7 +27,7 @@ env:
     spring-boot.version:1.5.22.RELEASE;
     spring-boot.version:2.4.1;
     '
-  DUBBO_REF: '3.1'
+  DUBBO_REF: '3.3'
 
 jobs:
   build-samples:
@@ -91,12 +91,12 @@ jobs:
           key: ${{ runner.os }}-dubbo-${{env.DUBBO_REF}}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-dubbo-${{env.DUBBO_REF}}-maven-
-      - name: Set up JDK 8
+      - name: Set up JDK 17
         if: steps.dubbocache.outputs.cache-hit != 'true'
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 8
+          java-version: 17
       - name: Build dubbo
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
