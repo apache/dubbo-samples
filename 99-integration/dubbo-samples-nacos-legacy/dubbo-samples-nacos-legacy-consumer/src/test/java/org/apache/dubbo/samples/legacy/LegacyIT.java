@@ -22,14 +22,22 @@ import org.apache.dubbo.common.Version;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.samples.legacy.api.DemoService;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.stream.IntStream;
 
-public class LegacyTest {
+public class LegacyIT {
+    @After
+    public void teardown() {
+        FrameworkModel.destroyAll();
+        DubboBootstrap.reset();
+    }
+
     @Test
     public void testFor3_2() {
         if (!Version.getVersion().startsWith("3.2")) {
@@ -49,7 +57,11 @@ public class LegacyTest {
         DemoService demoService = referenceConfig.get();
         Assert.assertTrue(IntStream.range(0, 10)
                 .mapToObj(i -> demoService.sayHello())
-                .anyMatch(s -> s.equals("hello from 2.7.0")));
+                .anyMatch(s -> s.startsWith("hello from 2")));
+        Assert.assertTrue(IntStream.range(0, 10)
+                .mapToObj(i -> demoService.sayHello())
+                .peek(System.out::println)
+                .anyMatch(s -> s.startsWith("hello from 3")));
 
         bootstrap.stop();
     }
@@ -73,7 +85,8 @@ public class LegacyTest {
         DemoService demoService = referenceConfig.get();
         Assert.assertTrue(IntStream.range(0, 10)
                 .mapToObj(i -> demoService.sayHello())
-                .noneMatch(s -> s.equals("hello from 2.7.0")));
+                .peek(System.out::println)
+                .noneMatch(s -> s.startsWith("hello from 2")));
 
         bootstrap.stop();
     }
@@ -93,7 +106,12 @@ public class LegacyTest {
         DemoService demoService = referenceConfig.get();
         Assert.assertTrue(IntStream.range(0, 10)
                 .mapToObj(i -> demoService.sayHello())
-                .anyMatch(s -> s.equals("hello from 2.7.0")));
+                .peek(System.out::println)
+                .anyMatch(s -> s.startsWith("hello from 2")));
+        Assert.assertTrue(IntStream.range(0, 10)
+                .mapToObj(i -> demoService.sayHello())
+                .peek(System.out::println)
+                .anyMatch(s -> s.startsWith("hello from 3")));
 
         bootstrap.stop();
     }
@@ -113,7 +131,8 @@ public class LegacyTest {
         DemoService demoService = referenceConfig.get();
         Assert.assertTrue(IntStream.range(0, 10)
                 .mapToObj(i -> demoService.sayHello())
-                .noneMatch(s -> s.startsWith("hello from 2")));
+                .peek(System.out::println)
+                .allMatch(s -> s.startsWith("hello from 3")));
 
         bootstrap.stop();
     }
