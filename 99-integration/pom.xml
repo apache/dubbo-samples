@@ -64,6 +64,8 @@
         <module>dubbo-samples-test-11782</module>
         <module>dubbo-samples-test-11716</module>
         <module>dubbo-samples-test-12208</module>
+        <module>dubbo-samples-test-register</module>
+        <module>dubbo-samples-test-register-3-3</module>
         <module>dubbo-samples-transaction</module>
         <module>dubbo-samples-rest-withtoken</module>
         <module>dubbo-samples-serialize-check</module>

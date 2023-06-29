@@ -51,12 +51,12 @@ public class App1 {
         ServiceConfig<DemoService2> serviceConfig2 = new ServiceConfig<>();
         serviceConfig2.setInterface(DemoService2.class);
         serviceConfig2.setRef(new DemoService2Impl("App1"));
-        serviceConfig2.setRegister(false);
+        serviceConfig2.setDelay(-1);
 
         ServiceConfig<DemoService3> serviceConfig3 = new ServiceConfig<>();
         serviceConfig3.setInterface(DemoService3.class);
         serviceConfig3.setRef(new DemoService3Impl("App1"));
-        serviceConfig3.setRegister(false);
+        serviceConfig3.setDelay(-1);
 
         ServiceConfig<ControlService> serviceConfig = new ServiceConfig<>();
         serviceConfig.setInterface(ControlService.class);
