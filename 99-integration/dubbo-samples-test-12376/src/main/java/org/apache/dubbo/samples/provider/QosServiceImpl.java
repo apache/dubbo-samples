@@ -31,6 +31,17 @@ import org.apache.dubbo.samples.router.ApacheStateRouter;
 public class QosServiceImpl implements QosService {
     @Override
     public boolean expected() {
+        System.out.println("ProviderAlibabaFilter.expected(): " + ProviderAlibabaFilter.expected());
+        System.out.println("ProviderFilter.expected(): " + ProviderFilter.expected());
+        System.out.println("ConsumerAlibabaFilter.expected(): " + ConsumerAlibabaFilter.expected());
+        System.out.println("ConsumerFilter.expected(): " + ConsumerFilter.expected());
+        System.out.println("ConsumerClusterFilter.expected(): " + ConsumerClusterFilter.expected());
+        System.out.println("AlibabaRouter.isInvoked(): " + AlibabaRouter.isInvoked());
+        System.out.println("ApacheRouter.isInvoked(): " + ApacheRouter.isInvoked());
+        System.out.println("ApacheStateRouter.isInvoked(): " + ApacheStateRouter.isInvoked());
+        System.out.println("AlibabaLoadBalance.isInvoked(): " + AlibabaLoadBalance.isInvoked());
+        System.out.println("ApacheLoadBalance.isInvoked(): " + ApacheLoadBalance.isInvoked());
+
         return ProviderAlibabaFilter.expected() && ProviderFilter.expected()
                 && ConsumerAlibabaFilter.expected() && ConsumerFilter.expected() && ConsumerClusterFilter.expected()
                 && AlibabaRouter.isInvoked() && ApacheRouter.isInvoked() && ApacheStateRouter.isInvoked()
