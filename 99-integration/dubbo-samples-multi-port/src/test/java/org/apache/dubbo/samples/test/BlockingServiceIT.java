@@ -73,6 +73,7 @@ public class BlockingServiceIT {
                 reference.setInterface(BlockingService.class);
                 String host = System.getProperty("provider.address", "127.0.0.1");
                 reference.setUrl("dubbo://" + host + ":" + port);
+                reference.setTimeout(100000000);
                 BlockingService blockingService = reference.get();
                 if (portToGroup.get(port).equals(group)) {
                     String type = blockingService.type();
