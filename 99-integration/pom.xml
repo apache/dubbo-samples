@@ -35,6 +35,7 @@
         <module>dubbo-samples-memory-server</module>
         <module>dubbo-samples-memory-tri-server</module>
         <module>dubbo-samples-mybatis</module>
+        <module>dubbo-samples-nacos-legacy</module>
         <module>dubbo-samples-multi-port</module>
         <module>dubbo-samples-nacos-merge</module>
         <module>dubbo-samples-registry-test-nacos</module>
