@@ -56,12 +56,15 @@ public class ZookeeperIT {
 
         ReferenceConfig<DemoService1> referenceConfig1 = new ReferenceConfig<>();
         referenceConfig1.setInterface(DemoService1.class);
+        referenceConfig1.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService2> referenceConfig2 = new ReferenceConfig<>();
         referenceConfig2.setInterface(DemoService2.class);
+        referenceConfig2.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService3> referenceConfig3 = new ReferenceConfig<>();
         referenceConfig3.setInterface(DemoService3.class);
+        referenceConfig3.setLoadbalance("roundrobin");
 
         RegistryConfig registryConfig = new RegistryConfig(zookeeperAddress);
 
@@ -239,12 +242,15 @@ public class ZookeeperIT {
 
         ReferenceConfig<DemoService1> referenceConfig1 = new ReferenceConfig<>();
         referenceConfig1.setInterface(DemoService1.class);
+        referenceConfig1.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService2> referenceConfig2 = new ReferenceConfig<>();
         referenceConfig2.setInterface(DemoService2.class);
+        referenceConfig2.setLoadbalance("roundrobin");
 
         ReferenceConfig<DemoService3> referenceConfig3 = new ReferenceConfig<>();
         referenceConfig3.setInterface(DemoService3.class);
+        referenceConfig3.setLoadbalance("roundrobin");
 
         RegistryConfig registryConfig = new RegistryConfig(zookeeperAddress);
 
