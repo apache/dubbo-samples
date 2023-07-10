@@ -1,5 +1,3 @@
-# Dubbo Spring Boot Example
-
 This example shows how you can use streaming RPC with Dubbo Triple protocol.
 
 As described in [the Triple protocol documentation](https://dubbo.apache.org/zh-cn/overview/reference/protocols/triple/), Dubbo triple protocol is fully compatible with gRPC, so it supports client streaming, server streaming and bi-streaming.

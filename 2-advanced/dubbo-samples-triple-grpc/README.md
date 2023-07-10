@@ -1,5 +1,3 @@
-# Dubbo Spring Boot Example
-
 This example shows how you can use triple protocol to do interoperate with standard gRPC.
 
 ![triple-grpc.png](./docs/triple-grpc.png)

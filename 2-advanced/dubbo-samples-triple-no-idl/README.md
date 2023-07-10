@@ -1,5 +1,3 @@
-# Dubbo Spring Boot Example
-
 This example shows how you can use triple protocol with pure Java interface and pojos.
 
 As described in [the Triple protocol documentation](https://dubbo.apache.org/zh-cn/overview/reference/protocols/triple/), Dubbo triple protocol is a better gRPC implementation which can be accessed by cURL and web browsers directly. 
