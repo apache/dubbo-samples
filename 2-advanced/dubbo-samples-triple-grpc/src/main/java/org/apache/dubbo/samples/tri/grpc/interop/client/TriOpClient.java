@@ -15,22 +15,26 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.samples.tri.streaming;
+package org.apache.dubbo.samples.tri.grpc.interop.client;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.samples.tri.streaming.util.TriSampleConstants;
+import org.apache.dubbo.samples.tri.grpc.Greeter;
+import org.apache.dubbo.samples.tri.grpc.GreeterReply;
+import org.apache.dubbo.samples.tri.grpc.GreeterRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class TriStreamClient {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TriStreamClient.class);
+public class TriOpClient {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TriOpClient.class);
+
+    private static Greeter greeter;
 
     public static void main(String[] args) throws IOException {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
@@ -39,20 +43,30 @@ public class TriStreamClient {
         ref.setProtocol(CommonConstants.TRIPLE);
         ref.setProxy(CommonConstants.NATIVE_STUB);
         ref.setTimeout(3000);
+        ref.setUrl("tri://localhost:50051");
 
-        ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-consumer");
-        applicationConfig.setQosEnable(false);
-        bootstrap.application(applicationConfig).reference(ref).registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS)).start();
-        Greeter greeter = ref.get();
+        bootstrap.application(new ApplicationConfig("tri-stub-consumer"))
+                .reference(ref)
+                .start();
 
-        //bi stream
-        biStream(greeter);
+        greeter = ref.get();
 
-        //server stream
-        serverStream(greeter);
+        unary();
+        biStream();
+        serverStream();
+
+        System.in.read();
     }
 
-    private static void biStream(Greeter greeter) {
+    public static void unary() {
+        LOGGER.info("Start unary");
+        final GreeterReply reply = greeter.greet(GreeterRequest.newBuilder()
+                .setName("name")
+                .build());
+        LOGGER.info("Unary reply <-{}", reply);
+    }
+
+    private static void biStream() {
         StreamObserver<GreeterRequest> requestStreamObserver = greeter.biStream(new SampleStreamObserver());
         for (int i = 0; i < 10; i++) {
             GreeterRequest request = GreeterRequest.newBuilder().setName("name-" + i).build();
@@ -61,7 +75,7 @@ public class TriStreamClient {
         requestStreamObserver.onCompleted();
     }
 
-    private static void serverStream(Greeter greeter) {
+    private static void serverStream() {
         GreeterRequest request = GreeterRequest.newBuilder().setName("server stream request.").build();
         greeter.serverStream(request, new SampleStreamObserver());
     }

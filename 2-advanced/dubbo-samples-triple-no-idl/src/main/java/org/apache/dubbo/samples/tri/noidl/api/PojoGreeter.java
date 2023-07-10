@@ -15,8 +15,29 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.api;
+package org.apache.dubbo.samples.tri.noidl.api;
 
-public interface GreetingsService {
-    String sayHi(String name);
+import org.apache.dubbo.common.stream.StreamObserver;
+
+import java.util.concurrent.CompletableFuture;
+
+/**
+ * Triple supports manual interface with POJO to support migrating from original protocols.
+ */
+public interface PojoGreeter {
+
+    /**
+     * unary
+     */
+    String greet(String request);
+
+    /**
+     * bi stream
+     */
+    StreamObserver<String> greetStream(StreamObserver<String> response);
+
+    /**
+     * server stream
+     */
+    void greetServerStream(String request, StreamObserver<String> response);
 }

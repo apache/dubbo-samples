@@ -15,11 +15,37 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.samples.tri.streaming.util;
+package org.apache.dubbo.samples.tri.noidl.api;
 
-public class TriSampleConstants {
-    public static final int SERVER_PORT = Integer.parseInt(System.getProperty("provider.port",  "50052"));
-    public static final String ZK_HOST = System.getProperty("zookeeper.host", "127.0.0.1");
-    public static final int ZK_PORT = Integer.parseInt(System.getProperty("zookeeper.port", "2181"));
-    public static final String ZK_ADDRESS = "zookeeper://" + ZK_HOST + ":" + ZK_PORT;
+import java.io.Serializable;
+
+public class ParentPojo implements Serializable {
+
+    private String parent;
+
+    private Byte byte1;
+
+    public Byte getByte1() {
+        return byte1;
+    }
+
+    public void setByte1(Byte byte1) {
+        this.byte1 = byte1;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public String toString() {
+        return "ParentPojo{" +
+                "parent='" + parent + '\'' +
+                ", byte1=" + byte1 +
+                '}';
+    }
 }

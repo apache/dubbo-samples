@@ -26,7 +26,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-triple-streaming</artifactId>
+    <artifactId>dubbo-samples-triple-grpc</artifactId>
 
     <properties>
         <dubbo.version>3.2.0</dubbo.version>
@@ -44,8 +44,19 @@
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty-shaded</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
             <artifactId>grpc-all</artifactId>
             <version>${grpc.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>grpc-netty</artifactId>
+                    <groupId>io.grpc</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -69,7 +80,11 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.6.1</version>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}
+                    </protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}
+                    </pluginArtifact>
                     <protocPlugins>
                         <protocPlugin>
                             <id>dubbo</id>
@@ -84,6 +99,9 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
+                            <goal>test-compile</goal>
+                            <goal>compile-custom</goal>
+                            <goal>test-compile-custom</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -95,6 +113,40 @@
                 <configuration>
                     <source>${source.level}</source>
                     <target>${target.level}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>target/generated-sources/protobuf/java</source>
+                                <source>target/generated-sources/protobuf/grpc-java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
         </plugins>

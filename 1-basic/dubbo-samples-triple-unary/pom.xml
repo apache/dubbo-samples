@@ -43,9 +43,9 @@
             <version>${dubbo.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-all</artifactId>
-            <version>${grpc.version}</version>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.19.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -97,6 +97,24 @@
                     <source>${source.level}</source>
                     <target>${target.level}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>target/generated-sources/protobuf/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

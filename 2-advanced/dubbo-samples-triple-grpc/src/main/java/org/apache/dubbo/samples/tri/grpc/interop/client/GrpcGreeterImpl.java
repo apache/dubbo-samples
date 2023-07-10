@@ -15,22 +15,34 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.tri.streaming;
+package org.apache.dubbo.samples.tri.grpc.interop.client;
 
-import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.samples.tri.grpc.GreeterReply;
+import org.apache.dubbo.samples.tri.grpc.GreeterRequest;
+import org.apache.dubbo.samples.tri.grpc.GreeterGrpc;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GreeterImpl.class);
-    private final String serverName;
+public class GrpcGreeterImpl extends GreeterGrpc.GreeterImplBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GrpcGreeterImpl.class);
 
-    public GreeterImpl(String serverName) {
-        this.serverName = serverName;
+    @Override
+    public void greet(GreeterRequest request, io.grpc.stub.StreamObserver<GreeterReply> responseObserver) {
+        try {
+            final GreeterReply response = GreeterReply.newBuilder()
+                    .setMessage("hello," + request.getName())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Throwable t) {
+            responseObserver.onError(t);
+        }
     }
 
-    public StreamObserver<GreeterRequest> biStream(StreamObserver<GreeterReply> responseObserver) {
-        return new StreamObserver<GreeterRequest>() {
+    @Override
+    public io.grpc.stub.StreamObserver<GreeterRequest> biStream(io.grpc.stub.StreamObserver<GreeterReply> responseObserver) {
+        return new io.grpc.stub.StreamObserver<GreeterRequest>() {
             @Override
             public void onNext(GreeterRequest data) {
                 GreeterReply resp = GreeterReply.newBuilder().setMessage("reply from biStream " + data.getName()).build();
@@ -50,7 +62,7 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     }
 
     @Override
-    public void serverStream(GreeterRequest request, StreamObserver<GreeterReply> responseObserver) {
+    public void serverStream(GreeterRequest request, io.grpc.stub.StreamObserver<GreeterReply> responseObserver) {
         LOGGER.info("receive request: {}", request.getName());
         for (int i = 0; i < 10; i++) {
             GreeterReply reply = GreeterReply.newBuilder().setMessage("reply from serverStream. " + i).build();

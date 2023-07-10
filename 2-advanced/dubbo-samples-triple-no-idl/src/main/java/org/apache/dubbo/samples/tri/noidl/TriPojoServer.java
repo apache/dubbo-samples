@@ -15,34 +15,42 @@
  *  limitations under the License.
  */
 
-package org.apache.dubbo.samples.tri.streaming;
+package org.apache.dubbo.samples.tri.noidl;
 
 import org.apache.dubbo.common.constants.CommonConstants;
+import org.apache.dubbo.common.context.Lifecycle;
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.samples.tri.streaming.util.EmbeddedZooKeeper;
+import org.apache.dubbo.samples.tri.noidl.api.PojoGreeter;
 import org.apache.dubbo.samples.tri.streaming.util.TriSampleConstants;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class TriStreamServer {
+/**
+ * A sample for using tri protocol with manual java interface and POJO
+ */
+public class TriPojoServer {
+    public TriPojoServer() {
+    }
 
-    public static void main(String[] args) throws IOException {
-        new EmbeddedZooKeeper(TriSampleConstants.ZK_PORT, false).start();
-        ServiceConfig<Greeter> service = new ServiceConfig<>();
-        service.setInterface(Greeter.class);
-        service.setRef(new GreeterImpl("tri-stub"));
-        ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-server");
-        applicationConfig.setQosEnable(false);
+    public static void main(String[] args) {
+        ServiceConfig<PojoGreeter> service = new ServiceConfig<>();
+        service.setInterface(PojoGreeter.class);
+        service.setRef(new PojoGreeterImpl());
+
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-        bootstrap.application(applicationConfig)
-                .registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS))
+        bootstrap.application(new ApplicationConfig("tri-stub-server"))
+                .registry(new RegistryConfig("N/A"))
                 .protocol(new ProtocolConfig(CommonConstants.TRIPLE, TriSampleConstants.SERVER_PORT))
                 .service(service)
-                .start();
-        System.out.println("Dubbo triple streaming server started, port=" + TriSampleConstants.SERVER_PORT);
+                .start()
+                .await();
     }
 }
