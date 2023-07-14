@@ -15,48 +15,51 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.tri.streaming;
+package org.apache.dubbo.samples.tri.noidl;
 
-import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.common.stream.StreamObserver;;
+import org.apache.dubbo.samples.tri.noidl.api.PojoGreeter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GreeterImpl.class);
-    private final String serverName;
+public class PojoGreeterImpl implements PojoGreeter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PojoGreeterImpl.class);
 
-    public GreeterImpl(String serverName) {
-        this.serverName = serverName;
+    public PojoGreeterImpl() {}
+
+    @Override
+    public String greet(String request) {
+        return "hello," + request;
     }
 
     @Override
-    public StreamObserver<GreeterRequest> biStream(StreamObserver<GreeterReply> responseObserver) {
-        return new StreamObserver<GreeterRequest>() {
+    public StreamObserver<String> greetStream(StreamObserver<String> response) {
+        return new StreamObserver<String>() {
             @Override
-            public void onNext(GreeterRequest data) {
-                GreeterReply resp = GreeterReply.newBuilder().setMessage("reply from biStream " + data.getName()).build();
-                responseObserver.onNext(resp);
+            public void onNext(String data) {
+                LOGGER.info(data);
+                response.onNext("hello," + data);
             }
 
             @Override
             public void onError(Throwable throwable) {
-
+                throwable.printStackTrace();
             }
 
             @Override
             public void onCompleted() {
-
+                LOGGER.info("onCompleted");
+                response.onCompleted();
             }
         };
     }
 
     @Override
-    public void serverStream(GreeterRequest request, StreamObserver<GreeterReply> responseObserver) {
-        LOGGER.info("receive request: {}", request.getName());
+    public void greetServerStream(String request, StreamObserver<String> response) {
         for (int i = 0; i < 10; i++) {
-            GreeterReply reply = GreeterReply.newBuilder().setMessage("reply from serverStream. " + i).build();
-            responseObserver.onNext(reply);
+            response.onNext("hello," + request);
         }
-        responseObserver.onCompleted();
+        response.onCompleted();
     }
 }
