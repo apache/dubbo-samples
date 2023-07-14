@@ -23,7 +23,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-grpc-ssl-provider</artifactId>
+    <artifactId>dubbo-samples-grpc-ssl-consumer</artifactId>
 
     <properties>
         <source.level>1.8</source.level>
@@ -41,7 +41,7 @@
         <zookeeper.port>2181</zookeeper.port>
         <main-class>org.apache.dubbo.samples.basic.BasicProvider</main-class>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
-        <grpc.version>1.19.0</grpc.version>
+        <grpc.version>1.53.0</grpc.version>
         <compiler.version>0.0.1</compiler.version>
     </properties>
 
@@ -215,14 +215,13 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.6.4</version>
                 <configuration>
                     <executable>true</executable>
-                    <mainClass>org.apache.dubbo.samples.basic.SslBasicProvider</mainClass>
+                    <mainClass>org.apache.dubbo.samples.basic.SslBasicConsumer</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -238,4 +237,5 @@
 
         </plugins>
     </build>
+
 </project>

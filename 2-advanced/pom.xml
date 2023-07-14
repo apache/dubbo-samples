@@ -58,5 +58,7 @@
         <module>dubbo-samples-triple-streaming</module>
         <module>dubbo-samples-springcloud</module>
         <module>dubbo-samples-service-discovery</module>
+        <module>dubbo-samples-triple-grpc</module>
+        <module>dubbo-samples-triple-no-idl</module>
     </modules>
 </project>

@@ -13,7 +13,7 @@ What's more, [dubbo-go](https://github.com/apache/dubbo-go) samples are moved to
 
 To compile all samples, run the following command in the top directory of this project, or step into the sub directories to compile one single sample:
 
-We do not recommend you build the entire project from the root directory, as building the entire samples can take a long time. Each module in Samples is designed independently so you can first go to the demo directory you care about, then execute the build and run the demo.
+**It is highly not recommend to build the entire project from the root directory, as building the entire samples can take a long time. Each module in Samples is designed independently so you can first go to the demo directory you care about, then execute the build and run the demo.**
 
 For example,
 

@@ -15,18 +15,28 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.samples.tri.streaming;
+package org.apache.dubbo.samples.tri.grpc.interop.server;
 
 import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.samples.tri.grpc.DubboGreeterTriple;
+import org.apache.dubbo.samples.tri.grpc.GreeterReply;
+import org.apache.dubbo.samples.tri.grpc.GreeterRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GreeterImpl.class);
-    private final String serverName;
+public class TriGreeterImpl extends DubboGreeterTriple.GreeterImplBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(org.apache.dubbo.samples.tri.grpc.interop.server.TriGreeterImpl.class);
 
-    public GreeterImpl(String serverName) {
-        this.serverName = serverName;
+    public TriGreeterImpl() {
+    }
+
+    @Override
+    public GreeterReply greet(GreeterRequest request) {
+        LOGGER.info("Server received greet request {}", request);
+        return GreeterReply.newBuilder()
+                .setMessage("hello," + request.getName())
+                .build();
     }
 
     @Override
