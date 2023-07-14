@@ -43,9 +43,9 @@
             <version>${dubbo.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-all</artifactId>
-            <version>${grpc.version}</version>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.19.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>

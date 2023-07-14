@@ -41,11 +41,11 @@
     <bean id="blockingServiceE" class="org.apache.dubbo.samples.impl.BlockingServiceE"/>
     <bean id="managementService" class="org.apache.dubbo.samples.impl.ManagementServiceImpl"/>
 
-    <dubbo:service protocol="dubbo-manage" interface="org.apache.dubbo.samples.api.ManagementService" ref="managementService"/>
-    <dubbo:service protocol="dubbo-h" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-h" ref="blockingServiceA"/>
-    <dubbo:service protocol="dubbo-m" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-m" ref="blockingServiceB"/>
-    <dubbo:service protocol="dubbo-l" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-l" ref="blockingServiceC"/>
-    <dubbo:service protocol="dubbo-danger" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-danger" ref="blockingServiceD"/>
-    <dubbo:service protocol="dubbo-openapi" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-openapi" ref="blockingServiceE"/>
+    <dubbo:service protocol="dubbo-manage" interface="org.apache.dubbo.samples.api.ManagementService" ref="managementService" timeout="1000000000"/>
+    <dubbo:service protocol="dubbo-h" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-h" ref="blockingServiceA" timeout="1000000000"/>
+    <dubbo:service protocol="dubbo-m" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-m" ref="blockingServiceB" timeout="1000000000"/>
+    <dubbo:service protocol="dubbo-l" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-l" ref="blockingServiceC" timeout="1000000000"/>
+    <dubbo:service protocol="dubbo-danger" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-danger" ref="blockingServiceD" timeout="1000000000"/>
+    <dubbo:service protocol="dubbo-openapi" interface="org.apache.dubbo.samples.api.BlockingService" group="dubbo-openapi" ref="blockingServiceE" timeout="1000000000"/>
 
 </beans>
