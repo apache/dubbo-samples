@@ -30,6 +30,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -73,6 +75,7 @@ public class BlockingServiceIT {
                 reference.setInterface(BlockingService.class);
                 String host = System.getProperty("provider.address", "127.0.0.1");
                 reference.setUrl("dubbo://" + host + ":" + port);
+                reference.setTimeout(100000000);
                 BlockingService blockingService = reference.get();
                 if (portToGroup.get(port).equals(group)) {
                     String type = blockingService.type();
@@ -95,20 +98,31 @@ public class BlockingServiceIT {
         Assert.assertEquals("dubbo-danger", blockingServiceD.type());
         Assert.assertEquals("dubbo-openapi", blockingServiceE.type());
 
+        List<Thread> threads = new LinkedList<>();
         for (int i = 0; i < 10; i++) {
-            new Thread(() -> blockingServiceA.block()).start();
+            Thread t = new Thread(() -> blockingServiceA.block());
+            t.start();
+            threads.add(t);
         }
         for (int i = 0; i < 11; i++) {
-            new Thread(() -> blockingServiceB.block()).start();
+            Thread t = new Thread(() -> blockingServiceB.block());
+            t.start();
+            threads.add(t);
         }
         for (int i = 0; i < 12; i++) {
-            new Thread(() -> blockingServiceC.block()).start();
+            Thread t = new Thread(() -> blockingServiceC.block());
+            t.start();
+            threads.add(t);
         }
         for (int i = 0; i < 13; i++) {
-            new Thread(() -> blockingServiceD.block()).start();
+            Thread t = new Thread(() -> blockingServiceD.block());
+            t.start();
+            threads.add(t);
         }
         for (int i = 0; i < 14; i++) {
-            new Thread(() -> blockingServiceE.block()).start();
+            Thread t = new Thread(() -> blockingServiceE.block());
+            t.start();
+            threads.add(t);
         }
 
         await().untilAsserted(() -> {
@@ -156,6 +170,10 @@ public class BlockingServiceIT {
             Assert.fail();
         } catch (Exception e) {
             Assert.assertTrue(e.getMessage().contains("Thread pool is EXHAUSTED"));
+        }
+
+        for (Thread thread : threads) {
+            thread.interrupt();
         }
     }
 
