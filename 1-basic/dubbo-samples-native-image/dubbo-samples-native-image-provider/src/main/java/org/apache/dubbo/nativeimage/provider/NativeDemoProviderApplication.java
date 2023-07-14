@@ -23,7 +23,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.concurrent.CountDownLatch;
 
-@SpringBootApplication(scanBasePackages={"org.apache.dubbo.nativeimage.provider"})
+@SpringBootApplication(scanBasePackages = {"org.apache.dubbo.nativeimage.provider"})
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.nativeimage.provider"})
 public class NativeDemoProviderApplication {
 
