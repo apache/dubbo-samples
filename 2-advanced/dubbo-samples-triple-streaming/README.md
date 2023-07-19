@@ -5,6 +5,10 @@ As described in [the Triple protocol documentation](https://dubbo.apache.org/zh-
 ## Run The Demo
 Detailed explanation of this demo can be found [here](https://dubbo.apache.org/zh-cn/overview/quickstart/rpc/java/).
 
+```shell
+mvn clean compile #Compile and generate code
+```
+
 ### Start server
 Make sure you are in `dubbo-samples-triple-streaming` directory and then run the following command:
 
