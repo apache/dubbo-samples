@@ -7,7 +7,11 @@ The Java implementation gives you the option of using Triple and HTTP/2 RPC with
 ## Run The Demo
 Detailed explanation of this demo can be found [here](https://dubbo.apache.org/zh-cn/overview/quickstart/rpc/java/).
 
-> Make sure you are in `dubbo-samples-triple-no-idl` before running the following commands.
+Make sure you are in `dubbo-samples-triple-no-idl` before running the following commands
+
+```shell
+mvn clean compile #Compile and generate code
+```
 
 ### Start server
 ```shell

@@ -34,7 +34,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public interface UserService {
-
     @GetMapping(value = "/list")
     List<User> getUsers();
 }
