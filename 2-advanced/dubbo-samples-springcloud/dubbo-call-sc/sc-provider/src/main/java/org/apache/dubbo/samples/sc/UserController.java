@@ -18,6 +18,7 @@ package org.apache.dubbo.samples.sc;
 
 import org.apache.dubbo.samples.sc.model.User;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,7 @@ public class UserController {
 
     public UserController() {}
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public List<User> getUser() {
         return Collections.singletonList(new User(1L, "spring cloud server"));
     }

@@ -32,20 +32,13 @@
         <dubbo.version>3.2.3</dubbo.version>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <grpc.version>1.54.1</grpc.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <protoc.version>3.22.2</protoc.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.19.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -56,13 +49,6 @@
     </dependencies>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>kr.motd.maven</groupId>
-                <artifactId>os-maven-plugin</artifactId>
-                <version>1.6.1</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

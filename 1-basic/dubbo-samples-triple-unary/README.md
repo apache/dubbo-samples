@@ -13,7 +13,11 @@ More usages of Triple protocol can be found here:
 ## Run The Demo
 Detailed explanation of this demo can be found [here](https://dubbo.apache.org/zh-cn/overview/quickstart/rpc/java/).
 
-> Make sure you are in `dubbo-samples-triple-unary` before running the following commands.
+Make sure you are in `dubbo-samples-triple-unary` before running the following commands.
+
+```shell
+mvn clean compile #Compile and generate code
+```
 
 ### Start server
 ```shell
