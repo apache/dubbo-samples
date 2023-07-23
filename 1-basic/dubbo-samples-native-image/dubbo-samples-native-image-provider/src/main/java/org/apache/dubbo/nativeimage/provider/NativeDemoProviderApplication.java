@@ -21,6 +21,8 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication(scanBasePackages = {"org.apache.dubbo.nativeimage.provider"})
@@ -29,7 +31,9 @@ public class NativeDemoProviderApplication {
 
     public static void main(String[] args) throws InterruptedException {
         SpringApplication.run(NativeDemoProviderApplication.class, args);
-        System.out.println("dubbo service started");
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+        System.out.println("dubbo provider application started, The time taken to start the application is "
+                + (System.currentTimeMillis() - runtimeMXBean.getStartTime()) +" ms");
         new CountDownLatch(1).await();
     }
 }
