@@ -24,6 +24,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+
 @SpringBootApplication(scanBasePackages = {"org.apache.dubbo.nativeimage.consumer"})
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.nativeimage.consumer"})
 public class NativeDemoConsumerApplication {
@@ -34,7 +37,14 @@ public class NativeDemoConsumerApplication {
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(NativeDemoConsumerApplication.class, args);
         NativeDemoConsumerApplication application = context.getBean(NativeDemoConsumerApplication.class);
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+        System.out.println("dubbo consumer application started, The time taken to start the application is "
+                + (System.currentTimeMillis() - runtimeMXBean.getStartTime()) +" ms");
+
+        long startCallTime =  System.currentTimeMillis();
         String result = application.doSayHello("world");
+        System.out.println("The time taken for the first call is "
+                + (System.currentTimeMillis() - startCallTime) +" ms");
         System.out.println("result: " + result);
     }
 
