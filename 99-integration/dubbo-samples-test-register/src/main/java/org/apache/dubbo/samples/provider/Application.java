@@ -36,6 +36,7 @@ public class Application {
 
     public static void main(String[] args) throws InterruptedException {
         System.setProperty("dubbo.application.metadata.publish.delay", "1");
+        System.setProperty("dubbo.application.manual-register", "true");
 
         ServiceConfig<GreetingsService> service1 = new ServiceConfig<>();
         service1.setInterface(GreetingsService.class);
