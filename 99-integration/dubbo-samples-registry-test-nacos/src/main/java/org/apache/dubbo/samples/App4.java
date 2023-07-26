@@ -54,21 +54,21 @@ public class App4 {
         ServiceConfig<DemoService1> serviceConfig1 = new ServiceConfig<>();
         serviceConfig1.setInterface(DemoService1.class);
         serviceConfig1.setRef(new DemoService1Impl("App4"));
-        serviceConfig1.setDelay(1);
 
         ServiceConfig<DemoService2> serviceConfig2 = new ServiceConfig<>();
         serviceConfig2.setInterface(DemoService2.class);
         serviceConfig2.setRef(new DemoService2Impl("App4"));
+        serviceConfig2.setDelay(-1);
 
         ServiceConfig<DemoService3> serviceConfig3 = new ServiceConfig<>();
         serviceConfig3.setInterface(DemoService3.class);
         serviceConfig3.setRef(new DemoService3Impl("App4"));
+        serviceConfig3.setDelay(-1);
 
         ServiceConfig<ControlService> serviceConfig = new ServiceConfig<>();
         serviceConfig.setInterface(ControlService.class);
         serviceConfig.setRef(new ControlServiceImpl(frameworkModel));
         serviceConfig.setVersion("App4");
-        serviceConfig.setDelay(1);
 
         DubboBootstrap.getInstance(applicationModel)
                 .application(applicationConfig)
