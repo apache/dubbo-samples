@@ -54,8 +54,8 @@ public class KubernetesRunningGenerator extends AbstractRunningGenerator {
             // never to do this
         }
         try {
-            cfg.getTemplate("new-test/kubernetes-deploy.template")
-                    .process(root, new FileWriter(new File(configuration.outputDir(), "new-test/kubernetes-deploy.template")));
+            cfg.getTemplate("kubernetes-manifest.template")
+                    .process(root, new FileWriter(new File(configuration.outputDir(), "kubernetes-manifest.template")));
         } catch (TemplateException | IOException e) {
             LOGGER.error("", e);
         }
