@@ -34,9 +34,14 @@ spec:
   selector:
     app: ${service.name}
   ports:
+  <#if service.expose??>
+  <#list service.expose as expose>
     - protocol: TCP
-      port: ${service.expose}
-      targetPort: ${service.expose}
+          port: ${service.expose}
+          targetPort: ${service.expose}
+  </#list>
+  </#if>
+
 
 ---
 
