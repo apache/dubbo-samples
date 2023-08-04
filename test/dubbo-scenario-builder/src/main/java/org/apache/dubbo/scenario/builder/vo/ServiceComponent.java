@@ -33,10 +33,14 @@ public class ServiceComponent {
     private List<String> ports;
     private List<String> entrypoint;
     private List<String> environment;
-    private List<String> volumes;
+    private Map<String,String> volumes;
+
+    private Map<String,String> volumesMounts;
     private List<String> volumes_from;
     private List<String> depends_on;
     private Map<String, Object> healthcheck;
+
+    private List<String> healthcheckExec;
 
     // app attrs
     private String type;
@@ -211,11 +215,11 @@ public class ServiceComponent {
         this.jvmFlags = jvmFlags;
     }
 
-    public List<String> getVolumes() {
+    public Map<String, String> getVolumes() {
         return volumes;
     }
 
-    public void setVolumes(List<String> volumes) {
+    public void setVolumes(Map<String, String> volumes) {
         this.volumes = volumes;
     }
 
@@ -280,5 +284,21 @@ public class ServiceComponent {
                 ", systemProps=" + systemProps +
                 ", jvmFlags=" + jvmFlags +
                 '}';
+    }
+
+    public Map<String, String> getVolumesMounts() {
+        return volumesMounts;
+    }
+
+    public void setVolumesMounts(Map<String, String> volumesMounts) {
+        this.volumesMounts = volumesMounts;
+    }
+
+    public List<String> getHealthcheckExec() {
+        return healthcheckExec;
+    }
+
+    public void setHealthcheckExec(List<String> healthcheckExec) {
+        this.healthcheckExec = healthcheckExec;
     }
 }
