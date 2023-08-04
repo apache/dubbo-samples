@@ -68,9 +68,11 @@ spec:
           </#if>
           imagePullPolicy: IfNotPresent
           ports:
-          <#list service.expose as port>
-            - containerPort: ${port}
+          <#if service.expose??>
+          <#list service.expose as expose>
+            - containerPort: ${expose}
           </#list>
+          </#if>
           <#if service.volumes??>
           volumeMounts:
           <#list service.volumesMounts as key,value>
