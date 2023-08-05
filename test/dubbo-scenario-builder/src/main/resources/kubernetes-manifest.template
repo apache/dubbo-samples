@@ -31,14 +31,15 @@ metadata:
   namespace: ${namespace_name}
   name: ${service.hostname}
 spec:
+  clusterIP: None
   selector:
     app: ${service.name}
   ports:
   <#if service.expose??>
   <#list service.expose as expose>
     - protocol: TCP
-          port: ${expose}
-          targetPort: ${expose}
+      port: ${expose}
+      targetPort: ${expose}
   </#list>
   </#if>
 
@@ -87,18 +88,6 @@ spec:
               value: ${environment?split('=')[1]}
           </#list>
           </#if>
-          <#if service.command??>
-          command:
-            <#list service.command as cmd>
-              - ${cmd}
-            </#list>
-          </#if>
-          <#if service.args??>
-          args:
-            <#list service.args as arg>
-              - ${arg}
-            </#list>
-          </#if>
           <#if service.healthcheck??>
           readinessProbe:
             exec:
@@ -123,10 +112,15 @@ spec:
             ${key}: ${value}
             </#list>
           </#if>
+      <#if service.volumes??>
       volumes:
-      <#list service.volumes as key,value>
+      <#list se rvice.volumes as key,value>
         - name: ${key}-volume
           hostPath:
             path: ${value}
       </#list>
+      </#if>
+
+---
 </#list>
+
