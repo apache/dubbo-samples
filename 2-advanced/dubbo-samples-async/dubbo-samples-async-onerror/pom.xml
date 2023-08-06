@@ -33,7 +33,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <spring.version>4.3.29.RELEASE</spring.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
         <dubbo.version>3.2.0</dubbo.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
