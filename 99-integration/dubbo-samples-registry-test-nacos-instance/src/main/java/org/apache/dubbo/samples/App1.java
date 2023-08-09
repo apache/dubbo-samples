@@ -41,6 +41,7 @@ public class App1 {
         ApplicationModel applicationModel = frameworkModel.newApplication();
 
         System.setProperty(MetadataConstants.METADATA_PUBLISH_DELAY_KEY, "10");
+        System.setProperty("dubbo.application.manual-register", "true");
         ApplicationConfig applicationConfig = new ApplicationConfig("App1");
         applicationConfig.setRegisterMode("instance");
         applicationConfig.setQosPort(20991);

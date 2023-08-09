@@ -19,7 +19,6 @@ dubbo:
   application:
     name: ${spring.application.name}
     logger: slf4j
-    compiler: jdk
   protocol:
     name: dubbo
     port: -1
@@ -32,10 +31,8 @@ dubbo:
   metadata-report:
     address: zookeeper://127.0.0.1:2181
   provider:
-    proxy: jdk
     serialization: fastjson2
   consumer:
-    proxy: jdk
     serialization: fastjson2
 
 logging:

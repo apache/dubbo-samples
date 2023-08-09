@@ -36,6 +36,7 @@ import org.apache.dubbo.samples.impl.DemoService3Impl;
 public class App2 {
     public static void main(String[] args) throws InterruptedException {
         System.setProperty(MetadataConstants.METADATA_PUBLISH_DELAY_KEY, "10");
+        System.setProperty("dubbo.application.manual-register", "true");
         ApplicationConfig applicationConfig = new ApplicationConfig("App2");
 
         RegistryConfig registryConfig = new RegistryConfig();
@@ -62,7 +63,7 @@ public class App2 {
         serviceConfig.setInterface(ControlService.class);
         serviceConfig.setRef(new ControlServiceImpl());
         serviceConfig.setVersion("App2");
-        
+
         DubboBootstrap.getInstance()
                 .application(applicationConfig)
                 .registry(registryConfig)
