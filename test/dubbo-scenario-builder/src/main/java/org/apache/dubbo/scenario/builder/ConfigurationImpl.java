@@ -608,7 +608,7 @@ public class ConfigurationImpl implements IConfiguration {
         root.put("scenario_version", scenarioVersion());
         root.put("jacoco_home", jacocoHome());
         root.put("debug_mode", debugMode());
-        root.put("kubernetes_manifest_file", outputDir() + File.separator + "kubernetes-manifest.yml");
+        root.put("kubernetes_manifest_file", outputDir() + File.separator + "kubernetes-manifest.yaml");
         root.put("namespace_name", namespaceName());
 //        root.put("ipv6_cidr", ipv6Cidr());
         root.put("timeout", scenarioTimeout);
