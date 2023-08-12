@@ -114,7 +114,7 @@ spec:
           </#if>
       <#if service.volumes??>
       volumes:
-      <#list se rvice.volumes as key,value>
+      <#list se service.volumes as key,value>
         - name: ${key}-volume
           hostPath:
             path: ${value}
