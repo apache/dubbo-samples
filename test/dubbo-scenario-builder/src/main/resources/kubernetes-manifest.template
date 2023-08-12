@@ -29,7 +29,7 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: ${namespace_name}
-  name: ${service.hostname}
+  name: ${service.name}
 spec:
   clusterIP: None
   selector:

@@ -55,7 +55,7 @@ public class KubernetesRunningGenerator extends AbstractRunningGenerator {
         }
         try {
             cfg.getTemplate("kubernetes-manifest.template")
-                    .process(root, new FileWriter(new File(configuration.outputDir(), "kubernetes-manifest.template")));
+                    .process(root, new FileWriter(new File(configuration.outputDir(), "kubernetes-manifest.yaml")));
         } catch (TemplateException | IOException e) {
             LOGGER.error("", e);
         }
