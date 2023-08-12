@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-demo-provider
+  namespace: dubbo-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo-demo-provider
+  template:
+    metadata:
+      labels:
+        app: dubbo-demo-provider
+    spec:
+      #serviceAccount:
+      containers:
+        - name: server
+          image: demo/dubbo-demo:dubbo-demo-provider_0.0.1
+          ports:
+            - containerPort: 20880
+          # 探针需商讨一下是否加入？，毕竟仅作为测试
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 22222
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: 22222
+            failureThreshold: 30
+            periodSeconds: 10
+
+---
+# dns 为dubbo-demo-provider.dubbo-demo.svc.cluster.local:20880
+apiVersion: v1
+kind: Service
+metadata:
+  name: dubbo-demo-provider
+  namespace: dubbo-demo
+spec:
+  clusterIP: None
+  selector:
+    app: dubbo-demo-provider
+  ports:
+    - protocol: TCP
+      port: 20880
+      targetPort: 20880
