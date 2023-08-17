@@ -17,6 +17,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   provider:
     type: app
@@ -29,6 +31,8 @@ services:
     checkPorts:
       - 20880
     checkLog: "Current Spring Boot Application is await..."
+    expose:
+      - 20880
 
   test:
     type: test
@@ -42,3 +46,5 @@ services:
       - provider:20880
     depends_on:
       - provider
+    expose:
+      - 20880
