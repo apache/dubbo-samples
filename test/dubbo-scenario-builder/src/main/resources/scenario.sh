@@ -73,7 +73,7 @@ function redirect_all_container_logs() {
 
 function redirect_container_logs() {
   service_name=$1
-  pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}')
+  pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
 
   # Check if logs are already being redirected
   if kubectl logs $pod_name &>/dev/null; then
@@ -107,7 +107,7 @@ function wait_pod_completion() {
       return 1
     fi
 
-    pod_status=$(kubectl get pod $test_pod_name -o jsonpath='{.status.phase}')
+    pod_status=$(kubectl get pod $test_pod_name -o jsonpath='{.status.phase}' -n ${namespace_name})
     if [[ "$pod_status" == "Running" || "$pod_status" == "Succeeded" || "$pod_status" == "Failed" ]]; then
       return 0
     fi
