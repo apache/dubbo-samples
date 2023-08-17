@@ -147,7 +147,7 @@ kubectl apply -f ${compose_file} 2>&1 | tee -a $scenario_log > /dev/null
 sleep 5
 
 # Get the name of the test Pod
-test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}')
+test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
 
 if [ -z "$test_pod_name" ]; then
     echo "[$scenario_name] Test Pod not found" | tee -a $scenario_log
@@ -158,7 +158,7 @@ echo "[$scenario_name] Waiting for test pod .." | tee -a $scenario_log
 wait_pod_completion $test_pod_name $start $timeout
 result=$?
 if [ $result -eq 0 ]; then
-    exit_code=$(kubectl get pod $test_pod_name -o=jsonpath='{.status.containerStatuses[0].state.terminated.exitCode}')
+    exit_code=$(kubectl get pod $test_pod_name -o=jsonpath='{.status.containerStatuses[0].lastState.terminated.exitCode}' -n ${namespace_name})
 
     if [ $exit_code -eq 0 ]; then
         status=0
@@ -188,16 +188,16 @@ if [[ $status == 0 ]]; then
     ${removeImagesScript}
 else
     for service_name in ${service_names[@]}; do
-        service_pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}')
+        service_pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
 
         if [ -n "$service_pod_name" ]; then
             kubectl wait pod $service_pod_name --for=delete > /dev/null
 
-            echo "kubectl describe pod $service_pod_name  :" >> $scenario_log
-            kubectl describe pod $service_pod_name >> $scenario_log
+            echo "kubectl describe pod $service_pod_name -n ${namespace_name}  :" >> $scenario_log
+            kubectl describe pod $service_pod_name -n ${namespace_name}>> $scenario_log
             echo "" >> $scenario_log
 
-            kubectl logs -f $service_pod_name > $SCENARIO_HOME/logs/${service_name}.log
+            kubectl logs -f $service_pod_name -n ${namespace_name} > $SCENARIO_HOME/logs/${service_name}.log
         fi
     done
 fi
