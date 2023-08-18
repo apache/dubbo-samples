@@ -267,15 +267,16 @@ public class ConfigurationImpl implements IConfiguration {
                 // DUBBO_APP_DIR
                 // DUBBO_LOG_DIR
                 String targetPath = new File(service.getBasedir(), "target").getCanonicalPath();
-                service.getVolumes().put("app", DUBBO_APP_DIR);
-                service.getVolumes().put("log", DUBBO_LOG_DIR);
+                service.getVolumes().put("app", targetPath);
+                service.getVolumes().put("log", scenarioLogDir);
                 if (service.getVolumesMounts() == null) {
                     service.setVolumesMounts(new HashMap<>());
                 }
                 // mount ${project.basedir}/target
                 // mount ${scenario_home}/logs :
-                service.getVolumesMounts().put("app", targetPath);
-                service.getVolumesMounts().put("log", scenarioLogDir);
+
+                service.getVolumesMounts().put("app", DUBBO_APP_DIR);
+                service.getVolumesMounts().put("log", DUBBO_LOG_DIR);
 
                 if (service.getEnvironment() == null) {
                     service.setEnvironment(new ArrayList<>());
