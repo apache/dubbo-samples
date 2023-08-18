@@ -124,17 +124,10 @@ rm -f $scenario_log
 echo "[$scenario_name] debug_mode: $debug_mode" >> $scenario_log
 echo "[$scenario_name] timeout: $timeout" >> $scenario_log
 
-#Starting test containers
-container_name="${project_name}_${test_service_name}"
-
-
 
 #Delete the resources in Kubernetes-manifest first.
 echo "[$scenario_name] Killing containers .." | tee -a $scenario_log
 kubectl delete -f ${compose_file} --grace-period=0 --force 2>&1 | tee -a $scenario_log > /dev/null
-
-#run async, cause depends_on service healthy blocking docker-compose up
-redirect_all_container_logs &
 
 # start time
 start=$SECONDS
@@ -143,11 +136,12 @@ start=$SECONDS
 echo "[$scenario_name] Creating resources .." | tee -a $scenario_log
 kubectl apply -f ${compose_file} 2>&1 | tee -a $scenario_log > /dev/null
 
+redirect_all_container_logs &
 
 sleep 5
 
 # Get the name of the test Pod
-test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
+test_pod_name=$(kubectl get pod -l app=test -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
 
 if [ -z "$test_pod_name" ]; then
     echo "[$scenario_name] Test Pod not found" | tee -a $scenario_log
