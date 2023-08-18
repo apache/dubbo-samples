@@ -38,7 +38,8 @@ public class KubernetesService {
 
     private Map<String,String> volumes;
 
-    private List<String> environment;
+
+    private Map<String,String> environment;
 
     public String getName() {
         return name;
@@ -104,6 +105,14 @@ public class KubernetesService {
         this.volumes = volumes;
     }
 
+    public Map<String, String> getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Map<String, String> environment) {
+        this.environment = environment;
+    }
+
     @Override
     public String toString() {
         return "KubernetesDeployment{" +
@@ -118,11 +127,5 @@ public class KubernetesService {
                 '}';
     }
 
-    public List<String> getEnvironment() {
-        return environment;
-    }
 
-    public void setEnvironment(List<String> environment) {
-        this.environment = environment;
-    }
 }

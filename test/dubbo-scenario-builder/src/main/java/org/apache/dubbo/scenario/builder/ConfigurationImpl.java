@@ -32,6 +32,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,6 +44,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
@@ -371,7 +373,7 @@ public class ConfigurationImpl implements IConfiguration {
                         }
                         Map<String, Integer> healthcheck = service.getHealthcheck();
 //                        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
-                        healthcheck.putIfAbsent("timeoutSeconds",5);
+                        healthcheck.putIfAbsent("timeoutSeconds", 5);
                         healthcheck.putIfAbsent("periodSeconds", 5);
                         healthcheck.putIfAbsent("successThreshold", 1);
                         healthcheck.putIfAbsent("failureThreshold", 20);
@@ -664,7 +666,7 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     protected List<KubernetesService> convertKubernetesService(final String version,
-                                                        Map<String, ServiceComponent> componentMap) {
+                                                               Map<String, ServiceComponent> componentMap) {
         final ArrayList<KubernetesService> services = new ArrayList<>();
         if (componentMap == null) {
             return services;
@@ -703,7 +705,13 @@ public class ConfigurationImpl implements IConfiguration {
                 service.setHealthcheck(newMap);
                 service.setHealthcheckExec(dependency.getHealthcheckExec());
             }
-            service.setEnvironment(dependency.getEnvironment());
+            Map<String, String> env = dependency.getEnvironment().stream()
+                    .map(e -> {
+                        int index = e.indexOf("=");
+                        return new AbstractMap.SimpleEntry<>(e.substring(0, index), e.substring(index + 1));
+                    })
+                    .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+            service.setEnvironment(env);
             service.setVolumes(dependency.getVolumes());
             service.setVolumesMounts(dependency.getVolumesMounts());
 //            service.setVolumes_from(dependency.getVolumes_from());
