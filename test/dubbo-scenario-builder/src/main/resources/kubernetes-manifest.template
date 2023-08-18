@@ -83,9 +83,9 @@ spec:
           </#if>
           <#if service.environment??>
           env:
-          <#list service.environment as environment>
-            - name: ${environment?split('=')[0]}
-              value: ${environment?split('=')[1]}
+          <#list service.environment as key,value>
+            - name: ${key}
+              value: ${value}
           </#list>
           </#if>
           <#if service.healthcheck??>
