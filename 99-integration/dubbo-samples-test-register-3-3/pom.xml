@@ -36,7 +36,7 @@
     <description>Dubbo Samples Test For Register on Dubbo 3.3</description>
 
     <properties>
-        <dubbo.version>3.3.0-beta.1-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.3.0-beta.1-ALI-SNAPSHOT</dubbo.version>
         <junit5.version>5.9.2</junit5.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
