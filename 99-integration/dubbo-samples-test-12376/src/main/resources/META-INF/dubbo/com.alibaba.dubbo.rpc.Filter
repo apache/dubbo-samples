@@ -1,0 +1,2 @@
+org.apache.dubbo.samples.filter.ConsumerAlibabaFilter
+org.apache.dubbo.samples.filter.ProviderAlibabaFilter

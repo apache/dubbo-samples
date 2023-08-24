@@ -27,7 +27,6 @@
     <description>Dubbo Protocol Samples</description>
 
     <modules>
-        <module>dubbo-samples-grpc</module>
         <module>dubbo-samples-http</module>
         <module>dubbo-samples-jetty</module>
         <module>dubbo-samples-port-unification</module>

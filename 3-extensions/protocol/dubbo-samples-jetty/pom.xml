@@ -29,7 +29,7 @@
   <properties>
     <source.level>1.8</source.level>
     <target.level>1.8</target.level>
-    <spring.version>4.3.29.RELEASE</spring.version>
+    <spring.version>4.3.30.RELEASE</spring.version>
     <dubbo.version>3.2.0</dubbo.version>
     <zookeeper.version>3.4.13</zookeeper.version>
     <curator.version>4.0.1</curator.version>
@@ -212,7 +212,7 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
-      <version>9.4.11.v20180605</version>
+      <version>10.0.14</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>

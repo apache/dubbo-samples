@@ -1,0 +1,2 @@
+org.apache.dubbo.samples.filter.ConsumerFilter
+org.apache.dubbo.samples.filter.ProviderFilter

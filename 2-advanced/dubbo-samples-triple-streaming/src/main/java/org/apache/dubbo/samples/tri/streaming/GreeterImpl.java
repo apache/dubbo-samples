@@ -29,6 +29,7 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
         this.serverName = serverName;
     }
 
+    @Override
     public StreamObserver<GreeterRequest> biStream(StreamObserver<GreeterReply> responseObserver) {
         return new StreamObserver<GreeterRequest>() {
             @Override
