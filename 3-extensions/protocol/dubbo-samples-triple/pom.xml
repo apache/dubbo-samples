@@ -40,7 +40,7 @@
         <dubbo.version>3.2.0</dubbo.version>
         <grpc.version>1.44.1</grpc.version>
         <junit.version>4.13.1</junit.version>
-        <spring-test.version>4.3.29.RELEASE</spring-test.version>
+        <spring-test.version>4.3.30.RELEASE</spring-test.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
