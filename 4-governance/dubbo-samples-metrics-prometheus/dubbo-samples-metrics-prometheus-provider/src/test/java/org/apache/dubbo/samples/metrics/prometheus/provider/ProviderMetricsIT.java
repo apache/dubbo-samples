@@ -99,7 +99,7 @@ public class ProviderMetricsIT {
             for (int i = 0; i < metricKeys.size(); i++) {
                 Assert.assertTrue(text.contains(metricKeys.get(i)));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Assert.fail(e.getMessage());
         }
         context.stop();
