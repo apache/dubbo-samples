@@ -677,9 +677,6 @@ public class ConfigurationImpl implements IConfiguration {
         }
         for (Map.Entry<String, ServiceComponent> mapEntry : componentMap.entrySet()) {
             String name = mapEntry.getKey();
-            if ("test".equals(name)) {
-                continue;
-            }
             ServiceComponent dependency = mapEntry.getValue();
             KubernetesService service = getKubernetesService(dependency, name);
             services.add(service);
