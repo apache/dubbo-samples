@@ -35,7 +35,7 @@
         <dubbo.version>3.2.0</dubbo.version>
         <junit.version>4.13.1</junit.version>
         <zookeeper_version>3.8.1</zookeeper_version>
-        <spring.version>4.3.29.RELEASE</spring.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
     </properties>
 
     <dependencyManagement>

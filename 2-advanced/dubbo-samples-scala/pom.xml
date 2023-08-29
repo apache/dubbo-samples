@@ -31,7 +31,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <spring.version>4.3.29.RELEASE</spring.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
         <dubbo.version>3.2.0</dubbo.version>
         <scala.version>2.12.5</scala.version>
         <zookeeper_version>3.8.1</zookeeper_version>
@@ -46,11 +46,6 @@
                 <version>${spring.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>4.1.56.Final</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
