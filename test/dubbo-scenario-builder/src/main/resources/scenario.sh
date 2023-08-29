@@ -179,12 +179,11 @@ fi
 #     Implement interactive debugging logic if needed
 # fi
 
-echo "[$scenario_name] Deleting resources .." | tee -a $scenario_log
-kubectl delete -f ${compose_file} --grace-period=0 --force 2>&1 | tee -a $scenario_log > /dev/null
+
 
 if [[ $status == 0 ]]; then
-    kubectl delete -f ${compose_file} 2>&1 | tee -a $scenario_log > /dev/null
-    ${removeImagesScript}
+    echo "[$scenario_name] Deleting resources .." | tee -a $scenario_log
+    kubectl delete -f ${compose_file} --grace-period=0 --force 2>&1 | tee -a $scenario_log > /dev/null
 else
     for service_name in ${service_names[@]}; do
         service_pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
@@ -199,6 +198,8 @@ else
             kubectl logs -f $service_pod_name -n ${namespace_name} > $SCENARIO_HOME/logs/${service_name}.log
         fi
     done
+    echo "[$scenario_name] Deleting resources .." | tee -a $scenario_log
+    kubectl delete -f ${compose_file} --grace-period=0 --force 2>&1 | tee -a $scenario_log > /dev/null
 fi
 
 exit $status
