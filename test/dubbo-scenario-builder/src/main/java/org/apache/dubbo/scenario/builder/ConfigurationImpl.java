@@ -41,6 +41,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -373,13 +374,13 @@ public class ConfigurationImpl implements IConfiguration {
                         }
                         Map<String, Integer> healthcheck = service.getHealthcheck();
 //                        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
-                        healthcheck.putIfAbsent("timeoutSeconds", 5);
+                        healthcheck.putIfAbsent("timeoutSeconds", 10);
                         healthcheck.putIfAbsent("periodSeconds", 5);
                         healthcheck.putIfAbsent("successThreshold", 1);
                         healthcheck.putIfAbsent("failureThreshold", 20);
-                        healthcheck.putIfAbsent("initialDelaySeconds", 60);
+                        healthcheck.putIfAbsent("initialDelaySeconds", 30);
 
-                        List<String> healthcheckExec = Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh");
+                        List<String> healthcheckExec = Arrays.asList("/bin/sh", "-c", "/usr/local/dubbo/healthcheck.sh");
                         service.setHealthcheckExec(healthcheckExec);
                     }
                 } else if ("test".equals(type)) {
@@ -646,8 +647,11 @@ public class ConfigurationImpl implements IConfiguration {
 //                }
 //            }
 //        });
-
-        root.put("services", convertKubernetesService(scenarioVersion(), caseConfiguration.getServices()));
+        List<KubernetesService> kubernetesServices = convertKubernetesService(scenarioVersion(), caseConfiguration.getServices());
+        Optional<KubernetesService> testService = kubernetesServices.stream().filter(s -> "test".equals(s.getName())).findFirst();
+        kubernetesServices = kubernetesServices.stream().filter(s -> !"test".equals(s.getName())).collect(Collectors.toList());
+        root.put("services", kubernetesServices);
+        root.put("test_service",testService.get());
         List<String> testServiceNames = findTestServiceNames(caseConfiguration);
         root.put("test_service_name", testServiceNames.size() > 0 ? testServiceNames.get(0) : "");
 
@@ -671,15 +675,27 @@ public class ConfigurationImpl implements IConfiguration {
         if (componentMap == null) {
             return services;
         }
-        componentMap.forEach((name, dependency) -> {
-            KubernetesService service = new KubernetesService();
+        for (Map.Entry<String, ServiceComponent> mapEntry : componentMap.entrySet()) {
+            String name = mapEntry.getKey();
+            if ("test".equals(name)) {
+                continue;
+            }
+            ServiceComponent dependency = mapEntry.getValue();
+            KubernetesService service = getKubernetesService(dependency, name);
+            services.add(service);
+        }
+        return services;
+    }
 
-            String imageName = dependency.getImage();
-            service.setName(name);
-            service.setImageName(imageName);
+    private static KubernetesService getKubernetesService(ServiceComponent dependency, String name) {
+        KubernetesService service = new KubernetesService();
+
+        String imageName = dependency.getImage();
+        service.setName(name);
+        service.setImageName(imageName);
 //            service.setBuild(dependency.getBuild());
-            service.setHostname(dependency.getHostname());
-            service.setExpose(dependency.getExpose());
+        service.setHostname(dependency.getHostname());
+        service.setExpose(dependency.getExpose());
 //            //convert depends_on to map
 //            if (dependency.getDepends_on() != null) {
 //                Map<String, String> dependsOnMap = new LinkedHashMap<>();
@@ -693,18 +709,19 @@ public class ConfigurationImpl implements IConfiguration {
 //                }
 //            }
 
-            //convert healthcheck to string map
-            if (dependency.getHealthcheck() != null) {
-                Yaml yaml = new Yaml();
-                Map<String, Integer> healthcheckMap = dependency.getHealthcheck();
-                Map<String, String> newMap = new LinkedHashMap<>();
-                for (Map.Entry<String, Integer> entry : healthcheckMap.entrySet()) {
-                    String value = yaml.dump(entry.getValue());
-                    newMap.put(entry.getKey(), value.trim());
-                }
-                service.setHealthcheck(newMap);
-                service.setHealthcheckExec(dependency.getHealthcheckExec());
+        //convert healthcheck to string map
+        if (dependency.getHealthcheck() != null) {
+            Yaml yaml = new Yaml();
+            Map<String, Integer> healthcheckMap = dependency.getHealthcheck();
+            Map<String, String> newMap = new LinkedHashMap<>();
+            for (Map.Entry<String, Integer> entry : healthcheckMap.entrySet()) {
+                String value = yaml.dump(entry.getValue());
+                newMap.put(entry.getKey(), value.trim());
             }
+            service.setHealthcheck(newMap);
+            service.setHealthcheckExec(dependency.getHealthcheckExec());
+        }
+        if (dependency.getEnvironment() != null) {
             Map<String, String> env = dependency.getEnvironment().stream()
                     .map(e -> {
                         int index = e.indexOf("=");
@@ -712,12 +729,11 @@ public class ConfigurationImpl implements IConfiguration {
                     })
                     .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
             service.setEnvironment(env);
-            service.setVolumes(dependency.getVolumes());
-            service.setVolumesMounts(dependency.getVolumesMounts());
+        }
+        service.setVolumes(dependency.getVolumes());
+        service.setVolumesMounts(dependency.getVolumesMounts());
 //            service.setVolumes_from(dependency.getVolumes_from());
 //            service.setRemoveOnExit(dependency.isRemoveOnExit());
-            services.add(service);
-        });
-        return services;
+        return service;
     }
 }

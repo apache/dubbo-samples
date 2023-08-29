@@ -40,6 +40,7 @@ service_names=( \
 <#list services as service>
   "${service.name}" \
 </#list>
+  "${test_service_name}"
   )
 
 service_size=${services?size}
@@ -84,9 +85,9 @@ function redirect_container_logs() {
   echo "Redirect container logs for pod $pod_name" >> $scenario_log
   if [ "$debug_mode" == "1" ]; then
     # Redirect with debug message
-    kubectl logs -f $pod_name 2>&1 | tee $SCENARIO_HOME/logs/${service_name}.log | grep "dt_socket" &
+    kubectl logs -f $pod_name -n ${namespace_name} 2>&1 | tee $SCENARIO_HOME/logs/${service_name}.log | grep "dt_socket" &
   else
-    kubectl logs -f $pod_name &> $SCENARIO_HOME/logs/${service_name}.log &
+    kubectl logs -f $pod_name -n ${namespace_name} &> $SCENARIO_HOME/logs/${service_name}.log &
   fi
   return 0
 }
@@ -103,12 +104,12 @@ function wait_pod_completion() {
     sleep 2
     duration=$(( SECONDS - start ))
     if [ $duration -gt $timeout ]; then
-      echo "Waiting for pod is timeout: $duration s"
+      echo "Waiting for job is timeout: $duration s"
       return 1
     fi
 
-    pod_status=$(kubectl get pod $test_pod_name -o jsonpath='{.status.phase}' -n ${namespace_name})
-    if [[ "$pod_status" == "Running" || "$pod_status" == "Succeeded" || "$pod_status" == "Failed" ]]; then
+    pod_status=$(kubectl get job test -o jsonpath='{.status.conditions[0].type}' -n ${namespace_name})
+    if [[ "$pod_status" == "Complete" || "$pod_status" == "Failed" ]]; then
       return 0
     fi
   done
@@ -152,15 +153,19 @@ echo "[$scenario_name] Waiting for test pod .." | tee -a $scenario_log
 wait_pod_completion $test_pod_name $start $timeout
 result=$?
 if [ $result -eq 0 ]; then
-    exit_code=$(kubectl get pod $test_pod_name -o=jsonpath='{.status.containerStatuses[0].lastState.terminated.exitCode}' -n ${namespace_name})
-
-    if [ $exit_code -eq 0 ]; then
+    # Since the number of retries of test is set to 1, it is only necessary to judge here.
+    succeeded_count=$(kubectl get job test -o jsonpath='{.status.succeeded}' -n $namespace_name)
+    if [ -z "$succeeded_count" ]; then
+        succeeded_count=0
+    fi
+    if [ "$succeeded_count" -eq 1 ]; then
         status=0
         echo "[$scenario_name] Run tests successfully" | tee -a $scenario_log
     else
-        status=$exit_code
+        status=1
         echo "[$scenario_name] $ERROR_MSG_FLAG Run tests failed" | tee -a $scenario_log
     fi
+
 else
     status=1
     echo "[$scenario_name] $ERROR_MSG_FLAG Run tests timeout" | tee -a $scenario_log
