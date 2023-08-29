@@ -43,7 +43,7 @@ service_names=( \
   "${test_service_name}"
   )
 
-service_size=${services?size}
+service_size=${services?size} + 1
 
 export service_names=$service_names
 export service_size=$service_size
