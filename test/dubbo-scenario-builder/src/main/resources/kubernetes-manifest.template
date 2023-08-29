@@ -58,7 +58,7 @@ spec:
       app: ${service.name}
   template:
     metadata:
-      namespace: ${namespace_name}  # 添加命名空间声明
+      namespace: ${namespace_name}
       labels:
         app: ${service.name}
     spec:
@@ -100,17 +100,6 @@ spec:
           <#list service.healthcheck as key,value>
             ${key}: ${value}
           </#list>
-          livenessProbe:
-            exec:
-              command:
-              <#if service.healthcheckExec??>
-              <#list service.healthcheckExec as cmd>
-                - "${cmd}"
-              </#list>
-              </#if>
-            <#list service.healthcheck as key,value>
-            ${key}: ${value}
-            </#list>
           </#if>
       <#if service.volumes??>
       volumes:
@@ -123,4 +112,53 @@ spec:
 
 ---
 </#list>
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: ${namespace_name}
+  name: ${test_service.name}
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      namespace: ${namespace_name}
+      labels:
+        app: ${test_service.name}
+    spec:
+      containers:
+        - name: ${test_service.name}
+          <#if test_service.imageName?has_content>
+          image: ${test_service.imageName}
+          </#if>
+          imagePullPolicy: IfNotPresent
+          #ports:
+          #<#if test_service.expose??>
+          #<#list test_service.expose as expose>
+          #  - containerPort: ${expose}
+          #</#list>
+          #</#if>
+          <#if test_service.volumes??>
+          volumeMounts:
+          <#list test_service.volumesMounts as key,value>
+            - name: ${key}-volume
+              mountPath: ${value}
+          </#list>
+          </#if>
+          <#if test_service.environment??>
+          env:
+          <#list test_service.environment as key,value>
+            - name: ${key}
+              value: ${value}
+          </#list>
+          </#if>
+      restartPolicy: Never
+      <#if test_service.volumes??>
+      volumes:
+      <#list test_service.volumes as key,value>
+        - name: ${key}-volume
+          hostPath:
+            path: ${value}
+      </#list>
+      </#if>
 
