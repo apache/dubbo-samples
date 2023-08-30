@@ -43,7 +43,7 @@ service_names=( \
   "${test_service_name}"
   )
 
-service_size=$(expr $services_size + 1)
+service_size=$(expr ${services?size} + 1)
 
 export service_names=$service_names
 export service_size=$service_size
@@ -65,7 +65,7 @@ function redirect_all_container_logs() {
 
     if [ "$redirect_count" == $service_size ];then
       echo "Redirect all containers logs."  >> $scenario_log
-      break
+      return
     fi
 
     sleep 3
