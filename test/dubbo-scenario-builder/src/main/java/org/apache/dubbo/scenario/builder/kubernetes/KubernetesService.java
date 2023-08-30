@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class KubernetesService {
 
+    private String type;
     private String name;
 
     private String imageName;
@@ -128,4 +129,11 @@ public class KubernetesService {
     }
 
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

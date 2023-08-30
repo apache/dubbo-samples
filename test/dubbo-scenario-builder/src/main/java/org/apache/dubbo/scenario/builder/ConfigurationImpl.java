@@ -648,8 +648,8 @@ public class ConfigurationImpl implements IConfiguration {
 //            }
 //        });
         List<KubernetesService> kubernetesServices = convertKubernetesService(scenarioVersion(), caseConfiguration.getServices());
-        Optional<KubernetesService> testService = kubernetesServices.stream().filter(s -> "test".equals(s.getName())).findFirst();
-        kubernetesServices = kubernetesServices.stream().filter(s -> !"test".equals(s.getName())).collect(Collectors.toList());
+        Optional<KubernetesService> testService = kubernetesServices.stream().filter(s -> "test".equals(s.getType())).findFirst();
+        kubernetesServices = kubernetesServices.stream().filter(s -> !"test".equals(s.getType())).collect(Collectors.toList());
         root.put("services", kubernetesServices);
         root.put("test_service",testService.get());
         List<String> testServiceNames = findTestServiceNames(caseConfiguration);
@@ -690,6 +690,7 @@ public class ConfigurationImpl implements IConfiguration {
         String imageName = dependency.getImage();
         service.setName(name);
         service.setImageName(imageName);
+        service.setType(dependency.getType());
 //            service.setBuild(dependency.getBuild());
         service.setHostname(dependency.getHostname());
         service.setExpose(dependency.getExpose());
