@@ -35,6 +35,8 @@ props:
 services:
   zookeeper:
     image: zookeeper:${zookeeper_version}
+    expose:
+      - 2181
 
   ${project_name}:
     type: app
@@ -48,6 +50,8 @@ services:
     checkPorts:
       - ${dubbo_port}
     checkLog: ${check_log}
+    expose:
+      - ${dubbo_port}
 
   ${project_name}-test:
     type: test

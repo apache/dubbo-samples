@@ -44,6 +44,8 @@ services:
       - ${zookeeper_port}
       - ${dubbo_port}
     checkLog: ${check_log}
+    expose:
+      - ${dubbo_port}
 
   ${project_name}-test:
     type: test
