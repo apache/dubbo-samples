@@ -33,7 +33,7 @@ scenario_name=${scenario_name}
 scenario_version=${scenario_version}
 compose_file="${kubernetes_manifest_file}"
 project_name=$(echo "${scenario_name}_${scenario_version}" |sed -e "s/\.//g" |awk '{print tolower($0)}')
-test_service_name="${test_service_name}_1"
+test_service_name="${test_service_name}"
 namespace_name="${namespace_name}"
 
 service_names=( \
@@ -108,7 +108,7 @@ function wait_pod_completion() {
       return 1
     fi
 
-    pod_status=$(kubectl get job test -o jsonpath='{.status.conditions[0].type}' -n ${namespace_name})
+    pod_status=$(kubectl get ${test_service_name} -o jsonpath='{.status.conditions[0].type}' -n ${namespace_name})
     if [[ "$pod_status" == "Complete" || "$pod_status" == "Failed" ]]; then
       return 0
     fi
@@ -142,7 +142,7 @@ redirect_all_container_logs &
 sleep 5
 
 # Get the name of the test Pod
-test_pod_name=$(kubectl get pod -l app=test -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
+test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
 
 if [ -z "$test_pod_name" ]; then
     echo "[$scenario_name] Test Pod not found" | tee -a $scenario_log
@@ -154,7 +154,7 @@ wait_pod_completion $test_pod_name $start $timeout
 result=$?
 if [ $result -eq 0 ]; then
     # Since the number of retries of test is set to 1, it is only necessary to judge here.
-    succeeded_count=$(kubectl get job test -o jsonpath='{.status.succeeded}' -n $namespace_name)
+    succeeded_count=$(kubectl get job ${test_service_name} -o jsonpath='{.status.succeeded}' -n $namespace_name)
     if [ -z "$succeeded_count" ]; then
         succeeded_count=0
     fi
