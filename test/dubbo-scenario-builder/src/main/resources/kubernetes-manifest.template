@@ -37,7 +37,8 @@ spec:
   ports:
   <#if service.expose??>
   <#list service.expose as expose>
-    - protocol: TCP
+    - name: service-{expose}
+      protocol: TCP
       port: ${expose}
       targetPort: ${expose}
   </#list>
