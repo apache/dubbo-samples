@@ -127,7 +127,7 @@ echo "[$scenario_name] timeout: $timeout" >> $scenario_log
 
 
 #Delete the resources in Kubernetes-manifest first.
-echo "[$scenario_name] Killing containers .." | tee -a $scenario_log
+echo "[$scenario_name] Deleting resources .." | tee -a $scenario_log
 kubectl delete -f ${compose_file} --grace-period=0 --force 2>&1 | tee -a $scenario_log > /dev/null
 
 # start time
@@ -137,9 +137,9 @@ start=$SECONDS
 echo "[$scenario_name] Creating resources .." | tee -a $scenario_log
 kubectl apply -f ${compose_file} 2>&1 | tee -a $scenario_log > /dev/null
 
-redirect_all_container_logs &
+sleep 8
 
-sleep 5
+redirect_all_container_logs &
 
 # Get the name of the test Pod
 test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
