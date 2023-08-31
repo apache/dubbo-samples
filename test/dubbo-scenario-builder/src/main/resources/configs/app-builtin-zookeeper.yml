@@ -38,7 +38,7 @@ services:
     basedir: ${project_dir}
     mainClass: ${main_class}
     systemProps:
-      - zookeeper.address=${project_name}
+      - zookeeper.address=127.0.0.1
       - zookeeper.port=${zookeeper_port}
     checkPorts:
       - ${zookeeper_port}
