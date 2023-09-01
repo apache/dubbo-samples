@@ -16,6 +16,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-isolation-executor-test:
     type: test

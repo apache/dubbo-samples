@@ -25,6 +25,8 @@ services:
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
+    expose:
+      - 8848
 
   dubbo-samples-sentinel-provider:
     type: app
@@ -39,6 +41,8 @@ services:
       - 20880
     depends_on:
       - nacos
+    expose:
+      - 20880
 
   dubbo-samples-sentinel-consumer:
     type: test

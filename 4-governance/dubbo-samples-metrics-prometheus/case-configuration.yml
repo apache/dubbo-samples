@@ -17,11 +17,15 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   metrics-prometheus-provider:
     type: app
     basedir: dubbo-samples-metrics-prometheus-provider
     mainClass: org.apache.dubbo.samples.metrics.prometheus.provider.MetricsProvider
+    expose:
+      - 20880
 
   metrics-prometheus-consumer:
     type: test

@@ -22,6 +22,9 @@ services:
       - 2181
       - 50052
     mainClass: org.apache.dubbo.samples.triple.reactor.ReactorServer
+    expose:
+      - 2181
+      - 50052
 
   dubbo-samples-triple-reactor-test:
     type: test

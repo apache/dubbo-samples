@@ -31,6 +31,9 @@ services:
     checkPorts:
       - 20880
     checkLog: "dubbo service started"
+    expose:
+      - 20880
+      - 2181
 
   dubbo-samples-ssl-test:
     type: test
