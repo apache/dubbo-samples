@@ -394,9 +394,7 @@ public class ConfigurationImpl implements IConfiguration {
                     //set TEST_PATTERNS
                     if (isNotEmpty(service.getTests())) {
                         String str = StringUtils.join(service.getTests(), ';');
-                        if ("**/*IT.class".equals(str)) {
-                            str = "\"" + str + "\"";
-                        }
+                        str = "\"" + str + "\"";
                         setEnv(service, ENV_TEST_PATTERNS, str);
                     }
                 } else {
