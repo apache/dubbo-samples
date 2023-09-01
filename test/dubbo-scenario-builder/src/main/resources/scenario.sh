@@ -44,7 +44,7 @@ service_names=( \
 </#list>
 )
 
-test_service_names(\
+test_service_names=(\
 <#list test_services as service>
   "${service.name}" \
 </#list>
