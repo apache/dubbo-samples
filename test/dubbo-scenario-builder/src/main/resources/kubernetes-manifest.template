@@ -86,7 +86,7 @@ spec:
           env:
           <#list service.environment as key,value>
             - name: ${key}
-              value: ${value}
+              value: "${value}"
           </#list>
           </#if>
           <#if service.healthcheck??>

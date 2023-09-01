@@ -21,7 +21,7 @@ services:
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
-      - NACOS_AUTH_ENABLE=true
+      - NACOS_AUTH_ENABLE=  true
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
