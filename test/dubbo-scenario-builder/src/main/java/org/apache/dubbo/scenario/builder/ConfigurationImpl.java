@@ -641,19 +641,19 @@ public class ConfigurationImpl implements IConfiguration {
 //                    service.setLinks(new ArrayList<>());
 //                }
 //                for (String link : links) {
-//                    if (!StringUtils.equals(link, service.getHostname())) {
+//                    if (!StringUtils.equals(link, service.getHostname())) {[]
 //                        service.getLinks().add(link);
 //                    }
 //                }
 //            }
 //        });
         List<KubernetesService> kubernetesServices = convertKubernetesService(scenarioVersion(), caseConfiguration.getServices());
-        Optional<KubernetesService> testService = kubernetesServices.stream().filter(s -> "test".equals(s.getType())).findFirst();
+        List<KubernetesService> testServices = kubernetesServices.stream().filter(s -> "test".equals(s.getType())).collect(Collectors.toList());
         kubernetesServices = kubernetesServices.stream().filter(s -> !"test".equals(s.getType())).collect(Collectors.toList());
         root.put("services", kubernetesServices);
-        root.put("test_service",testService.get());
+        root.put("test_services",testServices);
         List<String> testServiceNames = findTestServiceNames(caseConfiguration);
-        root.put("test_service_name", testServiceNames.size() > 0 ? testServiceNames.get(0) : "");
+        root.put("test_service_names", testServiceNames.size() > 0 ? testServiceNames : "");
 
         return root;
     }

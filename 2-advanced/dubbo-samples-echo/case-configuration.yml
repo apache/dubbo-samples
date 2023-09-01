@@ -20,6 +20,9 @@ services:
     type: app
     basedir: dubbo-samples-echo-provider
     mainClass: org.apache.dubbo.samples.provider.EchoProvider
+    expose:
+      - 20880
+      - 2181
 
   cache-consumer:
     type: test

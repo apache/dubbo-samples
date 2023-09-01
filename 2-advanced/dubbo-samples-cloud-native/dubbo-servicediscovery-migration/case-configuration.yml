@@ -19,6 +19,8 @@ timeout: 240
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   servicediscovery-migration-provider1:
     type: app
@@ -33,6 +35,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20881
 
   servicediscovery-migration-provider2:
     type: app
@@ -47,6 +51,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20882
 
   servicediscovery-migration-consumer-test:
     type: test

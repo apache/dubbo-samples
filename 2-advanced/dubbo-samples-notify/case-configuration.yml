@@ -17,6 +17,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-notify-provider:
     type: app
@@ -31,6 +33,8 @@ services:
     checkLog: "Current Spring Boot Application is await"
     depends_on:
       - zookeeper
+    expose:
+      - 20880
 
   dubbo-samples-notify-test:
     type: test

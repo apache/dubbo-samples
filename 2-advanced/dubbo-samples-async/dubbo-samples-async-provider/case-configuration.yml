@@ -42,6 +42,8 @@ props:
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   async-provider-embedded:
     type: app
@@ -56,6 +58,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20881
 
   async-provider:
     type: app
@@ -72,6 +76,8 @@ services:
     depends_on:
       - zookeeper
       - async-provider-embedded
+    expose:
+      - 20880
 
   async-consumer-test:
     type: test

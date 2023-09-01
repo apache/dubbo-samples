@@ -23,6 +23,8 @@ services:
       - dubbo-samples-tengine-provider:20880
     depends_on:
       - dubbo-samples-tengine-provider
+    expose:
+      - 8080
 
   dubbo-samples-tengine-provider:
     type: app
@@ -31,6 +33,8 @@ services:
     checkPorts:
       - 20880
     checkLog: "dubbo service started"
+    expose:
+      - 20880
 
   dubbo-samples-tengine-test:
     type: test

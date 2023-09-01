@@ -19,9 +19,13 @@ ignoreFor: 'Interoperability between spring-cloud and dubbo is not ready?'
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
     
   consul-server:
     image: consul:latest
+    expose:
+      - 8500
 
   dubbo-scdubbo-provider:
     type: app
@@ -36,6 +40,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - consul-server
+    expose:
+      - 8099
       
   dubbo-scdubbo-provider2:
     type: app
@@ -50,6 +56,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20880
 
   dubbo-scdubbo-consumer-test:
     type: test

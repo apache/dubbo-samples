@@ -33,20 +33,29 @@ scenario_name=${scenario_name}
 scenario_version=${scenario_version}
 compose_file="${kubernetes_manifest_file}"
 project_name=$(echo "${scenario_name}_${scenario_version}" |sed -e "s/\.//g" |awk '{print tolower($0)}')
-test_service_name="${test_service_name}"
 namespace_name="${namespace_name}"
 
 service_names=( \
 <#list services as service>
   "${service.name}" \
 </#list>
-  "${test_service_name}"
-  )
+<#list test_services as service>
+  "${service.name}" \
+</#list>
+)
 
-service_size=$(expr ${services?size} + 1)
+test_service_names(\
+<#list test_services as service>
+  "${service.name}" \
+</#list>
+)
+
+test_service_size=${test_services?size}
+service_size=$(expr ${services?size} + $test_service_size)
 
 export service_names=$service_names
 export service_size=$service_size
+export test_service_size=$test_service_size
 
 <#noparse>
 function redirect_all_container_logs() {
@@ -92,6 +101,34 @@ function redirect_container_logs() {
   return 0
 }
 
+function wait_pods_completion() {
+  test_pod_names=$1
+  start=$2
+  timeout=$3
+
+  job_pids=()
+  for test_pod_name in "${test_pod_names[@]}"; do
+    # Start the wait_pod_completion function as a background job
+    wait_pod_completion "$test_pod_name" "$start" "$timeout" &
+
+    # Store the background job PID
+    job_pids+=($!)
+  done
+
+  # Wait for all background jobs to finish
+  for job_pid in "${job_pids[@]}"; do
+    wait "$job_pid"
+    test_results+=($?)
+  done
+  result = 0
+  for test_result in "${test_results[@]}"; do
+    if [[ "$test_result" -ne 0 ]]; then
+      all_tests_successful=1
+      break
+    fi
+  done
+  return $result
+}
 
 function wait_pod_completion() {
   test_pod_name=$1
@@ -141,24 +178,35 @@ sleep 8
 
 redirect_all_container_logs &
 
-# Get the name of the test Pod
-test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
+# Initialize an empty array to store test_pod_names
+test_pod_names=()
+for test_service_name in ${test_service_names[@]}; do
 
-if [ -z "$test_pod_name" ]; then
-    echo "[$scenario_name] Test Pod not found" | tee -a $scenario_log
-    exit 1
-fi
+  test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
+  if [ -z "$test_pod_name" ]; then
+      echo "[$scenario_name] Test Pod $test_service_name not found" | tee -a $scenario_log
+      exit 1
+  fi
+   # Add test_pod_name to the test_pod_names array
+   test_pod_names+=("$test_pod_name")
+done
+
+echo "Test Pod Names: ${test_pod_names[@]}"
 
 echo "[$scenario_name] Waiting for test pod .." | tee -a $scenario_log
-wait_pod_completion $test_pod_name $start $timeout
+wait_pods_completion $test_pod_names $start $timeout
 result=$?
 if [ $result -eq 0 ]; then
+    succeeded_count = 0
+    for test_service_name in "${test_service_names[@]}"; do
+      succeeded_count=$((succeeded_count + $(kubectl get job "$test_service_name" -o jsonpath='{.status.succeeded}' -n "$namespace_name")))
+    done
     # Since the number of retries of test is set to 1, it is only necessary to judge here.
-    succeeded_count=$(kubectl get job ${test_service_name} -o jsonpath='{.status.succeeded}' -n $namespace_name)
+
     if [ -z "$succeeded_count" ]; then
         succeeded_count=0
     fi
-    if [ "$succeeded_count" -eq 1 ]; then
+    if [ "$succeeded_count" -eq $test_service_size ]; then
         status=0
         echo "[$scenario_name] Run tests successfully" | tee -a $scenario_log
     else

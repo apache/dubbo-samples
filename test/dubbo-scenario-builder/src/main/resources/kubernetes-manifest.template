@@ -114,6 +114,7 @@ spec:
 ---
 </#list>
 
+<#list test_services as test_service>
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -162,4 +163,5 @@ spec:
             path: ${value}
       </#list>
       </#if>
-
+---
+</#list>
