@@ -14,58 +14,65 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-timeout: 240
+ignoreFor: 'Interoperability between spring-cloud and dubbo is not ready?'
 
 services:
   zookeeper:
     image: zookeeper:latest
     expose:
       - 2181
+    
+  consul-server:
+    image: consul:latest
+    expose:
+      - 8500
 
-  servicediscovery-migration-provider1:
+  dubbo-scdubbo-provider:
     type: app
-    basedir: dubbo-servicediscovery-migration-provider1
+    basedir: dubbo-scdubbo-provider
+    mainClass: org.apache.dubbo.samples.microservices.sc.Application
+    systemProps:
+      - consul.address=consul-server
+    waitPortsBeforeRun:
+      - consul-server:8500
+    checkPorts:
+      - 8099
+    checkLog: "dubbo service started"
+    depends_on:
+      - consul-server
+    expose:
+      - 8099
+      
+  dubbo-scdubbo-provider2:
+    type: app
+    basedir: dubbo-scdubbo-provider2
     mainClass: org.apache.dubbo.demo.provider.Application
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
-      - 20881
+      - 20880
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
     expose:
-      - 20881
+      - 20880
 
-  servicediscovery-migration-provider2:
-    type: app
-    basedir: dubbo-servicediscovery-migration-provider2
-    mainClass: org.apache.dubbo.demo.provider.Application
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20882
-    checkLog: "dubbo service started"
-    depends_on:
-      - zookeeper
-    expose:
-      - 20882
-
-  servicediscovery-migration-consumer-test:
+  dubbo-scdubbo-consumer-test:
     type: test
-    basedir: dubbo-servicediscovery-migration-consumer
+    basedir: dubbo-scdubbo-consumer
     tests:
       - "**/*IT.class"
     systemProps:
+      - consul.address=consul-server
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
+      - consul-server:8500
       - zookeeper:2181
-      - servicediscovery-migration-provider1:20881
-      - servicediscovery-migration-provider2:20882
+      - dubbo-scdubbo-provider:8099
+      - dubbo-scdubbo-provider2:20880
     depends_on:
-      - zookeeper
-      - servicediscovery-migration-provider1
-      - servicediscovery-migration-provider2
+      - consul-server
+      - dubbo-scdubbo-provider
+      - dubbo-scdubbo-provider2

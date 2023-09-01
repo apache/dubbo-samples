@@ -18,6 +18,9 @@ services:
     type: app
     basedir: dubbo-samples-cache-provider
     mainClass: org.apache.dubbo.samples.cache.CacheProvider
+    expose:
+      - 20880
+      - 2181
   cache-consumer:
     type: test
     basedir: dubbo-samples-cache-consumer

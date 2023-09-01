@@ -34,6 +34,9 @@ services:
       - ${zookeeper_port}
       - ${dubbo_port}
     checkLog: "dubbo service started"
+    expose:
+      - ${zookeeper_port}
+      - ${dubbo_port}
     
   ${app_consumer}-test:
     type: test

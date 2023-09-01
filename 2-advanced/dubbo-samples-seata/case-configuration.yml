@@ -31,6 +31,8 @@ services:
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
+    expose:
+      - 8848
 
   seata-mysql:
     image: mysql:5.7
@@ -81,6 +83,8 @@ services:
       - seata-mysql
       - seata-server
       - nacos
+    expose:
+      - 20884
 
   account-service:
     type: app
@@ -103,6 +107,8 @@ services:
       - nacos
       - seata-mysql
       - seata-server
+    expose:
+      - 20881
 
   order-service:
     type: app
@@ -126,6 +132,8 @@ services:
       - seata-mysql
       - seata-server
       - account-service
+    expose:
+      - 20883
 
   business-test:
     type: test
