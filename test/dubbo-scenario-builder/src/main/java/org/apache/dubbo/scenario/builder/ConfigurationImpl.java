@@ -394,6 +394,9 @@ public class ConfigurationImpl implements IConfiguration {
                     //set TEST_PATTERNS
                     if (isNotEmpty(service.getTests())) {
                         String str = StringUtils.join(service.getTests(), ';');
+                        if ("**/*IT.class".equals(str)) {
+                            str = "\"" + str + "\"";
+                        }
                         setEnv(service, ENV_TEST_PATTERNS, str);
                     }
                 } else {
@@ -648,7 +651,7 @@ public class ConfigurationImpl implements IConfiguration {
         List<KubernetesService> testServices = kubernetesServices.stream().filter(s -> "test".equals(s.getType())).collect(Collectors.toList());
         kubernetesServices = kubernetesServices.stream().filter(s -> !"test".equals(s.getType())).collect(Collectors.toList());
         root.put("services", kubernetesServices);
-        root.put("test_services",testServices);
+        root.put("test_services", testServices);
         List<String> testServiceNames = findTestServiceNames(caseConfiguration);
         root.put("test_service_names", testServiceNames.size() > 0 ? testServiceNames : "");
 
