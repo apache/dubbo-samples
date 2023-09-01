@@ -90,6 +90,13 @@ function redirect_container_logs() {
     return 0
   fi
 
+  # Check if the pod is still in ContainerCreating state
+  pod_status=$(kubectl get pod $pod_name -n ${namespace_name} -o jsonpath='{.status.phase}')
+  if [ "$pod_status" == "Pending" ]; then
+    echo "Pod $pod_name is still in Pending state. Cannot redirect logs."
+    return 1
+  fi
+
   # Redirect container logs to a file
   echo "Redirect container logs for pod $pod_name" >> $scenario_log
   if [ "$debug_mode" == "1" ]; then
@@ -199,13 +206,13 @@ result=$?
 if [ $result -eq 0 ]; then
     succeeded_count=0
     for test_service_name in "${test_service_names[@]}"; do
-      succeeded_count=$((succeeded_count + $(kubectl get job "$test_service_name" -o jsonpath='{.status.succeeded}' -n "$namespace_name")))
+      test_succeeded=$(kubectl get job "$test_service_name" -o jsonpath='{.status.succeeded}' -n "$namespace_name")
+      if [ -z "$test_succeeded" ]; then
+        test_succeeded=0
+      fi
+      succeeded_count=$((succeeded_count + test_succeeded))
     done
-    # Since the number of retries of test is set to 1, it is only necessary to judge here.
 
-    if [ -z "$succeeded_count" ]; then
-        succeeded_count=0
-    fi
     if [ "$succeeded_count" -eq $test_service_size ]; then
         status=0
         echo "[$scenario_name] Run tests successfully" | tee -a $scenario_log
