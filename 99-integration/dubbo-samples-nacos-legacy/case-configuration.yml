@@ -24,6 +24,8 @@ services:
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
+    expose:
+      - 8848
 
   dubbo-samples-nacos-legacy-provider1:
     type: app
@@ -39,6 +41,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - nacos
+    expose:
+      - 20880
 
   dubbo-samples-nacos-legacy-provider2:
     type: app
@@ -54,6 +58,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - nacos
+    expose:
+      - 20881
 
   dubbo-samples-nacos-legacy-consumer:
     type: test

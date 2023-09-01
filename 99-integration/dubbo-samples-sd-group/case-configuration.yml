@@ -18,6 +18,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-sd-group-provider1:
     type: app
@@ -32,6 +34,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20880
 
   dubbo-samples-sd-group-provider2:
     type: app
@@ -46,6 +50,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20881
 
   dubbo-samples-sd-group-consumer:
     type: test

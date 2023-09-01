@@ -19,6 +19,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   nacos:
     image: nacos/nacos-server:2.0.0
@@ -29,6 +31,8 @@ services:
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
+    expose:
+      - 8848
 
   dubbo-samples-test-11096-test:
     type: test

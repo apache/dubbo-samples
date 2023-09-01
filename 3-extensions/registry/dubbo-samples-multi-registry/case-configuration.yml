@@ -17,9 +17,13 @@
 services:
   zookeeper-1:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   zookeeper-2:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-multi-registry:
     type: app
@@ -38,6 +42,8 @@ services:
     depends_on:
       - zookeeper-1
       - zookeeper-2
+    expose:
+      - 20880
 
   dubbo-samples-multi-registry-test:
     type: test

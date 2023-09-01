@@ -18,6 +18,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-rest-withtoken-provider:
     type: app
@@ -29,6 +31,8 @@ services:
       - zookeeper:2181
     depends_on:
       - zookeeper
+    expose:
+      - 8080
 
   dubbo-samples-rest-withtoken-consumer:
     type: test

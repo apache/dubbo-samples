@@ -36,6 +36,9 @@ services:
     depends_on:
       - apollo-db
       - apollo-quick-start
+    expose:
+      - 20880
+      - 2181
 
   dubbo-samples-configcenter-apollo-test:
     type: test

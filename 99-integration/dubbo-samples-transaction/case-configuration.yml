@@ -72,6 +72,8 @@ services:
     depends_on:
       - seata-mysql
       - seata-server
+    expose:
+      - 20882
 
   account-service:
     type: app
@@ -91,6 +93,8 @@ services:
     depends_on:
       - seata-mysql
       - seata-server
+    expose:
+      - 20881
 
   order-service:
     type: app
@@ -111,6 +115,8 @@ services:
       - seata-mysql
       - seata-server
       - account-service
+    expose:
+      - 20883
 
   transaction-test:
     type: test

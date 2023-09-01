@@ -31,6 +31,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 40
+    expose:
+      - 8848
 
   dubbo-samples-nacos-conditionrouter1:
     type: app
@@ -47,6 +49,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - nacos
+    expose:
+      - 20880
 
   dubbo-samples-nacos-conditionrouter2:
     type: app
@@ -63,6 +67,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - nacos
+    expose:
+      - 20881
 
   dubbo-samples-nacos-conditionrouter-test:
     type: test
