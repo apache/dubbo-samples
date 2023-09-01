@@ -154,7 +154,7 @@ function wait_pod_completion() {
       return 1
     fi
 
-    pod_status=$(kubectl get job ${test_service_name} -o jsonpath='{.status.conditions[0].type}' -n ${namespace_name} 2>&1 | tee -a $scenario_log > /dev/null))
+    pod_status=$(kubectl get job ${test_service_name} -o jsonpath='{.status.conditions[0].type}' -n ${namespace_name} 2>&1 | tee -a $scenario_log > /dev/null)
     if [[ "$pod_status" == "Complete" || "$pod_status" == "Failed" ]]; then
       return 0
     fi
