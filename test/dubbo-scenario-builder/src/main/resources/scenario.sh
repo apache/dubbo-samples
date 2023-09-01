@@ -83,15 +83,17 @@ function redirect_all_container_logs() {
 
 function redirect_container_logs() {
   service_name=$1
-  pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
-
+  pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name} 2>&1 | tee -a $scenario_log > /dev/null)
+  if [ -z "$pod_name" ]; then
+     return 1
+  fi
   # Check if logs are already being redirected
   if kubectl logs $pod_name &>/dev/null; then
     return 0
   fi
 
   # Check if the pod is still in ContainerCreating state
-  pod_status=$(kubectl get pod $pod_name -n ${namespace_name} -o jsonpath='{.status.phase}')
+  pod_status=$(kubectl get pod $pod_name -n ${namespace_name} -o jsonpath='{.status.phase}' 2>&1 | tee -a $scenario_log > /dev/null)
   if [ "$pod_status" == "Pending" ]; then
     echo "Pod $pod_name is still in Pending state. Cannot redirect logs."
     return 1
@@ -152,7 +154,7 @@ function wait_pod_completion() {
       return 1
     fi
 
-    pod_status=$(kubectl get job ${test_service_name} -o jsonpath='{.status.conditions[0].type}' -n ${namespace_name})
+    pod_status=$(kubectl get job ${test_service_name} -o jsonpath='{.status.conditions[0].type}' -n ${namespace_name} 2>&1 | tee -a $scenario_log > /dev/null))
     if [[ "$pod_status" == "Complete" || "$pod_status" == "Failed" ]]; then
       return 0
     fi
@@ -189,7 +191,7 @@ redirect_all_container_logs &
 test_pod_names=()
 for test_service_name in ${test_service_names[@]}; do
 
-  test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
+  test_pod_name=$(kubectl get pod -l app=${test_service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name} 2>&1 | tee -a $scenario_log > /dev/null)
   if [ -z "$test_pod_name" ]; then
       echo "[$scenario_name] Test Pod $test_service_name not found" | tee -a $scenario_log
       exit 1
@@ -241,7 +243,7 @@ if [[ $status == 0 ]]; then
     kubectl delete -f ${compose_file} --grace-period=0 --force 2>&1 | tee -a $scenario_log > /dev/null
 else
     for service_name in ${service_names[@]}; do
-        service_pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name})
+        service_pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name} 2>&1 | tee -a $scenario_log > /dev/null)
 
         if [ -n "$service_pod_name" ]; then
             kubectl wait pod $service_pod_name --for=delete > /dev/null
