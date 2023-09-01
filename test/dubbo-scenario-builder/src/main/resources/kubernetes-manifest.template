@@ -151,7 +151,7 @@ spec:
           env:
           <#list test_service.environment as key,value>
             - name: ${key}
-              value: ${value}
+              value: "${value}"
           </#list>
           </#if>
       restartPolicy: Never
