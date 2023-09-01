@@ -197,6 +197,7 @@ echo "[$scenario_name] Waiting for test pod .." | tee -a $scenario_log
 wait_pods_completion $test_pod_names $start $timeout
 result=$?
 if [ $result -eq 0 ]; then
+    succeeded_count=0
     for test_service_name in "${test_service_names[@]}"; do
       succeeded_count=$((succeeded_count + $(kubectl get job "$test_service_name" -o jsonpath='{.status.succeeded}' -n "$namespace_name")))
     done
