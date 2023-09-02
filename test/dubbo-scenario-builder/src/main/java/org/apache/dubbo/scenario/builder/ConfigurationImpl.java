@@ -21,7 +21,6 @@ import org.apache.dubbo.scenario.builder.exception.ConfigureFileNotFoundExceptio
 import org.apache.dubbo.scenario.builder.kubernetes.KubernetesService;
 import org.apache.dubbo.scenario.builder.kubernetes.KubernetesRunningGenerator;
 import org.apache.dubbo.scenario.builder.vo.CaseConfiguration;
-import org.apache.dubbo.scenario.builder.vo.DockerService;
 import org.apache.dubbo.scenario.builder.vo.ServiceComponent;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +40,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -264,22 +262,22 @@ public class ConfigurationImpl implements IConfiguration {
             if (isAppOrTestService(type)) {
                 service.setImage(SAMPLE_TEST_IMAGE + ":" + testImageVersion);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
-                if (service.getVolumes() == null) {
-                    service.setVolumes(new HashMap<>());
+                if (service.getKubeVolumes() == null) {
+                    service.setKubeVolumes(new HashMap<>());
                 }
                 // DUBBO_APP_DIR
                 // DUBBO_LOG_DIR
                 String targetPath = new File(service.getBasedir(), "target").getCanonicalPath();
-                service.getVolumes().put("app", targetPath);
-                service.getVolumes().put("log", scenarioLogDir);
-                if (service.getVolumesMounts() == null) {
-                    service.setVolumesMounts(new HashMap<>());
+                service.getKubeVolumes().put("app", targetPath);
+                service.getKubeVolumes().put("log", scenarioLogDir);
+                if (service.getKubeVolumesMounts() == null) {
+                    service.setKubeVolumesMounts(new HashMap<>());
                 }
                 // mount ${project.basedir}/target
                 // mount ${scenario_home}/logs :
 
-                service.getVolumesMounts().put("app", DUBBO_APP_DIR);
-                service.getVolumesMounts().put("log", DUBBO_LOG_DIR);
+                service.getKubeVolumesMounts().put("app", DUBBO_APP_DIR);
+                service.getKubeVolumesMounts().put("log", DUBBO_LOG_DIR);
 
                 if (service.getEnvironment() == null) {
                     service.setEnvironment(new ArrayList<>());
@@ -329,11 +327,11 @@ public class ConfigurationImpl implements IConfiguration {
                 if (jacocoEnable) {
                     //mount ${project.basedir}/target : DUBBO_APP_DIR
                     String jacocoPath = new File(service.getBasedir(), "target-jacoco").getCanonicalPath();
-                    service.getVolumes().put("jacoco", DUBBO_JACOCO_RESULT_DIR);
-                    service.getVolumesMounts().put("jacoco", jacocoPath);
+                    service.getKubeVolumes().put("jacoco", DUBBO_JACOCO_RESULT_DIR);
+                    service.getKubeVolumesMounts().put("jacoco", jacocoPath);
                     String jacocoRunnerPath = new File(outputDir() + File.separator + "jacocoagent.jar").getCanonicalPath();
-                    service.getVolumes().put("jacocoRunner", DUBBO_JACOCO_RUNNER_FILE);
-                    service.getVolumesMounts().put("jacocoRunner", jacocoRunnerPath);
+                    service.getKubeVolumes().put("jacocoRunner", DUBBO_JACOCO_RUNNER_FILE);
+                    service.getKubeVolumesMounts().put("jacocoRunner", jacocoRunnerPath);
 
                     //set jacoco agent
                     String jacoco = "-javaagent:" + DUBBO_JACOCO_RUNNER_FILE + "=destfile=/usr/local/dubbo/target-jacoco/" + index++ + "-" + System.currentTimeMillis() + "-jacoco.exec";
@@ -401,6 +399,23 @@ public class ConfigurationImpl implements IConfiguration {
                 }
             }
 
+            if (service.getVolumes() != null && !service.getVolumes().isEmpty()) {
+                if (service.getKubeVolumes() == null) {
+                    service.setKubeVolumes(new HashMap<>());
+                }
+                if (service.getKubeVolumesMounts() == null) {
+                    service.setKubeVolumesMounts(new HashMap<>());
+                }
+                for (String volume : service.getVolumes()) {
+                    String[] sp = volume.split(":");
+                    if (sp.length != 2) {
+                        throw new RuntimeException("Error volume: " + volume);
+                    }
+                    String key = sp[0];
+                    service.getKubeVolumes().put(key,sp[0]);
+                    service.getKubeVolumesMounts().put(key,sp[1]);
+                }
+            }
             // set hostname to serviceId if absent
             if (StringUtils.isBlank(service.getHostname())) {
                 service.setHostname(serviceName);
@@ -728,8 +743,8 @@ public class ConfigurationImpl implements IConfiguration {
                     .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
             service.setEnvironment(env);
         }
-        service.setVolumes(dependency.getVolumes());
-        service.setVolumesMounts(dependency.getVolumesMounts());
+        service.setVolumes(dependency.getKubeVolumes());
+        service.setVolumesMounts(dependency.getKubeVolumesMounts());
 //            service.setVolumes_from(dependency.getVolumes_from());
 //            service.setRemoveOnExit(dependency.isRemoveOnExit());
         return service;
