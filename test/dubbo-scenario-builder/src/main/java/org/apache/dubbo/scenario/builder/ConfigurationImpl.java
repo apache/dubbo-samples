@@ -369,10 +369,10 @@ public class ConfigurationImpl implements IConfiguration {
                     //add healthcheck
                     if (addHealthcheck) {
                         if (service.getHealthcheck() == null) {
-                            Map<String, Integer> healthcheckMap = new LinkedHashMap<>();
+                            Map<String, Object> healthcheckMap = new LinkedHashMap<>();
                             service.setHealthcheck(healthcheckMap);
                         }
-                        Map<String, Integer> healthcheck = service.getHealthcheck();
+                        Map<String, Object> healthcheck = service.getHealthcheck();
 //                        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
                         healthcheck.putIfAbsent("timeoutSeconds", 10);
                         healthcheck.putIfAbsent("periodSeconds", 5);
@@ -381,7 +381,7 @@ public class ConfigurationImpl implements IConfiguration {
                         healthcheck.putIfAbsent("initialDelaySeconds", 30);
 
                         List<String> healthcheckExec = Arrays.asList("/bin/sh", "-c", "/usr/local/dubbo/healthcheck.sh");
-                        service.setHealthcheckExec(healthcheckExec);
+                        service.setHealthcheckExec(String.valueOf(healthcheckExec));
                     }
                 } else if ("test".equals(type)) {
                     String mainClass = service.getMainClass();
@@ -707,10 +707,13 @@ public class ConfigurationImpl implements IConfiguration {
         //convert healthcheck to string map
         if (dependency.getHealthcheck() != null) {
             Yaml yaml = new Yaml();
-            Map<String, Integer> healthcheckMap = dependency.getHealthcheck();
+            Map<String, Object> healthcheckMap = dependency.getHealthcheck();
             Map<String, String> newMap = new LinkedHashMap<>();
-            for (Map.Entry<String, Integer> entry : healthcheckMap.entrySet()) {
+            for (Map.Entry<String, Object> entry : healthcheckMap.entrySet()) {
                 String value = yaml.dump(entry.getValue());
+                if ("test".equals(entry.getKey())) {
+                    dependency.setHealthcheckExec(value);
+                }
                 newMap.put(entry.getKey(), value.trim());
             }
             service.setHealthcheck(newMap);
