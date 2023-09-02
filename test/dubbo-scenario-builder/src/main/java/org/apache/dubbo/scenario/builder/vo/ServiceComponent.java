@@ -33,9 +33,9 @@ public class ServiceComponent {
     private List<String> ports;
     private List<String> entrypoint;
     private List<String> environment;
-    private Map<String,String> volumes;
+    private Map<String,String> kubeVolumes;
 
-    private Map<String,String> volumesMounts;
+    private Map<String,String> kubeVolumesMounts;
     private List<String> volumes_from;
     private List<String> depends_on;
     private Map<String, Object> healthcheck;
@@ -54,6 +54,8 @@ public class ServiceComponent {
     private List<String> tests;
     private List<String> systemProps;
     private List<String> jvmFlags;
+
+    private List<String> volumes;
 
     public String getImage() {
         return image;
@@ -215,12 +217,12 @@ public class ServiceComponent {
         this.jvmFlags = jvmFlags;
     }
 
-    public Map<String, String> getVolumes() {
-        return volumes;
+    public Map<String, String> getKubeVolumes() {
+        return kubeVolumes;
     }
 
-    public void setVolumes(Map<String, String> volumes) {
-        this.volumes = volumes;
+    public void setKubeVolumes(Map<String, String> kubeVolumes) {
+        this.kubeVolumes = kubeVolumes;
     }
 
     public List<String> getVolumes_from() {
@@ -268,7 +270,7 @@ public class ServiceComponent {
                 ", ports=" + ports +
                 ", entrypoint=" + entrypoint +
                 ", environment=" + environment +
-                ", volumes=" + volumes +
+                ", volumes=" + kubeVolumes +
                 ", volumes_from=" + volumes_from +
                 ", depends_on=" + depends_on +
                 ", healthcheck=" + healthcheck +
@@ -286,12 +288,12 @@ public class ServiceComponent {
                 '}';
     }
 
-    public Map<String, String> getVolumesMounts() {
-        return volumesMounts;
+    public Map<String, String> getKubeVolumesMounts() {
+        return kubeVolumesMounts;
     }
 
-    public void setVolumesMounts(Map<String, String> volumesMounts) {
-        this.volumesMounts = volumesMounts;
+    public void setKubeVolumesMounts(Map<String, String> kubeVolumesMounts) {
+        this.kubeVolumesMounts = kubeVolumesMounts;
     }
 
     public String getHealthcheckExec() {
@@ -300,5 +302,13 @@ public class ServiceComponent {
 
     public void setHealthcheckExec(String healthcheckExec) {
         this.healthcheckExec = healthcheckExec;
+    }
+
+    public List<String> getVolumes() {
+        return volumes;
+    }
+
+    public void setVolumes(List<String> volumes) {
+        this.volumes = volumes;
     }
 }
