@@ -41,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -406,14 +407,19 @@ public class ConfigurationImpl implements IConfiguration {
                 if (service.getKubeVolumesMounts() == null) {
                     service.setKubeVolumesMounts(new HashMap<>());
                 }
-                for (String volume : service.getVolumes()) {
-                    String[] sp = volume.split(":");
+                for (int i = 0; i < service.getVolumes().size(); i++) {
+                    String volume = service.getVolumes().get(i);
+                    String[] sp = service.getVolumes().get(i).split(":");
                     if (sp.length != 2) {
                         throw new RuntimeException("Error volume: " + volume);
                     }
-                    String key = sp[0];
+                    String key = "dubbo" + i;
                     service.getKubeVolumes().put(key, sp[0]);
                     service.getKubeVolumesMounts().put(key, sp[1]);
+                }
+                for (String volume : service.getVolumes()) {
+
+
                 }
             }
             // set hostname to serviceId if absent
@@ -728,7 +734,7 @@ public class ConfigurationImpl implements IConfiguration {
                 String value = yaml.dump(entry.getValue());
                 if ("test".equals(entry.getKey())) {
                     value = value.replaceAll("[\\[\\]\"]", "");
-                    dependency.setHealthcheckExec(Arrays.asList(value.split(",\\s*")));
+                    dependency.setHealthcheckExec(Arrays.asList(value.split(",")));
                     continue;
                 }
                 newMap.put(entry.getKey(), value.trim());
