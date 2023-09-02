@@ -69,6 +69,8 @@ services:
     depends_on:
       - nacos
     checkLog: "All apps started"
+    expose:
+      - 20881
 
   test:
     type: test

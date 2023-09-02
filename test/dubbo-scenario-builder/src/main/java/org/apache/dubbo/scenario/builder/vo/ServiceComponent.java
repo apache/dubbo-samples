@@ -38,9 +38,9 @@ public class ServiceComponent {
     private Map<String,String> volumesMounts;
     private List<String> volumes_from;
     private List<String> depends_on;
-    private Map<String, Integer> healthcheck;
+    private Map<String, Object> healthcheck;
 
-    private List<String> healthcheckExec;
+    private String healthcheckExec;
 
     // app attrs
     private String type;
@@ -127,11 +127,11 @@ public class ServiceComponent {
         this.depends_on = depends_on;
     }
 
-    public Map<String, Integer> getHealthcheck() {
+    public Map<String, Object> getHealthcheck() {
         return healthcheck;
     }
 
-    public void setHealthcheck(Map<String, Integer> healthcheck) {
+    public void setHealthcheck(Map<String, Object> healthcheck) {
         this.healthcheck = healthcheck;
     }
 
@@ -294,11 +294,11 @@ public class ServiceComponent {
         this.volumesMounts = volumesMounts;
     }
 
-    public List<String> getHealthcheckExec() {
+    public String getHealthcheckExec() {
         return healthcheckExec;
     }
 
-    public void setHealthcheckExec(List<String> healthcheckExec) {
+    public void setHealthcheckExec(String healthcheckExec) {
         this.healthcheckExec = healthcheckExec;
     }
 }

@@ -28,7 +28,7 @@ services:
     mainClass: ${app_provider_main_class}
     systemProps:
       - dubbo.current.protocol=dubbo
-      - zookeeper.address=${app_provider}
+      - zookeeper.address=localhost
       - dubbo.application.register-mode=all
     checkPorts:
       - ${zookeeper_port}
