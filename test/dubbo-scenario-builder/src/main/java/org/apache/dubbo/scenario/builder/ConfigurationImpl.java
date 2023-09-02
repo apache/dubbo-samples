@@ -379,7 +379,7 @@ public class ConfigurationImpl implements IConfiguration {
                         healthcheck.putIfAbsent("initialDelaySeconds", 30);
 
                         List<String> healthcheckExec = Arrays.asList("/bin/sh", "-c", "/usr/local/dubbo/healthcheck.sh");
-                        service.setHealthcheckExec(String.valueOf(healthcheckExec));
+                        service.setHealthcheckExec(healthcheckExec);
                     }
                 } else if ("test".equals(type)) {
                     String mainClass = service.getMainClass();
@@ -412,8 +412,8 @@ public class ConfigurationImpl implements IConfiguration {
                         throw new RuntimeException("Error volume: " + volume);
                     }
                     String key = sp[0];
-                    service.getKubeVolumes().put(key,sp[0]);
-                    service.getKubeVolumesMounts().put(key,sp[1]);
+                    service.getKubeVolumes().put(key, sp[0]);
+                    service.getKubeVolumesMounts().put(key, sp[1]);
                 }
             }
             // set hostname to serviceId if absent
@@ -727,12 +727,12 @@ public class ConfigurationImpl implements IConfiguration {
             for (Map.Entry<String, Object> entry : healthcheckMap.entrySet()) {
                 String value = yaml.dump(entry.getValue());
                 if ("test".equals(entry.getKey())) {
-                    dependency.setHealthcheckExec(value);
+                    value = value.replaceAll("\\[|\\]|\\s", "");
+                    service.setHealthcheckExec(Arrays.asList(value.split(",")));
                 }
                 newMap.put(entry.getKey(), value.trim());
             }
             service.setHealthcheck(newMap);
-            service.setHealthcheckExec(dependency.getHealthcheckExec());
         }
         if (dependency.getEnvironment() != null) {
             Map<String, String> env = dependency.getEnvironment().stream()

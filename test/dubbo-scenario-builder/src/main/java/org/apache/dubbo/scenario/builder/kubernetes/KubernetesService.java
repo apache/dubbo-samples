@@ -33,7 +33,7 @@ public class KubernetesService {
 
     private Map<String, String> healthcheck;
 
-    private String healthcheckExec;
+    private List<String> healthcheckExec;
 
     private Map<String,String> volumesMounts;
 
@@ -82,11 +82,11 @@ public class KubernetesService {
         this.healthcheck = healthcheck;
     }
 
-    public String getHealthcheckExec() {
+    public List<String> getHealthcheckExec() {
         return healthcheckExec;
     }
 
-    public void setHealthcheckExec(String healthcheckExec) {
+    public void setHealthcheckExec(List<String> healthcheckExec) {
         this.healthcheckExec = healthcheckExec;
     }
 

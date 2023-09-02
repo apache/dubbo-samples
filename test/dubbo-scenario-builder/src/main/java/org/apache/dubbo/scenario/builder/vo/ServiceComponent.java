@@ -40,7 +40,7 @@ public class ServiceComponent {
     private List<String> depends_on;
     private Map<String, Object> healthcheck;
 
-    private String healthcheckExec;
+    private List<String> healthcheckExec;
 
     // app attrs
     private String type;
@@ -296,11 +296,11 @@ public class ServiceComponent {
         this.kubeVolumesMounts = kubeVolumesMounts;
     }
 
-    public String getHealthcheckExec() {
+    public List<String> getHealthcheckExec() {
         return healthcheckExec;
     }
 
-    public void setHealthcheckExec(String healthcheckExec) {
+    public void setHealthcheckExec(List<String> healthcheckExec) {
         this.healthcheckExec = healthcheckExec;
     }
 
