@@ -98,9 +98,6 @@ spec:
                 - "${cmd}"
               </#list>
               </#if>
-              <#if service.healthcheckExec?has_content>
-                - "${service.healthcheckExec}"
-              </#if>
           <#list service.healthcheck as key,value>
             ${key}: ${value}
           </#list>

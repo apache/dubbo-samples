@@ -728,12 +728,13 @@ public class ConfigurationImpl implements IConfiguration {
                 String value = yaml.dump(entry.getValue());
                 if ("test".equals(entry.getKey())) {
                     value = value.replaceAll("[\\[\\]\"]", "");
-                    service.setHealthcheckExec(Arrays.asList(value.split(",\\s*")));
+                    dependency.setHealthcheckExec(Arrays.asList(value.split(",\\s*")));
                     continue;
                 }
                 newMap.put(entry.getKey(), value.trim());
             }
             service.setHealthcheck(newMap);
+            service.setHealthcheckExec(dependency.getHealthcheckExec());
         }
         if (dependency.getEnvironment() != null) {
             Map<String, String> env = dependency.getEnvironment().stream()
