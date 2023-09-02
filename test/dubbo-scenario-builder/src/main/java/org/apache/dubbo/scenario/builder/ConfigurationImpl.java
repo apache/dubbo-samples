@@ -727,8 +727,9 @@ public class ConfigurationImpl implements IConfiguration {
             for (Map.Entry<String, Object> entry : healthcheckMap.entrySet()) {
                 String value = yaml.dump(entry.getValue());
                 if ("test".equals(entry.getKey())) {
-                    value = value.replaceAll("\\[|\\]|\\s", "");
-                    service.setHealthcheckExec(Arrays.asList(value.split(",")));
+                    value = value.replaceAll("[\\[\\]\"]", "");
+                    service.setHealthcheckExec(Arrays.asList(value.split(",\\s*")));
+                    continue;
                 }
                 newMap.put(entry.getKey(), value.trim());
             }
