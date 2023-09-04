@@ -31,7 +31,7 @@
     <description>The demo provider module of dubbo tengine</description>
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <dubbo.version>3.1.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
     </properties>
 
     <dependencies>

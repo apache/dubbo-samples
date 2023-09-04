@@ -33,7 +33,6 @@
         <module>dubbo-samples-cache</module>
         <module>dubbo-samples-callback</module>
         <module>dubbo-samples-chain</module>
-        <module>dubbo-samples-cloud-native</module>
         <module>dubbo-samples-compatible</module>
         <module>dubbo-samples-context</module>
         <module>dubbo-samples-direct</module>
@@ -56,5 +55,10 @@
         <module>dubbo-samples-version</module>
         <module>dubbo-samples-rpccontext</module>
         <module>dubbo-samples-spring-security</module>
+        <module>dubbo-samples-triple-streaming</module>
+        <module>dubbo-samples-springcloud</module>
+        <module>dubbo-samples-service-discovery</module>
+        <module>dubbo-samples-triple-grpc</module>
+        <module>dubbo-samples-triple-no-idl</module>
     </modules>
 </project>

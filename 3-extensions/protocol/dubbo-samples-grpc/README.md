@@ -1,1 +1,0 @@
-Please run `mvn clean compile` first before starting Provider or Consumer process.

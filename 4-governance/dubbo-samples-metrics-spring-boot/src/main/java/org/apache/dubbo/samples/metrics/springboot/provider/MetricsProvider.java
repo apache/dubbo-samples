@@ -44,6 +44,7 @@ public class MetricsProvider {
 
     public static void main(String[] args) {
         System.setProperty("spring.profiles.active", "provider");
+        new EmbeddedZooKeeper(2181, false).start();
         SpringApplication.run(MetricsProvider.class, args);
         System.out.println("dubbo service started");
     }

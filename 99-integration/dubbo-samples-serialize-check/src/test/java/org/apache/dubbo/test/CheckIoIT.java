@@ -18,10 +18,6 @@
  */
 package org.apache.dubbo.test;
 
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
-import java.util.Map;
-
 import org.apache.dubbo.common.beanutil.JavaBeanDescriptor;
 import org.apache.dubbo.common.beanutil.JavaBeanSerializeUtil;
 import org.apache.dubbo.common.utils.PojoUtils;
@@ -31,10 +27,6 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.rpc.service.GenericService;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import io.dubbo.test.DemoService2;
 import io.dubbo.test.NotSerializable;
@@ -42,12 +34,21 @@ import io.dubbo.test.Parent;
 import io.dubbo.test.User;
 import io.dubbo.test.User2;
 import io.dubbo.test2.OthersSerializable;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.Map;
 
 public class CheckIoIT {
     @BeforeClass
     public static void setup() {
         ApplicationConfig applicationConfig = new ApplicationConfig();
         applicationConfig.setSerializeCheckStatus("STRICT");
+        applicationConfig.setTrustSerializeClassLevel(3);
         applicationConfig.setName("consumer");
         DubboBootstrap.getInstance()
                 .application(applicationConfig)

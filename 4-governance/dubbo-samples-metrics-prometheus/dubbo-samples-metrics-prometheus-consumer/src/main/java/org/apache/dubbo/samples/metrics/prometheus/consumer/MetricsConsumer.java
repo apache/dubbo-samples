@@ -17,27 +17,22 @@
 
 package org.apache.dubbo.samples.metrics.prometheus.consumer;
 
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.metrics.prometheus.api.DemoService;
+import org.apache.dubbo.samples.metrics.prometheus.api.DemoService2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@EnableDubbo
-@SpringBootApplication
+
 public class MetricsConsumer {
 
     private static Logger logger = LoggerFactory.getLogger(MetricsConsumer.class);
 
-    @DubboReference
-    private DemoService demoService;
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(MetricsConsumer.class, args);
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("dubbo-demo-consumer.xml");
         DemoService demoService = ctx.getBean(DemoService.class);
+        DemoService2 demoService2 = ctx.getBean(DemoService2.class);
         while (true) {
             try {
                 Thread.sleep(3000);
@@ -45,6 +40,7 @@ public class MetricsConsumer {
                 System.out.println(demoService.randomResponseTime("Dubbo").getMsg());
                 System.out.println(demoService.runTimeException("Dubbo").getMsg());
                 System.out.println(demoService.timeLimitedMethod("Dubbo").getMsg());
+                System.out.println(demoService2.sayHello("Dubbo").getMsg());
             } catch (Exception e) {
                 logger.error("MetricsConsumer failed: ", e);
             }
