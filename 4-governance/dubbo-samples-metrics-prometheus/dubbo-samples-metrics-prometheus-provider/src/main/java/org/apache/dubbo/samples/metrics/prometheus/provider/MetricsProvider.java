@@ -28,7 +28,11 @@ public class MetricsProvider {
         new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-demo-provider.xml");
         context.start();
+        
         new CountDownLatch(1).await();
+
     }
+
+
 
 }
