@@ -96,14 +96,16 @@ public class ProviderMetricsIT {
 
         add("dubbo_registry_notify_requests_total");
         add("dubbo_registry_subscribe_num_total");
-        add("dubbo_registry_register_rt_milliseconds_min");
-        add("dubbo_registry_register_rt_milliseconds_max");
         add("dubbo_registry_register_requests_failed_total");
         add("dubbo_registry_subscribe_num_succeed_total");
-        add("dubbo_registry_register_rt_milliseconds_sum");
-        add("dubbo_registry_register_rt_milliseconds_avg");
         add("dubbo_registry_subscribe_num_failed_total");
-        add("dubbo_registry_register_rt_milliseconds_last");
+
+
+        add("dubbo_push_rt_milliseconds_avg");
+        add("dubbo_push_rt_milliseconds_min");
+        add("dubbo_push_rt_milliseconds_last");
+        add("dubbo_push_rt_milliseconds_sum");
+        add("dubbo_push_rt_milliseconds_max");
 
         //metadata
         add("dubbo_store_provider_interface_rt_milliseconds_min");
@@ -116,10 +118,8 @@ public class ProviderMetricsIT {
 
         add("dubbo_metadata_subscribe_num_failed_total");
         add("dubbo_metadata_push_num_total");
-        add("dubbo_store_provider_interface_metadata_store_provider_succeed_total");
         add("dubbo_metadata_subscribe_num_total");
         add("dubbo_metadata_subscribe_num_succeed_total");
-        add("dubbo_store_provider_interface_metadata_store_provider_total");
         add("dubbo_metadata_push_num_succeed_total");
         add("dubbo_metadata_push_num_failed_total");
 
@@ -131,7 +131,7 @@ public class ProviderMetricsIT {
         add("dubbo_thread_pool_queue_size");
         add("dubbo_thread_pool_core_size");
         add("dubbo_thread_pool_max_size");
-        add("dubbo_DubboServerHandler_20880_thread_pool_reject_thread_count");
+        add("dubbo_thread_pool_reject_thread_count");
     }
 
     private void add(String dubboStoreProviderInterfaceRtMillisecondsMin) {
