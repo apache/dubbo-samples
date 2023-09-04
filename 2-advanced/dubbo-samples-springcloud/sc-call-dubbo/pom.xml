@@ -40,7 +40,7 @@
         <target.level>1.8</target.level>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <junit.version>4.13.1</junit.version>
-        <dubbo.version>3.3.0-beta.1-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
         <spring-boot.version>2.7.8</spring-boot.version>
         <spring.cloud.version>2021.0.5</spring.cloud.version>
         <spring.cloud.alibaba.version>2021.0.5.0</spring.cloud.alibaba.version>

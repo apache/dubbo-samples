@@ -34,7 +34,7 @@ There are two ways to test the server works as expected:
 ```shell
 curl \
     --header "Content-Type: application/json" \
-    --data '[{"name": "Dubbo"}]' \
+    --data '{"name": "Dubbo"}' \
     http://localhost:50052/org.apache.dubbo.samples.tri.unary.Greeter/greet/
 ```
 

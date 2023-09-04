@@ -27,11 +27,8 @@
     <description>Dubbo Basic Usage Samples</description>
 
     <modules>
-        <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-api</module>
-        <module>dubbo-samples-spring-xml</module>
         <module>dubbo-samples-spring-boot</module>
-        <module>dubbo-samples-triple-unary</module>
-        <module>dubbo-samples-native-image</module>
+        <module>dubbo-samples-idl</module>
     </modules>
 </project>
