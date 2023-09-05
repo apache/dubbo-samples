@@ -91,7 +91,7 @@ services:
       - 3306
     healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
+      test: [ "mysqladmin" ,"ping", "-h", "127.0.0.1"]
       interval: 5s
       timeout: 5s
       retries: 40

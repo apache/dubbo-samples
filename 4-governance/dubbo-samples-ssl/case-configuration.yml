@@ -23,7 +23,7 @@ services:
     volumes:
       - ${_basedir}/dubbo-samples-ssl-provider/src/main/resources/certs:/dubbo-samples-ssl-provider/certs
     systemProps:
-      - zookeeper.address=dubbo-samples-ssl-provider
+      - zookeeper.address=127.0.0.1
       - zookeeper.port=2181
       - dubbo.ssl.server-key-cert-chain-path=/dubbo-samples-ssl-provider/certs/server0.pem
       - dubbo.ssl.server-private-key-path=/dubbo-samples-ssl-provider/certs/server0.key
