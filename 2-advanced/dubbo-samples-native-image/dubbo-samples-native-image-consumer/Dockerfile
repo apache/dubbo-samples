@@ -16,5 +16,5 @@ FROM container-registry.oracle.com/os/oraclelinux:8-slim
 EXPOSE 8080
 
 # Copy the native executable into the containers
-COPY --from=builder /build/target/benchmark-jibber app
+COPY --from=builder /build/target/dubbo-samples-native-image-consumer app
 ENTRYPOINT ["/app"]
