@@ -17,14 +17,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-samples-native-image</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+        <relativePath/>
     </parent>
 
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.apache.dubbo</groupId>
+    <version>1.0-SNAPSHOT</version>
     <artifactId>dubbo-samples-native-image-provider</artifactId>
 
     <properties>
@@ -32,6 +34,10 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <curator5_version>5.1.0</curator5_version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <spring-boot.version>3.0.5</spring-boot.version>
+        <spring-boot-maven-plugin.version>3.0.5</spring-boot-maven-plugin.version>
+        <native-maven-plugin.version>0.9.23</native-maven-plugin.version>
     </properties>
 
     <dependencies>

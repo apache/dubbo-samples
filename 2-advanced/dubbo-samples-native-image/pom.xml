@@ -18,12 +18,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.apache</groupId>
-        <artifactId>apache</artifactId>
-        <version>23</version>
-        <relativePath/>
-    </parent>
 
     <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-samples-native-image</artifactId>
@@ -34,13 +28,5 @@
         <module>dubbo-samples-native-image-provider</module>
         <module>dubbo-samples-native-image-consumer</module>
     </modules>
-
-    <properties>
-        <java.version>17</java.version>
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
-        <spring-boot.version>3.0.5</spring-boot.version>
-        <spring-boot-maven-plugin.version>3.0.5</spring-boot-maven-plugin.version>
-        <native-maven-plugin.version>0.9.23</native-maven-plugin.version>
-    </properties>
 
 </project>
