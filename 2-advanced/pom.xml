@@ -61,6 +61,7 @@
         <module>dubbo-samples-triple-grpc</module>
         <module>dubbo-samples-triple-no-idl</module>
         <module>dubbo-samples-native-image</module>
+        <module>dubbo-samples-native-image-registry</module>
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-spring-xml</module>
     </modules>
