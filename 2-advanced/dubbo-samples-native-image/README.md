@@ -22,7 +22,7 @@ To do this, we've provided a [multistage Docker build file](./dubbo-samples-nati
     ```shell
     curl \
         --header "Content-Type: application/json" \
-        --data '["Dubbo"]' \
+        --data '{"name":"Dubbo"}' \
         http://localhost:50052/org.apache.dubbo.nativeimage.DemoService/sayHello/
     ```
 

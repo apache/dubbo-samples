@@ -21,17 +21,6 @@ dubbo:
     name: ${spring.application.name}
     logger: slf4j
     qos-port: 22223
-  protocol:
-    name: tri
-    port: 50052
-    serialization: fastjson2
-  registry:
-    id: zk-registry
-    address: zookeeper://127.0.0.1:2181
-  config-center:
-    address: zookeeper://127.0.0.1:2181
-  metadata-report:
-    address: zookeeper://127.0.0.1:2181
   provider:
     serialization: fastjson2
   consumer:

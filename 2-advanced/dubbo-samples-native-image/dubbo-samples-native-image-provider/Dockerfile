@@ -8,10 +8,10 @@ WORKDIR /build
 COPY . /build
 
 # Build
-RUN ./mvnw --no-transfer-progress native:compile -Pnative
+RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative
 
 # The deployment Image
-FROM container-registry.oracle.com/os/oraclelinux:8-slim
+FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
 EXPOSE 8080
 

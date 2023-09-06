@@ -31,7 +31,7 @@ import java.lang.management.RuntimeMXBean;
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.nativeimage.consumer"})
 public class NativeDemoConsumerApplication {
 
-    @DubboReference
+    @DubboReference(url = "tri://127.0.0.1:50052")
     private DemoService demoService;
 
     public static void main(String[] args) throws InterruptedException {
