@@ -1,5 +1,5 @@
 # Using Oracle GraalVM for JDK 17
-FROM container-registry.oracle.com/graalvm/jdk:17-ol8
+FROM container-registry.oracle.com/graalvm/jdk:17-ol8 AS builder
 
 # Set the working directory to /home/app
 WORKDIR /build
