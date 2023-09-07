@@ -7,6 +7,8 @@ WORKDIR /build
 # Copy the source code into the image for building
 COPY . /build
 
+ARG APP_FILE
+
 # Build
 RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative
 
@@ -16,5 +18,5 @@ FROM container-registry.oracle.com/os/oraclelinux:9-slim
 EXPOSE 9091
 
 # Copy the native executable into the containers
-COPY --from=builder /build/target/dubbo-samples-native-image-consumer app
+COPY --from=builder /build/target/${APP_FILE}r app
 ENTRYPOINT ["/app"]
