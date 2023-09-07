@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.nativeimage.consumer;
+package org.apache.dubbo.registry.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.nativeimage.DemoService;
-import org.apache.dubbo.nativeimage.HelloRequest;
+import org.apache.dubbo.registry.DemoService;
+import org.apache.dubbo.registry.HelloRequest;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -27,16 +28,16 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
-@SpringBootApplication(scanBasePackages = {"org.apache.dubbo.nativeimage.consumer"})
-@EnableDubbo(scanBasePackages = {"org.apache.dubbo.nativeimage.consumer"})
-public class NativeDemoConsumerApplication {
+@SpringBootApplication(scanBasePackages = {"org.apache.dubbo.registry.consumer"})
+@EnableDubbo(scanBasePackages = {"org.apache.dubbo.registry.consumer"})
+public class NativeDemoConsumerRegistryApplication {
 
     @DubboReference
     private DemoService demoService;
 
     public static void main(String[] args) throws InterruptedException {
-        ConfigurableApplicationContext context = SpringApplication.run(NativeDemoConsumerApplication.class, args);
-        NativeDemoConsumerApplication application = context.getBean(NativeDemoConsumerApplication.class);
+        ConfigurableApplicationContext context = SpringApplication.run(NativeDemoConsumerRegistryApplication.class, args);
+        NativeDemoConsumerRegistryApplication application = context.getBean(NativeDemoConsumerRegistryApplication.class);
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         System.out.println("dubbo consumer application started, The time taken to start the application is "
                 + (System.currentTimeMillis() - runtimeMXBean.getStartTime()) +" ms");

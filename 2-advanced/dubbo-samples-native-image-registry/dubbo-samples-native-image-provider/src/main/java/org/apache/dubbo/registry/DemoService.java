@@ -14,22 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.nativeimage;
+package org.apache.dubbo.registry;
 
-import java.io.Serializable;
 
-public class HelloRequest implements Serializable {
-    private String name;
+import java.util.concurrent.CompletableFuture;
 
-    public HelloRequest(String name) {
-        this.name = name;
-    }
+public interface DemoService {
 
-    public String getName() {
-        return name;
-    }
+    HelloResponse sayHello(HelloRequest request);
 
-    public void setName(String name) {
-        this.name = name;
+    default CompletableFuture<HelloResponse> sayHelloAsync(HelloRequest request) {
+        return CompletableFuture.completedFuture(sayHello(request));
     }
 }

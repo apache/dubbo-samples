@@ -8,13 +8,17 @@ To do this, we've provided a [multistage Docker build file](./dubbo-samples-nati
 1. Containerise the native executable using the following command:
 
     ```shell
-    docker build -f ./Dockerfile --build-arg APP_FILE=dubbo-samples-native-image-provider -t dubbo-samples-native-image-provider:1.0.0 ./dubbo-samples-native-image-provider
+    docker build -f ./Dockerfile --build-arg APP_FILE=dubbo-samples-native-image-provider -t provider-registry:1.0.0 ./dubbo-samples-native-image-provider
     ```
 
 2. Run the application:
 
     ```shell
-    docker run --rm --name native -p 50052:50052 dubbo-samples-native-image-provider:1.0.0
+    docker run --rm --name native -p 50052:50052 provider-registry:1.0.0
+    ```
+
+    ```shell
+    docker run --rm --name native -p 50052:50052 -e JAVA_OPTS="-Ddubbo.registry.address=${mse-registry-address}" provider-registry:1.0.0
     ```
 
 3. Open a new terminal window, call the endpoint using `curl`:
@@ -39,13 +43,13 @@ To do this, we've provided a [multistage Docker build file](./dubbo-samples-nati
 1. Containerise the native executable using the following command:
 
     ```shell
-    docker build -f ./Dockerfile --build-arg APP_FILE=dubbo-samples-native-image-consumer -t dubbo-samples-native-image-consumer:1.0.0 ./dubbo-samples-native-image-consumer
+    docker build -f ./Dockerfile --build-arg APP_FILE=dubbo-samples-native-image-consumer -t consumer-registry:1.0.0 ./dubbo-samples-native-image-consumer
     ```
 
 2. Run the application:
 
     ```shell
-    docker run --rm --name native-consumer dubbo-samples-native-image-consumer:1.0.0
+    docker run --rm --name native-consumer consumer-registry:1.0.0
     ```
 
 3. To stop the application, first get the container id using `docker ps`, and then run:

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.nativeimage.provider;
+package org.apache.dubbo.registry.provider;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
@@ -25,12 +25,12 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.concurrent.CountDownLatch;
 
-@SpringBootApplication(scanBasePackages = {"org.apache.dubbo.nativeimage.provider"})
-@EnableDubbo(scanBasePackages = {"org.apache.dubbo.nativeimage.provider"})
-public class NativeDemoProviderApplication {
+@SpringBootApplication(scanBasePackages = {"org.apache.dubbo.registry.provider"})
+@EnableDubbo(scanBasePackages = {"org.apache.dubbo.registry.provider"})
+public class NativeDemoProviderRegistryApplication {
 
     public static void main(String[] args) throws InterruptedException {
-        SpringApplication.run(NativeDemoProviderApplication.class, args);
+        SpringApplication.run(NativeDemoProviderRegistryApplication.class, args);
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         System.out.println("dubbo provider application started, The time taken to start the application is "
                 + (System.currentTimeMillis() - runtimeMXBean.getStartTime()) +" ms");

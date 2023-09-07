@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.nativeimage.provider;
+package org.apache.dubbo.registry.provider;
 
 
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.nativeimage.DemoService;
-import org.apache.dubbo.nativeimage.HelloRequest;
-import org.apache.dubbo.nativeimage.HelloResponse;
+import org.apache.dubbo.registry.DemoService;
+import org.apache.dubbo.registry.HelloRequest;
+import org.apache.dubbo.registry.HelloResponse;
 import org.apache.dubbo.rpc.RpcContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

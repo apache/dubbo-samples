@@ -19,13 +19,12 @@ dubbo:
   application:
     name: ${spring.application.name}
     logger: slf4j
+    qos-port: 22222
   protocol:
     name: tri
     port: 50052
     serialization: fastjson2
   provider:
-    serialization: fastjson2
-  consumer:
     serialization: fastjson2
   registry:
     address: nacos://127.0.0.1:8848
