@@ -32,6 +32,10 @@ public class WebController {
     @DubboReference
     private DemoService demoService;
 
+    public WebController() {
+        System.out.println("test");
+    }
+
     // user GET to avoid resubmit warning on browser side.
     @RequestMapping(value = "/dubbo-sae", method = RequestMethod.GET)
     @ResponseBody

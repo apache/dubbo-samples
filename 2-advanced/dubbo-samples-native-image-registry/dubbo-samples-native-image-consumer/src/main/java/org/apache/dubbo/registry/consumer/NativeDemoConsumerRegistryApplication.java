@@ -28,7 +28,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
-@SpringBootApplication(scanBasePackages = {"org.apache.dubbo.registry.consumer"})
+@SpringBootApplication(scanBasePackages = {"org.apache.dubbo.registry"})
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.registry.consumer"})
 public class NativeDemoConsumerRegistryApplication {
 

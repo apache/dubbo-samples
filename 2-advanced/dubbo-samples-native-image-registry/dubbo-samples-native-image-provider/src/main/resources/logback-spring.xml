@@ -24,10 +24,10 @@
     <property name="CONSOLE_LOG_CHARSET" value="${CONSOLE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="CONSOLE" />
     </root>
-    <logger name="org.springframework.web" level="debug"/>
+    <logger name="org.springframework.web" level="info"/>
 
-    <logger name="org.apache.dubbo" level="debug"/>
+    <logger name="org.apache.dubbo" level="info"/>
 </configuration>

@@ -1,6 +1,10 @@
 # Using Oracle GraalVM for JDK 17
 FROM container-registry.oracle.com/graalvm/jdk:17-ol8
 
+# Set the working directory to /home/app
+WORKDIR /build
+COPY . /build
+
 RUN ./mvnw clean package
 
 # JAR file will be specified by passing in a build time argument to docker build
