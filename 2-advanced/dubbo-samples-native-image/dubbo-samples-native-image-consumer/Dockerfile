@@ -10,7 +10,7 @@ COPY . /build
 ARG APP_FILE
 
 # Build
-RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative
+RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative -U
 
 # The deployment Image
 FROM container-registry.oracle.com/os/oraclelinux:9-slim

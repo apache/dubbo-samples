@@ -8,7 +8,7 @@ WORKDIR /build
 COPY . /build
 
 # Build
-RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative
+RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative -U
 
 ARG APP_FILE
 
