@@ -1,35 +1,33 @@
-# 使用Metrics模块进行数据采集然后暴漏数据给普罗米修斯监控
-如果需要在springboot-actuator中返回dubbo的指标信息,dubbo 版本必须为3.2.0-beta.6 以上
-* 服务端配置参考
+本示例演示如何为 Dubbo 实例开启指标监控，结合 Grafana 和 Prometheus 的完整部署和使用示例请参考 [官方文档](https://cn.dubbo.apache.org/zh-cn/overview/tasks/observability/)。
+
+## 开启 Metrics 数据采集并上报到 Prometheus
+
+Dubbo 支持通过两种方式对外暴露 Metrics 指标给 Prometheus，具体可参见 [官方文档配置说明]()。
+* Spring-boot-actuator，即通过标准的 Spring boot actuator 端口在特定的 endpoint 将 Dubbo 监控指标暴露出去
+* dubbo qos，即通过 Dubbo 内置的 qos 端口将 Dubbo 监控指标暴露出去
+
+本示例中，我们使用 spring-boot-actuator 的方式透出 Dubbo 指标信息，请注意本示例使用的 Dubbo 版本必须为 3.2.0-beta.6 以上。
+
+### Metrics 相关示例配置
+
 ```yaml
-management.metrics.tags.application=dubbo-samples-metrics-spring-boot
+# ......
 management.server.port=18081
 management.endpoints.web.base-path=/management
-management.endpoints.web.exposure.include=info,health,env,prometheus
-spring.main.allow-circular-references=true
-management.endpoint.metrics.enabled=true
-management.endpoint.prometheus.enabled=true
-management.metrics.export.prometheus.enabled=true
-server.port=18080
-dubbo.application.name=metrics-provider
-dubbo.registry.address=zookeeper://${ZOOKEEPER_ADDRESS:127.0.0.1}:2181
 dubbo.metrics.protocol=prometheus
-#如果不使用spring-boot-actuator 可使用下面配置
-#dubbo.metrics.enable-jvm-metrics=true
-#dubbo.metrics.prometheus.exporter.enabled=true
-#dubbo.metrics.prometheus.exporter.metrics-port=20888
-#prometheus.exporter.metrics.path=/prometheus
+
+# 如果不使用 spring-boot-actuator，可使用下面配置开启 qos 配置
+# dubbo.metrics.enable-jvm-metrics=true
+# dubbo.application.qos-port=22222
+# dubbo.application.qos-accept-foreign-ip=true
 ```
 
+启动 MetricsApplication，测试访问监控指标：http://localhost:18081/management/prometheus
 
-启动MetricsApplication  访问监控指标：http://localhost:18081/management/prometheus
+## 部署示例到 Kubernetes
+### 采用 kube-prometheus 部署
 
-可观测性文档如下链接：
-[https://cn.dubbo.apache.org/zh/docs3-v2/java-sdk/advanced-features-and-usage/observability/](https://cn.dubbo.apache.org/zh/docs3-v2/java-sdk/advanced-features-and-usage/observability/)
-
-# 部署到K8S(kube-prometheus)
-本示例通过[kube-prometheus](https://github.com/prometheus-operator/kube-prometheus)
-构建k8s的prometheus环境
+本示例通过 [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus) 构建k8s的prometheus环境
 
 为了方便访问验证可以将`alertmanager-service.yaml` `grafana-service.yaml` `prometheus-service.yaml`设置为NodePort
 
@@ -68,7 +66,8 @@ podMonitorSelector:
    ![result.png](result.png)
 
 
-# 部署到K8S(helm-charts)
+### 采用 helm-charts 部署
+
 1. 部署[prometheus](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus)
 2. 修改Deployment.yml 并部署
  ```yaml

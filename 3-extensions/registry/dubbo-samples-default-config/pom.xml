@@ -32,7 +32,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>2.7.13</dubbo.version>
-        <spring.version>4.3.29.RELEASE</spring.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
@@ -69,6 +69,12 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
+            <!--
+              Warning: do not expose configurations that use dubbo-rpc-hessian to
+              untrusted access without configuring a deserialization whitelist.
+
+              https://dubbo.apache.org/en/docs/notices/security/#some-suggestions-to-deal-with-the-security-vulnerability-of-deserialization
+            -->
             <artifactId>dubbo-rpc-hessian</artifactId>
         </dependency>
 

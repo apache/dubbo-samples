@@ -32,7 +32,11 @@
         <module>dubbo-samples-hibernate</module>
         <module>dubbo-samples-isolation-executor</module>
         <module>dubbo-samples-metadata-report</module>
+        <module>dubbo-samples-memory-server</module>
+        <module>dubbo-samples-memory-tri-server</module>
         <module>dubbo-samples-mybatis</module>
+        <module>dubbo-samples-nacos-legacy</module>
+        <module>dubbo-samples-multi-port</module>
         <module>dubbo-samples-nacos-merge</module>
         <module>dubbo-samples-registry-test-nacos</module>
         <module>dubbo-samples-registry-test-nacos-interface</module>
@@ -57,9 +61,17 @@
         <module>dubbo-samples-test-11159</module>
         <module>dubbo-samples-test-11557</module>
         <module>dubbo-samples-test-11558</module>
+        <module>dubbo-samples-test-11782</module>
         <module>dubbo-samples-test-11716</module>
+        <module>dubbo-samples-test-12208</module>
+        <module>dubbo-samples-test-12376</module>
+        <module>dubbo-samples-test-12631</module>
+        <module>dubbo-samples-test-12697</module>
+        <module>dubbo-samples-test-register</module>
+        <module>dubbo-samples-test-register-3-3</module>
         <module>dubbo-samples-transaction</module>
         <module>dubbo-samples-rest-withtoken</module>
         <module>dubbo-samples-serialize-check</module>
+        <module>dubbo-samples-grpc</module>
     </modules>
 </project>

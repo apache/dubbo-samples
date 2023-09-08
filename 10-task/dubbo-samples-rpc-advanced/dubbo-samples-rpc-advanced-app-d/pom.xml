@@ -34,7 +34,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <dubbo.version>3.2.0-beta.4</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <nacos.version>2.2.0</nacos.version>
     </properties>
 

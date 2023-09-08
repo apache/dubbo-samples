@@ -42,7 +42,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.metrics.springboot.api.DemoService;
 import org.apache.dubbo.samples.metrics.springboot.api.Result;
 
-import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcContext;
 
 @DubboService
 public class DemoServiceImpl implements DemoService {

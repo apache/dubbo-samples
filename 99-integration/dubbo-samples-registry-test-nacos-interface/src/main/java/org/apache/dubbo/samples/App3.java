@@ -41,6 +41,7 @@ public class App3 {
         ApplicationModel applicationModel = frameworkModel.newApplication();
 
         System.setProperty(MetadataConstants.METADATA_PUBLISH_DELAY_KEY, "10");
+        System.setProperty("dubbo.application.manual-register", "true");
         ApplicationConfig applicationConfig = new ApplicationConfig("App3");
         applicationConfig.setRegisterMode("interface");
         applicationConfig.setQosPort(20993);
@@ -54,12 +55,12 @@ public class App3 {
         ServiceConfig<DemoService1> serviceConfig1 = new ServiceConfig<>();
         serviceConfig1.setInterface(DemoService1.class);
         serviceConfig1.setRef(new DemoService1Impl("App3"));
-        serviceConfig1.setRegister(false);
+        serviceConfig1.setDelay(-1);
 
         ServiceConfig<DemoService2> serviceConfig2 = new ServiceConfig<>();
         serviceConfig2.setInterface(DemoService2.class);
         serviceConfig2.setRef(new DemoService2Impl("App3"));
-        serviceConfig2.setRegister(false);
+        serviceConfig2.setDelay(-1);
 
         ServiceConfig<DemoService3> serviceConfig3 = new ServiceConfig<>();
         serviceConfig3.setInterface(DemoService3.class);
@@ -69,7 +70,7 @@ public class App3 {
         serviceConfig.setInterface(ControlService.class);
         serviceConfig.setRef(new ControlServiceImpl(frameworkModel));
         serviceConfig.setVersion("App3");
-        
+
         DubboBootstrap.getInstance(applicationModel)
                 .application(applicationConfig)
                 .registry(registryConfig)

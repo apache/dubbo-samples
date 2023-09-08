@@ -1,0 +1,1 @@
+dubboThreadPool=org.apache.dubbo.samples.provider.DubboThreadPool

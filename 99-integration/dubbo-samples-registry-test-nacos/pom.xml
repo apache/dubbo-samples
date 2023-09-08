@@ -36,7 +36,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.1.6</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <nacos.version>2.1.1</nacos.version>
         <junit.version>4.13.1</junit.version>
         <awaitility.version>4.2.0</awaitility.version>
@@ -96,11 +96,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
         </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
 
         <dependency>

@@ -34,10 +34,10 @@
     <description>Dubbo Samples Echo</description>
 
     <properties>
-        <dubbo.version>3.2.0-beta.4</dubbo.version>
+        <dubbo.version>3.2.0</dubbo.version>
         <spring-boot.version>2.7.8</spring-boot.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -63,7 +63,7 @@
 
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
             </dependency>
