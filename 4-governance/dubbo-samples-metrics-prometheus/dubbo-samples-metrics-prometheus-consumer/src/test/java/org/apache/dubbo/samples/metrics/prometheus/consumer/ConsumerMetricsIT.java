@@ -24,6 +24,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.BufferedReader;
@@ -36,6 +38,8 @@ import java.util.stream.Collectors;
 
 
 public class ConsumerMetricsIT {
+    private static final Logger logger = LoggerFactory.getLogger(ConsumerMetricsIT.class);
+
 
     private final String port = "20889";
 
@@ -47,33 +51,60 @@ public class ConsumerMetricsIT {
 
         //config
         add("dubbo_configcenter_total");
+
+        add("dubbo_provider_rt_milliseconds_p99");
+        add("dubbo_provider_requests_total_aggregate");
+        add("dubbo_provider_rt_milliseconds_p90");
+        add("dubbo_provider_rt_max_milliseconds_aggregate");
+        add("dubbo_provider_requests_succeed_total");
+        add("dubbo_provider_requests_business_failed_aggregate");
+        add("dubbo_provider_requests_business_failed_total");
+        add("dubbo_provider_requests_total");
+        add("dubbo_provider_requests_failed_service_unavailable_total_aggregate");
+        add("dubbo_provider_requests_limit_aggregate");
+        add("dubbo_provider_qps_total");
+        add("dubbo_provider_rt_milliseconds_p50");
+        add("dubbo_provider_requests_processing_total");
+        add("dubbo_provider_requests_failed_total");
+        add("dubbo_provider_requests_succeed_aggregate");
+        add("dubbo_provider_rt_milliseconds_p95");
+        add("dubbo_provider_requests_failed_aggregate");
+        add("dubbo_provider_rt_avg_milliseconds_aggregate");
+        add("dubbo_provider_requests_failed_total_aggregate");
+        add("dubbo_provider_requests_failed_network_total_aggregate");
+        add("dubbo_provider_rt_min_milliseconds_aggregate");
+        add("dubbo_provider_requests_failed_codec_total_aggregate");
+        add("dubbo_provider_requests_timeout_failed_aggregate");
+
+        //consumer
+        add("dubbo_consumer_requests_failed_service_unavailable_total");
+
         //register
         add("dubbo_registry_subscribe_num_total");
         add("dubbo_registry_register_requests_succeed_total");
 
-        add("dubbo_register_service_rt_milliseconds_min");
-        add("dubbo_registry_register_service_succeed_total");
-        add("dubbo_register_service_rt_milliseconds_sum");
-        add("dubbo_register_service_rt_milliseconds_max");
-        add("dubbo_subscribe_rt_milliseconds_max");
-        add("dubbo_subscribe_rt_milliseconds_min");
         add("dubbo_register_rt_milliseconds_last");
-        add("dubbo_subscribe_rt_milliseconds_last");
-        add("dubbo_registry_register_service_total");
         add("dubbo_registry_register_requests_total");
         add("dubbo_register_rt_milliseconds_avg");
         add("dubbo_registry_subscribe_num_succeed_total");
         add("dubbo_register_rt_milliseconds_max");
-        add("dubbo_subscribe_rt_milliseconds_sum");
-        add("dubbo_register_service_rt_milliseconds_avg");
-        add("dubbo_register_service_rt_milliseconds_last");
-        add("dubbo_subscribe_rt_milliseconds_avg");
         add("dubbo_register_rt_milliseconds_min");
         add("dubbo_register_rt_milliseconds_sum");
+        add("dubbo_registry_notify_requests_total");
+        add("dubbo_registry_register_requests_failed_total");
+        add("dubbo_registry_subscribe_num_failed_total");
+        add("dubbo_register_rt_milliseconds_max");
+        add("dubbo_registry_register_requests_succeed_total");
 
-        
+
+
         //metadata
-
+        add("dubbo_metadata_subscribe_num_failed_total");
+        add("dubbo_metadata_push_num_failed_total");
+        add("dubbo_metadata_subscribe_num_total");
+        add("dubbo_metadata_subscribe_num_succeed_total");
+        add("dubbo_metadata_push_num_succeed_total");
+        add("dubbo_metadata_push_num_total");
         //thread
         add("dubbo_thread_pool_thread_count");
         add("dubbo_thread_pool_largest_size");
@@ -100,7 +131,13 @@ public class ConsumerMetricsIT {
             String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
                     .lines().collect(Collectors.joining("\n"));
             for (int i = 0; i < metricKeys.size(); i++) {
-                Assert.assertTrue(text.contains(metricKeys.get(i)));
+                String metricKey = metricKeys.get(i);
+                try {
+                    Assert.assertTrue(text.contains(metricKey));
+                } catch (Throwable e) {
+                    logger.error("metric key:{} don't exists", metricKey);
+                    throw new RuntimeException(e);
+                }
             }
         } catch (Exception e) {
             Assert.fail(e.getMessage());
