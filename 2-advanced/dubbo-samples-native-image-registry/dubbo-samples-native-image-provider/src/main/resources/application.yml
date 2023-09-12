@@ -27,7 +27,7 @@ dubbo:
   provider:
     serialization: fastjson2
   registry:
-    address: nacos://127.0.0.1:8848
+    address: "zookeeper://mse-574de1912-p.zk.mse.aliyuncs.com"
 
 logging:
   pattern:

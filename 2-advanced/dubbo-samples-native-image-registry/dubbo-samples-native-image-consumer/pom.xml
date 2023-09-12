@@ -82,7 +82,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-nacos-spring-boot-starter</artifactId>
+            <artifactId>dubbo-zookeeper-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

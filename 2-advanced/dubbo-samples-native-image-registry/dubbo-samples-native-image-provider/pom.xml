@@ -34,7 +34,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <curator5_version>5.1.0</curator5_version>
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <dubbo.version>3.3.0-beta.1-SNAPSHOT</dubbo.version>
         <spring-boot.version>3.0.5</spring-boot.version>
         <spring-boot-maven-plugin.version>3.0.5</spring-boot-maven-plugin.version>
         <native-maven-plugin.version>0.9.23</native-maven-plugin.version>
@@ -82,7 +82,29 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-nacos-spring-boot-starter</artifactId>
+            <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

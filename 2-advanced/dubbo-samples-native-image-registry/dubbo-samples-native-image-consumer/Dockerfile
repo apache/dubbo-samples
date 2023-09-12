@@ -1,5 +1,5 @@
 # Using Oracle GraalVM for JDK 17 Community Edition
-FROM ghcr.io/graalvm/native-image-community:17-muslib AS builder
+FROM ghcr.io/graalvm/native-image-community:17-ol8 AS builder
 
 # Set the working directory to /home/app
 WORKDIR /build

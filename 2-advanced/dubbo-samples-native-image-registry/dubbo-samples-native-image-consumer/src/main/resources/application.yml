@@ -22,7 +22,7 @@ dubbo:
     logger: slf4j
     qos-port: 22223
   registry:
-    address: nacos://127.0.0.1:8848
+    address: zookeeper://127.0.0.1:2181
 
 logging:
   pattern:
