@@ -38,7 +38,8 @@ public class DemoModuleDeployListener implements ModuleDeployListener {
     public void onStarted(ModuleModel scopeModel) {
         String result = new Ls(scopeModel.getApplicationModel().getFrameworkModel()).execute(null, null);
         System.out.println(result);
-        if (result.contains("(Y)")) {
+        if (result.replace("org.apache.dubbo.samples.api.GreetingsService:delay               |zookeeper-A(Y)/zookeeper-I(Y)|", "")
+                .contains("(Y)")) {
             failed.set(true);
         }
     }

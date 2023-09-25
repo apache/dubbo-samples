@@ -36,11 +36,13 @@
     <description>Dubbo Samples Memory Bench for One Server - Many Client</description>
 
     <properties>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <junit5.version>5.9.2</junit5.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <awaitility.version>4.2.0</awaitility.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>

@@ -33,9 +33,11 @@
         <spring-boot-maven-plugin.version>2.1.1.RELEASE</spring-boot-maven-plugin.version>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <maven.compiler.source>${source.level}</maven.compiler.source>
         <maven.compiler.target>${target.level}</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <modules>

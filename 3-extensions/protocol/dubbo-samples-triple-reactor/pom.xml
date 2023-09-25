@@ -37,13 +37,15 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <reactive.version>1.0.4</reactive.version>
         <reactor.version>3.4.19</reactor.version>
         <protoc.version>3.19.4</protoc.version>
         <grpc.version>1.44.1</grpc.version>
         <junit.version>4.13.1</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>

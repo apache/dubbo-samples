@@ -42,11 +42,11 @@ jobs:
           key: ${{ runner.os }}-samples-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-samples-maven-
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 21
       - name: Build with Maven
         run: |
           ./mvnw $BUILD_OPTS
@@ -128,7 +128,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [8, 11, 17]
+        java: [8, 11, 17, 21]
         #testjob id list MUST match 'JOB_COUNT' of 'prepare_test'
         job_id: [1,2,3,4,5]
     steps:
@@ -180,7 +180,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [8, 11, 17]
+        java: [8, 11, 17, 21]
     env:
       JAVA_VER: ${{matrix.java}}
     steps:

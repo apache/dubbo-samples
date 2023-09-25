@@ -33,7 +33,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <spring.version>4.3.30.RELEASE</spring.version>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <zookeeper.version>3.4.13</zookeeper.version>
         <curator.version>4.0.1</curator.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
@@ -45,6 +45,8 @@
         <servlet.version>3.0.1</servlet.version>
         <spring-boot.version>2.0.8.RELEASE</spring-boot.version>
         <resilience4j.version>0.13.1</resilience4j.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

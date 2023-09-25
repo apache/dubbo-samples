@@ -34,7 +34,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <spring.version>4.3.30.RELEASE</spring.version>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
@@ -43,6 +43,8 @@
         <servlet.version>3.0.1</servlet.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <zookeeper_version>3.8.1</zookeeper_version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
