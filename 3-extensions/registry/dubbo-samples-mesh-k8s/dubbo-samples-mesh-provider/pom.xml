@@ -29,13 +29,15 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <dubbo.version>3.2.0</dubbo.version>
-        <grpc.version>1.31.1</grpc.version>
+        <grpc.version>1.58.0</grpc.version>
+        <protoc.version>3.24.3</protoc.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <protoc.version>3.20.1</protoc.version>
         <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
         <log4j.version>2.17.2</log4j.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

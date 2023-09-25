@@ -38,6 +38,8 @@
         <junit.version>4.13.1</junit.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

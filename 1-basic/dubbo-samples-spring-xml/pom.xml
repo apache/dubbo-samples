@@ -40,6 +40,8 @@
         <dubbo.version>3.2.0</dubbo.version>
         <spring.version>5.3.25</spring.version>
         <junit.version>4.13.1</junit.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

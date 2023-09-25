@@ -33,4 +33,9 @@
     <name>Dubbo Task - Metrics Demo - Order's API</name>
     <description>Dubbo Task - Metrics Demo - Order's API</description>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
 </project>

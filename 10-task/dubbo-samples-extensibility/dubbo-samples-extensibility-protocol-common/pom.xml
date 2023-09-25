@@ -35,6 +35,8 @@
 
     <properties>
         <dubbo.version>3.2.0</dubbo.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>

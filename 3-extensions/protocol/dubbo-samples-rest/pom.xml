@@ -39,6 +39,8 @@
         <tomcat.version>8.0.53</tomcat.version>
         <zookeeper_version>3.8.1</zookeeper_version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

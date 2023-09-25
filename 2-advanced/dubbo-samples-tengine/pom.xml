@@ -28,6 +28,8 @@
         <dubbo.version>3.2.0</dubbo.version>
         <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <modules>
         <module>dubbo-samples-tengine-interface</module>

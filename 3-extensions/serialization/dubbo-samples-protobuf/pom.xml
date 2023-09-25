@@ -32,6 +32,8 @@
         <compiler.version>0.0.2</compiler.version>
         <dubbo.version>2.7.13</dubbo.version>
         <spring.version>4.3.30.RELEASE</spring.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <modules>
@@ -116,7 +118,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.5.1</version>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:3.24.3:exe:${os.detected.classifier}</protocArtifact>
                     <outputDirectory>build/generated/source/proto/main/java</outputDirectory>
                     <clearOutputDirectory>false</clearOutputDirectory>
                     <protocPlugins>

@@ -33,4 +33,9 @@
     <name>Dubbo Extensibility Filter Task - API</name>
     <description>Dubbo Extensibility Filter Task - API</description>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
 </project>

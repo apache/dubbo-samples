@@ -43,6 +43,8 @@
         <servlet.version>3.0.1</servlet.version>
         <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
         <zookeeper_version>3.8.1</zookeeper_version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

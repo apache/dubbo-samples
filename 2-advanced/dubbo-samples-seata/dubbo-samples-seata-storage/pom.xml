@@ -39,6 +39,8 @@
         <nacos.version>2.2.0</nacos.version>
         <seata.version>1.6.1</seata.version>
         <druid.version>1.2.15</druid.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>

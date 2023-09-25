@@ -43,6 +43,8 @@
         <junit.version>4.13.1</junit.version>
         <spring-boot.version>2.6.6</spring-boot.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
