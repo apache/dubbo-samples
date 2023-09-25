@@ -39,7 +39,7 @@
         <target.level>1.8</target.level>
         <maven.compiler.source>${source.level}</maven.compiler.source>
         <maven.compiler.target>${target.level}</maven.compiler.target>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <spring.version>5.3.25</spring.version>
         <junit.version>4.13.1</junit.version>
         <awaitility.version>4.2.0</awaitility.version>

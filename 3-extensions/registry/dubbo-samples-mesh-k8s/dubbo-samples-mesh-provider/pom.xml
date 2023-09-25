@@ -28,7 +28,7 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <grpc.version>1.58.0</grpc.version>
         <protoc.version>3.24.3</protoc.version>
         <spring.version>4.3.30.RELEASE</spring.version>

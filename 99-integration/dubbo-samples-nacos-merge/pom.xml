@@ -43,7 +43,7 @@
     </modules>
 
     <properties>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <source.level>1.8</source.level>

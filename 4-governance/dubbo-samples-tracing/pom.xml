@@ -44,7 +44,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dubbo.version>3.2.4</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <micrometer.version>1.10.5</micrometer.version>
         <micrometer-tracing.version>1.0.3</micrometer-tracing.version>
         <opentelemetry.version>1.19.0</opentelemetry.version>
