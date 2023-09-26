@@ -67,6 +67,7 @@
         <module>dubbo-samples-test-12376</module>
         <module>dubbo-samples-test-12631</module>
         <module>dubbo-samples-test-12697</module>
+        <module>dubbo-samples-test-13133</module>
         <module>dubbo-samples-test-register</module>
         <module>dubbo-samples-test-register-3-3</module>
         <module>dubbo-samples-transaction</module>
