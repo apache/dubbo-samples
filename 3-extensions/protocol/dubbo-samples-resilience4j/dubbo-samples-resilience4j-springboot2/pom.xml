@@ -41,7 +41,7 @@
         <resteasy.version>3.0.19.Final</resteasy.version>
         <curator-client.version>4.0.1</curator-client.version>
         <swagger.version>1.5.19</swagger.version>
-        <tomcat.version>7.0.88</tomcat.version>
+        <tomcat.version>7.0.107</tomcat.version>
         <servlet.version>3.0.1</servlet.version>
         <spring-boot.version>2.0.8.RELEASE</spring-boot.version>
         <resilience4j.version>0.13.1</resilience4j.version>
@@ -301,7 +301,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>9.0.13</version>
+            <version>7.0.107</version>
         </dependency>
     </dependencies>
 
