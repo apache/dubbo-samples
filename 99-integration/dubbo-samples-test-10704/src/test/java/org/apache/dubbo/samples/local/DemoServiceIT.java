@@ -19,35 +19,50 @@ package org.apache.dubbo.samples.local;
 
 import org.apache.dubbo.samples.local.api.DemoService;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledForJreRange;
+import org.junit.jupiter.api.condition.EnabledForJreRange;
+import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath:/spring/dubbo-demo.xml"})
 public class DemoServiceIT {
     @Autowired
     private DemoService demoService;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
     }
 
     @Test
-    public void test() throws Exception {
+    @DisabledForJreRange(min = JRE.JAVA_15)
+    public void testZk() throws Exception {
         // see also: org.apache.dubbo.rpc.protocol.injvm.InjvmInvoker.doInvoke
         // InjvmInvoker set remote address to 127.0.0.1:0
         String result = demoService.sayHello("world");
-        Assert.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
+        Assertions.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
 
         result = demoService.sayHelloAsync("world");
-        Assert.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
+        Assertions.assertEquals(result, "Hello world, response from provider: 127.0.0.1:0");
+    }
 
+    @Test
+    @EnabledForJreRange(min = JRE.JAVA_15)
+    public void testZkHigh() throws Exception {
+        // see also: org.apache.dubbo.rpc.protocol.injvm.InjvmInvoker.doInvoke
+        // InjvmInvoker set remote address to 127.0.0.1:0
+        String result = demoService.sayHello("world");
+        Assertions.assertEquals(result, "Hello world, response from provider: 127.0.0.1/<unresolved>:0");
+
+        result = demoService.sayHelloAsync("world");
+        Assertions.assertEquals(result, "Hello world, response from provider: 127.0.0.1/<unresolved>:0");
     }
 
 }
