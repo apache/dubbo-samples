@@ -35,6 +35,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>3.2.6</dubbo.version>
         <spring-boot.version>1.5.21.RELEASE</spring-boot.version>
+        <javassist.version>3.29.2-GA</javassist.version>
         <junit.version>4.13.1</junit.version>
         <zookeeper_version>3.8.1</zookeeper_version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -105,6 +106,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${javassist.version}</version>
         </dependency>
 
         <dependency>

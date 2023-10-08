@@ -34,6 +34,7 @@
         <dubbo.version>3.2.6</dubbo.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <hystrix.version>1.5.18</hystrix.version>
+        <javassist.version>3.29.2-GA</javassist.version>
         <junit.version>4.13.1</junit.version>
         <zookeeper_version>3.8.1</zookeeper_version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -95,6 +96,12 @@
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
             <version>${hystrix.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${javassist.version}</version>
         </dependency>
 
         <dependency>
