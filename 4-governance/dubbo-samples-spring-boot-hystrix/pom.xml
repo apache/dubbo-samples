@@ -35,6 +35,7 @@
         <spring.version>4.3.30.RELEASE</spring.version>
         <spring-boot.version>1.5.21.RELEASE</spring-boot.version>
         <hystrix-starter.version>1.4.7.RELEASE</hystrix-starter.version>
+        <javassist.version>3.29.2-GA</javassist.version>
         <junit.version>4.13.1</junit.version>
         <zookeeper_version>3.8.1</zookeeper_version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -96,6 +97,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
             <version>${hystrix-starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${javassist.version}</version>
         </dependency>
 
         <dependency>

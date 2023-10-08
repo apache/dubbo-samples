@@ -54,7 +54,7 @@ public class TriSampleConstants {
 
     public static final String LOCAL_HOST = "localhost";
 
-    public static final String DEFAULT_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT + "?prefer-serialization=" + (JDKUtils.JVM_VERSION >= 17 ? "fastjson2,hessian2" : "hessian2");
+    public static final String DEFAULT_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT + "?serialization=" + (JDKUtils.JVM_VERSION >= 17 ? "fastjson2" : "hessian2");
 
     public static final String DEFAULT_MULTI_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT + ";" + CommonConstants.TRIPLE + "://" + LOCAL_HOST + ":" + SERVER_PORT;
 
