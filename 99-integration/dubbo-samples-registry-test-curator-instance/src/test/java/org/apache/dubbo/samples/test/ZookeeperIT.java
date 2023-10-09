@@ -180,7 +180,7 @@ public class ZookeeperIT {
         for (int i = 0; i < 100; i++) {
             result.add(demoService1.getRemote());
         }
-        Assert.assertEquals(3, result.size());
+        Assert.assertEquals(result.toString(), 3, result.size());
         Assert.assertTrue(result.contains("App1"));
         Assert.assertTrue(result.contains("App2"));
         Assert.assertTrue(result.contains("App3"));
@@ -189,7 +189,7 @@ public class ZookeeperIT {
         for (int i = 0; i < 100; i++) {
             result.add(demoService2.getRemote());
         }
-        Assert.assertEquals(3, result.size());
+        Assert.assertEquals(result.toString(), 3, result.size());
         Assert.assertTrue(result.contains("App1"));
         Assert.assertTrue(result.contains("App2"));
         Assert.assertTrue(result.contains("App3"));
@@ -198,7 +198,7 @@ public class ZookeeperIT {
         for (int i = 0; i < 100; i++) {
             result.add(demoService3.getRemote());
         }
-        Assert.assertEquals(3, result.size());
+        Assert.assertEquals(result.toString(), 3, result.size());
         Assert.assertTrue(result.contains("App1"));
         Assert.assertTrue(result.contains("App2"));
         Assert.assertTrue(result.contains("App3"));

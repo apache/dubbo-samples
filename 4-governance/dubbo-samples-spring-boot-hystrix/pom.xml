@@ -34,6 +34,7 @@
         <dubbo.version>3.2.6</dubbo.version>
         <spring-boot.version>2.7.16</spring-boot.version>
         <hystrix-starter.version>2.2.10.RELEASE</hystrix-starter.version>
+        <aspectjweaver.version>1.9.20.1</aspectjweaver.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <junit.version>4.13.1</junit.version>
         <zookeeper_version>3.8.1</zookeeper_version>
@@ -96,6 +97,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
             <version>${hystrix-starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver.version}</version>
         </dependency>
 
         <dependency>
