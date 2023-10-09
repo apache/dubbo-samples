@@ -33,6 +33,7 @@
         <target.level>1.8</target.level>
         <dubbo.version>3.2.6</dubbo.version>
         <spring.version>4.3.30.RELEASE</spring.version>
+        <aspectjweaver.version>1.9.20.1</aspectjweaver.version>
         <hystrix.version>1.5.18</hystrix.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <junit.version>4.13.1</junit.version>
@@ -90,6 +91,12 @@
                     <groupId>com.fasterxml.jackson.core</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver.version}</version>
         </dependency>
 
         <dependency>
