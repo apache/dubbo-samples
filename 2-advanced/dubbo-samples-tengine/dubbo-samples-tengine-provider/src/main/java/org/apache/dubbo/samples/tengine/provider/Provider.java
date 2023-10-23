@@ -16,10 +16,15 @@
  */
 package org.apache.dubbo.samples.tengine.provider;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.CountDownLatch;
 
+@EnableDubbo
+@SpringBootApplication
 public class Provider {
 
     /**
@@ -28,9 +33,7 @@ public class Provider {
      * before running your application.
      */
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"META-INF/spring/dubbo-demo-provider.xml"});
-        context.start();
-
+        SpringApplication.run(Provider.class,args);
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();
     }

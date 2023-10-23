@@ -10,16 +10,16 @@ git clone https://github.com/alibaba/tengine.git
 ```
 cd ./tengine
 
-wget https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.gz
-tar xvf pcre-8.43.tar.gz
+wget https://sourceforge.net/projects/pcre/files/pcre/8.43/pcre-8.43.tar.gz/download
+tar xvf download 
 
 wget https://www.openssl.org/source/openssl-1.0.2s.tar.gz
 tar xvf openssl-1.0.2s.tar.gz
 
-wget http://www.zlib.net/zlib-1.2.11.tar.gz
+wget https://www.zlib.net/fossils/zlib-1.2.11.tar.gz 
 tar xvf zlib-1.2.11.tar.gz
 ```
-
+ftp.pcre.org FTP site is no longer available.
 ### Build Tengine
 ```
 ./configure --add-module=./modules/mod_dubbo --add-module=./modules/ngx_multi_upstream_module --add-module=./modules/mod_config --with-pcre=./pcre-8.43/ --with-openssl=./openssl-1.0.2s/ --with-zlib=./zlib-1.2.11

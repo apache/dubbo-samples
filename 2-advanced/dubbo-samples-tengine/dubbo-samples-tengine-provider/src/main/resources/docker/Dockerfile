@@ -25,11 +25,11 @@ ADD https://github.com/alibaba/tengine/archive/${TENGINE_VERSION}.tar.gz tengine
 
 RUN tar xvf tengine.tar.gz \
     && cd ./tengine-${TENGINE_VERSION} \
-    && wget https://ftp.pcre.org/pub/pcre/pcre-8.43.tar.gz \
+    && wget -O pcre-8.43.tar.gz https://sourceforge.net/projects/pcre/files/pcre/8.43/pcre-8.43.tar.gz/download \
     && tar xvf pcre-8.43.tar.gz \
     && wget https://www.openssl.org/source/openssl-1.0.2s.tar.gz \
     && tar xvf openssl-1.0.2s.tar.gz \
-    && wget http://www.zlib.net/zlib-1.2.11.tar.gz \
+    && wget https://www.zlib.net/fossils/zlib-1.2.11.tar.gz \
     && tar xvf zlib-1.2.11.tar.gz \
     && ./configure --add-module=./modules/mod_dubbo --add-module=./modules/ngx_multi_upstream_module --add-module=./modules/mod_config --with-pcre=./pcre-8.43/ --with-openssl=./openssl-1.0.2s/ --with-zlib=./zlib-1.2.11 \
     && make \
