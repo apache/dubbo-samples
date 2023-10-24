@@ -27,6 +27,7 @@ import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.samples.api.GreetingsService;
 import org.apache.dubbo.samples.api.QosService;
 
+import cn.hutool.http.HttpUtil;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 
@@ -39,6 +40,7 @@ class GreetingServiceIT {
     void test() {
         ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
         reference.setInterface(GreetingsService.class);
+        reference.setTimeout(Integer.MAX_VALUE);
 
         ReferenceConfig<QosService> qosReference = new ReferenceConfig<>();
         qosReference.setInterface(QosService.class);
@@ -60,7 +62,7 @@ class GreetingServiceIT {
 
         Awaitility.await().atMost(60, TimeUnit.SECONDS).until(() -> new Ls(FrameworkModel.defaultModel()).listConsumer().contains("I-0,A-0"));
 
-        ConsumerFilter.release();
+        HttpUtil.get("http://dubbo-samples-test-11782:8080/release");
 
 
         Awaitility.await().atMost(60, TimeUnit.SECONDS).until(() -> HeaderExchangeClient.IDLE_CHECK_TIMER.get().pendingTimeouts() == 0);

@@ -28,12 +28,14 @@
     <properties>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <junit.version>4.13.1</junit.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <grpc.version>1.53.0</grpc.version>
         <zookeeper_version>3.8.1</zookeeper_version>
         <compiler.version>0.0.1</compiler.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -112,8 +114,13 @@
 
         <dependency>
             <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.24.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
-            <version>3.6.1</version>
+            <version>3.24.3</version>
         </dependency>
 
         <dependency>
@@ -201,7 +208,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.5.1</version>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:3.24.3:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>grpc-java</pluginId>
                     <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
                     <outputDirectory>build/generated/source/proto/main/java</outputDirectory>

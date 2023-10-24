@@ -32,6 +32,8 @@
     <properties>
         <!-- Test compatibility with 3.1.x, should not upgrade this version! -->
         <dubbo_31x.version>3.1.5</dubbo_31x.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>

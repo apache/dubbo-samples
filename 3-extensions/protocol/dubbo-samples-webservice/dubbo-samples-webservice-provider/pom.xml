@@ -27,6 +27,8 @@
     <artifactId>dubbo-samples-webservice-provider</artifactId>
     <properties>
         <tomcat.version>8.0.53</tomcat.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>

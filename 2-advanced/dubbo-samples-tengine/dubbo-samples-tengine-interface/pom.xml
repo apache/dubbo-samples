@@ -30,6 +30,8 @@
     <description>The demo module of tengine dubbo</description>
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <build>
     <plugins>

@@ -25,9 +25,9 @@ echo "FORK_COUNT: $maxForks"
 export DEBUG=$DEBUG
 echo "DEBUG=$DEBUG"
 
-DUBBO_VERSION=${DUBBO_VERSION:-3.1.3}
+DUBBO_VERSION=${DUBBO_VERSION:-3.2.6}
 if [ "$CANDIDATE_VERSIONS" == "" ];then
-  CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;spring.version:4.3.16.RELEASE;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
+  CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;spring.version:5.3.30;spring-boot.version:1.5.13.RELEASE,2.7.16"
 #  CANDIDATE_VERSIONS="dubbo.version:2.7.12;spring.version:4.3.16.RELEASE,5.3.3;spring-boot.version:1.5.13.RELEASE,2.1.1.RELEASE"
 fi
 JAVA_VERSION="java.version"
