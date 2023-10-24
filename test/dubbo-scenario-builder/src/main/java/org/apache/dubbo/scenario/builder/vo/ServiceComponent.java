@@ -18,6 +18,8 @@
 package org.apache.dubbo.scenario.builder.vo;
 
 
+import org.apache.dubbo.scenario.builder.kubernetes.InitContainer;
+
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +41,10 @@ public class ServiceComponent {
     private List<String> volumes_from;
     private List<String> depends_on;
     private Map<String, Object> healthcheck;
+
+    private Map<String,Object> init;
+
+    private List<String> initCommand;
 
     private List<String> healthcheckExec;
 
@@ -310,5 +316,22 @@ public class ServiceComponent {
 
     public void setVolumes(List<String> volumes) {
         this.volumes = volumes;
+    }
+
+
+    public Map<String, Object> getInit() {
+        return init;
+    }
+
+    public void setInit(Map<String, Object> init) {
+        this.init = init;
+    }
+
+    public List<String> getInitCommand() {
+        return initCommand;
+    }
+
+    public void setInitCommand(List<String> initCommand) {
+        this.initCommand = initCommand;
     }
 }

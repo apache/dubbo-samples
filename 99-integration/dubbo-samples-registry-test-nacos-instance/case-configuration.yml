@@ -24,11 +24,23 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=nacos
       - MYSQL_PASSWORD=nacos
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    init:
+      name: wait-for-mysql
+      image: busybox
+      command:
+        - "/bin/sh"
+        - "-c"
+        - "until nc -z nacos-mysql 3306; do sleep 1; done;"
     expose:
       - 3306
     healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
-      test: ["/bin/sh", "-c", "mysql -h 127.0.0.1 -uroot -proot -e 'SELECT 1'"]
+      test:
+        - "mysqladmin"
+        - "-uroot"
+        - "-proot"
+        - "ping"
       timeoutSeconds: 5
       periodSeconds: 5
       successThreshold: 1

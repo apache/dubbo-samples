@@ -42,6 +42,9 @@ public class KubernetesService {
 
     private Map<String,String> environment;
 
+    private Map<String,String> init;
+    private List<String> initCommand;
+
     public String getName() {
         return name;
     }
@@ -135,5 +138,21 @@ public class KubernetesService {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Map<String, String> getInit() {
+        return init;
+    }
+
+    public void setInit(Map<String, String> init) {
+        this.init = init;
+    }
+
+    public List<String> getInitCommand() {
+        return initCommand;
+    }
+
+    public void setInitCommand(List<String> initCommand) {
+        this.initCommand = initCommand;
     }
 }

@@ -725,18 +725,33 @@ public class ConfigurationImpl implements IConfiguration {
 //                }
 //            }
 
+        if(dependency.getInit() != null) {
+            Yaml yaml = new Yaml();
+            Map<String,Object> initMap = dependency.getInit();
+            Map<String, String> newMap = new LinkedHashMap<>();
+            for (Map.Entry<String, Object> entry : initMap.entrySet()) {
+                if ("command".equals(entry.getKey())) {
+                    dependency.setInitCommand((List<String>) entry.getValue());
+                    continue;
+                }
+                String value = yaml.dump(entry.getValue());
+                newMap.put(entry.getKey(), value.trim());
+            }
+            service.setInit(newMap);
+            service.setInitCommand(dependency.getInitCommand());
+        }
+
         //convert healthcheck to string map
         if (dependency.getHealthcheck() != null) {
             Yaml yaml = new Yaml();
             Map<String, Object> healthcheckMap = dependency.getHealthcheck();
             Map<String, String> newMap = new LinkedHashMap<>();
             for (Map.Entry<String, Object> entry : healthcheckMap.entrySet()) {
-                String value = yaml.dump(entry.getValue());
                 if ("test".equals(entry.getKey())) {
-                    value = value.replaceAll("[\\[\\]\"]", "");
-                    dependency.setHealthcheckExec(Arrays.asList(value.split(",")));
+                    dependency.setHealthcheckExec((List<String>) entry.getValue());
                     continue;
                 }
+                String value = yaml.dump(entry.getValue());
                 newMap.put(entry.getKey(), value.trim());
             }
             service.setHealthcheck(newMap);
