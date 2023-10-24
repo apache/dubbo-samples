@@ -18,8 +18,9 @@
 package org.apache.dubbo.scenario.builder;
 
 import org.apache.dubbo.scenario.builder.exception.ConfigureFileNotFoundException;
-import org.apache.dubbo.scenario.builder.kubernetes.KubernetesService;
+import org.apache.dubbo.scenario.builder.kubernetes.InitContainer;
 import org.apache.dubbo.scenario.builder.kubernetes.KubernetesRunningGenerator;
+import org.apache.dubbo.scenario.builder.kubernetes.KubernetesService;
 import org.apache.dubbo.scenario.builder.vo.CaseConfiguration;
 import org.apache.dubbo.scenario.builder.vo.ServiceComponent;
 
@@ -41,7 +42,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -727,18 +727,36 @@ public class ConfigurationImpl implements IConfiguration {
 
         if(dependency.getInit() != null) {
             Yaml yaml = new Yaml();
-            Map<String,Object> initMap = dependency.getInit();
-            Map<String, String> newMap = new LinkedHashMap<>();
-            for (Map.Entry<String, Object> entry : initMap.entrySet()) {
-                if ("command".equals(entry.getKey())) {
-                    dependency.setInitCommand((List<String>) entry.getValue());
-                    continue;
+            List<Map<String, Object>> inits = (List<Map<String, Object>>) dependency.getInit();
+            for (Map<String, Object> initMap : inits) {
+                InitContainer initContainer = new InitContainer();
+                Map<String, String> newMap = new LinkedHashMap<>();
+
+                for (Map.Entry<String, Object> entry : initMap.entrySet()) {
+                    String key = entry.getKey();
+                    if ("command".equals(key)) {
+                        initContainer.setCommand((List<String>) entry.getValue());
+                        continue;
+                    }
+                    String val = yaml.dump(entry.getValue()).trim();
+                    if ("name".equals(key)) {
+                        initContainer.setName(val);
+                    } else if ("image".equals(key)) {
+                        initContainer.setImage(val);
+                    } else {
+                        newMap.put(entry.getKey(), val);
+                    }
                 }
-                String value = yaml.dump(entry.getValue());
-                newMap.put(entry.getKey(), value.trim());
+                initContainer.setAttributes(newMap);
+                List<InitContainer> initContainers = service.getInitContainers();
+                if (initContainers == null) {
+                    service.setInitContainers(new ArrayList<>());
+                    initContainers = service.getInitContainers();
+                }
+                initContainers.add(initContainer);
             }
-            service.setInit(newMap);
-            service.setInitCommand(dependency.getInitCommand());
+
+
         }
 
         //convert healthcheck to string map

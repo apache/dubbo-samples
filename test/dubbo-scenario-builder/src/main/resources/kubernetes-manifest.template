@@ -63,22 +63,23 @@ spec:
       labels:
         app: ${service.name}
     spec:
-      <#if service.init??>
+      <#if service.initContainers??>
       initContainers:
-        <#if service.init?has_key("name")>
-          <#assign nameValue = service.init.name>
-          <#assign _ = service.init.remove("name")>
-        - name: ${nameValue}
-        </#if>
-        <#list service.init as key,value>
-        ${key}: ${value}
-        </#list>
-        <#if service.initCommand??>
+        <#list service.initContainers as initContainer>
+        - name: ${initContainer.name}
+          image: ${initContainer.image}
+          <#if initContainer.command??>
           command:
-        <#list service.initCommand as cmd>
+            <#list initContainer.command as cmd>
             - "${cmd}"
+            </#list>
+          </#if>
+          <#if initContainer.attributes??>
+          <#list initContainer.attributes as key,value>
+          ${key}: ${value}
+          </#list>
+          </#if>
         </#list>
-        </#if>
       </#if>
       containers:
         - name: ${service.name}

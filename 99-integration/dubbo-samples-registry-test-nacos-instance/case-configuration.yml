@@ -26,12 +26,12 @@ services:
       - MYSQL_PASSWORD=nacos
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     init:
-      name: wait-for-mysql
-      image: busybox
-      command:
-        - "/bin/sh"
-        - "-c"
-        - "until nc -z nacos-mysql 3306; do sleep 1; done;"
+      - name: wait-for-mysql
+        image: busybox
+        command:
+          - "/bin/sh"
+          - "-c"
+          - "until nc -z nacos-mysql 3306; do sleep 1; done;"
     expose:
       - 3306
     healthcheck:

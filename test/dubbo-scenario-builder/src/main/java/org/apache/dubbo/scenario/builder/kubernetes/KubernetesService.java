@@ -42,9 +42,7 @@ public class KubernetesService {
 
     private Map<String,String> environment;
 
-    private Map<String,String> init;
-
-    private List<String> initCommand;
+    private List<InitContainer> initContainers;
 
     public String getName() {
         return name;
@@ -141,19 +139,11 @@ public class KubernetesService {
         this.type = type;
     }
 
-    public Map<String, String> getInit() {
-        return init;
+    public List<InitContainer> getInitContainers() {
+        return initContainers;
     }
 
-    public void setInit(Map<String, String> init) {
-        this.init = init;
-    }
-
-    public List<String> getInitCommand() {
-        return initCommand;
-    }
-
-    public void setInitCommand(List<String> initCommand) {
-        this.initCommand = initCommand;
+    public void setInitContainers(List<InitContainer> initContainers) {
+        this.initContainers = initContainers;
     }
 }

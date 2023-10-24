@@ -18,6 +18,7 @@
 package org.apache.dubbo.scenario.builder.kubernetes;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Such as:
@@ -36,6 +37,8 @@ public class InitContainer {
     private String image;
 
     private List<String> command;
+
+    private Map<String,String> attributes;
 
     public String getName() {
         return name;
@@ -59,5 +62,13 @@ public class InitContainer {
 
     public void setCommand(List<String> command) {
         this.command = command;
+    }
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
     }
 }
