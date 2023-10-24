@@ -42,9 +42,8 @@ public class ServiceComponent {
     private List<String> depends_on;
     private Map<String, Object> healthcheck;
 
-    private Map<String,Object> init;
+    private List<Object> init;
 
-    private List<String> initCommand;
 
     private List<String> healthcheckExec;
 
@@ -319,19 +318,12 @@ public class ServiceComponent {
     }
 
 
-    public Map<String, Object> getInit() {
+    public List<Object> getInit() {
         return init;
     }
 
-    public void setInit(Map<String, Object> init) {
+    public void setInit( List<Object> init) {
         this.init = init;
     }
 
-    public List<String> getInitCommand() {
-        return initCommand;
-    }
-
-    public void setInitCommand(List<String> initCommand) {
-        this.initCommand = initCommand;
-    }
 }

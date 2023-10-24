@@ -727,8 +727,9 @@ public class ConfigurationImpl implements IConfiguration {
 
         if(dependency.getInit() != null) {
             Yaml yaml = new Yaml();
-            List<Map<String, Object>> inits = (List<Map<String, Object>>) dependency.getInit();
-            for (Map<String, Object> initMap : inits) {
+            List<Object> inits = dependency.getInit();
+            for (Object map : inits) {
+                Map<String, Object> initMap = (Map<String, Object>) map;
                 InitContainer initContainer = new InitContainer();
                 Map<String, String> newMap = new LinkedHashMap<>();
 
