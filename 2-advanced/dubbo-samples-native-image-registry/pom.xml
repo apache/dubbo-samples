@@ -25,8 +25,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>dubbo-samples-native-image-provider</module>
-        <module>dubbo-samples-native-image-consumer</module>
+        <module>dubbo-samples-native-image-registry-provider</module>
+        <module>dubbo-samples-native-image-registry-consumer</module>
     </modules>
 
 </project>

@@ -19,6 +19,6 @@ dubbo:
     name: dubbo-springboot-demo-provider
   protocol:
     name: tri
-    port: -1
+    port: 50052
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181

@@ -19,7 +19,7 @@ There are two ways to test the server works as expected:
 ```shell
 curl \
     --header "Content-Type: application/json" \
-    --data ["Dubbo"]' \
+    --data '["Dubbo"]' \
     http://localhost:50052/org.apache.dubbo.samples.api.GreetingsService/sayHi/
 ```
 

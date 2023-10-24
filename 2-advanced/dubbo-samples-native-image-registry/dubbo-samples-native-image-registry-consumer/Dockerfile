@@ -18,5 +18,5 @@ FROM container-registry.oracle.com/os/oraclelinux:9-slim
 EXPOSE 9091
 
 # Copy the native executable into the containers
-COPY --from=builder /build/target/dubbo-samples-native-image-consumer app
+COPY --from=builder /build/target/dubbo-samples-native-image-registry-consumer app
 ENTRYPOINT ["/app"]
