@@ -43,6 +43,7 @@ public class KubernetesService {
     private Map<String,String> environment;
 
     private Map<String,String> init;
+
     private List<String> initCommand;
 
     public String getName() {

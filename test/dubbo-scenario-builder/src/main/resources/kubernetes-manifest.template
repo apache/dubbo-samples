@@ -65,15 +65,20 @@ spec:
     spec:
       <#if service.init??>
       initContainers:
-        <#if service.initCommand??>
-        command:
-        <#list service.initCommand as cmd>
-          - "${cmd}"
-        </#list>
+        <#if service.init?has_key("name")>
+          <#assign nameValue = service.init.name>
+          <#assign _ = service.init.remove("name")>
+        - name: ${nameValue}
         </#if>
         <#list service.init as key,value>
-          ${key}: ${value}
+        ${key}: ${value}
         </#list>
+        <#if service.initCommand??>
+          command:
+        <#list service.initCommand as cmd>
+            - "${cmd}"
+        </#list>
+        </#if>
       </#if>
       containers:
         - name: ${service.name}
