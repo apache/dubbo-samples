@@ -1,13 +1,24 @@
 # About this sample
 
-This sample code demonstrates building up dubbo service provider and service consumer with the pure API approach. In this example, multicast is facilitated as the registration mechanism, therefore it is necessary to explicitly specify system property `java.net.preferIPv4Stack`.
+This example demonstrates building up of Dubbo rpc server and client with lightweight API. The API is quite simple and straightforward.
+
+Follow steps below to run this example.
 
 ## Start Server
+Run the command below to start the Dubbo rpc server
 
 ```bash
 mvn clean package
 mvn -Dexec.mainClass=org.apache.dubbo.samples.provider.Application exec:java
 ```
+
+Now, you have a server running on port 50052 which accepts triple protocol requests.
+
+More usages of triple protocol can be found here:
+* [Triple with Protobuf (IDL mode)](../dubbo-samples-idl/)
+* [Streaming RPCs](../../2-advanced/dubbo-samples-triple-streaming/)
+* [Interoperability with standard gRPC clients and servers](../../2-advanced/dubbo-samples-triple-grpc/)
+* [Using triple with other languages and browser](https://dubbo.apache.org/zh-cn/overview/mannual/)
 
 ## Start Client
 

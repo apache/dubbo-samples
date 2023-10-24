@@ -1,4 +1,4 @@
-# Dubbo Triple Example
+# Dubbo Triple With Protobuf
 
 This example shows the basic usage of Triple protocol with a typical request-response model demo that uses IDL as the method of defining Dubbo service.
 
