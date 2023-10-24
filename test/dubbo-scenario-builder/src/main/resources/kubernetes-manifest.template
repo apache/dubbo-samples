@@ -63,6 +63,18 @@ spec:
       labels:
         app: ${service.name}
     spec:
+      <#if service.init??>
+      initContainers:
+        <#if service.initCommand??>
+        command:
+        <#list service.initCommand as cmd>
+          - "${cmd}"
+        </#list>
+        </#if>
+        <#list service.init as key,value>
+          ${key}: ${value}
+        </#list>
+      </#if>
       containers:
         - name: ${service.name}
           <#if service.imageName?has_content>
