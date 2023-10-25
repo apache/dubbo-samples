@@ -84,6 +84,7 @@ function redirect_all_container_logs() {
 function redirect_container_logs() {
   service_name=$1
   pod_name=$(kubectl get pod -l app=${service_name} -o jsonpath='{.items[0].metadata.name}' -n ${namespace_name} 2>/dev/null)
+  echo $(kubectl describe pod -l app=${service_name} -n ${namespace_name})
   if [ -z "$pod_name" ]; then
      return 1
   fi
