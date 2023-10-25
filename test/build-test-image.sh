@@ -5,8 +5,9 @@
 
 #bash /usr/local/bin/k3s/k3s-uninstall.sh
 #bash /usr/local/bin/k3s-uninstall.sh
-ls /usr/local/bin/ | grep k3s
-kubectl get nodes
+echo "="
+ls /usr/local/bin/
+echo "="
 if [ -e ./k3s-install.sh ]; then
     echo "k3s-install.sh exists"
 else
