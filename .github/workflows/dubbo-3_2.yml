@@ -164,6 +164,9 @@ jobs:
         run: |
           cd test && bash ./build-test-image.sh
       - name: Run tests
+        uses: nolar/setup-k3d-k3s@v1
+        with:
+          k3d-args: --docker
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
         if: always()
