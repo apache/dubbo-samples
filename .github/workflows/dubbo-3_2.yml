@@ -172,7 +172,7 @@ jobs:
           start_time=$(date +%s)
 
           while true; do
-            if [ "$(k3d cluster list | grep -c 'running')" -gt 0 ]; then
+            if [ "$(k3d cluster list | grep 'running' | wc -l)" -gt 0 ]; then
               break  
             fi
 
