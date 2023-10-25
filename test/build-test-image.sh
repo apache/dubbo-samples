@@ -3,6 +3,9 @@
 # Use mirror:
 # DEBIAN_MIRROR=http://mirrors.aliyun.com ./build-test-image.sh
 
+bash /usr/local/bin/k3s/k3s-uninstall.sh
+bash /usr/local/bin/k3s-uninstall.sh
+kubectl get nodes
 if [ -e ./k3s-install.sh ]; then
     echo "k3s-install.sh exists"
 else
@@ -12,6 +15,8 @@ else
         chmod +x ./k3s-install.sh
         bash -x ./k3s-install.sh --docker
         systemctl status k3s
+        kubectl get nodes
+
       else
         echo "download k3s-install.sh fail"
       fi
