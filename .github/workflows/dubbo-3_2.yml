@@ -163,6 +163,8 @@ jobs:
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
+      - name: test
+        run: docker images
       - name: Set up K3s cluster
         uses: nolar/setup-k3d-k3s@v1
       - name: Run tests
