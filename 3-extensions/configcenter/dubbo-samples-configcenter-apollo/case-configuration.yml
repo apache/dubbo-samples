@@ -39,6 +39,13 @@ services:
     expose:
       - 20880
       - 2181
+    init:
+      - name: wait-for-mysql
+        image: busybox
+        command:
+          - "/bin/sh"
+          - "-c"
+          - "until nc -z apollo-db 3306; do sleep 1; done;"
 
   dubbo-samples-configcenter-apollo-test:
     type: test
@@ -76,11 +83,18 @@ services:
       - ${_basedir}/src/main/resources/docker/demo.sh:/apollo-quick-start/demo.sh
       - ./logs:/apollo-quick-start/logs
     healthcheck:
-      #check apollo config service api
-      test: 'curl -Ss http://localhost:8080/services/config\?appId=SampleApp | grep apollo-configservice'
-      interval: 5s
-      timeout: 5s
-      retries: 60
+      test:
+        - "curl"
+        - "-Ss"
+        - "http://localhost:8080/services/config\?appId=SampleApp"
+        - "|"
+        - "grep"
+        - "apollo-configservice"
+      timeoutSeconds: 5
+      periodSeconds: 5
+      successThreshold: 1
+      failureThreshold: 60
+      initialDelaySeconds: 10
 
   apollo-db:
     image: mysql:5.7
@@ -91,10 +105,15 @@ services:
       - 3306
     healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
-      test: [ "mysqladmin" ,"ping", "-h", "127.0.0.1"]
-      interval: 5s
-      timeout: 5s
-      retries: 40
+      test:
+        - "mysqladmin"
+        - "-uroot"
+        - "ping"
+      timeoutSeconds: 5
+      periodSeconds: 5
+      successThreshold: 1
+      failureThreshold: 40
+      initialDelaySeconds: 10
     volumes:
       - ${_basedir}/src/main/resources/docker/sql:/docker-entrypoint-initdb.d
         #- ./sql_data:/var/lib/mysql

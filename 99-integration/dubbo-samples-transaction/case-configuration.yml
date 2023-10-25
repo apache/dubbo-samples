@@ -38,10 +38,16 @@ services:
       - ${_basedir}/src/main/resources/docker/mysql/sql:/docker-entrypoint-initdb.d
     healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
-      test: [ "mysqladmin" ,"ping", "-h", "127.0.0.1"]
-      interval: 5s
-      timeout: 5s
-      retries: 20
+      test:
+        - "mysqladmin"
+        - "-uroot"
+        - "-phelloworld"
+        - "ping"
+      timeoutSeconds: 5
+      periodSeconds: 5
+      successThreshold: 1
+      failureThreshold: 20
+      initialDelaySeconds: 10
 
   seata-server:
     #build: ${_basedir}/src/main/resources/docker/seata
@@ -53,6 +59,13 @@ services:
       - 8091
     depends_on:
       - seata-mysql
+    init:
+      - name: wait-for-mysql
+        image: busybox
+        command:
+          - "/bin/sh"
+          - "-c"
+          - "until nc -z seata-mysql 3306; do sleep 1; done;"
 
   storage-service:
     type: app
