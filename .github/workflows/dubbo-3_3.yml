@@ -168,15 +168,28 @@ jobs:
         uses: nolar/setup-k3d-k3s@v1
 
       - name: Wait for K3s cluster to be ready
-        run: k3d cluster list
-        continue-on-error: true
-      - name: Run tests
         run: |
-          if [ "$(k3d cluster list | grep -c 'running')" -gt 0 ]; then
-            cd test && bash ./run-tests.sh
-          else
-            echo "K3s cluster is not running, tests will not be executed."
-          fi
+          timeout=120  
+          start_time=$(date +%s)
+
+          while true; do
+            if [ "$(k3d cluster list | grep -c 'running')" -gt 0 ]; then
+              break  
+            fi
+
+            current_time=$(date +%s)
+            elapsed_time=$((current_time - start_time))
+
+            if [ "$elapsed_time" -ge "$timeout" ]; then
+              echo "Timeout: K3s cluster did not become ready within $timeout seconds. Tests will not be executed."
+              exit 1
+            fi
+
+            sleep 1
+          done
+
+      - name: Run tests
+        run: cd test && bash ./run-tests.sh
       - name: Upload test result
         if: always()
         uses: actions/upload-artifact@v3
