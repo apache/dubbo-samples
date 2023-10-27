@@ -86,7 +86,7 @@ spec:
           <#if service.imageName?has_content>
           image: ${service.imageName}
           </#if>
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Never
           ports:
           <#if service.expose??>
           <#list service.expose as expose>
@@ -151,7 +151,7 @@ spec:
           <#if test_service.imageName?has_content>
           image: ${test_service.imageName}
           </#if>
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Never
           #ports:
           #<#if test_service.expose??>
           #<#list test_service.expose as expose>
