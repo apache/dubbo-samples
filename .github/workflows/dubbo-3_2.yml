@@ -124,7 +124,7 @@ jobs:
       - name: Export kubeconfig
         run: export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
       - name: Test k3s connect
-        run: cat /etc/rancher/k3s/k3s.yaml
+        run: kubectl get nodes --server=https://localhost:6443 -v6
 
 
   testjob:
