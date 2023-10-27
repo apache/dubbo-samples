@@ -121,6 +121,8 @@ jobs:
     steps:
       - name: Install k3s
         run: curl -sfL https://get.k3s.io | sh -s - --docker
+      - name: Export kubeconfig
+        run: export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
   testjob:
     needs: [prepare_test, build-dubbo,set-up-k3s]
