@@ -165,10 +165,10 @@ jobs:
           cd test && bash ./build-test-image.sh
       - name: Set up K3s cluster
         uses: nolar/setup-k3d-k3s@v1
-        with:
-          container-runtime-endpoint: unix:///var/run/docker.sock
-          extra-args: --docker
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up K3d cluster with Docker runtime
+        run: |
+          k3d cluster create my-k3d-cluster --api-port 6550 --port 80:80@loadbalancer --port 443:443@loadbalancer --k3s-server-arg "--container-runtime docker"
+
       - name: Run tests
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
