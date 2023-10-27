@@ -118,7 +118,7 @@ jobs:
           path: test/jobs
 
   testjob:
-    needs: [prepare_test, build-dubbo,set-up-k3s]
+    needs: [prepare_test, build-dubbo]
     name: 'Integration Test (Java${{matrix.java}}, Job${{matrix.job_id}})'
     runs-on: ubuntu-latest
     env:
