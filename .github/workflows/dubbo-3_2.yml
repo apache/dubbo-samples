@@ -116,20 +116,6 @@ jobs:
         with:
           name: test-list
           path: test/jobs
-  set-up-k3s:
-    runs-on: ubuntu-latest
-    steps:
-      - name: test
-        run: ls
-      - name: Delete his k3s
-        run: /bash /usr/local/bin/k3s-uninstall.sh
-        continue-on-error: true
-      - name: Install k3s
-        run: curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | sh -s - --docker
-      - name: Export kubeconfig
-        run: export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-      - name: Test k3s connect
-        run: kubectl get nodes --server=https://localhost:6443 -v6
 
 
   testjob:
@@ -178,6 +164,12 @@ jobs:
       - name: Build test image
         run: |
           cd test && bash ./build-test-image.sh
+      - name: Set up k3d
+        uses: nolar/setup-k3d-k3s@v1
+      - name: Image import
+        run: |
+          k3d image import library/nacos-mysql:5.7
+          k3d image import dubbo/sample-test:${JAVA_VER}
       - name: Run tests
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
