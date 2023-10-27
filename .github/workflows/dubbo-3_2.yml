@@ -164,12 +164,11 @@ jobs:
         run: |
           cd test && bash ./build-test-image.sh
       - name: Set up K3s cluster
-        uses: debianmaster/actions-k3s@master
-      - run: |
-          kubectl get nodes
-          kubectl get pods -A
-          sleep 20
-          kubectl get pods -A
+        uses: nolar/setup-k3d-k3s@v1
+        with:
+          container-runtime-endpoint: unix:///var/run/docker.sock
+          extra-args: --docker
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run tests
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
