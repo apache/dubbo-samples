@@ -165,6 +165,9 @@ jobs:
           cd test && bash ./build-test-image.sh
       - name: Set up k3d
         uses: nolar/setup-k3d-k3s@v1
+        with:
+          k3d-args: --servers 3 --no-lb
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Image import
         run: |
           k3d image import library/nacos-mysql:5.7
