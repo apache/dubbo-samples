@@ -117,7 +117,6 @@ jobs:
           name: test-list
           path: test/jobs
 
-
   testjob:
     needs: [prepare_test, build-dubbo,set-up-k3s]
     name: 'Integration Test (Java${{matrix.java}}, Job${{matrix.job_id}})'
