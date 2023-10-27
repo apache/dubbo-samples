@@ -123,13 +123,9 @@ jobs:
         run: curl -sfL https://get.k3s.io | sh -s - --docker
       - name: Export kubeconfig
         run: export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-      - name: Config
-        run: |
-          mkdir -p $HOME/.kube
-          sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-          sudo chown $(id -u):$(id -g) $HOME/.kube/config
       - name: Test k3s connect
-        run: kubectl get nodes
+        run: $ kubectl get nodes -v6
+
 
   testjob:
     needs: [prepare_test, build-dubbo,set-up-k3s]
