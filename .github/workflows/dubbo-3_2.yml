@@ -164,11 +164,12 @@ jobs:
         run: |
           cd test && bash ./build-test-image.sh
       - name: Set up K3s cluster
-        uses: nolar/setup-k3d-k3s@v1
-      - name: test
-        run: cat /etc/systemd/system/k3s.service
-
-
+        uses: debianmaster/actions-k3s@master
+      - run: |
+          kubectl get nodes
+          kubectl get pods -A
+          sleep 20
+          kubectl get pods -A
       - name: Run tests
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
