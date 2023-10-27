@@ -166,7 +166,8 @@ jobs:
       - name: Set up K3s cluster
         uses: nolar/setup-k3d-k3s@v1
       - name: test
-        run: docker -v
+        run: cat /etc/systemd/system/k3s.service
+
 
       - name: Run tests
         run: cd test && bash ./run-tests.sh
