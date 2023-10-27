@@ -119,6 +119,9 @@ jobs:
   set-up-k3s:
     runs-on: ubuntu-latest
     steps:
+      - name: Delete his k3s
+        run: /bash /usr/local/bin/k3s-uninstall.sh
+        continue-on-error: true
       - name: Install k3s
         run: curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | sh -s - --docker
       - name: Export kubeconfig
