@@ -45,15 +45,15 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>17</java.version>
+
         <dubbo.version>3.2.6</dubbo.version>
+        <spring-boot.version>3.0.5</spring-boot.version>
         <nacos.version>2.2.0</nacos.version>
-        <micrometer.version>1.10.5</micrometer.version>
-        <micrometer-tracing.version>1.0.3</micrometer-tracing.version>
+        <micrometer.version>1.10.6</micrometer.version>
+        <micrometer-tracing.version>1.0.5</micrometer-tracing.version>
         <opentelemetry.version>1.19.0</opentelemetry.version>
         <junit.version>4.13.1</junit.version>
-        <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
-        <spring-boot.version>3.0.5</spring-boot.version>
+
         <spring-boot-maven-plugin.version>3.0.5</spring-boot-maven-plugin.version>
     </properties>
 
@@ -122,14 +122,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

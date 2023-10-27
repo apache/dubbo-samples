@@ -21,10 +21,13 @@
         <artifactId>dubbo-samples-attachment</artifactId>
         <groupId>org.apache.dubbo</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dubbo-samples-attachment-consumer</artifactId>
+
+    <properties>
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
+    </properties>
 
     <dependencies>
         <!-- dubbo -->
@@ -37,12 +40,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <type>pom</type>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-reload4j</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
         </dependency>
 
         <!-- spring starter -->
@@ -61,7 +64,6 @@
             <artifactId>dubbo-samples-attachment-interface</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

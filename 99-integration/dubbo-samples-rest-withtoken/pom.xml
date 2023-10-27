@@ -29,15 +29,15 @@
     <description>Dubbo Samples Rest Demo</description>
 
     <properties>
-        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
-        <spring-boot-maven-plugin.version>2.1.1.RELEASE</spring-boot-maven-plugin.version>
-        <source.level>1.8</source.level>
-        <target.level>1.8</target.level>
-        <dubbo.version>3.2.6</dubbo.version>
-        <maven.compiler.source>${source.level}</maven.compiler.source>
-        <maven.compiler.target>${target.level}</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <dubbo.version>3.2.6</dubbo.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
+        <junit.version>4.13.1</junit.version>
+
+        <spring-boot-maven-plugin.version>2.1.1.RELEASE</spring-boot-maven-plugin.version>
     </properties>
 
     <modules>
@@ -60,20 +60,6 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>slf4j-reload4j</artifactId>
-                        <groupId>org.slf4j</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>log4j</artifactId>
-                        <groupId>log4j</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>slf4j-log4j12</artifactId>
-                        <groupId>org.slf4j</groupId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -89,8 +75,17 @@
                 <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>logback-core</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>

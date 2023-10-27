@@ -35,6 +35,10 @@
     <description>Dubbo Samples Prefer Serialization Integration Test For 3.1.x compatibility</description>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <dubbo.version>3.2.6</dubbo.version>
         <dubbo-serialization-fastjson.version>1.0.1</dubbo-serialization-fastjson.version>
         <dubbo-serialization-gson.version>1.0.1</dubbo-serialization-gson.version>
@@ -42,11 +46,8 @@
         <dubbo-serialization-protostuff.version>1.0.1</dubbo-serialization-protostuff.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
-        <source.level>1.8</source.level>
-        <target.level>1.8</target.level>
+
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <modules>
@@ -84,6 +85,16 @@
                 <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>logback-core</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -130,10 +141,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>${source.level}</source>
-                    <target>${target.level}</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>

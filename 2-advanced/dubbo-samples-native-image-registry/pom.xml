@@ -28,5 +28,4 @@
         <module>dubbo-samples-native-image-registry-provider</module>
         <module>dubbo-samples-native-image-registry-consumer</module>
     </modules>
-
 </project>

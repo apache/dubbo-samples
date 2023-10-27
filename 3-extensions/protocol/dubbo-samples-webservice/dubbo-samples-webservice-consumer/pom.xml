@@ -26,6 +26,10 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dubbo-samples-webservice-consumer</artifactId>
 
+    <properties>
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -36,11 +40,17 @@
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
             <type>pom</type>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-samples-webservice-interface</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
 </project>

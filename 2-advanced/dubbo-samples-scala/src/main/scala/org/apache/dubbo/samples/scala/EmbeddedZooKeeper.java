@@ -242,6 +242,8 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
                 zkServer = new ZooKeeperServerMain();
                 ServerConfig configuration = new ServerConfig();
                 configuration.readFrom(quorumPeerConfig);
+                
+                System.setProperty("zookeeper.admin.enableServer", "false");
 
                 zkServer.runFromConfig(configuration);
             } catch (Exception e) {

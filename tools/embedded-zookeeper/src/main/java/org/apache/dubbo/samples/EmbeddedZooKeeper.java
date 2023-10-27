@@ -46,6 +46,8 @@ public class EmbeddedZooKeeper {
         ServerConfig configuration = new ServerConfig();
         configuration.readFrom(quorumPeerConfig);
 
+        System.setProperty("zookeeper.admin.enableServer", "false");
+
         try {
             zkServer.runFromConfig(configuration);
         } catch (Exception e) {

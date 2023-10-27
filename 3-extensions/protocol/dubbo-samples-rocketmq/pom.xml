@@ -29,14 +29,16 @@
     <description>Dubbo Samples Rocketmq</description>
 
     <properties>
-        <spring.version>4.3.30.RELEASE</spring.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <dubbo.version>3.2.6</dubbo.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
+        <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
         <swagger.version>1.5.19</swagger.version>
-        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

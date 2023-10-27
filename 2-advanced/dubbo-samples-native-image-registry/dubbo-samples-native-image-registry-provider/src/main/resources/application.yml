@@ -14,7 +14,7 @@
 # limitations under the License.
 spring:
   application:
-    name: dubbo-samples-nativeimage-provider
+    name: dubbo-samples-native-image-registry-provider
 dubbo:
   application:
     name: ${spring.application.name}
