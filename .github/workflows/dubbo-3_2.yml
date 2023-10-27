@@ -120,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: find / -name "k3s-uninstall.sh"
+        run: ls
       - name: Delete his k3s
         run: /bash /usr/local/bin/k3s-uninstall.sh
         continue-on-error: true
