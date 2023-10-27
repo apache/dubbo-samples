@@ -120,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install k3s
-        run: curl -sfL https://get.k3s.io | sh -s - --docker
+        run: curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | sh -s - --docker
       - name: Export kubeconfig
         run: export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
       - name: Test k3s connect
