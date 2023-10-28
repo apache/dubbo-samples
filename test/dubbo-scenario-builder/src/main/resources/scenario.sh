@@ -172,6 +172,8 @@ echo "[$scenario_name] debug_mode: $debug_mode" >> $scenario_log
 echo "[$scenario_name] timeout: $timeout" >> $scenario_log
 
 cat ${compose_file}
+apt-get install -y tree
+tree /home/runner/work/dubbo-samples/dubbo-samples/99-integration/dubbo-samples-registry-test-curator/target
 
 #Delete the resources in Kubernetes-manifest first.
 echo "[$scenario_name] Deleting resources .." | tee -a $scenario_log
