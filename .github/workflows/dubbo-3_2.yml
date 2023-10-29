@@ -166,7 +166,7 @@ jobs:
       - name: Set up k3d
         uses: nolar/setup-k3d-k3s@v1
         with:
-          k3d-args: --no-lb --servers 1 --agents 2 --volume /home/runner/work/dubbo-samples/dubbo-samples:/home/runner/work/dubbo-samples/dubbo-samples@agent[*]
+          k3d-args: --no-lb --servers 1 --agents 1 --volume /home/runner/work/dubbo-samples/dubbo-samples:/home/runner/work/dubbo-samples/dubbo-samples@agent[0]
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Image import
         run: |
