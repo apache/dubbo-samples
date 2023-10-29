@@ -29,7 +29,7 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
-      - 20880
+      - 50052
     checkLog: "Current Spring Boot Application is await..."
     expose:
       - 20880
@@ -43,6 +43,6 @@ services:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
-      - provider:20880
+      - provider:50052
     depends_on:
       - provider

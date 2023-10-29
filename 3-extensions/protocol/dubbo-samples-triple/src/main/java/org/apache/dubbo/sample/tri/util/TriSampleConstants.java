@@ -20,6 +20,8 @@ package org.apache.dubbo.sample.tri.util;
 
 import org.apache.dubbo.common.constants.CommonConstants;
 
+import com.alibaba.fastjson2.util.JDKUtils;
+
 import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_ALL;
 import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_INSTANCE;
 import static org.apache.dubbo.common.constants.RegistryConstants.DEFAULT_REGISTER_MODE_INTERFACE;
@@ -52,7 +54,7 @@ public class TriSampleConstants {
 
     public static final String LOCAL_HOST = "localhost";
 
-    public static final String DEFAULT_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT;
+    public static final String DEFAULT_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT + "?serialization=" + (JDKUtils.JVM_VERSION >= 17 ? "fastjson2" : "hessian2");
 
     public static final String DEFAULT_MULTI_ADDRESS = CommonConstants.TRIPLE + "://" + HOST + ":" + SERVER_PORT + ";" + CommonConstants.TRIPLE + "://" + LOCAL_HOST + ":" + SERVER_PORT;
 

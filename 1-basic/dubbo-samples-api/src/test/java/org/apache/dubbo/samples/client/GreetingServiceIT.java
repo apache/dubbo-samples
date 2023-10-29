@@ -20,20 +20,23 @@ package org.apache.dubbo.samples.client;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.apache.dubbo.samples.api.GreetingsService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GreetingServiceIT {
-    private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
-
     @Test
     public void test() {
-        ReferenceConfig<GreetingsService> reference = new ReferenceConfig<>();
-        reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
-        reference.setRegistry(new RegistryConfig("zookeeper://" + zookeeperHost + ":2181"));
-        reference.setInterface(GreetingsService.class);
+        ReferenceConfig<GreetingsService> reference =
+                ReferenceBuilder.<GreetingsService>newBuilder()
+                        .interfaceClass(GreetingsService.class)
+                        .url("tri://localhost:50052")
+                        .build();
+        DubboBootstrap.getInstance().reference(reference).start();
         GreetingsService service = reference.get();
+
         String message = service.sayHi("dubbo");
         Assertions.assertEquals(message, "hi, dubbo");
     }

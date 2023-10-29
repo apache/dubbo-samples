@@ -35,7 +35,7 @@
     <description>Dubbo Samples Prefer Serialization Integration Test For 3.1.x compatibility</description>
 
     <properties>
-        <dubbo.version>3.2.0</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <dubbo-serialization-fastjson.version>1.0.1</dubbo-serialization-fastjson.version>
         <dubbo-serialization-gson.version>1.0.1</dubbo-serialization-gson.version>
         <dubbo-serialization-fst.version>1.0.1</dubbo-serialization-fst.version>
@@ -45,6 +45,8 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <modules>

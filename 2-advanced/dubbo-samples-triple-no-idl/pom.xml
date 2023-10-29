@@ -29,10 +29,12 @@
     <artifactId>dubbo-samples-triple-no-idl</artifactId>
 
     <properties>
-        <dubbo.version>3.2.3</dubbo.version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
@@ -45,6 +47,11 @@
             <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <version>${dubbo.version}</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.19.6</version>
         </dependency>
     </dependencies>
 
