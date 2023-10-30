@@ -94,6 +94,7 @@ function redirect_container_logs() {
 
   # Check if the pod is still in ContainerCreating state
   pod_status=$(kubectl get pod $pod_name -n ${namespace_name} -o jsonpath='{.status.phase}' 2>/dev/null)
+  kubectl describe pod -l app=${service_name} -n ${namespace_name}
   if [ "$pod_status" == "Pending" ]; then
     echo "Pod $pod_name is still in Pending state. Cannot redirect logs."
     return 1
