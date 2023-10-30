@@ -170,7 +170,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Image import
         run: |
-          k3d image import nacos-mysql:5.7
+          k3d image import docker.io/library/nacos-mysql:5.7
           k3d image import dubbo/sample-test:${JAVA_VER}
           k3d image import busybox
       - name: Run tests
