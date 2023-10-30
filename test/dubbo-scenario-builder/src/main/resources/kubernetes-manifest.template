@@ -154,8 +154,6 @@ spec:
           image: ${test_service.imageName}
           </#if>
           imagePullPolicy: IfNotPresent
-          securityContext:
-            privileged: true
           #ports:
           #<#if test_service.expose??>
           #<#list test_service.expose as expose>
