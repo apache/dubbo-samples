@@ -18,7 +18,7 @@ timeout: 500
 
 services:
   nacos-mysql:
-    image: nacos-mysql:5.7
+    image: dubbo/nacos-mysql:5.7
     environment:
       - MYSQL_DATABASE=nacos_devtest
       - MYSQL_ROOT_PASSWORD=root
