@@ -166,13 +166,13 @@ jobs:
       - name: Set up k3d
         uses: nolar/setup-k3d-k3s@v1
         with:
-          k3d-args: --volume /home/runner/work/dubbo-samples/dubbo-samples:/home/runner/work/dubbo-samples/dubbo-samples
+          k3d-args: --no-image-volume --volume /home/runner/work/dubbo-samples/dubbo-samples:/home/runner/work/dubbo-samples/dubbo-samples
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Image import
         run: |
-          k3d image import library/nacos-mysql:5.7 -k
-          k3d image import dubbo/sample-test:${JAVA_VER} -k
-          k3d image import busybox -k
+          k3d image import library/nacos-mysql:5.7
+          k3d image import dubbo/sample-test:${JAVA_VER} 
+          k3d image import busybox
       - name: Run tests
         run: cd test && bash ./run-tests.sh
       - name: Upload test result

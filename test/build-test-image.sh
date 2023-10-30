@@ -8,6 +8,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 $DIR/dubbo-test-runner/build.sh
 
-docker build -t nacos-mysql:5.7 nacos-mysql/
+$DIR/build-nacos-images.sh
 
 docker pull busybox
