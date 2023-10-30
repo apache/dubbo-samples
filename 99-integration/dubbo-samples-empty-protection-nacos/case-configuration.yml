@@ -16,7 +16,7 @@
 
 services:
   nacos-mysql:
-    image: dubbo/nacos-mysql:5.7
+    image: nacos-mysql:5.7
     environment:
       - MYSQL_DATABASE=nacos_devtest
       - MYSQL_ROOT_PASSWORD=root
