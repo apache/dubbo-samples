@@ -29,6 +29,9 @@ services:
     checkPorts:
       - 2181
     checkLog: "dubbo service started"
+    expose:
+      - 2181
+      - 20880
 
   dubbo-samples-spi-compatible-test:
     type: test

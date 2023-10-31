@@ -17,12 +17,18 @@
 services:
   config-center:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   zookeeper1:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   zookeeper2:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-configcenter-multi-registries:
     type: app
@@ -46,6 +52,8 @@ services:
       - config-center
       - zookeeper1
       - zookeeper2
+    expose:
+      - 20880
 
   dubbo-samples-configcenter-multi-registries-test:
     type: test

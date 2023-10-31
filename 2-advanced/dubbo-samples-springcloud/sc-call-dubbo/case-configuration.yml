@@ -26,6 +26,8 @@ services:
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
+  expose:
+    - 8848
 
   dubbo-provider:
     type: app
@@ -38,6 +40,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - nacos-server
+    expose:
+      - 8090
 
   sc-consumer:
     type: app
@@ -50,6 +54,8 @@ services:
     checkLog: "sc-consumer started"
     depends_on:
       - nacos-server
+    expose:
+      - 8099
 
   sc-dubbo-consumer-test:
     type: test

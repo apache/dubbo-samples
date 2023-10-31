@@ -18,6 +18,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   nacos:
     image: nacos/nacos-server:1.4.0
@@ -27,6 +29,8 @@ services:
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
+    expose:
+      - 8848
 
   servicediscovery-provider:
     type: app
@@ -43,6 +47,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - nacos
+    expose:
+      - 20880
       
   servicediscovery-consumer-test:
     type: test

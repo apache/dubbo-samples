@@ -19,6 +19,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-test-11096-test:
     type: test

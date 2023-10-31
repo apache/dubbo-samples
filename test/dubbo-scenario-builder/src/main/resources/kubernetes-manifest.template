@@ -1,0 +1,187 @@
+<#--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${namespace_name}
+
+---
+
+
+
+<#list services as service>
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${namespace_name}
+  name: ${service.name}
+spec:
+  clusterIP: None
+  selector:
+    app: ${service.name}
+  ports:
+  <#if service.expose??>
+  <#list service.expose as expose>
+    - name: service-${expose}
+      protocol: TCP
+      port: ${expose}
+      targetPort: ${expose}
+  </#list>
+  </#if>
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${namespace_name}
+  name: ${service.name}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${service.name}
+  template:
+    metadata:
+      namespace: ${namespace_name}
+      labels:
+        app: ${service.name}
+    spec:
+      <#if service.initContainers??>
+      initContainers:
+        <#list service.initContainers as initContainer>
+        - name: ${initContainer.name}
+          image: ${initContainer.image}
+          <#if initContainer.command??>
+          command:
+            <#list initContainer.command as cmd>
+            - "${cmd}"
+            </#list>
+          </#if>
+          <#if initContainer.attributes??>
+          <#list initContainer.attributes as key,value>
+          ${key}: ${value}
+          </#list>
+          </#if>
+        </#list>
+      </#if>
+      containers:
+        - name: ${service.name}
+          <#if service.imageName?has_content>
+          image: ${service.imageName}
+          </#if>
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          ports:
+          <#if service.expose??>
+          <#list service.expose as expose>
+            - containerPort: ${expose}
+          </#list>
+          </#if>
+          <#if service.volumes??>
+          volumeMounts:
+          <#list service.volumesMounts as key,value>
+            - name: ${key}-volume
+              mountPath: ${value}
+          </#list>
+          </#if>
+          <#if service.environment??>
+          env:
+          <#list service.environment as key,value>
+            - name: ${key}
+              value: "${value}"
+          </#list>
+          </#if>
+          <#if service.healthcheck??>
+          readinessProbe:
+            exec:
+              command:
+              <#if service.healthcheckExec??>
+              <#list service.healthcheckExec as cmd>
+                - "${cmd}"
+              </#list>
+              </#if>
+          <#list service.healthcheck as key,value>
+            ${key}: ${value}
+          </#list>
+          </#if>
+      <#if service.volumes??>
+      volumes:
+      <#list service.volumes as key,value>
+        - name: ${key}-volume
+          hostPath:
+            path: ${value}
+      </#list>
+      </#if>
+
+---
+</#list>
+
+<#list test_services as test_service>
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: ${namespace_name}
+  name: ${test_service.name}
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      namespace: ${namespace_name}
+      labels:
+        app: ${test_service.name}
+    spec:
+      containers:
+        - name: ${test_service.name}
+          <#if test_service.imageName?has_content>
+          image: ${test_service.imageName}
+          </#if>
+          imagePullPolicy: IfNotPresent
+          #ports:
+          #<#if test_service.expose??>
+          #<#list test_service.expose as expose>
+          #  - containerPort: ${expose}
+          #</#list>
+          #</#if>
+          <#if test_service.volumes??>
+          volumeMounts:
+          <#list test_service.volumesMounts as key,value>
+            - name: ${key}-volume
+              mountPath: ${value}
+          </#list>
+          </#if>
+          <#if test_service.environment??>
+          env:
+          <#list test_service.environment as key,value>
+            - name: ${key}
+              value: "${value}"
+          </#list>
+          </#if>
+      restartPolicy: Never
+      <#if test_service.volumes??>
+      volumes:
+      <#list test_service.volumes as key,value>
+        - name: ${key}-volume
+          hostPath:
+            path: ${value}
+      </#list>
+      </#if>
+---
+</#list>

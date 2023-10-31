@@ -17,11 +17,16 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   callback-provider:
     type: app
     basedir: dubbo-samples-callback-provider
     mainClass: org.apache.dubbo.samples.callback.provider.ProviderApplication
+    expose:
+      - 20880
+      - 2181
 
   callback-consumer:
     type: test

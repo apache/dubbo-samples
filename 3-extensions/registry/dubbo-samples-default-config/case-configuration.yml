@@ -31,6 +31,11 @@ services:
       - ${dubbo_port}
       - ${hessian_port}
     checkLog: "dubbo service started"
+    expose:
+      - ${zookeeper_port1}
+      - ${zookeeper_port2}
+      - ${dubbo_port}
+      - ${hessian_port}
 
   dubbo-samples-default-config-test:
     type: test

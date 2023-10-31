@@ -16,6 +16,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-http-tomcat:
     type: app
@@ -31,6 +33,8 @@ services:
     checkPorts:
       - 8080
     checkLog: "dubbo service started"
+    expose:
+      - 8080
 
   dubbo-samples-http-jetty:
     type: app
@@ -46,6 +50,8 @@ services:
     checkPorts:
       - 8081
     checkLog: "dubbo service started"
+    expose:
+      - 8081
 
   dubbo-samples-http-test:
     type: test

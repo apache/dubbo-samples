@@ -19,6 +19,10 @@ services:
     type: app
     basedir: dubbo-samples-attachment-provider
     mainClass: org.apache.dubbo.samples.attachment.AttachmentProvider
+    expose:
+      - 20880
+      - 2181
+
   attachment-consumer:
     type: test
     basedir: dubbo-samples-attachment-consumer

@@ -14,20 +14,41 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ignoreFor: 'Interoperability between spring-cloud and dubbo is not ready?'
+
 services:
   zookeeper:
     image: zookeeper:latest
     expose:
       - 2181
+    
+  consul-server:
+    image: consul:latest
+    expose:
+      - 8500
 
-  dubbo-samples-configconditionrouter1:
+  dubbo-scdubbo-provider:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.governance.BasicProvider
+    basedir: dubbo-scdubbo-provider
+    mainClass: org.apache.dubbo.samples.microservices.sc.Application
+    systemProps:
+      - consul.address=consul-server
+    waitPortsBeforeRun:
+      - consul-server:8500
+    checkPorts:
+      - 8099
+    checkLog: "dubbo service started"
+    depends_on:
+      - consul-server
+    expose:
+      - 8099
+      
+  dubbo-scdubbo-provider2:
+    type: app
+    basedir: dubbo-scdubbo-provider2
+    mainClass: org.apache.dubbo.demo.provider.Application
     systemProps:
       - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-      - dubbo.port=20880
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
@@ -38,37 +59,20 @@ services:
     expose:
       - 20880
 
-  dubbo-samples-configconditionrouter2:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.governance.BasicProvider
-    systemProps:
-      - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-      - dubbo.port=20881
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20881
-    checkLog: "dubbo service started"
-    depends_on:
-      - zookeeper
-    expose:
-      - 20881
-
-  dubbo-samples-configconditionrouter-test:
+  dubbo-scdubbo-consumer-test:
     type: test
-    basedir: .
+    basedir: dubbo-scdubbo-consumer
     tests:
       - "**/*IT.class"
     systemProps:
+      - consul.address=consul-server
       - zookeeper.address=zookeeper
-      - zookeeper.port=2181
     waitPortsBeforeRun:
+      - consul-server:8500
       - zookeeper:2181
-      - dubbo-samples-configconditionrouter1:20880
-      - dubbo-samples-configconditionrouter2:20881
+      - dubbo-scdubbo-provider:8099
+      - dubbo-scdubbo-provider2:20880
     depends_on:
-      - zookeeper
-      - dubbo-samples-configconditionrouter1
-      - dubbo-samples-configconditionrouter2
+      - consul-server
+      - dubbo-scdubbo-provider
+      - dubbo-scdubbo-provider2

@@ -24,6 +24,9 @@ services:
     checkPorts:
       - 20880
     checkLog: "dubbo service started"
+    expose:
+      - 20880
+      - 2181
 
   dubbo-samples-merge-provider2:
     type: app
@@ -42,6 +45,8 @@ services:
       - dubbo-samples-merge-provider1:2181
       - dubbo-samples-merge-provider1:20880
     checkLog: "dubbo service started"
+    expose:
+      - 20881
 
   dubbo-samples-merge-consumer1:
     type: test

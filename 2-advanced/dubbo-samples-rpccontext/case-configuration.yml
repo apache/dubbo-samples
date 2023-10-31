@@ -17,6 +17,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-rpccontext-provider2:
     type: app
@@ -31,6 +33,8 @@ services:
     checkLog: "Rpc context provider2 started"
     depends_on:
       - zookeeper
+    expose:
+      - 20882
 
 
   dubbo-samples-rpccontext-provider:
@@ -47,6 +51,8 @@ services:
     depends_on:
       - zookeeper
       - dubbo-samples-rpccontext-provider2
+    expose:
+      - 20880
 
   dubbo-samples-rpccontext-consumer:
     type: test

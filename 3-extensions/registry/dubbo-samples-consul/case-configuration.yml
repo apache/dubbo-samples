@@ -17,6 +17,8 @@
 services:
   consul:
     image: consul:1.9.1
+    expose:
+      - 8500
 
   dubbo-samples-consul:
     type: app
@@ -32,6 +34,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - consul
+    expose:
+      - 20880
 
   dubbo-samples-consul-test:
     type: test

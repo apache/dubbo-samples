@@ -26,6 +26,8 @@ services:
       - JVM_XMS=512m
       - JVM_XMX=512m
       - JVM_XMN=256m
+    expose:
+      - 8848
 
   sc-provider:
     type: app
@@ -38,6 +40,8 @@ services:
     checkLog: "sc-provider started"
     depends_on:
       - nacos-server
+    expose:
+      - 8099
 
   dubbo-sc-consumer-test:
     type: test

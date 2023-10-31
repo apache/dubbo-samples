@@ -18,6 +18,8 @@
 package org.apache.dubbo.scenario.builder.vo;
 
 
+import org.apache.dubbo.scenario.builder.kubernetes.InitContainer;
+
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +35,17 @@ public class ServiceComponent {
     private List<String> ports;
     private List<String> entrypoint;
     private List<String> environment;
-    private List<String> volumes;
+    private Map<String,String> kubeVolumes;
+
+    private Map<String,String> kubeVolumesMounts;
     private List<String> volumes_from;
     private List<String> depends_on;
     private Map<String, Object> healthcheck;
+
+    private List<Object> init;
+
+
+    private List<String> healthcheckExec;
 
     // app attrs
     private String type;
@@ -50,6 +59,8 @@ public class ServiceComponent {
     private List<String> tests;
     private List<String> systemProps;
     private List<String> jvmFlags;
+
+    private List<String> volumes;
 
     public String getImage() {
         return image;
@@ -211,12 +222,12 @@ public class ServiceComponent {
         this.jvmFlags = jvmFlags;
     }
 
-    public List<String> getVolumes() {
-        return volumes;
+    public Map<String, String> getKubeVolumes() {
+        return kubeVolumes;
     }
 
-    public void setVolumes(List<String> volumes) {
-        this.volumes = volumes;
+    public void setKubeVolumes(Map<String, String> kubeVolumes) {
+        this.kubeVolumes = kubeVolumes;
     }
 
     public List<String> getVolumes_from() {
@@ -264,7 +275,7 @@ public class ServiceComponent {
                 ", ports=" + ports +
                 ", entrypoint=" + entrypoint +
                 ", environment=" + environment +
-                ", volumes=" + volumes +
+                ", volumes=" + kubeVolumes +
                 ", volumes_from=" + volumes_from +
                 ", depends_on=" + depends_on +
                 ", healthcheck=" + healthcheck +
@@ -281,4 +292,38 @@ public class ServiceComponent {
                 ", jvmFlags=" + jvmFlags +
                 '}';
     }
+
+    public Map<String, String> getKubeVolumesMounts() {
+        return kubeVolumesMounts;
+    }
+
+    public void setKubeVolumesMounts(Map<String, String> kubeVolumesMounts) {
+        this.kubeVolumesMounts = kubeVolumesMounts;
+    }
+
+    public List<String> getHealthcheckExec() {
+        return healthcheckExec;
+    }
+
+    public void setHealthcheckExec(List<String> healthcheckExec) {
+        this.healthcheckExec = healthcheckExec;
+    }
+
+    public List<String> getVolumes() {
+        return volumes;
+    }
+
+    public void setVolumes(List<String> volumes) {
+        this.volumes = volumes;
+    }
+
+
+    public List<Object> getInit() {
+        return init;
+    }
+
+    public void setInit( List<Object> init) {
+        this.init = init;
+    }
+
 }

@@ -18,8 +18,10 @@
 package org.apache.dubbo.scenario.builder;
 
 import org.apache.dubbo.scenario.builder.exception.ConfigureFileNotFoundException;
+import org.apache.dubbo.scenario.builder.kubernetes.InitContainer;
+import org.apache.dubbo.scenario.builder.kubernetes.KubernetesRunningGenerator;
+import org.apache.dubbo.scenario.builder.kubernetes.KubernetesService;
 import org.apache.dubbo.scenario.builder.vo.CaseConfiguration;
-import org.apache.dubbo.scenario.builder.vo.DockerService;
 import org.apache.dubbo.scenario.builder.vo.ServiceComponent;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +32,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,6 +44,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
@@ -259,15 +263,22 @@ public class ConfigurationImpl implements IConfiguration {
             if (isAppOrTestService(type)) {
                 service.setImage(SAMPLE_TEST_IMAGE + ":" + testImageVersion);
                 service.setBasedir(toAbsolutePath(service.getBasedir()));
-                if (service.getVolumes() == null) {
-                    service.setVolumes(new ArrayList<>());
+                if (service.getKubeVolumes() == null) {
+                    service.setKubeVolumes(new HashMap<>());
                 }
-                //mount ${project.basedir}/target : DUBBO_APP_DIR
+                // DUBBO_APP_DIR
+                // DUBBO_LOG_DIR
                 String targetPath = new File(service.getBasedir(), "target").getCanonicalPath();
-                service.getVolumes().add(targetPath + ":" + DUBBO_APP_DIR);
+                service.getKubeVolumes().put("app", targetPath);
+                service.getKubeVolumes().put("log", scenarioLogDir);
+                if (service.getKubeVolumesMounts() == null) {
+                    service.setKubeVolumesMounts(new HashMap<>());
+                }
+                // mount ${project.basedir}/target
+                // mount ${scenario_home}/logs :
 
-                //mount ${scenario_home}/logs : DUBBO_LOG_DIR
-                service.getVolumes().add(scenarioLogDir + ":" + DUBBO_LOG_DIR);
+                service.getKubeVolumesMounts().put("app", DUBBO_APP_DIR);
+                service.getKubeVolumesMounts().put("log", DUBBO_LOG_DIR);
 
                 if (service.getEnvironment() == null) {
                     service.setEnvironment(new ArrayList<>());
@@ -317,9 +328,11 @@ public class ConfigurationImpl implements IConfiguration {
                 if (jacocoEnable) {
                     //mount ${project.basedir}/target : DUBBO_APP_DIR
                     String jacocoPath = new File(service.getBasedir(), "target-jacoco").getCanonicalPath();
-                    service.getVolumes().add(jacocoPath + ":" + DUBBO_JACOCO_RESULT_DIR);
+                    service.getKubeVolumes().put("jacoco", DUBBO_JACOCO_RESULT_DIR);
+                    service.getKubeVolumesMounts().put("jacoco", jacocoPath);
                     String jacocoRunnerPath = new File(outputDir() + File.separator + "jacocoagent.jar").getCanonicalPath();
-                    service.getVolumes().add(jacocoRunnerPath + ":" + DUBBO_JACOCO_RUNNER_FILE);
+                    service.getKubeVolumes().put("jacocoRunner", DUBBO_JACOCO_RUNNER_FILE);
+                    service.getKubeVolumesMounts().put("jacocoRunner", jacocoRunnerPath);
 
                     //set jacoco agent
                     String jacoco = "-javaagent:" + DUBBO_JACOCO_RUNNER_FILE + "=destfile=/usr/local/dubbo/target-jacoco/" + index++ + "-" + System.currentTimeMillis() + "-jacoco.exec";
@@ -359,11 +372,15 @@ public class ConfigurationImpl implements IConfiguration {
                             service.setHealthcheck(healthcheckMap);
                         }
                         Map<String, Object> healthcheck = service.getHealthcheck();
-                        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
-                        healthcheck.putIfAbsent("interval", "5s");
-                        healthcheck.putIfAbsent("timeout", "5s");
-                        healthcheck.putIfAbsent("retries", 20);
-                        healthcheck.putIfAbsent("start_period", "60s");
+//                        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
+                        healthcheck.putIfAbsent("timeoutSeconds", 10);
+                        healthcheck.putIfAbsent("periodSeconds", 5);
+                        healthcheck.putIfAbsent("successThreshold", 1);
+                        healthcheck.putIfAbsent("failureThreshold", 20);
+                        healthcheck.putIfAbsent("initialDelaySeconds", 30);
+
+                        List<String> healthcheckExec = Arrays.asList("/bin/sh", "-c", "/usr/local/dubbo/healthcheck.sh");
+                        service.setHealthcheckExec(healthcheckExec);
                     }
                 } else if ("test".equals(type)) {
                     String mainClass = service.getMainClass();
@@ -383,6 +400,28 @@ public class ConfigurationImpl implements IConfiguration {
                 }
             }
 
+            if (service.getVolumes() != null && !service.getVolumes().isEmpty()) {
+                if (service.getKubeVolumes() == null) {
+                    service.setKubeVolumes(new HashMap<>());
+                }
+                if (service.getKubeVolumesMounts() == null) {
+                    service.setKubeVolumesMounts(new HashMap<>());
+                }
+                for (int i = 0; i < service.getVolumes().size(); i++) {
+                    String volume = service.getVolumes().get(i);
+                    String[] sp = service.getVolumes().get(i).split(":");
+                    if (sp.length != 2) {
+                        throw new RuntimeException("Error volume: " + volume);
+                    }
+                    String key = "dubbo" + i;
+                    service.getKubeVolumes().put(key, sp[0]);
+                    service.getKubeVolumesMounts().put(key, sp[1]);
+                }
+                for (String volume : service.getVolumes()) {
+
+
+                }
+            }
             // set hostname to serviceId if absent
             if (StringUtils.isBlank(service.getHostname())) {
                 service.setHostname(serviceName);
@@ -513,7 +552,7 @@ public class ConfigurationImpl implements IConfiguration {
 
     @Override
     public ScenarioRunningScriptGenerator scenarioGenerator() {
-        return new DockerComposeRunningGenerator();
+        return new KubernetesRunningGenerator();
     }
 
     @Override
@@ -546,7 +585,7 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     @Override
-    public String dockerNetworkName() {
+    public String namespaceName() {
         return (scenarioName() + "-" + testImageVersion()).toLowerCase();
     }
 
@@ -592,27 +631,26 @@ public class ConfigurationImpl implements IConfiguration {
         root.put("scenario_home", scenarioHome());
         root.put("scenario_name", scenarioName());
         root.put("scenario_version", scenarioVersion());
-        root.put("docker_container_name", dockerContainerName());
         root.put("jacoco_home", jacocoHome());
         root.put("debug_mode", debugMode());
-        root.put("docker_compose_file", outputDir() + File.separator + "docker-compose.yml");
-        root.put("network_name", dockerNetworkName());
-        root.put("ipv6_cidr", ipv6Cidr());
+        root.put("kubernetes_manifest_file", outputDir() + File.separator + "kubernetes-manifest.yaml");
+        root.put("namespace_name", namespaceName());
+//        root.put("ipv6_cidr", ipv6Cidr());
         root.put("timeout", scenarioTimeout);
 
-        final StringBuilder removeImagesScript = new StringBuilder();
-        List<String> links = new ArrayList<>();
-        if (caseConfiguration.getServices() != null) {
-            caseConfiguration.getServices().forEach((name, service) -> {
-                links.add(service.getHostname());
-                if (service.isRemoveOnExit()) {
-                    removeImagesScript.append("docker rmi ")
-                            .append(service.getImage())
-                            .append(System.lineSeparator());
-                }
-            });
-        }
-        root.put("removeImagesScript", removeImagesScript.toString());
+//        final StringBuilder removeImagesScript = new StringBuilder();
+//        List<String> links = new ArrayList<>();
+//        if (caseConfiguration.getServices() != null) {
+//            caseConfiguration.getServices().forEach((name, service) -> {
+//                links.add(service.getHostname());
+//                if (service.isRemoveOnExit()) {
+//                    removeImagesScript.append("docker rmi ")
+//                            .append(service.getImage())
+//                            .append(System.lineSeparator());
+//                }
+//            });
+//        }
+//        root.put("removeImagesScript", removeImagesScript.toString());
 
 //        add links to test service
 //        caseConfiguration.getServices().forEach((name, service) -> {
@@ -621,16 +659,19 @@ public class ConfigurationImpl implements IConfiguration {
 //                    service.setLinks(new ArrayList<>());
 //                }
 //                for (String link : links) {
-//                    if (!StringUtils.equals(link, service.getHostname())) {
+//                    if (!StringUtils.equals(link, service.getHostname())) {[]
 //                        service.getLinks().add(link);
 //                    }
 //                }
 //            }
 //        });
-
-        root.put("services", convertDockerServices(scenarioVersion(), caseConfiguration.getServices()));
+        List<KubernetesService> kubernetesServices = convertKubernetesService(scenarioVersion(), caseConfiguration.getServices());
+        List<KubernetesService> testServices = kubernetesServices.stream().filter(s -> "test".equals(s.getType())).collect(Collectors.toList());
+        kubernetesServices = kubernetesServices.stream().filter(s -> !"test".equals(s.getType())).collect(Collectors.toList());
+        root.put("services", kubernetesServices);
+        root.put("test_services", testServices);
         List<String> testServiceNames = findTestServiceNames(caseConfiguration);
-        root.put("test_service_name", testServiceNames.size() > 0 ? testServiceNames.get(0) : "");
+        root.put("test_service_names", testServiceNames.size() > 0 ? testServiceNames : "");
 
         return root;
     }
@@ -646,55 +687,108 @@ public class ConfigurationImpl implements IConfiguration {
         return serviceNames;
     }
 
-    protected List<DockerService> convertDockerServices(final String version,
-                                                        Map<String, ServiceComponent> componentMap) {
-        final ArrayList<DockerService> services = new ArrayList<>();
+    protected List<KubernetesService> convertKubernetesService(final String version,
+                                                               Map<String, ServiceComponent> componentMap) {
+        final ArrayList<KubernetesService> services = new ArrayList<>();
         if (componentMap == null) {
             return services;
         }
-        componentMap.forEach((name, dependency) -> {
-            DockerService service = new DockerService();
+        for (Map.Entry<String, ServiceComponent> mapEntry : componentMap.entrySet()) {
+            String name = mapEntry.getKey();
+            ServiceComponent dependency = mapEntry.getValue();
+            KubernetesService service = getKubernetesService(dependency, name);
+            services.add(service);
+        }
+        return services;
+    }
 
-            String imageName = dependency.getImage();
-            service.setName(name);
-            service.setImageName(imageName);
-            service.setBuild(dependency.getBuild());
-            service.setHostname(dependency.getHostname());
-            service.setExpose(dependency.getExpose());
-            service.setPorts(dependency.getPorts());
-            service.setEntrypoint(dependency.getEntrypoint());
-            service.setLinks(dependency.getDepends_on());
+    private static KubernetesService getKubernetesService(ServiceComponent dependency, String name) {
+        KubernetesService service = new KubernetesService();
 
-            //convert depends_on to map
-            if (dependency.getDepends_on() != null) {
-                Map<String, String> dependsOnMap = new LinkedHashMap<>();
-                service.setDepends_on(dependsOnMap);
-                for (String serviceName : dependency.getDepends_on()) {
-                    if (healthcheckServices.contains(serviceName)) {
-                        dependsOnMap.put(serviceName, "{condition: service_healthy}");
+        String imageName = dependency.getImage();
+        service.setName(name);
+        service.setImageName(imageName);
+        service.setType(dependency.getType());
+//            service.setBuild(dependency.getBuild());
+        service.setHostname(dependency.getHostname());
+        service.setExpose(dependency.getExpose());
+//            //convert depends_on to map
+//            if (dependency.getDepends_on() != null) {
+//                Map<String, String> dependsOnMap = new LinkedHashMap<>();
+//                service.setDepends_on(dependsOnMap);
+//                for (String serviceName : dependency.getDepends_on()) {
+//                    if (healthcheckServices.contains(serviceName)) {
+//                        dependsOnMap.put(serviceName, "{condition: service_healthy}");
+//                    } else {
+//                        dependsOnMap.put(serviceName, "{condition: service_started}");
+//                    }
+//                }
+//            }
+
+        if(dependency.getInit() != null) {
+            Yaml yaml = new Yaml();
+            List<Object> inits = dependency.getInit();
+            for (Object map : inits) {
+                Map<String, Object> initMap = (Map<String, Object>) map;
+                InitContainer initContainer = new InitContainer();
+                Map<String, String> newMap = new LinkedHashMap<>();
+
+                for (Map.Entry<String, Object> entry : initMap.entrySet()) {
+                    String key = entry.getKey();
+                    if ("command".equals(key)) {
+                        initContainer.setCommand((List<String>) entry.getValue());
+                        continue;
+                    }
+                    String val = yaml.dump(entry.getValue()).trim();
+                    if ("name".equals(key)) {
+                        initContainer.setName(val);
+                    } else if ("image".equals(key)) {
+                        initContainer.setImage(val);
                     } else {
-                        dependsOnMap.put(serviceName, "{condition: service_started}");
+                        newMap.put(entry.getKey(), val);
                     }
                 }
+                initContainer.setAttributes(newMap);
+                List<InitContainer> initContainers = service.getInitContainers();
+                if (initContainers == null) {
+                    service.setInitContainers(new ArrayList<>());
+                    initContainers = service.getInitContainers();
+                }
+                initContainers.add(initContainer);
             }
 
-            //convert healthcheck to string map
-            if (dependency.getHealthcheck() != null) {
-                Yaml yaml = new Yaml();
-                Map<String, Object> healthcheckMap = dependency.getHealthcheck();
-                Map<String, String> newMap = new LinkedHashMap<>();
-                for (Map.Entry<String, Object> entry : healthcheckMap.entrySet()) {
-                    String value = yaml.dump(entry.getValue());
-                    newMap.put(entry.getKey(), value.trim());
+
+        }
+
+        //convert healthcheck to string map
+        if (dependency.getHealthcheck() != null) {
+            Yaml yaml = new Yaml();
+            Map<String, Object> healthcheckMap = dependency.getHealthcheck();
+            Map<String, String> newMap = new LinkedHashMap<>();
+            for (Map.Entry<String, Object> entry : healthcheckMap.entrySet()) {
+                if ("test".equals(entry.getKey())) {
+                    dependency.setHealthcheckExec((List<String>) entry.getValue());
+                    continue;
                 }
-                service.setHealthcheck(newMap);
+                String value = yaml.dump(entry.getValue());
+                newMap.put(entry.getKey(), value.trim());
             }
-            service.setEnvironment(dependency.getEnvironment());
-            service.setVolumes(dependency.getVolumes());
-            service.setVolumes_from(dependency.getVolumes_from());
-            service.setRemoveOnExit(dependency.isRemoveOnExit());
-            services.add(service);
-        });
-        return services;
+            service.setHealthcheck(newMap);
+            service.setHealthcheckExec(dependency.getHealthcheckExec());
+        }
+        if (dependency.getEnvironment() != null) {
+            Map<String, String> env = dependency.getEnvironment().stream()
+                    .map(e -> {
+                        int index = e.indexOf("=");
+                        return new AbstractMap.SimpleEntry<>(e.substring(0, index), e.substring(index + 1));
+                    })
+                    .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+            service.setEnvironment(env);
+        }
+        service.setVolumes(dependency.getKubeVolumes());
+        service.setVolumesMounts(dependency.getKubeVolumesMounts());
+//            service.setVolumes_from(dependency.getVolumes_from());
+//            service.setRemoveOnExit(dependency.isRemoveOnExit());
+        return service;
     }
 }

@@ -26,10 +26,16 @@ services:
       - 3306
     healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
-      interval: 5s
-      timeout: 5s
-      retries: 20
+      test:
+        - "mysqladmin"
+        - "-uroot"
+        - "-proot"
+        - "ping"
+      timeoutSeconds: 5
+      periodSeconds: 5
+      successThreshold: 1
+      failureThreshold: 20
+      initialDelaySeconds: 10
 
   nacos:
     image: nacos/nacos-server:v2.1.2
@@ -53,6 +59,13 @@ services:
       - 9555
     depends_on:
       - nacos-mysql
+    init:
+      - name: wait-for-mysql
+        image: busybox
+        command:
+          - "/bin/sh"
+          - "-c"
+          - "until nc -z nacos-mysql 3306; do sleep 1; done;"
 
   dubbo-samples-empty-protection-nacos:
     type: test

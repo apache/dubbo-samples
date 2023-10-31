@@ -18,9 +18,13 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   zipkin:
     image: openzipkin/zipkin
+    expose:
+      - 9411
 
   dubbo-samples-zipkin-hello:
     type: app
@@ -38,6 +42,8 @@ services:
     depends_on:
       - zookeeper
       - zipkin
+    expose:
+      - 20880
 
   dubbo-samples-zipkin-greeting:
     type: app
@@ -57,7 +63,8 @@ services:
       - zookeeper
       - zipkin
       - dubbo-samples-zipkin-hello
-
+    expose:
+      - 20881
   dubbo-samples-zipkin-test:
     type: test
     basedir: .

@@ -17,6 +17,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   provider:
     type: app
@@ -29,6 +31,10 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 18081
+      - 18080
+
 
 
   test:

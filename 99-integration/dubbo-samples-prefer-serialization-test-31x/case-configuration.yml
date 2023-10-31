@@ -18,6 +18,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-prefer-serialization-test-31x-provider:
     type: app
@@ -32,6 +34,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20880
 
   dubbo-samples-prefer-serialization-test-31x-consumer:
     type: test

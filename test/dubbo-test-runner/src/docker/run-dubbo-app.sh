@@ -28,6 +28,7 @@ if [ $RUN_DELAY -gt 0 ]; then
 fi
 
 echo "Running app : [$APP_MAIN_CLASS] ..."
+tree /usr/local/dubbo/app
 start=$SECONDS
 java $JAVA_OPTS $DEBUG_OPTS -cp "$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*" $APP_MAIN_CLASS 2>&1 &
 pid=$!

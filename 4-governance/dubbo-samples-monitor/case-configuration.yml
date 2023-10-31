@@ -17,6 +17,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-provider:
     type: app
@@ -30,6 +32,8 @@ services:
     checkPorts:
       - 20880
     checkLog: "dubbo service started"
+    expose:
+      - 20880
 
   dubbo-monitor:
     type: app
@@ -43,6 +47,8 @@ services:
     checkPorts:
       - 20881
     checkLog: "dubbo service started"
+    expose:
+      - 20881
 
   monitor-test:
     type: test

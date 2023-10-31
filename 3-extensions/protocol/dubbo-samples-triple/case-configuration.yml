@@ -23,6 +23,10 @@ services:
       - 50052
       - 50053
     mainClass: org.apache.dubbo.sample.tri.TestServers
+    expose:
+      - 2181
+      - 50052
+      - 50053
 
   dubbo-samples-triple-test:
     type: test

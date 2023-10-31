@@ -28,12 +28,15 @@ services:
     mainClass: ${app_provider_main_class}
     systemProps:
       - dubbo.current.protocol=tri
-      - zookeeper.address=${app_provider}
+      - zookeeper.address=127.0.0.1
       - dubbo.application.register-mode=instance
     checkPorts:
       - ${zookeeper_port}
       - ${dubbo_port}
     checkLog: "dubbo service started"
+    expose:
+      - ${zookeeper_port}
+      - ${dubbo_port}
     
   ${app_consumer}-test:
     type: test

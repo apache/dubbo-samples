@@ -18,6 +18,8 @@
 services:
   zookeeper:
     image: zookeeper:latest
+    expose:
+      - 2181
 
   dubbo-samples-chain-backend:
     type: app
@@ -32,6 +34,8 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
+    expose:
+      - 20880
 
   dubbo-samples-chain-middle:
     type: app
@@ -47,6 +51,8 @@ services:
     depends_on:
       - zookeeper
       - dubbo-samples-chain-backend
+    expose:
+      - 20881
 
   dubbo-samples-chain-front:
     type: test
