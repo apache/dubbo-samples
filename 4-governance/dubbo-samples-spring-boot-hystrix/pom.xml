@@ -38,7 +38,7 @@
         <hystrix-starter.version>2.2.10.RELEASE</hystrix-starter.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <guava.version>32.0.0-jre</guava.version>
-        <zookeeper.version>3.8.1</zookeeper.version>
+        <zookeeper.version>3.8.3</zookeeper.version>
         <junit.version>4.13.1</junit.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
