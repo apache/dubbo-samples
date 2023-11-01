@@ -38,7 +38,7 @@
         <aspectjweaver.version>1.9.20.1</aspectjweaver.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <guava.version>32.0.0-jre</guava.version>
-        <zookeeper.version>3.8.1</zookeeper.version>
+        <zookeeper.version>3.8.3</zookeeper.version>
         <hystrix.version>1.5.18</hystrix.version>
         <jackson.version>2.14.2</jackson.version>
         <protoc.version>3.22.2</protoc.version>
