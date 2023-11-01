@@ -24,7 +24,6 @@
         <version>23</version>
         <relativePath/>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
@@ -36,13 +35,13 @@
     <description>Dubbo Samples Callback</description>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <dubbo.version>3.2.6</dubbo.version>
-        <junit.version>4.13.1</junit.version>
         <spring-boot.version>2.7.8</spring-boot.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <modules>
@@ -75,16 +74,23 @@
                 <type>pom</type>
                 <exclusions>
                     <exclusion>
-                        <artifactId>slf4j-reload4j</artifactId>
-                        <groupId>org.slf4j</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
                     </exclusion>
                     <exclusion>
-                        <artifactId>log4j</artifactId>
-                        <groupId>log4j</groupId>
+                        <artifactId>logback-core</artifactId>
+                        <groupId>ch.qos.logback</groupId>
                     </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-logging</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
                     <exclusion>
-                        <artifactId>slf4j-log4j12</artifactId>
-                        <groupId>org.slf4j</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -98,13 +104,11 @@
     </dependencyManagement>
 
     <dependencies>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <profiles>

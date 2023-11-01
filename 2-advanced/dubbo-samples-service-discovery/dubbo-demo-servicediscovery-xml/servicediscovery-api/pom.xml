@@ -20,15 +20,15 @@
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-demo-servicediscovery-xml</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>servicediscovery-api</artifactId>
     <packaging>jar</packaging>
     <name>Service Discovery Api</name>
     <description>Service Discovery Api</description>
+
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>

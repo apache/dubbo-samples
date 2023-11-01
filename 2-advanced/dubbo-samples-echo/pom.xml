@@ -34,13 +34,12 @@
     <description>Dubbo Samples Echo</description>
 
     <properties>
-        <dubbo.version>3.2.6</dubbo.version>
-        <spring-boot.version>2.7.8</spring-boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <dubbo.version>3.2.6</dubbo.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -68,6 +67,28 @@
                 <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>logback-core</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-logging</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -78,7 +99,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <build>
         <pluginManagement>
@@ -91,5 +111,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

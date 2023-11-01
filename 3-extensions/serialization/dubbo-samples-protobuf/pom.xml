@@ -26,14 +26,13 @@
     <description>The protobuf demo module of dubbo project</description>
 
     <properties>
-        <source.level>1.8</source.level>
-        <target.level>1.8</target.level>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <compiler.version>0.0.2</compiler.version>
-        <dubbo.version>2.7.13</dubbo.version>
-        <spring.version>4.3.30.RELEASE</spring.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <dubbo.version>2.7.13</dubbo.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
+        <compiler.version>0.0.2</compiler.version>
     </properties>
 
     <modules>
@@ -65,7 +64,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <repositories>
         <repository>
@@ -108,10 +106,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
-                <configuration>
-                    <source>${source.level}</source>
-                    <target>${target.level}</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
@@ -160,5 +154,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

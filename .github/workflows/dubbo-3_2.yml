@@ -30,6 +30,7 @@ env:
 
 jobs:
   build-samples:
+    needs: [build-dubbo]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

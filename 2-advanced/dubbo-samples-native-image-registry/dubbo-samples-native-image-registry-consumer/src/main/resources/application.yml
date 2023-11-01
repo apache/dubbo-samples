@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: dubbo-samples-nativeimage-consumer
+    name: dubbo-samples-native-image-registry-consumer
 dubbo:
   application:
     name: ${spring.application.name}

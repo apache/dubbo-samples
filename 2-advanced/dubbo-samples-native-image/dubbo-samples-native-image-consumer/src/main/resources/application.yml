@@ -21,10 +21,6 @@ dubbo:
     name: ${spring.application.name}
     logger: slf4j
     qos-port: 22223
-  provider:
-    serialization: fastjson2
-  consumer:
-    serialization: fastjson2
 
 logging:
   pattern:

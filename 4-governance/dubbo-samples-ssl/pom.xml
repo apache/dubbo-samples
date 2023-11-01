@@ -28,18 +28,20 @@
     <name>Dubbo Samples ssl</name>
     <description>Dubbo Samples ssl</description>
 
-   <modules>
-       <module>dubbo-samples-ssl-provider</module>
-       <module>dubbo-samples-ssl-consumer</module>
-   </modules>
+    <modules>
+        <module>dubbo-samples-ssl-provider</module>
+        <module>dubbo-samples-ssl-consumer</module>
+    </modules>
 
     <properties>
-        <dubbo.version>3.2.6</dubbo.version>
-        <junit.version>4.13.1</junit.version>
-        <spring.version>4.3.30.RELEASE</spring.version>
-        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <dubbo.version>3.2.6</dubbo.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -80,6 +82,28 @@
                 <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>logback-core</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-logging</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -88,8 +112,6 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
-
 </project>
