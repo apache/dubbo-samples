@@ -23,7 +23,7 @@ import org.apache.dubbo.rpc.model.ModuleModel;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DemoModuleDeployListener implements ModuleDeployListener {
-    private final static AtomicBoolean failed = new AtomicBoolean(false);
+    private static final AtomicBoolean failed = new AtomicBoolean(false);
     @Override
     public void onInitialize(ModuleModel scopeModel) {
 
@@ -38,9 +38,23 @@ public class DemoModuleDeployListener implements ModuleDeployListener {
     public void onStarted(ModuleModel scopeModel) {
         String result = new Ls(scopeModel.getApplicationModel().getFrameworkModel()).execute(null, null);
         System.out.println(result);
-        if (result.replace("org.apache.dubbo.samples.api.GreetingsService:delay               |zookeeper-A(Y)/zookeeper-I(Y)|", "")
-                .contains("(Y)")) {
-            failed.set(true);
+        for (String s : result.split("\n")) {
+            if (s.contains("manual")) {
+                if (!s.contains("nacos-A(N)/nacos-I(N)")) {
+                    failed.set(true);
+                    break;
+                }
+            } else if (s.contains("register-false")) {
+                if (!s.contains("nacos-A(N)/nacos-I(N)")) {
+                    failed.set(true);
+                    break;
+                }
+            } else if (s.contains("GreetingsService")) {
+                if (!s.contains("nacos-A(Y)/nacos-I(Y)")) {
+                    failed.set(true);
+                    break;
+                }
+            }
         }
     }
 
