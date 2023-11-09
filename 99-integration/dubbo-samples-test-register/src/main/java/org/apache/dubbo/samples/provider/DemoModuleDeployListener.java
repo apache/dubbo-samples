@@ -41,7 +41,16 @@ public class DemoModuleDeployListener implements ModuleDeployListener {
         }
         String result = new Ls(scopeModel.getApplicationModel().getFrameworkModel()).execute(null, null);
         System.out.println(result);
+        // If application was started, GreetingsService would be registered
+        if (!result.contains("GreetingsService")) {
+            failed.set(true);
+            return;
+        }
         for (String s : result.split("\n")) {
+            // Ignore async register service, Avoiding sequential problems with asynchronous registration
+            if (s.contains("org.apache.dubbo.samples.api.GreetingsService:delay")) {
+                continue;
+            }
             if (s.contains("manual")) {
                 if (!s.contains("zookeeper-A(N)/zookeeper-I(N)")) {
                     failed.set(true);
