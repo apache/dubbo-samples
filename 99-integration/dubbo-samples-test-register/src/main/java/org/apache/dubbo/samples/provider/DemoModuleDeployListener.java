@@ -36,21 +36,24 @@ public class DemoModuleDeployListener implements ModuleDeployListener {
 
     @Override
     public void onStarted(ModuleModel scopeModel) {
+        if (scopeModel.isInternal()) {
+            return;
+        }
         String result = new Ls(scopeModel.getApplicationModel().getFrameworkModel()).execute(null, null);
         System.out.println(result);
         for (String s : result.split("\n")) {
             if (s.contains("manual")) {
-                if (!s.contains("nacos-A(N)/nacos-I(N)")) {
+                if (!s.contains("zookeeper-A(N)/zookeeper-I(N)")) {
                     failed.set(true);
                     break;
                 }
             } else if (s.contains("register-false")) {
-                if (!s.contains("nacos-A(N)/nacos-I(N)")) {
+                if (!s.contains("zookeeper-A(N)/zookeeper-I(N)")) {
                     failed.set(true);
                     break;
                 }
             } else if (s.contains("GreetingsService")) {
-                if (!s.contains("nacos-A(Y)/nacos-I(Y)")) {
+                if (!s.contains("zookeeper-A(Y)/zookeeper-I(Y)")) {
                     failed.set(true);
                     break;
                 }

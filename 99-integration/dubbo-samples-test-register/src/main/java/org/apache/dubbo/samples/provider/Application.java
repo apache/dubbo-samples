@@ -22,8 +22,12 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.qos.command.impl.Ls;
+import org.apache.dubbo.rpc.model.FrameworkModel;
 import org.apache.dubbo.samples.api.GreetingsService;
 import org.apache.dubbo.samples.api.QosService;
+
+import static org.awaitility.Awaitility.await;
 
 public class Application {
     private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
@@ -128,6 +132,27 @@ public class Application {
                 .start();
 
         service1.export();
+
+        await().until(()->{
+            String result = new Ls(FrameworkModel.defaultModel()).execute(null, null);
+            System.out.println(result);
+            for (String s : result.split("\n")) {
+                if (s.contains("manual")) {
+                    if (!s.contains("zookeeper-A(N)/zookeeper-I(N)")) {
+                        return false;
+                    }
+                } else if (s.contains("register-false")) {
+                    if (!s.contains("zookeeper-A(N)/zookeeper-I(N)")) {
+                        return false;
+                    }
+                } else if (s.contains("GreetingsService")) {
+                    if (!s.contains("zookeeper-A(Y)/zookeeper-I(Y)")) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        });
 
         if (DemoModuleDeployListener.isFailed()) {
             throw new IllegalStateException("Failed to deploy demo module");
