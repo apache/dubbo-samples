@@ -29,7 +29,7 @@
     <artifactId>dubbo-scenario-builder</artifactId>
 
     <properties>
-        <snakeyaml.version>1.32</snakeyaml.version>
+        <snakeyaml.version>2.0</snakeyaml.version>
     </properties>
 
     <dependencies>
