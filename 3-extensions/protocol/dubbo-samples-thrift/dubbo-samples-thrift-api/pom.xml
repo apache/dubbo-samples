@@ -29,11 +29,14 @@
     <artifactId>dubbo-samples-thrift-api</artifactId>
 
     <properties>
-        <maven-thrift-plugin.version>0.1.11</maven-thrift-plugin.version>
-        <thrift.path>/usr/local/bin/thrift</thrift.path>
-        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+
+        <maven-thrift-plugin.version>0.1.11</maven-thrift-plugin.version>
+        <thrift.path>/usr/local/bin/thrift</thrift.path>
     </properties>
 
     <dependencies>
@@ -72,5 +75,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>

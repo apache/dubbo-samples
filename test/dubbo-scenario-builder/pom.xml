@@ -30,8 +30,6 @@
 
     <properties>
         <snakeyaml.version>1.32</snakeyaml.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -84,23 +82,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.11</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>1.7.25</version>
-        </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.11</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -130,5 +116,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

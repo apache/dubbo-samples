@@ -30,6 +30,10 @@
     <name>Dubbo Samples Sd Merge Provider2</name>
     <description>Dubbo Samples Sd Merge Provider2</description>
 
+    <properties>
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -45,6 +49,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
         </dependency>
     </dependencies>
 

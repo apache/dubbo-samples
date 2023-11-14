@@ -5,7 +5,7 @@ As described in [the Triple protocol documentation](https://dubbo.apache.org/zh-
 The Java implementation gives you the option of using Triple and HTTP/2 RPC without the need of caring about Protocol Buffers, no IDL, just standard java interface and pojos.
 
 ## Run The Demo
-Detailed explanation of this demo can be found [here](https://dubbo.apache.org/zh-cn/overview/quickstart/rpc/java/).
+Detailed explanation of this demo can be found [here](https://dubbo.apache.org/zh-cn/overview/mannual/java-sdk/quick-start).
 
 Make sure you are in `dubbo-samples-triple-no-idl` before running the following commands
 

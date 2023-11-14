@@ -25,7 +25,6 @@
         <version>23</version>
         <relativePath/>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
@@ -37,13 +36,13 @@
     <description>Dubbo Samples Async Generated Future In SpringBoot</description>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <dubbo.version>3.2.6</dubbo.version>
-        <junit.version>4.13.1</junit.version>
         <spring-boot.version>2.7.8</spring-boot.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <modules>
@@ -98,7 +97,6 @@
             <artifactId>spring-context</artifactId>
         </dependency>
     </dependencies>
-
 
     <build>
         <pluginManagement>

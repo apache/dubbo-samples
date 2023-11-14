@@ -25,7 +25,6 @@
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-call-sc</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>sc-provider</artifactId>

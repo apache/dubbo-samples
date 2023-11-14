@@ -26,10 +26,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dubbo-samples-webservice-provider</artifactId>
     <properties>
-        <tomcat.version>8.0.53</tomcat.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <tomcat.version>8.0.53</tomcat.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -100,5 +103,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

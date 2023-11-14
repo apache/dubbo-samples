@@ -28,10 +28,13 @@
     <artifactId>dubbo-samples-thrift-impl</artifactId>
 
     <properties>
-        <spring.version>4.3.30.RELEASE</spring.version>
-        <junit.version>4.13.1</junit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <spring.version>4.3.30.RELEASE</spring.version>
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -75,6 +78,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper</artifactId>
             <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
         </dependency>
 
         <dependency>

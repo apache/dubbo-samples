@@ -24,15 +24,14 @@
         <groupId>org.apache.dubbo</groupId>
         <artifactId>sc-call-dubbo</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
     </properties>
 
     <artifactId>dubbo-provider</artifactId>
@@ -60,18 +59,8 @@
 
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-log4j12.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
         </dependency>
     </dependencies>
 

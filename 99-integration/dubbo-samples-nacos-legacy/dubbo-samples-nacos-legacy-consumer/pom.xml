@@ -30,6 +30,10 @@
     <name>Dubbo Samples Nacos Merge Consumer</name>
     <description>Dubbo Samples Nacos Merge Consumer</description>
 
+    <properties>
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -60,18 +64,8 @@
 
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.36</version>
+            <version>${slf4j-log4j12.version}</version>
         </dependency>
     </dependencies>
 
@@ -91,5 +85,4 @@
             </dependencies>
         </profile>
     </profiles>
-
 </project>
