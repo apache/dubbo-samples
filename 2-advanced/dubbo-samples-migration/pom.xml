@@ -27,10 +27,9 @@
     <version>1.0-SNAPSHOT</version>
     <name>Dubbo Samples Migration</name>
     <description>Dubbo Samples Migration</description>
-    
+
     <modules>
-        <module>dubbo-samples-migration-api</module>
-        <module>dubbo-samples-migration-provider</module>
-        <module>dubbo-samples-migration-consumer</module>
+        <module>dubbo-samples-migration-case-application</module>
+        <module>dubbo-samples-migration-case-default</module>
     </modules>
 </project>
