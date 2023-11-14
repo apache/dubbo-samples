@@ -450,4 +450,21 @@ else
     echo "Test not completed"
   fi
 fi
+
+echo "Test finished. Start to clean up environment."
+echo "Killing scenario.sh .."
+ps -ef | grep scenario.sh | grep -v grep  | awk '{ print $2 }' | xargs -I {} kill {}
+
+echo "Killing docker logs procs .."
+ps -ef | grep "docker logs" | grep -v grep  | awk '{ print $2 }' | xargs -I {} kill {}
+
+echo "Killing docker-compose .."
+ps -ef | grep "docker-compose" | grep "dubbo-samples" | grep -v grep  | awk '{ print $2 }' | xargs -I {} kill {}
+
+echo "Killing dubbo containers .."
+docker ps -a | grep dubbo | awk '{ print $1}' | xargs -I {} docker kill {}
+
+echo "Removing unused networks .."
+docker network prune -f
+
 exit $test_result

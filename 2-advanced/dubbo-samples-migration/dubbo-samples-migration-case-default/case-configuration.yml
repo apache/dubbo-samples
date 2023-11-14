@@ -15,16 +15,16 @@
 # limitations under the License.
 
 props:
-  app_provider: dubbo-samples-migration-provider
+  app_provider: dubbo-samples-migration-case-default-provider
   app_provider_main_class: org.apache.dubbo.migration.provider.ApiProvider
-  app_consumer: dubbo-samples-migration-consumer
+  app_consumer: dubbo-samples-migration-case-default-consumer
   zookeeper_port: 2181
   dubbo_port: 20880
-  
+
 services:
   ${app_provider}:
     type: app
-    basedir: ../${app_provider}
+    basedir: ${app_provider}
     mainClass: ${app_provider_main_class}
     systemProps:
       - dubbo.current.protocol=dubbo
@@ -34,10 +34,10 @@ services:
       - ${zookeeper_port}
       - ${dubbo_port}
     checkLog: "dubbo service started"
-    
+
   ${app_consumer}-test:
     type: test
-    basedir: ../${app_consumer} 
+    basedir: ${app_consumer}
     tests:
       - "**/*IT.class"
     systemProps:
