@@ -26,6 +26,7 @@ import org.apache.dubbo.samples.echo.api.DemoService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings("deprecation")
 @DubboService
 public class DemoServiceImpl implements DemoService {
     @Override

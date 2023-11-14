@@ -25,16 +25,11 @@
 		<relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>org.apache.dubbo</groupId>
 	<artifactId>dubbo-samples-async-generated-future-springboot-provider</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>consumer</name>
 	<description>consumer</description>
-
-	<properties>
-		<java.version>17</java.version>
-	</properties>
 
 	<dependencies>
 		<!-- dubbo -->
@@ -47,12 +42,6 @@
 			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
 			<type>pom</type>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-reload4j</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- spring starter -->

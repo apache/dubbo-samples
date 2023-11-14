@@ -23,13 +23,16 @@
     <packaging>pom</packaging>
     <name>Dubbo Samples Tengine</name>
     <description>The demo module of tengine dubbo</description>
+
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <dubbo.version>3.2.6</dubbo.version>
-        <spring-boot.version>2.1.5.RELEASE</spring-boot.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <dubbo.version>3.2.6</dubbo.version>
+        <spring-boot.version>2.7.8</spring-boot.version>
+
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
     <modules>
         <module>dubbo-samples-tengine-interface</module>
@@ -71,6 +74,7 @@
             <artifactId>dubbo-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
                 <plugin>

@@ -26,8 +26,8 @@
     <packaging>pom</packaging>
     <artifactId>dubbo-samples-grpc-ssl</artifactId>
 
-   <modules>
-       <module>dubbo-samples-grpc-ssl-provider</module>
-       <module>dubbo-samples-grpc-ssl-consumer</module>
-   </modules>
+    <modules>
+        <module>dubbo-samples-grpc-ssl-provider</module>
+        <module>dubbo-samples-grpc-ssl-consumer</module>
+    </modules>
 </project>

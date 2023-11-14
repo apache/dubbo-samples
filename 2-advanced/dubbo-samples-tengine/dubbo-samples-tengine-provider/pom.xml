@@ -23,17 +23,18 @@
         <artifactId>dubbo-samples-tengine</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.apache.dubbo.sample</groupId>
     <artifactId>dubbo-samples-tengine-provider</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
     <description>The demo provider module of dubbo tengine</description>
+
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-        <dubbo.version>3.2.6</dubbo.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <dubbo.version>3.2.6</dubbo.version>
     </properties>
 
     <dependencies>
@@ -68,10 +69,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

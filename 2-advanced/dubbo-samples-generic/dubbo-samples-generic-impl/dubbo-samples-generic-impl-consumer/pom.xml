@@ -32,6 +32,10 @@
     <name>Dubbo Samples Generic Impl Consumer</name>
     <description>Dubbo Samples Generic Impl Consumer</description>
 
+    <properties>
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -49,6 +53,11 @@
             <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <type>pom</type>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
+        </dependency>
+    </dependencies>
 </project>

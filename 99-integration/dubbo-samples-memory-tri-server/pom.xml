@@ -36,13 +36,14 @@
     <description>Dubbo Samples Memory Bench for One Server - Many Client (Triple)</description>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <dubbo.version>3.2.6</dubbo.version>
+        <protobuf-java.version>3.24.3</protobuf-java.version>
         <junit5.version>5.9.2</junit5.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <awaitility.version>4.2.0</awaitility.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -55,7 +56,7 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.20.3</version>
+            <version>${protobuf-java.version}</version>
         </dependency>
 
         <dependency>
@@ -63,6 +64,12 @@
             <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <version>${dubbo.version}</version>
             <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
         </dependency>
 
         <dependency>

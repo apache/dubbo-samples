@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -21,20 +22,18 @@
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-samples-tracing</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dubbo-sample-api-tracing-otel-zipkin</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
         <junit5.version>5.9.2</junit5.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -47,6 +46,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-log4j12.version}</version>
         </dependency>
 
         <dependency>
@@ -79,6 +84,17 @@
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-zipkin</artifactId>
         </dependency>
-    </dependencies>
 
+        <!-- Embedded Zookeeper Server Dependencies -->
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>4.1.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial.snappy</groupId>
+            <artifactId>snappy-java</artifactId>
+            <version>1.1.10.5</version>
+        </dependency>
+    </dependencies>
 </project>
