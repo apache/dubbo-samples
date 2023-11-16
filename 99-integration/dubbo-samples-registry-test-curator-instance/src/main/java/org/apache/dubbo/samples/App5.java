@@ -61,7 +61,7 @@ public class App5 {
         serviceConfig3.setInterface(DemoService3.class);
         serviceConfig3.setRef(new DemoService3Impl("App5"));
         serviceConfig3.setDelay(-1);
-        serviceConfig2.setWarmup(0);
+        serviceConfig3.setWarmup(0);
 
         ServiceConfig<ControlService> serviceConfig = new ServiceConfig<>();
         serviceConfig.setInterface(ControlService.class);
