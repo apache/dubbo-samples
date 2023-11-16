@@ -31,9 +31,9 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-test-13360</artifactId>
-    <name>Dubbo Samples Test for 13360</name>
-    <description>Dubbo Samples Test for 13360</description>
+    <artifactId>dubbo-samples-test-13360-32x</artifactId>
+    <name>Dubbo Samples Test for 13360-32x</name>
+    <description>Dubbo Samples Test for 13360 On Dubbo 3.2.x</description>
 
     <properties>
         <dubbo.version>3.2.8</dubbo.version>
