@@ -50,7 +50,6 @@
         <micrometer.version>1.10.6</micrometer.version>
         <micrometer-tracing.version>1.0.5</micrometer-tracing.version>
         <opentelemetry.version>1.1.0</opentelemetry.version>
-        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
         <junit.version>4.13.1</junit.version>
         <skywalking-agent.version>8.14.0</skywalking-agent.version>
 
@@ -66,6 +65,18 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                        <groupId>org.springframework.boot</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -115,9 +126,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
 
         <dependency>

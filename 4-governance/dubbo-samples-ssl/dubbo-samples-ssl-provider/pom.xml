@@ -28,13 +28,6 @@
 
     <artifactId>dubbo-samples-ssl-provider</artifactId>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
-    </properties>
-
     <dependencies>
         <!-- It's totally optional, add tcnative with embedded boringSSL support -->
         <dependency>
@@ -61,9 +54,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
 
         <dependency>

@@ -42,6 +42,7 @@
 
         <dubbo.version>3.2.6</dubbo.version>
         <protobuf-java.version>3.24.3</protobuf-java.version>
+        <log4j2.version>2.20.0</log4j2.version>
         <junit5.version>5.9.2</junit5.version>
         <awaitility.version>4.2.0</awaitility.version>
     </properties>
@@ -64,12 +65,30 @@
             <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <version>${dubbo.version}</version>
             <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>logback-core</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
         </dependency>
 
         <dependency>

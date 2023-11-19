@@ -32,7 +32,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <protobuf-java.version>3.24.3</protobuf-java.version>
-        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
+        <log4j2.version>2.20.0</log4j2.version>
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -63,9 +63,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
     </dependencies>
 

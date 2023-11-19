@@ -51,6 +51,9 @@ public class ConsumerIT {
             businessService.purchase("U100001", "C00321", 2, true);
             Assert.fail();
         } catch (RuntimeException t) {
+            if (t.getCause() instanceof RuntimeException) {
+                t = (RuntimeException) t.getCause();
+            }
             if (!t.getMessage().contains("xxx")) {
                 Assert.fail(t.getMessage());
             }

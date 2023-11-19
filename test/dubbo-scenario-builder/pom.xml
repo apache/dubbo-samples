@@ -30,6 +30,7 @@
 
     <properties>
         <snakeyaml.version>1.32</snakeyaml.version>
+        <log4j2.version>2.20.0</log4j2.version>
     </properties>
 
     <dependencies>
@@ -83,9 +84,9 @@
             <version>3.11</version>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
         </dependency>
     </dependencies>
 
