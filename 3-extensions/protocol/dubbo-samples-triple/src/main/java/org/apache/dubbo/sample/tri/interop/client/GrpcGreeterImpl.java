@@ -17,18 +17,17 @@
 
 package org.apache.dubbo.sample.tri.interop.client;
 
-import org.apache.dubbo.sample.tri.Greeter;
+import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.Context;
+import io.grpc.stub.ServerCallStreamObserver;
+import io.grpc.stub.StreamObserver;
+import org.apache.dubbo.sample.tri.DubboGreeterTriple;
 import org.apache.dubbo.sample.tri.GreeterGrpc;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
 import org.apache.dubbo.sample.tri.stub.GreeterImpl;
 import org.apache.dubbo.sample.tri.util.GrpcStreamObserverAdapter;
 import org.apache.dubbo.sample.tri.util.StreamObserverAdapter;
-
-import com.google.common.util.concurrent.MoreExecutors;
-import io.grpc.Context;
-import io.grpc.stub.ServerCallStreamObserver;
-import io.grpc.stub.StreamObserver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class GrpcGreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     public static final Map<String, Boolean> cancelResultMap = new HashMap<>();
 
-    private final Greeter delegate;
+    private final DubboGreeterTriple.GreeterImplBase delegate;
 
     @Override
     public void greetReturnBigAttachment(GreeterRequest request,
