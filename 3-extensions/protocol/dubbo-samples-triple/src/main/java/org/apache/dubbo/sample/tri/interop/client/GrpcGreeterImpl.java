@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.Context;
 import io.grpc.stub.ServerCallStreamObserver;
 import io.grpc.stub.StreamObserver;
+import org.apache.dubbo.sample.tri.DubboGreeterTriple;
 import org.apache.dubbo.sample.tri.GreeterGrpc;
 import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
@@ -35,7 +36,7 @@ public class GrpcGreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     public static final Map<String, Boolean> cancelResultMap = new HashMap<>();
 
-    private final GreeterImpl delegate;
+    private final DubboGreeterTriple.GreeterImplBase delegate;
 
     @Override
     public void greetReturnBigAttachment(GreeterRequest request,
