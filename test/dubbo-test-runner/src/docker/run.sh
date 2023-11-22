@@ -2,7 +2,7 @@
 
 echo "Start at: $(date "+%Y-%m-%d %H:%M:%S")"
 
-DIR=/usr/local/dubbo/
+DIR=/usr/local/dubbo
 cd $DIR
 
 #LOG_DIR=/usr/local/dubbo/logs
@@ -35,16 +35,15 @@ if [ "$APP_DEPENDENCY_DIR" == "" ]; then
   return 1
 fi
 
-
 if [ "$SERVICE_TYPE" == "app"  ]; then
   script_file=$DIR/run-dubbo-app.sh
 elif [ "$SERVICE_TYPE" == "test"  ]; then
   script_file=$DIR/run-dubbo-test.sh
 fi
 
-/bin/bash -x $script_file 2>&1
+/bin/bash $script_file 2>&1
 
-#/bin/bash -x $script_file 2>&1 | tee -a $LOG_FILE
+#/bin/bash $script_file 2>&1 | tee -a $LOG_FILE
 ## get proc exitcode before tee, use $PIPESTATUS variable instead of $? (https://stackoverflow.com/a/6871917)
 #result=${PIPESTATUS[0]}
 #exit $result

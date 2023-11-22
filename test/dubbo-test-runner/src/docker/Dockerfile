@@ -56,6 +56,6 @@ ADD dubbo-test-runner.jar *.sh /usr/local/dubbo/
 
 WORKDIR /usr/local/dubbo/
 #ENTRYPOINT exec java $JAVA_OPTS -jar dubbo-test-runner.jar $TEST_CLASSES_DIR $APP_CLASSES_DIR $APP_DEPENDENCY_DIR
-ENTRYPOINT ["bash", "-x", "./run.sh"]
+ENTRYPOINT ["bash", "./run.sh"]
 
 

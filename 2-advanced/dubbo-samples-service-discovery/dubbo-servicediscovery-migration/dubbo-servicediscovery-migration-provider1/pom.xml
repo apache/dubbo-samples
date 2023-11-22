@@ -31,12 +31,6 @@
     <name>Dubbo Service Discovery Migration Provider1</name>
     <description>Dubbo Service Discovery Migration Provider1</description>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>

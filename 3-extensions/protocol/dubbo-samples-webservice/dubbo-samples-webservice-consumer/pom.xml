@@ -26,10 +26,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dubbo-samples-webservice-consumer</artifactId>
 
-    <properties>
-        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -42,9 +38,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
 
         <dependency>

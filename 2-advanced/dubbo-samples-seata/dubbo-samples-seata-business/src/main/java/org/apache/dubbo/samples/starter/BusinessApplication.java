@@ -75,6 +75,9 @@ public class BusinessApplication {
             try {
                 businessService.purchase("U100001", "C00321", 2, true);
             } catch (RuntimeException t) {
+                if (t.getCause() instanceof RuntimeException) {
+                    t = (RuntimeException) t.getCause();
+                }
                 if (t.getMessage().contains("xxx")) {
                     LOGGER.info("Purchase rollback triggered.");
                 } else {

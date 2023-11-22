@@ -26,10 +26,6 @@
 
     <artifactId>dubbo-samples-autowire-consumer</artifactId>
 
-    <properties>
-        <slf4j-log4j12.version>1.7.33</slf4j-log4j12.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -48,12 +44,6 @@
             <type>pom</type>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j-log4j12.version}</version>
-        </dependency>
-
         <!-- spring starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,7 +52,13 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
