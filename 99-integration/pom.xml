@@ -72,6 +72,10 @@
         <module>dubbo-samples-test-13224</module>
         <module>dubbo-samples-test-13360-32x</module>
         <module>dubbo-samples-test-13360-33x</module>
+        <module>dubbo-samples-test-13436-1</module>
+        <module>dubbo-samples-test-13436-2</module>
+        <module>dubbo-samples-test-13436-3</module>
+        <module>dubbo-samples-test-13436-4</module>
         <module>dubbo-samples-test-abc-async</module>
         <module>dubbo-samples-test-register</module>
         <module>dubbo-samples-test-register-3-3</module>
