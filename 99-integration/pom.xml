@@ -73,13 +73,13 @@
         <module>dubbo-samples-test-13360-32x</module>
         <module>dubbo-samples-test-13360-33x</module>
         <module>dubbo-samples-test-abc-async</module>
-        <module>dubbo-samples-test-13442-1</module>
-        <module>dubbo-samples-test-13442-2</module>
-        <module>dubbo-samples-test-13442-3</module>
-        <module>dubbo-samples-test-13442-4</module>
-        <module>dubbo-samples-test-13442-5</module>
-        <module>dubbo-samples-test-13442-6</module>
-        <module>dubbo-samples-test-13442-7</module>
+        <module>dubbo-samples-test-13441-1</module>
+        <module>dubbo-samples-test-13441-2</module>
+        <module>dubbo-samples-test-13441-3</module>
+        <module>dubbo-samples-test-13441-4</module>
+        <module>dubbo-samples-test-13441-5</module>
+        <module>dubbo-samples-test-13441-6</module>
+        <module>dubbo-samples-test-13441-7</module>
         <module>dubbo-samples-test-register</module>
         <module>dubbo-samples-test-register-3-3</module>
         <module>dubbo-samples-transaction</module>
