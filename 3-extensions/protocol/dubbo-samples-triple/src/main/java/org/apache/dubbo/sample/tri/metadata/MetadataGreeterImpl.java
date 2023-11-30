@@ -23,6 +23,8 @@ import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
 import org.apache.dubbo.sample.tri.stub.GreeterImpl;
 
+import java.util.concurrent.CompletableFuture;
+
 public class MetadataGreeterImpl implements Greeter {
     private final Greeter delegate;
 
@@ -36,8 +38,18 @@ public class MetadataGreeterImpl implements Greeter {
     }
 
     @Override
+    public CompletableFuture<GreeterReply> greetAsync(GreeterRequest request) {
+        return CompletableFuture.completedFuture(greet(request));
+    }
+
+    @Override
     public GreeterReply upperCaseGreet(GreeterRequest request) {
         return delegate.upperCaseGreet(request);
+    }
+
+    @Override
+    public CompletableFuture<GreeterReply> upperCaseGreetAsync(GreeterRequest request) {
+        return CompletableFuture.completedFuture(upperCaseGreet(request));
     }
 
     @Override
@@ -46,8 +58,18 @@ public class MetadataGreeterImpl implements Greeter {
     }
 
     @Override
+    public CompletableFuture<GreeterReply> greetWithAttachmentAsync(GreeterRequest request) {
+        return CompletableFuture.completedFuture(greetWithAttachment(request));
+    }
+
+    @Override
     public GreeterReply greetReturnBigAttachment(GreeterRequest request) {
         return delegate.greetReturnBigAttachment(request);
+    }
+
+    @Override
+    public CompletableFuture<GreeterReply> greetReturnBigAttachmentAsync(GreeterRequest request) {
+        return CompletableFuture.completedFuture(greetReturnBigAttachment(request));
     }
 
     @Override
@@ -56,8 +78,18 @@ public class MetadataGreeterImpl implements Greeter {
     }
 
     @Override
+    public CompletableFuture<GreeterReply> greetExceptionAsync(GreeterRequest request) {
+        return CompletableFuture.completedFuture(greetException(request));
+    }
+
+    @Override
     public GreeterReply queryCancelResult(GreeterRequest request) {
         return delegate.queryCancelResult(request);
+    }
+
+    @Override
+    public CompletableFuture<GreeterReply> queryCancelResultAsync(GreeterRequest request) {
+        return CompletableFuture.completedFuture(queryCancelResult(request));
     }
 
     @Override
