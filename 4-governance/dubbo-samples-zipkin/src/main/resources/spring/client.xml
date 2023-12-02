@@ -29,7 +29,7 @@
 
     <dubbo:provider token="true"/>
 
-    <dubbo:reference id="greetingService" check="false" interface="org.apache.dubbo.samples.api.GreetService"
+    <dubbo:reference id="greetingService" check="false" interface="org.apache.dubbo.samples.api.GreetingService"
                      filter="tracing" timeout="3000"/>
 
     <!-- zipkin configuration -->
