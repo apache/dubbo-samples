@@ -27,6 +27,9 @@
     </parent>
 
     <artifactId>dubbo-samples-test-13439-consumer</artifactId>
+    <description>Dubbo Samples Test for 13439 consumer</description>
+    <packaging>pom</packaging>
+
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

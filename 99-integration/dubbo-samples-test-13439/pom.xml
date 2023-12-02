@@ -28,6 +28,7 @@
     </parent>
 
     <artifactId>dubbo-samples-test-13439</artifactId>
+    <description>Dubbo Samples Test for 13439</description>
     <packaging>pom</packaging>
     <modules>
         <module>dubbo-samples-test-13439-provider</module>
@@ -36,6 +37,8 @@
     </modules>
 
     <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <dubbo.version>3.2.9</dubbo.version>
         <log4j2.version>2.20.0</log4j2.version>
         <okhttp.version>4.9.0</okhttp.version>
