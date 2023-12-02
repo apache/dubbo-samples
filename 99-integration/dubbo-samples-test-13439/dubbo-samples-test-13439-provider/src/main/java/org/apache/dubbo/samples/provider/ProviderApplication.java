@@ -70,7 +70,7 @@ public class ProviderApplication {
                 Response response = client.newCall(request).execute();
                 Response response2 = client.newCall(request2).execute();
         ) {
-            if (!response.isSuccessful() && !response2.isSuccessful()) {
+            if (!response.isSuccessful() || !response2.isSuccessful()) {
                 throw new IOException("Can not access nacos server.");
             }
         }
