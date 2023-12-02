@@ -22,9 +22,7 @@
         <dubbo.version>3.2.9</dubbo.version>
         <log4j2.version>2.20.0</log4j2.version>
         <okhttp.version>4.9.0</okhttp.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.13.2</junit.version>
     </properties>
 
     <dependencyManagement>
