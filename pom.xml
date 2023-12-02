@@ -43,7 +43,6 @@
         <module>10-task</module>
         <module>99-integration</module>
         <module>tools</module>
-        <module>99-integration/dubbo-samples-test-13439</module>
     </modules>
 
     <build>
