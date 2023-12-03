@@ -52,6 +52,11 @@
         <dependencies>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-samples-test-13439-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-dependencies-bom</artifactId>
                 <version>${dubbo.version}</version>
                 <type>pom</type>
