@@ -28,6 +28,7 @@
 
     <artifactId>dubbo-samples-test-13439-api</artifactId>
     <description>Dubbo Samples Test for 13439 api</description>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
