@@ -28,12 +28,6 @@
 
     <artifactId>dubbo-samples-test-13439-api</artifactId>
     <description>Dubbo Samples Test for 13439 api</description>
-    <packaging>pom</packaging>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -58,7 +52,6 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j2.version}</version>
         </dependency>
-
     </dependencies>
 
 </project>

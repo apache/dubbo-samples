@@ -34,9 +34,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>dubbo-samples-test-13439-api</module>
         <module>dubbo-samples-test-13439-provider</module>
         <module>dubbo-samples-test-13439-consumer</module>
-        <module>dubbo-samples-test-13439-api</module>
     </modules>
 
     <properties>
