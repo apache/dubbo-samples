@@ -23,6 +23,8 @@ import org.apache.dubbo.sample.tri.GreeterReply;
 import org.apache.dubbo.sample.tri.GreeterRequest;
 import org.apache.dubbo.sample.tri.stub.GreeterImpl;
 
+import java.util.concurrent.CompletableFuture;
+
 public class ManualGreeterImpl implements Greeter {
     private final Greeter delegate;
 
@@ -36,8 +38,18 @@ public class ManualGreeterImpl implements Greeter {
     }
 
     @Override
+    public CompletableFuture<GreeterReply> greetAsync(GreeterRequest request) {
+        return delegate.greetAsync(request);
+    }
+
+    @Override
     public GreeterReply upperCaseGreet(GreeterRequest request) {
         return delegate.upperCaseGreet(request);
+    }
+
+    @Override
+    public CompletableFuture<GreeterReply> upperCaseGreetAsync(GreeterRequest request) {
+        return delegate.upperCaseGreetAsync(request);
     }
 
     @Override
@@ -46,8 +58,18 @@ public class ManualGreeterImpl implements Greeter {
     }
 
     @Override
+    public CompletableFuture<GreeterReply> greetWithAttachmentAsync(GreeterRequest request) {
+        return delegate.greetWithAttachmentAsync(request);
+    }
+
+    @Override
     public GreeterReply greetReturnBigAttachment(GreeterRequest request) {
         return delegate.greetReturnBigAttachment(request);
+    }
+
+    @Override
+    public CompletableFuture<GreeterReply> greetReturnBigAttachmentAsync(GreeterRequest request) {
+        return delegate.greetReturnBigAttachmentAsync(request);
     }
 
     @Override
@@ -56,8 +78,18 @@ public class ManualGreeterImpl implements Greeter {
     }
 
     @Override
+    public CompletableFuture<GreeterReply> greetExceptionAsync(GreeterRequest request) {
+        return delegate.greetExceptionAsync(request);
+    }
+
+    @Override
     public GreeterReply queryCancelResult(GreeterRequest request) {
         return delegate.queryCancelResult(request);
+    }
+
+    @Override
+    public CompletableFuture<GreeterReply> queryCancelResultAsync(GreeterRequest request) {
+        return delegate.queryCancelResultAsync(request);
     }
 
     @Override
