@@ -78,6 +78,5 @@
         <module>dubbo-samples-transaction</module>
         <module>dubbo-samples-rest-withtoken</module>
         <module>dubbo-samples-serialize-check</module>
-        <module>dubbo-samples-grpc</module>
     </modules>
 </project>
