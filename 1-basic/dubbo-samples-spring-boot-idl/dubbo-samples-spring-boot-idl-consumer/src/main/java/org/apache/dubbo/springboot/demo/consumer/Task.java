@@ -14,17 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.springboot.demo.provider;
+package org.apache.dubbo.springboot.demo.consumer;
 
+import java.util.Date;
 
-import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.springboot.demo.DemoService;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.springboot.demo.idl.Greeter;
+import org.apache.dubbo.springboot.demo.idl.GreeterReply;
+import org.apache.dubbo.springboot.demo.idl.GreeterRequest;
+import org.apache.dubbo.springboot.demo.idl.Greeter;
 
-@DubboService
-public class DemoServiceImpl implements DemoService {
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Task implements CommandLineRunner {
+    @DubboReference
+    private Greeter greeter;
 
     @Override
-    public String sayHello(String name) {
-        return "Hello " + name;
+    public void run(String... args) throws Exception {
+        GreeterReply result = greeter.greet(GreeterRequest.newBuilder().setName("name").build());
+        System.out.println("Received result ======> " + result.getMessage());
     }
 }

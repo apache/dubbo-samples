@@ -28,7 +28,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-spring-boot</artifactId>
+    <artifactId>dubbo-samples-spring-boot-idl</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -42,12 +42,14 @@
 
         <dubbo.version>3.3.0-beta.1</dubbo.version>
         <spring-boot.version>2.7.8</spring-boot.version>
+        <zookeeper.version>3.8.3</zookeeper.version>
+        <protobuf-java.version>3.19.6</protobuf-java.version>
+        <protoc.version>3.22.3</protoc.version>
     </properties>
 
     <modules>
-        <module>dubbo-samples-spring-boot-interface</module>
-        <module>dubbo-samples-spring-boot-provider</module>
-        <module>dubbo-samples-spring-boot-consumer</module>
+        <module>dubbo-samples-spring-boot-idl-provider</module>
+        <module>dubbo-samples-spring-boot-idl-consumer</module>
     </modules>
 
     <dependencyManagement>
@@ -76,6 +78,25 @@
                 <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>logback-classic</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>logback-core</artifactId>
+                        <groupId>ch.qos.logback</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>*</artifactId>
+                        <groupId>io.netty</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

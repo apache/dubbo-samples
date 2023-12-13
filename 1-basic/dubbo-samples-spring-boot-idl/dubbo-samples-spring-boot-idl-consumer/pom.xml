@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -19,32 +18,32 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.apache</groupId>
-        <artifactId>apache</artifactId>
-        <version>23</version>
-        <relativePath/>
+        <artifactId>dubbo-samples-spring-boot-idl</artifactId>
+        <groupId>org.apache.dubbo</groupId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-idl</artifactId>
-
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
-        <protobuf-java.version>3.19.6</protobuf-java.version>
-        <protoc.version>3.22.3</protoc.version>
-        <log4j2.version>2.20.0</log4j2.version>
-    </properties>
+    <artifactId>dubbo-samples-spring-boot-idl-consumer</artifactId>
 
     <dependencies>
+        <!-- dubbo -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- spring starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- idl -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
@@ -55,47 +54,16 @@
             <artifactId>protobuf-java-util</artifactId>
             <version>${protobuf-java.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-            <version>${dubbo.version}</version>
-            <type>pom</type>
-            <exclusions>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logback-core</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-log4j12</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-
-        <!-- Embedded Zookeeper Server Dependencies -->
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-            <version>4.1.12.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.xerial.snappy</groupId>
-            <artifactId>snappy-java</artifactId>
-            <version>1.1.10.5</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -108,6 +76,11 @@
             </extension>
         </extensions>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
@@ -129,6 +102,25 @@
                         <goals>
                             <goal>compile</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>build/generated/source/proto/main/java</source>
+                            </sources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
