@@ -33,7 +33,6 @@
         <module>dubbo-samples-metrics</module>
         <module>dubbo-samples-metrics-prometheus</module>
         <module>dubbo-samples-metrics-spring-boot</module>
-        <module>dubbo-samples-monitor</module>
         <module>dubbo-samples-sentinel</module>
         <module>dubbo-samples-servicelevel-override</module>
         <module>dubbo-samples-spring-boot-hystrix</module>
