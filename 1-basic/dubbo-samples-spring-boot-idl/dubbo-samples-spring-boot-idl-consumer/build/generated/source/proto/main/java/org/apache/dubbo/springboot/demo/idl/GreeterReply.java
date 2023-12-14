@@ -4,11 +4,11 @@
 package org.apache.dubbo.springboot.demo.idl;
 
 /**
- * Protobuf type {@code greet.GreeterReply}
+ * Protobuf type {@code org.apache.dubbo.springboot.demo.idl.GreeterReply}
  */
 public final class GreeterReply extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:greet.GreeterReply)
+    // @@protoc_insertion_point(message_implements:org.apache.dubbo.springboot.demo.idl.GreeterReply)
     GreeterReplyOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use GreeterReply.newBuilder() to construct.
@@ -28,13 +28,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_greet_GreeterReply_descriptor;
+    return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_org_apache_dubbo_springboot_demo_idl_GreeterReply_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_greet_GreeterReply_fieldAccessorTable
+    return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_org_apache_dubbo_springboot_demo_idl_GreeterReply_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             org.apache.dubbo.springboot.demo.idl.GreeterReply.class, org.apache.dubbo.springboot.demo.idl.GreeterReply.Builder.class);
   }
@@ -233,21 +233,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code greet.GreeterReply}
+   * Protobuf type {@code org.apache.dubbo.springboot.demo.idl.GreeterReply}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:greet.GreeterReply)
+      // @@protoc_insertion_point(builder_implements:org.apache.dubbo.springboot.demo.idl.GreeterReply)
       org.apache.dubbo.springboot.demo.idl.GreeterReplyOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_greet_GreeterReply_descriptor;
+      return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_org_apache_dubbo_springboot_demo_idl_GreeterReply_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_greet_GreeterReply_fieldAccessorTable
+      return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_org_apache_dubbo_springboot_demo_idl_GreeterReply_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               org.apache.dubbo.springboot.demo.idl.GreeterReply.class, org.apache.dubbo.springboot.demo.idl.GreeterReply.Builder.class);
     }
@@ -273,7 +273,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_greet_GreeterReply_descriptor;
+      return org.apache.dubbo.springboot.demo.idl.GreeterOuterClass.internal_static_org_apache_dubbo_springboot_demo_idl_GreeterReply_descriptor;
     }
 
     @java.lang.Override
@@ -454,10 +454,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:greet.GreeterReply)
+    // @@protoc_insertion_point(builder_scope:org.apache.dubbo.springboot.demo.idl.GreeterReply)
   }
 
-  // @@protoc_insertion_point(class_scope:greet.GreeterReply)
+  // @@protoc_insertion_point(class_scope:org.apache.dubbo.springboot.demo.idl.GreeterReply)
   private static final org.apache.dubbo.springboot.demo.idl.GreeterReply DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new org.apache.dubbo.springboot.demo.idl.GreeterReply();

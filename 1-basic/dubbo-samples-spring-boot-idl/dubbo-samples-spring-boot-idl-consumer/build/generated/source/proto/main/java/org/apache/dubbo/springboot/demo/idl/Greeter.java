@@ -28,7 +28,7 @@ import java.util.concurrent.CompletableFuture;
 public interface Greeter extends org.apache.dubbo.rpc.model.DubboStub {
 
     String JAVA_SERVICE_NAME = "org.apache.dubbo.springboot.demo.idl.Greeter";
-    String SERVICE_NAME = "greet.Greeter";
+    String SERVICE_NAME = "org.apache.dubbo.springboot.demo.idl.Greeter";
 
     org.apache.dubbo.springboot.demo.idl.GreeterReply greet(org.apache.dubbo.springboot.demo.idl.GreeterRequest request);
 

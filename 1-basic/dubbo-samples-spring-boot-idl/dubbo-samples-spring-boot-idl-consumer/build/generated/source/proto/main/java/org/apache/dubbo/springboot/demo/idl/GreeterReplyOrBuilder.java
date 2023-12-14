@@ -4,7 +4,7 @@
 package org.apache.dubbo.springboot.demo.idl;
 
 public interface GreeterReplyOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:greet.GreeterReply)
+    // @@protoc_insertion_point(interface_extends:org.apache.dubbo.springboot.demo.idl.GreeterReply)
     com.google.protobuf.MessageOrBuilder {
 
   /**
