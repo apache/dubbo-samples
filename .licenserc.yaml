@@ -75,7 +75,10 @@ header:
     - '**/dubbo-samples-tengine/dubbo-samples-tengine-provider/src/main/resources/docker/sources.list'
     - '**/.run/**'
     - '**/*.js'
-    - '**/Dockerfile.*'
+    - '**/Dockerfile*'
+    - '**/*.xml'
+    - '**/*.properties'
+    - '**/*.yml'
 
   comment: on-failure
 
