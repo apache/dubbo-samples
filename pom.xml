@@ -37,10 +37,11 @@
 
     <modules>
         <module>1-basic</module>
+        <module>10-task</module>
+        <module>11-quickstart</module>
         <module>2-advanced</module>
         <module>3-extensions</module>
         <module>4-governance</module>
-        <module>10-task</module>
         <module>99-integration</module>
         <module>tools</module>
     </modules>

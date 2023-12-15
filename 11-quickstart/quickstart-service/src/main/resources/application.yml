@@ -1,0 +1,12 @@
+dubbo:
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+  protocol:
+    name: tri
+    port: 50051
+  application:
+    qos-enable: true
+    name: QuickStartApplication
+    qos-port: 22222
+    qos-accept-foreign-ip: false
+    logger: slf4j
