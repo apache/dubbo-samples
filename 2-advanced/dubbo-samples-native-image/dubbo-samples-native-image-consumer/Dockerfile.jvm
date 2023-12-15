@@ -13,7 +13,7 @@ ARG APP_FILE
 EXPOSE 9091
 
 # opy the JAR file into the root and rename
-COPY ./target/${APP_FILE} app.jar
+RUN cp ./target/${APP_FILE} app.jar
 
 # Run java with the jar file when the container starts up
 CMD ["java","-jar","app.jar"]
