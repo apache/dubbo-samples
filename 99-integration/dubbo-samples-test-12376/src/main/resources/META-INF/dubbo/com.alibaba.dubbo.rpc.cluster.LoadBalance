@@ -1,2 +1,0 @@
-apache-test=org.apache.dubbo.samples.loadbalance.ApacheLoadBalance
-alibaba-test=org.apache.dubbo.samples.loadbalance.AlibabaLoadBalance
