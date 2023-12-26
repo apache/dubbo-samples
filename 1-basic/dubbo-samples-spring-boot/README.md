@@ -1,6 +1,10 @@
 # Dubbo Spring Boot Example
 
-This example shows how to use Dubbo Spring Boot Starter to develop Dubbo application. Please read [the official documentation](https://dubbo.apache.org/zh-cn/overview/quickstart/java/spring-boot/) for more details of how to use.
+This example shows how to use Dubbo Spring Boot Starter to develop Dubbo application. For the underlying RPC protocol, we are using triple and at the same time, we use java interface as the way to define service. It's a more convenient way to develop Dubbo application if there's no cross-language communication requirement.
+
+Please refer to
+* [the official documentation](https://dubbo.apache.org/zh-cn/overview/quickstart/java/spring-boot/) for more details of developing Dubbo with Spring Boot.
+* [dubbo-samples-spring-boot-idl](../dubbo-samples-spring-boot-idl) for how to use IDL(Protobuf) together with triple protocol.
 
 ## Modules
 * interface, provides Dubbo service definition

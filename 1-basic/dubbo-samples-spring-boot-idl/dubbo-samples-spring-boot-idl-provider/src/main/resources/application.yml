@@ -16,7 +16,7 @@
 
 dubbo:
   application:
-    name: dubbo-springboot-demo-provider
+    name: dubbo-springboot-demo-idl-provider
   protocol:
     name: tri
     port: 50052
