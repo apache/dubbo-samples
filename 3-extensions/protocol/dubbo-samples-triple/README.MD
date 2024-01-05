@@ -5,7 +5,7 @@ which supports interoperating with GRPC protocol naturally using Protobuf serial
 triple provides a compatible mode to upgrade without code modifications. So it is smooth to migrate to triple.
 
 This sample project contains most scenarios of Dubbo and non-Dubbo interoperation. If you care about only one specific use-case of triple, we recommend you check the following samples with each one focusing on only one thing:
-* [Unary RPC](../../../1-basic/dubbo-samples-idl/)
+* [Unary RPC](../../../1-basic/dubbo-samples-api-idl/)
 * [Streaming RPCs](../../../2-advanced/dubbo-samples-triple-streaming/)
 * [Interoperability with standard gRPC clients and servers](../../../2-advanced/dubbo-samples-triple-grpc/)
 * [Triple without Protobuf (no IDL mode)](../../../2-advanced/dubbo-samples-triple-no-idl/)
