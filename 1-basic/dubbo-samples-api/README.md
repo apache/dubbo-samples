@@ -15,7 +15,7 @@ mvn -Dexec.mainClass=org.apache.dubbo.samples.provider.Application exec:java
 Now, you have a server running on port 50052 which accepts triple protocol requests.
 
 More usages of triple protocol can be found here:
-* [Triple with Protobuf (IDL mode)](../dubbo-samples-idl/)
+* [Triple with Protobuf (IDL mode)](../dubbo-samples-api-idl/)
 * [Streaming RPCs](../../2-advanced/dubbo-samples-triple-streaming/)
 * [Interoperability with standard gRPC clients and servers](../../2-advanced/dubbo-samples-triple-grpc/)
 * [Using triple with other languages and browser](https://dubbo.apache.org/zh-cn/overview/mannual/)

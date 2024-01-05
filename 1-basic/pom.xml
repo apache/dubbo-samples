@@ -28,7 +28,7 @@
 
     <modules>
         <module>dubbo-samples-api</module>
-        <module>dubbo-samples-idl</module>
+        <module>dubbo-samples-api-idl</module>
         <module>dubbo-samples-spring-boot</module>
         <module>dubbo-samples-spring-boot-idl</module>
     </modules>
