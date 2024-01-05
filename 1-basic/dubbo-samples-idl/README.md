@@ -9,6 +9,8 @@ More usages of Triple protocol can be found here:
 * [Interoperability with standard gRPC clients and servers](../../2-advanced/dubbo-samples-triple-grpc/)
 * [Triple without Protobuf (no IDL mode)](../../2-advanced/dubbo-samples-triple-no-idl/)
 * [Using triple with other languages and browser](https://dubbo.apache.org/zh-cn/overview/mannual/)
+* [Triple without Protobuf (no IDL mode)](../../2-advanced/dubbo-samples-triple-no-idl/)
+* [Triple with Spring Boot](../dubbo-samples-spring-boot/) and [Triple+IDL with Spring Boot](../dubbo-samples-spring-boot-idl/)
 
 ## Run The Demo
 Detailed explanation of this demo can be found [here](https://dubbo.apache.org/zh-cn/overview/quickstart/rpc/java/).
