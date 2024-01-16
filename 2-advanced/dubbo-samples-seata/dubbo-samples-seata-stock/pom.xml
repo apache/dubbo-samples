@@ -6,10 +6,9 @@
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-samples-seata</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>dubbo-samples-seata-business</artifactId>
-    <name>dubbo-samples-seata-business</name>
+    <artifactId>dubbo-samples-seata-stock</artifactId>
+    <name>dubbo-samples-seata-stock</name>
 
     <dependencies>
         <dependency>
@@ -29,6 +28,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>io.seata</groupId>

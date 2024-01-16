@@ -1,6 +1,6 @@
 spring:
     application:
-        name: OrderApplication
+        name: StockApplication
 dubbo:
   application:
     logger: slf4j
