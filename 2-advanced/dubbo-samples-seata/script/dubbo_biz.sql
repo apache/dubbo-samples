@@ -1,3 +1,4 @@
+--
 -- Licensed to the Apache Software Foundation (ASF) under one or more
 -- contributor license agreements.  See the NOTICE file distributed with
 -- this work for additional information regarding copyright ownership.
@@ -12,17 +13,17 @@
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
+--
 
-DROP TABLE IF EXISTS `storage_tbl`;
-CREATE TABLE `storage_tbl`
+DROP TABLE IF EXISTS `stock_tbl`;
+CREATE TABLE `stock_tbl`
 (
     `id`             int(11) NOT NULL AUTO_INCREMENT,
     `commodity_code` varchar(255) DEFAULT NULL,
-    `count`          int(11)      DEFAULT 0,
+    `count`          int(11) DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`commodity_code`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `order_tbl`;
@@ -31,11 +32,10 @@ CREATE TABLE `order_tbl`
     `id`             int(11) NOT NULL AUTO_INCREMENT,
     `user_id`        varchar(255) DEFAULT NULL,
     `commodity_code` varchar(255) DEFAULT NULL,
-    `count`          int(11)      DEFAULT 0,
-    `money`          int(11)      DEFAULT 0,
+    `count`          int(11) DEFAULT 0,
+    `money`          int(11) DEFAULT 0,
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `account_tbl`;
@@ -43,7 +43,11 @@ CREATE TABLE `account_tbl`
 (
     `id`      int(11) NOT NULL AUTO_INCREMENT,
     `user_id` varchar(255) DEFAULT NULL,
-    `money`   int(11)      DEFAULT 0,
+    `money`   int(11) DEFAULT 0,
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+---INITIALIZE THE ACCOUNT TABLE
+INSERT INTO account_tbl(`user_id`,`money`) VALUES('ACC_001','1000');
+---INITIALIZE THE STOCK TABLE
+INSERT INTO stock_tbl(`commodity_code`,`count`) VALUES('STOCK_001','100');

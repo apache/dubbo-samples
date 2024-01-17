@@ -15,16 +15,18 @@
  *   limitations under the License.
  */
 
-package org.apache.dubbo.samples.seata;
+package org.apache.dubbo.samples.seata.business;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootTest
-class AccountApplicationTests {
+@SpringBootApplication
+@EnableDubbo
+public class BusinessApplication {
 
-    @Test
-    void contextLoads() {
+    public static void main(String[] args) {
+        SpringApplication.run(BusinessApplication.class, args);
     }
 
 }
