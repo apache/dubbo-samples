@@ -18,9 +18,9 @@ spring:
         name: OrderApplication
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://192.168.0.183:3306/seata?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useOldAliasMetadataBehavior=true
-        username: truthtest
-        password: truthtest11
+        url: jdbc:mysql://127.0.0.1:3306/seata?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useOldAliasMetadataBehavior=true
+        username: root
+        password: 123456
         hikari:
             connection-timeout: 30000
             idle-timeout: 600000
