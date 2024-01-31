@@ -21,7 +21,7 @@ services:
   provider:
     type: app
     basedir: dubbo-samples-spring-boot-provider
-    mainClass: org.apache.dubbo.springboot.demo.provider.ProviderApplication
+    mainClass: org.apache.dubbo.benchmark.demo.provider.ProviderApplication
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
