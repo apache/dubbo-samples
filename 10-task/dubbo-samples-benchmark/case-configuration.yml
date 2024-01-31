@@ -20,7 +20,7 @@ services:
 
   provider:
     type: app
-    basedir: dubbo-samples-spring-boot-provider
+    basedir: dubbo-samples-benchmark-provider
     mainClass: org.apache.dubbo.benchmark.demo.provider.ProviderApplication
     systemProps:
       - zookeeper.address=zookeeper
@@ -32,7 +32,7 @@ services:
 
   test:
     type: test
-    basedir: dubbo-samples-spring-boot-consumer
+    basedir: dubbo-samples-benchmark-consumer
     tests:
       - "**/*IT.class"
     systemProps:
