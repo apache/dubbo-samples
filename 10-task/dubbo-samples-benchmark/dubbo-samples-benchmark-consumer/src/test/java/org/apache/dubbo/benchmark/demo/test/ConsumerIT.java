@@ -16,8 +16,7 @@
  */
 package org.apache.dubbo.benchmark.demo.test;
 
-import org.apache.dubbo.benchmark.demo.consumer.User;
-import org.apache.dubbo.benchmark.demo.consumer.UserService;
+import org.apache.dubbo.benchmark.demo.DemoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -84,20 +83,20 @@ public class ConsumerIT {
     public static class MyBenchmark {
 
         private final ClassPathXmlApplicationContext context;
-        private final UserService userService;
+        private final DemoService demoService;
 
         public MyBenchmark() {
             context = new ClassPathXmlApplicationContext("consumer.xml");
             context.start();
-            userService = (UserService) context.getBean("userService");
+            demoService = (DemoService) context.getBean("demoService");
         }
 
         @Benchmark
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
         @OutputTimeUnit(TimeUnit.MILLISECONDS)
-        public User getUser() {
+        public String getUser() {
             int id = counter.getAndIncrement();
-            return userService.getUser(id);
+            return demoService.sayHello("hello" + id);
         }
     }
 }
