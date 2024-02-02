@@ -5,7 +5,7 @@
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
     <dubbo:application name="dubbo-benchmark-client"/>
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-    <dubbo:reference id="userService" check="false"
-                     interface="org.apache.dubbo.benchmark.demo.consumer.UserService"/>
+    <dubbo:reference id="demoService" check="false"
+                     interface="org.apache.dubbo.benchmark.demo.DemoService"/>
     <dubbo:consumer client="netty4" filter="-default"/>
 </beans>
