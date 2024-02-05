@@ -108,7 +108,7 @@ services:
     type: test
     basedir: dubbo-samples-seata-business
     tests:
-      - "**/*IT.class"
+      - "**/*Tests.class"
     systemProps:
       - seata.address=seata-server
     jvmFlags:

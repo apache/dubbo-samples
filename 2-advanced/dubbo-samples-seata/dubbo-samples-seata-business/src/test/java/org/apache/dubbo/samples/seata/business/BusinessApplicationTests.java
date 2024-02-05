@@ -15,16 +15,28 @@
  *   limitations under the License.
  */
 
-package org.apache.dubbo.samples.seata;
+package org.apache.dubbo.samples.seata.business;
 
+import org.apache.dubbo.samples.seata.api.BusinessService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BusinessApplicationTests {
+public class BusinessApplicationTests {
+
+    @Autowired
+    private BusinessService businessService;
 
     @Test
-    void contextLoads() {
+    void testRollback() {
+        Assertions.assertThrows(RuntimeException.class, () -> businessService.purchaseRollback("ACC_001", "STOCK_001", 1));
+    }
+
+    @Test
+    void testCommit() {
+        Assertions.assertDoesNotThrow(() -> businessService.purchaseCommit("ACC_001", "STOCK_001", 1));
     }
 
 }
