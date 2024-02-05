@@ -34,7 +34,7 @@ spec:
           name: seata-mysql
           env:
             - name: MYSQL_DATABASE
-              value: seata-demo
+              value: seata
             - name: MYSQL_ROOT_PASSWORD
               value: helloworld
           ports:
