@@ -46,7 +46,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
