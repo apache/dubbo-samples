@@ -16,4 +16,4 @@
 #   limitations under the License.
 #
 
-seata.version=https://repo1.maven.org/maven2/org/apache/seata/seata-spring-boot-starter/maven-metadata.xml
+seata.version=https://repo1.maven.org/maven2/io/seata/seata-spring-boot-starter/maven-metadata.xml
