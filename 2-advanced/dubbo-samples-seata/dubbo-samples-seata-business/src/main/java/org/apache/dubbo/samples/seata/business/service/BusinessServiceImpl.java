@@ -18,7 +18,7 @@
 package org.apache.dubbo.samples.seata.business.service;
 
 import io.seata.core.context.RootContext;
-import io.seata.spring.annotation.GlobalTransactional;
+import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.seata.api.BusinessService;
 import org.apache.dubbo.samples.seata.api.OrderService;
