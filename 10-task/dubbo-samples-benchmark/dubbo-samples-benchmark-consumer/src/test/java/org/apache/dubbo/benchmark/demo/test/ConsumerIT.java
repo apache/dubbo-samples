@@ -65,7 +65,7 @@ public class ConsumerIT {
     }
 
     private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder) {
-        optBuilder.result("/root/linyao/jmh_result");
+        optBuilder.result("jmh_result.json");
         optBuilder.resultFormat(ResultFormatType.JSON);
         return optBuilder;
     }
