@@ -79,15 +79,6 @@ public class ConsumerIT {
     @State(Scope.Benchmark)
     public static class MyBenchmark {
 
-        private final ClassPathXmlApplicationContext context;
-        private final DemoService demoService;
-
-        public MyBenchmark() {
-            context = new ClassPathXmlApplicationContext("consumer.xml");
-            context.start();
-            demoService = (DemoService) context.getBean("demoService");
-        }
-
         @Benchmark
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
         @OutputTimeUnit(TimeUnit.MILLISECONDS)
