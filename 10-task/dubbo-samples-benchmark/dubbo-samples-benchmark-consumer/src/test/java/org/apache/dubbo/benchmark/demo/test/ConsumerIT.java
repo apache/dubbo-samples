@@ -34,20 +34,17 @@ import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConsumerIT {
 
     private static final int CONCURRENCY = 32;
-    private final static AtomicInteger counter = new AtomicInteger(0);
 
     @Test
     public void test() throws RunnerException {
 
-        int warmupIterations =3;
+        int warmupIterations = 3;
         int warmupTime = 10;
         int measurementIterations = 3;
         int measurementTime = 10;
@@ -68,11 +65,8 @@ public class ConsumerIT {
     }
 
     private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder) {
-        String output = System.getProperty("benchmark.output");
-        if (output != null && !output.trim().isEmpty()) {
-            optBuilder.result(output);
-            optBuilder.resultFormat(ResultFormatType.JSON);
-        }
+        optBuilder.result("result.json");
+        optBuilder.resultFormat(ResultFormatType.JSON);
         return optBuilder;
     }
 
