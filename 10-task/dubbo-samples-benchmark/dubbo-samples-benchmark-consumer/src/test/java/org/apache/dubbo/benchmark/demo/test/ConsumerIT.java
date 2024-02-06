@@ -17,8 +17,10 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import org.apache.dubbo.benchmark.demo.DemoService;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
@@ -32,16 +34,11 @@ import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SpringBootTest
-@State(Scope.Benchmark)
-@RunWith(SpringRunner.class)
 public class ConsumerIT {
 
     private static final int CONCURRENCY = 32;
@@ -95,8 +92,15 @@ public class ConsumerIT {
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
         @OutputTimeUnit(TimeUnit.MILLISECONDS)
         public String getUser() {
-            int id = counter.getAndIncrement();
-            return demoService.sayHello("hello" + id);
+            ReferenceConfig<DemoService> reference =
+                    ReferenceBuilder.<DemoService>newBuilder()
+                            .interfaceClass(DemoService.class)
+                            .url("tri://localhost:20880")
+                            .build();
+            DubboBootstrap.getInstance().reference(reference).start();
+            DemoService service = reference.get();
+
+            return service.sayHello("dubbo");
         }
     }
 }
