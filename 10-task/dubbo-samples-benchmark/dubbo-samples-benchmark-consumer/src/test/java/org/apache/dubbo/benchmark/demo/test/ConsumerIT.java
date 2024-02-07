@@ -40,24 +40,16 @@ import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
 
-    private static final int CONCURRENCY = 32;
 
     @Test
     public void test() throws RunnerException {
 
-        int warmupIterations = 3;
-        int warmupTime = 10;
-        int measurementIterations = 3;
         int measurementTime = 10;
 
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
-                .warmupIterations(warmupIterations)
-                .warmupTime(TimeValue.seconds(warmupTime))
-                .measurementIterations(measurementIterations)
                 .measurementTime(TimeValue.seconds(measurementTime))
-                .threads(CONCURRENCY)
                 .forks(1);
 
         options = doOptions(optBuilder).build();
