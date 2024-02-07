@@ -58,7 +58,7 @@ public class ConsumerIT {
     }
 
     private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder) {
-        optBuilder.result("jmh_result.json");
+        optBuilder.result("/tmp/jmh_result.json");
         optBuilder.resultFormat(ResultFormatType.JSON);
         return optBuilder;
     }
