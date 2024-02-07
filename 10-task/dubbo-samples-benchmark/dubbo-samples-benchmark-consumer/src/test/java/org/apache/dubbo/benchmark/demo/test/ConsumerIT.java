@@ -78,10 +78,11 @@ public class ConsumerIT {
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
         @OutputTimeUnit(TimeUnit.MILLISECONDS)
         public String getUser() {
+            String zkAddr = System.getProperty("zookeeper.address", ":127.0.0.1");
             ReferenceConfig<DemoService> reference =
                     ReferenceBuilder.<DemoService>newBuilder()
                             .interfaceClass(DemoService.class)
-                            .addRegistry(new RegistryConfig("zookeeper://localhost:2181"))
+                            .addRegistry(new RegistryConfig("zookeeper://" + zkAddr + ":2181"))
                             .build();
             DubboBootstrap bootstrap = DubboBootstrap.getInstance();
             bootstrap.application("dubbo-benchmark-consumer");
