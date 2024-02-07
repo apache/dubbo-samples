@@ -80,9 +80,11 @@ public class ConsumerIT {
             ReferenceConfig<DemoService> reference =
                     ReferenceBuilder.<DemoService>newBuilder()
                             .interfaceClass(DemoService.class)
-                            .url("tri://localhost:20880")
+                            .url("dubbo://localhost:20880")
                             .build();
-            DubboBootstrap.getInstance().reference(reference).start();
+            DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+            bootstrap.application("dubbo-benchmark-consumer");
+            bootstrap.reference(reference).start();
             DemoService service = reference.get();
 
             return service.sayHello("dubbo");
