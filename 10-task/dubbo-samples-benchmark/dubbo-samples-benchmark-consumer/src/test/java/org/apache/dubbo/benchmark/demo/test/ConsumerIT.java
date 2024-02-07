@@ -18,6 +18,7 @@ package org.apache.dubbo.benchmark.demo.test;
 
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.junit.Test;
@@ -80,7 +81,7 @@ public class ConsumerIT {
             ReferenceConfig<DemoService> reference =
                     ReferenceBuilder.<DemoService>newBuilder()
                             .interfaceClass(DemoService.class)
-                            .url("dubbo://localhost:20880")
+                            .addRegistry(new RegistryConfig("zookeeper://localhost:2181"))
                             .build();
             DubboBootstrap bootstrap = DubboBootstrap.getInstance();
             bootstrap.application("dubbo-benchmark-consumer");
