@@ -70,7 +70,7 @@ public class ConsumerIT {
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
         @OutputTimeUnit(TimeUnit.MILLISECONDS)
         public String getUser() {
-            String zkAddr = System.getProperty("zookeeper.address", ":127.0.0.1");
+            String zkAddr = System.getProperty("zookeeper.address", "127.0.0.1");
             ReferenceConfig<DemoService> reference =
                     ReferenceBuilder.<DemoService>newBuilder()
                             .interfaceClass(DemoService.class)
