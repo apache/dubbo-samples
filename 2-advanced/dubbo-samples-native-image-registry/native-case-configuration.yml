@@ -17,23 +17,28 @@
 timeout: 600
 
 services:
-#  zookeeper:
-#    image: zookeeper:latest
+  zookeeper:
+    image: zookeeper:latest
 
-  dubbo-samples-native-image-provider:
+  dubbo-samples-native-image-registry-provider:
     type: nativeApp
-    basedir: dubbo-samples-native-image-provider
-    mainClass: org.apache.dubbo.nativeimage.provider.NativeDemoProviderApplication
+    basedir: dubbo-samples-native-image-registry-provider
     checkLog: "dubbo provider application started"
     checkPorts:
         - 50052
+    waitPortsBeforeRun:
+        - zookeeper:2181
+    depends_on:
+        - zookeeper
 
-  dubbo-samples-native-image-consumer:
+  dubbo-samples-native-image-registry-consumer:
     type: nativeApp
-    basedir: dubbo-samples-native-image-consumer
-    mainClass: org.apache.dubbo.nativeimage.consumer.NativeDemoConsumerApplication
+    basedir: dubbo-samples-native-image-registry-consumer
     checkLog: "dubbo consumer application started"
 #    depends_on: # depends_on 会导致当前容器启动时机较晚，build 不能同时进行
 #        - dubbo-samples-native-image-provider
     waitPortsBeforeRun:
-        - dubbo-samples-native-image-provider:50052
+        - zookeeper:2181
+        - dubbo-samples-native-image-registry-provider:50052
+    depends_on:
+        - zookeeper

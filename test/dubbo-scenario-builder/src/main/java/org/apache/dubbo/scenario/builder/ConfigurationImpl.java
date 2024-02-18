@@ -432,8 +432,6 @@ public class ConfigurationImpl implements IConfiguration {
                         addHealthCheck(service);
                     }
                 }
-            } else {
-                throw new RuntimeException("Illegal service type: " + type);
             }
 
             // set hostname to serviceId if absent
