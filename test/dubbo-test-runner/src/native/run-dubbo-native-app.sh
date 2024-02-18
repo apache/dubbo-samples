@@ -5,6 +5,16 @@ cd $DIR
 
 source $DIR/utils.sh
 
+# build native image first
+cd $DIR/src/${SERVICE_DIR}
+echo "Build native app : ..."
+mvn package native:compile -Dmaven.test.skip=true -Pnative 2>&1
+result=$?
+if [ $result -ne 0 ]; then
+  echo "Build native app failure "
+  exit 1
+fi
+
 # wait ports before run app: WAIT_PORTS_BEFORE_RUN=host:port;host:port
 if [ "$WAIT_PORTS_BEFORE_RUN" != "" ]; then
   echo "Waiting ports before run native app .."
@@ -22,18 +32,9 @@ if [ $RUN_DELAY -gt 0 ]; then
   sleep $RUN_DELAY
 fi
 
-cd $DIR/src/${SERVICE_DIR}
-echo "Build native app : ..."
-mvn package native:compile -Dmaven.test.skip=true -Pnative 2>&1
-result=$?
-if [ $result -ne 0 ]; then
-  echo "Build native app failure "
-  exit 1
-fi
-
 echo "Running native app : ..."
 start=$SECONDS
-./$DIR/src/${SERVICE_DIR}/target/${SERVICE_NAME} 2>&1 &
+./target/${SERVICE_NAME} 2>&1 &
 pid=$!
 
 echo "Wait for process to exit: $pid .."
