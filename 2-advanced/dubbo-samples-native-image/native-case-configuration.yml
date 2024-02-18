@@ -33,8 +33,7 @@ services:
     basedir: dubbo-samples-native-image-consumer
     mainClass: org.apache.dubbo.nativeimage.consumer.NativeDemoConsumerApplication
     checkLog: "dubbo consumer application started"
-    depends_on:
-        - dubbo-samples-native-image-provider
+#    depends_on: # depends_on 会导致当前容器启动时机较晚，build 不能同时进行
+#        - dubbo-samples-native-image-provider
     waitPortsBeforeRun:
         - dubbo-samples-native-image-provider:50052
-
