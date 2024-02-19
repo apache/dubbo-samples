@@ -35,10 +35,9 @@ services:
     type: nativeApp
     basedir: dubbo-samples-native-image-registry-consumer
     checkLog: "dubbo consumer application started"
-#    depends_on: # depends_on 会导致当前容器启动时机较晚，build 不能同时进行
-#        - dubbo-samples-native-image-provider
     waitPortsBeforeRun:
         - zookeeper:2181
         - dubbo-samples-native-image-registry-provider:50052
     depends_on:
         - zookeeper
+        - dubbo-samples-native-image-registry-provider # depends_on 会导致当前容器启动时机较晚，build 不能同时进行

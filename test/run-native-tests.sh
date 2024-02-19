@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+
 TEST_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORK_DIR="$(pwd)"
 echo "WorkDir: $WORK_DIR"
@@ -251,7 +251,7 @@ function process_case() {
         fi
       fi
 
-       show test log
+      # show test log
       if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
         for log_file in $scenario_home/logs/*.log; do
           # ignore scenario-builder.log
