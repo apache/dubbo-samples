@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * SpringBootTest 注解如果不使用的话需要自己配置 proxy及 serialization
+ * if not use SpringBootTest annotation you have to config proxy-config.json and serialization-config.json Manually
  */
 @SpringBootTest(classes = {NativeDemoConsumerRegistryApplication.class})
 @ExtendWith(SpringExtension.class)
