@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 DIR=/usr/local/dubbo/
 
 source $DIR/utils.sh
@@ -29,7 +29,9 @@ if [ $RUN_DELAY -gt 0 ]; then
   sleep $RUN_DELAY
 fi
 
-mvn clean test -PnativeTest 2>&1
+cd $DIR/src/${SERVICE_DIR}
+echo "Build and run native test : ..."
+mvn $JAVA_OPTS --no-transfer-progress test -PnativeTest 2>&1 # no clean package here cause run-native-tests.sh has run it
 result=$?
 if [ $result -ne 0 ]; then
   echo "Run native tests failure"

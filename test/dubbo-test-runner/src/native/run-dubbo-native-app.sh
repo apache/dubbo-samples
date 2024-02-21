@@ -7,8 +7,15 @@ source $DIR/utils.sh
 
 # build native image first
 cd $DIR/src/${SERVICE_DIR}
+
+# for debug purpose,skip the native build，put the executable file here
+if [ -f "${SERVICE_NAME}" ]; then
+    ./${SERVICE_NAME} $JAVA_OPTS 2>&1
+    exit 0
+fi
+
 echo "Build native app : ..."
-mvn package native:compile -Dmaven.test.skip=true -Pnative 2>&1
+mvn --no-transfer-progress native:compile -Dmaven.test.skip=true -Pnative 2>&1 # no clean package here cause run-native-tests.sh has run it
 result=$?
 if [ $result -ne 0 ]; then
   echo "Build native app failure "
@@ -34,7 +41,7 @@ fi
 
 echo "Running native app : ..."
 start=$SECONDS
-./target/${SERVICE_NAME} 2>&1 &
+./target/${SERVICE_NAME} $JAVA_OPTS 2>&1 &
 pid=$!
 
 echo "Wait for process to exit: $pid .."

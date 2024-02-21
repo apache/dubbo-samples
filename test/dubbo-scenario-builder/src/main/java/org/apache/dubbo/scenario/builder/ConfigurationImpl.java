@@ -468,7 +468,7 @@ public class ConfigurationImpl implements IConfiguration {
         healthcheck.putIfAbsent("interval", "5s");
         healthcheck.putIfAbsent("timeout", "5s");
         healthcheck.putIfAbsent("retries", 20);
-        healthcheck.putIfAbsent("start_period", "60s");
+        healthcheck.putIfAbsent("start_period", isNativeAppOrTestService(service.getType()) ? "300s" : "60s");
     }
 
     private void appendEnv(ServiceComponent service, String name, String value) {
@@ -546,7 +546,7 @@ public class ConfigurationImpl implements IConfiguration {
         return new File(configBasedir, path).getCanonicalPath();
     }
 
-    private boolean isAppOrTestService(String type) {
+    private static boolean isAppOrTestService(String type) {
         if (type == null) {
             return false;
         }
@@ -558,7 +558,7 @@ public class ConfigurationImpl implements IConfiguration {
         return false;
     }
 
-    private boolean isNativeAppOrTestService(String type) {
+    private static boolean isNativeAppOrTestService(String type) {
         if (type == null) {
             return false;
         }
@@ -719,7 +719,7 @@ public class ConfigurationImpl implements IConfiguration {
         List<String> serviceNames = new ArrayList<>();
         for (Map.Entry<String, ServiceComponent> entry : caseConfiguration.getServices().entrySet()) {
             ServiceComponent service = entry.getValue();
-            if ("test".equals(service.getType())) {
+            if ("test".equals(service.getType()) || "nativeTest".equals(service.getType())) {
                 serviceNames.add(entry.getKey());
             }
         }

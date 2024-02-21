@@ -30,6 +30,8 @@ services:
         - zookeeper:2181
     depends_on:
         - zookeeper
+    systemProps:
+        - zookeeper.address=zookeeper
 
   dubbo-samples-native-image-registry-consumer:
     type: nativeApp
@@ -40,4 +42,18 @@ services:
         - dubbo-samples-native-image-registry-provider:50052
     depends_on:
         - zookeeper
-        - dubbo-samples-native-image-registry-provider # depends_on 会导致当前容器启动时机较晚，build 不能同时进行
+    systemProps:
+        - zookeeper.address=zookeeper
+
+  dubbo-samples-native-image-registry-test:
+      type: nativeTest
+      basedir: dubbo-samples-native-image-registry-consumer
+      tests:
+          - "**/*IT.class"
+      depends_on:
+          - zookeeper
+      systemProps:
+          - zookeeper.address=zookeeper
+      waitPortsBeforeRun:
+          - zookeeper:2181
+          - dubbo-samples-native-image-registry-provider:50052
