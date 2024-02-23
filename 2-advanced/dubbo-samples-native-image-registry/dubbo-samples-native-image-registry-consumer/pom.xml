@@ -39,7 +39,7 @@
         <protobuf-java.version>3.19.6</protobuf-java.version>
 
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <native-maven-plugin.version>0.9.28</native-maven-plugin.version>
+        <native-maven-plugin.version>0.10.1</native-maven-plugin.version>
         <junit5.version>5.10.1</junit5.version>
         <junit.platform>1.9.3</junit.platform>
     </properties>
@@ -325,13 +325,13 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <mainClass>placeholder_avoid_error</mainClass> <!-- https://github.com/apache/dubbo/pull/13426 -->
+                            <mainClass>org.apache.dubbo.registry.consumer.NativeDemoConsumerRegistryApplication</mainClass> <!-- https://github.com/apache/dubbo/pull/13426 -->
                         </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
-                        <version>0.9.28</version>
+                        <version>${native-maven-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <classesDirectory>${project.build.outputDirectory}</classesDirectory>
