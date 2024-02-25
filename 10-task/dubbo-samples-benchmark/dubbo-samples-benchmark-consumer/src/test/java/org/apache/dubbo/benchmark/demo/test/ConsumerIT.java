@@ -26,6 +26,7 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.results.format.ResultFormatType;
@@ -49,6 +50,7 @@ public class ConsumerIT {
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
+                .param("time", System.currentTimeMillis() + "")
                 .measurementTime(TimeValue.seconds(measurementTime))
                 .forks(1);
 
@@ -65,6 +67,9 @@ public class ConsumerIT {
 
     @State(Scope.Benchmark)
     public static class MyBenchmark {
+
+        @Param({""})
+        private String time;
 
         @Benchmark
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
