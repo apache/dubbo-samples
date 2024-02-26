@@ -175,7 +175,7 @@ sleep 5
 #    echo "[$scenario_name] docker startup failure!" | tee -a $scenario_log
 #    status=1
 #else
-    echo "[$scenario_name] Waiting for test container .." | tee -a $scenario_log
+    echo "[$scenario_name] Waiting for test container ${container_name} .." | tee -a $scenario_log
     # check and get exit code
     wait_container_exit ${container_name} $start $timeout
     result=$?
