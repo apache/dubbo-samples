@@ -32,8 +32,8 @@ timeout=${timeout}
 scenario_name=${scenario_name}
 scenario_version=${scenario_version}
 compose_file="${docker_compose_file}"
-project_name=$(echo "${scenario_name}_${scenario_version}" |sed -e "s/\.//g" |awk '{print tolower($0)}')
-test_service_name="${test_service_name}_1"
+project_name=$(echo "${scenario_name}-${scenario_version}" |sed -e "s/\.//g" |awk '{print tolower($0)}')
+test_service_name="${test_service_name}-1"
 network_name="${network_name}"
 
 service_names=( \
@@ -73,7 +73,7 @@ function redirect_all_container_logs() {
 
 function redirect_container_logs() {
   service_name=$1
-  container_name=${project_name}_${service_name}_1
+  container_name=${project_name}-${service_name}-1
   # only redirect once
   ps -ef | grep "docker logs -f $container_name" | grep -v grep > /dev/null
   result=$?
@@ -141,14 +141,14 @@ echo "[$scenario_name] debug_mode: $debug_mode" >> $scenario_log
 echo "[$scenario_name] timeout: $timeout" >> $scenario_log
 
 #Starting test containers
-container_name="${project_name}_${test_service_name}"
+container_name="${project_name}-${test_service_name}"
 
 #kill and clean first
 echo "[$scenario_name] Killing containers .." | tee -a $scenario_log
-docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
+docker compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 
 echo "[$scenario_name] Removing containers .." | tee -a $scenario_log
-docker-compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenario_log > /dev/null
+docker compose -p ${project_name} -f ${compose_file} rm -f 2>&1 | tee -a $scenario_log > /dev/null
 
 # pull images
 # TODO check pull timeout?
@@ -165,7 +165,7 @@ start=$SECONDS
 
 # complete pull fail interactive by <<< "NN"
 echo "[$scenario_name] Starting containers .." | tee -a $scenario_log
-docker-compose -p ${project_name} -f ${compose_file} up -d 2>&1 <<< "NNN" | tee -a $scenario_log > /dev/null
+docker compose -p ${project_name} -f ${compose_file} up -d 2>&1 <<< "NNN" | tee -a $scenario_log > /dev/null
 
 sleep 5
 
@@ -201,15 +201,15 @@ sleep 5
     fi
 
     echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log
-    docker-compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
+    docker compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 #fi
 
 if [[ $status == 0 ]];then
-    docker-compose -p $project_name -f $compose_file rm -f 2>&1 | tee -a $scenario_log > /dev/null
+    docker compose -p $project_name -f $compose_file rm -f 2>&1 | tee -a $scenario_log > /dev/null
     ${removeImagesScript}
 else
     for service_name in ${service_names[@]};do
-        service_container_name=${project_name}_${service_name}_1
+        service_container_name=${project_name}-${service_name}-1
         docker wait $service_container_name > /dev/null
 
         echo "docker inspect $service_container_name  :" >> $scenario_log
