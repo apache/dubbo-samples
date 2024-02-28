@@ -41,7 +41,7 @@ services:
   seata-server:
     #build: ${_basedir}/src/main/resources/docker/seata
     #removeOnExit: true
-    image: seataio/seata-server:2.0.0
+    image: seataio/seata-server:latest
     environment:
       - SEATA_PORT=8091
       - STORE_MODE=file

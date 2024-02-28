@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: seata-server
-          image: seataio/seata-server:2.0.0
+          image: seataio/seata-server:latest
           imagePullPolicy: Always
           ports:
             - name: seata-server
