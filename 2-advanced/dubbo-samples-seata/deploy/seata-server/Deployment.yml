@@ -23,6 +23,8 @@ spec:
   selector:
     matchLabels:
       app: seata-server
+  strategy:
+      type: Recreate
   template:
     metadata:
       labels:
@@ -35,9 +37,3 @@ spec:
           ports:
             - name: seata-server
               containerPort: 8091
-              protocol: TCP
-          env:
-            - name: SEATA_PORT
-              value: "8091"
-            - name: STORE_MODE
-              value: "file"
