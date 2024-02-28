@@ -51,8 +51,6 @@ services:
     type: app
     basedir: dubbo-samples-seata-account
     mainClass: org.apache.dubbo.samples.seata.account.AccountApplication
-    jvmFlags:
-      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
@@ -67,8 +65,6 @@ services:
     type: app
     basedir: dubbo-samples-seata-order
     mainClass: org.apache.dubbo.samples.seata.account.OrderApplication
-    jvmFlags:
-      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
@@ -83,8 +79,6 @@ services:
     type: app
     basedir: dubbo-samples-seata-stock
     mainClass: org.apache.dubbo.samples.seata.account.StockApplication
-    jvmFlags:
-      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
@@ -100,8 +94,6 @@ services:
     basedir: dubbo-samples-seata-business
     tests:
       - "**/*IT.class"
-    jvmFlags:
-      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091

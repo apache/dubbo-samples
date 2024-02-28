@@ -62,10 +62,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
@@ -78,9 +74,6 @@
                         <image>apache/dubbo-demo:dubbo-samples-seata-order_0.0.1</image>
                     </to>
                     <container>
-                        <jvmFlags>
-                            <jvmFlag>--add-opens=java.base/java.lang.reflect=ALL-UNNAMED</jvmFlag>
-                        </jvmFlags>
                         <ports>
                             <port>20883</port>
                             <port>22222</port>
