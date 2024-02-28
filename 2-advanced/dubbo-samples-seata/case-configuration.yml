@@ -20,6 +20,7 @@ timeout: 300
 systemProps:
   - mysql.address=seata-mysql
   - mysql.port=3306
+  - seata.address=seata-server
 
 services:
   seata-mysql:
@@ -57,7 +58,7 @@ services:
     systemProps:
       - seata.address=seata-server
     jvmFlags:
-      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
@@ -75,7 +76,7 @@ services:
     systemProps:
       - seata.address=seata-server
     jvmFlags:
-      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
@@ -93,7 +94,7 @@ services:
     systemProps:
       - seata.address=seata-server
     jvmFlags:
-      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
@@ -112,7 +113,7 @@ services:
     systemProps:
       - seata.address=seata-server
     jvmFlags:
-      - "--add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+      - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
