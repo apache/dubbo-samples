@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class BusinessApplicationTests {
+public class BusinessApplicationIT {
 
     @Autowired
     private BusinessService businessService;
