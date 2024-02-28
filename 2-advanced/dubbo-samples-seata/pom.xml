@@ -60,27 +60,27 @@
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-samples-seata-api</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-samples-seata-account</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-samples-seata-order</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-samples-seata-stock</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-samples-seata-business</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>io.seata</groupId>
