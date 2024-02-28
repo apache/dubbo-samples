@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-samples-seata</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>dubbo-samples-seata-api</artifactId>
     <name>dubbo-samples-seata-api</name>

@@ -20,12 +20,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.dubbo</groupId>
     <artifactId>dubbo-samples-seata</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>dubbo-samples-seata</name>
     <description>dubbo samples seata</description>
     <properties>
-        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dubbo.version>3.2.10</dubbo.version>
