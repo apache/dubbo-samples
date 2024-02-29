@@ -22,12 +22,8 @@ systemProps:
   - mysql.port=3306
   - seata.address=seata-server
   - seata.port=8091
-  - zookeeper.address=zookeeper
-  - zookeeper.port=2181
 
 services:
-  zookeeper:
-    image: zookeeper:3.4.14
 
   seata-mysql:
     image: mysql:5.7
@@ -36,12 +32,6 @@ services:
       - MYSQL_ROOT_PASSWORD=helloworld
     volumes:
       - ${_basedir}/script/db:/docker-entrypoint-initdb.d
-    #healthcheck:
-      # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
-      #test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
-      #interval: 5s
-     # timeout: 5s
-      #retries: 20
   seata-server:
     image: seataio/seata-server:latest
 
@@ -50,14 +40,12 @@ services:
     basedir: dubbo-samples-seata-account
     mainClass: org.apache.dubbo.samples.seata.account.AccountApplication
     waitPortsBeforeRun:
-      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
     checkLog: "Current Spring Boot Application (Account) is await"
     checkPorts:
       - 20881
     depends_on:
-      - zookeeper
       - seata-mysql
       - seata-server
 
@@ -66,7 +54,6 @@ services:
     basedir: dubbo-samples-seata-order
     mainClass: org.apache.dubbo.samples.seata.order.OrderApplication
     waitPortsBeforeRun:
-      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
       - account-service:20881
@@ -74,7 +61,6 @@ services:
     checkPorts:
       - 20883
     depends_on:
-      - zookeeper
       - seata-mysql
       - seata-server
 
@@ -83,7 +69,6 @@ services:
     basedir: dubbo-samples-seata-stock
     mainClass: org.apache.dubbo.samples.seata.stock.StockApplication
     waitPortsBeforeRun:
-      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
       - order-service:20883
@@ -91,7 +76,6 @@ services:
     checkPorts:
       - 20884
     depends_on:
-      - zookeeper
       - seata-mysql
       - seata-server
 
@@ -101,13 +85,11 @@ services:
     tests:
       - "**/*IT.class"
     waitPortsBeforeRun:
-      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
       - account-service:20881
       - order-service:20883
       - stock-service:20884
     depends_on:
-      - zookeeper
       - seata-mysql
       - seata-server
