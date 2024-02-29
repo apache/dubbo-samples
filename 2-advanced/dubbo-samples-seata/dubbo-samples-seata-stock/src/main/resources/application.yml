@@ -34,7 +34,7 @@ dubbo:
         name: ${spring.application.name}
         qos-enable: false
     registry:
-        address: multicast://224.5.6.7:1234
+        address: zookeeper://${zookeeper.address:127.0.0.1}:${zookeeper.port:2181}
     protocol:
         port: 20884
         name: dubbo

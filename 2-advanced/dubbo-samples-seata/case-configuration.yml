@@ -22,15 +22,18 @@ systemProps:
   - mysql.port=3306
   - seata.address=seata-server
   - seata.port=8091
+  - zookeeper.address=zookeeper
+  - zookeeper.port=2181
 
 services:
+  zookeeper:
+    image: zookeeper:3.4.14
+
   seata-mysql:
     image: mysql:5.7
     environment:
       - MYSQL_DATABASE=seata
       - MYSQL_ROOT_PASSWORD=helloworld
-    expose:
-      - 3306
     volumes:
       - ${_basedir}/script/db:/docker-entrypoint-initdb.d
     #healthcheck:
@@ -41,20 +44,20 @@ services:
       #retries: 20
   seata-server:
     image: seataio/seata-server:latest
-    expose:
-      - 8091
 
   account-service:
     type: app
     basedir: dubbo-samples-seata-account
     mainClass: org.apache.dubbo.samples.seata.account.AccountApplication
     waitPortsBeforeRun:
+      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
     checkLog: "Current Spring Boot Application (Account) is await"
     checkPorts:
       - 20881
     depends_on:
+      - zookeeper
       - seata-mysql
       - seata-server
 
@@ -63,6 +66,7 @@ services:
     basedir: dubbo-samples-seata-order
     mainClass: org.apache.dubbo.samples.seata.order.OrderApplication
     waitPortsBeforeRun:
+      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
       - account-service:20881
@@ -70,6 +74,7 @@ services:
     checkPorts:
       - 20883
     depends_on:
+      - zookeeper
       - seata-mysql
       - seata-server
 
@@ -78,6 +83,7 @@ services:
     basedir: dubbo-samples-seata-stock
     mainClass: org.apache.dubbo.samples.seata.stock.StockApplication
     waitPortsBeforeRun:
+      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
       - order-service:20883
@@ -85,6 +91,7 @@ services:
     checkPorts:
       - 20884
     depends_on:
+      - zookeeper
       - seata-mysql
       - seata-server
 
@@ -94,14 +101,13 @@ services:
     tests:
       - "**/*IT.class"
     waitPortsBeforeRun:
+      - zookeeper:2181
       - seata-mysql:3306
       - seata-server:8091
       - account-service:20881
       - order-service:20883
       - stock-service:20884
     depends_on:
+      - zookeeper
       - seata-mysql
       - seata-server
-      - account-service
-      - order-service
-      - stock-service
