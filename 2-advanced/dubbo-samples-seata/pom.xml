@@ -25,10 +25,12 @@
     <name>dubbo-samples-seata</name>
     <description>dubbo samples seata</description>
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dubbo.version>3.2.10</dubbo.version>
-        <spring-boot.version>3.0.5</spring-boot.version>
+        <spring-boot.version>2.7.10</spring-boot.version>
     </properties>
 
     <modules>

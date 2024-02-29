@@ -62,31 +62,30 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>${spring-boot.version}</version>
                 <configuration>
-                    <to>
-                        <image>apache/dubbo-demo:dubbo-samples-seata-stock_0.0.1</image>
-                    </to>
-                    <container>
-                        <jvmFlags>
-                            <jvmFlag>--add-opens=java.base/java.lang.reflect=ALL-UNNAMED</jvmFlag>
-                        </jvmFlags>
-                        <ports>
-                            <port>20884</port>
-                            <port>22222</port>
-                        </ports>
-                    </container>
+                    <mainClass>org.apache.dubbo.samples.seata.stock.StockApplication</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

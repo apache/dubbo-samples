@@ -21,6 +21,7 @@ systemProps:
   - mysql.address=seata-mysql
   - mysql.port=3306
   - seata.address=seata-server
+  - seata.port=8091
 
 services:
   seata-mysql:
@@ -31,34 +32,28 @@ services:
     expose:
       - 3306
     volumes:
-      - ${_basedir}/deploy/docker-compose/mysql/sql:/docker-entrypoint-initdb.d
-    healthcheck:
+      - ${_basedir}/script/db:/docker-entrypoint-initdb.d
+    #healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
-      interval: 5s
-      timeout: 5s
-      retries: 20
-
+      #test: ["CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1"]
+      #interval: 5s
+     # timeout: 5s
+      #retries: 20
   seata-server:
-    #build: ${_basedir}/src/main/resources/docker/seata
-    #removeOnExit: true
     image: seataio/seata-server:latest
     expose:
       - 8091
-      - 7091
 
   account-service:
     type: app
     basedir: dubbo-samples-seata-account
     mainClass: org.apache.dubbo.samples.seata.account.AccountApplication
-    jvmFlags:
-        - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
-    checkLog: "Current Spring Boot Application is await"
+    checkLog: "Current Spring Boot Application (Account) is await"
     checkPorts:
-      - 20884
+      - 20881
     depends_on:
       - seata-mysql
       - seata-server
@@ -66,15 +61,14 @@ services:
   order-service:
     type: app
     basedir: dubbo-samples-seata-order
-    mainClass: org.apache.dubbo.samples.seata.account.OrderApplication
-    jvmFlags:
-        - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
+    mainClass: org.apache.dubbo.samples.seata.order.OrderApplication
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
-    checkLog: "Current Spring Boot Application is await"
+      - account-service:20881
+    checkLog: "Current Spring Boot Application (Order) is await"
     checkPorts:
-      - 20881
+      - 20883
     depends_on:
       - seata-mysql
       - seata-server
@@ -82,15 +76,14 @@ services:
   stock-service:
     type: app
     basedir: dubbo-samples-seata-stock
-    mainClass: org.apache.dubbo.samples.seata.account.StockApplication
-    jvmFlags:
-        - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
+    mainClass: org.apache.dubbo.samples.seata.stock.StockApplication
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091
-    checkLog: "Current Spring Boot Application is await"
+      - order-service:20883
+    checkLog: "Current Spring Boot Application (Stock) is await"
     checkPorts:
-      - 20883
+      - 20884
     depends_on:
       - seata-mysql
       - seata-server
@@ -100,8 +93,6 @@ services:
     basedir: dubbo-samples-seata-business
     tests:
       - "**/*IT.class"
-    jvmFlags:
-        - "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
     waitPortsBeforeRun:
       - seata-mysql:3306
       - seata-server:8091

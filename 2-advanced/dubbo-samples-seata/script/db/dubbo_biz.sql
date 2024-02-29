@@ -47,7 +47,5 @@ CREATE TABLE `account_tbl`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
----INITIALIZE THE ACCOUNT TABLE
 INSERT INTO account_tbl(`user_id`,`money`) VALUES('ACC_001','1000');
----INITIALIZE THE STOCK TABLE
 INSERT INTO stock_tbl(`commodity_code`,`count`) VALUES('STOCK_001','100');
