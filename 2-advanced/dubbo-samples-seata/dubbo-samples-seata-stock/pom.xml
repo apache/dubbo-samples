@@ -16,15 +16,15 @@
   limitations under the License.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-samples-seata</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>dubbo-samples-seata-account</artifactId>
-    <name>dubbo-samples-seata-account</name>
+    <artifactId>dubbo-samples-seata-stock</artifactId>
+    <name>dubbo-samples-seata-stock</name>
 
     <dependencies>
         <dependency>
@@ -76,7 +76,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>org.apache.dubbo.samples.seata.account.AccountApplication</mainClass>
+                    <mainClass>org.apache.dubbo.samples.seata.stock.StockApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
