@@ -19,6 +19,7 @@ More usages of triple protocol can be found here:
 * [Streaming RPCs](../../2-advanced/dubbo-samples-triple-streaming/)
 * [Interoperability with standard gRPC clients and servers](../../2-advanced/dubbo-samples-triple-grpc/)
 * [Using triple with other languages and browser](https://dubbo.apache.org/zh-cn/overview/mannual/)
+* [Triple with Spring Boot](../dubbo-samples-spring-boot/) and [Triple+IDL with Spring Boot](../dubbo-samples-spring-boot-idl/)
 
 ## Start Client
 
