@@ -1,0 +1,59 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+timeout: 600
+
+services:
+  zookeeper:
+    image: zookeeper:latest
+
+  dubbo-samples-native-image-registry-provider:
+    type: nativeApp
+    basedir: dubbo-samples-native-image-registry-provider
+    checkLog: "dubbo provider application started"
+    checkPorts:
+        - 50052
+    waitPortsBeforeRun:
+        - zookeeper:2181
+    depends_on:
+        - zookeeper
+    systemProps:
+        - zookeeper.address=zookeeper
+
+  dubbo-samples-native-image-registry-consumer:
+    type: nativeApp
+    basedir: dubbo-samples-native-image-registry-consumer
+    checkLog: "dubbo consumer application started"
+    waitPortsBeforeRun:
+        - zookeeper:2181
+        - dubbo-samples-native-image-registry-provider:50052
+    depends_on:
+        - zookeeper
+    systemProps:
+        - zookeeper.address=zookeeper
+
+  dubbo-samples-native-image-registry-test:
+      type: nativeTest
+      basedir: dubbo-samples-native-image-registry-consumer
+      tests:
+          - "**/*IT.class"
+      depends_on:
+          - zookeeper
+      systemProps:
+          - zookeeper.address=zookeeper
+      waitPortsBeforeRun:
+          - zookeeper:2181
+          - dubbo-samples-native-image-registry-provider:50052
