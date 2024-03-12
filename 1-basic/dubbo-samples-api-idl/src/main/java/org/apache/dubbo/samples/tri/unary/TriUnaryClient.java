@@ -20,9 +20,7 @@ package org.apache.dubbo.samples.tri.unary;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.samples.tri.unary.util.TriSampleConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,13 +34,9 @@ public class TriUnaryClient {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         ReferenceConfig<Greeter> ref = new ReferenceConfig<>();
         ref.setInterface(Greeter.class);
-        ref.setProtocol(CommonConstants.TRIPLE);
-        ref.setProxy(CommonConstants.NATIVE_STUB);
-        ref.setTimeout(3000);
+        ref.setUrl("tri://localhost:50052");
 
-        ApplicationConfig applicationConfig = new ApplicationConfig("tri-stub-consumer");
-        applicationConfig.setQosEnable(false);
-        bootstrap.application(applicationConfig).reference(ref).registry(new RegistryConfig(TriSampleConstants.ZK_ADDRESS)).start();
+        bootstrap.reference(ref).start();
         Greeter greeter = ref.get();
 
         //sync
