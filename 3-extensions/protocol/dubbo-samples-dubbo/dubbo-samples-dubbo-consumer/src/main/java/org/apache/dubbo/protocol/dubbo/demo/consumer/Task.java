@@ -14,43 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.async.boot.consumer;
+package org.apache.dubbo.protocol.dubbo.demo.consumer;
+
+import java.util.Date;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.async.boot.HiService;
+import org.apache.dubbo.protocol.dubbo.demo.DemoService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.CompletableFuture;
-
-/**
- * @date: 24/3/2023
- * @time: 10:21 PM
- */
 @Component
 public class Task implements CommandLineRunner {
-    @DubboReference(async = true)
-    private HiService hiService;
+    @DubboReference(url = "dubbo://127.0.0.1:20880/org.apache.dubbo.protocol.dubbo.demo.DemoService")
+    private DemoService demoService;
 
     @Override
     public void run(String... args) throws Exception {
-        hiService.sayHello("world");//调用远程hiService 的sayHello
+        String result = demoService.sayHello("world");
+        System.out.println("Receive result ======> " + result);
 
-        CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
-        helloFuture.whenComplete((retValue, exception) -> {
-            if (exception == null) {
-                System.out.println("return value: " + retValue);
-            } else {
-                exception.printStackTrace();
+        new Thread(()-> {
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                    System.out.println(new Date() + " Receive result ======> " + demoService.sayHello("world"));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
             }
-        });
-
-        CompletableFuture<String> f = RpcContext.getContext().asyncCall(() -> hiService.sayHello("async call request"));
-        System.out.println("async call returned: " + f.get());
-
-        RpcContext.getContext().asyncCall(() -> {
-            hiService.sayHello("one way call request1");
-        });
+        }).start();
     }
 }
