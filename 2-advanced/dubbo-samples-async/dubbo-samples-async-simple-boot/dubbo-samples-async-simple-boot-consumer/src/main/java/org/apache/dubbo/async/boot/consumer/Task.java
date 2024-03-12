@@ -30,7 +30,7 @@ import java.util.concurrent.CompletableFuture;
  */
 @Component
 public class Task implements CommandLineRunner {
-    @DubboReference
+    @DubboReference(async = true)
     private HiService hiService;
 
     @Override

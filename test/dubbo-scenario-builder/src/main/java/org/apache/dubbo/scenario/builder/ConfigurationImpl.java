@@ -44,13 +44,16 @@ import java.util.regex.Pattern;
 
 public class ConfigurationImpl implements IConfiguration {
     public static final String SAMPLE_TEST_IMAGE = "dubbo/sample-test";
+    public static final String NATIVE_SAMPLE_TEST_IMAGE = "dubbo/native-sample-test";
     public static final String DUBBO_APP_DIR = "/usr/local/dubbo/app";
+    public static final String DUBBO_SRC_DIR = "/usr/local/dubbo/src";
     public static final String DUBBO_JACOCO_RESULT_DIR = "/usr/local/dubbo/target-jacoco";
     public static final String DUBBO_JACOCO_RUNNER_FILE = "/usr/local/dubbo/jacocoagent.jar";
     public static final String DUBBO_LOG_DIR = "/usr/local/dubbo/logs";
 
     //ENV
     public static final String ENV_SERVICE_NAME = "SERVICE_NAME";
+    public static final String ENV_SERVICE_DIR = "SERVICE_DIR";
     public static final String ENV_SERVICE_TYPE = "SERVICE_TYPE";
     public static final String ENV_APP_MAIN_CLASS = "APP_MAIN_CLASS";
     public static final String ENV_WAIT_PORTS_BEFORE_RUN = "WAIT_PORTS_BEFORE_RUN";
@@ -354,16 +357,7 @@ public class ConfigurationImpl implements IConfiguration {
 
                     //add healthcheck
                     if (addHealthcheck) {
-                        if (service.getHealthcheck() == null) {
-                            Map<String, Object> healthcheckMap = new LinkedHashMap<>();
-                            service.setHealthcheck(healthcheckMap);
-                        }
-                        Map<String, Object> healthcheck = service.getHealthcheck();
-                        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
-                        healthcheck.putIfAbsent("interval", "5s");
-                        healthcheck.putIfAbsent("timeout", "5s");
-                        healthcheck.putIfAbsent("retries", 20);
-                        healthcheck.putIfAbsent("start_period", "60s");
+                        addHealthCheck(service);
                     }
                 } else if ("test".equals(type)) {
                     String mainClass = service.getMainClass();
@@ -380,6 +374,63 @@ public class ConfigurationImpl implements IConfiguration {
                     }
                 } else {
                     throw new RuntimeException("Illegal service type: " + type);
+                }
+            } else if (isNativeAppOrTestService(type)) {
+                service.setImage(NATIVE_SAMPLE_TEST_IMAGE + ":" + testImageVersion);
+                if (service.getVolumes() == null) {
+                    service.setVolumes(new ArrayList<>());
+                }
+                //mount scenarioHome : DUBBO_SRC_DIR, cause pom.xml depends on parent pom,we have to mount root dir
+                service.getVolumes().add(scenarioHome + ":" + DUBBO_SRC_DIR);
+                //mount ${scenario_home}/logs : DUBBO_LOG_DIR
+                service.getVolumes().add(scenarioLogDir + ":" + DUBBO_LOG_DIR);
+
+                if (service.getEnvironment() == null) {
+                    service.setEnvironment(new ArrayList<>());
+                }
+                // set service name
+                setEnv(service, ENV_SERVICE_NAME, serviceName);
+                // we need to know which dir to run mvn
+                setEnv(service, ENV_SERVICE_DIR, service.getBasedir() == null ? "." : service.getBasedir());
+
+                //set wait ports
+                if (isNotEmpty(service.getWaitPortsBeforeRun())) {
+                    String str = convertAddrPortsToString(service.getWaitPortsBeforeRun());
+                    setEnv(service, ENV_WAIT_PORTS_BEFORE_RUN, str);
+                }
+
+                //set run delay
+                if (service.getRunDelay() > 0) {
+                    setEnv(service, ENV_RUN_DELAY, service.getRunDelay() + "");
+                }
+
+                if (service.getWaitTimeout() > 0) {
+                    setEnv(service, ENV_WAIT_TIMEOUT, service.getWaitTimeout() + "");
+                }
+
+                //set SERVICE_TYPE
+                setEnv(service, ENV_SERVICE_TYPE, type);
+                //set SCENARIO_HOME
+                setEnv(service, ENV_SCENARIO_HOME, scenarioHome);
+                if ("nativeApp".equals(type)) {
+                    boolean addHealthcheck = false;
+                    //set check_log env
+                    if (StringUtils.isNotBlank(service.getCheckLog())) {
+                        addHealthcheck = true;
+                        setEnv(service, ENV_CHECK_LOG, service.getCheckLog());
+                    }
+
+                    //set check ports
+                    if (isNotEmpty(service.getCheckPorts())) {
+                        addHealthcheck = true;
+                        String str = convertAddrPortsToString(service.getCheckPorts());
+                        setEnv(service, ENV_CHECK_PORTS, str);
+                    }
+
+                    //add healthcheck
+                    if (addHealthcheck) {
+                        addHealthCheck(service);
+                    }
                 }
             }
 
@@ -405,6 +456,19 @@ public class ConfigurationImpl implements IConfiguration {
                 healthcheckServices.add(serviceName);
             }
         }
+    }
+
+    private static void addHealthCheck(ServiceComponent service) {
+        if (service.getHealthcheck() == null) {
+            Map<String, Object> healthcheckMap = new LinkedHashMap<>();
+            service.setHealthcheck(healthcheckMap);
+        }
+        Map<String, Object> healthcheck = service.getHealthcheck();
+        healthcheck.putIfAbsent("test", Arrays.asList("CMD", "/usr/local/dubbo/healthcheck.sh"));
+        healthcheck.putIfAbsent("interval", "5s");
+        healthcheck.putIfAbsent("timeout", "5s");
+        healthcheck.putIfAbsent("retries", 20);
+        healthcheck.putIfAbsent("start_period", isNativeAppOrTestService(service.getType()) ? "300s" : "60s");
     }
 
     private void appendEnv(ServiceComponent service, String name, String value) {
@@ -470,6 +534,10 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     private String toAbsolutePath(String path) throws IOException {
+        if (path == null) {
+            // if no dir set,use current dir
+            path = ".";
+        }
         File file = new File(path);
         if (file.isAbsolute()) {
             return file.getCanonicalPath();
@@ -478,7 +546,7 @@ public class ConfigurationImpl implements IConfiguration {
         return new File(configBasedir, path).getCanonicalPath();
     }
 
-    private boolean isAppOrTestService(String type) {
+    private static boolean isAppOrTestService(String type) {
         if (type == null) {
             return false;
         }
@@ -487,7 +555,19 @@ public class ConfigurationImpl implements IConfiguration {
             case "test":
                 return true;
         }
-        throw new RuntimeException("Illegal service type: " + type);
+        return false;
+    }
+
+    private static boolean isNativeAppOrTestService(String type) {
+        if (type == null) {
+            return false;
+        }
+        switch (type) {
+            case "nativeApp":
+            case "nativeTest":
+                return true;
+        }
+        return false;
     }
 
     private Pattern pattern = Pattern.compile("\\$\\{.*}");
@@ -639,7 +719,7 @@ public class ConfigurationImpl implements IConfiguration {
         List<String> serviceNames = new ArrayList<>();
         for (Map.Entry<String, ServiceComponent> entry : caseConfiguration.getServices().entrySet()) {
             ServiceComponent service = entry.getValue();
-            if ("test".equals(service.getType())) {
+            if ("test".equals(service.getType()) || "nativeTest".equals(service.getType())) {
                 serviceNames.add(entry.getKey());
             }
         }

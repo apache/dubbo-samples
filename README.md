@@ -61,7 +61,7 @@ Then we use the `run-tests.sh` script to run the test cases.
   For example, run the `dubbo-samples-annotation` test case:
   
   ```
-  ./test/run-tests.sh dubbo-samples-annotation
+  ./test/run-tests.sh 2-advanced/dubbo-samples-annotation
   ```
   
 * Run all test cases
