@@ -123,6 +123,7 @@ public class VersionMatcher {
         logger.info("{}: {}", CASE_VERSIONS_FILE, caseVersionsFile);
         logger.info("{}: {}", CASE_VERSION_SOURCES_FILE, caseVersionSourcesFile);
         logger.info("{}: {}", OUTPUT_FILE, outputFile);
+        logger.info("{}: {}", RUNTIME_PARAMETER_FILE, runtimeParameterFile);
 
         // parse and expand to versions list
         Map<String, List<String>> candidateVersionMap = parseVersionList(candidateVersionListStr);
