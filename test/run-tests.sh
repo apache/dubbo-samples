@@ -134,7 +134,7 @@ function run_test_with_version_profile() {
       find . -name target -d | xargs -I {} sudo rm -rf {}
     fi
 
-    jvm_opts = $version_profile
+    jvm_opts=$version_profile
     if [ "$parameter_runtime" != "" ]; then
        jvm_opts="$version_profile -D$parameter_runtime -Dprop=\"$parameter_runtime\""
     fi
