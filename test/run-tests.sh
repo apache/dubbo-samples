@@ -260,6 +260,8 @@ function process_case() {
 
   echo "version_log_file=$version_log_file"
   echo "result=$result"
+  cat $version_log_file
+
   if [ $result -ne 0 ]; then
     #extract error msg
     error_msg=`get_error_msg $version_log_file`
