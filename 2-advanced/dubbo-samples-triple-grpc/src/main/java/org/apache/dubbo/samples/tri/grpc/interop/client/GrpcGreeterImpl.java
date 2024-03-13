@@ -17,10 +17,9 @@
 
 package org.apache.dubbo.samples.tri.grpc.interop.client;
 
+import org.apache.dubbo.samples.tri.grpc.GreeterGrpc;
 import org.apache.dubbo.samples.tri.grpc.GreeterReply;
 import org.apache.dubbo.samples.tri.grpc.GreeterRequest;
-import org.apache.dubbo.samples.tri.grpc.GreeterGrpc;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,0 +1,4 @@
+dubbo:
+  protocol:
+    name: tri
+    port: 9999

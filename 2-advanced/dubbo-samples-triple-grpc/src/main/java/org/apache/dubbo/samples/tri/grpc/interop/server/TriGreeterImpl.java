@@ -18,15 +18,15 @@
 package org.apache.dubbo.samples.tri.grpc.interop.server;
 
 import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.tri.grpc.DubboGreeterTriple;
 import org.apache.dubbo.samples.tri.grpc.GreeterReply;
 import org.apache.dubbo.samples.tri.grpc.GreeterRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@DubboService
 public class TriGreeterImpl extends DubboGreeterTriple.GreeterImplBase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(org.apache.dubbo.samples.tri.grpc.interop.server.TriGreeterImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TriGreeterImpl.class);
 
     public TriGreeterImpl() {
     }

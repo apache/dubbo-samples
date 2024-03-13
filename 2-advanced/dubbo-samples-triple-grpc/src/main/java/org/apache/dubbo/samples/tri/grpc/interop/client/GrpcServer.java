@@ -17,8 +17,6 @@
 
 package org.apache.dubbo.samples.tri.grpc.interop.client;
 
-import org.apache.dubbo.common.context.Lifecycle;
-
 import io.grpc.ForwardingServerCall;
 import io.grpc.Metadata;
 import io.grpc.Server;
@@ -27,11 +25,11 @@ import io.grpc.ServerCall;
 import io.grpc.ServerCallHandler;
 import io.grpc.ServerInterceptor;
 import io.grpc.Status;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Objects;
+import org.apache.dubbo.common.context.Lifecycle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GrpcServer implements Lifecycle {
 
@@ -45,7 +43,7 @@ public class GrpcServer implements Lifecycle {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        GrpcServer server = new GrpcServer(50051);
+        GrpcServer server = new GrpcServer(8999);
         server.initialize();
         server.start();
         System.in.read();

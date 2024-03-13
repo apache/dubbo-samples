@@ -17,18 +17,18 @@
 
 package org.apache.dubbo.samples.tri.grpc.interop.server;
 
-import org.apache.dubbo.common.constants.CommonConstants;
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ProtocolConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.ServiceConfig;
-import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.samples.tri.grpc.Greeter;
-
 import java.io.IOException;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@EnableDubbo
+@SpringBootApplication
 public class TriOpServer {
     public static void main(String[] args) throws IOException {
+          SpringApplication.run(TriOpServer.class);
+/*
+     THIS IS THE REPLACED API CONFIGURATION METHOD
         ServiceConfig<Greeter> service = new ServiceConfig<>();
         service.setInterface(Greeter.class);
         service.setRef(new TriGreeterImpl());
@@ -36,9 +36,10 @@ public class TriOpServer {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("tri-stub-server"))
                 .registry(new RegistryConfig("N/A"))
-                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, 50053))
+                .protocol(new ProtocolConfig(CommonConstants.TRIPLE, 9999))
                 .service(service)
                 .start()
                 .await();
+*/
     }
 }

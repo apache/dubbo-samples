@@ -17,16 +17,14 @@
 
 package org.apache.dubbo.samples.tri.grpc.interop.server;
 
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import java.io.IOException;
 import org.apache.dubbo.samples.tri.grpc.GreeterGrpc;
 import org.apache.dubbo.samples.tri.grpc.GreeterReply;
 import org.apache.dubbo.samples.tri.grpc.GreeterRequest;
-
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class GrpcClient {
 
@@ -45,7 +43,7 @@ public class GrpcClient {
     }
 
     public static void main(String[] args) throws IOException {
-        GrpcClient client = new GrpcClient(50053);
+        GrpcClient client = new GrpcClient(9999);
         client.unary();
         client.stream();
         client.serverStream();
