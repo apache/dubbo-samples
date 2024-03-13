@@ -117,6 +117,7 @@ function check_test_image() {
 function run_test_with_version_profile() {
     local version_profile=$1
     local parameter_runtime=$2
+    local project_home=$3
 
     start_time=$SECONDS
     version_no=$((version_no + 1))
@@ -289,12 +290,12 @@ function process_case() {
   if [ $runtime_count -gt 0 ]; then
         while read -r version_profile; do
             while read -r $parameter_runtime; do
-              run_test_with_version_profile "$version_profile" "$parameter_runtime"
+              run_test_with_version_profile "$version_profile" "$parameter_runtime" "$project_home"
             done < "$parameter_runtime_file"
         done < "$version_matrix_file"
   else
         while read -r version_profile; do
-          run_test_with_version_profile "$version_profile" ""
+          run_test_with_version_profile "$version_profile" "" "$project_home"
         done < "$version_matrix_file"
   fi
 
