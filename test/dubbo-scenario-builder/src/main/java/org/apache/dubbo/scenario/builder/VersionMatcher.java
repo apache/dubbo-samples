@@ -61,8 +61,10 @@ public class VersionMatcher {
      */
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
     public static final String CASE_VERSION_SOURCES_FILE = "caseVersionSourcesFile";
+    public static final String CASE_RUNTIME_PARAMETER_FILE = "caseRuntimeParameterFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
+    public static final String RUNTIME_PARAMETER_FILE = "runtimeParameterOutputFile";
     public static final String ALL_REMOTE_VERSION = "ALL_REMOTE_VERSION";
     public static final String INCLUDE_CASE_SPECIFIC_VERSION = "includeCaseSpecificVersion";
 
@@ -70,8 +72,10 @@ public class VersionMatcher {
 
         String caseVersionsFile = System.getProperty(CASE_VERSIONS_FILE);
         String caseVersionSourcesFile = System.getProperty(CASE_VERSION_SOURCES_FILE);
+        String caseRuntimeFile = System.getProperty(CASE_RUNTIME_PARAMETER_FILE);
         String candidateVersionListStr = System.getProperty(CANDIDATE_VERSIONS);
         String outputFile = System.getProperty(OUTPUT_FILE);
+        String rtOutputFile = System.getProperty(RUNTIME_PARAMETER_FILE);
         // whether include specific version which defined in case-versions.conf
         // specific version: a real version not contains wildcard '*'
         boolean includeCaseSpecificVersion = Boolean.parseBoolean(System.getProperty(INCLUDE_CASE_SPECIFIC_VERSION, "true"));
@@ -85,6 +89,9 @@ public class VersionMatcher {
         if (StringUtils.isBlank(caseVersionSourcesFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSION_SOURCES_FILE);
         }
+        if (StringUtils.isBlank(caseRuntimeFile)) {
+            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_RUNTIME_PARAMETER_FILE);
+        }
         File file = new File(caseVersionsFile);
         if (!file.exists() || !file.isFile()) {
             errorAndExit(Constants.EXIT_FAILED, "File not exists or isn't a file: {}", file.getAbsolutePath());
@@ -93,16 +100,25 @@ public class VersionMatcher {
         if (!file.exists() || !file.isFile()) {
             caseVersionSourcesFile = null;
         }
+        file = new File(caseRuntimeFile);
+        if (!file.exists() || !file.isFile()) {
+            caseRuntimeFile = null;
+        }
         if (StringUtils.isBlank(outputFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", OUTPUT_FILE);
         }
         new File(outputFile).getParentFile().mkdirs();
 
+        if (StringUtils.isBlank(rtOutputFile)) {
+            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", RUNTIME_PARAMETER_FILE);
+        }
+        new File(rtOutputFile).getParentFile().mkdirs();
+
         VersionMatcher versionMatcher = new VersionMatcher();
-        versionMatcher.doMatch(caseVersionsFile, caseVersionSourcesFile, candidateVersionListStr, outputFile, includeCaseSpecificVersion);
+        versionMatcher.doMatch(caseVersionsFile, caseVersionSourcesFile, caseRuntimeFile, candidateVersionListStr, outputFile, rtOutputFile, includeCaseSpecificVersion);
     }
 
-    private void doMatch(String caseVersionsFile, String caseVersionSourcesFile, String candidateVersionListStr, String outputFile, boolean includeCaseSpecificVersion) throws Exception {
+    private void doMatch(String caseVersionsFile, String caseVersionSourcesFile, String caseRuntimeFile, String candidateVersionListStr, String outputFile, String runtimeParameterFile, boolean includeCaseSpecificVersion) throws Exception {
         logger.info("{}: {}", CANDIDATE_VERSIONS, candidateVersionListStr);
         logger.info("{}: {}", CASE_VERSIONS_FILE, caseVersionsFile);
         logger.info("{}: {}", CASE_VERSION_SOURCES_FILE, caseVersionSourcesFile);
@@ -209,8 +225,53 @@ public class VersionMatcher {
             pw.print(sb);
             logger.info("Version matrix total: {}, list: \n{}", versionProfiles.size(), sb);
         } catch (IOException e) {
-            errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.toString(), e);
+            errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.getMessage(), e);
         }
+
+        List<String> runtimeParameterList = parseRuntimeParameter(caseRuntimeFile);
+        if (runtimeParameterList != null) {
+            try (FileOutputStream fos = new FileOutputStream(runtimeParameterFile);
+                 PrintWriter pw = new PrintWriter(fos)) {
+                StringBuilder sb = new StringBuilder();
+                runtimeParameterList.forEach(item -> sb.append("-D").append(item).append(" "));
+                sb.append("\n");
+                pw.print(sb);
+                logger.info("Parameter runtime total: {}, list: \n{}", runtimeParameterList.size(), sb);
+            } catch (IOException e) {
+                errorAndExit(Constants.EXIT_FAILED, "Write parameter runtime failed: " + e.getMessage(), e);
+            }
+        }
+
+    }
+
+    private List<String> parseRuntimeParameter(String caseRuntimeFile) {
+
+//        dubbo.protocol.name=tri
+//        dubbo.protocol.port=20883
+        List<String> runtimeAttrList = new ArrayList<>();
+        if (caseRuntimeFile == null) {
+            return null;
+        }
+
+        try {
+            String content = FileUtil.readFully(caseRuntimeFile);
+            BufferedReader br = new BufferedReader(new StringReader(content));
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith("#") || StringUtils.isBlank(line)) {
+                    continue;
+                }
+                runtimeAttrList.add(line);
+            }
+
+            return runtimeAttrList;
+        } catch (IOException e) {
+            errorAndExit(Constants.EXIT_FAILED, "Parse runtime parameter file path failed: {}", caseRuntimeFile, e);
+        }
+
+        return null;
+
     }
 
     /**
@@ -472,7 +533,6 @@ public class VersionMatcher {
 
         boolean match(String version);
 
-
         /**
          * Get service the MatchRule bind to
          *
@@ -481,6 +541,7 @@ public class VersionMatcher {
         default String getServiceName() {
             return null;
         }
+
     }
 
     private static abstract class ExcludableMatchRule implements VersionMatcher.MatchRule {
@@ -500,6 +561,7 @@ public class VersionMatcher {
         public String getServiceName() {
             return serviceName;
         }
+
     }
 
     private static class PlainMatchRule extends ExcludableMatchRule {
@@ -524,6 +586,7 @@ public class VersionMatcher {
         public String toString() {
             return (excluded ? "!" : "") + version;
         }
+
     }
 
     private static class WildcardMatchRule extends ExcludableMatchRule {
@@ -546,6 +609,7 @@ public class VersionMatcher {
         public String toString() {
             return (excluded ? "!" : "") + versionWildcard;
         }
+
     }
 
     private static class RangeMatchRule implements VersionMatcher.MatchRule {
@@ -576,6 +640,7 @@ public class VersionMatcher {
         public String toString() {
             return operator + version;
         }
+
     }
 
     private static class CombineMatchRule implements VersionMatcher.MatchRule {
@@ -608,6 +673,7 @@ public class VersionMatcher {
             }
             return sb.toString();
         }
+
     }
 
     private static int[] toVersionInts(String version) {
@@ -676,6 +742,7 @@ public class VersionMatcher {
 
     private interface VersionComparator {
         boolean match(int[] matchingVersionInts, int[] versionInts);
+
     }
 
     private static VersionComparator greaterThanComparator = new VersionComparator() {

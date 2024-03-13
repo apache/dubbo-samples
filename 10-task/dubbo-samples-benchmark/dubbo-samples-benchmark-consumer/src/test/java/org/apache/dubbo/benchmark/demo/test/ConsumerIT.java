@@ -22,6 +22,7 @@ import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.junit.Test;
+import org.junit.platform.commons.util.StringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
@@ -41,7 +42,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
 
-
     @Test
     public void test() throws RunnerException {
 
@@ -51,6 +51,7 @@ public class ConsumerIT {
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
+                .param("prop", System.getProperty("prop"))
                 .measurementTime(TimeValue.seconds(measurementTime))
                 .forks(1);
 
@@ -60,7 +61,15 @@ public class ConsumerIT {
     }
 
     private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder) {
-        optBuilder.result("/tmp/jmh_result.json");
+        String prop = System.getProperty("prop");
+
+        if (StringUtils.isNotBlank(prop)) {
+            int index = prop.indexOf('=');
+            String val = prop.substring(index + 1);
+            optBuilder.result("/tmp/jmh_result_" + val + ".json");
+        } else {
+            optBuilder.result("/tmp/jmh_result.json");
+        }
         optBuilder.resultFormat(ResultFormatType.JSON);
         return optBuilder;
     }
@@ -70,6 +79,9 @@ public class ConsumerIT {
 
         @Param({""})
         private String time;
+
+        @Param({""})
+        private String prop;
 
         @Benchmark
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
@@ -88,5 +100,7 @@ public class ConsumerIT {
 
             return service.sayHello("dubbo");
         }
+
     }
+
 }

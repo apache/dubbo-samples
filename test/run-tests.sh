@@ -65,6 +65,7 @@ ERROR_MSG_FLAG=":ErrorMsg:"
 
 CONFIG_FILE="case-configuration.yml"
 VERSONS_FILE="case-versions.conf"
+RUNTIME_PARAMETER_FILE="case-runtime-parameter.conf"
 VERSIONS_SOURCE_FILE="case-version-sources.conf"
 
 # Exit codes
@@ -113,68 +114,10 @@ function check_test_image() {
     fi
 }
 
-function process_case() {
-  case_dir=$1
-  case_no=$2
+function run_test_with_version_profile() {
+    local version_profile=$1
+    local parameter_runtime=$2
 
-  if [ -f $case_dir ]; then
-    case_dir=`dirname $case_dir`
-  fi
-
-  file=$case_dir/$CONFIG_FILE
-  if [ ! -f $file ]; then
-    echo "$TEST_FAILURE: case config not found: $file" | tee -a $testResultFile
-    return 1
-  fi
-
-  ver_file=$case_dir/$VERSONS_FILE
-  if [ ! -f $ver_file ]; then
-    echo "$TEST_FAILURE: case versions config not found: $ver_file" | tee -a $testResultFile
-    return 1
-  fi
-
-  ver_src_file=$case_dir/$VERSIONS_SOURCE_FILE
-
-  case_start_time=$SECONDS
-  project_home=`dirname $file`
-  scenario_home=$project_home/target
-  scenario_name=`basename $project_home`
-  log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
-  echo "$log_prefix Processing : $project_home .."
-
-  # generate version matrix
-  version_log_file=$project_home/version-matrix.log
-  version_matrix_file=$project_home/version-matrix.txt
-  java -DcandidateVersions="$CANDIDATE_VERSIONS" \
-    -DcaseVersionsFile="$ver_file" \
-    -DcaseVersionSourcesFile="$ver_src_file" \
-    -DoutputFile="$version_matrix_file" \
-    -cp $test_builder_jar \
-    org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
-  result=$?
-  if [ $result -ne 0 ]; then
-    #extract error msg
-    error_msg=`get_error_msg $version_log_file`
-
-    if [ $result -eq $EXIT_UNMATCHED ]; then
-      echo "$log_prefix $TEST_IGNORED: Version not match:$error_msg" | tee -a $testResultFile
-    else
-      echo "$log_prefix $TEST_FAILURE: Generate version matrix failed:$error_msg" | tee -a $testResultFile
-      if [ "$SHOW_ERROR_DETAIL" == "1" ];then
-        print_log_file $scenario_name $version_log_file
-      else
-        echo "please check log file: $version_log_file"
-      fi
-    fi
-    return 1
-  fi
-
-  version_count=`grep -c "" $version_matrix_file `
-  echo "$log_prefix Version matrix: $version_count"
-  cat $version_matrix_file
-
-  version_no=0
-  while read -r version_profile; do
     start_time=$SECONDS
     version_no=$((version_no + 1))
     log_prefix="[${case_no}/${totalCount}] [$scenario_name:$version_no/$version_count]"
@@ -191,39 +134,44 @@ function process_case() {
       find . -name target -d | xargs -I {} sudo rm -rf {}
     fi
 
-    mvn $BUILD_OPTS $version_profile &> $project_home/mvn.log
+    jvm_opts = $version_profile
+    if [ "$parameter_runtime" != "" ]; then
+       jvm_opts="$version_profile -D$parameter_runtime -Dprop=\"$parameter_runtime\""
+    fi
+
+    mvn $BUILD_OPTS $jvm_opts &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
-      echo "$log_prefix $TEST_FAILURE: Build failure with version: $version_profile, please check log: $project_home/mvn.log" | tee -a $testResultFile
+      echo "$log_prefix $TEST_FAILURE: Build failure with version: $jvm_opts, please check log: $project_home/mvn.log" | tee -a $testResultFile
       if [ "$SHOW_ERROR_DETAIL" == "1" ];then
         cat $project_home/mvn.log
       fi
       return 1
     fi
 
-    # generate case configuration
-    mkdir -p $scenario_home/logs
-    scenario_builder_log=$scenario_home/logs/scenario-builder.log
-    echo "$log_prefix Generating test case configuration .."
-    config_time=$SECONDS
-    java -Dconfigure.file=$file \
-      -Dscenario.home=$scenario_home \
-      -Dscenario.name=$scenario_name \
-      -Dscenario.version=$version \
-      -Dtest.image.version=$JAVA_VER \
-      -Ddebug.service=$DEBUG \
-      $version_profile \
-      -jar $test_builder_jar  &> $scenario_builder_log
-    result=$?
-    if [ $result -ne 0 ]; then
-      error_msg=`get_error_msg $scenario_builder_log`
-      if [ $result == $EXIT_IGNORED ]; then
-        echo "$log_prefix $TEST_IGNORED: $error_msg" | tee -a $testResultFile
-      else
-        echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $error_msg, please check log: $scenario_builder_log" | tee -a $testResultFile
-      fi
-      return $result
-    fi
+     # generate case configuration
+     mkdir -p $scenario_home/logs
+     scenario_builder_log=$scenario_home/logs/scenario-builder.log
+     echo "$log_prefix Generating test case configuration .."
+     config_time=$SECONDS
+     java -Dconfigure.file=$file \
+          -Dscenario.home=$scenario_home \
+          -Dscenario.name=$scenario_name \
+          -Dscenario.version=$version \
+          -Dtest.image.version=$JAVA_VER \
+          -Ddebug.service=$DEBUG \
+          $jvm_opts \
+          -jar $test_builder_jar  &> $scenario_builder_log
+     result=$?
+     if [ $result -ne 0 ]; then
+        error_msg=`get_error_msg $scenario_builder_log`
+        if [ $result == $EXIT_IGNORED ]; then
+          echo "$log_prefix $TEST_IGNORED: $error_msg" | tee -a $testResultFile
+        else
+          echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $error_msg, please check log: $scenario_builder_log" | tee -a $testResultFile
+        fi
+        return $result
+     fi
 
     # run test
     echo "$log_prefix Running test case .."
@@ -263,7 +211,92 @@ function process_case() {
       return 1
     fi
 
-  done < $version_matrix_file
+}
+
+function process_case() {
+  case_dir=$1
+  case_no=$2
+
+  if [ -f $case_dir ]; then
+    case_dir=`dirname $case_dir`
+  fi
+
+  file=$case_dir/$CONFIG_FILE
+  if [ ! -f $file ]; then
+    echo "$TEST_FAILURE: case config not found: $file" | tee -a $testResultFile
+    return 1
+  fi
+
+  ver_file=$case_dir/$VERSONS_FILE
+  if [ ! -f $ver_file ]; then
+    echo "$TEST_FAILURE: case versions config not found: $ver_file" | tee -a $testResultFile
+    return 1
+  fi
+
+  runtime_parameter_file=$case_dir/$RUNTIME_PARAMETER_FILE
+  ver_src_file=$case_dir/$VERSIONS_SOURCE_FILE
+
+  case_start_time=$SECONDS
+  project_home=`dirname $file`
+  scenario_home=$project_home/target
+  scenario_name=`basename $project_home`
+  log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
+  echo "$log_prefix Processing : $project_home .."
+
+  # generate version matrix
+  version_log_file=$project_home/version-matrix.log
+  version_matrix_file=$project_home/version-matrix.txt
+  parameter_runtime_file=$project_home/parameter_runtime.txt
+  java -DcandidateVersions="$CANDIDATE_VERSIONS" \
+    -DcaseVersionsFile="$ver_file" \
+    -DcaseVersionSourcesFile="$ver_src_file" \
+    -DcaseRuntimeParameterFile="$runtime_parameter_file" \
+    -DoutputFile="$version_matrix_file" \
+    -DruntimeParameterOutputFile="$parameter_runtime_file" \
+    -cp $test_builder_jar \
+    org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
+  result=$?
+  if [ $result -ne 0 ]; then
+    #extract error msg
+    error_msg=`get_error_msg $version_log_file`
+
+    if [ $result -eq $EXIT_UNMATCHED ]; then
+      echo "$log_prefix $TEST_IGNORED: Version not match:$error_msg" | tee -a $testResultFile
+    else
+      echo "$log_prefix $TEST_FAILURE: Generate version matrix failed:$error_msg" | tee -a $testResultFile
+      if [ "$SHOW_ERROR_DETAIL" == "1" ];then
+        print_log_file $scenario_name $version_log_file
+      else
+        echo "please check log file: $version_log_file"
+      fi
+    fi
+    return 1
+  fi
+
+  version_count=`grep -c "" $version_matrix_file `
+  echo "$log_prefix Version matrix: $version_count"
+  cat $version_matrix_file
+
+  runtime_count=0
+  if [ ! -f $parameter_runtime_file ]; then
+    echo "case runtime config not found: $parameter_runtime_file" | tee -a $testResultFile
+  else
+    runtime_count=`grep -vc '^$' $parameter_runtime_file `
+    echo "$log_prefix Runtime parameter: $runtime_count"
+    cat $parameter_runtime_file
+  fi
+
+  if [ $runtime_count -gt 0 ]; then
+        while read -r version_profile; do
+            while read -r $parameter_runtime; do
+              run_test_with_version_profile "$version_profile" "$parameter_runtime"
+            done < "$parameter_runtime_file"
+        done < "$version_matrix_file"
+  else
+        while read -r version_profile; do
+          run_test_with_version_profile "$version_profile" ""
+        done < "$version_matrix_file"
+  fi
 
   log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix $TEST_SUCCESS: versions: $version_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
