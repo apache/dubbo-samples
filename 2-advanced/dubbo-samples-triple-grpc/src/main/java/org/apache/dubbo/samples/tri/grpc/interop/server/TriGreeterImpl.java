@@ -41,7 +41,7 @@ public class TriGreeterImpl extends DubboGreeterTriple.GreeterImplBase {
 
     @Override
     public StreamObserver<GreeterRequest> biStream(StreamObserver<GreeterReply> responseObserver) {
-        return new StreamObserver<GreeterRequest>() {
+        return new StreamObserver<>() {
             @Override
             public void onNext(GreeterRequest data) {
                 GreeterReply resp = GreeterReply.newBuilder().setMessage("reply from biStream " + data.getName()).build();

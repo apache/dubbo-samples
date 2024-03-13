@@ -25,7 +25,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableDubbo
 @SpringBootApplication
 public class TriOpServer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
           SpringApplication.run(TriOpServer.class);
 /*
      THIS IS THE REPLACED API CONFIGURATION METHOD

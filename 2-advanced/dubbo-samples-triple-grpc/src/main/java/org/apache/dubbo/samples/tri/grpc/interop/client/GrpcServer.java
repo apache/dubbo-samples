@@ -42,7 +42,7 @@ public class GrpcServer implements Lifecycle {
         this.port = port;
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         GrpcServer server = new GrpcServer(8999);
         server.initialize();
         server.start();
@@ -77,15 +77,15 @@ public class GrpcServer implements Lifecycle {
         public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
                 ServerCall<ReqT, RespT> serverCall,
                 Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
-            ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT> forwardingCall = new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(serverCall) {
+            ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT> forwardingCall = new ForwardingServerCall.SimpleForwardingServerCall<>(serverCall) {
                 @Override
                 public void close(Status status, Metadata trailers) {
                     final String key = "user-attachment";
                     final Metadata.Key<String> metaKey = Metadata.Key.of(key,
-                            Metadata.ASCII_STRING_MARSHALLER);
+                        Metadata.ASCII_STRING_MARSHALLER);
                     if (metadata.containsKey(metaKey)) {
                         trailers.put(metaKey, "hello," + Objects.requireNonNull(
-                                metadata.get(metaKey)));
+                            metadata.get(metaKey)));
                     }
                     super.close(status, trailers);
                 }

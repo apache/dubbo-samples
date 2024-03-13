@@ -59,7 +59,7 @@ public class GrpcClient {
     }
 
     private void stream() {
-        io.grpc.stub.StreamObserver<GreeterReply> responseObserver = new StdoutStreamObserver<GreeterReply>("[grpc client][bi-stream]");
+        io.grpc.stub.StreamObserver<GreeterReply> responseObserver = new StdoutStreamObserver<>("[grpc client][bi-stream]");
         io.grpc.stub.StreamObserver<GreeterRequest> requestObserver = stub.biStream(responseObserver);
         int n = 10;
         for (int i = 0; i < n; i++) {
@@ -72,7 +72,7 @@ public class GrpcClient {
     }
 
     private void serverStream() {
-        io.grpc.stub.StreamObserver<GreeterReply> responseObserver = new StdoutStreamObserver<GreeterReply>("[grpc client][server-stream]");
+        io.grpc.stub.StreamObserver<GreeterReply> responseObserver = new StdoutStreamObserver<>("[grpc client][server-stream]");
         GreeterRequest request = GreeterRequest.newBuilder()
                 .setName("[grpc client]-" + "[server stream]")
                 .build();

@@ -41,7 +41,7 @@ public class GrpcGreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     @Override
     public io.grpc.stub.StreamObserver<GreeterRequest> biStream(io.grpc.stub.StreamObserver<GreeterReply> responseObserver) {
-        return new io.grpc.stub.StreamObserver<GreeterRequest>() {
+        return new io.grpc.stub.StreamObserver<>() {
             @Override
             public void onNext(GreeterRequest data) {
                 GreeterReply resp = GreeterReply.newBuilder().setMessage("reply from biStream " + data.getName()).build();
