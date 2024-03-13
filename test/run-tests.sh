@@ -259,6 +259,7 @@ function process_case() {
   result=$?
 
   echo "version_log_file=$version_log_file"
+  echo "result=$result"
   if [ $result -ne 0 ]; then
     #extract error msg
     error_msg=`get_error_msg $version_log_file`
