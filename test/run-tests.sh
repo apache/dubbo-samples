@@ -140,6 +140,7 @@ function run_test_with_version_profile() {
        jvm_opts="$version_profile $parameter_runtime -Dprop=\"$parameter_runtime\""
     fi
 
+    echo "parameter_runtime=$parameter_runtime"
     echo "jvm_opts=$jvm_opts"
     mvn $BUILD_OPTS $jvm_opts &> $project_home/mvn.log
     result=$?
