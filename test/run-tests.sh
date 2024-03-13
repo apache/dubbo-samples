@@ -257,6 +257,8 @@ function process_case() {
     -cp $test_builder_jar \
     org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
   result=$?
+
+  echo "version_log_file=$version_log_file"
   if [ $result -ne 0 ]; then
     #extract error msg
     error_msg=`get_error_msg $version_log_file`
