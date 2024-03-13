@@ -293,6 +293,7 @@ function process_case() {
     echo "$log_prefix Runtime parameter: $runtime_count"
     cat $output_parameter_runtime_file
   fi
+  echo "runtime_count=$runtime_count"
 
   if [ $runtime_count -gt 0 ]; then
         while read -r version_profile; do
