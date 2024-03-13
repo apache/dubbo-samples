@@ -99,7 +99,8 @@ public class TestRunnerMain {
         System.out.println("dependencyJarsDir: " + dependencyJarsDir.getAbsolutePath());
         System.out.println("reportsDirectory: " + reportsDirectory.getAbsolutePath());
         System.out.println("test patterns: " + tests);
-
+        String prop = System.getProperty("prop");
+        System.out.println("runner_prop=" + prop);
 
         File statisticsFile = new File(reportsDirectory, "test-statistics.txt");
         StartupReportConfiguration startupReportConfiguration = new StartupReportConfiguration(true,
