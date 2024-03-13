@@ -6,10 +6,18 @@ Please refer to
 * [the official documentation](https://dubbo.apache.org/zh-cn/overview/quickstart/java/spring-boot/) for more details of developing Dubbo with Spring Boot.
 * [dubbo-samples-spring-boot-idl](../dubbo-samples-spring-boot-idl) for how to use IDL(Protobuf) together with triple protocol.
 
+
 ## Modules
 * interface, provides Dubbo service definition
 * provider, implements Dubbo service
 * consumer, consumes Dubbo service
+
+# How to run
+
+## Start Zookeeper
+This example replies on Zookeeper as service discovery registry center, so you need to run the Zookeeper server first, there are two ways to do so:
+1. [Download zookeeper binary and start it directly](https://dubbo-next.staged.apache.org/zh-cn/overview/reference/integrations/zookeeper/#本地下载)
+2. [Start zookeeper using docker](https://dubbo-next.staged.apache.org/zh-cn/overview/reference/integrations/zookeeper/#docker)
 
 ## Install dependencies
 Step into 'dubbo-samples-spring-boot' directory, run the following command:

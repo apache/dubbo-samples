@@ -4,6 +4,11 @@ This example uses triple as the underlying RPC protocol and IDL to define servic
 
 # How to run
 
+## Start Zookeeper
+This example replies on Zookeeper as service discovery registry center, so you need to run the Zookeeper server first, there are two ways to do so:
+1. [Download zookeeper binary and start it directly](https://dubbo-next.staged.apache.org/zh-cn/overview/reference/integrations/zookeeper/#本地下载)
+2. [Start zookeeper using docker](https://dubbo-next.staged.apache.org/zh-cn/overview/reference/integrations/zookeeper/#docker)
+
 ## Compile
 
 Step into 'dubbo-samples-spring-boot-idl' directory, run the following command:
