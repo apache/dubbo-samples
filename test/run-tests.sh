@@ -247,13 +247,13 @@ function process_case() {
   # generate version matrix
   version_log_file=$project_home/version-matrix.log
   version_matrix_file=$project_home/version-matrix.txt
-  parameter_runtime_file=$project_home/parameter_runtime.txt
+  output_parameter_runtime_file=$project_home/parameter_runtime.txt
   java -DcandidateVersions="$CANDIDATE_VERSIONS" \
     -DcaseVersionsFile="$ver_file" \
     -DcaseVersionSourcesFile="$ver_src_file" \
     -DcaseRuntimeParameterFile="$runtime_parameter_file" \
     -DoutputFile="$version_matrix_file" \
-    -DruntimeParameterOutputFile="$parameter_runtime_file" \
+    -DruntimeParameterOutputFile="$output_parameter_runtime_file" \
     -cp $test_builder_jar \
     org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
   result=$?
