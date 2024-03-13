@@ -47,6 +47,9 @@ public class ConsumerIT {
 
         int measurementTime = 10;
 
+        String prop = System.getProperty("prop");
+        System.out.println("prop=" + prop);
+
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
