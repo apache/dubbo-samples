@@ -89,10 +89,10 @@ public class VersionMatcher {
         if (StringUtils.isBlank(caseVersionSourcesFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSION_SOURCES_FILE);
         }
-            if (StringUtils.isBlank(caseRuntimeFile)) {
+        if (StringUtils.isBlank(caseRuntimeFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_RUNTIME_PARAMETER_FILE);
         }
-        logger.info("caseRuntimeFile={}",caseRuntimeFile);
+        logger.info("caseRuntimeFile={}", caseRuntimeFile);
         File file = new File(caseVersionsFile);
         if (!file.exists() || !file.isFile()) {
             errorAndExit(Constants.EXIT_FAILED, "File not exists or isn't a file: {}", file.getAbsolutePath());
@@ -236,8 +236,11 @@ public class VersionMatcher {
             try (FileOutputStream fos = new FileOutputStream(rtOutputFile);
                  PrintWriter pw = new PrintWriter(fos)) {
                 StringBuilder sb = new StringBuilder();
-                runtimeParameterList.forEach(item -> sb.append("-D").append(item).append(" "));
-                sb.append("\n");
+                runtimeParameterList.forEach(item ->
+                {
+                    sb.append("-D").append(item).append(" ");
+                    sb.append("\n");
+                });
                 pw.print(sb);
                 logger.info("Parameter runtime total: {}, list: \n{}", runtimeParameterList.size(), sb);
             } catch (IOException e) {
