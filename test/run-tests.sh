@@ -284,19 +284,19 @@ function process_case() {
   cat $version_matrix_file
 
   runtime_count=0
-  if [ ! -f $parameter_runtime_file ]; then
-    echo "case runtime config not found: $parameter_runtime_file" | tee -a $testResultFile
+  if [ ! -f $output_parameter_runtime_file ]; then
+    echo "case runtime config not found: $output_parameter_runtime_file" | tee -a $testResultFile
   else
-    runtime_count=`grep -vc '^$' $parameter_runtime_file `
+    runtime_count=`grep -vc '^$' $output_parameter_runtime_file `
     echo "$log_prefix Runtime parameter: $runtime_count"
-    cat $parameter_runtime_file
+    cat $output_parameter_runtime_file
   fi
 
   if [ $runtime_count -gt 0 ]; then
         while read -r version_profile; do
             while read -r $parameter_runtime; do
               run_test_with_version_profile "$version_profile" "$parameter_runtime" "$project_home"
-            done < "$parameter_runtime_file"
+            done < "$output_parameter_runtime_file"
         done < "$version_matrix_file"
   else
         while read -r version_profile; do
