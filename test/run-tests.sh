@@ -298,6 +298,7 @@ function process_case() {
   if [ $runtime_count -gt 0 ]; then
         while read -r version_profile; do
             while read -r $parameter_runtime; do
+              echo  "do parameter_runtime=$parameter_runtime"
               run_test_with_version_profile "$version_profile" "$parameter_runtime" "$project_home"
             done < "$output_parameter_runtime_file"
         done < "$version_matrix_file"
