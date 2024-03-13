@@ -137,9 +137,10 @@ function run_test_with_version_profile() {
 
     jvm_opts=$version_profile
     if [ "$parameter_runtime" != "" ]; then
-       jvm_opts="$version_profile -D$parameter_runtime -Dprop=\"$parameter_runtime\""
+       jvm_opts="$version_profile $parameter_runtime -Dprop=\"$parameter_runtime\""
     fi
 
+    echo "jvm_opts=$jvm_opts"
     mvn $BUILD_OPTS $jvm_opts &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
