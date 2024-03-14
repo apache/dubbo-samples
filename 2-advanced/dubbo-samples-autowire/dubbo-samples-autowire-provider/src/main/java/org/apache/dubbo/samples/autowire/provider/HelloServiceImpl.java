@@ -19,8 +19,8 @@ package org.apache.dubbo.samples.autowire.provider;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.autowire.api.HelloService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.dubbo.common.logger.Logger;
+import org.apache.dubbo.common.logger.LoggerFactory;
 
 @DubboService(token = "true")
 public class HelloServiceImpl implements HelloService {
