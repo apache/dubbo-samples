@@ -15,11 +15,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+dubbo:
+    application:
+        name: rpccontext-consumer
+        qos-enable: false
+    registry:
+        address: zookeeper://${zookeeper.address:127.0.0.1}:2181
 
-
-# Supported component versions of the test case
-
-# Spring app
-dubbo.version=3.3.*
-spring.version=6.*
-java.version= [ >= 17]
