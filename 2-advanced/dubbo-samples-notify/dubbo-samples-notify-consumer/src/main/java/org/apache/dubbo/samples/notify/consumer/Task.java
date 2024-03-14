@@ -18,19 +18,20 @@
 
 package org.apache.dubbo.samples.notify.consumer;
 
-import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.samples.notify.DemoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class Task implements CommandLineRunner {
 
     @DubboReference(methods = @Method(name = "sayHello", onreturn = "notify.onReturn", onthrow = "notify.onThrow"))
     private DemoService demoService;
 
-    @Resource
+    @Autowired
     private NotifyImpl notify;
 
     @Override

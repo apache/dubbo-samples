@@ -17,12 +17,12 @@
 
 package org.apache.dubbo.samples.notify.consumer;
 
-import jakarta.annotation.Resource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.samples.notify.DemoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -31,7 +31,7 @@ public class NotifyIT {
     @DubboReference(timeout = 6000, methods = @Method(name = "sayHello", onreturn = "notify.onReturn", onthrow = "notify.onThrow"))
     private DemoService demoService;
 
-    @Resource
+    @Autowired
     private NotifyImpl notify;
 
     @Test
