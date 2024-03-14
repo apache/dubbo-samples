@@ -18,17 +18,15 @@
 package org.apache.dubbo.samples.autowire.provider;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication
 @EnableDubbo
 public class ProviderBootstrap {
 
     public static void main(String[] args) throws InterruptedException {
-        new EmbeddedZooKeeper(2181, false).start();
         SpringApplication.run(ProviderBootstrap.class, args);
     }
 
