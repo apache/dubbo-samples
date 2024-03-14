@@ -40,14 +40,14 @@ import java.util.Date;
 @ExtendWith(SpringExtension.class)
 public class ValidationServiceIT {
 
-    @DubboReference(url = "dubbo://10.24.2.193:20880")
+    @DubboReference(url = "dubbo://localhost:20880")
     private ValidationService validationService;
 
     @Test
     public void testSavePass() throws Exception {
         ValidationParameter parameter = new ValidationParameter();
-        parameter.setName("liangfei");
-        parameter.setEmail("liangfei@liang.fei");
+        parameter.setName("yang siming");
+        parameter.setEmail("1608839567@qq.com");
         parameter.setAge(50);
         parameter.setLoginDate(new Date(System.currentTimeMillis() - 1000000));
         parameter.setExpiryDate(new Date(System.currentTimeMillis() + 1000000));

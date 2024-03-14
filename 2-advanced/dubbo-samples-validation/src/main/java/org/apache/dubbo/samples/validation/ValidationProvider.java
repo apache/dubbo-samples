@@ -30,11 +30,9 @@ import java.util.concurrent.CountDownLatch;
 public class ValidationProvider {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(ValidationProvider.class,args);
         new EmbeddedZooKeeper(2181, false).start();
-
+        SpringApplication.run(ValidationProvider.class,args);
         System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
     }
 
 }

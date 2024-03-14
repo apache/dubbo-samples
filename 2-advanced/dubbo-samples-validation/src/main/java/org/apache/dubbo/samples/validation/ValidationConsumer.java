@@ -35,7 +35,7 @@ import java.util.Date;
 public class ValidationConsumer {
 
 
-    @DubboReference
+    @DubboReference(url = "dubbo://localhost:20880")
     private ValidationService validationService;
 
     public static void main(String[] args) throws Exception {
