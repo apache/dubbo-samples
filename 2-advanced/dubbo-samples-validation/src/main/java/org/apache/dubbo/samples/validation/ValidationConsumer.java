@@ -19,22 +19,30 @@
 
 package org.apache.dubbo.samples.validation;
 
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.validation.api.ValidationParameter;
 import org.apache.dubbo.samples.validation.api.ValidationService;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.validation.ValidationException;
 import java.util.Date;
-
+@SpringBootApplication()
+@EnableDubbo
 public class ValidationConsumer {
 
+
+    @DubboReference
+    private ValidationService validationService;
+
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/validation-consumer.xml");
-        context.start();
+        SpringApplication.run(ValidationConsumer.class,args);
+    }
 
-        ValidationService validationService = (ValidationService) context.getBean("validationService");
-
+    public void validation(){
         // Save OK
         ValidationParameter parameter = new ValidationParameter();
         parameter.setName("liangfei");

@@ -1,0 +1,10 @@
+spring:
+    application:
+        name: validation-provider
+dubbo:
+    application:
+        qos-enable: false
+    #    registry:
+#        address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    protocol:
+        port: -1
