@@ -16,14 +16,31 @@
  */
 package org.apache.dubbo.demo.consumer;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.demo.DemoService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableDubbo
-public class Application {
+public class Application implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(Application.class,args);
     }
+
+
+    @DubboReference
+    DemoService demoService;
+    @Override
+    public void run(String... args) {
+        System.out.println("demo test start ");
+        for (int i=0;i<10;i++){
+            String response=demoService.sayHello(String.valueOf(i));
+            System.out.println("response ===>  "+response);
+        }
+        System.out.println("finally");
+    }
+
 }
