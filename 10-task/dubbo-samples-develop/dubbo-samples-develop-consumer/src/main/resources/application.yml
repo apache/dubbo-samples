@@ -13,15 +13,20 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-# Specify the application name of Dubbo
-dubbo.application.name=consumer
+dubbo:
+    # Specify the application name of Dubbo
+    application:
+        name: consumer
 
-# Enable token verification for each invocation
-dubbo.provider.token=false
+    # Enable token verification for each invocation
+    provider:
+        token: false
 
-# Specify the registry address
-# dubbo.registry.address=nacos://localhost:8848?username=nacos&password=nacos
-dubbo.registry.address=nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
+    # Specify the registry address
+    # dubbo.registry.address=nacos://localhost:8848?username=nacos&password=nacos
+    registry:
+        address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
 
-dubbo.protocol.name=dubbo
-dubbo.protocol.port=20881
+    protocol:
+        name: dubbo
+        port: 20881
