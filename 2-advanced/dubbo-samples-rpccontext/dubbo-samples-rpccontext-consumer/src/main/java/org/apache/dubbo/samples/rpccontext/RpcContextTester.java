@@ -23,7 +23,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.rpccontext.api.RpcContextService1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -38,7 +37,7 @@ public class RpcContextTester implements ApplicationRunner {
     private RpcContextService1 rpcContextService1;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         rpcContextService1.sayHello();
         LOGGER.info("rpc context tester done");
     }

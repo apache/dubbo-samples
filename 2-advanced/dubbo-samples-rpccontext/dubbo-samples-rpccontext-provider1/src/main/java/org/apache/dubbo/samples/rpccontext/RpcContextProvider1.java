@@ -30,7 +30,7 @@ public class RpcContextProvider1 {
 
     public static final Logger LOGGER = Logger.getLogger(RpcContextProvider1.class.getName());
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(RpcContextProvider1.class);
         LOGGER.info("Rpc context provider1 started");
     }

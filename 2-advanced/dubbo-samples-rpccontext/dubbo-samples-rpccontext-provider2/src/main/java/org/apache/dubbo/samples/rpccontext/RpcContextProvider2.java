@@ -28,7 +28,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RpcContextProvider2 {
     public static final Logger LOGGER = Logger.getLogger(RpcContextProvider2.class.getName());
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // if you want a simple zookeeper
         //  new EmbeddedZooKeeper(2181, false).start();
         SpringApplication.run(RpcContextProvider2.class);
