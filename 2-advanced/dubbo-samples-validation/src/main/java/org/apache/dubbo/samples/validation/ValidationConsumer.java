@@ -45,8 +45,8 @@ public class ValidationConsumer {
     public void validation(){
         // Save OK
         ValidationParameter parameter = new ValidationParameter();
-        parameter.setName("liangfei");
-        parameter.setEmail("liangfei@liang.fei");
+        parameter.setName("yang siming");
+        parameter.setEmail("1608839567@qq.com");
         parameter.setAge(50);
         parameter.setLoginDate(new Date(System.currentTimeMillis() - 1000000));
         parameter.setExpiryDate(new Date(System.currentTimeMillis() + 1000000));
