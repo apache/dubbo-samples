@@ -17,7 +17,6 @@
 package org.apache.dubbo.samples.consumer;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.DemoService;
 
 import org.springframework.boot.CommandLineRunner;
@@ -26,7 +25,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
 @SpringBootApplication
-@EnableDubbo
 public class ConsumerApplication {
 
     public static void main(String[] args) {
