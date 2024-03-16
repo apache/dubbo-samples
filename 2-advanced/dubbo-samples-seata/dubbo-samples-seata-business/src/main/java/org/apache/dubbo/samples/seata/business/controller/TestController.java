@@ -35,6 +35,7 @@ public class TestController {
     @GetMapping("/commit")
     public String commit(@RequestParam String userId,@RequestParam String commodityCode,@RequestParam int orderCount){
         this.businessService.purchaseCommit(userId,commodityCode,orderCount);
+
         return "commit";
     }
 
