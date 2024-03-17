@@ -161,6 +161,7 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
+        logger.info("Load case configuration1 from: {}", configureFile);
         // read 'props'
         String configYaml = FileUtil.readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
