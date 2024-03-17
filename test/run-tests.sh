@@ -163,7 +163,7 @@ function run_test_with_version_profile() {
           -Dscenario.version=$version \
           -Dtest.image.version=$JAVA_VER \
           -Ddebug.service=$DEBUG \
-          -Druntime.parameter=$jvm_opts \
+          -Dprop="$jvm_opts" \
           -jar $test_builder_jar  &> $scenario_builder_log
      result=$?
      if [ $result -ne 0 ]; then
