@@ -39,7 +39,6 @@ services:
       - "**/*IT.class"
     systemProps:
       - zookeeper.address=zookeeper
-      - prop=1002
     volumes:
       - /tmp:/tmp
     waitPortsBeforeRun:

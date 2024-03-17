@@ -66,6 +66,7 @@ services:
     mainClass: org.apache.dubbo.samples.seata.StorageApplication
     systemProps:
       - nacos.address=nacos
+      - javaagent:/tmp/xxx.agent.jar
       - nacos.port=8848
       - seata.address=seata-server
     jvmFlags:
@@ -152,4 +153,5 @@ services:
       - order-service
       - account-service
       - storage-service
-
+-javaagent:/Users/fgh/work/tool/skywalking-agent/skywalking-agent:
+    jar:
