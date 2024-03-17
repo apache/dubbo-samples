@@ -20,8 +20,6 @@ package org.apache.dubbo.scenario.builder;
 public class ScenarioBuilderMain {
 
     public static void main(String[] args) throws Exception {
-        String propVal = System.getProperty("dubbo.protocol.name");
-        System.out.println("propVal= " + propVal);
         IConfiguration configuration = new ConfigurationImpl();
         configuration.scenarioGenerator().generate(configuration);
         JacocoDownloader.initialize(configuration);

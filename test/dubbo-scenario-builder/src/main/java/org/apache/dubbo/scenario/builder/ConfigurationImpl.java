@@ -225,8 +225,6 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     private List<String> mergeSystemProps(List<String> parentSystemProps, List<String> childSystemProps) {
-        System.out.println("parentSystemProps="+parentSystemProps);
-        System.out.println("childSystemProps="+childSystemProps);
         List<String> newSystemProps = new ArrayList<>(parentSystemProps != null ? parentSystemProps : Collections.emptyList());
         if (childSystemProps != null) {
             childSystemProps.forEach(entry -> {
@@ -454,6 +452,8 @@ public class ConfigurationImpl implements IConfiguration {
         for (String propkv : systemProps) {
             sb.append("-D").append(propkv).append(' ');
         }
+        String runtimeProps = System.getProperty("runtime.parameter");
+        sb.append(runtimeProps).append(' ');
         return sb.toString();
     }
 
