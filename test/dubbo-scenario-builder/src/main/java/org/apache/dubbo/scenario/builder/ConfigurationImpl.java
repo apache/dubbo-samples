@@ -399,6 +399,7 @@ public class ConfigurationImpl implements IConfiguration {
             List<String> systemProps = mergeSystemProps(caseSystemProps, service.getSystemProps());
             if (isNotEmpty(systemProps)) {
                 String str = convertSystemPropsToJvmFlags(systemProps);
+                System.out.println("systemProps: " + str);
                 appendEnv(service, ENV_JAVA_OPTS, str);
             }
 
