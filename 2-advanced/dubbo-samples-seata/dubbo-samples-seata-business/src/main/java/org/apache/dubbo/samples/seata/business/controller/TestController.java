@@ -33,13 +33,13 @@ public class TestController {
     }
 
     @GetMapping("/commit")
-    public String commit(@RequestParam String userId,@RequestParam String commodityCode,@RequestParam int orderCount){
+    public String commit(@RequestParam(value = "userId") String userId,@RequestParam(value = "commodityCode") String commodityCode,@RequestParam(value = "orderCount") int orderCount){
         this.businessService.purchaseCommit(userId,commodityCode,orderCount);
         return "commit";
     }
 
     @GetMapping("/rollback")
-    public String rollback(@RequestParam String userId,@RequestParam String commodityCode,@RequestParam int orderCount){
+    public String rollback(@RequestParam(value = "userId") String userId,@RequestParam(value = "commodityCode") String commodityCode,@RequestParam(value = "orderCount") int orderCount){
         try {
             this.businessService.purchaseRollback(userId,commodityCode,orderCount);
             return "commit";
