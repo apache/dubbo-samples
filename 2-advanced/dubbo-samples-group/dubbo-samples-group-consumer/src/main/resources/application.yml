@@ -14,23 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-services:
-    group-provider:
-        type: app
-        basedir: dubbo-samples-group-provider
-        mainClass: org.apache.dubbo.samples.group.GroupProvider
-    group-consumer:
-        type: test
-        basedir: dubbo-samples-group-consumer
-        tests:
-            - "**/*IT.class"
-        systemProps:
-            - zookeeper.address=group-provider
-            - zookeeper.port=2181
-            - dubbo.address=group-provider
-            - dubbo.port=20880
-        waitPortsBeforeRun:
-            - group-provider:2181
-            - group-provider:20880
-        depends_on:
-            - group-provider
+dubbo:
+    application:
+        name: group-consumer
+        qos-enable: false
+    protocol:
+        name: dubbo
+        port: -1
+    registry:
+        address: zookeeper://${zookeeper.address:127.0.0.1}:2181
