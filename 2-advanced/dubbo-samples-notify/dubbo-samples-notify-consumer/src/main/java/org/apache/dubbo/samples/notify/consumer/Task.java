@@ -25,10 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-// @Component
+@Component
 public class Task implements CommandLineRunner {
 
-    // @DubboReference
     @DubboReference(methods = @Method(name = "sayHello", onreturn = "notify.onReturn", onthrow = "notify.onThrow"))
     private DemoService demoService;
 

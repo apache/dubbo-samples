@@ -22,6 +22,6 @@ dubbo:
     name: dubbo
     port: 20880
   registry:
-    address: nacos://${naocs.address:127.0.0.1}:8848
+    address: nacos://${nacos.address:127.0.0.1}:8848
   provider:
     token: "true"

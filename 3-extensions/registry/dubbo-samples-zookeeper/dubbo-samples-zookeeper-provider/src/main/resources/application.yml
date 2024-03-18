@@ -13,13 +13,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 dubbo:
-  application:
-    name: rpc-consumer
-    qos-enable: false
-  protocol:
-    name: dubbo
-    port: -1
-  registry:
-    address: nacos://${nacos.address:127.0.0.1}:8848
+    application:
+        name: zookeeper-demo-provider
+        qos-port: 22222
+    registry:
+        address: zookeeper://${zookeeper.address:localhost}:${zookeeper.port:2181}
+    provider:
+        token: true
+    protocol:
+        name: dubbo
+        port: 20880
+
