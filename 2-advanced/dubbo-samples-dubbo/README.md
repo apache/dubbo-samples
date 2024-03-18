@@ -1,10 +1,6 @@
 # Dubbo Protocol Example
 
-This example shows how to use Dubbo Spring Boot Starter to develop Dubbo application. For the underlying RPC protocol, we are using triple and at the same time, we use java interface as the way to define service. It's a more convenient way to develop Dubbo application if there's no cross-language communication requirement.
-
-Please refer to
-* [the official documentation](https://dubbo.apache.org/zh-cn/overview/quickstart/java/spring-boot/) for more details of developing Dubbo with Spring Boot.
-* [dubbo-samples-spring-boot-idl](../dubbo-samples-spring-boot-idl) for how to use IDL(Protobuf) together with triple protocol.
+This example shows how to use dubbo tcp protocol to communicate. For pure rpc protocol demonstration, this example does not rely on any registry center.
 
 ## Modules
 * interface, provides Dubbo service definition
@@ -12,7 +8,7 @@ Please refer to
 * consumer, consumes Dubbo service
 
 ## Install dependencies
-Step into 'dubbo-samples-spring-boot' directory, run the following command:
+Step into 'dubbo-samples-dubbo' directory, run the following command:
 
 ```shell
 $ mvn clean install
@@ -21,30 +17,23 @@ $ mvn clean install
 ## Start provider
 Enter provider directory:
 ```shell
-$ cd dubbo-samples-spring-boot-provider
+$ cd dubbo-samples-dubbo-provider
 ```
 
 then, run the following command to start provider:
 ```shell
-$ mvn compile exec:java -Dexec.mainClass="org.apache.dubbo.springboot.demo.provider.ProviderApplication"
+$ mvn compile exec:java -Dexec.mainClass="org.apache.dubbo.protocol.dubbo.demo.provider.ProviderApplication"
 ```
 
-Run the following command to see server works as expected:
-```shell
-curl \
-    --header "Content-Type: application/json" \
-    --data '["Dubbo"]' \
-    http://localhost:50052/org.apache.dubbo.springboot.demo.DemoService/sayHello/
-```
 
 ## Start consumer
 Enter provider directory:
 ```shell
-$ cd dubbo-samples-spring-boot-consumer
+$ cd dubbo-samples-dubbo-consumer
 ```
 
 then, run the following command to start consumer:
 ```shell
-$ mvn compile exec:java -Dexec.mainClass="org.apache.dubbo.springboot.demo.consumer.ConsumerApplication"
+$ mvn compile exec:java -Dexec.mainClass="org.apache.dubbo.protocol.dubbo.demo.consumer.ConsumerApplication"
 ```
 
