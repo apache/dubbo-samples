@@ -65,12 +65,12 @@ public class ConsumerIT {
 
     private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder) {
         String prop = System.getProperty("prop");
-        System.out.println("consume_prop=" + prop);
+        prop = prop.replace("\"", "");
+        //去掉前两位
+        prop = prop.substring(2);
 
         if (StringUtils.isNotBlank(prop)) {
-            int index = prop.indexOf('=');
-            String val = prop.substring(index + 1);
-            optBuilder.result("/tmp/jmh_result_" + val + ".json");
+            optBuilder.result("/tmp/jmh_result_" + prop + ".json");
         } else {
             optBuilder.result("/tmp/jmh_result.json");
         }
