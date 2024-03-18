@@ -26,7 +26,6 @@
     <modules>
         <module>dubbo-samples-xds-provider</module>
         <module>dubbo-samples-xds-consumer</module>
-        <module>dubbo-samples-xds-interface</module>
     </modules>
 
     <modelVersion>4.0.0</modelVersion>

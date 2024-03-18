@@ -39,11 +39,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-samples-xds-interface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!-- dubbo -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>

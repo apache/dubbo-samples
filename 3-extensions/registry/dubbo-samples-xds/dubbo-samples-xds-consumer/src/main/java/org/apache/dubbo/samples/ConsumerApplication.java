@@ -21,18 +21,22 @@ package org.apache.dubbo.samples;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.action.GreetingServiceConsumer;
+import org.springframework.beans.BeansException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+@SpringBootApplication
+@EnableDubbo
+public class ConsumerApplication implements ApplicationContextAware {
 
-public class ConsumerBootstrap {
+    private static ApplicationContext context;
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
-        context.start();
-        GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
+        SpringApplication.run(ConsumerApplication.class, args);
+        GreetingServiceConsumer greetingServiceConsumer = (GreetingServiceConsumer)context.getBean("annotatedConsumer");
+
         while (true) {
             try {
                 String hello = greetingServiceConsumer.doSayHello("xDS Consumer");
@@ -44,11 +48,9 @@ public class ConsumerBootstrap {
         }
     }
 
-    @Configuration
-    @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.action")
-    @PropertySource("classpath:/spring/dubbo-consumer.properties")
-    @ComponentScan(value = {"org.apache.dubbo.samples.action"})
-    static class ConsumerConfiguration {
-
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
     }
+
 }
