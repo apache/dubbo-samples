@@ -70,7 +70,7 @@ public class ConsumerIT {
         prop = prop.substring(2);
 
         if (StringUtils.isNotBlank(prop)) {
-            optBuilder.result("/tmp/jmh_result_" + prop + ".json");
+            optBuilder.result("/tmp/jmh_result_prop[" + prop + "].json");
         } else {
             optBuilder.result("/tmp/jmh_result.json");
         }
