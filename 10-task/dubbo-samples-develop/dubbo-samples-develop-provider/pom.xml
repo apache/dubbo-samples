@@ -39,7 +39,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <dubbo.version>3.2.6</dubbo.version>
-        <nacos.version>2.2.0</nacos.version>
+        <dubbo.nacos.spring-boot-starter>3.3.0-beta.1</dubbo.nacos.spring-boot-starter>
     </properties>
 
     <dependencies>
@@ -52,9 +52,9 @@
 
         <!-- registry dependency -->
         <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>${nacos.version}</version>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-nacos-spring-boot-starter</artifactId>
+            <version>${dubbo.nacos.spring-boot-starter}</version>
         </dependency>
 
         <!-- dubbo dependency-->
