@@ -18,7 +18,6 @@
 package org.apache.dubbo.samples.notify.provider;
 
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.samples.notify.DemoService;
 
 @DubboService
