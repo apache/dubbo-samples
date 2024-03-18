@@ -20,18 +20,14 @@ package org.apache.dubbo.samples.notify.consumer;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.samples.notify.DemoService;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class NotifyIT {
-    // @DubboReference
+
     @DubboReference(timeout = 6000, methods = @Method(name = "sayHello", onreturn = "notify.onReturn", onthrow = "notify.onThrow"))
     private DemoService demoService;
 
@@ -39,9 +35,9 @@ public class NotifyIT {
     private NotifyImpl notify;
 
     @Test
-    public void testDemoService() throws Exception {
+    public void testDemoService() {
         String result = demoService.sayHello(1);
-        Assert.assertEquals("demo1", result);
+        Assertions.assertEquals("demo1", result);
     }
 
     @Test
@@ -56,7 +52,7 @@ public class NotifyIT {
             }
         }
 
-        Assert.assertEquals("demo2", notify.ret.get(id));
+        Assertions.assertEquals("demo2", notify.ret.get(id));
     }
 
     @Test
@@ -76,8 +72,8 @@ public class NotifyIT {
             }
         }
 
-        Assert.assertTrue(notify.ret.get(id) instanceof RuntimeException);
+        Assertions.assertTrue(notify.ret.get(id) instanceof RuntimeException);
         Exception e = (Exception) notify.ret.get(id);
-        Assert.assertEquals("exception from sayHello: too large id", e.getMessage());
+        Assertions.assertEquals("exception from sayHello: too large id", e.getMessage());
     }
 }
