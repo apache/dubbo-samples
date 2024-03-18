@@ -61,10 +61,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- For client-side test purpose, not necessary -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
