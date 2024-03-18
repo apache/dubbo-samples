@@ -17,9 +17,6 @@
 
 package org.apache.dubbo.samples;
 
-import org.apache.dubbo.demo.DemoService;
-import org.apache.dubbo.demo.HelloReply;
-import org.apache.dubbo.demo.HelloRequest;
 
 import org.junit.Assert;
 import org.junit.Test;
