@@ -13,10 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-from: app-external-zookeeper.yml
-
-props:
-    project_name: dubbo-samples-direct
-    main_class: org.apache.dubbo.samples.direct.ProviderApplication
-    dubbo_port: 20880
+dubbo:
+    application:
+        name: direct-provider
+    #  registry:
+    #    address: N/A
+    #    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    protocol:
+        name: dubbo
+        port: 20880
