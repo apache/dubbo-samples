@@ -40,9 +40,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <dubbo.version>3.3.0-beta.1</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
-        <log4j2.version>2.20.0</log4j2.version>
-        <junit.version>4.13.2</junit.version>
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+
+        <junit5.version>5.10.1</junit5.version>
+        <junit.platform>1.9.3</junit.platform>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -79,8 +79,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+           <scope>test</scope>
         </dependency>
   </dependencies>
 
