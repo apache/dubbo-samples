@@ -16,16 +16,26 @@
  */
 package org.apache.dubbo.demo.consumer;
 
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.demo.GreetingService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-public class Application {
+@SpringBootApplication
+@EnableDubbo
+public class Application implements CommandLineRunner {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
-        context.start();
-        GreetingService greetingService = context.getBean("greetingService", GreetingService.class);
-        String hello = greetingService.hello();
-        System.out.println("result from application-level address: " + hello);
+        SpringApplication.run(Application.class,args);
     }
+
+
+    @DubboReference
+    GreetingService greetingService;
+    @Override
+    public void run(String... args) {
+        System.out.println("result from interface-level address: " + greetingService.hello());
+    }
+
 }

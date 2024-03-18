@@ -14,35 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-services:
-  zookeeper:
-    image: zookeeper:latest
-
-
-  servicediscovery-provider:
-    type: app
-    basedir: servicediscovery-provider
-    mainClass: org.apache.dubbo.demo.provider.Application
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20880
-    checkLog: "dubbo service started"
-    depends_on:
-      - zookeeper
-
-  servicediscovery-consumer-test:
-    type: test
-    basedir: servicediscovery-consumer
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - servicediscovery-provider:20880
-    depends_on:
-      - zookeeper
-      - servicediscovery-provider
+dubbo:
+    application:
+        name: dubbo-servicediscovery-migration-consumer
+        qos-enable: false
+    protocol:
+        name: dubbo
+        port: 20880
+    registry:
+        address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    provider:
+        token: "true"
