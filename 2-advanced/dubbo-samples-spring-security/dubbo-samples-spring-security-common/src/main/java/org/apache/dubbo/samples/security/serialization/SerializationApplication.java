@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.security.Serialization;
+package org.apache.dubbo.samples.security.serialization;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Configuration
-public class SecuritySerializationConfig {
+@SpringBootApplication
+@EnableDubbo
+public class SerializationApplication {
 
-    @Bean
-    public DefaultObjectMapperCodecCustomer objectMapperCodecCustomer() {
-        return new DefaultObjectMapperCodecCustomer();
+    public static void main(String[] args) {
+        SpringApplication.run(SerializationApplication.class, args);
     }
 }

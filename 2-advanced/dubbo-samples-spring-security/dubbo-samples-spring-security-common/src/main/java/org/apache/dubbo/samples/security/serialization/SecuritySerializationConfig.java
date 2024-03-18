@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.samples.security.serialization;
 
-package org.apache.dubbo.samples.security.Serialization;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import org.apache.dubbo.spring.security.jackson.ObjectMapperCodec;
-import org.apache.dubbo.spring.security.jackson.ObjectMapperCodecCustomer;
+@Configuration
+public class SecuritySerializationConfig {
 
-public class DefaultObjectMapperCodecCustomer implements ObjectMapperCodecCustomer {
-    @Override
-    public void customize(ObjectMapperCodec objectMapperCodec) {
-        System.out.println("============objectMapper config=============");
-
+    @Bean
+    public DefaultObjectMapperCodecCustomer objectMapperCodecCustomer() {
+        return new DefaultObjectMapperCodecCustomer();
     }
 }
