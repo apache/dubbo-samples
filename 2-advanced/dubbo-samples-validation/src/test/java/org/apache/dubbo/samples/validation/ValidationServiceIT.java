@@ -17,22 +17,18 @@
 
 package org.apache.dubbo.samples.validation;
 
+
+import javax.validation.ValidationException;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.validation.api.ValidationParameter;
 import org.apache.dubbo.samples.validation.api.ValidationService;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.ValidationException;
 import java.util.Date;
 
 @SpringBootTest(classes = {ValidationConsumer.class})

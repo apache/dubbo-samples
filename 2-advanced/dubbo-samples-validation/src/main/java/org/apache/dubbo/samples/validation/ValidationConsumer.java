@@ -19,6 +19,10 @@
 
 package org.apache.dubbo.samples.validation;
 
+
+
+
+import javax.validation.ValidationException;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.validation.api.ValidationParameter;
@@ -28,7 +32,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.validation.ValidationException;
+
 import java.util.Date;
 @SpringBootApplication()
 @EnableDubbo
