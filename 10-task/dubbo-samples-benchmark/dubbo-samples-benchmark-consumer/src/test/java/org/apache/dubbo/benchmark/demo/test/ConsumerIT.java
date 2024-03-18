@@ -65,6 +65,7 @@ public class ConsumerIT {
 
     private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder) {
         String prop = System.getProperty("prop");
+        System.out.println("consume_prop=" + prop);
 
         if (StringUtils.isNotBlank(prop)) {
             int index = prop.indexOf('=');
