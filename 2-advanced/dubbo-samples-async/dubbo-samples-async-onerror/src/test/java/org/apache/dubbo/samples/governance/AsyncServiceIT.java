@@ -40,7 +40,7 @@ public class AsyncServiceIT {
     public void testSayHelloTimeout() throws Throwable {
         try {
             asyncService.sayHelloTimeout("timeout world");
-            CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
+            CompletableFuture<String> helloFuture = RpcContext.getServiceContext().getCompletableFuture();
             String result = helloFuture.get();
             System.out.println("result: "+result);
         } catch (Exception e) {

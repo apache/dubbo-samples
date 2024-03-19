@@ -21,6 +21,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>31</version>
+        <relativePath/>
+    </parent>
     <groupId>org.apache.dubbo</groupId>
     <version>1.0-SNAPSHOT</version>
 
@@ -31,18 +37,12 @@
     <description>Dubbo Samples Async Onerror</description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
-        <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
-        <validation-api.version>1.1.0.Final</validation-api.version>
-        <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
-        <resteasy.version>3.0.19.Final</resteasy.version>
-        <swagger.version>1.5.19</swagger.version>
-        <tomcat.version>7.0.88</tomcat.version>
-        <servlet.version>3.0.1</servlet.version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
     </properties>
 
     <dependencyManagement>
@@ -155,7 +155,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <compilerArg>-proc:none</compilerArg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>

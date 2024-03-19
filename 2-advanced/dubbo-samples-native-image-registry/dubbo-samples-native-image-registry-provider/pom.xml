@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.apache</groupId>
         <artifactId>apache</artifactId>
-        <version>23</version>
+        <version>31</version>
         <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -35,10 +35,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <dubbo.version>3.3.0-beta.1</dubbo.version>
-        <spring-boot.version>3.2.2</spring-boot.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <protobuf-java.version>3.19.6</protobuf-java.version>
 
-        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <native-maven-plugin.version>0.10.1</native-maven-plugin.version>
     </properties>
 
@@ -175,8 +174,16 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <compilerArg>-proc:none</compilerArg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

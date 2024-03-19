@@ -22,10 +22,9 @@
     <parent>
         <groupId>org.apache</groupId>
         <artifactId>apache</artifactId>
-        <version>23</version>
+        <version>31</version>
         <relativePath/>
     </parent>
-
     <groupId>org.apache.dubbo</groupId>
     <version>1.0-SNAPSHOT</version>
 
@@ -36,12 +35,12 @@
     <description>Dubbo Samples Api with registry and application</description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
-        <log4j2.version>2.20.0</log4j2.version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <log4j2.version>2.21.1</log4j2.version>
         <junit5.version>5.9.2</junit5.version>
     </properties>
 
@@ -102,4 +101,21 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <compilerArg>-proc:none</compilerArg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

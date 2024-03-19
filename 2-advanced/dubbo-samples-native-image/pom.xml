@@ -17,6 +17,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>31</version>
+        <relativePath/>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
@@ -33,7 +39,6 @@
         <spring-boot.version>3.0.5</spring-boot.version>
         <protobuf-java.version>3.19.6</protobuf-java.version>
 
-        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <native-maven-plugin.version>0.9.28</native-maven-plugin.version>
     </properties>
 
@@ -142,8 +147,16 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <compilerArgs>
+                            <compilerArg>-proc:none</compilerArg>
+                        </compilerArgs>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>

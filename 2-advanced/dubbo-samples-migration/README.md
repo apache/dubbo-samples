@@ -4,8 +4,8 @@ Pre-requirements: Both provider and consumer can not use the same `POM`, because
 Add new grammar to `case-versions.conf`:
 ```yaml
 # 原常规配置
-# dubbo.version=2.7*, 3.*
-spring.version=4.*, 5.*
+# dubbo.version=[>= 3.3.0]
+spring.version=6.*
 
 # 支持不同的 servcie 应用，配置不同的 dubbo 版本依赖，与 dubbo.version 二选一
 # 为防止构建用例倍级增长，不建议配置多个版本

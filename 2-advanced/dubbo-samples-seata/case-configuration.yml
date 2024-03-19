@@ -26,7 +26,7 @@ systemProps:
 services:
 
   seata-mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     environment:
       - MYSQL_DATABASE=seata
       - MYSQL_ROOT_PASSWORD=helloworld

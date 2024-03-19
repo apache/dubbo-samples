@@ -28,8 +28,8 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
-      - 20880
-    checkLog: "dubbo service started"
+      - 20881
+    checkLog: "Current Spring Boot Application is await..."
     depends_on:
       - zookeeper
 
@@ -42,8 +42,8 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
-      - 20881
-    checkLog: "dubbo service started"
+      - 20882
+    checkLog: "Current Spring Boot Application is await..."
     depends_on:
       - zookeeper
 
@@ -56,8 +56,8 @@ services:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
-      - servicediscovery-provider:20880
-      - servicediscovery-provider-instance:20881
+      - servicediscovery-provider:20881
+      - servicediscovery-provider-instance:20882
     depends_on:
       - zookeeper
       - servicediscovery-provider
@@ -72,8 +72,8 @@ services:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
       - zookeeper:2181
-      - servicediscovery-provider:20880
-      - servicediscovery-provider-instance:20881
+      - servicediscovery-provider:20881
+      - servicediscovery-provider-instance:20882
     depends_on:
       - zookeeper
       - servicediscovery-provider

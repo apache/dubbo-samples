@@ -27,7 +27,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Dubbo Sample Service Discovery Model</name>
     <description>Dubbo Sample Service Discovery Model</description>
-    
+
     <modules>
         <module>dubbo-demo-servicediscovery-xml</module>
         <module>dubbo-servicediscovery-migration</module>

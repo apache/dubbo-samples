@@ -35,7 +35,7 @@ services:
       - nacos-server:8848
     checkPorts:
       - 8090
-    checkLog: "dubbo service started"
+    checkLog: "Current Spring Boot Application is await..."
     depends_on:
       - nacos-server
 

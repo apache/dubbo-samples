@@ -30,7 +30,7 @@ import org.springframework.web.client.RestClient;
 @RunWith(SpringRunner.class)
 public class ConsumerIT {
 
-    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
+    private static final String providerAddress = System.getProperty("dubbo.address", "localhost:50052");
 
     @DubboReference
     private DemoService demoService;
@@ -45,7 +45,7 @@ public class ConsumerIT {
     public void testRest() {
         RestClient defaultClient = RestClient.create();
         ResponseEntity<String> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/demo/hello?name=world")
+                .uri("http://" + providerAddress + "/demo/hello?name=world")
                 .header("Content-type", "application/json")
                 .retrieve()
                 .toEntity(String.class);

@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.apache</groupId>
         <artifactId>apache</artifactId>
-        <version>23</version>
+        <version>31</version>
         <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -29,16 +29,15 @@
     <artifactId>dubbo-samples-triple-grpc</artifactId>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <dubbo.version>3.3.0-beta.1</dubbo.version>
         <grpc.version>1.58.0</grpc.version>
+        <httpclient.version>4.5.14</httpclient.version>
         <protoc.version>3.22.2</protoc.version>
-        <log4j2.version>2.20.0</log4j2.version>
-
-        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <log4j2.version>2.21.1</log4j2.version>
     </properties>
 
     <dependencies>
@@ -62,6 +61,11 @@
                     <groupId>io.grpc</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -167,7 +171,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <compilerArg>-proc:none</compilerArg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
