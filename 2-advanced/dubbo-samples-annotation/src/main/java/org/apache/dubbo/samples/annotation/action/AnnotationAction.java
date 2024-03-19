@@ -24,7 +24,6 @@ import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.samples.annotation.AnnotationConstants;
 import org.apache.dubbo.samples.annotation.api.GreetingService;
 import org.apache.dubbo.samples.annotation.api.HelloService;
-
 import org.springframework.stereotype.Component;
 
 @Component("annotationAction")
