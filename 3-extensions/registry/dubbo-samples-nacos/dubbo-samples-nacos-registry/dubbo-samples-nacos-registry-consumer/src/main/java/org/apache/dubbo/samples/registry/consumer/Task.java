@@ -16,17 +16,5 @@ public class Task implements CommandLineRunner {
     public void run(String... args) throws Exception {
         String result = greetingService.sayHello("nacos");
         System.out.println("Receive result ======> " + result);
-
-//        new Thread(()-> {
-//            while (true) {
-//                try {
-//                    Thread.sleep(1000);
-//                    System.out.println(new Date() + " Receive result ======> " + greetingService.sayHello("world"));
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                    Thread.currentThread().interrupt();
-//                }
-//            }
-//        }).start();
     }
 }
