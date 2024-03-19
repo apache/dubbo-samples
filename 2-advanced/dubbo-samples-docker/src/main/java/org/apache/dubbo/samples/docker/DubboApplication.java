@@ -18,8 +18,8 @@
  */
 package org.apache.dubbo.samples.docker;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ImportResource;
 
 import java.util.concurrent.CountDownLatch;
@@ -29,8 +29,9 @@ import java.util.concurrent.CountDownLatch;
 public class DubboApplication {
 
     public static void main(String[] args) throws Exception {
-        new SpringApplicationBuilder(DubboApplication.class).web(false).run(args);
+        SpringApplication.run(DubboApplication.class, args);
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();
     }
+
 }

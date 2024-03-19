@@ -30,7 +30,7 @@ services:
       - zookeeper:2181
     checkPorts:
       - 20881
-    checkLog: "dubbo service started"
+    checkLog: "Current Spring Boot Application is await..."
     depends_on:
       - zookeeper
 
@@ -44,7 +44,7 @@ services:
       - zookeeper:2181
     checkPorts:
       - 20882
-    checkLog: "dubbo service started"
+    checkLog: "Current Spring Boot Application is await..."
     depends_on:
       - zookeeper
 

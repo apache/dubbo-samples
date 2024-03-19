@@ -27,7 +27,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Dubbo Sample Spring Cloud</name>
     <description>Dubbo Sample Spring Cloud</description>
-    
+
     <modules>
         <module>dubbo-call-sc</module>
         <module>sc-call-dubbo</module>
