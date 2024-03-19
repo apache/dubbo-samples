@@ -23,8 +23,8 @@ env:
   VERSIONS_LIMIT: 4
   #candidate versions (the dubbo snapshot version will be extracted from pom.xml and appended before CANDIDATE_VERSIONS )
   CANDIDATE_VERSIONS: '
-    spring.version:5.3.24;
-    spring-boot.version:2.7.6;
+    spring.version:6.1.4;
+    spring-boot.version:3.2.3;
     '
   DUBBO_REF: '3.3'
 
@@ -132,7 +132,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [8, 11, 17, 21]
+        java: [17, 21]
         #testjob id list MUST match 'JOB_COUNT' of 'prepare_test'
         job_id: [1,2,3,4,5]
     steps:
@@ -184,7 +184,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [8, 11, 17, 21]
+        java: [17, 21]
     env:
       JAVA_VER: ${{matrix.java}}
     steps:
