@@ -78,7 +78,7 @@ my-address: 127.0.0.1
 
 spring:
   application:
-    name: dubbo-springboot3-tracing-provider
+    name: dubbo-springboot3-tracing-provider/consumer
 dubbo:
   application:
     name: ${spring.application.name}
