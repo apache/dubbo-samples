@@ -16,33 +16,35 @@
  */
 package org.apache.dubbo.demo.consumer;
 
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.demo.DemoService;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-public class Application {
-    public static void main(String[] args) throws InterruptedException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
-        context.start();
-
-        UpgradeUtil.writeForceInterfaceRule();
-        Thread.sleep(5000);
-
-        call(context);
-
-        UpgradeUtil.writeApplicationFirstRule(100);
-        Thread.sleep(5000);
-
-        call(context);
-
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@EnableDubbo
+@SpringBootApplication
+public class Application implements CommandLineRunner {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class,args);
     }
 
-    private static void call(ClassPathXmlApplicationContext context) {
-        DemoService demoServiceFromNormal = context.getBean("demoServiceFromNormal", DemoService.class);
-        System.out.println("result: " + demoServiceFromNormal.sayHello("name"));
-        DemoService demoServiceFromService = context.getBean("demoServiceFromService", DemoService.class);
-        System.out.println("result: " + demoServiceFromService.sayHello("name"));
-        DemoService demoServiceFromDual = context.getBean("demoServiceFromDual", DemoService.class);
-        System.out.println("result: " + demoServiceFromDual.sayHello("name"));
+
+    @DubboReference(group = "normal")
+    DemoService demoServiceFromNormal;
+
+    @DubboReference(group = "dual")
+    DemoService demoServiceFromDual;
+
+    @DubboReference(group = "service")
+    DemoService demoServiceFromService;
+
+
+    @Override
+    public void run(String... args) {
+        System.out.println("demoServiceFromDual reponse ===>  "+demoServiceFromDual.sayHello("123"));
+        System.out.println("demoServiceFromService response ===> " +demoServiceFromService.sayHello("456"));
+        System.out.println("demoServiceFromNormal response ===> "+demoServiceFromNormal.sayHello("000"));
     }
+
 }
