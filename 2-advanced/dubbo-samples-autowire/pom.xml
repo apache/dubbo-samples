@@ -48,7 +48,8 @@
 
         <dubbo.version>3.3.0-beta.1</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
-        <junit.version>4.13.1</junit.version>
+        <junit5.version>5.10.1</junit5.version>
+        <junit.platform>1.9.3</junit.platform>
     </properties>
 
     <dependencyManagement>
@@ -81,15 +82,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>
@@ -98,6 +100,13 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
