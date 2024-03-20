@@ -29,7 +29,7 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=autowire-provider
+      - zookeeper.address=zookeeper
       - zookeeper.port=2181
       - dubbo.address=autowire-provider
       - dubbo.port=20880
