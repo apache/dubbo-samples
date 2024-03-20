@@ -20,7 +20,7 @@ dubbo:
         qos-enable: false
     protocol:
         name: dubbo
-        port: 20879
+        port: -1
     registry:
         address: zookeeper://${zookeeper.address:127.0.0.1}:2181
     provider:
