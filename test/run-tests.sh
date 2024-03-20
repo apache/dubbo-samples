@@ -146,6 +146,7 @@ function run_test_with_version_profile() {
     result=$?
     if [ $result -ne 0 ]; then
       echo "$log_prefix $TEST_FAILURE: Build failure with version: $jvm_opts, please check log: $project_home/mvn.log" | tee -a $testResultFile
+      echo "mvn $BUILD_OPTS $jvm_opts"
       if [ "$SHOW_ERROR_DETAIL" == "1" ];then
         cat $project_home/mvn.log
       fi
