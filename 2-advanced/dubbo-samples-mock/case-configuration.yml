@@ -14,11 +14,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+    zookeeper:
+        image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-mock
-  main_class: org.apache.dubbo.samples.mock.MockProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+    provider:
+        type: app
+        basedir: dubbo-samples-mock-provider
+        mainClass: org.apache.dubbo.samples.mock.provider.ProviderApplication
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 50052
+        checkLog: "dubbo service started"
 
+    direct-consumer:
+        type: test
+        basedir: dubbo-samples-mock-consumer
+        tests:
+            - "**/*IT.class"
+        systemProps:
+            - zookeeper.address=zookeeper
+            - zookeeper.port=2181
+            - dubbo.address=provider
+            - dubbo.port=50052
+        waitPortsBeforeRun:
+            - zookeeper:2181
+            - provider:50052
+        depends_on:
+            - provider
