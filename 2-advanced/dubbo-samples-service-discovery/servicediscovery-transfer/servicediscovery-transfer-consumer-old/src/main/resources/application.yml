@@ -16,7 +16,7 @@
 
 dubbo:
     application:
-        name: servicediscovery-transfer-consumer-old
+        name: servicediscovery-consumer-test-old
         qos-enable: true
         qos-port: 33333
     protocol:
