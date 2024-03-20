@@ -31,7 +31,7 @@ public class Application implements CommandLineRunner {
     }
 
 
-    @DubboReference
+    @DubboReference(check = false)
     DemoService demoService;
     @Override
     public void run(String... args) {

@@ -47,15 +47,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ServiceDiscoveryIT {
 
 
-    @DubboReference
+    @DubboReference(check = false)
     private DemoService demoService;
 
     @Test
     public void test() {
-
         String hello = demoService.sayHello("world");
         System.out.println("result: " + hello);
         Assert.assertEquals("Hello world", hello);
-
     }
 }

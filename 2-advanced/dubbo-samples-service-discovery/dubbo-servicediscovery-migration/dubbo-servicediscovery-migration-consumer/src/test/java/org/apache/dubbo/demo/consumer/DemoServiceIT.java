@@ -30,13 +30,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes =  {DubboAutoConfiguration.class})
 @RunWith(SpringRunner.class)
 public class DemoServiceIT {
-    @DubboReference(id = "demoServiceFromNormal",group = "normal")
+    @DubboReference(id = "demoServiceFromNormal",group = "normal",check = false)
     private DemoService demoServiceFromNormal;
 
-    @DubboReference(id = "demoServiceFromService",group = "service")
+    @DubboReference(id = "demoServiceFromService",group = "service",check = false)
     private DemoService demoServiceFromService;
 
-    @DubboReference(id = "demoServiceFromDual",group = "dual")
+    @DubboReference(id = "demoServiceFromDual",group = "dual",check = false)
     private DemoService demoServiceFromDual;
 
     @Before

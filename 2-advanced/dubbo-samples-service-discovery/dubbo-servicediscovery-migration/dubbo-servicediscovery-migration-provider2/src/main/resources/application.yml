@@ -16,7 +16,7 @@
 
 dubbo:
     application:
-        name: dubbo-servicediscovery-migration-provider2
+        name: servicediscovery-migration-provider2
         qos-enable: false
     protocol:
         name: dubbo

@@ -16,7 +16,7 @@
 
 dubbo:
     application:
-        name: servicediscovery-transfer-consumer
+        name: servicediscovery-consumer-test
         qos-enable: false
     registry:
         address: zookeeper://${zookeeper.address:127.0.0.1}:2181
