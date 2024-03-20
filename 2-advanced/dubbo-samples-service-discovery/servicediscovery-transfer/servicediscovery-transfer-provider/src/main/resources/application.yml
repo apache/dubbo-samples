@@ -16,12 +16,11 @@
 
 dubbo:
     application:
-        name: servicediscovery-provider
-        qos-enable: true
-        qos-port: 22222
+        name: servicediscovery-transfer-provider
+        qos-enable: false
     protocol:
         name: dubbo
-        port: 50052
+        port: 20880
     registry:
         address: zookeeper://${zookeeper.address:127.0.0.1}:2181
         register-mode: interface

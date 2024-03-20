@@ -16,9 +16,8 @@
 
 dubbo:
     application:
-        name: servicediscovery-consumer-test
-        qos-enable: true
-        qos-port: 33333
+        name: servicediscovery-transfer-consumer
+        qos-enable: false
     protocol:
         name: dubbo
         port: -1
