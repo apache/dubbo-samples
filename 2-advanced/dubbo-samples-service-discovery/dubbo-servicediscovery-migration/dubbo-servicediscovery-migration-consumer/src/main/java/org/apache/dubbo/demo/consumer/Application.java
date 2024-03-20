@@ -30,13 +30,13 @@ public class Application implements CommandLineRunner {
     }
 
 
-    @DubboReference(group = "normal")
+    @DubboReference(group = "normal",check = false)
     DemoService demoServiceFromNormal;
 
-    @DubboReference(group = "dual")
+    @DubboReference(group = "dual",check = false)
     DemoService demoServiceFromDual;
 
-    @DubboReference(group = "service")
+    @DubboReference(group = "service",check = false)
     DemoService demoServiceFromService;
 
 

@@ -16,7 +16,7 @@
 
 dubbo:
     application:
-        name: servicediscovery-procider
+        name: servicediscovery-provider
         qos-enable: false
     protocol:
         name: dubbo
