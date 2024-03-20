@@ -74,7 +74,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.apache.dubbo.samples.ProviderBootstrap</mainClass>
+                    <mainClass>org.apache.dubbo.samples.ProviderApplication</mainClass>
                     <image>
                         <name>apache/dubbo-demo:${project.artifactId}_0.0.1</name>
                         <pullPolicy>IF_NOT_PRESENT</pullPolicy>
