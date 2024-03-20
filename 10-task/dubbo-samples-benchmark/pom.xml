@@ -130,6 +130,8 @@
             <artifactId>dubbo-serialization-kryo</artifactId>
             <version>2.7.23</version>
         </dependency>
+
+        
     </dependencies>
 
 
