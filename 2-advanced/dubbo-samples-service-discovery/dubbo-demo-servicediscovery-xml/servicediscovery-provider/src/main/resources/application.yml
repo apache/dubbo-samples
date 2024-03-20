@@ -24,5 +24,7 @@ dubbo:
         port: 20880
     registry:
         address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+        use-as-config-center: true
+        use-as-metadata-center: true
     provider:
         token: "true"

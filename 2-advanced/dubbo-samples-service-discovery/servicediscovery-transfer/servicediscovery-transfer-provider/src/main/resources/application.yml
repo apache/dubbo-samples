@@ -24,5 +24,6 @@ dubbo:
         port: 20881
     registry:
         address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+        register-mode: interface
     provider:
         token: "true"

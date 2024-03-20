@@ -16,7 +16,7 @@
 
 dubbo:
     application:
-        name: servicediscovery-transfer-provider-instance
+        name: servicediscovery-transfer-provider
         qos-enable: true
         qos-port: 22222
     protocol:
@@ -24,5 +24,6 @@ dubbo:
         port: 20882
     registry:
         address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+        register-mode: instance
     provider:
         token: "true"
