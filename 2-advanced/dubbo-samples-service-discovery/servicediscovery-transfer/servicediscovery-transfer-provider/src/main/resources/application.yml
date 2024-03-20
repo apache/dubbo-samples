@@ -17,7 +17,8 @@
 dubbo:
     application:
         name: servicediscovery-transfer-provider
-        qos-enable: false
+        qos-enable: true
+        qos-port: 22222
     protocol:
         name: dubbo
         port: 20881
