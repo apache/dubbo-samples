@@ -24,7 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
-        new EmbeddedZooKeeper(2181,false).start();
+//        new EmbeddedZooKeeper(2181,false).start();
         SpringApplication.run(Application.class,args);
     }
 }
