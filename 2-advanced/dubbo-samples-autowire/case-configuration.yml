@@ -34,7 +34,7 @@ services:
       - dubbo.address=autowire-provider
       - dubbo.port=20880
     waitPortsBeforeRun:
-      - autowire-provider:2181
+      - zookeeper:2181
       - autowire-provider:20880
     depends_on:
       - autowire-provider
