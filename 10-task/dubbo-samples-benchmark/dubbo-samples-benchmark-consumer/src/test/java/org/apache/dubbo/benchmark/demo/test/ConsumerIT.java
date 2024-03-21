@@ -48,27 +48,24 @@ public class ConsumerIT {
         int measurementTime = 10;
 
         String prop = System.getProperty("prop");
-        System.out.println("prop=" + prop);
+        prop = prop.replace("\"", "");
+        //去掉前两位
+        prop = prop.substring(2);
 
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
-                .param("prop", System.getProperty("prop"))
+                .param("prop", prop)
                 .measurementTime(TimeValue.seconds(measurementTime))
                 .forks(1);
 
-        options = doOptions(optBuilder).build();
+        options = doOptions(optBuilder, prop).build();
         new Runner(options).run();
 
     }
 
-    private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder) {
-        String prop = System.getProperty("prop");
-        prop = prop.replace("\"", "");
-        //去掉前两位
-        prop = prop.substring(2);
-
+    private static ChainedOptionsBuilder doOptions(ChainedOptionsBuilder optBuilder, String prop) {
         if (StringUtils.isNotBlank(prop)) {
             optBuilder.result("/tmp/jmh_result_prop[" + prop + "].json");
         } else {
