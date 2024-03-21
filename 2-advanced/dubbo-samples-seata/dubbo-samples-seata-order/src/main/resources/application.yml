@@ -20,7 +20,7 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://${mysql.address:127.0.0.1}:${mysql.port:3306}/seata?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useOldAliasMetadataBehavior=true
         username: root
-        password: helloworld
+        password: root
         hikari:
             connection-timeout: 30000
             idle-timeout: 600000

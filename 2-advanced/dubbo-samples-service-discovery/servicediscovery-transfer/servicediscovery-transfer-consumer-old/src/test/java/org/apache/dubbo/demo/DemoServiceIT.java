@@ -16,21 +16,22 @@
  */
 package org.apache.dubbo.demo;
 
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/dubbo-consumer.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes =  {DubboAutoConfiguration.class})
 public class DemoServiceIT {
-    @Autowired
+    @DubboReference(check = false)
     private DemoService demoService;
 
     @Test
-    public void test() throws Exception {
+    public void test() {
         String result = demoService.sayHello("test");
         Assert.assertTrue(result.contains("Hello test, "));
     }
