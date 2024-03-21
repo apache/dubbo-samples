@@ -16,11 +16,7 @@
  */
 package org.apache.dubbo.benchmark.demo.test;
 
-import org.apache.dubbo.benchmark.demo.DemoService;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -38,6 +34,9 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
@@ -46,15 +45,20 @@ public class ConsumerIT {
     public void test() throws RunnerException {
 
         int measurementTime = 10;
+        String propKey = "prop";
+        String prop = System.getProperty(propKey);
 
-        String prop = System.getProperty("prop");
         if (StringUtils.isNotBlank(prop)) {
             prop = prop.replace("\"", "");
             //去掉前两位
             prop = prop.substring(2);
+            propKey = prop.substring(0, prop.indexOf("="));
             //取=后面的val
             prop = prop.substring(prop.indexOf("=") + 1);
         }
+
+        System.out.println("propKey:" + propKey);
+        System.out.println("prop:" + prop);
 
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
@@ -62,10 +66,28 @@ public class ConsumerIT {
 //                .param("time", System.currentTimeMillis() + "")
                 .param("prop", prop)
                 .measurementTime(TimeValue.seconds(measurementTime))
+                .measurementIterations(3)
                 .forks(1);
 
         options = doOptions(optBuilder, prop).build();
         new Runner(options).run();
+
+        //把json文件的prop字段，替换成propKey
+        if (StringUtils.isNotBlank(prop)) {
+            String json;
+            try {
+                json = FileUtils.readFileToString(new File("/tmp/jmh_result_prop[" + prop + "].json"), "UTF-8");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            json = json.replace("prop", propKey);
+            try {
+                FileUtils.write(new File("/tmp/jmh_result_prop[" + prop + "].json"), json, Charset.defaultCharset(), false);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
 
     }
 
@@ -89,21 +111,14 @@ public class ConsumerIT {
         private String prop;
 
         @Benchmark
-        @BenchmarkMode({Mode.Throughput, Mode.AverageTime, Mode.SampleTime})
+        @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
         @OutputTimeUnit(TimeUnit.MILLISECONDS)
         public String getUser() {
-            String zkAddr = System.getProperty("zookeeper.address", "127.0.0.1");
-            ReferenceConfig<DemoService> reference =
-                    ReferenceBuilder.<DemoService>newBuilder()
-                            .interfaceClass(DemoService.class)
-                            .addRegistry(new RegistryConfig("zookeeper://" + zkAddr + ":2181"))
-                            .build();
-            DubboBootstrap bootstrap = DubboBootstrap.getInstance();
-            bootstrap.application("dubbo-benchmark-consumer");
-            bootstrap.reference(reference).start();
-            DemoService service = reference.get();
-
-            return service.sayHello("dubbo");
+            //循环耗时
+            for (int i = 0; i < 1000; i++) {
+                System.out.println("i:" + i);
+            }
+            return "hello";
         }
 
     }
