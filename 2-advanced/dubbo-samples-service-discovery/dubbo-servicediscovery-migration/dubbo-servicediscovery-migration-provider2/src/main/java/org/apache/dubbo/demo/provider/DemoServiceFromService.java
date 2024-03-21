@@ -16,12 +16,14 @@
  */
 package org.apache.dubbo.demo.provider;
 
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.rpc.RpcContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@DubboService(group = "service")
 public class DemoServiceFromService implements DemoService {
     private static final Logger logger = LoggerFactory.getLogger(DemoServiceFromService.class);
 

@@ -15,51 +15,51 @@
 # limitations under the License.
 
 services:
-  zookeeper:
-    image: zookeeper:latest
+    zookeeper:
+        image: zookeeper:latest
 
-  dubbo-samples-rpccontext-provider2:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.rpccontext.RpcContextProvider2
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20882
-    checkLog: "Rpc context provider2 started"
-    depends_on:
-      - zookeeper
+    dubbo-samples-rpccontext-provider2:
+        type: app
+        basedir: dubbo-samples-rpccontext-provider2
+        mainClass: org.apache.dubbo.samples.rpccontext.RpcContextProvider2
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 20882
+        checkLog: "Rpc context provider2 started"
+        depends_on:
+            - zookeeper
 
 
-  dubbo-samples-rpccontext-provider:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.rpccontext.RpcContextProvider1
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-    checkPorts:
-      - 20880
-    checkLog: "Rpc context provider1 started"
-    depends_on:
-      - zookeeper
-      - dubbo-samples-rpccontext-provider2
+    dubbo-samples-rpccontext-provider:
+        type: app
+        basedir: dubbo-samples-rpccontext-provider1
+        mainClass: org.apache.dubbo.samples.rpccontext.RpcContextProvider1
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 20880
+        checkLog: "Rpc context provider1 started"
+        depends_on:
+            - zookeeper
+            - dubbo-samples-rpccontext-provider2
 
-  dubbo-samples-rpccontext-consumer:
-    type: test
-    basedir: .
-    tests:
-      - "**/*IT.class"
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
-      - dubbo-samples-rpccontext-provider:20880
-      - dubbo-samples-rpccontext-provider2:20882
-    depends_on:
-      - zookeeper
-      - dubbo-samples-rpccontext-provider
-      - dubbo-samples-rpccontext-provider2
+    dubbo-samples-rpccontext-consumer:
+        type: test
+        basedir: dubbo-samples-rpccontext-consumer
+        tests:
+            - "**/*IT.class"
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+            - dubbo-samples-rpccontext-provider:20880
+            - dubbo-samples-rpccontext-provider2:20882
+        depends_on:
+            - zookeeper
+            - dubbo-samples-rpccontext-provider
+            - dubbo-samples-rpccontext-provider2
