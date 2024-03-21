@@ -22,6 +22,14 @@ services:
     type: app
     basedir: dubbo-samples-autowire-provider
     mainClass: org.apache.dubbo.samples.autowire.provider.ProviderBootstrap
+    systemProps:
+        - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+        - zookeeper:2181
+    checkPorts:
+        - 20880
+    depends_on:
+        - zookeeper
 
   autowire-consumer:
     type: test
@@ -29,12 +37,13 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=autowire-provider
+      - zookeeper.address=zookeeper
       - zookeeper.port=2181
       - dubbo.address=autowire-provider
       - dubbo.port=20880
     waitPortsBeforeRun:
-      - autowire-provider:2181
+      - zookeeper:2181
       - autowire-provider:20880
     depends_on:
       - autowire-provider
+      - zookeeper
