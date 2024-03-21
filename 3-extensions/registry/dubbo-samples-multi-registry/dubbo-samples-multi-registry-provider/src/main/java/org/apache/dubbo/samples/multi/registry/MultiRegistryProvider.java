@@ -21,12 +21,8 @@ package org.apache.dubbo.samples.multi.registry;
 
 import java.util.logging.Logger;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication
 @EnableDubbo

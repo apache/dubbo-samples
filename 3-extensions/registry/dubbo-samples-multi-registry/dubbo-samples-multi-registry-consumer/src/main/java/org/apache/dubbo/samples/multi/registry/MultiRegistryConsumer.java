@@ -19,14 +19,10 @@
 
 package org.apache.dubbo.samples.multi.registry;
 
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.samples.multi.registry.api.DemoService;
-import org.apache.dubbo.samples.multi.registry.api.HelloService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @SpringBootApplication
 @EnableDubbo
