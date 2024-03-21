@@ -17,7 +17,6 @@ dubbo:
         name: multi-registry-provider
     registries:
         beijingRegistry:
-             default: false
              address: zookeeper://${zookeeper.address.1:127.0.0.1}:${zookeeper.port:2181}
         shanghaiRegistry:
              address: zookeeper://${zookeeper.address.2:127.0.0.1}:${zookeeper.port:2181}
