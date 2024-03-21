@@ -48,9 +48,11 @@ public class ConsumerIT {
         int measurementTime = 10;
 
         String prop = System.getProperty("prop");
-        prop = prop.replace("\"", "");
-        //去掉前两位
-        prop = prop.substring(2);
+        if (StringUtils.isNotBlank(prop)) {
+            prop = prop.replace("\"", "");
+            //去掉前两位
+            prop = prop.substring(2);
+        }
 
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
