@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.multi.registry.impl;
+package org.apache.dubbo.samples.multi.registry.provider.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.multi.registry.api.DemoService;

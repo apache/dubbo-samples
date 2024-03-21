@@ -23,7 +23,7 @@ dubbo:
              address: "zookeeper://${zookeeper.address.2:127.0.0.1}:${zookeeper.port:2181}"
     protocol:
         name: dubbo
-        port: 20885
+        port: 20880
 spring:
     application:
         name: multi-registry-provider
