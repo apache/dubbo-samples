@@ -9,7 +9,7 @@
 #             address: zookeeper://localhost:2182
 #    protocol:
 #        name: dubbo
-#        port: 20885
+#        port: 20880
 #       If the address of your registry you set is exactly the same (including the port number), you need to set one of the default properties
 dubbo:
     application:
