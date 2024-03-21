@@ -30,7 +30,7 @@ public class MultiRegistryProvider {
     private static final Logger logger = Logger.getLogger(MultiRegistryProvider.class.getName());
     public static void main(String[] args) {
 
-        new EmbeddedZooKeeper(2181, false).start();
+//        new EmbeddedZooKeeper(2181, false).start();
 //        new EmbeddedZooKeeper(2182, false).start();
         SpringApplication.run(MultiRegistryProvider.class, args);
         logger.info("provider started");
