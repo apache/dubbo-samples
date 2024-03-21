@@ -72,11 +72,7 @@ public class DemoServiceIT {
         checkIfNotified();
 
         Assert.assertTrue(demoServiceFromNormal.sayHello("client").contains("registry-type: normal"));
-        try {
-            demoServiceFromService.sayHello("client");
-        } catch (RpcException ignore) {
 
-        }
         Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
     }
 
