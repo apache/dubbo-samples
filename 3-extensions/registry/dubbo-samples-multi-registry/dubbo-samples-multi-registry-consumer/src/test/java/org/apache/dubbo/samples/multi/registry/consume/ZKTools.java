@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.multi.registry;
+package org.apache.dubbo.samples.multi.registry.consume;
 
 import org.apache.dubbo.common.URL;
 
