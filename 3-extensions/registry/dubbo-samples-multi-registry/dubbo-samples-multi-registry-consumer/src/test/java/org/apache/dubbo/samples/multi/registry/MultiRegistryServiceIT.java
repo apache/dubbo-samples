@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.multi.registry.api.DemoService;
 import org.apache.dubbo.samples.multi.registry.api.HelloService;
+import org.apache.dubbo.samples.multi.registry.consume.MultiRegistryConsumer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

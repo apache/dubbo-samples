@@ -23,7 +23,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.multi.registry.api.DemoService;
 
 
-@DubboService(registry = {"beijingRegistry","shanghaiRegistry"})
+@DubboService
 public class DemoServiceImpl implements DemoService {
     @Override
     public String get(String name) {

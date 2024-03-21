@@ -14,12 +14,16 @@
 dubbo:
     application:
         qos-enable: false
+        name: multi-registry-provider
     registries:
         beijingRegistry:
              default: false
-             address: zookeeper://localhost:2181
+             address: "zookeeper://${zookeeper.address.1:127.0.0.1}:${zookeeper.port:2181}"
         shanghaiRegistry:
-             address: zookeeper://localhost:2181
+             address: "zookeeper://${zookeeper.address.2:127.0.0.1}:${zookeeper.port:2181}"
     protocol:
         name: dubbo
         port: 20885
+spring:
+    application:
+        name: multi-registry-provider

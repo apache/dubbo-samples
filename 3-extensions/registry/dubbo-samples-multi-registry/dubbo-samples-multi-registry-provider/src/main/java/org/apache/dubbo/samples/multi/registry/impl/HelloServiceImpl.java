@@ -22,7 +22,7 @@ package org.apache.dubbo.samples.multi.registry.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.multi.registry.api.HelloService;
 
-@DubboService(registry = {"beijingRegistry","shanghaiRegistry"})
+@DubboService
 public class HelloServiceImpl implements HelloService {
     @Override
     public String sayHello(String name) {

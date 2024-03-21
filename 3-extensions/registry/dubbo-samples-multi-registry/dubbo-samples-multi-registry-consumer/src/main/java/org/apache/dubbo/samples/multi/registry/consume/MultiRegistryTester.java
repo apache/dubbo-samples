@@ -17,7 +17,7 @@
  *
  */
 
-package org.apache.dubbo.samples.multi.registry;
+package org.apache.dubbo.samples.multi.registry.consume;
 
 import java.util.logging.Logger;
 import org.apache.dubbo.config.annotation.DubboReference;

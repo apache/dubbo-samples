@@ -21,12 +21,10 @@ package org.apache.dubbo.samples.multi.registry;
 
 import java.util.logging.Logger;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.CountDownLatch;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 
 @SpringBootApplication
 @EnableDubbo
@@ -37,7 +35,7 @@ public class MultiRegistryProvider {
         new EmbeddedZooKeeper(2181, false).start();
 //        new EmbeddedZooKeeper(2182, false).start();
         SpringApplication.run(MultiRegistryProvider.class, args);
-        logger.info("provider started");
+        System.out.println("dubbo service started");
 
     }
 }
