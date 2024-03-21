@@ -27,7 +27,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ProviderApplication {
 
     public static void main(String[] args) {
-//        new EmbeddedZooKeeper(2181, false).start();
         ZKTools.generateDubboProperties();
         SpringApplication.run(ProviderApplication.class, args);
 

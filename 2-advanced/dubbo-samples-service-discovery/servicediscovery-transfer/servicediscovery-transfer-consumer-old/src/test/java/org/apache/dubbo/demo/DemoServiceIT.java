@@ -27,7 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes =  {DubboAutoConfiguration.class})
 public class DemoServiceIT {
-    @DubboReference
+    @DubboReference(check = false)
     private DemoService demoService;
 
     @Test

@@ -27,12 +27,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class GreetingServiceIT {
+    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
+
     @Test
     public void test() {
         ReferenceConfig<GreetingsService> reference =
                 ReferenceBuilder.<GreetingsService>newBuilder()
                         .interfaceClass(GreetingsService.class)
-                        .url("tri://localhost:50052")
+                        .url("tri://" + providerAddress + ":50052")
                         .build();
         DubboBootstrap.getInstance().reference(reference).start();
         GreetingsService service = reference.get();

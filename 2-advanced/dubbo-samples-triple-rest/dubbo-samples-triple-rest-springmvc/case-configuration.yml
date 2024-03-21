@@ -20,7 +20,7 @@ services:
 
   springmvc-provider:
     type: app
-    basedir: dubbo-samples-triple-rest-springmvc
+    basedir: .
     mainClass: org.apache.dubbo.rest.demo.SpringmvcRestApplication
     systemProps:
       - zookeeper.address=zookeeper
@@ -32,7 +32,7 @@ services:
 
   test:
     type: test
-    basedir: dubbo-samples-triple-rest-springmvc
+    basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
