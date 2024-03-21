@@ -52,12 +52,14 @@ public class ConsumerIT {
             prop = prop.replace("\"", "");
             //去掉前两位
             prop = prop.substring(2);
+            //取=后面的val
+            prop = prop.substring(prop.indexOf("=") + 1);
         }
 
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
-                .param("time", System.currentTimeMillis() + "")
+//                .param("time", System.currentTimeMillis() + "")
                 .param("prop", prop)
                 .measurementTime(TimeValue.seconds(measurementTime))
                 .forks(1);
