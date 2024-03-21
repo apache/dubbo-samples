@@ -18,7 +18,6 @@ services:
   zookeeper:
     image: zookeeper:latest
 
-
   autowire-provider:
     type: app
     basedir: dubbo-samples-autowire-provider
