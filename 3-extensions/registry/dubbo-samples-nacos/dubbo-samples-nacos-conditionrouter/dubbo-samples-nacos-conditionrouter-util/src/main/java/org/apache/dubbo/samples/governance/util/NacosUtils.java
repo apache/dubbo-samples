@@ -32,7 +32,7 @@ public class NacosUtils {
     }
 
     public static void writeAppRule() throws Throwable {
-        String serverAddr = System.getProperty("nacos.address", "10.21.32.105");
+        String serverAddr = System.getProperty("nacos.address", "localhost");
         String dataId = "governance-conditionrouter-consumer.condition-router";
         String group = "dubbo";
         Properties properties = new Properties();
