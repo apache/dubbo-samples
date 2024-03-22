@@ -83,5 +83,6 @@ services:
     waitPortsBeforeRun:
       - zookeeper:2181
       - provider:20880
+      - skywalking:11800
     depends_on:
       - provider
