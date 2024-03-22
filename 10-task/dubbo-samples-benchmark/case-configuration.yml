@@ -20,6 +20,41 @@ services:
   zookeeper:
     image: zookeeper:latest
 
+  bh-mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=skywalking
+      - MYSQL_ROOT_PASSWORD=helloworld
+    expose:
+      - 3306
+    volumes:
+      - ${_basedir}/deploy/docker-compose/mysql/sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  skywalking:
+    image: apache/skywalking-oap-server:9.0.0
+    ports:
+      - 11800:11800
+    environment:
+        SW_STORAGE: mysql
+        SW_STORAGE_MYSQL_URL: jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
+        SW_STORAGE_MYSQL_USER: root
+        SW_STORAGE_MYSQL_PASSWORD: helloworld
+        SW_STORAGE_MYSQL_DATABASE: skywalking
+        SW_JDBC_URL: jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
+        SW_JDBC_USER: root
+        SW_JDBC_PASSWORD: helloworld
+        SW_JDBC_DATABASE: skywalking
+        SW_OAP_GRPC_PORT: 11800
+        SW_OAP_GRAPHQL_PORT: 12800
+        SW_OAP_REST_PORT: 12801
+    depends_on:
+      - bh-mysql
   provider:
     type: app
     basedir: dubbo-samples-benchmark-provider
@@ -37,8 +72,12 @@ services:
     basedir: dubbo-samples-benchmark-consumer
     tests:
       - "**/*IT.class"
+    jvmFlags:
+      - "-javaagent:/tmp/skywalking-agent.jar"
     systemProps:
       - zookeeper.address=zookeeper
+      - skywalking.agent.service_name=dubbo-samples-benchmark-consumer
+      - skywalking.collector.backend_service=skywalking:11800
     volumes:
       - /tmp:/tmp
     waitPortsBeforeRun:
