@@ -20,7 +20,6 @@ package org.apache.dubbo.samples.governance.util;
 import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.exception.NacosException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
@@ -28,41 +27,25 @@ import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class NacosUtils {
-    private static String serverAddr = System.getProperty("nacos.address", "localhost");
-    private static String DATAID = "org.apache.dubbo.samples.governance.api.DemoService::.configurators";
-    private static String GROUP = "dubbo";
-
-    private static ConfigService configService;
-
-    static {
-        Properties properties = new Properties();
-        properties.put(PropertyKeyConst.SERVER_ADDR,        serverAddr);
-        properties.put("username", System.getProperty("username", "nacos"));
-        properties.put("password", System.getProperty("password", "nacos"));
-        try {
-            configService = NacosFactory.createConfigService(properties);
-        } catch (NacosException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) throws Throwable {
         writeAppRule();
     }
 
-
     public static void writeAppRule() throws Throwable {
-        try (InputStream is = NacosUtils.class.getClassLoader().getResourceAsStream("dubbo-override.yml")) {
-            String content = IOUtils.toString(is, StandardCharsets.UTF_8);
-            if (configService.publishConfig(DATAID, GROUP, content)) {
-                System.out.println("write " + DATAID + ":" + GROUP + " successfully.");
-            }
-        }
-    }
+        String serverAddr = System.getProperty("nacos.address", "10.21.32.105");
+        String dataId = "governance-conditionrouter-consumer.condition-router";
+        String group = "dubbo";
+        Properties properties = new Properties();
+        properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
+        properties.put("username", System.getProperty("username", "nacos"));
+        properties.put("password", System.getProperty("password", "nacos"));
+        ConfigService configService = NacosFactory.createConfigService(properties);
 
-    public static void clearAppRule() throws Throwable {
-        if (configService.removeConfig(DATAID, GROUP)) {
-            System.out.println("remove " + DATAID + ":" + GROUP + " successfully.");
+        try (InputStream is = NacosUtils.class.getClassLoader().getResourceAsStream("dubbo-routers-condition.yml")) {
+            String content = IOUtils.toString(is, StandardCharsets.UTF_8);
+            if (configService.publishConfig(dataId, group, content)) {
+                System.out.println("write " + dataId + ":" + group + " successfully.");
+            }
         }
     }
 }
