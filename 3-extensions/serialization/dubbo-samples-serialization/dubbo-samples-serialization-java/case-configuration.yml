@@ -14,11 +14,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+    zookeeper:
+        image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-serialization-java
-  main_class: org.apache.dubbo.samples.serialization.DubboProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+    provider:
+        type: app
+        basedir: dubbo-samples-serialization-java-provider
+        mainClass: org.apache.dubbo.samples.serialization.DubboProvider
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 20880
+        checkLog: "dubbo service started"
+
+    test:
+        type: test
+        basedir: dubbo-samples-serialization-java-consumer
+        tests:
+            - "**/*IT.class"
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+            - provider:20880
+        depends_on:
+            - provider
+
 

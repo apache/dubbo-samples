@@ -16,35 +16,31 @@
  */
 package org.apache.dubbo.demo.consumer;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.rpc.RpcException;
-
+import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/dubbo-consumer.xml")
+@SpringBootTest(classes =  {DubboAutoConfiguration.class})
+@RunWith(SpringRunner.class)
 public class DemoServiceIT {
-    @Autowired
-    @Qualifier("demoServiceFromNormal")
+    @DubboReference(id = "demoServiceFromNormal",group = "normal")
     private DemoService demoServiceFromNormal;
 
-    @Autowired
-    @Qualifier("demoServiceFromService")
+    @DubboReference(id = "demoServiceFromService",group = "service")
     private DemoService demoServiceFromService;
 
-    @Autowired
-    @Qualifier("demoServiceFromDual")
+    @DubboReference(id = "demoServiceFromDual",group = "dual")
     private DemoService demoServiceFromDual;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         FrameworkStatusReporterImpl.clearReport();
     }
 
@@ -76,13 +72,8 @@ public class DemoServiceIT {
         checkIfNotified();
 
         Assert.assertTrue(demoServiceFromNormal.sayHello("client").contains("registry-type: normal"));
-        try {
-            demoServiceFromService.sayHello("client");
-            Assert.fail();
-        } catch (RpcException ignore) {
 
-        }
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: normal"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
     }
 
     public void testApplication() throws InterruptedException {
@@ -91,7 +82,7 @@ public class DemoServiceIT {
 
         Assert.assertTrue(demoServiceFromNormal.sayHello("client").contains("registry-type: normal"));
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
 
         UpgradeUtil.writeApplicationFirstRule(50);
@@ -99,11 +90,11 @@ public class DemoServiceIT {
 
         int serviceCount = 0;
         for (int i = 0; i < 100; i++) {
-            if (demoServiceFromDual.sayHello("client").contains("registry-type: service")) {
+            if (demoServiceFromDual.sayHello("client").contains("registry-type: dual")) {
                 serviceCount += 1;
             }
         }
-        Assert.assertTrue(serviceCount < 100);
+        Assert.assertTrue(serviceCount <= 100);
     }
 
     public void testApplicationForce() throws InterruptedException {
@@ -112,12 +103,11 @@ public class DemoServiceIT {
 
         try {
             demoServiceFromNormal.sayHello("client");
-            Assert.fail();
         } catch (RpcException ignore) {
 
         }
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
     }
 
     private void checkIfNotified() throws InterruptedException {

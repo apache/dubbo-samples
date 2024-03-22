@@ -20,8 +20,8 @@ services:
 
   dubbo-samples-zookeeper:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.ProviderBootstrap
+    basedir: dubbo-samples-zookeeper-provider
+    mainClass: org.apache.dubbo.samples.ProviderApplication
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
@@ -33,7 +33,7 @@ services:
 
   dubbo-samples-zookeeper-test:
     type: test
-    basedir: .
+    basedir: dubbo-samples-zookeeper-consumer
     tests:
       - "**/*IT.class"
     systemProps:
