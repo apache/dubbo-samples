@@ -36,7 +36,7 @@ import java.util.Date;
 @ExtendWith(SpringExtension.class)
 public class ValidationServiceIT {
 
-    @DubboReference(url = "dubbo://localhost:20880")
+    @DubboReference
     private ValidationService validationService;
 
     @Test
