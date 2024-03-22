@@ -25,7 +25,7 @@ dubbo:
         token: true
     protocol:
         name: dubbo
-        port: 20880
+        port: ${dubbo.port:20880}
         heartbeat: 10000
     config-center:
         highest-priority: false
