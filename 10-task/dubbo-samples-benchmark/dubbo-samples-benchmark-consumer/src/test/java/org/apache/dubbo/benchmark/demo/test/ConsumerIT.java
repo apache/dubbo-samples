@@ -17,6 +17,11 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.dubbo.benchmark.demo.DemoService;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.junit.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -114,11 +119,18 @@ public class ConsumerIT {
         @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
         @OutputTimeUnit(TimeUnit.MILLISECONDS)
         public String getUser() {
-            //循环耗时
-            for (int i = 0; i < 1000; i++) {
-                System.out.println("i:" + i);
-            }
-            return "hello";
+            String zkAddr = System.getProperty("zookeeper.address", "127.0.0.1");
+            ReferenceConfig<DemoService> reference =
+                    ReferenceBuilder.<DemoService>newBuilder()
+                            .interfaceClass(DemoService.class)
+                            .addRegistry(new RegistryConfig("zookeeper://" + zkAddr + ":2181"))
+                            .build();
+            DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+            bootstrap.application("dubbo-benchmark-consumer");
+            bootstrap.reference(reference).start();
+            DemoService service = reference.get();
+
+            return service.sayHello("dubbo");
         }
 
     }
