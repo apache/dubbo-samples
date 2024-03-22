@@ -66,7 +66,7 @@ services:
 
   dubbo-samples-nacos-conditionrouter-test:
     type: test
-    basedir: .
+    basedir: dubbo-samples-nacos-conditionrouter-consumer
     tests:
       - "**/*IT.class"
     systemProps:
