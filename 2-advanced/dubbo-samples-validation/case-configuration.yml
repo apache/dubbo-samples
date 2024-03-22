@@ -37,6 +37,9 @@ services:
         checkPorts:
             - 20880
         checkLog: "dubbo service started"
+        depends_on:
+            - zookeeper
+
 
     direct-consumer:
         type: test
@@ -53,3 +56,4 @@ services:
             - provider:20880
         depends_on:
             - provider
+            - zookeeper
