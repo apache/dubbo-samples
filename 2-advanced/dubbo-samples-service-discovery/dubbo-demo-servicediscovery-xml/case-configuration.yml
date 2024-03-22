@@ -19,42 +19,30 @@ services:
   zookeeper:
     image: zookeeper:latest
 
-  nacos:
-    image: nacos/nacos-server:1.4.0
-    environment:
-      - PREFER_HOST_MODE=hostname
-      - MODE=standalone
-      - JVM_XMS=512m
-      - JVM_XMX=512m
-      - JVM_XMN=256m
 
   servicediscovery-provider:
     type: app
     basedir: servicediscovery-provider
     mainClass: org.apache.dubbo.demo.provider.Application
     systemProps:
-      - nacos.address=nacos
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
-      - nacos:8848
       - zookeeper:2181
     checkPorts:
       - 20880
     checkLog: "dubbo service started"
     depends_on:
-      - nacos
-      
+      - zookeeper
+
   servicediscovery-consumer-test:
     type: test
     basedir: servicediscovery-consumer
     tests:
       - "**/*IT.class"
     systemProps:
-      - nacos.address=nacos
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:
-      - nacos:8848
       - servicediscovery-provider:20880
     depends_on:
-      - nacos
+      - zookeeper
       - servicediscovery-provider

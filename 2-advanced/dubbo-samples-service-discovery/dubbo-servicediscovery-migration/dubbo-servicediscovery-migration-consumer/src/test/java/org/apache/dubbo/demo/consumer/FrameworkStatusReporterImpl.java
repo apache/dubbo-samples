@@ -16,9 +16,8 @@
  */
 package org.apache.dubbo.demo.consumer;
 
-import org.apache.dubbo.common.status.reporter.FrameworkStatusReporter;
-
 import com.google.gson.Gson;
+import org.apache.dubbo.common.status.reporter.FrameworkStatusReporter;
 
 import java.util.HashMap;
 import java.util.Map;

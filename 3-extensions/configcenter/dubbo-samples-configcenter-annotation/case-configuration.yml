@@ -14,11 +14,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+services:
+    zookeeper:
+        image: zookeeper:latest
 
-props:
-  project_name: dubbo-samples-configcenter-annotation
-  main_class: org.apache.dubbo.samples.configcenter.annotation.AnnotationProvider
-  zookeeper_port: 2181
-  dubbo_port: 20990
+    configcenter-provider:
+        type: app
+        basedir: dubbo-samples-configcenter-annotation-provider
+        mainClass: org.apache.dubbo.samples.configcenter.annotation.ProviderApplication
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 20990
+        checkLog: "dubbo service started"
 
+    configcenter-consumer:
+        type: test
+        basedir: dubbo-samples-configcenter-annotation-consumer
+        tests:
+            - "**/*IT.class"
+        systemProps:
+            - zookeeper.address=zookeeper
+            - zookeeper.port=2181
+            - dubbo.address=configcenter-provider
+            - dubbo.port=20990
+        waitPortsBeforeRun:
+            - zookeeper:2181
+            - configcenter-provider:20990
+        depends_on:
+            - configcenter-provider
