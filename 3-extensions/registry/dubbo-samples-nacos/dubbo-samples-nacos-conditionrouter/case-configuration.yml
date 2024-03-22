@@ -34,7 +34,7 @@ services:
 
   dubbo-samples-nacos-conditionrouter1:
     type: app
-    basedir: .
+    basedir: dubbo-samples-nacos-conditionrouter-provider
     mainClass: org.apache.dubbo.samples.governance.provider.ProviderApplication
     systemProps:
       - nacos.address=nacos
@@ -50,7 +50,7 @@ services:
 
   dubbo-samples-nacos-conditionrouter2:
     type: app
-    basedir: .
+    basedir: dubbo-samples-nacos-conditionrouter-provider
     mainClass: org.apache.dubbo.samples.governance.provider.ProviderApplication
     systemProps:
       - nacos.address=nacos
