@@ -39,7 +39,7 @@ import java.util.Date;
 public class ValidationConsumer {
 
 
-    @DubboReference(url = "dubbo://localhost:20880")
+    @DubboReference
     private ValidationService validationService;
 
     public static void main(String[] args) throws Exception {

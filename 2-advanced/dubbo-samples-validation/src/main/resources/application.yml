@@ -27,3 +27,5 @@ dubbo:
         validation: true
     provider:
         validation: true
+    registry:
+        address: zookeeper://${zookeeper.address:127.0.0.1}:2181

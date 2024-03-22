@@ -26,7 +26,7 @@ import org.apache.dubbo.samples.validation.api.ValidationService;
 /**
  * ValidationServiceImpl
  */
-@DubboService
+@DubboService(interfaceClass = ValidationService.class)
 public class ValidationServiceImpl implements ValidationService {
 
     @Override
