@@ -35,7 +35,7 @@ services:
   dubbo-samples-nacos-conditionrouter1:
     type: app
     basedir: .
-    mainClass: org.apache.dubbo.samples.governance.provider.BasicProvider
+    mainClass: org.apache.dubbo.samples.governance.provider.ProviderApplication
     systemProps:
       - nacos.address=nacos
       - nacos.port=8848
@@ -51,7 +51,7 @@ services:
   dubbo-samples-nacos-conditionrouter2:
     type: app
     basedir: .
-    mainClass: org.apache.dubbo.samples.governance.provider.BasicProvider
+    mainClass: org.apache.dubbo.samples.governance.provider.ProviderApplication
     systemProps:
       - nacos.address=nacos
       - nacos.port=8848
