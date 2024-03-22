@@ -29,7 +29,8 @@ public class ConsumerApplication {
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(ConsumerApplication.class);
 
-        //修改dubbo的本地缓存路径，避免本地启动多个应用导致缓存冲突
+        //Modify the local cache path of dubbo to avoid cache conflicts caused by launching multiple applications locally
+
         application.addInitializers(context -> {
             Environment env = context.getEnvironment();
             String appName = env.getProperty("spring.application.name");
