@@ -73,7 +73,7 @@ services:
     tests:
       - "**/*IT.class"
     jvmFlags:
-      - "-javaagent:/tmp/skywalking-agent.jar"
+      - "-javaagent:/tmp/skywalking-agent/skywalking-agent.jar"
     systemProps:
       - zookeeper.address=zookeeper
       - skywalking.agent.service_name=dubbo-samples-benchmark-consumer
