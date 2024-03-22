@@ -54,6 +54,6 @@ public class DemoServiceIT {
     @Test
     public void testDemoService2() throws Exception {
         String result = demoService2.sayHello("world");
-        Assert.assertTrue(result.contains("20880"));
+        Assert.assertTrue(result.contains("20881"));
     }
 }
