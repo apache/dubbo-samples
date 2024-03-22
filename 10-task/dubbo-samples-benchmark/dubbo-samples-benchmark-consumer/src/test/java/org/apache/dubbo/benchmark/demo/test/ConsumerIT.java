@@ -75,8 +75,10 @@ public class ConsumerIT {
                 .include(MyBenchmark.class.getSimpleName())
 //                .param("time", System.currentTimeMillis() + "")
                 .param("prop", prop)
-                .measurementTime(TimeValue.seconds(measurementTime))
-                .measurementIterations(3)
+                .warmupIterations(1)
+                .warmupTime(TimeValue.seconds(1))
+                .measurementIterations(1)
+                .measurementTime(TimeValue.seconds(1))
                 .forks(1);
 
         options = doOptions(optBuilder, prop).build();
