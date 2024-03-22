@@ -42,6 +42,11 @@ import org.openjdk.jmh.runner.options.TimeValue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
@@ -90,6 +95,47 @@ public class ConsumerIT {
                 FileUtils.write(new File("/tmp/jmh_result_prop[" + prop + "].json"), json, Charset.defaultCharset(), false);
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+        }
+
+        String url = "jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false";
+        String user = "root";
+        String password = "hiskywalking";
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // 加载并注册JDBC驱动
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // 创建数据库连接
+            connection = DriverManager.getConnection(url, user, password);
+
+            // 创建Statement对象
+            statement = connection.createStatement();
+
+            // 执行查询
+            String sql = "SELECT data_binary FROM segment limit1";
+            resultSet = statement.executeQuery(sql);
+
+            // 处理查询结果
+            if (resultSet.next()) {
+                String dataBinary = resultSet.getString("data_binary");
+                System.out.println("dataBinary: " + dataBinary);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
 

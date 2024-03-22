@@ -27,8 +27,6 @@ services:
       - MYSQL_ROOT_PASSWORD=helloworld
     expose:
       - 3306
-    volumes:
-      - ${_basedir}/deploy/docker-compose/mysql/sql:/docker-entrypoint-initdb.d
     healthcheck:
       # mysql host MUST be ip address, if the host is localhost, may connect via socket file, the port will be ignored
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
@@ -40,11 +38,13 @@ services:
     image: apache/skywalking-oap-server:9.0.0
     ports:
       - 11800:11800
+    volumes:
+      - /tmp/mysql-connector-java-8.0.23.jar:/skywalking/oap-libs/mysql-connector-java-8.0.23.jar
     environment:
         SW_STORAGE: mysql
         SW_STORAGE_MYSQL_URL: jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
         SW_STORAGE_MYSQL_USER: root
-        SW_STORAGE_MYSQL_PASSWORD: helloworld
+        SW_STORAGE_MYSQL_PASSWORD: hiskywalking
         SW_STORAGE_MYSQL_DATABASE: skywalking
         SW_JDBC_URL: jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
         SW_JDBC_USER: root
