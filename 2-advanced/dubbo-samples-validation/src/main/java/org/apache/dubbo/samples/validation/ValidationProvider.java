@@ -27,6 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ValidationProvider {
 
     public static void main(String[] args) throws Exception {
+        new EmbeddedZooKeeper(2181, false).start();
         SpringApplication.run(ValidationProvider.class,args);
         System.out.println("dubbo service started");
     }
