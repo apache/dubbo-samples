@@ -41,18 +41,18 @@ services:
     volumes:
       - /tmp/mysql-connector-java-8.0.23.jar:/skywalking/oap-libs/mysql-connector-java-8.0.23.jar
     environment:
-        SW_STORAGE: mysql
-        SW_STORAGE_MYSQL_URL: jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
-        SW_STORAGE_MYSQL_USER: root
-        SW_STORAGE_MYSQL_PASSWORD: hiskywalking
-        SW_STORAGE_MYSQL_DATABASE: skywalking
-        SW_JDBC_URL: jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
-        SW_JDBC_USER: root
-        SW_JDBC_PASSWORD: helloworld
-        SW_JDBC_DATABASE: skywalking
-        SW_OAP_GRPC_PORT: 11800
-        SW_OAP_GRAPHQL_PORT: 12800
-        SW_OAP_REST_PORT: 12801
+        - SW_STORAGE=mysql
+        - SW_STORAGE_MYSQL_URL=jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
+        - SW_STORAGE_MYSQL_USER=root
+        - SW_STORAGE_MYSQL_PASSWORD=hiskywalking
+        - SW_STORAGE_MYSQL_DATABASE=skywalking
+        - SW_JDBC_URL=jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
+        - SW_JDBC_USER=root
+        - SW_JDBC_PASSWORD=helloworld
+        - SW_JDBC_DATABASE=skywalking
+        - SW_OAP_GRPC_PORT=11800
+        - SW_OAP_GRAPHQL_PORT=12800
+        - SW_OAP_REST_PORT=12801
     depends_on:
       - bh-mysql
   provider:
