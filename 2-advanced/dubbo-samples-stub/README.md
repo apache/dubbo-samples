@@ -1,5 +1,12 @@
 # Dubbo-Samples-Stub
-[本地存根相关文档](https://dubbo.apache.org/zh-cn/docs3-v2/java-sdk/advanced-features-and-usage/service/local-stub/)
-* 该案例是关于实现本地存根的。远程服务后，客户端通常只剩下接口，而实现全在服务器端，但提供方有些时候想在客户端也执行部分逻辑。
-* 该案例的实现方式就是在interface包中定义DemoServiceStub，之后关键是在consumer端的service类声明的@DubboReference注解中设置stub属性为定义的stub类，设置interfaceName属性为interface的name。
+[Documentation of Local Stub](https://cn.dubbo.apache.org/en/docs/v2.7/user/examples/local-stub/)
 
+* This sample is about the implementation of Local Stub.
+When using RPC, the client usually only use the interface (which is implemented on provider side).
+However, in certain circumstances, the client may also want to perform part of the logic.
+For example: do ThreadLocal cache, verify parameters, return mock data when call fails, etc.
+
+* To solve this problem, you can configure the stub using API provided by dubbo, and this sample
+shows how. In this sample, a "DemoServiceStub" is defined in the module of "dubbo-samples-stub-interface",
+alongside with the interface class of "DemoService". The way to use this stub on consumer side
+is explicitly configuring the "stub" and "interfaceName" fields of @DubboReference annotation.

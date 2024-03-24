@@ -14,37 +14,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-spring:
-  application:
-    name: dubbo-springboot3-tracing-consumer
+my-address: 127.0.0.1
 
+spring:
+    application:
+        name: dubbo-springboot3-tracing-cunsumer
 dubbo:
-  application:
-    name: ${spring.application.name}
-  protocol:
-    name: dubbo
-    port: -1
-  registry:
-    id: nacos-registry
-    address: nacos://127.0.0.1:8848
-  config-center:
-    address: nacos://127.0.0.1:8848
-  metadata-report:
-    address: nacos://127.0.0.1:8848
-  tracing:
-    enabled: true # default is false
-    sampling:
-      probability: 0.5 # sampling rate, default is 0.1
-    propagation:
-      type: W3C # W3C/B3 default is W3C
-    tracing-exporter:
-      zipkin-config:
-        endpoint: http://localhost:9411/api/v2/spans
-        connect-timeout: 1s # connect timeout, default is 1s
-        read-timeout: 10s # read timeout, default is 10s
+    application:
+        name: ${spring.application.name}
+    protocol:
+        name: dubbo
+        port: -1
+    registry:
+        id: nacos-registry
+        address: nacos://${my-address}:8848
+    config-center:
+        address: nacos://${my-address}:8848
+    metadata-report:
+        address: nacos://${my-address}:8848
+    tracing:
+        enabled: true # default is false
+        sampling:
+            probability: 0.5 # sampling rate, default is 0.1
+        propagation:
+            type: W3C # W3C/B3 default is W3C
+        tracing-exporter:
+            zipkin-config:
+                endpoint: http://${my-address}:9411/api/v2/spans
+                connect-timeout: 1s # connect timeout, default is 1s
+                read-timeout: 10s # read timeout, default is 10s
 
 logging:
-  level:
-    root: info
-  pattern:
-    console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId:-}, %X{spanId:-}]: %m%n'
+    level:
+        root: info
+    pattern:
+        console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId:-}, %X{spanId:-}]: %m%n'
