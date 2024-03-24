@@ -19,12 +19,14 @@
 
 package org.apache.dubbo.samples.validation.impl;
 
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.validation.api.ValidationParameter;
 import org.apache.dubbo.samples.validation.api.ValidationService;
 
 /**
  * ValidationServiceImpl
  */
+@DubboService(interfaceClass = ValidationService.class)
 public class ValidationServiceImpl implements ValidationService {
 
     @Override
