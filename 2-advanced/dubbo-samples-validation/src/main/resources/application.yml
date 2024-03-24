@@ -1,5 +1,4 @@
 #
-#
 #   Licensed to the Apache Software Foundation (ASF) under one or more
 #   contributor license agreements.  See the NOTICE file distributed with
 #   this work for additional information regarding copyright ownership.
@@ -16,10 +15,17 @@
 #   limitations under the License.
 #
 
-
-# Supported component versions of the test case
-
-# Spring app
-dubbo.version=3.3.*
-spring.version=6.*
-java.version= [>= 17]
+spring:
+    application:
+        name: validation-provider
+dubbo:
+    application:
+        qos-enable: false
+    protocol:
+        port: -1
+    consumer:
+        validation: true
+    provider:
+        validation: true
+    registry:
+        address: zookeeper://${zookeeper.address:127.0.0.1}:2181

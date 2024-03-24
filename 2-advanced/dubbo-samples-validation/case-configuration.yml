@@ -14,11 +14,46 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+#from: app-builtin-zookeeper.yml
+#
+#props:
+#  project_name: dubbo-samples-validation
+#  main_class: org.apache.dubbo.samples.validation.ValidationProvider
+#  zookeeper_port: 2181
+#  dubbo_port: 20880
 
-props:
-  project_name: dubbo-samples-validation
-  main_class: org.apache.dubbo.samples.validation.ValidationProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
+services:
+    zookeeper:
+        image: zookeeper:latest
 
+    provider:
+        type: app
+        basedir: .
+        mainClass: org.apache.dubbo.samples.validation.ValidationProvider
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 20880
+        checkLog: "dubbo service started"
+        depends_on:
+            - zookeeper
+
+
+    direct-consumer:
+        type: test
+        basedir: .
+        tests:
+            - "**/*IT.class"
+        systemProps:
+            - zookeeper.address=zookeeper
+            - zookeeper.port=2181
+            - dubbo.address=provider
+            - dubbo.port=20880
+        waitPortsBeforeRun:
+            - zookeeper:2181
+            - provider:20880
+        depends_on:
+            - provider
+            - zookeeper
