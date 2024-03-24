@@ -35,6 +35,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - name: Set execute permission for mvnw
+        run: chmod +x ./mvnw
       - uses: actions/checkout@v3
       - name: Cache local Maven repository
         uses: actions/cache@v3
@@ -64,6 +66,8 @@ jobs:
       commit_id: ${{ steps.git-checker.outputs.commit_id }}
       version: ${{ steps.git-checker.outputs.version }}
     steps:
+      - name: Set execute permission for mvnw
+        run: chmod +x ./mvnw
       - uses: actions/checkout@v3
         with:
           repository: 'apache/dubbo'
