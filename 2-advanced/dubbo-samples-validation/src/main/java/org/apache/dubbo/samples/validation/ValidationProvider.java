@@ -19,20 +19,17 @@
 
 package org.apache.dubbo.samples.validation;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.concurrent.CountDownLatch;
-
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+@EnableDubbo
 public class ValidationProvider {
 
     public static void main(String[] args) throws Exception {
         new EmbeddedZooKeeper(2181, false).start();
-
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/validation-provider.xml");
-        context.start();
-
+        SpringApplication.run(ValidationProvider.class,args);
         System.out.println("dubbo service started");
-        new CountDownLatch(1).await();
     }
 
 }

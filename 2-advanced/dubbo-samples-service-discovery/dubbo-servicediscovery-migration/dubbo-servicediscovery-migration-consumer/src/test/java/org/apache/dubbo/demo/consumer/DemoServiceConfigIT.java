@@ -47,7 +47,7 @@ public class DemoServiceConfigIT {
 
         RegistryConfig registryConfig = new RegistryConfig(applicationModel);
         registryConfig.setProtocol("zookeeper");
-        registryConfig.setAddress(System.getProperty("zookeeper.address", "10.21.32.39"));
+        registryConfig.setAddress(System.getProperty("zookeeper.address", "127.0.0.1"));
         registryConfig.setPort(Integer.parseInt(System.getProperty("zookeeper.port", "2181")));
 
         applicationModel.getApplicationConfigManager().setApplication(applicationConfig);
