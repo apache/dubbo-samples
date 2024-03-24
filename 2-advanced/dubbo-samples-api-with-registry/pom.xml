@@ -36,13 +36,13 @@
     <description>Dubbo Samples Api with registry and application</description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
         <log4j2.version>2.20.0</log4j2.version>
-        <junit5.version>5.9.2</junit5.version>
+        <junit5.version>5.10.1</junit5.version>
     </properties>
 
     <dependencies>

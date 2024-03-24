@@ -23,8 +23,8 @@ services:
 
   dubbo-samples-multi-registry:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.multi.registry.MultiRegistryProvider
+    basedir: dubbo-samples-multi-registry-provider
+    mainClass: org.apache.dubbo.samples.multi.registry.provider.MultiRegistryProvider
     systemProps:
       - zookeeper.address.1=zookeeper-1
       - zookeeper.address.2=zookeeper-2
@@ -41,7 +41,7 @@ services:
 
   dubbo-samples-multi-registry-test:
     type: test
-    basedir: .
+    basedir: dubbo-samples-multi-registry-consumer
     tests:
       - "**/*IT.class"
     systemProps:
