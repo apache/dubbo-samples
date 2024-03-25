@@ -16,7 +16,7 @@
 
 dubbo:
    application:
-        name: dubbo-samples-nacos-registry-consumer
+        name: dubbo-samples-nacos-registry-provider
         qos-port: 20993
    protocol:
         name: dubbo
