@@ -103,6 +103,8 @@ public class ConsumerIT {
             }
         }
 
+        System.out.println("test end, begin mysql test");
+
         String url = "jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false";
         String user = "root";
         String password = "123456";
@@ -122,7 +124,7 @@ public class ConsumerIT {
             statement = connection.createStatement();
 
             // 执行查询
-            String sql = "SELECT data_binary FROM segment limit1";
+            String sql = "SELECT data_binary FROM segment limit 1";
             resultSet = statement.executeQuery(sql);
 
             // 处理查询结果
