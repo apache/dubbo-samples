@@ -105,7 +105,7 @@ public class ConsumerIT {
 
         String url = "jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false";
         String user = "root";
-        String password = "hiskywalking";
+        String password = "123456";
 
         Connection connection = null;
         Statement statement = null;
