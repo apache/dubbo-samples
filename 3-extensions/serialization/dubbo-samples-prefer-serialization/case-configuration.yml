@@ -14,11 +14,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from: app-builtin-zookeeper.yml
+#from: app-builtin-zookeeper.yml
+#
+#props:
+#  project_name: dubbo-samples-prefer-serialization
+#  main_class: org.apache.dubbo.samples.prefer.serialization.DubboProvider
+#  zookeeper_port: 2181
+#  dubbo_port: 20880
+services:
+    zookeeper:
+        image: zookeeper:latest
+    provider:
+        type: app
+        basedir: dubbo-samples-prefer-serialization-provider
+        mainClass: org.apache.dubbo.samples.prefer.serialization.DubboProvider
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 20880
+        checkLog: "Current Spring Boot Application is await..."
 
-props:
-  project_name: dubbo-samples-prefer-serialization
-  main_class: org.apache.dubbo.samples.prefer.serialization.DubboProvider
-  zookeeper_port: 2181
-  dubbo_port: 20880
-
+    test:
+        type: test
+        basedir: dubbo-samples-prefer-serialization-consumer
+        tests:
+            - "**/*IT.class"
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+            - provider:20880
+        depends_on:
+            - provider
