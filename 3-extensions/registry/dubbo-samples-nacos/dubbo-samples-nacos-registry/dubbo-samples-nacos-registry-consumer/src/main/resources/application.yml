@@ -18,9 +18,6 @@ dubbo:
     application:
         name: dubbo-samples-nacos-registry-consumer
         qos-port: 20994
-    protocol:
-        name: dubbo
-        port: 20884
     registry:
       address: nacos://${nacos.address:127.0.0.1}:8848?register-consumer-url=true
 
