@@ -15,11 +15,16 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+#
 
-
-# Supported component versions of the test case
-
-# Spring app
-dubbo.version=3.3.*
-spring.version=6.*
-java.version= [>= 17]
+---
+scope: application
+force: true
+runtime: true
+enabled: true
+priority: 2
+key: governance-conditionrouter-consumer
+conditions:
+- interface=org.apache.dubbo.samples.governance.api.DemoService&method=sayHello=>address=*:20880
+- interface=org.apache.dubbo.samples.governance.api.DemoService2&method=sayHello=>address=*:20881
+...
