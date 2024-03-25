@@ -43,7 +43,7 @@ services:
     environment:
       - SW_STORAGE=mysql
       - SW_STORAGE_MYSQL_NAME=skywalking
-      - SW_STORAGE_MYSQL_URL=jdbc:mysql://127.0.0.1:3306/skywalking?useSSL=false
+      - SW_STORAGE_MYSQL_URL=jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
       - SW_STORAGE_MYSQL_USER=root
       - SW_STORAGE_MYSQL_PASSWORD=123456
     waitPortsBeforeRun:
