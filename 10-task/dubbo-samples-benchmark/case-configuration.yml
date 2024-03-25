@@ -23,8 +23,7 @@ services:
   bh-mysql:
     image: mysql:5.7
     environment:
-      - MYSQL_DATABASE=skywalking
-      - MYSQL_ROOT_PASSWORD=helloworld
+      - MYSQL_ROOT_PASSWORD=123456
     expose:
       - 3306
     ports:
@@ -46,7 +45,7 @@ services:
       - SW_STORAGE_MYSQL_NAME=skywalking
       - SW_STORAGE_MYSQL_URL=jdbc:mysql://127.0.0.1:3306/skywalking?useSSL=false
       - SW_STORAGE_MYSQL_USER=root
-      - SW_STORAGE_MYSQL_PASSWORD=helloworld
+      - SW_STORAGE_MYSQL_PASSWORD=123456
     waitPortsBeforeRun:
       - bh-mysql:3306
     depends_on:
