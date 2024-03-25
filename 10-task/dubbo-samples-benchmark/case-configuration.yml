@@ -43,7 +43,7 @@ services:
       - /tmp/mysql-connector-java-8.0.23.jar:/skywalking/oap-libs/mysql-connector-java-8.0.23.jar
     environment:
       - SW_STORAGE=mysql
-      - SW_STORAGE_DB_URL=jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
+      - SW_STORAGE_DB_URL=jdbc:mysql://127.0.0.1:3306/skywalking?useSSL=false
       - SW_STORAGE_DB_USER=root
       - SW_STORAGE_DB_PASSWORD=helloworld
     waitPortsBeforeRun:
