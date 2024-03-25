@@ -45,15 +45,14 @@ Open [http://localhost:9411/zipkin/](http://localhost:9411/zipkin/) in browser.
 
 ### 1. Adding `dubbo-spring-boot-observability-starter` To Your Project
 
-For the Springboot project, you can use `dubbo-spring-boot-observability-starter` to easily have observability, Dubbo
-provides two types of starters at present, select one to add to pom:
+For the Springboot project, you can use `dubbo-spring-boot-observability-starter` to easily have observability, Dubbo provides two types of starters at present, select one to add to pom:
 
 ```xml
 
 <!-- Opentelemetry as Tracer, Zipkin as exporter -->
 <dependency>
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-spring-boot-tracing-otel-zipkin-starter</artifactId>
+    <artifactId>dubbo-tracing-otel-zipkin-spring-boot-starter</artifactId>
 </dependency>
 ```
 
@@ -62,9 +61,11 @@ provides two types of starters at present, select one to add to pom:
 <!-- Brave as Tracer, Zipkin as exporter -->
 <dependency>
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-spring-boot-tracing-brave-zipkin-starter</artifactId>
+    <artifactId>dubbo-tracing-brave-zipkin-spring-boot-starter</artifactId>
 </dependency>
 ```
+
+Please note that this Dubbo upgrade has changed the dependency name, which is quite tricky. We recommend visiting the Dubbo version release page to obtain the latest source code updates. For reference, visit https://cn.dubbo.apache.org/en/download/.
 
 Dubbo will support more in the future, such as skywalking, Jagger.
 
@@ -73,7 +74,24 @@ Dubbo will support more in the future, such as skywalking, Jagger.
 #### application.yml:
 
 ```yaml
+my-address: 127.0.0.1
+
+spring:
+  application:
+    name: dubbo-springboot3-tracing-provider/consumer
 dubbo:
+  application:
+    name: ${spring.application.name}
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://${my-address}:8848
+  config-center:
+    address: nacos://${my-address}:8848
+  metadata-report:
+    address: nacos://${my-address}:8848
   tracing:
     enabled: true # default is false
     sampling:
@@ -82,17 +100,18 @@ dubbo:
       type: W3C # W3C/B3 default is W3C
     tracing-exporter:
       zipkin-config:
-        endpoint: http://localhost:9411/api/v2/spans
+        endpoint: http://${my-address}:9411/api/v2/spans
         connect-timeout: 1s # connect timeout, default is 1s
         read-timeout: 10s # read timeout, default is 10s
 
-# tracing info output to logging
 logging:
   level:
     root: info
   pattern:
     console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId:-}, %X{spanId:-}]: %m%n'
 ```
+
+Among these steps, we need to manually configure "my-address" to the addresses where we run Nacos and Zipkin.
 
 ### 3. Customizing Observation Filters
 
@@ -107,9 +126,27 @@ side).
 An OpenZipkin URL sender dependency to send out spans to Zipkin via a URLConnectionSender
 
 ```xml
-
 <dependency>
     <groupId>io.zipkin.reporter2</groupId>
     <artifactId>zipkin-sender-urlconnection</artifactId>
+    <version>3.3.0</version>
 </dependency>
 ```
+
+or use following code to solve it:
+
+```xml
+<dependency>
+    <groupId>io.zipkin.reporter2</groupId>
+    <artifactId>zipkin-reporter</artifactId>
+    <version>3.3.0</version>
+</dependency>
+<dependency>
+    <groupId>io.zipkin.reporter2</groupId>
+    <artifactId>zipkin-sender-okhttp3</artifactId>
+    <version>3.3.0</version>
+</dependency>
+```
+
+
+

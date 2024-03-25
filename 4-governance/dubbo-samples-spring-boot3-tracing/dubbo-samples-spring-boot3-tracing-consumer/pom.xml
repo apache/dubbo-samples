@@ -58,7 +58,13 @@
         <!-- Observability -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-tracing-otel-zipkin-starter</artifactId>
+            <artifactId>dubbo-tracing-otel-zipkin-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- zipkin sender -->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-sender-urlconnection</artifactId>
+            <version>3.3.0</version>
         </dependency>
     </dependencies>
 
@@ -67,7 +73,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.0.5</version>
+                <version>${spring-boot-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>

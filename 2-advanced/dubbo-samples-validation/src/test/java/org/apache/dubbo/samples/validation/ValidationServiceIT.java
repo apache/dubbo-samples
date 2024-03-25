@@ -17,29 +17,33 @@
 
 package org.apache.dubbo.samples.validation;
 
-import org.apache.dubbo.samples.validation.api.ValidationParameter;
-import org.apache.dubbo.samples.validation.api.ValidationService;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.validation.ValidationException;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.samples.validation.api.ValidationParameter;
+import org.apache.dubbo.samples.validation.api.ValidationService;
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import java.util.Date;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring/validation-consumer.xml"})
+@SpringBootTest(classes = {ValidationConsumer.class})
+@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class ValidationServiceIT {
-    @Autowired
+
+    @DubboReference
     private ValidationService validationService;
 
     @Test
     public void testSavePass() throws Exception {
         ValidationParameter parameter = new ValidationParameter();
-        parameter.setName("liangfei");
-        parameter.setEmail("liangfei@liang.fei");
+        parameter.setName("yang siming");
+        parameter.setEmail("1608839567@qq.com");
         parameter.setAge(50);
         parameter.setLoginDate(new Date(System.currentTimeMillis() - 1000000));
         parameter.setExpiryDate(new Date(System.currentTimeMillis() + 1000000));
@@ -47,7 +51,7 @@ public class ValidationServiceIT {
     }
 
     @Test(expected = ValidationException.class)
-    public void testSaveFail() throws Exception {
+    public void testSaveFail() {
         ValidationParameter parameter = new ValidationParameter();
         validationService.save(parameter);
     }

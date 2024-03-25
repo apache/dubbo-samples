@@ -19,26 +19,38 @@
 
 package org.apache.dubbo.samples.validation;
 
+
+
+
+import javax.validation.ValidationException;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.dubbo.samples.validation.api.ValidationParameter;
 import org.apache.dubbo.samples.validation.api.ValidationService;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.validation.ValidationException;
-import java.util.Date;
 
+import java.util.Date;
+@SpringBootApplication()
+@EnableDubbo
 public class ValidationConsumer {
 
+
+    @DubboReference
+    private ValidationService validationService;
+
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/validation-consumer.xml");
-        context.start();
+        SpringApplication.run(ValidationConsumer.class,args);
+    }
 
-        ValidationService validationService = (ValidationService) context.getBean("validationService");
-
+    public void validation(){
         // Save OK
         ValidationParameter parameter = new ValidationParameter();
-        parameter.setName("liangfei");
-        parameter.setEmail("liangfei@liang.fei");
+        parameter.setName("yang siming");
+        parameter.setEmail("1608839567@qq.com");
         parameter.setAge(50);
         parameter.setLoginDate(new Date(System.currentTimeMillis() - 1000000));
         parameter.setExpiryDate(new Date(System.currentTimeMillis() + 1000000));
