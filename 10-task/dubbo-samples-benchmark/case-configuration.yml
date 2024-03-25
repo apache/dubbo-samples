@@ -21,7 +21,7 @@ services:
     image: zookeeper:latest
 
   bh-mysql:
-    image: amd64/mysql:5.7
+    image: mysql:5.7
     environment:
       - MYSQL_DATABASE=skywalking
       - MYSQL_ROOT_PASSWORD=helloworld
