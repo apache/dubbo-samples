@@ -74,7 +74,7 @@ public class ConsumerIT {
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
-//                .param("time", System.currentTimeMillis() + "")
+                .param("time", System.currentTimeMillis() + "")
                 .param("prop", prop)
                 .warmupIterations(1)
                 .warmupTime(TimeValue.seconds(1))
@@ -120,7 +120,7 @@ public class ConsumerIT {
             statement = connection.createStatement();
 
             // 执行查询
-            String sql = "SELECT data_binary FROM segment limit 1";
+            String sql = "SELECT data_binary FROM segment";
             resultSet = statement.executeQuery(sql);
 
 
