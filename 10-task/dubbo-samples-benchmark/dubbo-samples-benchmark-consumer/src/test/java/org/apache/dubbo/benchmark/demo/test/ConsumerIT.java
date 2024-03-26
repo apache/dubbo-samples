@@ -141,11 +141,22 @@ public class ConsumerIT {
                 for (SpanObject spanObject : spansList) {
                     System.out.println("spanObject: " + spanObject.getSpanId());
                 }
+            }else
+            {
+                System.out.println("no data");
+                // select count from segment
+                sql = "SELECT count(*) FROM segment";
+                resultSet = statement.executeQuery(sql);
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    System.out.println("segment_count: " + count);
+                }
             }
 
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("mysql test error");
         } finally {
             try {
                 if (resultSet != null) resultSet.close();
