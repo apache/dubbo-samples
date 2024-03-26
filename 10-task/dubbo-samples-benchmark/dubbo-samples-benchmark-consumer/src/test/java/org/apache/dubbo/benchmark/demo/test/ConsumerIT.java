@@ -47,6 +47,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
@@ -99,8 +101,6 @@ public class ConsumerIT {
             }
         }
 
-        System.out.println("test end, begin mysql test");
-
         String url = "jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false";
         String user = "root";
         String password = "123456";
@@ -123,32 +123,19 @@ public class ConsumerIT {
             String sql = "SELECT data_binary FROM segment limit 1";
             resultSet = statement.executeQuery(sql);
 
+
+            List<String> dataBinaryList = new ArrayList<>();
             // 处理查询结果
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 String dataBinary = resultSet.getString("data_binary");
                 System.out.println("dataBinary: " + dataBinary);
-
-//                byte[] bytes = Base64.getDecoder().decode(dataBinary);
-//                SegmentObject segmentObject = SegmentObject.parseFrom(bytes);
-//
-//                String traceId = segmentObject.getTraceId();
-//                System.out.println("traceId: " + traceId);
-//                List<SpanObject> spansList = segmentObject.getSpansList();
-//                for (SpanObject spanObject : spansList) {
-//                    System.out.println("spanObject: " + spanObject.getSpanId());
-//                }
-            }else
-            {
-                System.out.println("no data");
-                // select count from segment
-                sql = "SELECT count(*) FROM segment";
-                resultSet = statement.executeQuery(sql);
-                if (resultSet.next()) {
-                    int count = resultSet.getInt(1);
-                    System.out.println("segment_count: " + count);
-                }
+                dataBinaryList.add(dataBinary);
             }
 
+            if (!dataBinaryList.isEmpty()) {
+                String json = "[" + String.join(",", dataBinaryList) + "]";
+                FileUtils.write(new File("/tmp/jmh_trace.json"), json, Charset.defaultCharset(), false);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
