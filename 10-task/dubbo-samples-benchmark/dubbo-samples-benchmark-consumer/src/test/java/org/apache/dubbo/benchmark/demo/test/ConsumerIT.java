@@ -22,7 +22,6 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
-import org.apache.skywalking.apm.network.language.agent.v3.SpanObject;
 import org.junit.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
@@ -39,7 +38,6 @@ import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
-import org.apache.skywalking.apm.network.language.agent.v3.SegmentObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,8 +47,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Base64;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
@@ -132,15 +128,15 @@ public class ConsumerIT {
                 String dataBinary = resultSet.getString("data_binary");
                 System.out.println("dataBinary: " + dataBinary);
 
-                byte[] bytes = Base64.getDecoder().decode(dataBinary);
-                SegmentObject segmentObject = SegmentObject.parseFrom(bytes);
-
-                String traceId = segmentObject.getTraceId();
-                System.out.println("traceId: " + traceId);
-                List<SpanObject> spansList = segmentObject.getSpansList();
-                for (SpanObject spanObject : spansList) {
-                    System.out.println("spanObject: " + spanObject.getSpanId());
-                }
+//                byte[] bytes = Base64.getDecoder().decode(dataBinary);
+//                SegmentObject segmentObject = SegmentObject.parseFrom(bytes);
+//
+//                String traceId = segmentObject.getTraceId();
+//                System.out.println("traceId: " + traceId);
+//                List<SpanObject> spansList = segmentObject.getSpansList();
+//                for (SpanObject spanObject : spansList) {
+//                    System.out.println("spanObject: " + spanObject.getSpanId());
+//                }
             }else
             {
                 System.out.println("no data");
