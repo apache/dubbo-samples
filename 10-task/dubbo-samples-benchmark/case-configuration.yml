@@ -83,3 +83,4 @@ services:
       - skywalking:11800
     depends_on:
       - provider
+      - skywalking
