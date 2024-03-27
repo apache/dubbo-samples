@@ -144,10 +144,6 @@ public class ConsumerIT {
             Object agentClassLoader = agentClassLoaderClass.getDeclaredMethod("getDefault").invoke(null);;
             Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject", false, (ClassLoader) agentClassLoader);
 
-            Class<?> jsonFormatClass = Class.forName("com.google.protobuf.util.JsonFormat", false, (ClassLoader) agentClassLoader);
-            Class<?> messageOrBuilderClass = Class.forName("com.google.protobuf.MessageOrBuilder", false, (ClassLoader) agentClassLoader);
-
-
             List<Object> segmentObjects = new ArrayList<>();
             for (String dataBinary : dataBinaryList) {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
