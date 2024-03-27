@@ -32,12 +32,12 @@ services:
 
   test:
     type: test
-    basedir: dubbo-samples-triple-rest-jaxrs
+    basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
       - zookeeper.address=zookeeper
-      - dubbo.address=jaxrs-provider:50052
+      - dubbo.address=jaxrs-provider
     waitPortsBeforeRun:
       - zookeeper:2181
       - jaxrs-provider:50052
