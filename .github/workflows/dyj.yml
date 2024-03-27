@@ -156,6 +156,7 @@ jobs:
                   path: |
                       ./10-task/dubbo-samples-benchmark/target/logs/*.log
                       /tmp/skywalking-agent/logs/*.log
+                      /tmp/jmh_trace.json
             - name: "Upload jmh output result"
               if: success()
               uses: actions/upload-artifact@v3
