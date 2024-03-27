@@ -156,7 +156,7 @@ public class ConsumerIT {
 //                        .getClass().getDeclaredMethod("includingDefaultValueFields").invoke(null)
 //                        .getClass().getDeclaredMethod("printingEnumsAsInts").invoke(null)
 //                        .getClass().getDeclaredMethod("preservingProtoFieldNames").invoke(null)
-                        .getClass().getDeclaredMethod("print", MessageOrBuilder.class).invoke(null, (MessageOrBuilder) segmentObject);
+                        .getClass().getDeclaredMethod("print", MessageOrBuilder.class).invoke(null, segmentObject);
 //                String print = JsonFormat.printer()
 //                        .includingDefaultValueFields()
 //                        .printingEnumsAsInts()
