@@ -21,7 +21,7 @@ services:
   jaxrs-provider:
     type: app
     basedir: dubbo-samples-triple-rest-jaxrs
-    mainClass: org.apache.dubbo.rest.demo.SpringmvcRestApplication
+    mainClass: org.apache.dubbo.rest.demo.JaxrsRestApplication
     systemProps:
       - zookeeper.address=zookeeper
     waitPortsBeforeRun:

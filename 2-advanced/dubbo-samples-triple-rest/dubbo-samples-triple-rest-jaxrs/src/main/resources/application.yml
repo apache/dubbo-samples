@@ -18,9 +18,11 @@ server:
 dubbo:
   application:
       name: dubbo-springboot-triple-rest-jaxrs
-      qos-port: 33333
+      qos-port: 22222
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
   protocol:
       name: tri
       port: 50052
+      serialization: fastjson2
+#      extension: org.apache.dubbo.rest.demo.filter.TraceFilter,org.apache.dubbo.rest.demo.intercept.DynamicTraceInterceptor

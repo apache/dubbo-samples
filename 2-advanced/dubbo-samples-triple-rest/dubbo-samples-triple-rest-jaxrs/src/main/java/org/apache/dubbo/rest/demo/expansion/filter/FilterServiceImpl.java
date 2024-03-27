@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.rest.demo.provider;
+
+package org.apache.dubbo.rest.demo.expansion.filter;
 
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.rest.demo.DemoService;
 
-@DubboService
-public class DemoServiceImpl implements DemoService {
+import static org.apache.dubbo.rpc.protocol.tri.rest.RestConstants.EXTENSION_KEY;
 
+@DubboService(parameters = {EXTENSION_KEY,"org.apache.dubbo.rest.demo.expansion.filter.TraceFilter"})
+public class FilterServiceImpl implements FilterService{
     @Override
-    public String sayHello(String name) {
-        return "Hello " + name;
+    public String testFilter(String name) {
+        return "Hello "+name;
     }
 
 }

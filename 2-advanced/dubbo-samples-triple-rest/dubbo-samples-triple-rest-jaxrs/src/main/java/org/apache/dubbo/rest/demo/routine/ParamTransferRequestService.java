@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.rest.demo;
+
+package org.apache.dubbo.rest.demo.routine;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.MatrixParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,28 +30,30 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-@Path("/demo")
-public interface DemoService {
+@Path("/param")
+public interface ParamTransferRequestService {
 
     @GET
-    @Path("/hello")
+    @Path("/query")
     @Produces(MediaType.TEXT_PLAIN)
-    String hello(@QueryParam("a") Integer a, @QueryParam("name") String name);
-
-    @GET
-    @Path("/findUserById")
-    int findUserById(@QueryParam("id") Integer id);
-
+    String sayHello(@QueryParam("name") String name);
 
     @POST
     @Path("/form")
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    Long testFormBody(@FormParam("number") Long number);
-
-
-    @DELETE
-    @Path("/deleteUserById/{uid}")
     @Produces(MediaType.TEXT_PLAIN)
-    String deleteUserById(@PathParam("uid") String uid);
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+    String sayForm(@FormParam("form") String name);
 
+    @GET
+    @Path("/path/{id}")
+    String sayPath(@PathParam("id") String id);
+
+    @GET
+    @Path("/header")
+    String sayHeader(@HeaderParam("name") String name);
+
+
+    @GET
+    @Path("/cookie")
+    String sayCookie(@CookieParam("cookieId") String cookieId);
 }
