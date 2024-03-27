@@ -17,7 +17,6 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.google.protobuf.MessageOrBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -152,11 +151,17 @@ public class ConsumerIT {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
                 Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
 
-                String print = (String) jsonFormat.getDeclaredMethod("printer").invoke(null)
+                Object printer = jsonFormat.getDeclaredMethod("printer").invoke(null);
+                System.out.println("printer: " + printer);
+                Class<?> printerClass = printer.getClass();
+                System.out.println("printerClass: " + printerClass);
+
+                String print = (String) printerClass.getDeclaredMethod("print").invoke(printer, segmentObject);
 //                        .getClass().getDeclaredMethod("includingDefaultValueFields").invoke(null)
 //                        .getClass().getDeclaredMethod("printingEnumsAsInts").invoke(null)
 //                        .getClass().getDeclaredMethod("preservingProtoFieldNames").invoke(null)
-                        .getClass().getDeclaredMethod("print", MessageOrBuilder.class).invoke(null, segmentObject);
+
+//
 //                String print = JsonFormat.printer()
 //                        .includingDefaultValueFields()
 //                        .printingEnumsAsInts()
