@@ -18,7 +18,6 @@ package org.apache.dubbo.benchmark.demo.test;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.google.protobuf.MessageOrBuilder;
-import com.google.protobuf.util.JsonFormat;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -146,15 +145,23 @@ public class ConsumerIT {
             Object agentClassLoader = agentClassLoaderClass.getDeclaredMethod("getDefault").invoke(null);;
             Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject", false, (ClassLoader) agentClassLoader);
 
+            Class<?> jsonFormat = Class.forName("com.google.protobuf.util.JsonFormat", false, (ClassLoader) agentClassLoader);
+
             List<String> segmentObjects = new ArrayList<>();
             for (String dataBinary : dataBinaryList) {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
                 Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
-                String print = JsonFormat.printer()
-                        .includingDefaultValueFields()
-                        .printingEnumsAsInts()
-                        .preservingProtoFieldNames()
-                        .print((MessageOrBuilder) segmentObject);
+
+                String print = (String) jsonFormat.getDeclaredMethod("printer").invoke(null)
+//                        .getClass().getDeclaredMethod("includingDefaultValueFields").invoke(null)
+//                        .getClass().getDeclaredMethod("printingEnumsAsInts").invoke(null)
+//                        .getClass().getDeclaredMethod("preservingProtoFieldNames").invoke(null)
+                        .getClass().getDeclaredMethod("print", MessageOrBuilder.class).invoke(null, (MessageOrBuilder) segmentObject);
+//                String print = JsonFormat.printer()
+//                        .includingDefaultValueFields()
+//                        .printingEnumsAsInts()
+//                        .preservingProtoFieldNames()
+//                        .print((MessageOrBuilder) segmentObject);
                 segmentObjects.add(print);
             }
 
