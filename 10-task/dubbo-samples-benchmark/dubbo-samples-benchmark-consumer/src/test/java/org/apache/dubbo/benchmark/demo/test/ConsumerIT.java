@@ -16,7 +16,7 @@
  */
 package org.apache.dubbo.benchmark.demo.test;
 
-import com.google.gson.JsonArray;
+import com.alibaba.fastjson2.JSONArray;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -26,9 +26,7 @@ import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.junit.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
@@ -49,6 +47,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -81,6 +80,9 @@ public class ConsumerIT {
                 .warmupTime(TimeValue.seconds(1))
                 .measurementIterations(1)
                 .measurementTime(TimeValue.seconds(1))
+                .mode(Mode.AverageTime)
+                .timeUnit(TimeUnit.MILLISECONDS)
+                .threads(16)
                 .forks(1);
 
         options = doOptions(optBuilder, prop).build();
@@ -133,10 +135,23 @@ public class ConsumerIT {
                 dataBinaryList.add(dataBinary);
             }
 
-            if (!dataBinaryList.isEmpty()) {
-                JsonArray array = dataBinaryList.stream().collect(JsonArray::new, JsonArray::add, JsonArray::addAll);
-                FileUtils.write(new File("/tmp/jmh_trace.json"), array.getAsString(), Charset.defaultCharset(), false);
+//            if (!dataBinaryList.isEmpty()) {
+//                JsonArray array = dataBinaryList.stream().collect(JsonArray::new, JsonArray::add, JsonArray::addAll);
+//                FileUtils.write(new File("/tmp/jmh_trace.json"), array.getAsString(), Charset.defaultCharset(), false);
+//            }
+
+            Class<?> agentClassLoaderClass = Class.forName("org.apache.skywalking.apm.agent.core.plugin.loader.AgentClassLoader");
+            Object agentClassLoader = agentClassLoaderClass.getDeclaredMethod("getDefault").invoke(null);;
+            Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject", false, (ClassLoader) agentClassLoader);
+
+            List<Object> segmentObjects = new ArrayList<>();
+            for (String dataBinary : dataBinaryList) {
+                byte[] bytes = Base64.getDecoder().decode(dataBinary);
+                Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
+                segmentObjects.add(segmentObject);
             }
+
+            FileUtils.write(new File("/tmp/jmh_trace.json"), JSONArray.toJSONString(segmentObjects), Charset.defaultCharset(), false);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,16 +182,9 @@ public class ConsumerIT {
     @State(Scope.Benchmark)
     public static class MyBenchmark {
 
-        @Param({""})
-        private String time;
+        private final DemoService service;
 
-        @Param({""})
-        private String prop;
-
-        @Benchmark
-        @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
-        @OutputTimeUnit(TimeUnit.MILLISECONDS)
-        public String getUser() {
+        public MyBenchmark() {
             String zkAddr = System.getProperty("zookeeper.address", "127.0.0.1");
             ReferenceConfig<DemoService> reference =
                     ReferenceBuilder.<DemoService>newBuilder()
@@ -186,11 +194,19 @@ public class ConsumerIT {
             DubboBootstrap bootstrap = DubboBootstrap.getInstance();
             bootstrap.application("dubbo-benchmark-consumer");
             bootstrap.reference(reference).start();
-            DemoService service = reference.get();
-
-            return service.sayHello("dubbo");
+            service = reference.get();
         }
 
+        @Param({""})
+        private String time;
+
+        @Param({""})
+        private String prop;
+
+        @Benchmark
+        public String getUser() {
+            return service.sayHello("dubbo");
+        }
     }
 
 }
