@@ -144,17 +144,23 @@ public class ConsumerIT {
             Object agentClassLoader = agentClassLoaderClass.getDeclaredMethod("getDefault").invoke(null);;
             Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject", false, (ClassLoader) agentClassLoader);
 
-            Class<?> jsonFormat = Class.forName("com.google.protobuf.util.JsonFormat", false, (ClassLoader) agentClassLoader);
+            Class<?> jsonFormatClass = Class.forName("com.google.protobuf.util.JsonFormat", false, (ClassLoader) agentClassLoader);
+            Class<?> messageOrBuilderClass = Class.forName("com.google.protobuf.MessageOrBuilder", false, (ClassLoader) agentClassLoader);
+
 
             List<String> segmentObjects = new ArrayList<>();
             for (String dataBinary : dataBinaryList) {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
                 Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
 
-                Object printer = jsonFormat.getDeclaredMethod("printer").invoke(null);
+                Object printer = jsonFormatClass.getDeclaredMethod("printer", messageOrBuilderClass).invoke(null);
                 System.out.println("printer: " + printer);
+
                 Class<?> printerClass = printer.getClass();
                 System.out.println("printerClass: " + printerClass);
+
+                ClassLoader classLoader = printerClass.getClassLoader();
+                System.out.println("classLoader: " + classLoader);
 
                 String print = (String) printerClass.getDeclaredMethod("print").invoke(printer, segmentObject);
 //                        .getClass().getDeclaredMethod("includingDefaultValueFields").invoke(null)
