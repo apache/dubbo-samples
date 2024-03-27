@@ -135,14 +135,7 @@ public class ConsumerIT {
                 dataBinaryList.add(dataBinary);
             }
 
-//            if (!dataBinaryList.isEmpty()) {
-//                JsonArray array = dataBinaryList.stream().collect(JsonArray::new, JsonArray::add, JsonArray::addAll);
-//                FileUtils.write(new File("/tmp/jmh_trace.json"), array.getAsString(), Charset.defaultCharset(), false);
-//            }
-
-            Class<?> agentClassLoaderClass = Class.forName("org.apache.skywalking.apm.agent.core.plugin.loader.AgentClassLoader");
-            Object agentClassLoader = agentClassLoaderClass.getDeclaredMethod("getDefault").invoke(null);;
-            Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject", false, (ClassLoader) agentClassLoader);
+            Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject");
 
             List<Object> segmentObjects = new ArrayList<>();
             for (String dataBinary : dataBinaryList) {
