@@ -17,7 +17,8 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONWriter;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.util.JsonFormat;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -145,14 +146,19 @@ public class ConsumerIT {
             Object agentClassLoader = agentClassLoaderClass.getDeclaredMethod("getDefault").invoke(null);;
             Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject", false, (ClassLoader) agentClassLoader);
 
-            List<Object> segmentObjects = new ArrayList<>();
+            List<String> segmentObjects = new ArrayList<>();
             for (String dataBinary : dataBinaryList) {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
                 Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
-                segmentObjects.add(segmentObject);
+                String print = JsonFormat.printer()
+                        .includingDefaultValueFields()
+                        .printingEnumsAsInts()
+                        .preservingProtoFieldNames()
+                        .print((MessageOrBuilder) segmentObject);
+                segmentObjects.add(print);
             }
 
-            FileUtils.write(new File("/tmp/jmh_trace.json"), JSONArray.toJSONString(segmentObjects, JSONWriter.Feature.ReferenceDetection), Charset.defaultCharset(), false);
+            FileUtils.write(new File("/tmp/jmh_trace.json"), JSONArray.toJSONString(segmentObjects), Charset.defaultCharset(), false);
 
         } catch (Exception e) {
             e.printStackTrace();
