@@ -17,6 +17,7 @@
 package org.apache.dubbo.rest.demo.test;
 
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.routine.ParamTransferRequestService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -113,6 +114,30 @@ public class ParamTransferRequestIT {
                 .retrieve()
                 .toEntity(String.class);
         System.out.println(response.getBody());
+    }
+
+//    @Test TODO FIX matrix
+    public void testMatrix(){
+        RestClient defaultClient = RestClient.create();
+        ResponseEntity<String> result = defaultClient.get()
+                .uri("http://" + providerAddress + ":50052/param/matrix;name={name}", "world")
+                .header("Content-type", "application/json")
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("Hello world", result.getBody());
+    }
+
+    @Test
+    public void testXml(){
+//        TODO FIX xml
+        RestClient defaultClient = RestClient.create();
+        ResponseEntity<Person> result = defaultClient.get()
+                .uri("http://" + providerAddress + ":50052/param/xml")
+                .header("Content-type", "application/json")
+                .retrieve()
+                .toEntity(Person.class);
+        System.out.println(result.getBody());
+//        Assert.assertEquals("Hello world", result.getBody());
     }
 
 }

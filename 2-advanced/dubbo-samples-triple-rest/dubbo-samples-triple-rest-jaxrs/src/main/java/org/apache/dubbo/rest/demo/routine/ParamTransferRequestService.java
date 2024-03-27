@@ -17,6 +17,8 @@
 
 package org.apache.dubbo.rest.demo.routine;
 
+import org.apache.dubbo.rest.demo.pojo.Person;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.FormParam;
@@ -56,4 +58,14 @@ public interface ParamTransferRequestService {
     @GET
     @Path("/cookie")
     String sayCookie(@CookieParam("cookieId") String cookieId);
+
+    @GET
+    @Path("/matrix")
+    @Consumes(MediaType.APPLICATION_JSON)
+    String sayMatrix(@MatrixParam("name") String name);
+
+    @GET
+    @Path("/xml")
+    @Produces(MediaType.TEXT_XML)
+    Person testXml();
 }

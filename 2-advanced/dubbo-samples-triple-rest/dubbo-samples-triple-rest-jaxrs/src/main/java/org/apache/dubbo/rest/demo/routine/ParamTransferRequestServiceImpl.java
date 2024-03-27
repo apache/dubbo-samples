@@ -18,6 +18,7 @@
 package org.apache.dubbo.rest.demo.routine;
 
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.rest.demo.pojo.Person;
 
 @DubboService
 public class ParamTransferRequestServiceImpl implements ParamTransferRequestService{
@@ -44,6 +45,16 @@ public class ParamTransferRequestServiceImpl implements ParamTransferRequestServ
     @Override
     public String sayCookie(String cookieId) {
         return "Hello " + cookieId;
+    }
+
+    @Override
+    public String sayMatrix(String name) {
+        return "Hello " + name;
+    }
+
+    @Override
+    public Person testXml() {
+        return new Person("1");
     }
 
 }
