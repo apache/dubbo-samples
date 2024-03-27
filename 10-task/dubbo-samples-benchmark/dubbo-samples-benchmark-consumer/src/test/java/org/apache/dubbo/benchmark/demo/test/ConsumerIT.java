@@ -153,7 +153,7 @@ public class ConsumerIT {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
                 Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
 
-                Object printer = jsonFormatClass.getDeclaredMethod("printer", messageOrBuilderClass).invoke(null);
+                Object printer = jsonFormatClass.getDeclaredMethod("printer").invoke(null);
                 System.out.println("printer: " + printer);
 
                 Class<?> printerClass = printer.getClass();
@@ -162,7 +162,7 @@ public class ConsumerIT {
                 ClassLoader classLoader = printerClass.getClassLoader();
                 System.out.println("classLoader: " + classLoader);
 
-                String print = (String) printerClass.getDeclaredMethod("print").invoke(printer, segmentObject);
+                String print = (String) printerClass.getDeclaredMethod("print", messageOrBuilderClass).invoke(printer, segmentObject);
 //                        .getClass().getDeclaredMethod("includingDefaultValueFields").invoke(null)
 //                        .getClass().getDeclaredMethod("printingEnumsAsInts").invoke(null)
 //                        .getClass().getDeclaredMethod("preservingProtoFieldNames").invoke(null)
