@@ -17,6 +17,7 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONWriter;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -151,7 +152,7 @@ public class ConsumerIT {
                 segmentObjects.add(segmentObject);
             }
 
-            FileUtils.write(new File("/tmp/jmh_trace.json"), JSONArray.toJSONString(segmentObjects), Charset.defaultCharset(), false);
+            FileUtils.write(new File("/tmp/jmh_trace.json"), JSONArray.toJSONString(segmentObjects, JSONWriter.Feature.ReferenceDetection), Charset.defaultCharset(), false);
 
         } catch (Exception e) {
             e.printStackTrace();
