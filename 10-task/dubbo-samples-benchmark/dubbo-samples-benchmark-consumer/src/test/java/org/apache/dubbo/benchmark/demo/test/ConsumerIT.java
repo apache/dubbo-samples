@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.benchmark.demo.test;
 
+import com.google.gson.JsonArray;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -133,8 +134,8 @@ public class ConsumerIT {
             }
 
             if (!dataBinaryList.isEmpty()) {
-                String json = "[" + String.join(",", dataBinaryList) + "]";
-                FileUtils.write(new File("/tmp/jmh_trace.json"), json, Charset.defaultCharset(), false);
+                JsonArray array = dataBinaryList.stream().collect(JsonArray::new, JsonArray::add, JsonArray::addAll);
+                FileUtils.write(new File("/tmp/jmh_trace.json"), array.getAsString(), Charset.defaultCharset(), false);
             }
 
         } catch (Exception e) {
