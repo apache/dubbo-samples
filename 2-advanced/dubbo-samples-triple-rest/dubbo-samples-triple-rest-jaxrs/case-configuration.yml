@@ -20,7 +20,7 @@ services:
 
   jaxrs-provider:
     type: app
-    basedir: dubbo-samples-triple-rest-jaxrs
+    basedir: .
     mainClass: org.apache.dubbo.rest.demo.JaxrsRestApplication
     systemProps:
       - zookeeper.address=zookeeper
@@ -32,7 +32,7 @@ services:
 
   test:
     type: test
-    basedir: dubbo-samples-triple-rest-jaxrs
+    basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
