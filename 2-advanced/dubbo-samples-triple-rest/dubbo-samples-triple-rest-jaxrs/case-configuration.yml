@@ -32,7 +32,7 @@ services:
 
   test:
     type: test
-    basedir: .
+    basedir: dubbo-samples-triple-rest-jaxrs
     tests:
       - "**/*IT.class"
     systemProps:
