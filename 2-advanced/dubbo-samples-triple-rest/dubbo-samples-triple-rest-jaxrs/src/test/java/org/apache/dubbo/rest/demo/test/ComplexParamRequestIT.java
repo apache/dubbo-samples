@@ -89,7 +89,7 @@ public class ComplexParamRequestIT {
         list.add(new User(1L,"1",1));
         list.add(new User(2L,"2",2));
         ResponseEntity<List<User>> response = RestClient.create().post()
-                .uri("http://localhost:50052/complex/list")
+                .uri("http://" + providerAddress +":50052/complex/list")
                 .contentType(APPLICATION_JSON)
                 .body(list)
                 .retrieve()
@@ -104,7 +104,7 @@ public class ComplexParamRequestIT {
         set.add(new User(1L,"1",1));
         set.add(new User(2L,"2",2));
         ResponseEntity<Set<User>> response = RestClient.create().post()
-                .uri("http://localhost:50052/complex/set")
+                .uri("http://" + providerAddress +":50052/complex/set")
                 .contentType(APPLICATION_JSON)
                 .body(set)
                 .retrieve()
@@ -118,7 +118,7 @@ public class ComplexParamRequestIT {
 
         User[] array = {new User(1L,"1",1),new User(2L,"2",2)};
         ResponseEntity<User[]> response = RestClient.create().post()
-                .uri("http://localhost:50052/complex/array")
+                .uri("http://" + providerAddress +":50052/complex/array")
                 .contentType(APPLICATION_JSON)
                 .body(array)
                 .retrieve()
@@ -134,7 +134,7 @@ public class ComplexParamRequestIT {
         map.put("user1",new User(1L,"1",1));
         map.put("user2",new User(2L,"2",2));
         ResponseEntity<Map<String,User>> response = RestClient.create().post()
-                .uri("http://localhost:50052/complex/stringMap")
+                .uri("http://" + providerAddress +":50052/complex/stringMap")
                 .contentType(APPLICATION_JSON)
                 .body(map)
                 .retrieve()
@@ -147,7 +147,7 @@ public class ComplexParamRequestIT {
     public void testHeader() throws Exception {
 
         ResponseEntity<String> response = RestClient.create().get()
-                .uri("http://localhost:50052/complex/testMapHeader")
+                .uri("http://" + providerAddress +":50052/complex/testMapHeader")
                 .header("Content-type", "application/json")
                 .header("headers","Head")
                 .retrieve()
@@ -160,7 +160,7 @@ public class ComplexParamRequestIT {
     @Test
     public void testMapParam() throws Exception {
         ResponseEntity<List<String>> response = RestClient.create().get()
-                .uri("http://localhost:50052/complex/testMapParam?arg1=World&arg2=Hello")
+                .uri("http://" + providerAddress +":50052/complex/testMapParam?arg1=World&arg2=Hello")
                 .header("Content-type", "application/json")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<List<String>>() {
@@ -175,7 +175,7 @@ public class ComplexParamRequestIT {
         map.add("arg1","Hello");
         map.add("arg2","world");
         ResponseEntity<List<String>> response = RestClient.create().post()
-                .uri("http://localhost:50052/complex/testMapForm")
+                .uri("http://" + providerAddress +":50052/complex/testMapForm")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(map)
                 .retrieve()
