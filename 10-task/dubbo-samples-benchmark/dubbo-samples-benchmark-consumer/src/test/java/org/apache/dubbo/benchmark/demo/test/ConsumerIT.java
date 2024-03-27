@@ -16,7 +16,7 @@
  */
 package org.apache.dubbo.benchmark.demo.test;
 
-import com.alibaba.fastjson2.JSONArray;
+import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -148,35 +148,14 @@ public class ConsumerIT {
             Class<?> messageOrBuilderClass = Class.forName("com.google.protobuf.MessageOrBuilder", false, (ClassLoader) agentClassLoader);
 
 
-            List<String> segmentObjects = new ArrayList<>();
+            List<Object> segmentObjects = new ArrayList<>();
             for (String dataBinary : dataBinaryList) {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
                 Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
-
-                Object printer = jsonFormatClass.getDeclaredMethod("printer").invoke(null);
-                System.out.println("printer: " + printer);
-
-                Class<?> printerClass = printer.getClass();
-                System.out.println("printerClass: " + printerClass);
-
-                ClassLoader classLoader = printerClass.getClassLoader();
-                System.out.println("classLoader: " + classLoader);
-
-                String print = (String) printerClass.getDeclaredMethod("print", messageOrBuilderClass).invoke(printer, segmentObject);
-//                        .getClass().getDeclaredMethod("includingDefaultValueFields").invoke(null)
-//                        .getClass().getDeclaredMethod("printingEnumsAsInts").invoke(null)
-//                        .getClass().getDeclaredMethod("preservingProtoFieldNames").invoke(null)
-
-//
-//                String print = JsonFormat.printer()
-//                        .includingDefaultValueFields()
-//                        .printingEnumsAsInts()
-//                        .preservingProtoFieldNames()
-//                        .print((MessageOrBuilder) segmentObject);
-                segmentObjects.add(print);
+                segmentObjects.add(segmentObject);
             }
 
-            FileUtils.write(new File("/tmp/jmh_trace.json"), JSONArray.toJSONString(segmentObjects), Charset.defaultCharset(), false);
+            FileUtils.write(new File("/tmp/jmh_trace.json"), new Gson().toJson(segmentObjects), Charset.defaultCharset(), false);
 
         } catch (Exception e) {
             e.printStackTrace();
