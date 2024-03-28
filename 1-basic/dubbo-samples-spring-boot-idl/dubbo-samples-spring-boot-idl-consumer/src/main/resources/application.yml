@@ -17,5 +17,6 @@
 dubbo:
   application:
     name: dubbo-springboot-demo-consumer
+    logger: slf4j
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
