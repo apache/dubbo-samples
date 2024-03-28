@@ -123,9 +123,8 @@ public class ConsumerIT {
             statement = connection.createStatement();
 
             // 执行查询
-            String sql = "SELECT data_binary FROM segment";
+            String sql = "SELECT data_binary FROM segment order by start_time desc limit 1";
             resultSet = statement.executeQuery(sql);
-
 
             List<String> dataBinaryList = new ArrayList<>();
             // 处理查询结果
@@ -158,7 +157,6 @@ public class ConsumerIT {
                 e.printStackTrace();
             }
         }
-
 
     }
 
@@ -200,6 +198,7 @@ public class ConsumerIT {
         public String getUser() {
             return service.sayHello("dubbo");
         }
+
     }
 
 }
