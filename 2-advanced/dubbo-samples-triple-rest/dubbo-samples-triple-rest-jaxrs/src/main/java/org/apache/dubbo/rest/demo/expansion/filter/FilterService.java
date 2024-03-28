@@ -14,41 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.rest.demo;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
+package org.apache.dubbo.rest.demo.expansion.filter;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-@Path("/demo")
-public interface DemoService {
+@Path("/ext")
+public interface FilterService {
 
     @GET
-    @Path("/hello")
+    @Path("/filter")
     @Produces(MediaType.TEXT_PLAIN)
-    String hello(@QueryParam("a") Integer a, @QueryParam("name") String name);
-
-    @GET
-    @Path("/findUserById")
-    int findUserById(@QueryParam("id") Integer id);
-
-
-    @POST
-    @Path("/form")
-    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    Long testFormBody(@FormParam("number") Long number);
-
-
-    @DELETE
-    @Path("/deleteUserById/{uid}")
-    @Produces(MediaType.TEXT_PLAIN)
-    String deleteUserById(@PathParam("uid") String uid);
-
+    String testFilter(@QueryParam("name") String name);
 }
