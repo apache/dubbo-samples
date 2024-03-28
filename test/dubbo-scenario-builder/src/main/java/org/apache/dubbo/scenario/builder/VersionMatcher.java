@@ -531,6 +531,7 @@ public class VersionMatcher {
         newArgs[0] = Constants.ERROR_MSG_FLAG;
         System.arraycopy(arguments, 0, newArgs, 1, arguments.length);
         logger.error("{} " + format, newArgs);
+        logger.error("VersionMatcher_error_exit ");
         System.exit(exitCode);
     }
 
