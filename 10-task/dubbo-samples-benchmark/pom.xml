@@ -37,12 +37,12 @@
     <description>Dubbo Samples benchmark</description>
 
     <properties>
-        <dubbo.version>3.2.12-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
         <junit.version>4.13.1</junit.version>
         <spring-boot.version>2.7.8</spring-boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <jmh.version>1.21</jmh.version>
+        <jmh.version>1.37</jmh.version>
     </properties>
 
     <modules>
@@ -105,33 +105,71 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.21.7</version>
+            <version>4.26.0</version>
         </dependency>
 
+        <!--fastjson-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-serialization-protobuf</artifactId>
+            <artifactId>dubbo-serialization-fastjson</artifactId>
+            <version>2.7.23</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javassist</artifactId>
+                    <groupId>org.javassist</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--avro-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-serialization-avro</artifactId>
             <version>2.7.23</version>
         </dependency>
+
+        <!--fst-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-metadata-definition-protobuf</artifactId>
-            <version>${dubbo.version}</version>
+            <artifactId>dubbo-serialization-fst</artifactId>
+            <version>2.7.23</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javassist</artifactId>
+                    <groupId>org.javassist</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <!--gson-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-serialization-gson</artifactId>
+            <version>2.7.23</version>
+        </dependency>
+
+        <!--kryo 有问题 报String cast to map异常-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-serialization-kryo</artifactId>
             <version>2.7.23</version>
         </dependency>
 
-
+        <!--msgpack 有问题 https://github.com/apache/dubbo/issues/12580-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-serialization-msgpack</artifactId>
+            <version>2.7.23</version>
+        </dependency>
     </dependencies>
 
 

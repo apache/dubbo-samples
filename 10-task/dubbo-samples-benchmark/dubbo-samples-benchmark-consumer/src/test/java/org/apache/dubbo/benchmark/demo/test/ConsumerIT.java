@@ -75,7 +75,7 @@ public class ConsumerIT {
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
-                .param("prop", prop)
+                .param("prop", prop == null ? "" : prop)
                 .warmupIterations(1)
                 .warmupTime(TimeValue.seconds(1))
                 .measurementIterations(1)
@@ -88,6 +88,11 @@ public class ConsumerIT {
         options = doOptions(optBuilder, prop).build();
         new Runner(options).run();
 
+        dotTrace(prop, propKey);
+
+    }
+
+    private static void dotTrace(String prop, String propKey) {
         //把json文件的prop字段，替换成propKey
         if (StringUtils.isNotBlank(prop)) {
             String json;
