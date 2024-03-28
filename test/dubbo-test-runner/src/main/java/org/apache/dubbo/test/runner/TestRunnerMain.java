@@ -193,6 +193,7 @@ public class TestRunnerMain {
         if (runSuccess) {
             System.exit(0);
         } else {
+            consoleLogger.error("Run_unit_error,exit");
             System.exit(1);
         }
     }
