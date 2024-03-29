@@ -194,6 +194,7 @@ public class ComplexParamRequestIT {
 
     @Test
     public void testXml() throws Exception {
+        // TODO xml
         String str = "<?xml  version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><person><name>1</name></person>";
         Person person = new Person("1");
 
