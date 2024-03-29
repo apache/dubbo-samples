@@ -21,7 +21,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.DemoService;
 import org.apache.dubbo.rest.demo.expansion.filter.FilterService;
 import org.apache.dubbo.rest.demo.pojo.User;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -171,7 +170,7 @@ public class ConsumerIT {
         RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
                 .uri(urlPrefix + "/demo/post/body")
-                .contentType(APPLICATION_JSON)
+                .header("content-type", "application/json")
                 .body(requestBody)
                 .retrieve()
                 .toEntity(String.class);
