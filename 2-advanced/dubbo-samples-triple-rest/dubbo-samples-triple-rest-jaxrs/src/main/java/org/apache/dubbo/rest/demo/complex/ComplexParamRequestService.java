@@ -18,6 +18,7 @@
 package org.apache.dubbo.rest.demo.complex;
 
 
+import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.pojo.User;
 
 import javax.ws.rs.Consumes;
@@ -68,4 +69,10 @@ public interface ComplexParamRequestService {
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     List<String> testMapForm(MultivaluedMap<String,String> params);
+
+    @POST
+    @Path("/xml")
+    @Consumes(MediaType.TEXT_XML)
+    @Produces(MediaType.APPLICATION_XML)
+    Person testXml(Person person);
 }

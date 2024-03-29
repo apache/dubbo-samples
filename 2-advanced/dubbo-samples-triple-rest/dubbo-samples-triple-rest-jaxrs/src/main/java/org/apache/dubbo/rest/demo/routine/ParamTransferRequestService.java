@@ -60,12 +60,7 @@ public interface ParamTransferRequestService {
     String sayCookie(@CookieParam("cookieId") String cookieId);
 
     @GET
-    @Path("/matrix")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/matrix;m={m}")
+    @Produces(MediaType.TEXT_PLAIN)
     String sayMatrix(@MatrixParam("name") String name);
-
-    @GET
-    @Path("/xml")
-    @Produces(MediaType.TEXT_XML)
-    Person testXml();
 }

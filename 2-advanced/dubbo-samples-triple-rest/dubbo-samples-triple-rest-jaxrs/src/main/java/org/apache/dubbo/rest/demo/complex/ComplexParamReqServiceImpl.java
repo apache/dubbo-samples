@@ -18,6 +18,7 @@
 package org.apache.dubbo.rest.demo.complex;
 
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.pojo.User;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -60,6 +61,11 @@ public class ComplexParamReqServiceImpl implements ComplexParamRequestService {
     @Override
     public List<String> testMapForm(MultivaluedMap<String, String> params) {
         return params.values().stream().flatMap(List::stream).toList();
+    }
+
+    @Override
+    public Person testXml(Person person) {
+        return person;
     }
 
 }

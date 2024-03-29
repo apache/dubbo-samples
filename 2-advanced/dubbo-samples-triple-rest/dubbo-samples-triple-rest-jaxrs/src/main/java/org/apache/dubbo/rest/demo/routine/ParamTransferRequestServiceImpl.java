@@ -52,9 +52,5 @@ public class ParamTransferRequestServiceImpl implements ParamTransferRequestServ
         return "Hello " + name;
     }
 
-    @Override
-    public Person testXml() {
-        return new Person("1");
-    }
 
 }

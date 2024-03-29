@@ -18,3 +18,4 @@
 #
 
 javax.ws.rs.core.MultivaluedHashMap
+org.apache.dubbo.remoting.http12.ErrorResponse

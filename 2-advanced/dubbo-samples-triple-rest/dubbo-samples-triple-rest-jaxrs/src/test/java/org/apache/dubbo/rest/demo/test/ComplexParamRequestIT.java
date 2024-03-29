@@ -18,6 +18,7 @@ package org.apache.dubbo.rest.demo.test;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.complex.ComplexParamRequestService;
+import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.pojo.User;
 import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
 import org.junit.Assert;
@@ -25,6 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -32,6 +34,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 import javax.ws.rs.core.MultivaluedHashMap;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -79,6 +84,9 @@ public class ComplexParamRequestIT {
         Map<String, String> stringMap = Map.of("Hello", "World");
         List<String> result7 = complexParamRequestService.testMapParam(stringMap);
         Assert.assertEquals(stringMap.values().stream().toList(),result7);
+
+        Person person = complexParamRequestService.testXml(new Person("1"));
+        Assert.assertEquals(new Person("1"),person);
 
     }
 
@@ -182,6 +190,33 @@ public class ComplexParamRequestIT {
                 .toEntity(new ParameterizedTypeReference<List<String>>() {
                 });
         Assert.assertEquals(List.of("Hello","world"),response.getBody());
+    }
+
+    @Test
+    public void testXml() throws Exception {
+        String str = "<?xml  version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><person><name>1</name></person>";
+        Person person = new Person("1");
+
+        RestClient defaultClient = RestClient.create();
+        Person result = defaultClient.post()
+                .uri("http://" + providerAddress + ":50052/complex/xml")
+                .header("Content-type", "text/xml")
+                .accept(MediaType.APPLICATION_XML)
+                .body(str)
+                .exchange((request,response)->{
+                    if(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))){
+                        try {
+                            JAXBContext jaxbContext = JAXBContext.newInstance(Person.class);
+                            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                            return  (Person) jaxbUnmarshaller.unmarshal(response.getBody());
+                        } catch (JAXBException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else {
+                        throw new RuntimeException("http code erroe");
+                    }
+                });
+        Assert.assertEquals(person,result);
     }
 
 }
