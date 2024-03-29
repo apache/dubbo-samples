@@ -17,6 +17,7 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
@@ -49,6 +50,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -164,6 +166,8 @@ public class ConsumerIT {
             } else {
                 traceJson = gson.toJson(segmentObject);
             }
+
+            traceJson = "[" + traceJson + "]";
 
             FileUtils.write(new File(traceFileName), traceJson, Charset.defaultCharset(), false);
 
