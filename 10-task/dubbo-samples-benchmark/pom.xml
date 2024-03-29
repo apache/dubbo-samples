@@ -170,6 +170,14 @@
             <artifactId>dubbo-serialization-msgpack</artifactId>
             <version>2.7.23</version>
         </dependency>
+
+        <!--rmi-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-rpc-rmi</artifactId>
+            <version>2.7.23</version>
+        </dependency>
+
     </dependencies>
 
 
