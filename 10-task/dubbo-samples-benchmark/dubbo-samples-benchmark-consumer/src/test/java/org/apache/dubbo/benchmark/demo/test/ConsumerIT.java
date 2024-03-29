@@ -17,6 +17,7 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -131,33 +132,55 @@ public class ConsumerIT {
             String sql = "SELECT data_binary FROM segment order by start_time desc limit 1";
             resultSet = statement.executeQuery(sql);
 
-            List<String> dataBinaryList = new ArrayList<>();
+            String dataBinary = null;
             // 处理查询结果
-            while (resultSet.next()) {
-                String dataBinary = resultSet.getString("data_binary");
+            if (resultSet.next()) {
+                dataBinary = resultSet.getString("data_binary");
                 System.out.println("dataBinary: " + dataBinary);
-                dataBinaryList.add(dataBinary);
             }
 
             Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject");
 
-            List<Object> segmentObjects = new ArrayList<>();
-            for (String dataBinary : dataBinaryList) {
+            Object segmentObject = new Object();
+            if (StringUtils.isNotBlank(dataBinary)) {
                 byte[] bytes = Base64.getDecoder().decode(dataBinary);
-                Object segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
-                segmentObjects.add(segmentObject);
+                segmentObject = segmentObjectClass.getDeclaredMethod("parseFrom", byte[].class).invoke(null, bytes);
             }
 
-            FileUtils.write(new File("/tmp/jmh_trace.json"), new Gson().toJson(segmentObjects), Charset.defaultCharset(), false);
+            String traceFileName;
+            if (StringUtils.isNotBlank(prop)) {
+                traceFileName = "/tmp/jmh_trace_prop[" + prop + "].json";
+            } else {
+                traceFileName = "/tmp/jmh_trace.json";
+            }
+
+            String traceJson;
+            Gson gson = new Gson();
+            if (StringUtils.isNotBlank(prop)) {
+                //用于页面识别
+                JsonElement jsonElement = gson.toJsonTree(segmentObject);
+                jsonElement.getAsJsonObject().addProperty(propKey, prop);
+                traceJson = gson.toJson(jsonElement);
+            } else {
+                traceJson = gson.toJson(segmentObject);
+            }
+
+            FileUtils.write(new File(traceFileName), traceJson, Charset.defaultCharset(), false);
 
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("mysql test error");
         } finally {
             try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
