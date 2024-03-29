@@ -16,10 +16,7 @@
 
 dubbo:
   application:
-    name: dubbo-springboot-demo-idl-provider
-    logger: slf4j
-  protocol:
-    name: tri
-    port: 50052
+    name: dubbo-protocol-consumer
+    qos-enable: false
   registry:
-    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+      address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
