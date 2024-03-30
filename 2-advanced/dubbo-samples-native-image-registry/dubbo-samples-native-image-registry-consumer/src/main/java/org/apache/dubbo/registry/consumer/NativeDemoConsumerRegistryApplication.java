@@ -47,6 +47,7 @@ public class NativeDemoConsumerRegistryApplication {
         System.out.println("The time taken for the first call is "
                 + (System.currentTimeMillis() - startCallTime) +" ms");
         System.out.println("result: " + result);
+        System.exit(0);
     }
 
     public String doSayHello(String name) {

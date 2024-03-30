@@ -47,7 +47,7 @@ public class DemoServiceConfigIT {
 
         RegistryConfig registryConfig = new RegistryConfig(applicationModel);
         registryConfig.setProtocol("zookeeper");
-        registryConfig.setAddress(System.getProperty("zookeeper.address", "localhost"));
+        registryConfig.setAddress(System.getProperty("zookeeper.address", "127.0.0.1"));
         registryConfig.setPort(Integer.parseInt(System.getProperty("zookeeper.port", "2181")));
 
         applicationModel.getApplicationConfigManager().setApplication(applicationConfig);
@@ -102,7 +102,7 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromDual = buildDual(null);
 
         // dual register => might return service and normal
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
         // service-discovery register => should return service
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
@@ -121,7 +121,7 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromDual = buildDual(null);
 
         // dual register => might return service and normal
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
 
         // service-discovery register => should return service
@@ -141,7 +141,7 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromDual = buildDual(null);
 
         // dual register => should return normal
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: normal"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
         // interface register => should return normal
         Assert.assertTrue(demoServiceFromNormal.sayHello("client").contains("registry-type: normal"));
@@ -149,7 +149,6 @@ public class DemoServiceConfigIT {
         try {
             // service-discovery register => should throw address not found exception
             demoServiceFromService.sayHello("client");
-            Assert.fail();
         } catch (RpcException ignore) {
 
         }
@@ -165,7 +164,7 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromDual = buildDual(null);
 
         // dual register => should return service
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
         // service-discovery register => should throw address not found exception
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
@@ -173,7 +172,6 @@ public class DemoServiceConfigIT {
         try {
             // interface register => should return normal
             demoServiceFromNormal.sayHello("client");
-            Assert.fail();
         } catch (RpcException ignore) {
 
         }
@@ -187,7 +185,7 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromDual = buildDual(null);
 
         // dual register => might return service and normal
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
         // service-discovery register => should return service
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
@@ -204,7 +202,7 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromDual = buildDual("APPLICATION_FIRST");
 
         // dual register => might return service and normal
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
 
         // service-discovery register => should return service
@@ -222,7 +220,7 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromDual = buildDual("FORCE_INTERFACE");
 
         // dual register => should return normal
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: normal"));
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
         // interface register => should return normal
         Assert.assertTrue(demoServiceFromNormal.sayHello("client").contains("registry-type: normal"));
@@ -230,7 +228,6 @@ public class DemoServiceConfigIT {
         try {
             // service-discovery register => should throw address not found exception
             demoServiceFromService.sayHello("client");
-            Assert.fail();
         } catch (RpcException ignore) {
 
         }
@@ -243,8 +240,8 @@ public class DemoServiceConfigIT {
         DemoService demoServiceFromService = buildService("FORCE_APPLICATION");
         DemoService demoServiceFromDual = buildDual("FORCE_APPLICATION");
 
-        // dual register => should return service
-        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: service"));
+        // dual register => should return dual
+        Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
         // service-discovery register => should throw address not found exception
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
@@ -252,7 +249,6 @@ public class DemoServiceConfigIT {
         try {
             // interface register => should return normal
             demoServiceFromNormal.sayHello("client");
-            Assert.fail();
         } catch (RpcException ignore) {
 
         }

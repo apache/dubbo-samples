@@ -65,5 +65,8 @@
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-spring-xml</module>
         <module>dubbo-samples-api-with-registry</module>
+        <module>dubbo-samples-dubbo</module>
+        <module>dubbo-samples-triple-rest</module>
+        <module>dubbo-samples-multiple-protocols</module>
     </modules>
 </project>
