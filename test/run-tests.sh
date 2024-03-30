@@ -201,6 +201,9 @@ function run_test_with_version_profile() {
       else
         if [ "$error_msg" != "" ];then
           echo "$log_prefix $TEST_FAILURE: $error_msg, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+          echo "======begin scenario_log====="
+          cat $scenario_log
+          echo "======end scenario_log====="
         else
           echo "$log_prefix $TEST_FAILURE, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
         fi
