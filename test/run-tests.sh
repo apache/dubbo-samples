@@ -468,6 +468,8 @@ echo "All tests count: $totalCount"
 echo "Success tests count: $successTest"
 echo "Ignored tests count: $ignoredTest"
 echo "Failed tests count: $failedTest"
+echo "----------------------begin cat result------------------------------------"
+cat $testResultFile
 echo "----------------------------------------------------------"
 
 if [ $ignoredTest -gt 0 ]; then
