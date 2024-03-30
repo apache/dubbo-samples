@@ -22,6 +22,7 @@ import org.apache.skywalking.apm.agent.core.plugin.interceptor.ConstructorInterc
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.InstanceMethodsInterceptPoint;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.ClassInstanceMethodsEnhancePluginDefine;
 import org.apache.skywalking.apm.agent.core.plugin.match.ClassMatch;
+import org.apache.skywalking.apm.agent.core.plugin.match.MultiClassNameMatch;
 import org.apache.skywalking.apm.agent.core.plugin.match.logical.LogicalMatchOperation;
 import org.apache.skywalking.apm.dependencies.net.bytebuddy.description.method.MethodDescription;
 import org.apache.skywalking.apm.dependencies.net.bytebuddy.matcher.ElementMatcher;
@@ -32,15 +33,25 @@ import static org.apache.skywalking.apm.dependencies.net.bytebuddy.matcher.Eleme
 
 public class CustomizeDubboInstrumentation extends ClassInstanceMethodsEnhancePluginDefine {
 
-    public static final String INTERCEPT_POINT_METHOD = "doInvoke";
-    public static final String INTERCEPT_INVOKE_METHOD = "invoke";
+    private static final String RPC_INVOKER = "org.apache.dubbo.rpc.protocol.AbstractInvoker";
 
-    private static final String RPC_INVOKER = "org.apache.dubbo.rpc.Invoker";
+    private static final String RemoteInvocation = "org.springframework.remoting.support.RemoteInvocation";
+
+    private static final String Serialization = "org.apache.dubbo.common.serialize.Serialization";
+
+    public static final String InvokerInvocationHandler = "org.apache.dubbo.rpc.proxy.InvokerInvocationHandler";
+
+    public static final String DemoService = "org.apache.dubbo.benchmark.demo.DemoService";
+
     public static final String INTERCEPT_CLASS = "org.apache.dubbo.benchmark.agent.DubboInvokeInterceptor";
 
     @Override
     protected ClassMatch enhanceClass() {
-        return LogicalMatchOperation.and(nameStartsWith("org.apache.dubbo"), byHierarchyMatch(RPC_INVOKER));
+        return LogicalMatchOperation.or(byHierarchyMatch(RemoteInvocation)
+                , byHierarchyMatch(RPC_INVOKER)
+                , byHierarchyMatch(Serialization)
+                , byHierarchyMatch(DemoService)
+                , MultiClassNameMatch.byMultiClassMatch(InvokerInvocationHandler));
     }
 
     @Override
@@ -54,7 +65,7 @@ public class CustomizeDubboInstrumentation extends ClassInstanceMethodsEnhancePl
                 new InstanceMethodsInterceptPoint() {
                     @Override
                     public ElementMatcher<MethodDescription> getMethodsMatcher() {
-                        return namedOneOf(INTERCEPT_POINT_METHOD, INTERCEPT_INVOKE_METHOD);
+                        return namedOneOf("doInvoke", "invoke", "serialize", "deserialize", "sayHello");
                     }
 
                     @Override

@@ -32,6 +32,7 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -79,13 +80,13 @@ public class ConsumerIT {
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
                 .param("prop", prop == null ? "" : prop)
-                .warmupIterations(1)
+                .warmupIterations(5)
                 .warmupTime(TimeValue.seconds(1))
-                .measurementIterations(1)
+                .measurementIterations(5)
                 .measurementTime(TimeValue.seconds(1))
                 .mode(Mode.AverageTime)
                 .timeUnit(TimeUnit.MILLISECONDS)
-                .threads(16)
+                .threads(Threads.MAX)
                 .forks(1);
 
         options = doOptions(optBuilder, prop).build();
