@@ -17,7 +17,6 @@
 package org.apache.dubbo.benchmark.demo.test;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import org.apache.commons.io.FileUtils;
 import org.apache.dubbo.benchmark.demo.DemoService;
@@ -41,7 +40,6 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,35 +48,43 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
 
+    String propKey = "prop";
+
     @Test
     public void test() throws RunnerException {
 
-        String propKey = "prop";
         String prop = System.getProperty(propKey);
+        String propJson = null;
 
         if (StringUtils.isNotBlank(prop)) {
             prop = prop.replace("\"", "");
-            //去掉前两位
-            prop = prop.substring(2);
-            propKey = prop.substring(0, prop.indexOf("="));
-            //取=后面的val
-            prop = prop.substring(prop.indexOf("=") + 1);
-        }
+            String[] props = prop.split(" ");
 
-        System.out.println("propKey:" + propKey);
-        System.out.println("prop:" + prop);
+            Map<String, String> propMap = new HashMap<>();
+            List<String> propList = new ArrayList<>();
+            for (String p : props) {
+                p = p.substring(2);
+                String key = p.substring(0, p.indexOf("="));
+                String val = p.substring(p.indexOf("=") + 1);
+                propMap.put(key, val);
+                propList.add(p);
+            }
+            propJson = new Gson().toJson(propMap);
+            prop = String.join("_", propList);
+        }
 
         Options options;
         ChainedOptionsBuilder optBuilder = new OptionsBuilder()
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
-                .param("prop", prop == null ? "" : prop)
+                .param("prop", propJson == null ? "" : propJson)
                 .warmupIterations(1)
                 .warmupTime(TimeValue.seconds(1))
                 .measurementIterations(1)
@@ -96,22 +102,6 @@ public class ConsumerIT {
     }
 
     private static void dotTrace(String prop, String propKey) {
-        //把json文件的prop字段，替换成propKey
-        if (StringUtils.isNotBlank(prop)) {
-            String json;
-            try {
-                json = FileUtils.readFileToString(new File("/tmp/jmh_result_prop[" + prop + "].json"), "UTF-8");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            json = json.replace("prop", propKey);
-            try {
-                FileUtils.write(new File("/tmp/jmh_result_prop[" + prop + "].json"), json, Charset.defaultCharset(), false);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         String url = "jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false";
         String user = "root";
         String password = "123456";
@@ -121,21 +111,14 @@ public class ConsumerIT {
         ResultSet resultSet = null;
 
         try {
-            // 加载并注册JDBC驱动
             Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // 创建数据库连接
             connection = DriverManager.getConnection(url, user, password);
-
-            // 创建Statement对象
             statement = connection.createStatement();
 
-            // 执行查询
             String sql = "SELECT data_binary FROM segment order by start_time desc limit 1";
             resultSet = statement.executeQuery(sql);
 
             String dataBinary = null;
-            // 处理查询结果
             if (resultSet.next()) {
                 dataBinary = resultSet.getString("data_binary");
                 System.out.println("dataBinary: " + dataBinary);
@@ -159,7 +142,6 @@ public class ConsumerIT {
             String traceJson;
             Gson gson = new Gson();
             if (StringUtils.isNotBlank(prop)) {
-                //用于页面识别
                 JsonElement jsonElement = gson.toJsonTree(segmentObject);
                 jsonElement.getAsJsonObject().addProperty(propKey, prop);
                 traceJson = gson.toJson(jsonElement);

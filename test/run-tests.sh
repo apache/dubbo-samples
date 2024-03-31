@@ -301,13 +301,12 @@ function process_case() {
     cat $output_parameter_runtime_file
   fi
   echo "runtime_count=$runtime_count"
+  parameter_runtime=$(tr '\n' ' ' < "$output_parameter_runtime_file")
 
   if [ $runtime_count -gt 0 ]; then
         while read -r version_profile; do
-            while read -r parameter_runtime; do
-              echo  "do parameter_runtime=$parameter_runtime"
-              run_test_with_version_profile "$version_profile" "$parameter_runtime" "$project_home"
-            done < "$output_parameter_runtime_file"
+          echo  "do parameter_runtime=$parameter_runtime"
+          run_test_with_version_profile "$version_profile" "$parameter_runtime" "$project_home"
         done < "$version_matrix_file"
   else
         while read -r version_profile; do
