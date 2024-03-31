@@ -16,7 +16,8 @@
 
 dubbo:
   application:
-    name: dubbo-springboot-demo-provider
+      name: dubbo-springboot-demo-provider
+      logger: slf4j
   protocol:
     name: tri
     port: 50052
