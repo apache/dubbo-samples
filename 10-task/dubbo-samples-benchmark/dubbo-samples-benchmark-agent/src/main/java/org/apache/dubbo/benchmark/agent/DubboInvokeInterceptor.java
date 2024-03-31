@@ -31,9 +31,7 @@ public class DubboInvokeInterceptor implements InstanceMethodsAroundInterceptor 
     @Override
     public void beforeMethod(EnhancedInstance objInst, Method method, Object[] allArguments, Class<?>[] argumentsTypes,
                              MethodInterceptResult result) {
-        String operationName = MethodUtil.generateOperationName(method);
-        ContextManager.createLocalSpan(operationName);
-
+        ContextManager.createLocalSpan(MethodUtil.generateOperationName(method));
     }
 
     @Override

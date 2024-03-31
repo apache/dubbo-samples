@@ -37,10 +37,11 @@ services:
       retries: 20
 
   skywalking:
-    image: apache/skywalking-oap-server:9.0.0
+    image: apache/skywalking-oap-server:9.1.0
     hostname: skywalking
     ports:
       - 11800:11800
+      - 12800:12800
     volumes:
       - /tmp/mysql-connector-java-8.0.23.jar:/skywalking/oap-libs/mysql-connector-java-8.0.23.jar
     environment:
@@ -52,6 +53,7 @@ services:
       - bh-mysql:3306
     depends_on:
       - bh-mysql
+
   provider:
     type: app
     basedir: dubbo-samples-benchmark-provider
