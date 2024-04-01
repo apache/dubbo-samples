@@ -80,6 +80,8 @@ public class ConsumerIT {
                 propMap.put(key, val);
                 propList.add(p);
             }
+            propJson = new Gson().toJson(propMap);
+            prop = String.join("_", propList);
         }
 
         Options options;
