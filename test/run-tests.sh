@@ -167,6 +167,8 @@ function run_test_with_version_profile() {
           -Ddebug.service=$DEBUG \
           -Dprop="$jvm_opts" \
           -jar $test_builder_jar  &> $scenario_builder_log
+
+     cat $scenario_builder_log
      result=$?
      if [ $result -ne 0 ]; then
         error_msg=`get_error_msg $scenario_builder_log`
