@@ -93,10 +93,10 @@ public class ConsumerIT {
                 .warmupTime(TimeValue.seconds(1))
                 .measurementIterations(5)
                 .measurementTime(TimeValue.seconds(1))
-                .mode(Mode.Throughput)
                 .mode(Mode.SampleTime)
+                .mode(Mode.Throughput)
                 .threads(Threads.MAX)
-                .forks(0);
+                .forks(1);
 
         options = doOptions(optBuilder, prop).build();
         new Runner(options).run();
