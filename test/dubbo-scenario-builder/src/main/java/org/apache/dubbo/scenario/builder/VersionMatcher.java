@@ -231,30 +231,44 @@ public class VersionMatcher {
             errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.getMessage(), e);
         }
 
-        List<String> runtimeParameterList = parseRuntimeParameter(caseRuntimeFile);
-        if (runtimeParameterList != null) {
-            try (FileOutputStream fos = new FileOutputStream(rtOutputFile);
-                 PrintWriter pw = new PrintWriter(fos)) {
-                StringBuilder sb = new StringBuilder();
-                runtimeParameterList.forEach(item ->
-                {
-                    sb.append("-D").append(item).append(" ");
-                    sb.append("\n");
-                });
-                pw.print(sb);
-                logger.info("Parameter runtime total: {}, list: \n{}", runtimeParameterList.size(), sb);
-            } catch (IOException e) {
-                errorAndExit(Constants.EXIT_FAILED, "Write parameter runtime failed: " + e.getMessage(), e);
+        Map<String, List<String>> runtimeParameterMap = parseRuntimeParameter(caseRuntimeFile);
+
+        List<List<String>> runtimeProfiles = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : runtimeParameterMap.entrySet()) {
+            String component = entry.getKey();
+            List<String> versions = entry.getValue();
+            runtimeProfiles = appendComponent(runtimeProfiles, component, versions);
+        }
+
+        if (runtimeProfiles.isEmpty()) {
+            errorAndExit(Constants.EXIT_UNMATCHED, "runtimeParameter matrix is empty");
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(rtOutputFile);
+             PrintWriter pw = new PrintWriter(fos)) {
+            StringBuilder sb = new StringBuilder();
+            int size = runtimeProfiles.size();
+            for (int i = 0; i < size; i++) {
+                List<String> profile = runtimeProfiles.get(i);
+                for (String runtime : profile) {
+                    //-Dxxx.runtime=1.0.0
+                    sb.append("-D").append(runtime.replace(':', '=')).append(" ");
+                }
+                sb.append("\n");
             }
+            pw.print(sb);
+            logger.info("Parameter runtime total: {}, list: \n{}", runtimeParameterMap.size(), sb);
+        } catch (IOException e) {
+            errorAndExit(Constants.EXIT_FAILED, "Write parameter runtime failed: " + e.getMessage(), e);
         }
 
     }
 
-    private List<String> parseRuntimeParameter(String caseRuntimeFile) {
+    private Map<String, List<String>> parseRuntimeParameter(String caseRuntimeFile) {
 
 //        dubbo.protocol.name=tri
 //        dubbo.protocol.port=20883
-        List<String> runtimeAttrList = new ArrayList<>();
+        Map<String, List<String>> runtimeAttrMap = new HashMap<>();
         if (caseRuntimeFile == null) {
             return null;
         }
@@ -268,10 +282,16 @@ public class VersionMatcher {
                 if (line.startsWith("#") || StringUtils.isBlank(line)) {
                     continue;
                 }
-                runtimeAttrList.add(line);
+                int p = line.indexOf('=');
+                String runtimeAttr = line.substring(0, p).trim();
+                String runtimeAttrValue = line.substring(p + 1).trim();
+
+                List<String> valuesList = runtimeAttrMap.getOrDefault(runtimeAttr, new ArrayList<>());
+                valuesList.add(runtimeAttrValue);
+                runtimeAttrMap.putIfAbsent(runtimeAttr, valuesList);
             }
 
-            return runtimeAttrList;
+            return runtimeAttrMap;
         } catch (IOException e) {
             errorAndExit(Constants.EXIT_FAILED, "Parse runtime parameter file path failed: {}", caseRuntimeFile, e);
         }
