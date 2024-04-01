@@ -44,7 +44,3 @@ tab_width = 2
 [*.xml]
 ij_xml_attribute_wrap = off
 ij_xml_keep_blank_lines = 1
-
-[*.yml]
-indent_size = 2
-tab_width = 2
