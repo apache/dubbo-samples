@@ -61,10 +61,8 @@ public class VersionMatcher {
      */
     public static final String CASE_VERSIONS_FILE = "caseVersionsFile";
     public static final String CASE_VERSION_SOURCES_FILE = "caseVersionSourcesFile";
-    public static final String CASE_RUNTIME_PARAMETER_FILE = "caseRuntimeParameterFile";
     public static final String CANDIDATE_VERSIONS = "candidateVersions";
     public static final String OUTPUT_FILE = "outputFile";
-    public static final String RUNTIME_PARAMETER_OUTPUT_FILE = "runtimeParameterOutputFile";
     public static final String ALL_REMOTE_VERSION = "ALL_REMOTE_VERSION";
     public static final String INCLUDE_CASE_SPECIFIC_VERSION = "includeCaseSpecificVersion";
 
@@ -72,10 +70,8 @@ public class VersionMatcher {
 
         String caseVersionsFile = System.getProperty(CASE_VERSIONS_FILE);
         String caseVersionSourcesFile = System.getProperty(CASE_VERSION_SOURCES_FILE);
-        String caseRuntimeFile = System.getProperty(CASE_RUNTIME_PARAMETER_FILE);
         String candidateVersionListStr = System.getProperty(CANDIDATE_VERSIONS);
         String outputFile = System.getProperty(OUTPUT_FILE);
-        String rtOutputFile = System.getProperty(RUNTIME_PARAMETER_OUTPUT_FILE);
         // whether include specific version which defined in case-versions.conf
         // specific version: a real version not contains wildcard '*'
         boolean includeCaseSpecificVersion = Boolean.parseBoolean(System.getProperty(INCLUDE_CASE_SPECIFIC_VERSION, "true"));
@@ -89,10 +85,6 @@ public class VersionMatcher {
         if (StringUtils.isBlank(caseVersionSourcesFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_VERSION_SOURCES_FILE);
         }
-        if (StringUtils.isBlank(caseRuntimeFile)) {
-            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", CASE_RUNTIME_PARAMETER_FILE);
-        }
-        logger.info("caseRuntimeFile={}", caseRuntimeFile);
         File file = new File(caseVersionsFile);
         if (!file.exists() || !file.isFile()) {
             errorAndExit(Constants.EXIT_FAILED, "File not exists or isn't a file: {}", file.getAbsolutePath());
@@ -101,31 +93,20 @@ public class VersionMatcher {
         if (!file.exists() || !file.isFile()) {
             caseVersionSourcesFile = null;
         }
-        file = new File(caseRuntimeFile);
-        if (!file.exists() || !file.isFile()) {
-            caseRuntimeFile = null;
-        }
         if (StringUtils.isBlank(outputFile)) {
             errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", OUTPUT_FILE);
         }
         new File(outputFile).getParentFile().mkdirs();
 
-        if (StringUtils.isBlank(rtOutputFile)) {
-            errorAndExit(Constants.EXIT_FAILED, "Missing system prop: '{}'", RUNTIME_PARAMETER_OUTPUT_FILE);
-        }
-        new File(rtOutputFile).getParentFile().mkdirs();
-
         VersionMatcher versionMatcher = new VersionMatcher();
-        versionMatcher.doMatch(caseVersionsFile, caseVersionSourcesFile, caseRuntimeFile, candidateVersionListStr, outputFile, rtOutputFile, includeCaseSpecificVersion);
+        versionMatcher.doMatch(caseVersionsFile, caseVersionSourcesFile, candidateVersionListStr, outputFile, includeCaseSpecificVersion);
     }
 
-    private void doMatch(String caseVersionsFile, String caseVersionSourcesFile, String caseRuntimeFile, String candidateVersionListStr, String outputFile, String rtOutputFile, boolean includeCaseSpecificVersion) throws Exception {
+    private void doMatch(String caseVersionsFile, String caseVersionSourcesFile, String candidateVersionListStr, String outputFile, boolean includeCaseSpecificVersion) throws Exception {
         logger.info("{}: {}", CANDIDATE_VERSIONS, candidateVersionListStr);
         logger.info("{}: {}", CASE_VERSIONS_FILE, caseVersionsFile);
         logger.info("{}: {}", CASE_VERSION_SOURCES_FILE, caseVersionSourcesFile);
         logger.info("{}: {}", OUTPUT_FILE, outputFile);
-        logger.info("{}: {}", CASE_RUNTIME_PARAMETER_FILE, caseRuntimeFile);
-        logger.info("{}: {}", RUNTIME_PARAMETER_OUTPUT_FILE, rtOutputFile);
 
         // parse and expand to versions list
         Map<String, List<String>> candidateVersionMap = parseVersionList(candidateVersionListStr);
@@ -229,23 +210,6 @@ public class VersionMatcher {
             logger.info("Version matrix total: {}, list: \n{}", versionProfiles.size(), sb);
         } catch (IOException e) {
             errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.getMessage(), e);
-        }
-
-        List<String> runtimeParameterList = parseRuntimeParameter(caseRuntimeFile);
-        if (runtimeParameterList != null) {
-            try (FileOutputStream fos = new FileOutputStream(rtOutputFile);
-                 PrintWriter pw = new PrintWriter(fos)) {
-                StringBuilder sb = new StringBuilder();
-                runtimeParameterList.forEach(item ->
-                {
-                    sb.append("-D").append(item).append(" ");
-                    sb.append("\n");
-                });
-                pw.print(sb);
-                logger.info("Parameter runtime total: {}, list: \n{}", runtimeParameterList.size(), sb);
-            } catch (IOException e) {
-                errorAndExit(Constants.EXIT_FAILED, "Write parameter runtime failed: " + e.getMessage(), e);
-            }
         }
 
     }

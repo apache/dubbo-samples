@@ -256,13 +256,10 @@ function process_case() {
   # generate version matrix
   version_log_file=$project_home/version-matrix.log
   version_matrix_file=$project_home/version-matrix.txt
-  output_parameter_runtime_file=$project_home/parameter_runtime.txt
   java -DcandidateVersions="$CANDIDATE_VERSIONS" \
     -DcaseVersionsFile="$ver_file" \
     -DcaseVersionSourcesFile="$ver_src_file" \
-    -DcaseRuntimeParameterFile="$runtime_parameter_file" \
     -DoutputFile="$version_matrix_file" \
-    -DruntimeParameterOutputFile="$output_parameter_runtime_file" \
     -cp $test_builder_jar \
     org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
   result=$?
@@ -293,20 +290,21 @@ function process_case() {
   cat $version_matrix_file
 
   runtime_count=0
-  if [ ! -f $output_parameter_runtime_file ]; then
-    echo "case runtime config not found: $output_parameter_runtime_file"
+  if [ ! -f $runtime_parameter_file ]; then
+    echo "case runtime config not found: $runtime_parameter_file"
   else
-    runtime_count=`grep -vc '^$' $output_parameter_runtime_file `
+    runtime_count=`grep -vc '^$' $runtime_parameter_file `
     echo "$log_prefix Runtime parameter: $runtime_count"
-    cat $output_parameter_runtime_file
+    cat $runtime_parameter_file
   fi
   echo "runtime_count=$runtime_count"
-  parameter_runtime=$(tr '\n' ' ' < "$output_parameter_runtime_file")
 
   if [ $runtime_count -gt 0 ]; then
         while read -r version_profile; do
-          echo  "do parameter_runtime=$parameter_runtime"
-          run_test_with_version_profile "$version_profile" "$parameter_runtime" "$project_home"
+            while read -r parameter_runtime; do
+              echo  "do parameter_runtime=$parameter_runtime"
+              run_test_with_version_profile "$version_profile" "$parameter_runtime" "$project_home"
+            done < "$runtime_parameter_file"
         done < "$version_matrix_file"
   else
         while read -r version_profile; do
