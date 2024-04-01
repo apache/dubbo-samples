@@ -66,19 +66,20 @@ public class ConsumerIT {
 
         if (StringUtils.isNotBlank(prop)) {
             prop = prop.replace("\"", "");
-            String[] props = prop.split(" ");
+            String[] props = prop.split("-D");
 
             Map<String, String> propMap = new HashMap<>();
             List<String> propList = new ArrayList<>();
             for (String p : props) {
-                p = p.substring(2);
-                String key = p.substring(0, p.indexOf("="));
-                String val = p.substring(p.indexOf("=") + 1);
+                if (StringUtils.isBlank(p)) {
+                    continue;
+                }
+                int index = p.indexOf('=');
+                String key = p.substring(0, index);
+                String val = p.substring(index + 1);
                 propMap.put(key, val);
                 propList.add(p);
             }
-            propJson = new Gson().toJson(propMap);
-            prop = String.join("_", propList);
         }
 
         Options options;
@@ -86,14 +87,14 @@ public class ConsumerIT {
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
                 .param("prop", propJson == null ? "" : propJson)
-                .warmupIterations(5)
+                .warmupIterations(10)
                 .warmupTime(TimeValue.seconds(1))
-                .measurementIterations(5)
+                .measurementIterations(10)
                 .measurementTime(TimeValue.seconds(1))
-                .mode(Mode.AverageTime)
-                .timeUnit(TimeUnit.MILLISECONDS)
+                .mode(Mode.Throughput)
+                .mode(Mode.SampleTime)
                 .threads(Threads.MAX)
-                .forks(1);
+                .forks(0);
 
         options = doOptions(optBuilder, prop).build();
         new Runner(options).run();

@@ -137,8 +137,7 @@ function run_test_with_version_profile() {
 
     jvm_opts=$version_profile
     if [ "$parameter_runtime" != "" ]; then
-       parameter_runtime=$(echo "$parameter_runtime" | awk '{$1=$1;print}')
-       jvm_opts="$version_profile $parameter_runtime -Dprop=\"$parameter_runtime\""
+       jvm_opts="$version_profile $parameter_runtime"
     fi
 
     echo "parameter_runtime=$parameter_runtime"
