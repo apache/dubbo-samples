@@ -519,9 +519,7 @@ public class ConfigurationImpl implements IConfiguration {
         }
         String runtimeProps = System.getProperty("prop");
         System.out.println("runtimeProps: " + runtimeProps);
-        if(StringUtils.isNotBlank(runtimeProps)){
-            sb.append(runtimeProps).append(' ').append("-Dprop=").append(runtimeProps.trim().replace(" ", ""));
-        }
+        sb.append(runtimeProps).append(' ');
         return sb.toString();
     }
 

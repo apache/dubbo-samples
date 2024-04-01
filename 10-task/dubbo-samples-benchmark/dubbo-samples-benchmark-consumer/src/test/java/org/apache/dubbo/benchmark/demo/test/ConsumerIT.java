@@ -66,17 +66,14 @@ public class ConsumerIT {
 
         if (StringUtils.isNotBlank(prop)) {
             prop = prop.replace("\"", "");
-            String[] props = prop.split("-D");
+            String[] props = prop.split("\\|");
 
             Map<String, String> propMap = new HashMap<>();
             List<String> propList = new ArrayList<>();
             for (String p : props) {
-                if (StringUtils.isBlank(p)) {
-                    continue;
-                }
-                int index = p.indexOf('=');
-                String key = p.substring(0, index);
-                String val = p.substring(index + 1);
+                p = p.substring(2);
+                String key = p.substring(0, p.indexOf("="));
+                String val = p.substring(p.indexOf("=") + 1);
                 propMap.put(key, val);
                 propList.add(p);
             }

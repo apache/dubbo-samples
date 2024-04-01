@@ -137,7 +137,15 @@ function run_test_with_version_profile() {
 
     jvm_opts=$version_profile
     if [ "$parameter_runtime" != "" ]; then
-       jvm_opts="$version_profile $parameter_runtime"
+        # 检查参数数量
+        IFS=' ' read -ra params <<< "$parameter_runtime"
+        num_params=${#params[@]}
+        if [ "$num_params" -gt 1 ]; then
+            output_params=$(echo "$parameter_runtime" | awk '{ for(i=1; i<=NF; i++) printf "%s%s", $i, (i==NF ? ORS : "|"); }')
+        else
+            output_params="$parameter_runtime"
+        fi
+       jvm_opts="$version_profile $parameter_runtime -Dprop=\"$output_params\""
     fi
 
     echo "parameter_runtime=$parameter_runtime"
