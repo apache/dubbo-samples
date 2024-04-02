@@ -297,6 +297,7 @@ function process_case() {
   echo "$log_prefix Version matrix: $version_count"
   cat $version_matrix_file
 
+  runtime_parameter_file=$(grep -v '^\s*#' $runtime_parameter_file | grep -v '^$')
   runtime_count=0
   if [ ! -f $runtime_parameter_file ]; then
     echo "case runtime config not found: $runtime_parameter_file"
