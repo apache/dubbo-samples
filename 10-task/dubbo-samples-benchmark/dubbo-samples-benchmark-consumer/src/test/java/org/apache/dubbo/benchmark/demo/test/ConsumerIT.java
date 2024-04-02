@@ -86,23 +86,23 @@ public class ConsumerIT {
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
                 .param("prop", propJson == null ? "" : propJson)
-                .warmupIterations(5)
+                .warmupIterations(10)
                 .warmupTime(TimeValue.seconds(1))
-                .measurementIterations(5)
+                .measurementIterations(10)
                 .measurementTime(TimeValue.seconds(1))
-                .mode(Mode.SampleTime)
                 .mode(Mode.Throughput)
+                .mode(Mode.SampleTime)
                 .threads(Threads.MAX)
-                .forks(1);
+                .forks(2);
 
         options = doOptions(optBuilder, prop).build();
         new Runner(options).run();
 
-        dotTrace(prop, propKey);
+        dotTrace(prop, propKey, propJson);
 
     }
 
-    private static void dotTrace(String prop, String propKey) {
+    private static void dotTrace(String prop, String propKey, String propJson) {
         String url = "jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false";
         String user = "root";
         String password = "123456";
@@ -142,9 +142,9 @@ public class ConsumerIT {
 
             String traceJson;
             Gson gson = new Gson();
-            if (StringUtils.isNotBlank(prop)) {
+            if (StringUtils.isNotBlank(propJson)) {
                 JsonElement jsonElement = gson.toJsonTree(segmentObject);
-                jsonElement.getAsJsonObject().addProperty(propKey, prop);
+                jsonElement.getAsJsonObject().addProperty(propKey, propJson);
                 traceJson = gson.toJson(jsonElement);
             } else {
                 traceJson = gson.toJson(segmentObject);

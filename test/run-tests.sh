@@ -301,6 +301,8 @@ function process_case() {
   if [ ! -f $runtime_parameter_file ]; then
     echo "case runtime config not found: $runtime_parameter_file"
   else
+    content=$(grep -v '^\s*#' "$runtime_parameter_file" | grep -v '^$')
+    echo "$content" > "$runtime_parameter_file"
     runtime_count=`grep -vc '^$' $runtime_parameter_file `
     echo "$log_prefix Runtime parameter: $runtime_count"
     cat $runtime_parameter_file

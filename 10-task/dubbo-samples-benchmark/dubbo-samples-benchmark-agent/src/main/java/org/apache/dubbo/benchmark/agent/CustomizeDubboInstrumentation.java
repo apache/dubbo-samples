@@ -18,6 +18,7 @@
 
 package org.apache.dubbo.benchmark.agent;
 
+import org.apache.dubbo.remoting.Codec2;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.ConstructorInterceptPoint;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.InstanceMethodsInterceptPoint;
 import org.apache.skywalking.apm.agent.core.plugin.interceptor.enhance.ClassInstanceMethodsEnhancePluginDefine;
@@ -40,6 +41,10 @@ public class CustomizeDubboInstrumentation extends ClassInstanceMethodsEnhancePl
 
     public static final String InvokerInvocationHandler = "org.apache.dubbo.rpc.proxy.InvokerInvocationHandler";
 
+    public static final String Codec2 = "org.apache.dubbo.remoting.Codec2";
+
+    public static final String Codec = "org.apache.dubbo.remoting.Codec";
+
     public static final String DemoService = "org.apache.dubbo.benchmark.demo.DemoService";
 
     public static final String INTERCEPT_CLASS = "org.apache.dubbo.benchmark.agent.DubboInvokeInterceptor";
@@ -48,6 +53,8 @@ public class CustomizeDubboInstrumentation extends ClassInstanceMethodsEnhancePl
     protected ClassMatch enhanceClass() {
         return LogicalMatchOperation.or(byHierarchyMatch(RemoteInvocation)
                 , byHierarchyMatch(RPC_INVOKER)
+                , byHierarchyMatch(Codec)
+                , byHierarchyMatch(Codec2)
                 , byHierarchyMatch(Serialization)
                 , byHierarchyMatch(DemoService)
                 , MultiClassNameMatch.byMultiClassMatch(InvokerInvocationHandler));
@@ -64,7 +71,7 @@ public class CustomizeDubboInstrumentation extends ClassInstanceMethodsEnhancePl
                 new InstanceMethodsInterceptPoint() {
                     @Override
                     public ElementMatcher<MethodDescription> getMethodsMatcher() {
-                        return namedOneOf("doInvoke", "invoke", "serialize", "deserialize", "sayHello");
+                        return namedOneOf("doInvoke", "invoke", "encode", "decode", "serialize", "deserialize", "sayHello");
                     }
 
                     @Override
