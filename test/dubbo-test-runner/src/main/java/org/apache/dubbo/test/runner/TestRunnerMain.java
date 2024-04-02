@@ -98,9 +98,8 @@ public class TestRunnerMain {
         System.out.println("targetClassesDir: " + targetClassesDir.getAbsolutePath());
         System.out.println("dependencyJarsDir: " + dependencyJarsDir.getAbsolutePath());
         System.out.println("reportsDirectory: " + reportsDirectory.getAbsolutePath());
-        System.out.println("test_1 patterns: " + tests);
-        String prop = System.getProperty("prop");
-        System.out.println("runner_prop_1=" + prop);
+        System.out.println("test patterns: " + tests);
+
 
         File statisticsFile = new File(reportsDirectory, "test-statistics.txt");
         StartupReportConfiguration startupReportConfiguration = new StartupReportConfiguration(true,
@@ -193,7 +192,6 @@ public class TestRunnerMain {
         if (runSuccess) {
             System.exit(0);
         } else {
-            consoleLogger.error("Run_unit_error,exit");
             System.exit(1);
         }
     }
