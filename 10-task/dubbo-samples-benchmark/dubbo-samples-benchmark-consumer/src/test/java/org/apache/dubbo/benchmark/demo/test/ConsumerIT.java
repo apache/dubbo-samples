@@ -116,7 +116,7 @@ public class ConsumerIT {
             connection = DriverManager.getConnection(url, user, password);
             statement = connection.createStatement();
 
-            String sql = "SELECT data_binary FROM segment order by start_time desc limit 1";
+            String sql = "SELECT data_binary FROM segment ORDER BY start_time LIMIT 1 OFFSET FLOOR((SELECT COUNT(*) / 2 FROM segment)";
             resultSet = statement.executeQuery(sql);
 
             String dataBinary = null;
