@@ -98,11 +98,11 @@ public class ConsumerIT {
         options = doOptions(optBuilder, prop).build();
         new Runner(options).run();
 
-        dotTrace(prop, propKey);
+        dotTrace(prop, propKey, propJson);
 
     }
 
-    private static void dotTrace(String prop, String propKey) {
+    private static void dotTrace(String prop, String propKey, String propJson) {
         String url = "jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false";
         String user = "root";
         String password = "123456";
@@ -142,9 +142,9 @@ public class ConsumerIT {
 
             String traceJson;
             Gson gson = new Gson();
-            if (StringUtils.isNotBlank(prop)) {
+            if (StringUtils.isNotBlank(propJson)) {
                 JsonElement jsonElement = gson.toJsonTree(segmentObject);
-                jsonElement.getAsJsonObject().addProperty(propKey, prop);
+                jsonElement.getAsJsonObject().addProperty(propKey, propJson);
                 traceJson = gson.toJson(jsonElement);
             } else {
                 traceJson = gson.toJson(segmentObject);
