@@ -1,16 +1,8 @@
 name: dyj
 
 on:
-    pull_request:
-        paths:
-            - "**"
-            - "!**/*.md"
-            - "!docs/**"
-    push:
-        paths:
-            - '**'
-            - "!**/*.md"
-            - "!docs/**"
+    schedule:
+        - cron: '0 * * * *'
     workflow_dispatch:
 
 env:
@@ -54,6 +46,7 @@ jobs:
                   commit_id=`git log --format="%H" -n 1`
                   echo "::set-output name=commit_id::$commit_id"
                   echo "commit_id: $commit_id"
+                  echo "commit_id: ${{ github.sha }}"
             - name: Dubbo cache
               id: dubbocache
               uses: actions/cache@v3
