@@ -261,6 +261,23 @@ function process_case() {
   log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix Processing : $project_home .."
 
+  runtime_count=0
+  if [ ! -f $runtime_parameter_file ]; then
+    echo "case runtime config not found: $runtime_parameter_file"
+  else
+    content=$(grep -v '^\s*#' "$runtime_parameter_file" | grep -v '^$')
+    echo "$content" > "$runtime_parameter_file"
+    runtime_count=`grep -vc '^$' $runtime_parameter_file `
+    echo "$log_prefix Runtime parameter: $runtime_count"
+    cat $runtime_parameter_file
+  fi
+  echo "runtime_count=$runtime_count"
+
+  includeCaseSpecificVersion=true
+  if [ $runtime_count -gt 0 ]; then
+    includeCaseSpecificVersion=fasle;
+  fi
+
   # generate version matrix
   version_log_file=$project_home/version-matrix.log
   version_matrix_file=$project_home/version-matrix.txt
@@ -268,6 +285,7 @@ function process_case() {
     -DcaseVersionsFile="$ver_file" \
     -DcaseVersionSourcesFile="$ver_src_file" \
     -DoutputFile="$version_matrix_file" \
+    -DincludeCaseSpecificVersion=$includeCaseSpecificVersion \
     -cp $test_builder_jar \
     org.apache.dubbo.scenario.builder.VersionMatcher &> $version_log_file
   result=$?
@@ -296,18 +314,6 @@ function process_case() {
   version_count=`grep -c "" $version_matrix_file `
   echo "$log_prefix Version matrix: $version_count"
   cat $version_matrix_file
-
-  runtime_count=0
-  if [ ! -f $runtime_parameter_file ]; then
-    echo "case runtime config not found: $runtime_parameter_file"
-  else
-    content=$(grep -v '^\s*#' "$runtime_parameter_file" | grep -v '^$')
-    echo "$content" > "$runtime_parameter_file"
-    runtime_count=`grep -vc '^$' $runtime_parameter_file `
-    echo "$log_prefix Runtime parameter: $runtime_count"
-    cat $runtime_parameter_file
-  fi
-  echo "runtime_count=$runtime_count"
 
   if [ $runtime_count -gt 0 ]; then
         while read -r version_profile; do
