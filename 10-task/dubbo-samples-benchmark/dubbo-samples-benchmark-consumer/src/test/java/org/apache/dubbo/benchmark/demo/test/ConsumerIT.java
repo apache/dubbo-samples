@@ -86,14 +86,14 @@ public class ConsumerIT {
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
                 .param("prop", propJson == null ? "" : propJson)
-                .warmupIterations(1)
+                .warmupIterations(5)
                 .warmupTime(TimeValue.seconds(1))
-                .measurementIterations(1)
+                .measurementIterations(5)
                 .measurementTime(TimeValue.seconds(1))
                 .mode(Mode.Throughput)
                 .mode(Mode.SampleTime)
                 .threads(Threads.MAX)
-                .forks(0);
+                .forks(1);
 
         options = doOptions(optBuilder, prop).build();
         new Runner(options).run();

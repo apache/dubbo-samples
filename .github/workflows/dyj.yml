@@ -1,8 +1,16 @@
 name: dyj
 
 on:
-    schedule:
-        - cron: '0 * * * *'
+    pull_request:
+        paths:
+            - "**"
+            - "!**/*.md"
+            - "!docs/**"
+    push:
+        paths:
+            - '**'
+            - "!**/*.md"
+            - "!docs/**"
     workflow_dispatch:
 
 permissions:
