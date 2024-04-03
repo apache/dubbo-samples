@@ -30,7 +30,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.provider.version>3.2.12-SNAPSHOT</dubbo.provider.version>
+        <dubbo.provider.version>3.0.7</dubbo.provider.version>
         <log4j2.version>2.20.0</log4j2.version>
         <junit.version>4.13.1</junit.version>
 
