@@ -2,18 +2,11 @@ name: dyj
 
 on:
     schedule:
-        - cron: '0 0/6 * * *'
-    pull_request:
-        paths:
-            - "**"
-            - "!**/*.md"
-            - "!docs/**"
-    push:
-        paths:
-            - '**'
-            - "!**/*.md"
-            - "!docs/**"
+        - cron: '0 * * * *'
     workflow_dispatch:
+
+permissions:
+    contents: read
 
 env:
     FORK_COUNT: 2
