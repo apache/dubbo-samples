@@ -37,7 +37,7 @@ services:
       retries: 20
 
   skywalking:
-    image: apache/skywalking-oap-server:9.2.0
+    image: apache/skywalking-oap-server:9.0.0
     hostname: skywalking
     ports:
       - 11800:11800
