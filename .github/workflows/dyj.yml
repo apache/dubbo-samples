@@ -13,6 +13,9 @@ on:
             - "!docs/**"
     workflow_dispatch:
 
+permissions:
+    contents: read
+
 env:
     FORK_COUNT: 2
     FAIL_FAST: 0
@@ -54,6 +57,7 @@ jobs:
                   commit_id=`git log --format="%H" -n 1`
                   echo "::set-output name=commit_id::$commit_id"
                   echo "commit_id: $commit_id"
+                  echo "commit_id: ${{ github.sha }}"
             - name: Dubbo cache
               id: dubbocache
               uses: actions/cache@v3
