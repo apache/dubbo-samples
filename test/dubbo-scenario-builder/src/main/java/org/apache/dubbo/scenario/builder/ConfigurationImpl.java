@@ -79,7 +79,7 @@ public class ConfigurationImpl implements IConfiguration {
     private String scenarioName;
     private final String scenarioLogDir;
     private final boolean jacocoEnable = Boolean.parseBoolean(System.getenv("JACOCO_ENABLE"));
-    private int scenarioTimeout = 900;
+    private int scenarioTimeout = 200;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
     private Set<Pattern> debugPatterns = new HashSet<>();
@@ -164,7 +164,6 @@ public class ConfigurationImpl implements IConfiguration {
     }
 
     private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
-        logger.info("Load case configuration1 from: {}", configureFile);
         // read 'props'
         String configYaml = FileUtil.readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
@@ -450,7 +449,6 @@ public class ConfigurationImpl implements IConfiguration {
             List<String> systemProps = mergeSystemProps(caseSystemProps, service.getSystemProps());
             if (isNotEmpty(systemProps)) {
                 String str = convertSystemPropsToJvmFlags(systemProps);
-                System.out.println("systemProps: " + str);
                 appendEnv(service, ENV_JAVA_OPTS, str);
             }
 
@@ -518,7 +516,6 @@ public class ConfigurationImpl implements IConfiguration {
             sb.append("-D").append(propkv).append(' ');
         }
         String runtimeProps = System.getProperty("prop");
-        System.out.println("runtimeProps: " + runtimeProps);
         if (StringUtils.isNotBlank(runtimeProps)) {
             sb.append(runtimeProps).append(' ');
         }

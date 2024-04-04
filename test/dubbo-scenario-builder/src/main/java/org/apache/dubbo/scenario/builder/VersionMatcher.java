@@ -214,36 +214,6 @@ public class VersionMatcher {
 
     }
 
-    private List<String> parseRuntimeParameter(String caseRuntimeFile) {
-
-//        dubbo.protocol.name=tri
-//        dubbo.protocol.port=20883
-        List<String> runtimeAttrList = new ArrayList<>();
-        if (caseRuntimeFile == null) {
-            return null;
-        }
-
-        try {
-            String content = FileUtil.readFully(caseRuntimeFile);
-            BufferedReader br = new BufferedReader(new StringReader(content));
-            String line;
-            while ((line = br.readLine()) != null) {
-                line = line.trim();
-                if (line.startsWith("#") || StringUtils.isBlank(line)) {
-                    continue;
-                }
-                runtimeAttrList.add(line);
-            }
-
-            return runtimeAttrList;
-        } catch (IOException e) {
-            errorAndExit(Constants.EXIT_FAILED, "Parse runtime parameter file path failed: {}", caseRuntimeFile, e);
-        }
-
-        return null;
-
-    }
-
     /**
      * Choose only one final active Dubbo version rule from following case:
      * <br>
@@ -495,7 +465,6 @@ public class VersionMatcher {
         newArgs[0] = Constants.ERROR_MSG_FLAG;
         System.arraycopy(arguments, 0, newArgs, 1, arguments.length);
         logger.error("{} " + format, newArgs);
-        logger.error("VersionMatcher_error_exit ");
         System.exit(exitCode);
     }
 
