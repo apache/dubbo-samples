@@ -1,5 +1,0 @@
--Ddubbo.protocol.serialization=fastjson2 
--Ddubbo.protocol.serialization=hessian2 
--Ddubbo.protocol.serialization=kryo 
--Ddubbo.protocol.name=dubbo 
--Ddubbo.protocol.name=tri 
