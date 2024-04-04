@@ -16,7 +16,7 @@
 
 services:
   zookeeper:
-    image: zookeeper:latest
+    image: zookeeper:${zookeeper-server.version}
 
   dubbo-samples-zookeeper:
     type: app
