@@ -21,6 +21,7 @@ import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ApplicationBuilder;
 
 import java.io.IOException;
 
@@ -32,6 +33,7 @@ public class TriUnaryServer {
         service.setRef(new GreeterImpl("tri-stub"));
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        bootstrap.application(ApplicationBuilder.newBuilder().name("dubbo-samples-api-idl-server").logger("slf4j").build());
         bootstrap.protocol(new ProtocolConfig(CommonConstants.TRIPLE, 50052))
                 .service(service)
                 .start().await();

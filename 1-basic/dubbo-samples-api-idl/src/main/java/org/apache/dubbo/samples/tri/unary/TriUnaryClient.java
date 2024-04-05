@@ -19,6 +19,7 @@ package org.apache.dubbo.samples.tri.unary;
 
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ApplicationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,8 @@ public class TriUnaryClient {
 
     public static void main(String[] args) throws IOException {
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        bootstrap.application(ApplicationBuilder.newBuilder().name("dubbo-samples-api-idl-client").logger("slf4j").build());
+
         ReferenceConfig<Greeter> ref = new ReferenceConfig<>();
         ref.setInterface(Greeter.class);
         ref.setUrl("tri://localhost:50052");
