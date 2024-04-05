@@ -20,7 +20,7 @@ dubbo:
       name: dubbo-springboot-triple-rest-jaxrs
       qos-port: 33333
   registry:
-    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
   protocol:
       name: tri
       port: 50052
