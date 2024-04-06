@@ -31,7 +31,6 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -52,7 +51,6 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class ConsumerIT {
 
@@ -92,7 +90,7 @@ public class ConsumerIT {
                 .measurementTime(TimeValue.seconds(1))
                 .mode(Mode.Throughput)
                 .mode(Mode.SampleTime)
-                .threads(Threads.MAX)
+                .threads(32)
                 .forks(1);
 
         options = doOptions(optBuilder, prop).build();
