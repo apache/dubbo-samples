@@ -18,6 +18,7 @@
 package org.apache.dubbo.samples.provider;
 
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ApplicationBuilder;
 import org.apache.dubbo.config.bootstrap.builders.ProtocolBuilder;
 import org.apache.dubbo.config.bootstrap.builders.ServiceBuilder;
 import org.apache.dubbo.samples.api.GreetingsService;
@@ -25,6 +26,7 @@ import org.apache.dubbo.samples.api.GreetingsService;
 public class Application {
     public static void main(String[] args) {
         DubboBootstrap.getInstance()
+                .application(ApplicationBuilder.newBuilder().name("dubbo-samples-api").logger("slf4j").build())
                 .protocol(ProtocolBuilder.newBuilder().name("tri").port(50052).build())
                 .service(ServiceBuilder.newBuilder().interfaceClass(GreetingsService.class).ref(new GreetingsServiceImpl()).build())
                 .start()
