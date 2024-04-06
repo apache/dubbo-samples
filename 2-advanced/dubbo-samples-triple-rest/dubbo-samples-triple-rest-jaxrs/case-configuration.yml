@@ -48,7 +48,7 @@ services:
     systemProps:
       - nacos.address=nacos
       - nacos.port=8848
-      - dubbo.address=jaxrs-provider:50052
+      - dubbo.address=jaxrs-provider
     waitPortsBeforeRun:
       - nacos:8848
       - jaxrs-provider:50052
