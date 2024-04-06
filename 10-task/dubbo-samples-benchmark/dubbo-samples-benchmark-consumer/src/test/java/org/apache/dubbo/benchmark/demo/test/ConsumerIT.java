@@ -120,7 +120,6 @@ public class ConsumerIT {
             String dataBinary = null;
             if (resultSet.next()) {
                 dataBinary = resultSet.getString("data_binary");
-                System.out.println("dataBinary: " + dataBinary);
             }
 
             Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject");
