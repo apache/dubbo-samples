@@ -13,6 +13,16 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-# Specify the application name of Dubbo
-dubbo.application.name=sentinel-consumer
-dubbo.registry.address=nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
+dubbo:
+    application:
+        # Specify the application name of Dubbo
+        name: extensibility-filter-consumer
+    consumer:
+        router: stickfirst
+    provider:
+        # Enable token verification for each invocation
+        token: true
+    registry:
+        # Specify the registry address
+        address: nacos://localhost:8848?username=nacos&password=nacos
+#        address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos

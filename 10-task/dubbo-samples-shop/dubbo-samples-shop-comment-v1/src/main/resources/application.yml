@@ -13,8 +13,19 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-# Specify the application name of Dubbo
-dubbo.application.name=sentinel-provider
-dubbo.protocol.name=tri
-dubbo.protocol.port=50051
-dubbo.registry.address=nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
+dubbo:
+    application:
+        # Specify the application name of Dubbo
+        name: shop-comment
+        # Specify the QoS port
+        qos-port: 20997
+    protocol:
+        # Specify the port of Dubbo protocol
+        port: 20887
+    provider:
+        # Enable token verification for each invocation
+        token: true
+    registry:
+        # Specify the registry address
+#        address: nacos://localhost:8848?username=nacos&password=nacos
+        address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos

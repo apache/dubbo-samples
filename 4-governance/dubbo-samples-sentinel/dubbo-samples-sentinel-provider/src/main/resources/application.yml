@@ -13,14 +13,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-# Specify the application name of Dubbo
-dubbo.application.name=extensibility-filter-consumer
-
-# Enable token verification for each invocation
-dubbo.provider.token=true
-
-# Specify the registry address
-dubbo.registry.address=nacos://localhost:8848?username=nacos&password=nacos
-# dubbo.registry.address=nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
-
-dubbo.consumer.router=stickfirst
+dubbo:
+    application:
+        # Specify the application name of Dubbo
+        name: sentinel-provider
+    protocol:
+        name: tri
+        port: 50051
+    registry:
+        address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos

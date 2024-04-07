@@ -13,15 +13,17 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-# Specify the application name of Dubbo
-dubbo.application.name=extensibility-protocol-consumer
-
-# Enable token verification for each invocation
-dubbo.provider.token=true
-
-# Specify the registry address
-dubbo.registry.address=nacos://localhost:8848?username=nacos&password=nacos
-# dubbo.registry.address=nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
-
-# Protocol
-dubbo.consumer.protocol=edubbo
+dubbo:
+    application:
+        # Specify the application name of Dubbo
+        name: extensibility-protocol-consumer
+    consumer:
+        # Protocol
+        protocol: edubbo
+    provider:
+        # Enable token verification for each invocation
+        token: true
+    registry:
+        # Specify the registry address
+        address: nacos://localhost:8848?username=nacos&password=nacos
+#        address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
