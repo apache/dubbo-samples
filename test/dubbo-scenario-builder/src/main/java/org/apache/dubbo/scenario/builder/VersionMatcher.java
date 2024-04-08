@@ -209,9 +209,8 @@ public class VersionMatcher {
             pw.print(sb);
             logger.info("Version matrix total: {}, list: \n{}", versionProfiles.size(), sb);
         } catch (IOException e) {
-            errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.getMessage(), e);
+            errorAndExit(Constants.EXIT_FAILED, "Write version matrix failed: " + e.toString(), e);
         }
-
     }
 
     /**
@@ -473,6 +472,7 @@ public class VersionMatcher {
 
         boolean match(String version);
 
+
         /**
          * Get service the MatchRule bind to
          *
@@ -481,7 +481,6 @@ public class VersionMatcher {
         default String getServiceName() {
             return null;
         }
-
     }
 
     private static abstract class ExcludableMatchRule implements VersionMatcher.MatchRule {
@@ -501,7 +500,6 @@ public class VersionMatcher {
         public String getServiceName() {
             return serviceName;
         }
-
     }
 
     private static class PlainMatchRule extends ExcludableMatchRule {
@@ -526,7 +524,6 @@ public class VersionMatcher {
         public String toString() {
             return (excluded ? "!" : "") + version;
         }
-
     }
 
     private static class WildcardMatchRule extends ExcludableMatchRule {
@@ -549,7 +546,6 @@ public class VersionMatcher {
         public String toString() {
             return (excluded ? "!" : "") + versionWildcard;
         }
-
     }
 
     private static class RangeMatchRule implements VersionMatcher.MatchRule {
@@ -580,7 +576,6 @@ public class VersionMatcher {
         public String toString() {
             return operator + version;
         }
-
     }
 
     private static class CombineMatchRule implements VersionMatcher.MatchRule {
@@ -613,7 +608,6 @@ public class VersionMatcher {
             }
             return sb.toString();
         }
-
     }
 
     private static int[] toVersionInts(String version) {
@@ -682,7 +676,6 @@ public class VersionMatcher {
 
     private interface VersionComparator {
         boolean match(int[] matchingVersionInts, int[] versionInts);
-
     }
 
     private static VersionComparator greaterThanComparator = new VersionComparator() {

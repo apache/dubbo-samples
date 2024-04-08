@@ -212,7 +212,8 @@ sleep 5
 #fi
 
 if [[ $status == 0 ]];then
-    docker compose -p $project_name -f $compose_file rm -f 2>&1 | tee -a $scenario_log > /dev/null
+    echo "[$scenario_name] Removing containers and volumes .." | tee -a $scenario_log
+    docker compose -p ${project_name} -f ${compose_file} down -v 2>&1 | tee -a $scenario_log > /dev/null
     ${removeImagesScript}
 else
     for service_name in ${service_names[@]};do

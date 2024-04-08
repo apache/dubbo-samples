@@ -45,6 +45,8 @@ public class CustomizeDubboInstrumentation extends ClassInstanceMethodsEnhancePl
 
     public static final String Codec = "org.apache.dubbo.remoting.Codec";
 
+    public static final String Decodeable = "org.apache.dubbo.remoting.Decodeable";
+
     public static final String DemoService = "org.apache.dubbo.benchmark.demo.DemoService";
 
     public static final String INTERCEPT_CLASS = "org.apache.dubbo.benchmark.agent.DubboInvokeInterceptor";
@@ -55,6 +57,7 @@ public class CustomizeDubboInstrumentation extends ClassInstanceMethodsEnhancePl
                 , byHierarchyMatch(RPC_INVOKER)
                 , byHierarchyMatch(Codec)
                 , byHierarchyMatch(Codec2)
+                , byHierarchyMatch(Decodeable)
                 , byHierarchyMatch(Serialization)
                 , byHierarchyMatch(DemoService)
                 , MultiClassNameMatch.byMultiClassMatch(InvokerInvocationHandler));

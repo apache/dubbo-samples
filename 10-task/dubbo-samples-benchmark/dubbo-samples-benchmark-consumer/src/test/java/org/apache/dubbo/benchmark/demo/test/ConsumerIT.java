@@ -37,15 +37,14 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.ChainedOptionsBuilder;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.openjdk.jmh.runner.options.TimeValue;
 
 import java.io.File;
 import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -84,10 +83,6 @@ public class ConsumerIT {
                 .include(MyBenchmark.class.getSimpleName())
                 .param("time", System.currentTimeMillis() + "")
                 .param("prop", propJson == null ? "" : propJson)
-                .warmupIterations(5)
-                .warmupTime(TimeValue.seconds(1))
-                .measurementIterations(5)
-                .measurementTime(TimeValue.seconds(1))
                 .mode(Mode.Throughput)
                 .mode(Mode.SampleTime)
                 .threads(32)
@@ -106,20 +101,31 @@ public class ConsumerIT {
         String password = "123456";
 
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
+        String dataBinary = null;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, password);
-            statement = connection.createStatement();
 
-            String sql = "SELECT data_binary FROM segment ORDER BY latency DESC LIMIT 1 OFFSET 10";
-            resultSet = statement.executeQuery(sql);
+            String setOffsetSql = "SELECT FLOOR(COUNT(*) * 0.01) FROM segment";
+            statement = connection.prepareStatement(setOffsetSql);
+            resultSet = statement.executeQuery();
 
-            String dataBinary = null;
             if (resultSet.next()) {
-                dataBinary = resultSet.getString("data_binary");
+                int offset = resultSet.getInt(1);
+                System.out.println("offset:" + offset);
+
+                String querySql = "SELECT data_binary FROM segment ORDER BY latency DESC LIMIT 1 OFFSET ?";
+                statement = connection.prepareStatement(querySql);
+                statement.setInt(1, offset);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    dataBinary = resultSet.getString("data_binary");
+                    System.out.println(dataBinary);
+                }
             }
 
             Class<?> segmentObjectClass = Class.forName("org.apache.skywalking.apm.network.language.agent.v3.SegmentObject");

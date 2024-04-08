@@ -29,7 +29,6 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public String sayHello(String name) {
-        logger.info("invoke Hello " + name);
         return "Hello " + name;
     }
 }
