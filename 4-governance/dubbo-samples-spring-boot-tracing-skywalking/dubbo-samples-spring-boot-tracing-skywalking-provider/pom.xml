@@ -25,17 +25,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-samples-spring-boot-tracing-skwalking-consumer</artifactId>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+    <artifactId>dubbo-samples-spring-boot-tracing-skywalking-provider</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-samples-spring-boot-tracing-skwalking-interface</artifactId>
+            <artifactId>dubbo-samples-spring-boot-tracing-skywalking-interface</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

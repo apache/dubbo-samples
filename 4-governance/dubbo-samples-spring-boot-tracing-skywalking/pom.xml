@@ -34,9 +34,9 @@
     <name>Dubbo Samples SpringBoot Tracing Skywalking</name>
     <description>Dubbo Samples SpringBoot Tracing Skywalking</description>
     <modules>
-        <module>dubbo-samples-spring-boot-tracing-skwalking-provider</module>
-        <module>dubbo-samples-spring-boot-tracing-skwalking-consumer</module>
-        <module>dubbo-samples-spring-boot-tracing-skwalking-interface</module>
+        <module>dubbo-samples-spring-boot-tracing-skywalking-provider</module>
+        <module>dubbo-samples-spring-boot-tracing-skywalking-consumer</module>
+        <module>dubbo-samples-spring-boot-tracing-skywalking-interface</module>
     </modules>
 
     <properties>
