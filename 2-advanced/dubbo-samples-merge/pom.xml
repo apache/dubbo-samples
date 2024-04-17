@@ -49,8 +49,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <dubbo.version>3.2.6</dubbo.version>
-        <spring.version>4.3.30.RELEASE</spring.version>
-        <spring-boot.version>2.7.8</spring-boot.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <junit.version>4.13.1</junit.version>
     </properties>
 
