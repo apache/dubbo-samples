@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-timeout: 300
+timeout: 600
 
 services:
   nacos:
@@ -34,8 +34,8 @@ services:
 
   dubbo-samples-nacos-conditionrouter1:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.governance.BasicProvider
+    basedir: dubbo-samples-nacos-conditionrouter-provider
+    mainClass: org.apache.dubbo.samples.governance.provider.ProviderApplication
     systemProps:
       - nacos.address=nacos
       - nacos.port=8848
@@ -50,8 +50,8 @@ services:
 
   dubbo-samples-nacos-conditionrouter2:
     type: app
-    basedir: .
-    mainClass: org.apache.dubbo.samples.governance.BasicProvider
+    basedir: dubbo-samples-nacos-conditionrouter-provider
+    mainClass: org.apache.dubbo.samples.governance.provider.ProviderApplication
     systemProps:
       - nacos.address=nacos
       - nacos.port=8848
@@ -66,7 +66,7 @@ services:
 
   dubbo-samples-nacos-conditionrouter-test:
     type: test
-    basedir: .
+    basedir: dubbo-samples-nacos-conditionrouter-consumer
     tests:
       - "**/*IT.class"
     systemProps:

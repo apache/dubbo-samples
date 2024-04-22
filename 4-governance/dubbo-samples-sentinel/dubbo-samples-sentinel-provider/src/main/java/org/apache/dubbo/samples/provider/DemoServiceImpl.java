@@ -25,4 +25,20 @@ public class DemoServiceImpl implements DemoService {
     public String sayHello(String name) {
         return "hello, "+ name;
     }
+
+    @Override
+    public String sayHelloAgain(String name) {
+        return "hello, "+ name;
+    }
+
+    @Override
+    public String sayHelloConsumerFlowControl(String name) {
+        return "hello, "+ name;
+    }
+
+    @Override
+    public String sayHelloConsumerDowngrade(String name) {
+        return "hello, "+ name;
+    }
+
 }

@@ -30,7 +30,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.consumer.version>2.7.13</dubbo.consumer.version>
+        <dubbo.consumer.version>3.2.6</dubbo.consumer.version>
         <log4j2.version>2.20.0</log4j2.version>
         <junit.version>4.13.1</junit.version>
 
@@ -55,7 +55,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
                 <version>${dubbo.consumer.version}</version>
                 <type>pom</type>
                 <exclusions>
@@ -100,7 +100,7 @@
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
             <type>pom</type>
         </dependency>
 

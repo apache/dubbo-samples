@@ -33,7 +33,7 @@ Run the following command to see server works as expected:
 ```shell
 curl \
     --header "Content-Type: application/json" \
-    --data '{name:"Dubbo"}' \
+    --data '{"name":"Dubbo"}' \
     http://localhost:50052/org.apache.dubbo.springboot.demo.idl.Greeter/greet/
 ```
 
