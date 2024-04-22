@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: NewGoodsServiceImpl
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test_shop
+    username: root
+    password: root
+dubbo:
+  application:
+    logger: slf4j
+    name: ${spring.application.name}
+    qos-enable: false
+    check-serializable: false
+  registry:
+    address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos
+  protocol:
+    port: 20882
+    name: dubbo
