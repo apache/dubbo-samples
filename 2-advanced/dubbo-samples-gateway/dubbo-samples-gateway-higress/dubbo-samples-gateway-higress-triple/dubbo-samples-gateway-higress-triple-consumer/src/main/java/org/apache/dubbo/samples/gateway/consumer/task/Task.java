@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.rest.demo.consumer;
+package org.apache.dubbo.samples.gateway.consumer.task;
 
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.rest.demo.DemoService;
-
+import org.apache.dubbo.samples.gateway.api.DemoService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

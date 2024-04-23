@@ -29,12 +29,12 @@
     <artifactId>dubbo-samples-nacos-registry</artifactId>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
-        <spring.version>4.3.30.RELEASE</spring.version>
+        <dubbo.version>3.3.0-beta.2</dubbo.version>
+        <spring.version>6.1.5</spring.version>
         <log4j2.version>2.20.0</log4j2.version>
         <junit.version>4.13.1</junit.version>
 
