@@ -33,7 +33,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <dubbo.version>3.3.0-beta.2</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
         <junit5.version>5.10.1</junit5.version>
         <junit.platform>1.9.3</junit.platform>
