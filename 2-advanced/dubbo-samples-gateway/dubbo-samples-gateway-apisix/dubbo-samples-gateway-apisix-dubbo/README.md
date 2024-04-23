@@ -1,8 +1,8 @@
-# 使用APISIX+Nacos代理Dubbo服务
+# Using APISIX+Nacos to Proxy Dubbo Service
 
-### 安装
+### Installation
 
-你可以选择以下任意一种方式安装 APISIX：
+You can choose any of the following ways to install APISIX:
 
 - Docker
 - Helm
@@ -10,17 +10,17 @@
 - DEB
 - Source Code
 
-本文档使用Docker安装，较为简单
+This document uses Docker installation, which is relatively simple
 
-使用此方法安装 APISIX，你需要安装 [Docker](https://www.docker.com/) 和 [Docker Compose](https://docs.docker.com/compose/)。
+To install APISIX using this method, you need to install Docker（ [https://www.docker.com/](https://www.docker.com/) ）And Docker Composite（ [https://docs.docker.com/compose/](https://docs.docker.com/compose/) ）.
 
-首先下载 [apisix-docker](https://github.com/apache/apisix-docker) 仓库。
+First, download [apisix Docker]（ [https://github.com/apache/apisix-docker](https://github.com/apache/apisix-docker) ）Warehouse.
 
 `git clone https://github.com/apache/apisix-docker.gitcd apisix-docker/example`
 
-### 配置
+### Configuration
 
-接着在 config.yaml 文件中进行 dubbo-proxy 插件启用
+Next, enable the dubbo proxy plugin in the config.yaml file
 
 ```yaml
 # Add this in config.yaml
@@ -29,9 +29,8 @@ plugins:
   - dubbo-proxy
 ```
 
-然后注意由于要接入到nacos注册中心，因此需要修改`docker-compose.yaml`
-
-添加如下内容
+Then note that due to the need to connect to the Nacos registry, it is necessary to modify the `Docker Compose.yaml` 
+Add the following content
 
 ```yaml
   nacos:
@@ -47,13 +46,12 @@ plugins:
       apisix:
 ```
 
-最后使用 `docker-compose` 启用 APISIX：`docker-compose -p docker-apisix up -d`
+Finally, use Docker Compose to enable APISIX: `docker-compose -p docker-apisix up -d`
 
-### 接入
+### Access
 
-代码示例可以使用`dubbo-samples-gateway`模块下的`dubbo-samples-gateway-apisix-dubbo`
-
-使用curl创建指向 Dubbo Provider 的 Upstream。
+The code example can use the `dubbo-samples-gateway-apisix-dubbo` module under the `dubbo samples gateway` module
+Create an Upstream pointing to Dubbo Provider using curl.
 
 ```yaml
 curl [http://127.0.0.1:9180/apisix/admin/upstreams/1](http://127.0.0.1:9180/apisix/admin/upstreams/1)  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -66,7 +64,7 @@ curl [http://127.0.0.1:9180/apisix/admin/upstreams/1](http://127.0.0.1:9180/apis
 }'
 ```
 
-为 ApisixService暴露一个 HTTP 路由。
+Expose an HTTP route for ApisixService
 
 ```yaml
 curl [http://127.0.0.1:9180/apisix/admin/routes/1](http://127.0.0.1:9180/apisix/admin/routes/1)  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -85,7 +83,7 @@ curl [http://127.0.0.1:9180/apisix/admin/routes/1](http://127.0.0.1:9180/apisix/
 }'
 ```
 
-使用 curl 命令请求 Apache APISIX，并查看返回结果。
+Use the curl command to request Apache APISIX and view the returned results.
 
 ```bash
 curl http://127.0.0.1:9080/dubbo -H "Host: example.org"  -X POST --data '{"name": "hello"}'
@@ -102,4 +100,4 @@ Key = accept, Value = text/html,application/json,application/xhtml+xml,applicati
 Key = user-agent, Value = Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/53
 ```
 
-至此一个最基本的使用apisix代理dubbo服务sample就完成了
+At this point, the most basic use of the Apisix proxy dubbo service sample has been completed

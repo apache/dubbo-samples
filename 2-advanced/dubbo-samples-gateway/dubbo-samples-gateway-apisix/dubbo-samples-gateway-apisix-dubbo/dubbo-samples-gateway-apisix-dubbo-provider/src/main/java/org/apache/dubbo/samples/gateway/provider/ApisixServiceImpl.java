@@ -28,7 +28,7 @@ public class ApisixServiceImpl implements ApisixService {
     @Override
     public Map<String, Object> apisixToDubbo(Map<String, Object> requestBody) {
         for (Map.Entry<String, Object> entry : requestBody.entrySet()) {
-            //注意这里body的value实际是byte数组
+            //Notice here that the value of the body is actually a byte array
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }
 
