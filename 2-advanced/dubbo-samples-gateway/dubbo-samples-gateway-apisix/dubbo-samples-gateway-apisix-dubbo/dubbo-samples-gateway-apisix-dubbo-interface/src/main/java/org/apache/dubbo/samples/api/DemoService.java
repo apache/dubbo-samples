@@ -16,13 +16,8 @@
  */
 package org.apache.dubbo.samples.api;
 
-/**
- * @Description: TODO
- * @Author MiSinG
- * @Date 2024/4/2
- * @Version V1.0
- **/
 public interface DemoService {
 
     String sayHello(String name);
+
 }

@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 package org.apache.dubbo.samples.gateway.consumer;
+
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.samples.api.DemoService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
 @Component

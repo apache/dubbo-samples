@@ -20,6 +20,6 @@ import java.util.Map;
 
 public interface ApisixService {
 
-
     Map<String, Object> apisixToDubbo(Map<String, Object> requestBody);
+
 }

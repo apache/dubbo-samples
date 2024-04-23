@@ -19,12 +19,7 @@ package org.apache.dubbo.samples.gateway.provider;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.samples.api.DemoService;
 
-/**
- * @Description: TODO
- * @Author MiSinG
- * @Date 2024/4/2
- * @Version V1.0
- **/
+
 @DubboService
 public class DemoServiceImpl implements DemoService {
     public String sayHello(String name) {

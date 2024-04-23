@@ -12,15 +12,21 @@ You can choose any of the following ways to install APISIX:
 
 This document uses Docker installation, which is relatively simple
 
-To install APISIX using this method, you need to install Docker（ [https://www.docker.com/](https://www.docker.com/) ）And Docker Composite（ [https://docs.docker.com/compose/](https://docs.docker.com/compose/) ）.
+To install APISIX using this method, you need to install [Docker](https://www.docker.com/) And  
 
-First, download [apisix Docker]（ [https://github.com/apache/apisix-docker](https://github.com/apache/apisix-docker) ）Warehouse.
+[docker-compose](https://docs.docker.com/compose/)
 
-`git clone https://github.com/apache/apisix-docker.gitcd apisix-docker/example`
+First, download [apisix-docker](https://github.com/apache/apisix-docker) Warehouse.
+
+`git clone https://github.com/apache/apisix-docker.git`
+
+`cd apisix-docker/example`
 
 ### Configuration
 
 Next, enable the dubbo proxy plugin in the config.yaml file
+
+`cd apisix-docker/example/apisix_conf/`
 
 ```yaml
 # Add this in config.yaml
@@ -29,7 +35,11 @@ plugins:
   - dubbo-proxy
 ```
 
-Then note that due to the need to connect to the Nacos registry, it is necessary to modify the `Docker Compose.yaml` 
+Then note that due to the need to connect to the Nacos registry, it is necessary to modify the 
+
+`cd apisix-docker/example`
+
+`vi docker-compose.yml` 
 Add the following content
 
 ```yaml
@@ -46,7 +56,9 @@ Add the following content
       apisix:
 ```
 
-Finally, use Docker Compose to enable APISIX: `docker-compose -p docker-apisix up -d`
+Finally, use Docker Compose to enable APISIX: 
+
+`docker-compose -p docker-apisix up -d`
 
 ### Access
 
