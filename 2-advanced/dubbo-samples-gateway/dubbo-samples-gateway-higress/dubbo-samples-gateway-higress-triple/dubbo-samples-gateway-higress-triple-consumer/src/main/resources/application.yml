@@ -13,16 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-server:
-    port: 8081
 dubbo:
-  application:
-      name: dubbo-springboot-triple-rest-jaxrs
-      qos-port: 22222
-  registry:
-    address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
-  protocol:
-      name: tri
-      port: 50052
-#      serialization: fastjson2
-#      extension: org.apache.dubbo.rest.demo.filter.TraceFilter,org.apache.dubbo.rest.demo.intercept.DynamicTraceInterceptor
+    application:
+        name: gateway-higress-triple-consumer
+    registry:
+        address: nacos://${nacos.address:127.0.0.1}:8848
+        username: nacos
+        password: nacos
+    consumer:
+        check: false

@@ -16,8 +16,6 @@
 #   limitations under the License.
 #
 #
-dubbo.application.name=nacos-registry-demo-provider
-dubbo.registry.address=nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
-dubbo.protocol.name=tri
-dubbo.protocol.port=50052
-dubbo.provider.token=true
+
+javax.ws.rs.core.MultivaluedHashMap
+org.apache.dubbo.remoting.http12.ErrorResponse
