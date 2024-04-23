@@ -15,20 +15,30 @@
 # limitations under the License.
 
 services:
-  zookeeper:
-    image: zookeeper:latest
+  nacos:
+    image: nacos/nacos-server:${nacos-server.version:2.0.0}
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - NACOS_AUTH_ENABLE=true
+      - JVM_XMS=512m
+      - JVM_XMX=512m
+      - JVM_XMN=256m
 
   jaxrs-provider:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.rest.demo.JaxrsRestApplication
     systemProps:
-      - zookeeper.address=zookeeper
+      - nacos.address=nacos
+      - nacos.port=8848
     waitPortsBeforeRun:
-      - zookeeper:2181
+      - nacos:8848
     checkPorts:
       - 50052
     checkLog: "Current Spring Boot Application is await..."
+    depends_on:
+      - nacos
 
   test:
     type: test
@@ -36,10 +46,12 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
+      - nacos.address=nacos
+      - nacos.port=8848
       - dubbo.address=jaxrs-provider
     waitPortsBeforeRun:
-      - zookeeper:2181
+      - nacos:8848
       - jaxrs-provider:50052
     depends_on:
+      - nacos
       - jaxrs-provider
