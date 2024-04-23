@@ -23,11 +23,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-samples-gateway-higress-triple</artifactId>
+        <artifactId>dubbo-samples-gateway-apisix</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>dubbo-samples-gateway-higress-triple-consumer</artifactId>
+    <artifactId>dubbo-samples-gateway-apisix-triple</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -36,12 +36,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-samples-gateway-higress-triple-interface</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
         <!-- dubbo -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>

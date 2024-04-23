@@ -68,5 +68,6 @@
         <module>dubbo-samples-dubbo</module>
         <module>dubbo-samples-triple-rest</module>
         <module>dubbo-samples-multiple-protocols</module>
+        <module>dubbo-samples-gateway</module>
     </modules>
 </project>
