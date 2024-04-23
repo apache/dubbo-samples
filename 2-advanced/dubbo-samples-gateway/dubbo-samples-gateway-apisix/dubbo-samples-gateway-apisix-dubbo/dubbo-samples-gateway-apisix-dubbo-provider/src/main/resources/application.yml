@@ -1,0 +1,13 @@
+server:
+    port: 8888
+dubbo:
+    application:
+        name: dubbo-gateway-provider
+    protocol:
+        name: dubbo
+        port: 20880
+        serialization: fastjson2
+    registry:
+        address: nacos://${nacos.address:127.0.0.1}:8848
+        username: nacos
+        password: nacos
