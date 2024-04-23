@@ -15,9 +15,15 @@ public class NewGoodsServiceImpl implements NewGoodsService {
     NewGoodsMapper newGoodsMapper;
     @Override
     public NewGoodsList newGoodsListResult() {
+        NewGood[] newGoods = new NewGood[4];
+        for (int i = 1; i <= 4; i++){
+            NewGood newGood = newGoodsMapper.getNewGoods(i);
+            newGoods[i-1] = newGood;
+        }
 
-        NewGood newGood = newGoodsMapper.getNewGoodsList();
-        System.out.println(newGood);
-        return null;
+        NewGoodsList newGoodsList = new NewGoodsList();
+        newGoodsList.setNewGoods(newGoods);
+        System.out.println(newGoodsList);
+        return newGoodsList;
     }
 }
