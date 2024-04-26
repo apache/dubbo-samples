@@ -14,18 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.gateway.consumer;
+package org.apache.dubbo.samples.gateway.apisix.dubbo.api;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.Map;
 
+public interface ApisixService {
 
-@SpringBootApplication
-@EnableDubbo
-public class ConsumerApplication {
+    Map<String, Object> apisixToDubbo(Map<String, Object> requestBody);
 
-    public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
-    }
 }

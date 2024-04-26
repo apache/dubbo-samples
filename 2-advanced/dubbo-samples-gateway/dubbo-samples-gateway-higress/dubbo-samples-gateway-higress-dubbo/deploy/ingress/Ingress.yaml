@@ -18,18 +18,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    higress.io/destination: gateway-higress-triple-provider.DEFAULT-GROUP.public.nacos
+    higress.io/destination: gateway-higress-dubbo.DEFAULT-GROUP.public.nacos
   name: demo
-  namespace: default
+  namespace: higress-system
 spec:
-    ingressClassName: higress
-    rules:
-        - http:
-              paths:
-                  - backend:
-                        resource:
-                            apiGroup: networking.higress.io
-                            kind: McpBridge
-                            name: default
-                    path: /org.apache.dubbo.samples.gateway.api.DemoService
-                    pathType: Prefix
+  ingressClassName: higress
+  rules:
+  - http:
+      paths:
+      - backend:
+          resource:
+            apiGroup: networking.higress.io
+            kind: McpBridge
+            name: default
+        path: /dubbo
+        pathType: Prefix

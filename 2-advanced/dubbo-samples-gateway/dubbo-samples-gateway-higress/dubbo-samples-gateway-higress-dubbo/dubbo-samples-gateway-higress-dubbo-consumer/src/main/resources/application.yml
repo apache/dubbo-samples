@@ -15,7 +15,8 @@
 # limitations under the License.
 dubbo:
     application:
-        name: gateway-higress-triple-consumer
+        name: gateway-higress-dubbo-consumer
+        logger: slf4j
     registry:
         address: nacos://${nacos.address:127.0.0.1}:8848
         username: nacos

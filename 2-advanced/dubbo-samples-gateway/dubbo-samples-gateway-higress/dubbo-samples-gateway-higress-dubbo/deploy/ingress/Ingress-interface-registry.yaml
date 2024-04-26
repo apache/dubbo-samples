@@ -18,7 +18,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    higress.io/destination: providers:org.apache.dubbo.samples.gateway.api.DemoService::.DEFAULT-GROUP.public.nacos
+    higress.io/destination: providers:org.apache.dubbo.samples.gateway.api.DemoService:1.0.0:dev.DEFAULT-GROUP.public.nacos
   name: demo
   namespace: default
 spec:

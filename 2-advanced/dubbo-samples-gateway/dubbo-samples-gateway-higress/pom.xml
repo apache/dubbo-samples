@@ -30,6 +30,7 @@
     <artifactId>dubbo-samples-gateway-higress</artifactId>
 
     <modules>
+        <module>dubbo-samples-gateway-higress-dubbo</module>
         <module>dubbo-samples-gateway-higress-triple</module>
     </modules>
 

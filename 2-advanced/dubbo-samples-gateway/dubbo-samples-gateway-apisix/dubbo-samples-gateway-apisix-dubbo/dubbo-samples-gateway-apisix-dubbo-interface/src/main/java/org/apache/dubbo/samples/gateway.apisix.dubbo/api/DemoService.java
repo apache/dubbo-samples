@@ -14,17 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.samples.gateway.apisix.dubbo.api;
 
-package org.apache.dubbo.samples.gateway.provider;
+public interface DemoService {
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+    String sayHello(String name);
 
-@SpringBootApplication
-@EnableDubbo
-public class ProviderApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(ProviderApplication.class, args);
-    }
 }

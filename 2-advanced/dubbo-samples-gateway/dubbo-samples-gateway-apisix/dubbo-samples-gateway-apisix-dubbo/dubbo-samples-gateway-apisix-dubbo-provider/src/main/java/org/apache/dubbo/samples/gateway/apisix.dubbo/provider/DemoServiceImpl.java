@@ -14,10 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.api;
+package org.apache.dubbo.samples.gateway.apisix.dubbo.provider;
 
-public interface DemoService {
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.samples.gateway.apisix.dubbo.api.DemoService;
 
-    String sayHello(String name);
 
+@DubboService
+public class DemoServiceImpl implements DemoService {
+    public String sayHello(String name) {
+        return "Hello " + name;
+    }
 }

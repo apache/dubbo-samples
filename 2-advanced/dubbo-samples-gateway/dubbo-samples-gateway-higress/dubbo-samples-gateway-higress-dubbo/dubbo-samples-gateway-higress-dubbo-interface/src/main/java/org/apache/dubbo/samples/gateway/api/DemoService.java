@@ -16,14 +16,6 @@
  */
 package org.apache.dubbo.samples.gateway.api;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-@RequestMapping("/triple/demo")
 public interface DemoService {
-
-    @RequestMapping(method = RequestMethod.GET, value = "/hello")
-    String sayHello(@RequestParam("name") String name);
-
+    String sayHello(String name);
 }

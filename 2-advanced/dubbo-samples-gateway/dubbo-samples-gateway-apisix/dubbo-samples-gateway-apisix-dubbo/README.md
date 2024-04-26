@@ -12,7 +12,7 @@ You can choose any of the following ways to install APISIX:
 
 This document uses Docker installation, which is relatively simple
 
-To install APISIX using this method, you need to install [Docker](https://www.docker.com/) And  
+To install APISIX using this method, you need to install [Docker](https://www.docker.com/) And
 
 [docker-compose](https://docs.docker.com/compose/)
 
@@ -35,11 +35,11 @@ plugins:
   - dubbo-proxy
 ```
 
-Then note that due to the need to connect to the Nacos registry, it is necessary to modify the 
+Then note that due to the need to connect to the Nacos registry, it is necessary to modify the
 
 `cd apisix-docker/example`
 
-`vi docker-compose.yml` 
+`vi docker-compose.yml`
 Add the following content
 
 ```yaml
@@ -56,7 +56,7 @@ Add the following content
       apisix:
 ```
 
-Finally, use Docker Compose to enable APISIX: 
+Finally, use Docker Compose to enable APISIX:
 
 `docker-compose -p docker-apisix up -d`
 
@@ -66,17 +66,15 @@ The code example can use the `dubbo-samples-gateway-apisix-dubbo` module under t
 Create an Upstream pointing to Dubbo Provider using curl.
 
 ```yaml
-curl [http://127.0.0.1:9180/apisix/admin/upstreams/1](http://127.0.0.1:9180/apisix/admin/upstreams/1)  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
+curl http://127.0.0.1:9180/apisix/admin/upstreams/1  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
 {
-    "nodes": {
-        "10.21.32.168:20880": 1
-    },
+    "service_name": "gateway-apisix-dubbo",
     "type": "roundrobin",
     "discovery_type": "nacos"
 }'
 ```
 
-Expose an HTTP route for ApisixService
+Expose an HTTP route for ApisixService, the following configuration will forward requests starting with `/dubbo` to backend dubbo service `org.apache.dubbo.samples.api.ApisixService` and method `apisixDubbo`.
 
 ```yaml
 curl [http://127.0.0.1:9180/apisix/admin/routes/1](http://127.0.0.1:9180/apisix/admin/routes/1)  -H 'X-API-KEY: edd1c9f034335f136f87ad84b625c8f1' -X PUT -d '
@@ -86,7 +84,7 @@ curl [http://127.0.0.1:9180/apisix/admin/routes/1](http://127.0.0.1:9180/apisix/
     ],
     "plugins": {
         "dubbo-proxy": {
-            "service_name": "org.apache.dubbo.samples.api.ApisixService",
+            "service_name": "org.apache.dubbo.samples.gateway.apisix.dubboapi.ApisixService",
             "service_version": "0.0.0",
             "method": "apisixToDubbo"
         }
