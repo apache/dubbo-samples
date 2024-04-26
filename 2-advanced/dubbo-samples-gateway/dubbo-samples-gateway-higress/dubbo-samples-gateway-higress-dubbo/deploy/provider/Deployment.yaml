@@ -14,22 +14,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  annotations:
-    higress.io/destination: gateway-higress-triple-provider.DEFAULT-GROUP.public.nacos
-  name: demo
-  namespace: default
+    name: gateway-higress-triple-provider
+    namespace: default
+    labels:
+        app: gateway-higress-triple-provider
 spec:
-    ingressClassName: higress
-    rules:
-        - http:
-              paths:
-                  - backend:
-                        resource:
-                            apiGroup: networking.higress.io
-                            kind: McpBridge
-                            name: default
-                    path: /org.apache.dubbo.samples.gateway.api.DemoService
-                    pathType: Prefix
+    replicas: 1
+    selector:
+        matchLabels:
+            app: gateway-higress-triple-provider
+    template:
+        metadata:
+            labels:
+                app: gateway-higress-dubbo-provider
+        spec:
+            containers:
+                -   name: gateway-higress-dubbo-provider
+                    image: docker.io/allenyi/higress-triple:2.0.0
+                    imagePullPolicy: IfNotPresent
+                    ports:
+                        - containerPort: 20880
+                    env:
+                        - name: NACOS_ADDRESS
+                          value: nacos-server.default.svc.cluster.local

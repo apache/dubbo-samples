@@ -12,15 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-server:
-    port: 8888
-dubbo:
-    application:
-        name: gateway-apisix-dubbo
-    protocol:
-        name: dubbo
-        port: 20880
-    registry:
-        address: nacos://${nacos.address:127.0.0.1}:8848
-        username: nacos
-        password: nacos
+FROM openjdk:17-jre
+ADD dubbo-samples-gateway-higress-dubbo-provider-1.0-SNAPSHOT.jar /dubbo-samples-gateway-higress-dubbo-provider-1.0-SNAPSHOT.jar
+EXPOSE 50052
+CMD java -jar dubbo-samples-gateway-higress-dubbo-provider-1.0-SNAPSHOT.jar
+

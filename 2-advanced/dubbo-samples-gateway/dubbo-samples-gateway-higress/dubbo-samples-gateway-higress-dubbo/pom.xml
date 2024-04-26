@@ -22,16 +22,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <groupId>org.apache.dubbo</groupId>
     <version>1.0-SNAPSHOT</version>
-
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>pom</packaging>
 
-    <artifactId>dubbo-samples-gateway-apisix</artifactId>
+    <artifactId>dubbo-samples-gateway-higress-dubbo</artifactId>
 
     <modules>
-        <module>dubbo-samples-gateway-apisix-triple</module>
-        <module>dubbo-samples-gateway-apisix-dubbo</module>
+        <module>dubbo-samples-gateway-higress-dubbo-interface</module>
+        <module>dubbo-samples-gateway-higress-dubbo-provider</module>
+        <module>dubbo-samples-gateway-higress-dubbo-consumer</module>
     </modules>
 
     <properties>
@@ -43,6 +43,7 @@
         <log4j2.version>2.20.0</log4j2.version>
         <junit.version>4.13.1</junit.version>
         <spring.version>6.1.5</spring.version>
+        <spring-context-support.verison>1.0.11</spring-context-support.verison>
         <spring-boot.version>3.2.3</spring-boot.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>

@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.gateway.api;
+package org.apache.dubbo.samples.gateway.provider.impl;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.samples.gateway.api.DemoService;
 
-@RequestMapping("/triple/demo")
-public interface DemoService {
+@DubboService
+public class DemoServiceImpl implements DemoService {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/hello")
-    String sayHello(@RequestParam("name") String name);
+    @Override
+    public String sayHello(String name) {
+        return "Hello " + name;
+    }
 
 }

@@ -14,22 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+
+apiVersion: networking.higress.io/v1
+kind: McpBridge
 metadata:
-  annotations:
-    higress.io/destination: gateway-higress-triple-provider.DEFAULT-GROUP.public.nacos
-  name: demo
-  namespace: default
+    name: nacos-service-resource
+    namespace: higress-system
 spec:
-    ingressClassName: higress
-    rules:
-        - http:
-              paths:
-                  - backend:
-                        resource:
-                            apiGroup: networking.higress.io
-                            kind: McpBridge
-                            name: default
-                    path: /org.apache.dubbo.samples.gateway.api.DemoService
-                    pathType: Prefix
+    registries:
+        - domain: nacos-server.default.svc.cluster.local
+          nacosGroups:
+              - DEFAULT_GROUP
+          name: nacos-service-resource
+          port: 8848
+          type: nacos2

@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.gateway.api;
+package org.apache.dubbo.samples.gateway.consumer;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@RequestMapping("/triple/demo")
-public interface DemoService {
+@SpringBootApplication
+@EnableDubbo
+public class ConsumerApplication {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/hello")
-    String sayHello(@RequestParam("name") String name);
-
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerApplication.class, args);
+    }
 }

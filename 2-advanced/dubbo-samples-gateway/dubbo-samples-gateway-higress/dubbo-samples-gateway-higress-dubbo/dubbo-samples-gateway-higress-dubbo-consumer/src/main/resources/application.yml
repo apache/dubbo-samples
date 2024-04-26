@@ -13,23 +13,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    higress.io/destination: gateway-higress-triple-provider.DEFAULT-GROUP.public.nacos
-  name: demo
-  namespace: default
-spec:
-    ingressClassName: higress
-    rules:
-        - http:
-              paths:
-                  - backend:
-                        resource:
-                            apiGroup: networking.higress.io
-                            kind: McpBridge
-                            name: default
-                    path: /org.apache.dubbo.samples.gateway.api.DemoService
-                    pathType: Prefix
+dubbo:
+    application:
+        name: gateway-higress-triple-consumer
+    registry:
+        address: nacos://${nacos.address:127.0.0.1}:8848
+        username: nacos
+        password: nacos
+    consumer:
+        check: false

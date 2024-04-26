@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.gateway.api;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+package org.apache.dubbo.samples.gateway.provider;
 
-@RequestMapping("/triple/demo")
-public interface DemoService {
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/hello")
-    String sayHello(@RequestParam("name") String name);
+@SpringBootApplication
+@EnableDubbo
+public class ProviderApplication {
 
+    public static void main(String[] args) {
+        SpringApplication.run(ProviderApplication.class, args);
+        System.out.println("dubbo service started");
+    }
 }

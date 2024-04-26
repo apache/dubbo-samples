@@ -14,29 +14,50 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-    name: gateway-higress-triple-provider
-    namespace: default
-    labels:
-        app: gateway-higress-triple-provider
+	name: nacos-server
 spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: gateway-higress-triple-provider
-    template:
-        metadata:
-            labels:
-                app: gateway-higress-triple-provider
-        spec:
-            containers:
-                -   name: gateway-higress-triple-provider
-                    image: docker.io/allenyi/higress-triple:2.0.0
-                    imagePullPolicy: IfNotPresent
-                    ports:
-                        - containerPort: 50052
-                    env:
-                        - name: NACOS_ADDRESS
-                          value: nacos-server.default.svc.cluster.local
+	replicas: 1
+	selector:
+		matchLabels:
+			app: nacos-server
+	template:
+		metadata:
+			labels:
+				app: nacos-server
+		spec:
+			containers:
+				- env:
+					  - name: MODE
+						value: standalone
+				  image: nacos/nacos-server:v2.2.0
+				  imagePullPolicy: Always
+				  name: nacos-server
+				  ports:
+					  - containerPort: 8848
+					    name: client
+					  - containerPort: 9848
+					    name: client-rpc
+					  - containerPort: 9849
+					    name: raft-rpc
+					  - containerPort: 7848
+					    name: old-raft-rpc
+			dnsPolicy: ClusterFirst
+			restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+	name: nacos-server
+spec:
+	ports:
+		- port: 8848
+		  name: server
+		  protocol: TCP
+		  targetPort: 8848
+	selector:
+		app: nacos-server
+	type: ClusterIP
