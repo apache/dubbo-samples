@@ -14,23 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.samples.gateway.consumer.task;
+package org.apache.dubbo.samples.gateway.apisix.dubbo.consumer;
 
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.samples.gateway.api.DemoService;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Component
-public class Task implements CommandLineRunner {
-    @DubboReference
-    private DemoService demoService;
 
-    @Override
-    public void run(String... args) throws Exception {
-        System.out.println("Receive result ======> " + demoService.sayHello("world"));
+@SpringBootApplication
+@EnableDubbo
+public class ConsumerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerApplication.class, args);
     }
-
 }
