@@ -16,7 +16,7 @@
 
 services:
   nacos:
-    image: nacos/nacos-server:${nacos.version:2.0.0}
+    image: nacos/nacos-server:${nacos-server.version:2.0.0}
     environment:
         - PREFER_HOST_MODE=hostname
         - MODE=standalone
