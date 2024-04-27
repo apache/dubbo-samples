@@ -16,7 +16,7 @@
 
 services:
   nacos:
-    image: nacos/nacos-server:2.0.0
+    image: nacos/nacos-server:${nacos.version:2.0.0}
     environment:
         - PREFER_HOST_MODE=hostname
         - MODE=standalone
@@ -40,6 +40,8 @@ services:
       - nacos:8848
     checkPorts:
       - 50052
+    depends_on:
+        - nacos
     checkLog: "Current Spring Boot Application is await..."
 
   test:
