@@ -20,4 +20,4 @@ dubbo:
       logger: slf4j
       qos-port: 33333
   registry:
-    address: nacos://${nacos.address:127.0.0.1}:8848
+    address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos

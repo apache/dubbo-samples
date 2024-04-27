@@ -41,7 +41,7 @@ services:
     checkPorts:
       - 50052
     depends_on:
-        - nacos
+      - nacos
     checkLog: "Current Spring Boot Application is await..."
 
   test:
