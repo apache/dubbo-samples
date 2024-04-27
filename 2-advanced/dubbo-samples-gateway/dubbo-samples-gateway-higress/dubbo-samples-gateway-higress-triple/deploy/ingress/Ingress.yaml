@@ -17,10 +17,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    annotations:
-        higress.io/destination: providers:org.apache.dubbo.samples.gateway.api.DemoService::.DEFAULT-GROUP.public.nacos
-    name: higress-triple-demo
-    namespace: higress-system
+  annotations:
+    higress.io/destination: gateway-higress-triple-provider.DEFAULT-GROUP.public.nacos
+  name: demo
+  namespace: default
 spec:
     ingressClassName: higress
     rules:
@@ -31,5 +31,5 @@ spec:
                             apiGroup: networking.higress.io
                             kind: McpBridge
                             name: default
-                    path: /demo
+                    path: /org.apache.dubbo.samples.gateway.api.DemoService
                     pathType: Prefix

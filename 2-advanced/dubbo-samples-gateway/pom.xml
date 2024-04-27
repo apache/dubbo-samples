@@ -31,8 +31,8 @@
     <description>Dubbo Samples Gateway</description>
 
     <modules>
-        <module>dubbo-samples-gateway-apisix</module>
         <module>dubbo-samples-gateway-higress</module>
+        <module>dubbo-samples-gateway-apisix</module>
     </modules>
 
     <repositories>
