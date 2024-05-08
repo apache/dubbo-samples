@@ -22,7 +22,8 @@ import http from "@/utils/http";
  * @return {*}
  */
 export function getDetail(id){
-    return http.get('/goods',{params:{id}});
+    return http.get('http://localhost:50002/detail/id',{params:{id}});
+    // return http.get('http://localhost:50002/goods',{params:{id}})
 }
 /**
  * 获取热榜商品
@@ -31,7 +32,7 @@ export function getDetail(id){
  * @param {Number} limit - 获取个数
  */
 export const getHotGoodsAPI = ({ id, type, limit = 3 }) => {
-    return http.get('/goods/hot',{params:{
+    return http.get('http://localhost:50003/goods/hot',{params:{
             id,
             type,
             limit
