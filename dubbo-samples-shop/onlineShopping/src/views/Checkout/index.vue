@@ -69,42 +69,25 @@ onMounted(() => getCheckInfo())
               <th width="170">单价</th>
               <th width="170">数量</th>
               <th width="170">小计</th>
-<!--              <th width="170">实付</th>-->
+              <th width="170">实付</th>
             </tr>
             </thead>
             <tbody>
-<!--            <tr v-for="i in checkInfo.goods" :key="i.id">-->
-<!--              <td>-->
-<!--                <a href="javascript:;" class="info">-->
-<!--                  <img :src="i.picture" alt="">-->
-<!--                  <div class="right">-->
-<!--                    <p>{{ i.name }}</p>-->
-<!--                    <p>{{ i.attrsText }}</p>-->
-<!--                  </div>-->
-<!--                </a>-->
-<!--              </td>-->
-<!--              <td>&yen;{{ i.price }}</td>-->
-<!--              <td>{{ i.count }}</td>-->
-<!--              <td>&yen;{{ i.totalPrice }}</td>-->
-<!--              <td>&yen;{{ i.totalPayPrice }}</td>-->
-<!--            </tr>-->
-                <tr v-for="i in cartStore.cartList" :key="i.id">
-                  <td>
-                    <a href="javascript:;" class="info">
-                      <img :src="i.picture" alt="">
-                      <div class="right">
-                        <p>{{ i.name }}</p>
-                        <p>{{ i.attrsText }}</p>
-                      </div>
-                    </a>
-                  </td>
-                  <td>&yen;{{ i.price }}</td>
-                  <td>{{ i.count }}</td>
-                  <td class="tc">
-                    <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
-                  </td>
-<!--                  <td>&yen;{{ i.totalPayPrice }}</td>-->
-                </tr>
+            <tr v-for="i in checkInfo.goods" :key="i.id">
+              <td>
+                <a href="javascript:;" class="info">
+                  <img :src="i.picture" alt="">
+                  <div class="right">
+                    <p>{{ i.name }}</p>
+                    <p>{{ i.attrsText }}</p>
+                  </div>
+                </a>
+              </td>
+              <td>&yen;{{ i.price }}</td>
+              <td>{{ i.count }}</td>
+              <td>&yen;{{ i.totalPrice }}</td>
+              <td>&yen;{{ i.totalPayPrice }}</td>
+            </tr>
 <!--            <tr>-->
 <!--              <td>-->
 <!--                <img src="/assets/images/liuying.png">-->
@@ -133,19 +116,19 @@ onMounted(() => getCheckInfo())
           <div class="total">
             <dl>
               <dt>商品件数：</dt>
-              <dd>{{cartStore.allCount}}件</dd>
+              <dd>{{ checkInfo.summary?.goodsCount }}件</dd>
             </dl>
             <dl>
               <dt>商品总价：</dt>
-              <dd>¥{{ cartStore.selectedPrice.toFixed(2) }}</dd>
+              <dd>¥{{ checkInfo.summary?.totalPrice.toFixed(2) }}</dd>
             </dl>
             <dl>
               <dt>运<i></i>费：</dt>
-              <dd>¥{{ checkInfo.postFee }}</dd>
+              <dd>¥{{ checkInfo.summary?.postFee.toFixed(2) }}</dd>
             </dl>
             <dl>
               <dt>应付总额：</dt>
-              <dd class="price">{{ (cartStore.selectedPrice + checkInfo.postFee).toFixed(2) }}</dd>
+              <dd class="price">{{ checkInfo.summary?.totalPayPrice.toFixed(2) }}</dd>
             </dl>
           </div>
         </div>

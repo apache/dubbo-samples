@@ -25,6 +25,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Mapper
 public interface NewGoodsMapper {
-    @Select("select * from goods where id = #{orderId}")
+    @Select("select * from newgoods where id = #{orderId}")
     public NewGood getNewGoods(Integer orderId);
 }

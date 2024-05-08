@@ -16,12 +16,10 @@
  */
 package org.apache.dubbo.shop.mapper.GoodsDatails;
 
-import org.apache.dubbo.shop.common.pojo.GoodsDetails.Details;
+import org.apache.dubbo.shop.common.pojo.GoodsDetails.GoodsDetails;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface GoodsDetailsMapper {
-    @Select("select * from goods where id = #{orderId}")
-    public Details getGoodsDetails(Integer orderId);
+    public GoodsDetails getGoodsDetails(Integer id);
 }

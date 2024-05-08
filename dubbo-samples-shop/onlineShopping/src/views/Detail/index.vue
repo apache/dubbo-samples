@@ -17,22 +17,12 @@
  */
 import { getDetail } from '@/apis/detail'
 import { useRoute } from 'vue-router'
-import { watch} from 'vue';
 import DetailHot from "@/views/Detail/components/DetailHot.vue";
 import Sku from "@/components/sku/index.vue";
 import {useCartStore} from "@/stores/cartStore.js";
 import {ElMessage} from "element-plus";
 import 'element-plus/theme-chalk/el-message.css'
 const cartStore = useCartStore();
-const route = useRoute();
-
-const wat = watch(
-     route,
-    (to, from) => {
-      getGoods()
-      //console.log(to.params.id,from.params.id);
-    }
-);
 
 //sku组件触发方法
 let skuObj = {};
@@ -48,14 +38,13 @@ const addCart = () => {
   console.log(skuObj)
   if (true || skuObj.skuId) {
     // 规则已经选择  触发action
-    //console.log(goods.value.id)
     cartStore.addCart({
       id: goods.value.id,
       name: goods.value.name,
-      picture: goods.value.mainPictures,
+      picture: goods.value.mainPictures[0],
       price: goods.value.price,
       count: count.value,
-      skuId: goods.value.id,
+      skuId: skuObj.skuId,
       attrsText: skuObj.specsText,
       selected: true
     })
@@ -66,10 +55,11 @@ const addCart = () => {
   }
 }
 const goods = ref({})
-
+const route = useRoute()
 const getGoods = async () => {
   const res = await getDetail(route.params.id)
-  goods.value = res.data
+  console.log(res)
+  goods.value = res.result
 }
 onMounted(() => getGoods())
 
@@ -94,7 +84,7 @@ onMounted(() => getGoods())
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <img :src="goods.mainPictures"/>
+              <ImageView :image-list="goods.mainPictures"/>
 <!--              &lt;!&ndash; 统计数量 &ndash;&gt;-->
 <!--              <ul class="goods-sales">-->
 <!--                <li>-->
@@ -121,11 +111,12 @@ onMounted(() => getGoods())
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
+
               <p class="g-name">{{goods.name}}</p>
-              <p class="g-desc">好货</p>
+              <p class="g-desc">好穿</p>
               <p class="g-price">
-                <span>{{ goods.price }}</span>
-<!--                <span></span>-->
+                <span>200</span>
+                <span> 100</span>
               </p>
               <div class="g-service">
                 <dl>
@@ -195,9 +186,9 @@ onMounted(() => getGoods())
     display: flex;
 
     .media {
-      width: 400px;
-      height: 450px;
-      padding: 30px 30px;
+      width: 580px;
+      height: 300px;
+      padding: 30px 50px;
     }
 
     .spec {
@@ -216,7 +207,7 @@ onMounted(() => getGoods())
     }
 
     .goods-aside {
-      width: 100%;
+      width: 280px;
       min-height: 100px;
     }
   }
@@ -262,17 +253,16 @@ onMounted(() => getGoods())
       }
 
       &:first-child {
-        content: "¥";
         color: $priceColor;
         margin-right: 10px;
         font-size: 22px;
       }
 
-      //&:last-child {
-      //  color: #999;
-      //  text-decoration: line-through;
-      //  font-size: 16px;
-      //}
+      &:last-child {
+        color: #999;
+        text-decoration: line-through;
+        font-size: 16px;
+      }
     }
   }
 

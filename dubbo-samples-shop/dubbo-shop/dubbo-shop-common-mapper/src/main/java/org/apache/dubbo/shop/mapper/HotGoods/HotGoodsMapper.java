@@ -15,12 +15,10 @@
  * limitations under the License.
  */
 package org.apache.dubbo.shop.mapper.HotGoods;
-import org.apache.dubbo.shop.common.pojo.HotGoodsList.HotGood;
+import org.apache.dubbo.shop.common.pojo.HotGoodsList.HotGoodsList;
+import org.apache.dubbo.shop.common.pojo.NewGoodsList.NewGoodsList;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-
 @Mapper
 public interface HotGoodsMapper {
-    @Select("select * from goods where id = #{orderId}")
-    public HotGood getHotGoods(Integer orderId);
+    public HotGoodsList getHotGoodsList();
 }

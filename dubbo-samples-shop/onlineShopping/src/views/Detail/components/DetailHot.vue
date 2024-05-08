@@ -27,9 +27,7 @@ const getHotList = async () => {
     id: route.params.id,
     type: 1
   })
-
-  goodList.value = res.data
-  console.log(goodList.value)
+  goodList.value = res.result
 }
 onMounted(()=>getHotList())
 </script>
@@ -39,7 +37,7 @@ onMounted(()=>getHotList())
     <h3> 24小时热榜 </h3>
     <div class="pic-box">
       <!-- 商品区块 -->
-      <RouterLink :to="`/detail/${item.id}`" class="goods-item" v-for="item in goodList.adsGoods" :key="item.id">
+      <RouterLink :to="`/detail/${item.id}`" class="goods-item" v-for="item in goodList" :key="item.id">
           <img :src="item.picture" alt="" />
           <p class="name ellipsis">{{ item.name }}</p>
           <p class="desc ellipsis">{{ item.desc }}</p>
@@ -52,9 +50,7 @@ onMounted(()=>getHotList())
 
 <style scoped lang="scss">
 .goods-hot {
-  width:100%;
   h3 {
-    width:280px;
     height: 70px;
     background: $helpColor;
     color: #fff;

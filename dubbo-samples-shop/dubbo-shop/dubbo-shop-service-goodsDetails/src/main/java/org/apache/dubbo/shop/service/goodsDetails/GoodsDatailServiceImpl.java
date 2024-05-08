@@ -18,7 +18,6 @@ package org.apache.dubbo.shop.service.goodsDetails;
 
 
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.shop.common.pojo.GoodsDetails.Details;
 import org.apache.dubbo.shop.mapper.GoodsDatails.GoodsDetailsMapper;
 import org.apache.dubbo.shop.service.GoodsDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +27,7 @@ public class GoodsDatailServiceImpl implements GoodsDetails {
     @Autowired
     GoodsDetailsMapper goodsDetailsMapper;
     @Override
-    public Details GoodsResult(Integer id) {
-        Details details = goodsDetailsMapper.getGoodsDetails(id);
-        //为了传给前端mainPictures这个名字的参数，进行数据处理
-        details.setMainPictures(details.getPicture());
-        return  details;
+    public GoodsDetails GoodsResult(Integer id) {
+        return null;
     }
 }

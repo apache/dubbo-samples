@@ -16,21 +16,19 @@
  */
 package org.apache.duubo.shop.service.checkout;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.shop.common.pojo.checkout.CheckoutData;
 import org.apache.dubbo.shop.service.CheckoutService;
+import org.apache.dubbo.shop.mapper.Checkout.CheckoutServiceMapper;
 
 @DubboService
 public class CheckoutServiceImpl implements CheckoutService{
-    /**
-     * this class is only return postFee,if you want to display more info on the product detail page
-     * you can implement more functions in this class
-     */
-
+    @DubboReference
+    CheckoutServiceMapper checkoutServiceMapper;
     @Override
-    public CheckoutData checkoutResult() {
-        CheckoutData checkoutData = new CheckoutData();
-        checkoutData.setPostFee(10);
+    public CheckoutData checkoutResult(Integer orderId) {
+        CheckoutData checkoutData = checkoutServiceMapper.findCheckoutData(orderId);
         return checkoutData;
     }
 }

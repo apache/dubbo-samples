@@ -30,5 +30,5 @@ export const getNewAPI = () => {
  * @return {*}
  */
 export const getHotAPI = () => {
-    return http.get('http://localhost:50001/good/hot')
+    return http.get('/home/hot')
 }

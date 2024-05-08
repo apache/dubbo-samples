@@ -16,14 +16,8 @@
  */
 package org.apache.dubbo.shop.web.ads;
 
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.shop.common.ReturnResult;
-import org.apache.dubbo.shop.common.pojo.Ads.AdsGood;
-import org.apache.dubbo.shop.common.pojo.Ads.AdsGoodsList;
-import org.apache.dubbo.shop.common.pojo.HotGoodsList.HotGoodsList;
-import org.apache.dubbo.shop.service.AdsService;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,13 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Component
 @RestController
 @RequestMapping("/goods")
-@CrossOrigin(originPatterns = "*",allowCredentials = "true")
 public class AdsController {
-    @DubboReference
-    AdsService adsService;
     @GetMapping("/hot")
-    public ReturnResult adsGoosList(){
-        AdsGoodsList adsGoodsList = adsService.adsGoodsListResult();
-        return ReturnResult.success(adsGoodsList);
-    }
+    public ReturnResult
 }

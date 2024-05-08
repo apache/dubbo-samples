@@ -16,8 +16,6 @@
  */
 package org.apache.dubbo.shop.service;
 
-import org.apache.dubbo.shop.common.pojo.GoodsDetails.Details;
-
 public interface GoodsDetails {
-    public Details GoodsResult(Integer id);
+    public GoodsDetails GoodsResult(Integer id);
 }
