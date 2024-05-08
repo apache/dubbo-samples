@@ -14,30 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.shop.common.pojo.checkout;
+package org.apache.dubbo.shop.service.goodsDetails;
 
-import lombok.Data;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@Data
-public class Summary {
-    /**
-     * 订单总折扣
-     */
-    private long discountPrice;
-    /**
-     * 订单总件数
-     */
-    private long goodsCount;
-    /**
-     * 订单总邮费
-     */
-    private long postFee;
-    /**
-     * 订单总价格实付
-     */
-    private long totalPayPrice;
-    /**
-     * 订单总价格
-     */
-    private long totalPrice;
+@SpringBootApplication
+@EnableDubbo
+@MapperScan(basePackages = "org.apache.dubbo.shop.mapper")
+public class GoodsDetailServiceImplApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(GoodsDetailServiceImplApplication.class,args);
+    }
 }

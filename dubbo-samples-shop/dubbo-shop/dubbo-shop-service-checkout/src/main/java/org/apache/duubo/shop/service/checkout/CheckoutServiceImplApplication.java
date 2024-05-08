@@ -14,11 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.shop.mapper.Checkout;
-import org.apache.dubbo.shop.common.pojo.checkout.CheckoutData;
-import org.apache.ibatis.annotations.Mapper;
+package org.apache.duubo.shop.service.checkout;
 
-@Mapper
-public interface CheckoutServiceMapper {
-    public CheckoutData getCheckoutData(Integer orderId);
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableDubbo
+@MapperScan(basePackages = "org.apache.dubbo.shop.mapper")
+public class CheckoutServiceImplApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CheckoutServiceImplApplication.class,args);
+    }
 }

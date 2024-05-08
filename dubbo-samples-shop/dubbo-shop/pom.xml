@@ -37,6 +37,7 @@
         <module>dubbo-shop-web-goodsDetails</module>
         <module>dubbo-shop-service-goodsDetails</module>
         <module>dubbo-shop-web-ads</module>
+        <module>dubbo-shop-service-ads</module>
     </modules>
 
     <properties>

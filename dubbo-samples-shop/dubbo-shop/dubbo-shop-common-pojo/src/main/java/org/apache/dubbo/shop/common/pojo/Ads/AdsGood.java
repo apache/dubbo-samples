@@ -14,16 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubbo.shop.common.pojo.GoodsDetails;
+package org.apache.dubbo.shop.common.pojo.Ads;
 
-public class GoodsDetails {
+import lombok.Data;
+
+@Data
+public class AdsGood {
     /**
-     * 商品详细的主图集合
+     * id
      */
-    private String mainPictureS;
-
+    private String id;
     /**
-     * 商品名称
+     * 图片
+     */
+    private String picture;
+    /**
+     * 名字
      */
     private String name;
+    /**
+     * 介绍
+     */
+    private String desc;
+    /**
+     * 价格
+     */
+    private String price;
 }

@@ -14,19 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.dubo.shop.service.hotGoods;
+package org.apache.dubbo.shop.service.hotGoods;
 
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.shop.common.pojo.HotGoodsList.HotGood;
 import org.apache.dubbo.shop.common.pojo.HotGoodsList.HotGoodsList;
 import org.apache.dubbo.shop.mapper.HotGoods.HotGoodsMapper;
 import org.apache.dubbo.shop.mapper.NewGoods.NewGoodsMapper;
 import org.apache.dubbo.shop.service.HotGoodsService;
-
+import org.springframework.beans.factory.annotation.Autowired;
+@DubboService
 public class HotGoodsServiceImpl implements HotGoodsService {
-    @DubboReference
+    @Autowired
     HotGoodsMapper hotGoodsMapper;
     @Override
-    public HotGoodsList hotGoodsList() {
-        return null;
+    public HotGoodsList hotGoodsListResult() {
+        HotGood[] hotGoods = new HotGood[4];
+        for (int i = 5; i <= 8; i++){
+            HotGood hotGood = hotGoodsMapper.getHotGoods(i);
+            hotGoods[i-5] = hotGood;
+        }
+
+        HotGoodsList hotGoodsList = new HotGoodsList();
+        hotGoodsList.setHotGoods(hotGoods);
+        System.out.println(hotGoodsList);
+        return hotGoodsList;
     }
 }
