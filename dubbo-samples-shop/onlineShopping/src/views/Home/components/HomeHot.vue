@@ -20,30 +20,21 @@ import { getHotAPI } from '@/apis/home'
 const hotList = ref([])
 const getHotList = async () => {
   const res = await getHotAPI()
-  hotList.value = res.result
+  hotList.value = res.data.hotGoods
+  console.log("开始打印hotList结果")
+  console.log(hotList.value)
 }
 onMounted(()=>getHotList())
 </script>
 
 <template>
-<!--  <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">-->
-<!--    <ul class="goods-list">-->
-<!--      <li v-for="item in hotList" :key="item.id">-->
-<!--        <RouterLink :to="`/detail/${item.id}`">-->
-<!--          <img :src="item.picture" alt="" />-->
-<!--          <p class="name">{{ item.name }}</p>-->
-<!--          <p class="price">{{item.price}}</p>-->
-<!--        </RouterLink>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </HomePanel>-->
   <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
     <ul class="goods-list">
       <li v-for="item in hotList" :key="item.id">
         <RouterLink :to="`/detail/${item.id}`">
           <img v-img-lazy="item.picture" alt="">
-          <p class="name">{{ item.title }}</p>
-          <p class="desc">{{ item.alt }}</p>
+          <p class="name">{{ item.name }}</p>
+          <p class="price">&yen;{{ item.price }}</p>
         </RouterLink>
       </li>
     </ul>

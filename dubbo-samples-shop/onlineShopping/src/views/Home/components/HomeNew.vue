@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 import HomePanel from "@/views/Home/components/HomePanel.vue";
-
 import {getNewAPI} from '@/apis/home'
 
 const newList = ref([])
@@ -24,11 +23,10 @@ const getNewList = async () => {
   console.log('方法已执行')
   const res = await getNewAPI()
   console.log("开始打印输出结果")
-  console.log(res)
-  newList.value = res.data
+  console.log(res.data)
+  newList.value = res.data.newGoods
   console.log("开始打印newList结果")
   console.log(newList.value)
-  console.log(newList.value.picture)
 }
 onMounted(() => getNewList())
 </script>
