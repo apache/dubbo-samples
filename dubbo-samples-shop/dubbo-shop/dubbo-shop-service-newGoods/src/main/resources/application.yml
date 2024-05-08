@@ -30,5 +30,5 @@ dubbo:
   registry:
     address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos
   protocol:
-    port: 20882
+    port: 20880
     name: dubbo

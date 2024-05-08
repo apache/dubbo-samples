@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.*;
 @Component
 @RestController
 @RequestMapping("/member")
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*",allowCredentials = "true")
 public class CheckoutController {
     @DubboReference
     CheckoutService checkoutService;
     @GetMapping("/order")
-    public ReturnResult checkout(Integer orderId){
-        CheckoutData checkoutData = checkoutService.checkoutResult(orderId);
+    public ReturnResult checkout(){
+        CheckoutData checkoutData = checkoutService.checkoutResult();
         return ReturnResult.success(checkoutData);
     }
 }
