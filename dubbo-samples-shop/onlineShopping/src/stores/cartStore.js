@@ -21,6 +21,7 @@ export const useCartStore = defineStore(
     ()=>{
         const cartList = ref([]);
         const addCart = (goods) => {
+            console.log(goods)
             //判断商品是否在购物车
             const findItem = cartList.value.find(item=>goods.skuId === item.skuId);
             if(findItem){
