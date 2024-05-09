@@ -16,7 +16,7 @@
  */
 package org.apache.dubbo.shop.service.hotGoods;
 
-import org.apache.dubbo.config.annotation.DubboReference;
+
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.shop.common.pojo.HotGoodsList.HotGood;
 import org.apache.dubbo.shop.common.pojo.HotGoodsList.HotGoodsList;
