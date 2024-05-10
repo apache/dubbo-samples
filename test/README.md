@@ -289,3 +289,4 @@ A Junit test runner, execute a set of testcases, replacement for maven-safefail-
 Also include files for `dubbo-test-image`.
 
 
+For graalvm Native Image test Integration please refer to [README-NATIVE](./README-NATIVE.md)

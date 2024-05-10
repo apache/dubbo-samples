@@ -79,7 +79,7 @@ public class ConfigurationImpl implements IConfiguration {
     private String scenarioName;
     private final String scenarioLogDir;
     private final boolean jacocoEnable = Boolean.parseBoolean(System.getenv("JACOCO_ENABLE"));
-    private int scenarioTimeout = 200;
+    private int scenarioTimeout = 600;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
     private Set<Pattern> debugPatterns = new HashSet<>();

@@ -15,7 +15,7 @@
 * limitations under the License.
 */
 
-    package org.apache.dubbo.springboot.demo.idl;
+package org.apache.dubbo.springboot.demo.idl;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.common.URL;
@@ -63,23 +63,27 @@ public final class DubboGreeterTriple {
     }
 
     private static final StubMethodDescriptor greetMethod = new StubMethodDescriptor("greet",
-    org.apache.dubbo.springboot.demo.idl.GreeterRequest.class, org.apache.dubbo.springboot.demo.idl.GreeterReply.class, serviceDescriptor, MethodDescriptor.RpcType.UNARY,
+    org.apache.dubbo.springboot.demo.idl.GreeterRequest.class, org.apache.dubbo.springboot.demo.idl.GreeterReply.class, MethodDescriptor.RpcType.UNARY,
     obj -> ((Message) obj).toByteArray(), obj -> ((Message) obj).toByteArray(), org.apache.dubbo.springboot.demo.idl.GreeterRequest::parseFrom,
     org.apache.dubbo.springboot.demo.idl.GreeterReply::parseFrom);
 
     private static final StubMethodDescriptor greetAsyncMethod = new StubMethodDescriptor("greet",
-    org.apache.dubbo.springboot.demo.idl.GreeterRequest.class, java.util.concurrent.CompletableFuture.class, serviceDescriptor, MethodDescriptor.RpcType.UNARY,
+    org.apache.dubbo.springboot.demo.idl.GreeterRequest.class, java.util.concurrent.CompletableFuture.class, MethodDescriptor.RpcType.UNARY,
     obj -> ((Message) obj).toByteArray(), obj -> ((Message) obj).toByteArray(), org.apache.dubbo.springboot.demo.idl.GreeterRequest::parseFrom,
     org.apache.dubbo.springboot.demo.idl.GreeterReply::parseFrom);
 
     private static final StubMethodDescriptor greetProxyAsyncMethod = new StubMethodDescriptor("greetAsync",
-    org.apache.dubbo.springboot.demo.idl.GreeterRequest.class, org.apache.dubbo.springboot.demo.idl.GreeterReply.class, serviceDescriptor, MethodDescriptor.RpcType.UNARY,
+    org.apache.dubbo.springboot.demo.idl.GreeterRequest.class, org.apache.dubbo.springboot.demo.idl.GreeterReply.class, MethodDescriptor.RpcType.UNARY,
     obj -> ((Message) obj).toByteArray(), obj -> ((Message) obj).toByteArray(), org.apache.dubbo.springboot.demo.idl.GreeterRequest::parseFrom,
     org.apache.dubbo.springboot.demo.idl.GreeterReply::parseFrom);
 
 
 
 
+    static{
+        serviceDescriptor.addMethod(greetMethod);
+        serviceDescriptor.addMethod(greetProxyAsyncMethod);
+    }
 
     public static class GreeterStub implements Greeter{
         private final Invoker<Greeter> invoker;
@@ -97,7 +101,6 @@ public final class DubboGreeterTriple {
             return StubInvocationUtil.unaryCall(invoker, greetAsyncMethod, request);
         }
 
-        @Override
         public void greet(org.apache.dubbo.springboot.demo.idl.GreeterRequest request, StreamObserver<org.apache.dubbo.springboot.demo.idl.GreeterReply> responseObserver){
             StubInvocationUtil.unaryCall(invoker, greetMethod , request, responseObserver);
         }
@@ -124,14 +127,38 @@ public final class DubboGreeterTriple {
         }
 
         @Override
+        public CompletableFuture<org.apache.dubbo.springboot.demo.idl.GreeterReply> greetAsync(org.apache.dubbo.springboot.demo.idl.GreeterRequest request){
+                return CompletableFuture.completedFuture(greet(request));
+        }
+
+        /**
+        * This server stream type unary method is <b>only</b> used for generated stub to support async unary method.
+        * It will not be called if you are NOT using Dubbo3 generated triple stub and <b>DO NOT</b> implement this method.
+        */
+        public void greet(org.apache.dubbo.springboot.demo.idl.GreeterRequest request, StreamObserver<org.apache.dubbo.springboot.demo.idl.GreeterReply> responseObserver){
+            greetAsync(request).whenComplete((r, t) -> {
+                if (t != null) {
+                    responseObserver.onError(t);
+                } else {
+                    responseObserver.onNext(r);
+                    responseObserver.onCompleted();
+                }
+            });
+        }
+
+        @Override
         public final Invoker<Greeter> getInvoker(URL url) {
             PathResolver pathResolver = url.getOrDefaultFrameworkModel()
             .getExtensionLoader(PathResolver.class)
             .getDefaultExtension();
             Map<String,StubMethodHandler<?, ?>> handlers = new HashMap<>();
 
-            pathResolver.addNativeStub( "/" + SERVICE_NAME + "/greet" );
-            pathResolver.addNativeStub( "/" + SERVICE_NAME + "/greetAsync" );
+            pathResolver.addNativeStub( "/" + SERVICE_NAME + "/greet");
+            pathResolver.addNativeStub( "/" + SERVICE_NAME + "/greetAsync");
+            // for compatibility
+            pathResolver.addNativeStub( "/" + JAVA_SERVICE_NAME + "/greet");
+            pathResolver.addNativeStub( "/" + JAVA_SERVICE_NAME + "/greetAsync");
+
 
             BiConsumer<org.apache.dubbo.springboot.demo.idl.GreeterRequest, StreamObserver<org.apache.dubbo.springboot.demo.idl.GreeterReply>> greetFunc = this::greet;
             handlers.put(greetMethod.getMethodName(), new UnaryStubMethodHandler<>(greetFunc));

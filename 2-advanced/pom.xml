@@ -67,6 +67,7 @@
         <module>dubbo-samples-api-with-registry</module>
         <module>dubbo-samples-dubbo</module>
         <module>dubbo-samples-triple-rest</module>
+        <module>dubbo-samples-gateway</module>
         <module>dubbo-samples-multiple-protocols</module>
     </modules>
 </project>
