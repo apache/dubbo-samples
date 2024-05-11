@@ -1,4 +1,4 @@
-## Dubbo Integration Test 
+## Dubbo Integration Test
 
 ### Test steps
 
@@ -13,7 +13,7 @@ cd dubbo-samples
 ./test/build-test-image.sh
 ```
 
-Use a debian mirror through env `DEBIAN_MIRROR` if apt download files slowly, 
+Use a debian mirror through env `DEBIAN_MIRROR` if apt download files slowly,
 the following example uses aliyun mirror server [http://mirrors.aliyun.com/ubuntu/](http://mirrors.aliyun.com/ubuntu/) :
 
 ```
@@ -36,7 +36,7 @@ props:
 
 ```
 
-Some example projects: 
+Some example projects:
 
  * [dubbo-samples-annotation](../dubbo-samples-annotation/case-configuration.yml) : A simple provider service with builtin zookeeper.
  * [dubbo-samples-api](../dubbo-samples-api/case-configuration.yml) : A simple provider service with external zookeeper.
@@ -53,6 +53,7 @@ cd dubbo-samples
 
 Run all tests:
 
+
 ```
 cd dubbo-samples
 ./test/run-tests.sh
@@ -62,10 +63,10 @@ cd dubbo-samples
 
 Use `from` directive can import parent configuration, merge into current configuration.
 
-Builtin parent configurations is in directory: `test/dubbo-scenario-builder/src/main/resources/configs`. 
+Builtin parent configurations is in directory: `test/dubbo-scenario-builder/src/main/resources/configs`.
 
-* `app-builtin-zookeeper.yml` 
-  
+* `app-builtin-zookeeper.yml`
+
   Applicable scenario: single dubbo provider application with builtin zookeeper
 and test case.
 
@@ -74,7 +75,7 @@ and test case.
 and test case.
 
 
-**Examples:** 
+**Examples:**
 
 * `dubbo-samples-annotation` configuration:
 
@@ -141,10 +142,10 @@ Directives for dubbo service:
 Service directives compatible with `docker-compose`:
 
 | Name | Description |  Defaults |
-| ---- | ----------- | -------- | 
+| ---- | ----------- | -------- |
 | `image` | docker image name of container | app/test service is implicitly set to `dubbo/sample-test`. |
 | `environment` |  |
-| `depends_on` | | 
+| `depends_on` | |
 | `hostname` | container hostname | app/test service is implicitly set to service id |
 | `volumes` | container mount points | app/test service automatically mounts directory: `$basedir/target:/usr/local/dubbo/app`  |
 | `links` | |
@@ -158,11 +159,11 @@ Service directives compatible with `docker-compose`:
 
 `app-external-zookeeper.yml` includes :
 
-* External zookeeper 
+* External zookeeper
 * Dubbo provider application
 * Dubbo testcase
 
-**Note:**  
+**Note:**
 
 * app/test service connect to zookeeper by system property `zookeeper.address` and `zookeeper.port`
 
@@ -217,29 +218,29 @@ A scenario is a complete test environment, including docker-compose.yml, scenari
 * Scenario home
 
  `${scenario_home}` default location is: `${project.basedir/target}`.
- 
+
  App / test service automatically mounts directory: `${scenario_home}:/usr/local/dubbo/app`
 
 
 * Scenario running timeout
- 
- Default running timeout is 200s. Some test cases require more time, you can modify it in the following way. 
- 
+
+ Default running timeout is 200s. Some test cases require more time, you can modify it in the following way.
+
  Set timeout in `case-configuration.yml`:
- 
+
    ```
    timeout: 300
    ```
-   
+
 #### Logs
 
 * Container log
-  Container log location is: `${scenario_home}/logs/${serviceName}.log`, include of dubbo app/test 
-  service and external service. 
+  Container log location is: `${scenario_home}/logs/${serviceName}.log`, include of dubbo app/test
+  service and external service.
 
-* Scenario log  
+* Scenario log
   Script `scenario.sh` log location: `${scenario_home}/logs/scenario.log`.
-  
+
 * Scenario builder log
   Scenario builder log location: `$scenario_home/logs/scenario-builder.log`
 
@@ -249,8 +250,8 @@ The test reports is in directory: `${scenario_home}/test-reports`
 
 #### Fork run
 
-The fork count is 2 by default, you can modify it by setting env `FORK_COUNT=n`. 
-Increasing the fork count may cause the container to run very slowly, 
+The fork count is 2 by default, you can modify it by setting env `FORK_COUNT=n`.
+Increasing the fork count may cause the container to run very slowly,
 please set it according to the CPU/IO performance of the operating system.
 
 ```
@@ -259,7 +260,7 @@ FORK_COUNT=2 bash run-tests.sh
 
 #### Fail-fast
 
-Run tests in fail-fast mode, abort testing when any case is failed. 
+Run tests in fail-fast mode, abort testing when any case is failed.
 It's useful when running tests in CI server, such as: Jenkins, Github actions.
 Default value: `FAIL_FAST=0`.
 
@@ -269,7 +270,7 @@ FAIL_FAST=1 bash run-tests.sh
 
 #### Show error detail
 
-Show log detail of failed testcase, including app log and test container log. 
+Show log detail of failed testcase, including app log and test container log.
 It's useful when running tests in CI server, such as: Jenkins, Github actions.
 Default value: `SHOW_ERROR_DETAIL=0`.
 
@@ -280,12 +281,12 @@ SHOW_ERROR_DETAIL=1 bash run-tests.sh
 ### Develop
 
 #### dubbo-scenario-builder
-Build dubbo test scenario, generating docker/docker-compose script files and 
-start script files. 
+Build dubbo test scenario, generating docker/docker-compose script files and
+start script files.
 
 
 #### dubbo-test-runner
-A Junit test runner, execute a set of testcases, replacement for maven-safefail-plugin. 
+A Junit test runner, execute a set of testcases, replacement for maven-safefail-plugin.
 Also include files for `dubbo-test-image`.
 
 
