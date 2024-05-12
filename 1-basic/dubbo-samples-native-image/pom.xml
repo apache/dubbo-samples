@@ -38,7 +38,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <dubbo.version>3.3.0-beta.1-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.3.0-beta.1</dubbo.version>
         <spring-boot.version>3.0.5</spring-boot.version>
         <spring-boot-maven-plugin.version>3.0.5</spring-boot-maven-plugin.version>
         <native-maven-plugin.version>0.9.23</native-maven-plugin.version>
