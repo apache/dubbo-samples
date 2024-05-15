@@ -141,7 +141,7 @@ jobs:
           mv mysql-connector-java-8.0.23.jar /tmp/
       - name: "Mvn Benchmark Skywalking Plugin"
         run: |
-          rm /tmp/skywalking-agent/plugins/*
+          rm -rf /tmp/skywalking-agent/plugins/*
           cd 10-task/dubbo-samples-benchmark/dubbo-samples-benchmark-agent && mvn --batch-mode --no-snapshot-updates -e --no-transfer-progress clean package -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
           cp -f ./target/dubbo-samples-benchmark-agent.jar /tmp/skywalking-agent/plugins/
 
