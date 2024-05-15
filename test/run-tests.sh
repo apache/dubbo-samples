@@ -320,7 +320,93 @@ function process_case() {
         done < "$version_matrix_file"
   else
         while read -r version_profile; do
-          run_test_with_version_profile "$version_profile" "" "$project_home"
+              start_time=$SECONDS
+              version_no=$((version_no + 1))
+              log_prefix="[${case_no}/${totalCount}] [$scenario_name:$version_no/$version_count]"
+
+              # run test using version profile
+              echo "$log_prefix Building project : $scenario_name with version: $version_profile .."
+              cd $project_home
+
+              # clean target manual, avoid 'mvn clean' failed with 'Permission denied' in github actions
+              find . -name target -d | xargs -I {} rm -rf {}
+              target_dirs=`find . -name target -d`
+              if [ "$target_dirs" != "" ]; then
+                echo "$log_prefix Force delete target dirs"
+                find . -name target -d | xargs -I {} sudo rm -rf {}
+              fi
+
+              mvn $BUILD_OPTS $version_profile &> $project_home/mvn.log
+              result=$?
+              if [ $result -ne 0 ]; then
+                echo "$log_prefix $TEST_FAILURE: Build failure with version: $version_profile, please check log: $project_home/mvn.log" | tee -a $testResultFile
+                if [ "$SHOW_ERROR_DETAIL" == "1" ];then
+                  cat $project_home/mvn.log
+                fi
+                return 1
+              fi
+
+              # generate case configuration
+              mkdir -p $scenario_home/logs
+              scenario_builder_log=$scenario_home/logs/scenario-builder.log
+              echo "$log_prefix Generating test case configuration .."
+              config_time=$SECONDS
+              java -Dconfigure.file=$file \
+                -Dscenario.home=$scenario_home \
+                -Dscenario.name=$scenario_name \
+                -Dscenario.version=$version \
+                -Dtest.image.version=$JAVA_VER \
+                -Ddebug.service=$DEBUG \
+                $version_profile \
+                -jar $test_builder_jar  &> $scenario_builder_log
+              result=$?
+              if [ $result -ne 0 ]; then
+                error_msg=`get_error_msg $scenario_builder_log`
+                if [ $result == $EXIT_IGNORED ]; then
+                  echo "$log_prefix $TEST_IGNORED: $error_msg" | tee -a $testResultFile
+                else
+                  echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $error_msg, please check log: $scenario_builder_log" | tee -a $testResultFile
+                fi
+                return $result
+              fi
+
+              # run test
+              echo "$log_prefix Running test case .."
+              running_time=$SECONDS
+              bash $scenario_home/scenario.sh
+              result=$?
+              end_time=$SECONDS
+
+              if [ $result == 0 ]; then
+                echo "$log_prefix $TEST_SUCCESS with version: $version_profile, cost $((end_time - start_time)) s"
+              else
+                scenario_log=$scenario_home/logs/scenario.log
+                error_msg=`get_error_msg $scenario_log`
+                if [ $result == $EXIT_IGNORED ]; then
+                  if [ "$error_msg" != "" ];then
+                    echo "$log_prefix $TEST_IGNORED: $error_msg, version: $version_profile" | tee -a $testResultFile
+                  else
+                    echo "$log_prefix $TEST_IGNORED, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+                  fi
+                else
+                  if [ "$error_msg" != "" ];then
+                    echo "$log_prefix $TEST_FAILURE: $error_msg, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+                  else
+                    echo "$log_prefix $TEST_FAILURE, version: $version_profile, please check logs: $scenario_home/logs" | tee -a $testResultFile
+                  fi
+                fi
+
+                # show test log
+                if [ "$SHOW_ERROR_DETAIL" == "1" ]; then
+                  for log_file in $scenario_home/logs/*.log; do
+                    # ignore scenario-builder.log
+                    if [[ $log_file != *scenario-builder.log ]]; then
+                      print_log_file $scenario_name $log_file
+                    fi
+                  done
+                fi
+                return 1
+              fi
         done < "$version_matrix_file"
   fi
 
