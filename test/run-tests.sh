@@ -181,9 +181,6 @@ function run_test_with_version_profile() {
           echo "$log_prefix $TEST_IGNORED: $error_msg" | tee -a $testResultFile
         else
           echo "$log_prefix $TEST_FAILURE: Generate case configuration failure: $error_msg, please check log: $scenario_builder_log" | tee -a $testResultFile
-          cat $scenario_builder_log
-          mkdir -p /tmp/logs
-          cp $scenario_builder_log /tmp/logs/
         fi
         return $result
      fi
