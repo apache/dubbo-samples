@@ -20,7 +20,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.DemoService;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,6 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-@Disabled
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class ConsumerIT {
