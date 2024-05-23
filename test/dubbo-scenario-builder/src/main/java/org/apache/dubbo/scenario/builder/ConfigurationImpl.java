@@ -515,6 +515,10 @@ public class ConfigurationImpl implements IConfiguration {
         for (String propkv : systemProps) {
             sb.append("-D").append(propkv).append(' ');
         }
+        String runtimeProps = System.getProperty("prop");
+        if (StringUtils.isNotBlank(runtimeProps)) {
+            sb.append(runtimeProps).append(' ');
+        }
         return sb.toString();
     }
 
