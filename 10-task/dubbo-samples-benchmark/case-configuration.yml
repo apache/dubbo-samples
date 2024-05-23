@@ -1,0 +1,86 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+timeout: 2240
+
+services:
+  zookeeper:
+    image: zookeeper:latest
+
+  bh-mysql:
+    image: mysql:5.7
+    hostname: bh-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=skywalking
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "127.0.0.1" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  skywalking:
+    image: apache/skywalking-oap-server:9.3.0
+    hostname: skywalking
+    ports:
+      - 11800:11800
+    volumes:
+      - /tmp/mysql-connector-java-8.0.23.jar:/skywalking/oap-libs/mysql-connector-java-8.0.23.jar
+    environment:
+      - SW_STORAGE=mysql
+      - SW_JDBC_URL=jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
+      - SW_DATA_SOURCE_USER=root
+      - SW_DATA_SOURCE_PASSWORD=123456
+    waitPortsBeforeRun:
+      - bh-mysql:3306
+    depends_on:
+      - bh-mysql
+
+  provider:
+    type: app
+    basedir: dubbo-samples-benchmark-provider
+    mainClass: org.apache.dubbo.benchmark.demo.provider.ProviderApplication
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "Current Spring Boot Application is await..."
+
+  test:
+    type: test
+    basedir: dubbo-samples-benchmark-consumer
+    tests:
+      - "**/*IT.class"
+    jvmFlags:
+      - "-javaagent:/tmp/skywalking-agent/skywalking-agent.jar"
+    systemProps:
+      - zookeeper.address=zookeeper
+      - skywalking.agent.service_name=dubbo-samples-benchmark-consumer
+      - skywalking.collector.backend_service=skywalking:11800
+    volumes:
+      - /tmp:/tmp
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - provider:20880
+      - skywalking:11800
+    depends_on:
+      - provider
