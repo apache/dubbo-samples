@@ -76,8 +76,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.alibaba.spring</groupId>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
