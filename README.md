@@ -76,7 +76,6 @@ If docker container fails to startup successfully in any case, you can check log
 
 Pls. note integration tests rely on a Docker environment, make sure the docker environment is available before running them.
 
-
 **How to add more integration test**
 
 If you are interested in contributing more integration test for dubbo, pls. read further to understand how to enable integration test for one particular sample from the scratch.
@@ -159,7 +158,7 @@ Version rules for spring app:
 
 ```
 # Spring app
-dubbo.version=2.7*, 3.*
+dubbo.version=2.7.*, 3.*
 spring.version=4.*, 5.*
 ```
 
@@ -167,7 +166,7 @@ Version rules for spring-boot 1.x app:
 
 ```
 # SpringBoot app
-dubbo.version=2.7*, 3.*
+dubbo.version=2.7.*, 3.*
 spring-boot.version=1.*
 ```
 
@@ -175,17 +174,15 @@ Version rules for spring-boot 2.x app:
 
 ```
 # SpringBoot app
-dubbo.version=2.7*, 3.*
+dubbo.version=2.7.*, 3.*
 spring-boot.version=2.*
 ```
-
 
 For more details, please refer to the following case configurations:
 
  * [dubbo-samples-annotation](dubbo-samples-annotation/case-configuration.yml) : A simple provider service with builtin zookeeper.
  * [dubbo-samples-api](dubbo-samples-api/case-configuration.yml) : A simple provider service with external zookeeper.
  * [dubbo-samples-chain](dubbo-samples-chain/case-configuration.yml) : A multiple services with external zookeeper.
- * [dubbo-samples-migration](dubbo-samples-migration/README.md) : A compatibility test with the provider and consumer have different dubbo verison.
-
+ * [dubbo-samples-migration](dubbo-samples-migration/README.md) : A compatibility test with the provider and consumer have different dubbo version.
 
 That's it, then feel free to add more integration test for the Dubbo project, have fun.
