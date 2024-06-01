@@ -31,12 +31,12 @@ public interface Constants {
     int EXIT_IGNORED = 120;
 
     /**
-     * Used in case-versions.conf 
+     * Used in case-versions.conf
      */
     String DUBBO_VERSION_KEY = "dubbo.version";
 
     /**
-     * The pattern used for searching target service name 
+     * The pattern used for searching target service name
      */
     Pattern PATTERN_DUBBO_VERSION = Pattern.compile("^dubbo\\.(.+)\\.version$");
 }

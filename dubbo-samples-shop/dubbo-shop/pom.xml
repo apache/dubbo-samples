@@ -37,6 +37,7 @@
         <module>dubbo-shop-web-goodsDetails</module>
         <module>dubbo-shop-service-goodsDetails</module>
         <module>dubbo-shop-web-ads</module>
+        <module>dubbo-shop-service-ads</module>
     </modules>
 
     <properties>
@@ -93,6 +94,19 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>17</source>
+                        <target>17</target>
+                        <compilerArgs>
+                            <arg>--add-exports</arg>
+                            <arg>jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>

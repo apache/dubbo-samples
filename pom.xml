@@ -43,6 +43,7 @@
         <module>3-extensions</module>
         <module>4-governance</module>
         <module>tools</module>
+        <module>dubbo-samples-shop/dubbo-shop</module>
     </modules>
 
     <build>
