@@ -2,7 +2,8 @@
 
 Samples for Apache Dubbo.
 
-![Build Status](https://github.com/apache/dubbo-samples/workflows/Dubbo%202/badge.svg)
+![Build Status](https://github.com/apache/dubbo-samples/workflows/Dubbo%203.2/badge.svg)
+![Build Status](https://github.com/apache/dubbo-samples/workflows/Dubbo%203.3/badge.svg)
 ![license](https://img.shields.io/github/license/apache/dubbo-samples.svg)
 
 This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, pls. check README in each individual sub projects. It is also helpful to cross reference to [Dubbo User Manual](https://dubbo.apache.org/zh-cn/overview/tasks/) to understand the features demoed in this project.
@@ -74,7 +75,6 @@ Then we use the `run-tests.sh` script to run the test cases.
 If docker container fails to startup successfully in any case, you can check log files in directory `${project.basedir}/target/logs` to understand what happens.
 
 Pls. note integration tests rely on a Docker environment, make sure the docker environment is available before running them.
-
 
 **How to add more integration test**
 
@@ -158,7 +158,7 @@ Version rules for spring app:
 
 ```
 # Spring app
-dubbo.version=2.7*, 3.*
+dubbo.version=2.7.*, 3.*
 spring.version=4.*, 5.*
 ```
 
@@ -166,7 +166,7 @@ Version rules for spring-boot 1.x app:
 
 ```
 # SpringBoot app
-dubbo.version=2.7*, 3.*
+dubbo.version=2.7.*, 3.*
 spring-boot.version=1.*
 ```
 
@@ -174,10 +174,9 @@ Version rules for spring-boot 2.x app:
 
 ```
 # SpringBoot app
-dubbo.version=2.7*, 3.*
+dubbo.version=2.7.*, 3.*
 spring-boot.version=2.*
 ```
-
 
 For more details, please refer to the following case configurations:
 
@@ -185,6 +184,5 @@ For more details, please refer to the following case configurations:
  * [dubbo-samples-api](1-basic/dubbo-samples-api/case-configuration.yml) : A simple provider service with external zookeeper.
  * [dubbo-samples-chain](2-advanced/dubbo-samples-chain/case-configuration.yml) : A multiple services with external zookeeper.
  * [dubbo-samples-migration](2-advanced/dubbo-samples-migration/README.md) : A compatibility test with the provider and consumer have different dubbo verison.
-
 
 That's it, then feel free to add more integration test for the Dubbo project, have fun.
