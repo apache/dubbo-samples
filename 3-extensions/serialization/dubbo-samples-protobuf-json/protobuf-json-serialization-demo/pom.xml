@@ -37,6 +37,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>protobuf-json-serialization-implement</artifactId>
             <version>${project.version}</version>
