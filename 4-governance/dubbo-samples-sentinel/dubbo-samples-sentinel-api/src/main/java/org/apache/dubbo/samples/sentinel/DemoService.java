@@ -19,4 +19,10 @@ package org.apache.dubbo.samples.sentinel;
 public interface DemoService {
 
     String sayHello(String name);
+
+    String sayHelloAgain(String name);
+
+    String sayHelloConsumerFlowControl(String name);
+
+    String sayHelloConsumerDowngrade(String name);
 }

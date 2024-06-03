@@ -16,7 +16,10 @@
  */
 package org.apache.dubbo.samples.provider;
 
+import com.alibaba.csp.sentinel.adapter.dubbo3.config.DubboAdapterGlobalConfig;
+import com.alibaba.dubbo.rpc.RpcResult;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.apache.dubbo.rpc.AsyncRpcResult;
 import org.apache.dubbo.samples.sentinel.DemoService;
 
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
@@ -37,15 +40,48 @@ public class ProviderApplication {
         SpringApplication.run(ProviderApplication.class, args);
     }
 
+    // Service level QOS flow control
     @Component
-    static class SentinelConfig implements CommandLineRunner {
+    static class SentinelServiceConfig implements CommandLineRunner {
         @Override
         public void run(String... args) {
             // Limit DemoService to 10 QPS
-            FlowRule flowRule = new FlowRule(DemoService.class.getName())
-                    .setCount(10)
-                    .setGrade(RuleConstant.FLOW_GRADE_QPS);
+            FlowRule flowRule = new FlowRule();
+            // Note: the resource name here is the interface name.
+            flowRule.setResource(DemoService.class.getName());
+            flowRule.setCount(10);
+            flowRule.setLimitApp("default");
+            flowRule.setGrade(RuleConstant.FLOW_GRADE_QPS);
             FlowRuleManager.loadRules(Collections.singletonList(flowRule));
+        }
+    }
+
+    // Method level QOS flow control
+    @Component
+    static class SentinelMethodConfig implements CommandLineRunner {
+        @Override
+        public void run(String... args) {
+            // Limit DemoService.sayHelloAgain() method to 5 QPS.
+            FlowRule flowRule = new FlowRule();
+            // Note: the resource name here includes the method signature.
+            flowRule.setResource(DemoService.class.getName() + ":sayHelloAgain(java.lang.String)");
+            flowRule.setCount(5);
+            // Note: this will take effect only for the specific consumer whose app name is "sentinel-consumer".
+            flowRule.setLimitApp("sentinel-consumer");
+            flowRule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+            FlowRuleManager.loadRules(Collections.singletonList(flowRule));
+        }
+    }
+
+    // Set method gets executed when flow control happens.
+    @Component
+    static class SentinelCallbackConfig implements CommandLineRunner {
+        @Override
+        public void run(String... args) {
+            DubboAdapterGlobalConfig.setProviderFallback((invoker, invocation, ex) -> {
+                System.out.println("Blocked by Sentinel: " + ex.getClass().getSimpleName() + ", " + invocation);
+                return AsyncRpcResult.newDefaultAsyncResult(ex.toRuntimeException(), invocation);
+            });
         }
     }
 }

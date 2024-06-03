@@ -79,7 +79,7 @@ public class ConfigurationImpl implements IConfiguration {
     private String scenarioName;
     private final String scenarioLogDir;
     private final boolean jacocoEnable = Boolean.parseBoolean(System.getenv("JACOCO_ENABLE"));
-    private int scenarioTimeout = 200;
+    private int scenarioTimeout = 600;
     private int javaDebugPort = 20660;
     private int debugTimeout = 36000;
     private Set<Pattern> debugPatterns = new HashSet<>();
@@ -514,6 +514,10 @@ public class ConfigurationImpl implements IConfiguration {
         StringBuilder sb = new StringBuilder();
         for (String propkv : systemProps) {
             sb.append("-D").append(propkv).append(' ');
+        }
+        String runtimeProps = System.getProperty("prop");
+        if (StringUtils.isNotBlank(runtimeProps)) {
+            sb.append(runtimeProps).append(' ');
         }
         return sb.toString();
     }
