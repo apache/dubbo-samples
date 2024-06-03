@@ -1,0 +1,137 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: "3.9"
+
+services:
+
+    mysql:
+        image: mysql:${MYSQL_VERSION}
+        container_name: ${CONTAINER_PREFIX}mysql
+        restart: on-failure
+        env_file:
+            - .env
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+            interval: 3s
+            retries: 5
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+        ports:
+            - ${MYSQL_PORT}:${MYSQL_INNER_PORT}
+        volumes:
+            - ./mysql/init.d:/docker-entrypoint-initdb.d/
+        command:
+          [
+              --character-set-server=utf8mb4,
+              --collation-server=utf8mb4_unicode_ci,
+              --default-authentication-plugin=mysql_native_password
+          ]
+        networks:
+            - shop
+
+    nacos:
+        image: nacos/nacos-server:${NACOS_VERSION}
+        container_name: ${CONTAINER_PREFIX}nacos
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:8848/nacos/v1/console/health/readiness" ]
+            interval: 10s
+            timeout: 10s
+            retries: 10
+        env_file:
+            - .env
+            - ./nacos/conf/nacos-standalone-mysql.env
+        ports:
+            - ${NACOS_PORT}:${NACOS_INNER_PORT}
+            - ${NACOS_GRPC_PORT}:${NACOS_INNER_GRPC_PORT}
+        restart: always
+        depends_on:
+            mysql:
+                condition: service_healthy
+        networks:
+            - shop
+
+    nginx:
+        image: nginx:${NGINX_VERSION}
+        container_name: ${CONTAINER_PREFIX}nginx
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost/health" ]
+            interval: 10s
+            timeout: 10s
+            retries: 3
+        ports:
+            - ${NGINX_PORT}:${NGINX_INNER_PORT}
+        volumes:
+            - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+            - ./nginx/html/dist:/usr/share/nginx/html
+        networks:
+            - shop
+
+    service-ads:
+        image: ${CONTAINER_PREFIX}service-ads
+        container_name: ${CONTAINER_PREFIX}service-ads
+        env_file:
+            - .env
+        build:
+            dockerfile: ${SERVICE_ADS_APPS}/DockerFile
+            context: .
+            args:
+                APP_HOME: ${APP_HOME}
+                SERVICE_ADS_APPS: ${SERVICE_ADS_APPS}
+        restart: on-failure
+        volumes:
+            - ./apps/service/ads:${APP_HOME}
+            - /etc/localtime:/etc/localtime
+        expose:
+            - ${SERVICE_ADS}
+        ports:
+            - ${SERVICE_ADS}:${SERVICE_ADS}
+            - ${SERVICE_DUBBO_PROTOCOL}:${SERVICE_DUBBO_PROTOCOL}
+        depends_on:
+            nacos:
+                condition: service_healthy
+        networks:
+            - shop
+
+    web-ads:
+        image: ${CONTAINER_PREFIX}web-ads
+        container_name: ${CONTAINER_PREFIX}web-ads
+        env_file:
+            - .env
+        build:
+            dockerfile: ${WEB_ADS_APPS}/DockerFile
+            context: .
+            args:
+                APP_HOME: ${APP_HOME}
+                WEB_ADS_APPS: ${WEB_ADS_APPS}
+        restart: on-failure
+        volumes:
+            - /etc/localtime:/etc/localtime
+        expose:
+            - ${WEB_ADS}
+        ports:
+            - ${WEB_ADS}:${WEB_ADS}
+            - ${WEB_DUBBO_PROTOCOL}:${WEB_DUBBO_PROTOCOL}
+        depends_on:
+            nacos:
+                condition: service_healthy
+        networks:
+            - shop
+
+networks:
+    shop:
+        driver: bridge

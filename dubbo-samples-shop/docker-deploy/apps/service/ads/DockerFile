@@ -1,0 +1,14 @@
+FROM registry.cn-hangzhou.aliyuncs.com/yuluo-yx/java-base:V20240116 as builder
+
+LABEL author="yuluo" \
+	email="yuluo08290126@gmail.com"
+
+ARG APP_HOME
+ARG SERVICE_ADS_APPS
+
+WORKDIR ${APP_HOME}
+
+COPY ${SERVICE_ADS_APPS}/app.jar app.jar
+COPY ${SERVICE_ADS_APPS}/application-docker.yml application-docker.yml
+
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=docker"]
