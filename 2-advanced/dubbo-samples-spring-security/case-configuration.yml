@@ -23,12 +23,7 @@ services:
         type: app
         basedir: dubbo-samples-spring-security-provider
         mainClass: org.apache.dubbo.samples.security.ProviderApplication
-        systemProps:
-            - zookeeper.address=127.0.0.1
-            - zookeeper.port=2181
-        checkPorts:
-            - 2181
-        checkLog: "dubbo service started"
+
 
     dubbo-samples-spring-security-test:
         type: test
