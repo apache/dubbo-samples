@@ -53,6 +53,4 @@ public class BroadcastConsumerIT {
         Assert.assertTrue(demoService.isInvoke());
     }
 
-
-
 }

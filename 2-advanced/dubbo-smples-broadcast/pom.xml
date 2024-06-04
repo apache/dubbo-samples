@@ -84,15 +84,6 @@
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>jdk9</id>
-            <activation>
-                <jdk>[9,)</jdk>
-            </activation>
-            <properties>
-                <maven.compiler.release>${java.version}</maven.compiler.release>
-            </properties>
-        </profile>
         <!-- For jdk 11 above JavaEE annotation -->
         <profile>
             <id>javax.annotation</id>
@@ -103,7 +94,7 @@
                 <dependency>
                     <groupId>javax.annotation</groupId>
                     <artifactId>javax.annotation-api</artifactId>
-                    <version>1.3.2</version>
+                    <version>${1.3.2}</version>
                 </dependency>
             </dependencies>
         </profile>
