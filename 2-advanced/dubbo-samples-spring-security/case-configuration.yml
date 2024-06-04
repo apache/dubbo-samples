@@ -19,20 +19,33 @@ props:
     zookeeper_port: 2181
 
 services:
-    dubbo-samples-spring-security:
+    zookeeper:
+        image: zookeeper:latest
+
+    provider:
         type: app
         basedir: dubbo-samples-spring-security-provider
         mainClass: org.apache.dubbo.samples.security.ProviderApplication
+        systemProps:
+            - zookeeper.address=zookeeper
+        waitPortsBeforeRun:
+            - zookeeper:2181
+        checkPorts:
+            - 20880
+        checkLog: "dubbo service started"
 
-
-    dubbo-samples-spring-security-test:
+    consumer:
         type: test
         basedir: dubbo-samples-spring-security-consumer
         tests:
             - "**/*IT.class"
         systemProps:
-            - zookeeper.address=127.0.0.1
+            - zookeeper.address=zookeeper
             - zookeeper.port=2181
-            - dubbo.address=dubbo-samples-spi-compatible
+            - dubbo.address=provider
+            - dubbo.port=20880
+        waitPortsBeforeRun:
+            - zookeeper:2181
+            - provider:20880
         depends_on:
-            - dubbo-samples-spring-security
+            - provider
