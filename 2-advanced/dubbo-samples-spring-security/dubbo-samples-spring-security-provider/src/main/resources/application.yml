@@ -16,7 +16,7 @@ dubbo:
     application:
         name: dubbo-samples-spring-security-provider
     protocol:
-        port: -1
+        port: 20880
     provider:
         timeout: 5000
         token: true
