@@ -21,7 +21,7 @@ props:
 services:
     dubbo-samples-spring-security:
         type: app
-        basedir: .
+        basedir: dubbo-samples-spring-security-provider
         mainClass: org.apache.dubbo.samples.security.ProviderApplication
         systemProps:
             - zookeeper.address=127.0.0.1
@@ -32,7 +32,7 @@ services:
 
     dubbo-samples-spring-security-test:
         type: test
-        basedir: .
+        basedir: dubbo-samples-spring-security-consumer
         tests:
             - "**/*IT.class"
         systemProps:
