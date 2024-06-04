@@ -43,6 +43,7 @@
         <module>3-extensions</module>
         <module>4-governance</module>
         <module>tools</module>
+        <module>2-advanced/dubbo-smples-broadcast</module>
     </modules>
 
     <build>
