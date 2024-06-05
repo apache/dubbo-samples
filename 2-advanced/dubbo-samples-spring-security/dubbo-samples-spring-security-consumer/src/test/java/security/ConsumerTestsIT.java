@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = ConsumerApplication.class)
 @ExtendWith(MockitoExtension.class)
-class ConsumerTests {
+class ConsumerTestsIT {
 
     @Mock
     private UserService userService;
