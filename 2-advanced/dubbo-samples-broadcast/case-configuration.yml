@@ -18,7 +18,7 @@ services:
   zookeeper:
     image: zookeeper:latest
 
-  dubbo-smples-broadcast-provider1:
+  dubbo-samples-broadcast-provider1:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.samples.broadcast.BroadcastProvider
@@ -34,7 +34,7 @@ services:
     depends_on:
       - zookeeper
 
-  dubbo-smples-broadcast-provider2:
+  dubbo-samples-broadcast-provider2:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.samples.broadcast.BroadcastProvider
@@ -50,7 +50,7 @@ services:
     depends_on:
       - zookeeper
 
-  dubbo-smples-broadcast-test:
+  dubbo-samples-broadcast-test:
     type: test
     basedir: .
     tests:
@@ -60,9 +60,9 @@ services:
       - zookeeper.port=2181
     waitPortsBeforeRun:
       - zookeeper:2181
-      - dubbo-smples-broadcast-provider1:20880
-      - dubbo-smples-broadcast-provider2:20881
+      - dubbo-samples-broadcast-provider1:20880
+      - dubbo-samples-broadcast-provider2:20881
     depends_on:
       - zookeeper
-      - dubbo-smples-broadcast-provider1
-      - dubbo-smples-broadcast-provider2
+      - dubbo-samples-broadcast-provider1
+      - dubbo-samples-broadcast-provider2
