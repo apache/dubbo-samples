@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package security;
+package org.apache.dubbo.samples.security;
 
 import org.apache.dubbo.samples.security.ConsumerApplication;
 import org.apache.dubbo.samples.security.api.UserService;
