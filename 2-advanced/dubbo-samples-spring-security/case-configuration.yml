@@ -24,28 +24,31 @@ services:
 
     provider:
         type: app
-        basedir: dubbo-samples-spring-security-provider
+        basedir: .
         mainClass: org.apache.dubbo.samples.security.ProviderApplication
         systemProps:
             - zookeeper.address=zookeeper
+            - zookeeper.port=2181
+            - dubbo.port=20880
         waitPortsBeforeRun:
             - zookeeper:2181
         checkPorts:
             - 20880
         checkLog: "dubbo service started"
+        depends_on:
+            - zookeeper
 
     consumer:
         type: test
-        basedir: dubbo-samples-spring-security-consumer
+        basedir: .
         tests:
             - "**/*IT.class"
         systemProps:
             - zookeeper.address=zookeeper
             - zookeeper.port=2181
-            - dubbo.address=provider
-            - dubbo.port=20880
         waitPortsBeforeRun:
             - zookeeper:2181
             - provider:20880
         depends_on:
             - provider
+            - zookeeper
