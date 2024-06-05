@@ -26,7 +26,6 @@ import java.util.concurrent.CountDownLatch;
 public class BroadcastProvider {
 
     public static void main(String[] args) throws Exception {
-//        new EmbeddedZooKeeper().start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/broadcast-provider.xml");
         context.start();
 
