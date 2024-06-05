@@ -6,7 +6,7 @@
     <groupId>org.apache.dubbo</groupId>
     <version>1.0-SNAPSHOT</version>
 
-    <artifactId>dubbo-smples-broadcast</artifactId>
+    <artifactId>dubbo-samples-broadcast</artifactId>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
