@@ -16,8 +16,6 @@
  * limitations under the License.
  */
 import HeaderCart from "@/views/Layout/components/HeaderCart.vue";
-// import {useCategoryStore} from "@/stores/categoryStore";
-// const categoryStore = useCategoryStore();
 </script>
 
 <template>
@@ -31,26 +29,8 @@ import HeaderCart from "@/views/Layout/components/HeaderCart.vue";
         <li class="home">
           <RouterLink to="/">首页</RouterLink>
         </li>
-<!--        <li v-for="item in categoryStore.categoryList" :key="item.id">-->
-<!--          <RouterLink active-class="active" :to="`/category/${item.id}`">{{item.name}}</RouterLink>-->
-<!--        </li>-->
+
       </ul>
-<!--      <ul class="app-header-nav">-->
-<!--        <li class="home">-->
-<!--          <RouterLink to="/">首页</RouterLink>-->
-<!--        </li>-->
-<!--        <li v-for="item in categoryStore.categoryList" :key="item.id">-->
-<!--          <RouterLink to="/">{{item.name}}</RouterLink>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--      <ul class="app-header-nav">-->
-<!--        <li class="home">-->
-<!--          <RouterLink to="/">首页</RouterLink>-->
-<!--        </li>-->
-<!--        <li v-for="item in categoryList" :key="item.id">-->
-<!--          <RouterLink active-class="active" :to="`/category/${item.id}`">{{item.name}}</RouterLink>-->
-<!--        </li>-->
-<!--      </ul>-->
       <div class="search">
         <i class="iconfont icon-search"></i>
         <input type="text" placeholder="搜一搜">
