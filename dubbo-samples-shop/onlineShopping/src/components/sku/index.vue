@@ -66,12 +66,6 @@ const getPathMap = (skus) => {
 // 初始化禁用状态
 function initDisabledStatus (specs, pathMap) {
   if (specs && specs.length > 0) {
-    // specs.forEach(spec => {
-    //   spec.values.forEach(val => {
-    //     // 设置禁用状态
-    //     val.disabled = !pathMap[val.name]
-    //   })
-    // })
   }
 }
 
