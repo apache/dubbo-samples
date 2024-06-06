@@ -34,5 +34,6 @@ public class BroadcastConsumer {
             System.out.println(hello);
             Thread.sleep(2000);
         }
+
     }
 }
