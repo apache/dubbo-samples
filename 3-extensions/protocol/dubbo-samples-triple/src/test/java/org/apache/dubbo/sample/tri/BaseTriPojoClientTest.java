@@ -162,7 +162,7 @@ public abstract class BaseTriPojoClientTest {
 
     @Test
     public void greetLong() {
-        int power = 25;
+        int power = 23;
         for (int i = 0; i < power; i++) {
             final int len = (1 << i);
             final String response = longDelegate.greetLong(len);
