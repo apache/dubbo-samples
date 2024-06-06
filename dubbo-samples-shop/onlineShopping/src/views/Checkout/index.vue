@@ -41,24 +41,6 @@ onMounted(() => getCheckInfo())
   <div class="xtx-pay-checkout-page">
     <div class="container">
       <div class="wrapper">
-        <!-- 收货地址 -->
-<!--        <h3 class="box-title">收货地址</h3>-->
-<!--        <div class="box-body">-->
-<!--          <div class="address">-->
-<!--            <div class="text">-->
-<!--              <div class="none" v-if="!curAddress">您需要先添加收货地址才可提交订单。</div>-->
-<!--              <ul v-else>-->
-<!--                <li><span>收<i />货<i />人：</span>{{ curAddress.receiver }}</li>-->
-<!--                <li><span>联系方式：</span>{{ curAddress.contact }}</li>-->
-<!--                <li><span>收货地址：</span>{{ curAddress.fullLocation }} {{ curAddress.address }}</li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--            <div class="action">-->
-<!--              <el-button size="large" @click="">切换地址</el-button>-->
-<!--              <el-button size="large" @click="">添加地址</el-button>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
         <!-- 商品信息 -->
         <h3 class="box-title">商品信息</h3>
         <div class="box-body">
@@ -69,25 +51,9 @@ onMounted(() => getCheckInfo())
               <th width="170">单价</th>
               <th width="170">数量</th>
               <th width="170">小计</th>
-<!--              <th width="170">实付</th>-->
             </tr>
             </thead>
             <tbody>
-<!--            <tr v-for="i in checkInfo.goods" :key="i.id">-->
-<!--              <td>-->
-<!--                <a href="javascript:;" class="info">-->
-<!--                  <img :src="i.picture" alt="">-->
-<!--                  <div class="right">-->
-<!--                    <p>{{ i.name }}</p>-->
-<!--                    <p>{{ i.attrsText }}</p>-->
-<!--                  </div>-->
-<!--                </a>-->
-<!--              </td>-->
-<!--              <td>&yen;{{ i.price }}</td>-->
-<!--              <td>{{ i.count }}</td>-->
-<!--              <td>&yen;{{ i.totalPrice }}</td>-->
-<!--              <td>&yen;{{ i.totalPayPrice }}</td>-->
-<!--            </tr>-->
                 <tr v-for="i in cartStore.cartList" :key="i.id">
                   <td>
                     <a href="javascript:;" class="info">
@@ -103,30 +69,10 @@ onMounted(() => getCheckInfo())
                   <td class="tc">
                     <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
                   </td>
-<!--                  <td>&yen;{{ i.totalPayPrice }}</td>-->
                 </tr>
-<!--            <tr>-->
-<!--              <td>-->
-<!--                <img src="/assets/images/liuying.png">-->
-<!--              </td>-->
-<!--            </tr>-->
             </tbody>
           </table>
         </div>
-        <!-- 配送时间 -->
-<!--        <h3 class="box-title">配送时间</h3>-->
-<!--        <div class="box-body">-->
-<!--          <a class="my-btn active" href="javascript:;">不限送货时间：周一至周日</a>-->
-<!--          <a class="my-btn" href="javascript:;">工作日送货：周一至周五</a>-->
-<!--          <a class="my-btn" href="javascript:;">双休日、假日送货：周六至周日</a>-->
-<!--        </div>-->
-        <!-- 支付方式 -->
-<!--        <h3 class="box-title">支付方式</h3>-->
-<!--        <div class="box-body">-->
-<!--          <a class="my-btn active" href="javascript:;">在线支付</a>-->
-<!--          <a class="my-btn" href="javascript:;">货到付款</a>-->
-<!--          <span style="color:#999">货到付款需付5元手续费</span>-->
-<!--        </div>-->
         <!-- 金额明细 -->
         <h3 class="box-title">金额明细</h3>
         <div class="box-body">
