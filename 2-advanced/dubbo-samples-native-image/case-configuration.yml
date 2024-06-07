@@ -30,7 +30,7 @@ services:
             - 50052
         checkLog: "dubbo service started"
 
-    direct-consumer:
+    consumer:
         type: test
         basedir: dubbo-samples-native-image-consumer
         tests:
