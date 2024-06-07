@@ -14,21 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import http from "@/utils/http";
+package org.apache.dubbo.shop.web;
 
-/**
- * @description: 获取新鲜好物
- * @param {*}
- * @return {*}
- */
-export const getNewAPI = () => {
-    return http.get('http://localhost:50000/good/new')
-}
-/**
- * @description: 获取人气推荐
- * @param {*}
- * @return {*}
- */
-export const getHotAPI = () => {
-    return http.get('http://localhost:50000/good/hot')
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableDubbo
+public class WebControllerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(WebControllerApplication.class,args);
+    }
 }

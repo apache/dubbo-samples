@@ -30,14 +30,12 @@ const wat = watch(
      route,
     (to, from) => {
       getGoods()
-      //console.log(to.params.id,from.params.id);
     }
 );
 
 //sku组件触发方法
 let skuObj = {};
 const skuChange = (sku)=>{
-  // console.log(sku)
   skuObj = sku
 }
 
@@ -48,7 +46,6 @@ const addCart = () => {
   console.log(skuObj)
   if (true || skuObj.skuId) {
     // 规则已经选择  触发action
-    //console.log(goods.value.id)
     cartStore.addCart({
       id: goods.value.id,
       name: goods.value.name,
@@ -83,9 +80,7 @@ onMounted(() => getGoods())
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/' }">详情页
           </el-breadcrumb-item>
-<!--          <el-breadcrumb-item :to="{ path: '/' }">跑步鞋-->
-<!--          </el-breadcrumb-item>-->
-<!--          <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>-->
+
         </el-breadcrumb>
       </div>
       <!-- 商品信息 -->
@@ -95,29 +90,6 @@ onMounted(() => getGoods())
             <div class="media">
               <!-- 图片预览区 -->
               <img :src="goods.mainPictures"/>
-<!--              &lt;!&ndash; 统计数量 &ndash;&gt;-->
-<!--              <ul class="goods-sales">-->
-<!--                <li>-->
-<!--                  <p>销量人气</p>-->
-<!--                  <p> 100+ </p>-->
-<!--                  <p><i class="iconfont icon-task-filling"></i>销量人气</p>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <p>商品评价</p>-->
-<!--                  <p>200+</p>-->
-<!--                  <p><i class="iconfont icon-comment-filling"></i>查看评价</p>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <p>收藏人气</p>-->
-<!--                  <p>300+</p>-->
-<!--                  <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <p>品牌信息</p>-->
-<!--                  <p>400+</p>-->
-<!--                  <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>-->
-<!--                </li>-->
-<!--              </ul>-->
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
@@ -125,7 +97,6 @@ onMounted(() => getGoods())
               <p class="g-desc">好货</p>
               <p class="g-price">
                 <span>{{ goods.price }}</span>
-<!--                <span></span>-->
               </p>
               <div class="g-service">
                 <dl>
@@ -142,8 +113,6 @@ onMounted(() => getGoods())
                   </dd>
                 </dl>
               </div>
-              <!-- sku组件 -->
-<!--              <Sku :goods="goods" @change="skuChange"/>-->
               <!-- 数据组件 -->
               <el-input-number v-model="count" :min="1" />
               <!-- 按钮组件 -->
@@ -156,25 +125,6 @@ onMounted(() => getGoods())
             </div>
           </div>
           <div class="goods-footer">
-<!--            <div class="goods-article">-->
-<!--              &lt;!&ndash; 商品详情 &ndash;&gt;-->
-<!--              <div class="goods-tabs">-->
-<!--                <nav>-->
-<!--                  <a>商品详情</a>-->
-<!--                </nav>-->
-<!--                <div class="goods-detail">-->
-<!--                  &lt;!&ndash; 属性 &ndash;&gt;-->
-<!--                  <ul class="attrs">-->
-<!--                    <li v-for="item in 3" :key="item.value">-->
-<!--                      <span class="dt">白色</span>-->
-<!--                      <span class="dd">纯棉</span>-->
-<!--                    </li>-->
-<!--                  </ul>-->
-<!--                  &lt;!&ndash; 图片 &ndash;&gt;-->
-
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
               <detail-hot/>
