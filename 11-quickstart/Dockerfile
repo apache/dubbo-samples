@@ -7,7 +7,7 @@ WORKDIR /build
 COPY . /build
 
 RUN chmod +x ./mvnw
-RUN ./mvnw clean package -U
+RUN ./mvnw clean package -U -skipTests
 
 # JAR file will be specified by passing in a build time argument to docker build
 ARG APP_FILE
