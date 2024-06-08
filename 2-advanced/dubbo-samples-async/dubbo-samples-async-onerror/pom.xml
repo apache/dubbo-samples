@@ -36,7 +36,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <dubbo.version>3.2.6</dubbo.version>
-        <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
