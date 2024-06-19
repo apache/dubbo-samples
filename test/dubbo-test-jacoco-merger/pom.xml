@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.cli</artifactId>
-            <version>0.8.8</version>
+            <version>0.8.12</version>
         </dependency>
     </dependencies>
 </project>
