@@ -153,7 +153,6 @@ public class ComplexParamRequestIT {
 
     @Test
     public void testHeader() throws Exception {
-
         ResponseEntity<String> response = RestClient.create().get()
                 .uri("http://" + providerAddress +":50052/complex/testMapHeader")
                 .header("Content-type", "application/json")
@@ -194,7 +193,6 @@ public class ComplexParamRequestIT {
 
     @Test
     public void testXml() throws Exception {
-        // TODO xml
         String str = "<?xml  version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><person><name>1</name></person>";
         Person person = new Person("1");
 
@@ -218,6 +216,51 @@ public class ComplexParamRequestIT {
                     }
                 });
         Assert.assertEquals(person,result);
+    }
+
+    @Test
+    public void testCookie(){
+        ResponseEntity<String> response = RestClient.create().get()
+                .uri("http://" + providerAddress + ":50052/complex/cookie")
+                .header("Content-type", "application/json")
+                .header( "cookie","cookie=1")
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("1",response.getBody());
+    }
+
+    @Test
+    public void testHttpHeader(){
+        ResponseEntity<String> response = RestClient.create().get()
+                .uri("http://" + providerAddress + ":50052/complex/httpHeader")
+                .header( "Content-type","text/plain")
+                .header( "name","world")
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("world", response.getBody());
+    }
+
+    @Test
+    public void testUri(){
+        ResponseEntity<String> response = RestClient.create().get()
+                .uri("http://" + providerAddress + ":50052/complex/uri")
+                .header("Content-type", "application/json")
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("/complex/uri", response.getBody());
+    }
+
+    @Test
+    public void testAnnoFrom(){
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("name","Li");
+        ResponseEntity<String> response = RestClient.create().post()
+                .uri("http://" + providerAddress + ":50052/complex/annoForm")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(map)
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("Li", response.getBody());
     }
 
 }
