@@ -123,7 +123,6 @@ public class ComplexParamRequestIT {
 
     @Test
     public void testArray() throws Exception {
-
         User[] array = {new User(1L,"1",1),new User(2L,"2",2)};
         ResponseEntity<User[]> response = RestClient.create().post()
                 .uri("http://" + providerAddress +":50052/complex/array")
