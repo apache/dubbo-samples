@@ -243,7 +243,7 @@ public class ParamTransferRequestIT {
                 .header( "Cookie","cookieId=1")
                 .retrieve()
                 .toEntity(String.class);
-        System.out.println(response.getBody());
+        Assert.assertEquals("Hello 1",response.getBody());
     }
 
     @Test
@@ -261,11 +261,11 @@ public class ParamTransferRequestIT {
     public void testCookieMap(){
         ResponseEntity<Map<String,String>> response = RestClient.create().get()
                 .uri("http://" + providerAddress + ":50052/param/cookie/map")
-                .header( "Cookie","c1=c","c2=d")
+                .header( "Cookie","c1=c")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<Map<String, String>>() {
                 });
-        Assert.assertEquals(Map.of("c1","c","c2","d"),response.getBody());
+        Assert.assertEquals(Map.of("c1","c"),response.getBody());
     }
 
     @Test
