@@ -75,7 +75,7 @@ public class BasicParamRequestIT {
         char result7 = basicParamRequestService.primitiveChar('a', 'b');
         Assert.assertEquals((char)('a'+'b'), result7);
 
-        float result8 = basicParamRequestService.primitiveFloat(1.1f, 1.2f);
+        double result8 = basicParamRequestService.primitiveFloat(1.1f, 1.2f);
         Assert.assertEquals(2.3f,result8,0.00001f);
 
         Boolean result9 = basicParamRequestService.wrapperBoolean(Boolean.TRUE, Boolean.FALSE);
