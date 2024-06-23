@@ -53,7 +53,7 @@ public class BasicParamRequestIT {
     private BasicParamRequestService basicParamRequestService;
 
     @Test
-    public void test() {
+    public void testPrimitive() {
         int result1 = basicParamRequestService.primitiveInt(1, 1);
         Assert.assertEquals(2, result1);
 
@@ -77,7 +77,25 @@ public class BasicParamRequestIT {
 
         double result8 = basicParamRequestService.primitiveFloat(1.1f, 1.2f);
         Assert.assertEquals(2.3f,result8,0.00001f);
+    }
 
+    @Test
+    public void test(){
+        BigInteger result17 = basicParamRequestService.bigInt(BigInteger.ONE, BigInteger.ONE);
+        Assert.assertEquals(BigInteger.TWO,result17);
+
+        BigDecimal result18 = basicParamRequestService.bigDecimal(BigDecimal.ONE, BigDecimal.ZERO);
+        Assert.assertEquals(BigDecimal.ONE,result18);
+
+        int[] array1 = basicParamRequestService.intArray(new int[]{1, 2, 3});
+        Assert.assertArrayEquals(new int[]{1,2,3},array1);
+
+        long[] array2 = basicParamRequestService.longArray(new long[]{1L, 2L, 3L});
+        Assert.assertArrayEquals(new long[]{1L,2L,3L},array2);
+    }
+
+    @Test
+     public void testWrapper(){
         Boolean result9 = basicParamRequestService.wrapperBoolean(Boolean.TRUE, Boolean.FALSE);
         Assert.assertEquals(Boolean.FALSE,result9);
 
@@ -101,42 +119,32 @@ public class BasicParamRequestIT {
 
         Short result16 = basicParamRequestService.wrapperShort((short) 1, (short) 1);
         Assert.assertEquals(Short.valueOf((short) 2),result16);
+     }
 
-        BigInteger result17 = basicParamRequestService.bigInt(BigInteger.ONE, BigInteger.ONE);
-        Assert.assertEquals(BigInteger.TWO,result17);
+     @Test
+     public void testDateTime(){
+         Date date = basicParamRequestService.date(Date.from(Instant.parse("2023-03-08T09:30:05Z")));
+         Assert.assertEquals(Date.from(Instant.parse("2023-03-08T09:30:05Z")),date);
 
-        BigDecimal result18 = basicParamRequestService.bigDecimal(BigDecimal.ONE, BigDecimal.ZERO);
-        Assert.assertEquals(BigDecimal.ONE,result18);
+         Instant date1 = basicParamRequestService.date(Instant.parse("2023-03-08T09:30:05Z"));
+         Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"),date1);
 
-        int[] array1 = basicParamRequestService.intArray(new int[]{1, 2, 3});
-        Assert.assertArrayEquals(new int[]{1,2,3},array1);
+         Calendar calendar = Calendar.getInstance();
+         Calendar date2 = basicParamRequestService.date(calendar);
+         Assert.assertEquals(date2,calendar);
 
-        long[] array2 = basicParamRequestService.longArray(new long[]{1L, 2L, 3L});
-        Assert.assertArrayEquals(new long[]{1L,2L,3L},array2);
+         LocalDate date3 = basicParamRequestService.date(LocalDate.parse("2001-05-23"));
+         Assert.assertEquals(LocalDate.parse("2001-05-23"),date3);
 
-        Date date = basicParamRequestService.date(Date.from(Instant.parse("2023-03-08T09:30:05Z")));
-        Assert.assertEquals(Date.from(Instant.parse("2023-03-08T09:30:05Z")),date);
+         LocalTime date4 = basicParamRequestService.date(LocalTime.parse("09:30:05.123"));
+         Assert.assertEquals(LocalTime.parse("09:30:05.123"),date4);
 
-        Instant date1 = basicParamRequestService.date(Instant.parse("2023-03-08T09:30:05Z"));
-        Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"),date1);
+         LocalDateTime date5 = basicParamRequestService.date(LocalDateTime.parse("2023-03-08T09:30:05"));
+         Assert.assertEquals(LocalDateTime.parse("2023-03-08T09:30:05"),date5);
 
-        Calendar calendar = Calendar.getInstance();
-        Calendar date2 = basicParamRequestService.date(calendar);
-        Assert.assertEquals(date2,calendar);
-
-        LocalDate date3 = basicParamRequestService.date(LocalDate.parse("2001-05-23"));
-        Assert.assertEquals(LocalDate.parse("2001-05-23"),date3);
-
-        LocalTime date4 = basicParamRequestService.date(LocalTime.parse("09:30:05.123"));
-        Assert.assertEquals(LocalTime.parse("09:30:05.123"),date4);
-
-        LocalDateTime date5 = basicParamRequestService.date(LocalDateTime.parse("2023-03-08T09:30:05"));
-        Assert.assertEquals(LocalDateTime.parse("2023-03-08T09:30:05"),date5);
-
-        ZonedDateTime date6 = basicParamRequestService.date(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"));
-        Assert.assertEquals(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"),date6);
-
-    }
+         ZonedDateTime date6 = basicParamRequestService.date(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"));
+         Assert.assertEquals(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"),date6);
+     }
 
     @Test
     public void testPrimitiveInt() {
