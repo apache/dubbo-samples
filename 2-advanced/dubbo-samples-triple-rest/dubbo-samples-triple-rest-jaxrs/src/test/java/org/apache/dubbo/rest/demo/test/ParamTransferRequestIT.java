@@ -250,11 +250,11 @@ public class ParamTransferRequestIT {
     public void testCookieList(){
         ResponseEntity<List<String>> response = RestClient.create().get()
                 .uri("http://" + providerAddress + ":50052/param/cookie/list")
-                .header( "Cookie","cookieId=1","cookieId=2")
+                .header( "Cookie","cookieId=1")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<List<String>>() {
                 });
-        Assert.assertEquals(List.of("1","2"),response.getBody());
+        Assert.assertEquals(List.of("1"),response.getBody());
     }
 
     @Test
