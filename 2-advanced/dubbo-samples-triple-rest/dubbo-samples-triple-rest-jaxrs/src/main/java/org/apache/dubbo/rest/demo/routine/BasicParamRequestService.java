@@ -35,7 +35,7 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
-
+@Path("/")
 public interface BasicParamRequestService {
     @GET
     @Path("/primitiveInt")
@@ -67,7 +67,7 @@ public interface BasicParamRequestService {
 
     @GET
     @Path("/primitiveFloat")
-    float primitiveFloat(@QueryParam("a") float a, @QueryParam("b") float b);
+    double primitiveFloat(@QueryParam("a") float a, @QueryParam("b") float b);
 
 
     @GET
@@ -97,10 +97,6 @@ public interface BasicParamRequestService {
     @GET
     @Path("/wrapperBoolean")
     Boolean wrapperBoolean(@QueryParam("a") Boolean a, @QueryParam("b") Boolean b);
-
-    @GET
-    @Path("/wrapperFloat")
-    Float wrapperFloat(@QueryParam("a") Float a, @QueryParam("b") Float b);
 
 
     @GET

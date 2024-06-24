@@ -71,7 +71,7 @@ public class BasicParamRequestServiceImpl implements BasicParamRequestService{
     }
 
     @Override
-    public float primitiveFloat(float a, float b) {
+    public double primitiveFloat(float a, float b) {
         return a + b;
     }
 
@@ -110,10 +110,6 @@ public class BasicParamRequestServiceImpl implements BasicParamRequestService{
         return a & b;
     }
 
-    @Override
-    public Float wrapperFloat(Float a, Float b) {
-        return a + b;
-    }
 
     @Override
     public int[] intArray(int[] aray) {

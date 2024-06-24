@@ -95,31 +95,28 @@ public class BasicParamRequestIT {
     }
 
     @Test
-     public void testWrapper(){
+     public void testWrapper() {
         Boolean result9 = basicParamRequestService.wrapperBoolean(Boolean.TRUE, Boolean.FALSE);
-        Assert.assertEquals(Boolean.FALSE,result9);
+        Assert.assertEquals(Boolean.FALSE, result9);
 
         Byte result10 = basicParamRequestService.wrapperByte((byte) 1, (byte) 1);
-        Assert.assertEquals(Byte.valueOf((byte) 2),result10);
+        Assert.assertEquals(Byte.valueOf((byte) 2), result10);
 
         Character result11 = basicParamRequestService.wrapperChar('a', 'b');
-        Assert.assertEquals(Character.valueOf((char) ('a'+'b')),result11);
+        Assert.assertEquals(Character.valueOf((char) ('a' + 'b')), result11);
 
         Double result12 = basicParamRequestService.wrapperDouble(1.1, 1.2);
-        Assert.assertEquals(Double.valueOf(2.3),result12);
+        Assert.assertEquals(Double.valueOf(2.3), result12);
 
         Integer result13 = basicParamRequestService.wrapperInt(1, 1);
-        Assert.assertEquals(Integer.valueOf(2),result13);
+        Assert.assertEquals(Integer.valueOf(2), result13);
 
         Long result14 = basicParamRequestService.wrapperLong(1L, 1L);
-        Assert.assertEquals(Long.valueOf(2L),result14);
-
-        Float result15 = basicParamRequestService.wrapperFloat(1.1f, 1.2f);
-        Assert.assertEquals(2.3f,result15,0.000001);
+        Assert.assertEquals(Long.valueOf(2L), result14);
 
         Short result16 = basicParamRequestService.wrapperShort((short) 1, (short) 1);
-        Assert.assertEquals(Short.valueOf((short) 2),result16);
-     }
+        Assert.assertEquals(Short.valueOf((short) 2), result16);
+    }
 
      @Test
      public void testDateTime(){
@@ -309,17 +306,6 @@ public class BasicParamRequestIT {
                 .retrieve()
                 .toEntity(Boolean.class);
         Assert.assertEquals(Boolean.FALSE, result.getBody());
-    }
-
-    @Test
-    public void testWrapperFloat() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Float> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperFloat?a={a}&b={b}", 1.1f, 1.2f)
-                .header("Content-type", "application/json")
-                .retrieve()
-                .toEntity(Float.class);
-        Assert.assertEquals(2.3f,result.getBody(),0.00001f);
     }
 
     @Test
