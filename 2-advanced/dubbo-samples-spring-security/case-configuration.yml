@@ -14,17 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-props:
-    project_name: dubbo-samples-spring-security
-    zookeeper_port: 2181
-
 services:
     zookeeper:
         image: zookeeper:latest
 
     provider:
         type: app
-        basedir: dubbo-samples-spring-security-provider
+        basedir: .
         mainClass: org.apache.dubbo.samples.security.ProviderApplication
         systemProps:
             - zookeeper.address=zookeeper
@@ -40,7 +36,7 @@ services:
 
     consumer:
         type: test
-        basedir: dubbo-samples-spring-security-consumer
+        basedir: .
         tests:
             - "**/*IT.class"
         systemProps:
