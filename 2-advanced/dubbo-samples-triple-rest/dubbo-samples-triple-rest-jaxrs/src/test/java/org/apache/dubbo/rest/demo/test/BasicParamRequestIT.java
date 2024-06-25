@@ -491,7 +491,6 @@ public class BasicParamRequestIT {
         Assert.assertEquals("Hello world",result.getBody());
     }
 
-
     @Test
     public void testOptionalInt() {
         RestClient defaultClient = RestClient.create();
