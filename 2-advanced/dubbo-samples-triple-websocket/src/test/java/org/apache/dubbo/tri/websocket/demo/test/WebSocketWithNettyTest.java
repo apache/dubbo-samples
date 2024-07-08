@@ -38,9 +38,8 @@ public class WebSocketWithNettyTest {
                 new URI("ws://" + nettyAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/sayHello"));
         helloClient.connectBlocking();
         helloClient.send("{\"world\": 1}");
-        List<String> responses = helloClient.getResponses();
         TimeUnit.SECONDS.sleep(1);
-        helloClient.close();
+        List<String> responses = helloClient.getResponses();
         Assertions.assertEquals(1, responses.size());
         Assertions.assertEquals("\"Hello, {\\\"world\\\":1}\"", responses.get(0));
         helloClient.close();
@@ -66,7 +65,6 @@ public class WebSocketWithNettyTest {
         helloClient.connectBlocking();
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
-        helloClient.close();
         List<String> responses = helloClient.getResponses();
         Assertions.assertEquals(10, responses.size());
         for (int i = 0; i < 10; i++) {
