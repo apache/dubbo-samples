@@ -1,0 +1,1066 @@
+{
+  "resources":{
+  "includes":[{
+    "pattern":"\\QClass.class\\E"
+  }, {
+    "pattern":"\\QIllegalArgumentException.class\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versions/.artifacts\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versions/dubbo-common\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-all-shaded\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-apache-release\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-auth\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-bom\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-cluster\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-common\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-compatible\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-compiler\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-config-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-config-spring6\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-config-spring\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-config\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-configcenter-apollo\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-configcenter-file\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-configcenter-nacos\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-configcenter-zookeeper\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-configcenter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-core-spi\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-dependencies-all\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-dependencies-bom\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-dependencies-zookeeper-curator5\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-dependencies\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-distribution\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-filter-cache\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-filter-validation\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-kubernetes\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-maven-plugin\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metadata-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metadata-definition-protobuf\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metadata-processor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metadata-report-nacos\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metadata-report-redis\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metadata-report-zookeeper\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metadata\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-config-center\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-default\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-event\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-metadata\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-netty\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-prometheus\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics-registry\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-metrics\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-nacos-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-native\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-observability-spring-boot-autoconfigure\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-observability-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-observability-spring-boot-starters\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-parent\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-plugin-loom\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-plugin\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-qos-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-qos\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-reactive\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-registry-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-registry-multicast\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-registry-multiple\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-registry-nacos\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-registry-zookeeper\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-registry\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-remoting-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-remoting-http12\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-remoting-http3\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-remoting-netty4\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-remoting-netty\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-remoting-zookeeper-curator5\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-remoting\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rest-jaxrs\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rest-servlet\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rest-spring\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rpc-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rpc-dubbo\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rpc-injvm\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rpc-triple\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-rpc\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-seata-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-security\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-sentinel-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-serialization-api\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-serialization-fastjson2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-serialization-hessian2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-serialization-jdk\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-serialization\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-3-autoconfigure\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-actuator-compatible\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-actuator\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-autoconfigure-compatible\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-autoconfigure\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-compatible\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-interceptor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot-starters\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-boot\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-spring-security\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-tracing-brave-zipkin-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-tracing-otel-otlp-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-tracing-otel-zipkin-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-tracing\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-triple-servlet\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-xds\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-zookeeper-curator5-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo-zookeeper-spring-boot-starter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo-versionsdubbo\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.common.compiler.Compiler\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.common.extension.ExtensionFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.common.logger.LoggerAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.common.serialize.Serialization\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.common.store.DataStore\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.common.threadpool.ThreadPool\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.monitor.MonitorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.registry.RegistryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.remoting.Codec2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.remoting.Codec\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.remoting.Dispatcher\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.rpc.Filter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.rpc.Protocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.rpc.ProxyFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/com.alibaba.dubbo.rpc.cluster.ConfiguratorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.common.compiler.Compiler\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.common.extension.ExtensionFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.common.logger.LoggerAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.common.serialize.Serialization\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.common.store.DataStore\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.common.threadpool.ThreadPool\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.monitor.MonitorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.registry.RegistryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.remoting.Codec2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.remoting.Codec\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.remoting.Dispatcher\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.rpc.Filter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.rpc.Protocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.rpc.ProxyFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/com.alibaba.dubbo.rpc.cluster.ConfiguratorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.compiler.Compiler\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.config.OrderedPropertiesProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.config.configcenter.DynamicConfigurationFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.context.ApplicationExt\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.context.ModuleExt\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.convert.Converter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.deploy.ApplicationDeployListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.deploy.ModuleDeployListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.extension.ExtensionFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.extension.ExtensionInjector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.infra.InfraAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.lang.ShutdownHookCallback\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.logger.LoggerAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.serialize.Serialization\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.ssl.CertProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.status.reporter.FrameworkStatusReporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.store.DataStore\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.threadpool.ThreadPool\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.threadpool.manager.ExecutorRepository\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.common.url.component.param.DynamicParamSource\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.config.ConfigInitializer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.config.ConfigPostProcessor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.config.ServiceListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.config.spring.context.DubboSpringInitCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.metadata.MetadataParamsFilter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.metadata.ServiceNameMapping\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.metadata.definition.builder.TypeBuilder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.metadata.report.MetadataReportFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.metrics.collector.MetricsCollector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.metrics.report.MetricsReporterFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.metrics.service.MetricsServiceExporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.monitor.MonitorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.registry.ProviderFirstParams\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.registry.RegistryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.registry.RegistryServiceListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.registry.client.ServiceDiscoveryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.registry.client.ServiceInstanceCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.registry.integration.RegistryProtocolListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.registry.integration.ServiceURLCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.Codec2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.Codec\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.Dispatcher\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.api.WireProtocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.api.pu.PortUnificationTransporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.http12.message.HttpMessageAdapterFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.http12.message.HttpMessageDecoderFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.remoting.http12.message.HttpMessageEncoderFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.ExporterListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.Filter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.PathResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.PenetrateAttachmentSelector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.Protocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.ProxyFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.cluster.ConfiguratorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.cluster.filter.FilterChainBuilder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.cluster.governance.GovernanceRuleRepository\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.cluster.router.mesh.route.MeshEnvListenerFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.executor.IsolationExecutorSupportFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.model.ApplicationInitListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.model.BuiltinServiceDetector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.model.ScopeModelInitializer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.protocol.tri.compressor.DeCompressor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.protocol.tri.rest.argument.ArgumentConverter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.protocol.tri.rest.argument.ArgumentResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.protocol.tri.rest.filter.RestExtensionAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.protocol.tri.rest.mapping.RequestMappingResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/internal/org.apache.dubbo.rpc.protocol.tri.route.RequestHandlerMapping\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.compiler.Compiler\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.config.OrderedPropertiesProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.config.configcenter.DynamicConfigurationFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.context.ApplicationExt\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.context.ModuleExt\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.convert.Converter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.deploy.ApplicationDeployListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.deploy.ModuleDeployListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.extension.ExtensionFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.extension.ExtensionInjector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.infra.InfraAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.lang.ShutdownHookCallback\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.logger.LoggerAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.serialize.Serialization\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.ssl.CertProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.status.reporter.FrameworkStatusReporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.store.DataStore\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.threadpool.ThreadPool\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.threadpool.manager.ExecutorRepository\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.common.url.component.param.DynamicParamSource\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.config.ConfigInitializer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.config.ConfigPostProcessor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.config.ServiceListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.config.spring.context.DubboSpringInitCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.metadata.MetadataParamsFilter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.metadata.ServiceNameMapping\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.metadata.definition.builder.TypeBuilder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.metadata.report.MetadataReportFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.metrics.collector.MetricsCollector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.metrics.report.MetricsReporterFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.metrics.service.MetricsServiceExporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.monitor.MonitorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.registry.ProviderFirstParams\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.registry.RegistryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.registry.RegistryServiceListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.registry.client.ServiceDiscoveryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.registry.client.ServiceInstanceCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.registry.integration.RegistryProtocolListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.registry.integration.ServiceURLCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.Codec2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.Codec\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.Dispatcher\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.api.WireProtocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.api.pu.PortUnificationTransporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.http12.message.HttpMessageAdapterFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.http12.message.HttpMessageDecoderFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.remoting.http12.message.HttpMessageEncoderFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.ExporterListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.Filter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.PathResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.PenetrateAttachmentSelector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.Protocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.ProxyFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.cluster.ConfiguratorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.cluster.filter.FilterChainBuilder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.cluster.governance.GovernanceRuleRepository\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.cluster.router.mesh.route.MeshEnvListenerFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.executor.IsolationExecutorSupportFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.model.ApplicationInitListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.model.BuiltinServiceDetector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.model.ScopeModelInitializer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.protocol.tri.compressor.DeCompressor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.protocol.tri.rest.argument.ArgumentConverter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.protocol.tri.rest.argument.ArgumentResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.protocol.tri.rest.filter.RestExtensionAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.protocol.tri.rest.mapping.RequestMappingResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/dubbo/org.apache.dubbo.rpc.protocol.tri.route.RequestHandlerMapping\\E"
+  }, {
+    "pattern":"\\QMETA-INF/log4j-provider.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/index.html\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/ch.qos.logback.classic.spi.Configurator\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.common.compiler.Compiler\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.common.extension.ExtensionFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.common.logger.LoggerAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.common.serialize.Serialization\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.common.store.DataStore\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.common.threadpool.ThreadPool\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.monitor.MonitorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.registry.RegistryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.remoting.Codec2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.remoting.Codec\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.remoting.Dispatcher\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.rpc.Filter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.rpc.Protocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.rpc.ProxyFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.dubbo.rpc.cluster.ConfiguratorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.api.ability.initializer.AbilityPostProcessor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.api.config.filter.IConfigFilter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.api.remote.Payload\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.client.naming.backups.FailoverDataSource\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.common.ability.AbstractAbilityControlManager\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.common.labels.LabelsCollector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.common.log.NacosLogbackConfigurator\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.common.notify.EventPublisher\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.shaded.io.grpc.LoadBalancerProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.shaded.io.grpc.ManagedChannelProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/com.alibaba.nacos.shaded.io.grpc.NameResolverProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.lang.System$LoggerFinder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.net.spi.InetAddressResolverProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.nio.channels.spi.SelectorProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.sql.Driver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.time.zone.ZoneRulesProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/java.util.spi.ResourceBundleControlProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.compiler.Compiler\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.config.OrderedPropertiesProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.config.configcenter.DynamicConfigurationFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.context.ApplicationExt\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.context.ModuleExt\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.convert.Converter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.deploy.ApplicationDeployListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.deploy.ModuleDeployListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.extension.ExtensionFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.extension.ExtensionInjector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.extension.LoadingStrategy\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.infra.InfraAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.lang.ShutdownHookCallback\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.logger.LoggerAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.serialize.Serialization\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.ssl.CertProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.status.reporter.FrameworkStatusReporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.store.DataStore\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.threadpool.ThreadPool\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.threadpool.manager.ExecutorRepository\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.common.url.component.param.DynamicParamSource\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.config.ConfigInitializer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.config.ConfigPostProcessor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.config.ServiceListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.config.spring.context.DubboSpringInitCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.metadata.MetadataParamsFilter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.metadata.ServiceNameMapping\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.metadata.definition.builder.TypeBuilder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.metadata.report.MetadataReportFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.metrics.collector.MetricsCollector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.metrics.report.MetricsReporterFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.metrics.service.MetricsServiceExporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.monitor.MonitorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.registry.ProviderFirstParams\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.registry.RegistryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.registry.RegistryServiceListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.registry.client.ServiceDiscoveryFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.registry.client.ServiceInstanceCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.registry.integration.RegistryProtocolListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.registry.integration.ServiceURLCustomizer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.Codec2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.Codec\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.Dispatcher\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.api.WireProtocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.api.pu.PortUnificationTransporter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.http12.message.HttpMessageAdapterFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.http12.message.HttpMessageDecoderFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.remoting.http12.message.HttpMessageEncoderFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.ExporterListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.Filter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.PathResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.PenetrateAttachmentSelector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.Protocol\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.ProxyFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.cluster.ConfiguratorFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.cluster.filter.FilterChainBuilder\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.cluster.governance.GovernanceRuleRepository\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.cluster.router.mesh.route.MeshEnvListenerFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.executor.IsolationExecutorSupportFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.model.ApplicationInitListener\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.model.BuiltinServiceDetector\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.model.ScopeModelInitializer\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.protocol.tri.compressor.DeCompressor\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.protocol.tri.rest.argument.ArgumentConverter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.protocol.tri.rest.argument.ArgumentResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.protocol.tri.rest.filter.RestExtensionAdapter\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.protocol.tri.rest.mapping.RequestMappingResolver\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.dubbo.rpc.protocol.tri.route.RequestHandlerMapping\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.juli.logging.Log\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.logging.log4j.spi.Provider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.apache.logging.log4j.util.PropertySource\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/org.slf4j.spi.SLF4JServiceProvider\\E"
+  }, {
+    "pattern":"\\QMETA-INF/spring.factories\\E"
+  }, {
+    "pattern":"\\QMETA-INF/spring.integration.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/spring/logback-pattern-rules\\E"
+  }, {
+    "pattern":"\\QObject.class\\E"
+  }, {
+    "pattern":"\\QString.class\\E"
+  }, {
+    "pattern":"\\QThrowable.class\\E"
+  }, {
+    "pattern":"\\Qapplication-default.properties\\E"
+  }, {
+    "pattern":"\\Qapplication-default.xml\\E"
+  }, {
+    "pattern":"\\Qapplication-default.yaml\\E"
+  }, {
+    "pattern":"\\Qapplication-default.yml\\E"
+  }, {
+    "pattern":"\\Qapplication.properties\\E"
+  }, {
+    "pattern":"\\Qapplication.xml\\E"
+  }, {
+    "pattern":"\\Qapplication.yaml\\E"
+  }, {
+    "pattern":"\\Qapplication.yml\\E"
+  }, {
+    "pattern":"\\Qbanner.txt\\E"
+  }, {
+    "pattern":"\\Qcom/example/demo/dubbo/api/DemoService.class\\E"
+  }, {
+    "pattern":"\\Qcom/example/demo/dubbo/api/User.class\\E"
+  }, {
+    "pattern":"\\Qcom/example/demo/dubbo/service/DemoServiceImpl.class\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.properties\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.xml\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.yaml\\E"
+  }, {
+    "pattern":"\\Qconfig/application-default.yml\\E"
+  }, {
+    "pattern":"\\Qconfig/application.properties\\E"
+  }, {
+    "pattern":"\\Qconfig/application.xml\\E"
+  }, {
+    "pattern":"\\Qconfig/application.yaml\\E"
+  }, {
+    "pattern":"\\Qconfig/application.yml\\E"
+  }, {
+    "pattern":"\\Qdubbo.properties\\E"
+  }, {
+    "pattern":"\\Qfastjson2.properties\\E"
+  }, {
+    "pattern":"\\Qjaket.properties\\E"
+  }, {
+    "pattern":"\\Qjava/io/Serializable.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/CharSequence.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/Class.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/Comparable.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/IllegalArgumentException.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/Iterable.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/Object.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/String.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/StringBuffer.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/Throwable.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/constant/Constable.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/constant/ConstantDesc.class\\E"
+  }, {
+    "pattern":"\\Qjava/lang/reflect/InvocationTargetException.class\\E"
+  }, {
+    "pattern":"\\Qjava/util/List.class\\E"
+  }, {
+    "pattern":"\\Qjava/util/Map.class\\E"
+  }, {
+    "pattern":"\\Qjava/util/Set.class\\E"
+  }, {
+    "pattern":"\\Qjava/util/SortedSet.class\\E"
+  }, {
+    "pattern":"\\Qjava/util/stream/Stream.class\\E"
+  }, {
+    "pattern":"\\Qjndi.properties\\E"
+  }, {
+    "pattern":"\\Qlog4j2.StatusLogger.properties\\E"
+  }, {
+    "pattern":"\\Qlog4j2.component.properties\\E"
+  }, {
+    "pattern":"\\Qlog4j2.system.properties\\E"
+  }, {
+    "pattern":"\\Qlogback-spring.groovy\\E"
+  }, {
+    "pattern":"\\Qlogback-spring.xml\\E"
+  }, {
+    "pattern":"\\Qlogback-test-spring.groovy\\E"
+  }, {
+    "pattern":"\\Qlogback-test-spring.xml\\E"
+  }, {
+    "pattern":"\\Qlogback-test.groovy\\E"
+  }, {
+    "pattern":"\\Qlogback-test.xml\\E"
+  }, {
+    "pattern":"\\Qlogback.groovy\\E"
+  }, {
+    "pattern":"\\Qlogback.xml\\E"
+  }, {
+    "pattern":"\\Qnacos-version.txt\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/core/RestrictedFilters.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/core/RestrictedListeners.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/core/RestrictedServlets.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/loader/JdbcLeakPrevention.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/util/CharsetMapperDefault.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/util/ServerInfo.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/common/URL.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/common/bytecode/ClassGenerator$DC.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/common/bytecode/NoSuchMethodException.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/common/bytecode/NoSuchPropertyException.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/common/bytecode/Wrapper.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/common/resource/Disposable.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/metadata/InstanceMetadataChangedListener.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/metadata/MetadataInfo$ServiceInfo.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/metadata/MetadataInfo.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/metadata/MetadataService.class\\E"
+  }, {
+    "pattern":"\\Qorg/apache/dubbo/registry/client/metadata/MetadataServiceDelegation.class\\E"
+  }, {
+    "pattern":"\\Qresources/index.html\\E"
+  }, {
+    "pattern":"\\Qsecurity/serialize.allowlist\\E"
+  }, {
+    "pattern":"\\Qsecurity/serialize.blockedlist\\E"
+  }, {
+    "pattern":"\\Qspas.properties\\E"
+  }, {
+    "pattern":"\\Qspecial_spi.properties\\E"
+  }, {
+    "pattern":"\\Qspring.properties\\E"
+  }, {
+    "pattern":"\\Qstatic/index.html\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/io/Serializable.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/CharSequence.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/Class.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/Comparable.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/IllegalArgumentException.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/Iterable.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/Object.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/String.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/StringBuffer.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/Throwable.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/constant/Constable.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/constant/ConstantDesc.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/lang/reflect/InvocationTargetException.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/util/List.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/util/Map.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/util/Set.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/util/SortedSet.class\\E"
+  }, {
+    "pattern":"java.base:\\Qjava/util/stream/Stream.class\\E"
+  }]},
+  "bundles":[{
+    "name":"jakarta.servlet.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"jakarta.servlet.http.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.authenticator.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.authenticator.jaspic.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.connector.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.core.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.deploy.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.loader.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.mapper.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.mbeans.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.realm.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.security.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.session.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.startup.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.util.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.valves.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.catalina.webresources.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.coyote.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.coyote.http11.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.coyote.http11.filters.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.naming.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.buf.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.compat.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.descriptor.web.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.http.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.http.parser.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.modeler.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.net.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.scan.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.util.threads.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.websocket.LocalStrings",
+    "locales":[""]
+  }, {
+    "name":"org.apache.tomcat.websocket.server.LocalStrings",
+    "locales":[""]
+  }]
+}
