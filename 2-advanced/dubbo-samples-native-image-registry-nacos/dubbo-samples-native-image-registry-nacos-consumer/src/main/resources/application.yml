@@ -3,7 +3,7 @@ dubbo:
     logger: slf4j
     name: ConsumerApplication
   registry:
-    address: nacos://${nacos.address:192.168.10.10}:8848
+    address: nacos://${nacos.address:127.0.0.1}:8848
   protocol:
     name: tri
     port: 50051
