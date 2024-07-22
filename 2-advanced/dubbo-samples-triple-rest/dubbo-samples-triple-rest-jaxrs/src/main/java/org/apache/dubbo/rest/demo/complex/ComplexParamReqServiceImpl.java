@@ -21,7 +21,10 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.pojo.User;
 
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -64,8 +67,29 @@ public class ComplexParamReqServiceImpl implements ComplexParamRequestService {
     }
 
     @Override
+    public String testHeader(HttpHeaders headers) {
+        return headers.getHeaderString("name");
+    }
+
+    @Override
+    public String testUriInfo(UriInfo uriInfo) {
+        return uriInfo.getPath();
+    }
+
+    @Override
+    public String testForm(Person person) {
+        return person.getName();
+    }
+
+
+    @Override
     public Person testXml(Person person) {
         return person;
+    }
+
+    @Override
+    public String testCookie(Cookie cookie) {
+        return cookie.getValue();
     }
 
 }
