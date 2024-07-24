@@ -62,6 +62,7 @@
         <module>dubbo-samples-triple-no-idl</module>
         <module>dubbo-samples-native-image</module>
         <module>dubbo-samples-native-image-registry</module>
+        <module>dubbo-samples-native-image-registry-nacos</module>
         <module>dubbo-samples-annotation</module>
         <module>dubbo-samples-spring-xml</module>
         <module>dubbo-samples-api-with-registry</module>
