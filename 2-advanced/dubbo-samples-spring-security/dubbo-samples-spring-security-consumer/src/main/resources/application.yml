@@ -16,11 +16,7 @@
 dubbo:
     application:
         name: dubbo-samples-spring-security-consumer
-    consumer:
-        loadbalance: random
-        timeout: 6666
     protocol:
-        port: -1
         threadpool: fixed
         threads: 100
     registry:

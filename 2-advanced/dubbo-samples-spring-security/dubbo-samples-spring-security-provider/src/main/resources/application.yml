@@ -16,9 +16,6 @@ dubbo:
     application:
         name: dubbo-samples-spring-security-provider
     protocol:
-        port: -1
-    provider:
-        timeout: 5000
-        token: true
+        port: 20880
     registry:
         address: zookeeper://${zookeeper.address:127.0.0.1}:2181
