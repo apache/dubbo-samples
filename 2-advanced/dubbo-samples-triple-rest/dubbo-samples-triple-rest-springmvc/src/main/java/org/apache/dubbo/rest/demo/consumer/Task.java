@@ -30,22 +30,21 @@ public class Task implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Receive result ======> " + proxyHello());
-        System.out.println("Receive rest result ======> " + restHello());
-
+//        System.out.println("Receive result ======> " + proxyHello());
+//        System.out.println("Receive rest result ======> " + restHello());
     }
 
-    private String proxyHello() {
-        return demoService.sayHello("world");
-    }
-
-    private String restHello() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.get()
-                .uri("http://localhost:50052/demo/hello?name=world")
-                .header("Content-type", "application/json")
-                .retrieve()
-                .toEntity(String.class);
-        return result.getBody();
-    }
+//    private String proxyHello() {
+//        return demoService.sayHello("world");
+//    }
+//
+//    private String restHello() {
+//        RestClient defaultClient = RestClient.create();
+//        ResponseEntity<String> result = defaultClient.get()
+//                .uri("http://localhost:50052/demo/hello?name=world")
+//                .header("Content-type", "application/json")
+//                .retrieve()
+//                .toEntity(String.class);
+//        return result.getBody();
+//    }
 }
