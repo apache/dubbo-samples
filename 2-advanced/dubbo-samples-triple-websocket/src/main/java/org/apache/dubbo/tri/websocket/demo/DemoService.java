@@ -35,5 +35,4 @@ public interface DemoService {
     StreamObserver<String> greetBiStreamError(StreamObserver<String> response);
 
     StreamObserver<String> greetBiStreamDirectError(StreamObserver<String> response);
-
 }

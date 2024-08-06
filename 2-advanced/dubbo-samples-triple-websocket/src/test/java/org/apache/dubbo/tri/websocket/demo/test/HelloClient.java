@@ -77,5 +77,4 @@ public class HelloClient extends WebSocketClient {
     public String getCloseMessage() {
         return closeMessage;
     }
-
 }

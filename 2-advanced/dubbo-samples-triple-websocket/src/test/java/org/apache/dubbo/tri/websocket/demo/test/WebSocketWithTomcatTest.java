@@ -53,15 +53,16 @@ public class WebSocketWithTomcatTest {
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
-        Assertions.assertEquals(1, responses.size());
-        Assertions.assertTrue(responses.get(0).contains("\"localizedMessage\":\"test error: {\\\"world\\\":1}\""));
+        Assertions.assertEquals(0, responses.size());
+        Assertions.assertEquals(WebSocketCloseStatus.INTERNAL_SERVER_ERROR.code(), helloClient.getCloseCode());
+        Assertions.assertEquals("test error: {\"world\":1}", helloClient.getCloseMessage());
         helloClient.close();
     }
 
     @Test
     public void testServerStreamWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(
-                new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStream"));
+        HelloClient helloClient = new HelloClient(new URI(
+                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStream"));
         helloClient.connectBlocking();
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
@@ -75,11 +76,13 @@ public class WebSocketWithTomcatTest {
 
     @Test
     public void testServerStreamErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(
-                new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamError"));
+        HelloClient helloClient = new HelloClient(new URI(
+                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamError"));
         helloClient.connectBlocking();
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
+        List<String> responses = helloClient.getResponses();
+        Assertions.assertEquals(0, responses.size());
         Assertions.assertEquals(WebSocketCloseStatus.INTERNAL_SERVER_ERROR.code(), helloClient.getCloseCode());
         Assertions.assertEquals("test error: {\"world\":1}", helloClient.getCloseMessage());
         helloClient.close();
@@ -87,11 +90,13 @@ public class WebSocketWithTomcatTest {
 
     @Test
     public void testServerStreamDirectErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(
-                new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamDirectError"));
+        HelloClient helloClient = new HelloClient(new URI("ws://" + tomcatAddress
+                + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamDirectError"));
         helloClient.connectBlocking();
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
+        List<String> responses = helloClient.getResponses();
+        Assertions.assertEquals(0, responses.size());
         Assertions.assertEquals(WebSocketCloseStatus.INTERNAL_SERVER_ERROR.code(), helloClient.getCloseCode());
         Assertions.assertEquals("test direct error: {\"world\":1}", helloClient.getCloseMessage());
         helloClient.close();
@@ -126,13 +131,15 @@ public class WebSocketWithTomcatTest {
 
     @Test
     public void testBiStreamErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(
-                new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamError"));
+        HelloClient helloClient = new HelloClient(new URI(
+                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamError"));
         helloClient.connectBlocking();
         for (int i = 0; i < 10; i++) {
             helloClient.send("{\"world\": " + i + "}");
         }
         TimeUnit.SECONDS.sleep(1);
+        List<String> responses = helloClient.getResponses();
+        Assertions.assertEquals(0, responses.size());
         Assertions.assertEquals(WebSocketCloseStatus.INTERNAL_SERVER_ERROR.code(), helloClient.getCloseCode());
         Assertions.assertEquals("test error: {\"world\":0}", helloClient.getCloseMessage());
         helloClient.close();
@@ -140,13 +147,15 @@ public class WebSocketWithTomcatTest {
 
     @Test
     public void testBiStreamDirectErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(
-                new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamDirectError"));
+        HelloClient helloClient = new HelloClient(new URI(
+                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamDirectError"));
         helloClient.connectBlocking();
         for (int i = 0; i < 10; i++) {
             helloClient.send("{\"world\": " + i + "}");
         }
         TimeUnit.SECONDS.sleep(1);
+        List<String> responses = helloClient.getResponses();
+        Assertions.assertEquals(0, responses.size());
         Assertions.assertEquals(WebSocketCloseStatus.INTERNAL_SERVER_ERROR.code(), helloClient.getCloseCode());
         Assertions.assertEquals("test direct error: {\"world\":0}", helloClient.getCloseMessage());
         helloClient.close();
