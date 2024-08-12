@@ -17,7 +17,7 @@ management.endpoints.web.base-path=/management
 dubbo.metrics.protocol=prometheus
 
 # 如果不使用 spring-boot-actuator，可使用下面配置开启 qos 配置
-# dubbo.metrics.enable-jvm-metrics=true
+# dubbo.metrics.enable-jvm=true
 # dubbo.application.qos-port=22222
 # dubbo.application.qos-accept-foreign-ip=true
 ```
@@ -52,14 +52,14 @@ spec:
       path: /management/prometheus
 
 ```
-2. 配置`prometheus-prometheus.yaml`添加podMonitorSelector  
+2. 配置`prometheus-prometheus.yaml`添加podMonitorSelector
 
 ```yaml
 podMonitorSelector:
   matchLabels:
     app: podmonitor
 ```
-3. 部署prometheus环境  
+3. 部署prometheus环境
     详细部署步骤[kube-prometheus](https://github.com/prometheus-operator/kube-prometheus)
 4. 使用`./Deployment.yaml` 部署dubbo 应用
 5. 打开prometheus查看结果如下
@@ -73,7 +73,7 @@ podMonitorSelector:
  ```yaml
      annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/path: /management/prometheus 
+        prometheus.io/path: /management/prometheus
         prometheus.io/port: "18081"
  ```
 3. 打开prometheus查看结果如下
