@@ -28,7 +28,7 @@ dubbo:
     qos-enable: false
     check-serializable: false
   registry:
-    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    address: nacos://${nacos.address:127.0.0.1}:8848
   protocol:
     port: 20880
     name: tri

@@ -33,6 +33,10 @@
 <!-- 引用 Header -->
 <div th:replace="header :: header"></div>
 
+<div th:class="local">
+    <span class="platform-flag" th:text="local"></span>
+</div>
+
 <main role="main" class="cart-sections">
 
     <!-- 判断购物车是否为空 -->
