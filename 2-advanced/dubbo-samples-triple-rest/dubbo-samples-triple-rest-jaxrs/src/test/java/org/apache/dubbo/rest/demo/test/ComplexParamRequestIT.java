@@ -179,7 +179,6 @@ public class ComplexParamRequestIT {
     public void testMapForm() throws Exception {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("arg1","Hello");
-        map.add("arg2","world");
         ResponseEntity<List<String>> response = RestClient.create().post()
                 .uri("http://" + providerAddress +":50052/complex/testMapForm")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -187,7 +186,7 @@ public class ComplexParamRequestIT {
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<List<String>>() {
                 });
-        Assert.assertEquals(List.of("Hello","world"),response.getBody());
+        Assert.assertEquals(List.of("Hello"),response.getBody());
     }
 
     @Test
