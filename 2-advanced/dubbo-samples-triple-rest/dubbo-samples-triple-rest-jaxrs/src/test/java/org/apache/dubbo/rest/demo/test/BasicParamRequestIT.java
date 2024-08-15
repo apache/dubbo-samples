@@ -319,7 +319,6 @@ public class BasicParamRequestIT {
         Assert.assertEquals(new BigInteger("6000000000"), result.getBody());
     }
 
-
     @Test
     public void testBigDecimal() {
         RestClient defaultClient = RestClient.create();
