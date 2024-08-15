@@ -18,13 +18,57 @@
 package org.apache.dubbo.rest.demo.routine;
 
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.remoting.http12.HttpMethods;
+import org.apache.dubbo.remoting.http12.HttpRequest;
+import org.apache.dubbo.remoting.http12.HttpResponse;
 import org.apache.dubbo.rest.demo.pojo.Person;
+import org.apache.dubbo.rest.demo.pojo.User;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
 
 @DubboService
 public class ParamTransferRequestServiceImpl implements ParamTransferRequestService{
     @Override
     public String sayHello(String name) {
         return "Hello " + name;
+    }
+
+    @Override
+    public List<String> sayQueryList(List<String> values) {
+        return values;
+    }
+
+    @Override
+    public Map<String, String> sayQueryMap(Map<String, String> value) {
+        return value;
+    }
+
+    @Override
+    public Map<String, List<String>> sayQueryStringMap(Map<String, List<String>> value) {
+        return value;
+    }
+
+    @Override
+    public String sayNoAnnoParam(String name) {
+        return name;
+    }
+
+    @Override
+    public List<String> sayNoAnnoListParam(List<String> value) {
+        return value;
+    }
+
+    @Override
+    public Map<String, String> sayNoAnnoStringMapParam(Map<String, String> value) {
+        return value;
+    }
+
+    @Override
+    public String[] sayNoAnnoArrayParam(String[] value) {
+        return value;
     }
 
     @Override
@@ -42,14 +86,73 @@ public class ParamTransferRequestServiceImpl implements ParamTransferRequestServ
         return "Hello " + name;
     }
 
+
+    @Override
+    public String sayHeader(Map<String, String> value) {
+        return value.get("name");
+    }
+
     @Override
     public String sayCookie(String cookieId) {
         return "Hello " + cookieId;
     }
 
     @Override
-    public String sayMatrix(String name) {
-        return "Hello " + name;
+    public List<String> sayCookie(List<String> values) {
+        return values;
+    }
+
+    @Override
+    public Map<String, String> sayCookie(Map<String, String> value) {
+        return value;
+    }
+
+    @Override
+    public String sayMatrixString(String name) {
+        return  "Hello " + name;
+    }
+
+    @Override
+    public List<String> sayMatrixList(List<String> values) {
+        return values;
+    }
+
+
+    @Override
+    public Map<String, List<String>> sayMatrixMap(Map<String, List<String>> value) {
+        return value;
+    }
+
+    @Override
+    public User sayUser(User users) {
+        return users;
+    }
+
+    @Override
+    public List<Long> sayList(List<Long> list) {
+        return list;
+    }
+
+    @Override
+    public Map<String, String> sayStringMap(Map<String, String> value) {
+        return value;
+    }
+
+    @Override
+    public String sayOutput(OutputStream out) throws IOException {
+        out.write("world".getBytes());
+        return out.toString();
+    }
+
+    @Override
+    public String sayHttpMethod(HttpMethods methods) {
+        return methods.name();
+    }
+
+    @Override
+    public void sayHttpRequest(HttpRequest request, HttpResponse response) {
+        String name = request.header("name");
+        response.setBody(name);
     }
 
 

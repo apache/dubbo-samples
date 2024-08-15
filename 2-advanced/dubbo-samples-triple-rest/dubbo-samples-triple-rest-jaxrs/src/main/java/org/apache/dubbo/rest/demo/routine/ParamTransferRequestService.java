@@ -17,7 +17,10 @@
 
 package org.apache.dubbo.rest.demo.routine;
 
-import org.apache.dubbo.rest.demo.pojo.Person;
+import org.apache.dubbo.remoting.http12.HttpMethods;
+import org.apache.dubbo.remoting.http12.HttpRequest;
+import org.apache.dubbo.remoting.http12.HttpResponse;
+import org.apache.dubbo.rest.demo.pojo.User;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
@@ -30,7 +33,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
 
 @Path("/param")
 public interface ParamTransferRequestService {
@@ -40,6 +48,37 @@ public interface ParamTransferRequestService {
     @Produces(MediaType.TEXT_PLAIN)
     String sayHello(@QueryParam("name") String name);
 
+    @GET
+    @Path("/queryList")
+    List<String> sayQueryList(@QueryParam("name") List<String> values);
+
+
+    @GET
+    @Path("/queryMap")
+    Map<String,String> sayQueryMap(@QueryParam("name") Map<String,String> value);
+
+    @GET
+    @Path("/queryStringMap")
+    Map<String,List<String>> sayQueryStringMap(@QueryParam("name") Map<String,List<String>> value);
+
+
+    @GET
+    @Path("/noAnnoParam")
+    @Produces(MediaType.TEXT_PLAIN)
+    String sayNoAnnoParam(String name);
+
+    @GET
+    @Path("/noAnnoListParam")
+    List<String> sayNoAnnoListParam(List<String> value);
+
+
+    @GET
+    @Path("/noAnnoStringMapParam")
+    Map<String,String> sayNoAnnoStringMapParam(Map<String,String> value);
+
+    @GET
+    @Path("/noAnnoArrayParam")
+    String[] sayNoAnnoArrayParam(String[] value);
     @POST
     @Path("/form")
     @Produces(MediaType.TEXT_PLAIN)
@@ -56,11 +95,61 @@ public interface ParamTransferRequestService {
 
 
     @GET
+    @Path("/header/map")
+    @Produces(MediaType.TEXT_PLAIN)
+    String sayHeader(@HeaderParam("name") Map<String,String> value);
+
+
+    @GET
     @Path("/cookie")
     String sayCookie(@CookieParam("cookieId") String cookieId);
+    @GET
+    @Path("/cookie/list")
+    List<String> sayCookie(@CookieParam("cookieId") List<String> values);
+    @GET
+    @Path("/cookie/map")
+    Map<String,String> sayCookie(@CookieParam("cookieId") Map<String,String> value);
 
     @GET
     @Path("/matrix;m={m}")
     @Produces(MediaType.TEXT_PLAIN)
-    String sayMatrix(@MatrixParam("name") String name);
+    String sayMatrixString(@MatrixParam("name") String name);
+
+    @GET
+    @Path("/matrix/list;m={m}")
+    List<String> sayMatrixList(@MatrixParam("list")List<String> values);
+
+
+    @GET
+    @Path("/matrix/map;m={m}")
+    Map<String,List<String>> sayMatrixMap(@MatrixParam("map") Map<String,List<String>> value);
+
+
+    @POST
+    @Path("/bodyUser")
+    User sayUser(User users);
+
+    @POST
+    @Path("/bodyList")
+    List<Long> sayList(List<Long> list);
+
+    @POST
+    @Path("/bodyStringMap")
+    Map<String, String> sayStringMap(Map<String, String> value);
+
+
+    @POST
+    @Path("/output")
+    String sayOutput(OutputStream out) throws IOException;
+
+    @GET
+    @Path("/httpMethod")
+    @Produces(MediaType.TEXT_PLAIN)
+    String sayHttpMethod(@Context HttpMethods methods);
+
+    @GET
+    @Path("/http")
+    @Produces(MediaType.TEXT_PLAIN)
+    void sayHttpRequest(@Context HttpRequest request, @Context HttpResponse response);
+
 }
