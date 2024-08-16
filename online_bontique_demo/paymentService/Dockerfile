@@ -13,7 +13,7 @@ RUN ./mvnw clean package -U -DskipTests
 ARG APP_FILE
 
 # Remember to change the port according to the RPC protocol you select
-EXPOSE 9000
+EXPOSE 8086
 
 # copy the JAR file into the root and rename
 RUN cp ./target/${APP_FILE} app.jar
