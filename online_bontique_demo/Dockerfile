@@ -6,17 +6,19 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /build
 COPY . /build
 
-RUN chmod +x ../mvnw
+RUN chmod +x ./mvnw
 RUN ./mvnw clean package -U -DskipTests
 
 # JAR file will be specified by passing in a build time argument to docker build
+ARG APP_DIR
 ARG APP_FILE
+ARG APP_PORT
 
 # Remember to change the port according to the RPC protocol you select
-EXPOSE 9000
+EXPOSE ${APP_PORT}
 
 # copy the JAR file into the root and rename
-RUN cp ./target/${APP_FILE} app.jar
+RUN cp ./${APP_DIR}/target/${APP_FILE} app.jar
 
 # Run java with the jar file when the container starts up
 CMD ["java","-jar","app.jar"]
