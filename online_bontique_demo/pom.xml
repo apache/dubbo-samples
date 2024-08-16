@@ -112,48 +112,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <plugin>
-                    <groupId>com.diffplug.spotless</groupId>
-                    <artifactId>spotless-maven-plugin</artifactId>
-                    <version>2.43.0</version>
-                    <configuration>
-                        <java>
-                            <eclipse>
-                                <file>/home/heliang/Code/online_bontique_demo/code-style.xml</file>
-                            </eclipse>
-                            <licenseHeader>
-                                <file>/home/heliang/Code/online_bontique_demo/license-header</file>
-                            </licenseHeader>
-                        </java>
-                        <pom>
-                            <sortPom>
-                                <encoding>UTF-8</encoding>
-                                <nrOfIndentSpace>4</nrOfIndentSpace>
-                                <keepBlankLines>true</keepBlankLines>
-                                <indentBlankLines>false</indentBlankLines>
-                                <indentSchemaLocation>true</indentSchemaLocation>
-                                <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
-                                <sortModules>false</sortModules>
-                                <sortExecutions>false</sortExecutions>
-                                <predefinedSortOrder>custom_1</predefinedSortOrder>
-                                <expandEmptyElements>false</expandEmptyElements>
-                                <sortProperties>false</sortProperties>
-                            </sortPom>
-                        </pom>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>apply</goal>
-                            </goals>
-                            <phase>compile</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-
             </plugins>
-
         </pluginManagement>
     </build>
 
