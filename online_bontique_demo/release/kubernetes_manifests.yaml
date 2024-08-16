@@ -2,13 +2,15 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: dubbo-demo
+  name: dubbo-boutique-demo
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: dubbo-system
 ---
+
+## Admin/Prometheus/Grafana/Tracing
 
 # Nacos
 apiVersion: apps/v1
@@ -70,5 +72,292 @@ spec:
       targetPort: 9848
 ---
 
+# App frontend
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-frontend-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20889
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
 
+# App adService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adService
+  template:
+    metadata:
+      labels:
+        app: adService
+    spec:
+      containers:
+        - name: adService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-ad-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20880
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
 
+# App cartService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cartService
+  template:
+    metadata:
+      labels:
+        app: cartService
+    spec:
+      containers:
+        - name: cartService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-cart-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20881
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+# App checkoutService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkoutService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkoutService
+  template:
+    metadata:
+      labels:
+        app: checkoutService
+    spec:
+      containers:
+        - name: checkoutService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-checkout-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20882
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+# App currencyService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currencyService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currencyService
+  template:
+    metadata:
+      labels:
+        app: currencyService
+    spec:
+      containers:
+        - name: currencyService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-currency-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20883
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+# App emailService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emailService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emailService
+  template:
+    metadata:
+      labels:
+        app: emailService
+    spec:
+      containers:
+        - name: emailService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-email-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20884
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+# App paymentService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paymentService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentService
+  template:
+    metadata:
+      labels:
+        app: paymentService
+    spec:
+      containers:
+        - name: paymentService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-payment-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20885
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+# App productCatalogsService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productCatalogsService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productCatalogsService
+  template:
+    metadata:
+      labels:
+        app: productCatalogsService
+    spec:
+      containers:
+        - name: productCatalogsService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-productcatalog-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20886
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+# App recommendationService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendationService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommendationService
+  template:
+    metadata:
+      labels:
+        app: recommendationService
+    spec:
+      containers:
+        - name: recommendationService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-recommendation-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20887
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+# App shippingService
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shippingService
+  namespace: dubbo-boutique-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shippingService
+  template:
+    metadata:
+      labels:
+        app: shippingService
+    spec:
+      containers:
+        - name: shippingService
+          image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-shipping-service:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20888
+              protocol: TCP
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
