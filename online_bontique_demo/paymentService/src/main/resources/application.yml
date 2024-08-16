@@ -13,17 +13,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-server:
-  port: 8086
-spring:
-  application:
-    name: productCatalogServiceImpl
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 dubbo:
   application:
     logger: slf4j
-    name: ${spring.application.name}
+    name: paymentService
     qos-enable: false
     check-serializable: false
   registry:

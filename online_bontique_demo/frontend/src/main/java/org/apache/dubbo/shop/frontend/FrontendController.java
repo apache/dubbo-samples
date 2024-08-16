@@ -58,7 +58,7 @@ import java.util.concurrent.ExecutionException;
 
 @Controller
 public class FrontendController {
-    
+
     @DubboReference
     private ShippingService shippingService;
     @DubboReference
@@ -77,7 +77,7 @@ public class FrontendController {
     private CheckoutService checkoutService;
     @DubboReference
     private AdsService adsService;
-    
+
     @PostMapping("/cart/add")
     public String addItemToCart(@RequestParam String productId, @RequestParam Integer quantity, @RequestParam String userId) {
         CartItem item = new CartItem(productId, quantity);
@@ -85,7 +85,7 @@ public class FrontendController {
         cartService.addItem(request.getUserId(), request.getItem());
         return "redirect:/cart"; // 重定向到购物车页面或其他页面
     }
-    
+
     @GetMapping("/cart")
     public String getCart(Model model, String userId) throws ExecutionException, InterruptedException {
         model.addAttribute("is_cymbal_brand", false);
@@ -93,10 +93,10 @@ public class FrontendController {
         Cart cart = cartService.getCart("1");
         model.addAttribute("items", cart);
         List<CartItem> items = cart.getItems();
-        
+
         Map<Product, Integer> productQuantityMap = new HashMap<>();
         int totalQuantity = 0;
-        
+
         List<String> productIds = new ArrayList<>();
         for (CartItem item : items) {
             totalQuantity += item.getQuantity();
@@ -106,12 +106,12 @@ public class FrontendController {
                 productQuantityMap.put(product, item.getQuantity());
             }
         }
-        
+
         Money totalCost = new Money("USD", 0L, 0);
         for (Map.Entry<Product, Integer> entry : productQuantityMap.entrySet()) {
             totalCost = MoneyUtils.sum(totalCost, MoneyUtils.multiplySlow(entry.getKey().getPriceUsd(), entry.getValue()));
         }
-        
+
         ListRecommendationsResponse recommendations = recommendationService.listRecommendations(new ListRecommendationsRequest("1", productIds));
         List<Product> products = new ArrayList<>();
         for (String productId : recommendations.getProductIds()) {
@@ -122,22 +122,22 @@ public class FrontendController {
         model.addAttribute("productQuantityMap", productQuantityMap);
         model.addAttribute("total_cost", totalCost);
         model.addAttribute("shipping_cost", shippingService.getQuote(new GetQuoteRequest(new Address(), items)));
-        
+
         return "cart";
     }
-    
+
     @PostMapping("/cart/empty")
     public String emptyCart(String userId) {
         cartService.emptyCart("1");
         return "redirect:/cart";
     }
-    
+
     @PostMapping("/cart/checkout")
     public String checkout(String userId) {
         cartService.emptyCart("1");
-        return "redirect:/static";
+        return "redirect:/";
     }
-    
+
     @GetMapping("/products")
     public String listProducts(Model model) {
         ListProductsResponse response = productCatalogService.listProducts(new Empty());
@@ -152,7 +152,7 @@ public class FrontendController {
         model.addAttribute(checkoutService.placeOrder(new PlaceOrderRequest()).getOrder());
         return "order";
     }
-    
+
     @GetMapping("/ad")
     public String getAds(@RequestParam List<String> contextKeys, Model model) {
         AdRequest request = new AdRequest(contextKeys);
@@ -160,8 +160,8 @@ public class FrontendController {
         model.addAttribute("ads", ads);
         return "ad";
     }
-    
-    @GetMapping({"/static"})
+
+    @GetMapping({"/"})
     public String listUser(Model model) {
         model.addAttribute("is_cymbal_brand", false);
         ListProductsResponse response = productCatalogService.listProducts(new Empty());
