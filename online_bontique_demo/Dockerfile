@@ -20,5 +20,9 @@ EXPOSE ${APP_PORT}
 # copy the JAR file into the root and rename
 RUN cp ./${APP_DIR}/target/${APP_FILE} app.jar
 
+FROM openjdk:17-jdk-alpine
+
+COPY --from=builder /build/app.jar app.jar
+
 # Run java with the jar file when the container starts up
 CMD ["java","-jar","app.jar"]

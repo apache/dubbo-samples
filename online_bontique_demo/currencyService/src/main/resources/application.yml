@@ -20,7 +20,7 @@ dubbo:
     qos-enable: false
     check-serializable: false
   registry:
-    address: nacos://${nacos.address:127.0.0.1}:8848
+    address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos
   protocol:
     port: 20883
     name: tri

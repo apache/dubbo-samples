@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: consumer
-          image: nacos/nacos-server:v2.1.2
+          image: nacos-registry.cn-hangzhou.cr.aliyuncs.com/nacos/nacos-server:v2.1.2
           imagePullPolicy: Always
           resources:
             requests:
@@ -101,24 +101,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App adService
+# App ad-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adService
+  name: ad-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adService
+      app: ad-service
   template:
     metadata:
       labels:
-        app: adService
+        app: ad-service
     spec:
       containers:
-        - name: adService
+        - name: ad-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-ad-service:1.0
           imagePullPolicy: Always
           ports:
@@ -130,24 +130,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App cartService
+# App cart-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cartService
+  name: cart-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cartService
+      app: cart-service
   template:
     metadata:
       labels:
-        app: cartService
+        app: cart-service
     spec:
       containers:
-        - name: cartService
+        - name: cart-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-cart-service:1.0
           imagePullPolicy: Always
           ports:
@@ -159,24 +159,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App checkoutService
+# App checkout-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: checkoutService
+  name: checkout-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: checkoutService
+      app: checkout-service
   template:
     metadata:
       labels:
-        app: checkoutService
+        app: checkout-service
     spec:
       containers:
-        - name: checkoutService
+        - name: checkout-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-checkout-service:1.0
           imagePullPolicy: Always
           ports:
@@ -188,24 +188,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App currencyService
+# App currency-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: currencyService
+  name: currency-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: currencyService
+      app: currency-service
   template:
     metadata:
       labels:
-        app: currencyService
+        app: currency-service
     spec:
       containers:
-        - name: currencyService
+        - name: currency-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-currency-service:1.0
           imagePullPolicy: Always
           ports:
@@ -217,24 +217,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App emailService
+# App email-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: emailService
+  name: email-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: emailService
+      app: email-service
   template:
     metadata:
       labels:
-        app: emailService
+        app: email-service
     spec:
       containers:
-        - name: emailService
+        - name: email-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-email-service:1.0
           imagePullPolicy: Always
           ports:
@@ -246,24 +246,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App paymentService
+# App payment-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: paymentService
+  name: payment-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: paymentService
+      app: payment-service
   template:
     metadata:
       labels:
-        app: paymentService
+        app: payment-service
     spec:
       containers:
-        - name: paymentService
+        - name: payment-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-payment-service:1.0
           imagePullPolicy: Always
           ports:
@@ -275,24 +275,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App productCatalogsService
+# App product-catalogs-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: productCatalogsService
+  name: product-catalogs-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: productCatalogsService
+      app: product-catalogs-service
   template:
     metadata:
       labels:
-        app: productCatalogsService
+        app: product-catalogs-service
     spec:
       containers:
-        - name: productCatalogsService
+        - name: product-catalogs-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-productcatalog-service:1.0
           imagePullPolicy: Always
           ports:
@@ -304,24 +304,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App recommendationService
+# App recommendation-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: recommendationService
+  name: recommendation-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: recommendationService
+      app: recommendation-service
   template:
     metadata:
       labels:
-        app: recommendationService
+        app: recommendation-service
     spec:
       containers:
-        - name: recommendationService
+        - name: recommendation-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-recommendation-service:1.0
           imagePullPolicy: Always
           ports:
@@ -333,24 +333,24 @@ spec:
               value: "-Dnacos.address=nacos.dubbo-system.svc"
 ---
 
-# App shippingService
+# App shipping-service
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shippingService
+  name: shipping-service
   namespace: dubbo-boutique-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shippingService
+      app: shipping-service
   template:
     metadata:
       labels:
-        app: shippingService
+        app: shipping-service
     spec:
       containers:
-        - name: shippingService
+        - name: shipping-service
           image: sca-registry.cn-hangzhou.cr.aliyuncs.com/dubbo/online-boutique-shipping-service:1.0
           imagePullPolicy: Always
           ports:
