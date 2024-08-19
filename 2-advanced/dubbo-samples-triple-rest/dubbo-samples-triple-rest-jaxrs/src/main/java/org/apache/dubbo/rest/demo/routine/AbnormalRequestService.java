@@ -19,6 +19,7 @@ package org.apache.dubbo.rest.demo.routine;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+
 import java.time.ZonedDateTime;
 
 @Path("/abnormal")
@@ -40,8 +41,8 @@ public interface AbnormalRequestService {
     @Path("/pathRepeat")
     String testPathRepeat1();
 
-//    @GET
-//    @Path("/pathRepeat")
+    //    @GET
+    //    @Path("/pathRepeat")
     String testPathRepeat2();
 
     @GET

@@ -18,7 +18,6 @@
 package org.apache.dubbo.rest.demo.expansion.filter;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;

@@ -13,15 +13,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-server:
-    port: 8081
+
+spring:
+  application:
+    name: dubbo-springboot-triple-rest-springmvc
 dubbo:
   application:
-      name: dubbo-springboot-triple-rest-springmvc
-      qos-port: 33333
-  registry:
-    address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
+    name: ${spring.application.name}
+    qos-enable: false
   protocol:
-      name: tri
-      port: 50052
-      serialization: fastjson2
+    name: tri
+    port: 50052
+    triple:
+      verbose: true

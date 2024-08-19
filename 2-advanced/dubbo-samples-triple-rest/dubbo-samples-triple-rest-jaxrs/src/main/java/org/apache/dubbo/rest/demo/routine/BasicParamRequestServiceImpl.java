@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @DubboService
-public class BasicParamRequestServiceImpl implements BasicParamRequestService{
+public class BasicParamRequestServiceImpl implements BasicParamRequestService {
 
     @Override
     public int primitiveInt(int a, int b) {
@@ -49,7 +49,6 @@ public class BasicParamRequestServiceImpl implements BasicParamRequestService{
         return (byte) (a + b);
     }
 
-
     @Override
     public double primitiveDouble(double a, double b) {
         return a + b;
@@ -57,12 +56,12 @@ public class BasicParamRequestServiceImpl implements BasicParamRequestService{
 
     @Override
     public short primitiveShort(short a, short b) {
-        return (short) (a+b);
+        return (short) (a + b);
     }
 
     @Override
     public char primitiveChar(char a, char b) {
-        return (char)(a + b);
+        return (char) (a + b);
     }
 
     @Override
@@ -97,12 +96,12 @@ public class BasicParamRequestServiceImpl implements BasicParamRequestService{
 
     @Override
     public Short wrapperShort(Short a, Short b) {
-        return (short)(a + b);
+        return (short) (a + b);
     }
 
     @Override
     public Character wrapperChar(Character a, Character b) {
-        return (char)(a+b);
+        return (char) (a + b);
     }
 
     @Override
@@ -110,15 +109,14 @@ public class BasicParamRequestServiceImpl implements BasicParamRequestService{
         return a & b;
     }
 
-
     @Override
-    public int[] intArray(int[] aray) {
-        return aray;
+    public int[] intArray(int[] array) {
+        return array;
     }
 
     @Override
-    public long[] longArray(long[] aray) {
-        return aray;
+    public long[] longArray(long[] array) {
+        return array;
     }
 
     @Override
@@ -186,6 +184,5 @@ public class BasicParamRequestServiceImpl implements BasicParamRequestService{
     public Color testEnum(Color color) {
         return color;
     }
-
 
 }

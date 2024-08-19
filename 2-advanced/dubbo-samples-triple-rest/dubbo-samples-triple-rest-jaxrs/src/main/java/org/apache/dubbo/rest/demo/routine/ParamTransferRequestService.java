@@ -35,6 +35,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -52,15 +53,13 @@ public interface ParamTransferRequestService {
     @Path("/queryList")
     List<String> sayQueryList(@QueryParam("name") List<String> values);
 
-
     @GET
     @Path("/queryMap")
-    Map<String,String> sayQueryMap(@QueryParam("name") Map<String,String> value);
+    Map<String, String> sayQueryMap(@QueryParam("name") Map<String, String> value);
 
     @GET
     @Path("/queryStringMap")
-    Map<String,List<String>> sayQueryStringMap(@QueryParam("name") Map<String,List<String>> value);
-
+    Map<String, List<String>> sayQueryStringMap(@QueryParam("name") Map<String, List<String>> value);
 
     @GET
     @Path("/noAnnoParam")
@@ -71,14 +70,14 @@ public interface ParamTransferRequestService {
     @Path("/noAnnoListParam")
     List<String> sayNoAnnoListParam(List<String> value);
 
-
     @GET
     @Path("/noAnnoStringMapParam")
-    Map<String,String> sayNoAnnoStringMapParam(Map<String,String> value);
+    Map<String, String> sayNoAnnoStringMapParam(Map<String, String> value);
 
     @GET
     @Path("/noAnnoArrayParam")
     String[] sayNoAnnoArrayParam(String[] value);
+
     @POST
     @Path("/form")
     @Produces(MediaType.TEXT_PLAIN)
@@ -93,37 +92,36 @@ public interface ParamTransferRequestService {
     @Path("/header")
     String sayHeader(@HeaderParam("name") String name);
 
-
     @GET
     @Path("/header/map")
     @Produces(MediaType.TEXT_PLAIN)
-    String sayHeader(@HeaderParam("name") Map<String,String> value);
-
+    String sayHeader(@HeaderParam("name") Map<String, String> value);
 
     @GET
     @Path("/cookie")
     String sayCookie(@CookieParam("cookieId") String cookieId);
+
     @GET
     @Path("/cookie/list")
     List<String> sayCookie(@CookieParam("cookieId") List<String> values);
+
     @GET
     @Path("/cookie/map")
-    Map<String,String> sayCookie(@CookieParam("cookieId") Map<String,String> value);
+    Map<String, String> sayCookie(@CookieParam("cookieId") Map<String, String> value);
 
     @GET
-    @Path("/matrix;m={m}")
+    @Path("/matrix/string/{m}")
     @Produces(MediaType.TEXT_PLAIN)
-    String sayMatrixString(@MatrixParam("name") String name);
+    String sayMatrixString(@PathParam("m") String m, @MatrixParam("name") String name);
 
     @GET
-    @Path("/matrix/list;m={m}")
-    List<String> sayMatrixList(@MatrixParam("list")List<String> values);
-
+    @Path("/matrix/list/{m}")
+    List<String> sayMatrixList(@PathParam("m") String m, @MatrixParam("name") List<String> values);
 
     @GET
-    @Path("/matrix/map;m={m}")
-    Map<String,List<String>> sayMatrixMap(@MatrixParam("map") Map<String,List<String>> value);
-
+    @Path("/matrix/map/{m}")
+    Map<String, List<String>> sayMatrixMap(
+            @PathParam("m") String m, @MatrixParam("name") Map<String, List<String>> valueMap);
 
     @POST
     @Path("/bodyUser")
@@ -136,7 +134,6 @@ public interface ParamTransferRequestService {
     @POST
     @Path("/bodyStringMap")
     Map<String, String> sayStringMap(Map<String, String> value);
-
 
     @POST
     @Path("/output")

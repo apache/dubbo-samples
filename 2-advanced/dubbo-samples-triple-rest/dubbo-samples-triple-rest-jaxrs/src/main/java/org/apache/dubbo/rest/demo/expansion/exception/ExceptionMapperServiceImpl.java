@@ -21,8 +21,9 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import static org.apache.dubbo.rpc.protocol.tri.rest.RestConstants.EXTENSION_KEY;
 
-@DubboService(parameters = {EXTENSION_KEY,"org.apache.dubbo.rest.demo.expansion.exception.ResteasyExceptionMapper"})
-public class ExceptionMapperServiceImpl implements ExceptionMapperService{
+@DubboService(parameters = {EXTENSION_KEY, "org.apache.dubbo.rest.demo.expansion.exception.ResteasyExceptionMapper"})
+public class ExceptionMapperServiceImpl implements ExceptionMapperService {
+
     @Override
     public String testException() {
         throw new RuntimeException();

@@ -16,387 +16,358 @@
  */
 package org.apache.dubbo.rest.demo.test;
 
-import com.alibaba.fastjson2.JSON;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.DemoService;
 import org.apache.dubbo.rest.demo.expansion.filter.FilterService;
 import org.apache.dubbo.rest.demo.pojo.User;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClient;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import com.alibaba.fastjson2.JSON;
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class ConsumerIT {
-    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
-    private static final String urlPrefix = "http://" + providerAddress + ":50052";
-    private static final String prefix = "hello ";
+public class ConsumerIT extends BaseTest {
 
-    @DubboReference
+    private static final String PREFIX = "Hello ";
+
+    @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
     private DemoService demoService;
 
-    @DubboReference
+    @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
     private FilterService filterService;
 
     @Test
-    public void getParam(){
+    public void getParam() {
         String id = "123";
         String res = demoService.getParam(id);
-        Assert.assertEquals(prefix + id, res);
+        Assert.assertEquals(PREFIX + id, res);
     }
 
     @Test
-    public void RestGetParam(){
+    public void RestGetParam() {
         String id = "123";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.get()
-                .uri(urlPrefix + "/demo/get/param?id=" + id)
-                .header("Content-Type", "application/json")
+                .uri(toUri("/demo/get/param?id=") + id)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void getVariable(){
+    public void getVariable() {
         String id = "123";
         String res = demoService.getVariable(id);
-        Assert.assertEquals(prefix + id, res);
+        Assert.assertEquals(PREFIX + id, res);
     }
 
     @Test
-    public void RestGetVariable(){
+    public void RestGetVariable() {
         String id = "123";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.get()
-                .uri(urlPrefix + "/demo/get/variable/{id}", id)
-                .header("Content-Type", "application/json")
+                .uri(toUri("/demo/get/variable/{id}"), id)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void getMuchParam(){
+    public void getMuchParam() {
         String id = "123", name = "test";
         String res = demoService.getMuchParam(id, name);
-        Assert.assertEquals(prefix + id + " " + name, res);
+        Assert.assertEquals(PREFIX + id + " " + name, res);
     }
 
     @Test
-    public void RestGetMuchParam(){
+    public void RestGetMuchParam() {
         String id = "123", name = "test";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.get()
-                .uri(urlPrefix + "/demo/get/muchParam?id=" + id + "&name=" + name)
-                .header("Content-Type", "application/json")
+                .uri(toUri("/demo/get/muchParam?id=") + id + "&name=" + name)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + " " + name + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void getMuchVariable(){
+    public void getMuchVariable() {
         String id = "123", name = "test";
         String res = demoService.getMuchVariable(id, name);
-        Assert.assertEquals(prefix + id + " " + name, res);
+        Assert.assertEquals(PREFIX + id + " " + name, res);
     }
 
     @Test
-    public void RestGetMuchVariable(){
+    public void RestGetMuchVariable() {
         String id = "123", name = "test";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.get()
-                .uri(urlPrefix + "/demo/get/muchVariable/{id}/{name}", id, name)
-                .header("Content-Type", "application/json")
+                .uri(toUri("/demo/get/muchVariable/{id}/{name}"), id, name)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + " " + name + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void getReg(){
+    public void getReg() {
         String name = "test", version = "2.2.1", ext = ".txt";
         String res = demoService.getReg(name, version, ext);
-        Assert.assertEquals(prefix + name + " " +  version + " " + ext, res);
+        Assert.assertEquals(PREFIX + name + " " + version + " " + ext, res);
     }
 
     @Test
-    public void RestGetReg(){
+    public void RestGetReg() {
         String name = "test", version = "2.2.1", ext = ".txt";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.get()
-                .uri(urlPrefix + "/demo/get/reg/{name}-{version}{ext}", name, version, ext)
-                .header("Content-Type", "application/json")
+                .uri(toUri("/demo/get/reg/{name}-{version}{ext}"), name, version, ext)
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
 
         // 因为已经解析了json 那么不需要再变成json格式了
-        Assert.assertEquals(prefix + name + " " + version + " " + ext, responseEntity.getBody());
+        Assert.assertEquals(PREFIX + name + " " + version + " " + ext, responseEntity.getBody());
     }
 
     @Test
-    public void postBody(){
+    public void postBody() {
         String name = "123";
         String requestBody = "{\"name\": \"" + name + "\"}";
         String res = demoService.postBody(requestBody);
-        Assert.assertEquals(prefix + name, res);
+        Assert.assertEquals(PREFIX + name, res);
     }
 
     @Test
-    public void RestPostBody(){
+    public void RestPostBody() {
         String name = "name";
         String requestBody = "{\"name\": \"" + name + "\"}";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
-                .uri(urlPrefix + "/demo/post/body")
-                .header("content-type", "application/json")
+                .uri(toUri("/demo/post/body"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(requestBody)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + name + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + name + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void postParam(){
+    public void postParam() {
         String name = "123";
         String res = demoService.postParam(name);
-        Assert.assertEquals(prefix + name, res);
+        Assert.assertEquals(PREFIX + name, res);
     }
 
     @Test
-    public void RestPostParam(){
+    public void RestPostParam() {
         String id = "name";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
-                .uri(urlPrefix + "/demo/post/param?id=" + id)
-                .contentType(APPLICATION_JSON)
+                .uri(toUri("/demo/post/param?id=") + id)
+                .contentType(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void postVariable(){
+    public void postVariable() {
         String name = "123";
         String res = demoService.postVariable(name);
-        Assert.assertEquals(prefix + name, res);
+        Assert.assertEquals(PREFIX + name, res);
     }
 
     @Test
-    public void RestPostVariable(){
+    public void RestPostVariable() {
         String id = "name";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
-                .uri(urlPrefix + "/demo/post/variable/{id}", id)
-                .contentType(APPLICATION_JSON)
+                .uri(toUri("/demo/post/variable/{id}"), id)
+                .contentType(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void postUseConsumes(){
+    public void postUseConsumes() {
         String id = "123";
         String requestBody = "{\"id\": \"" + id + "\"}";
         String res = demoService.postUseConsumes(requestBody);
-        Assert.assertEquals(prefix + id, res);
+        Assert.assertEquals(PREFIX + id, res);
     }
 
     @Test
-    public void RestUseConsumes(){
+    public void RestUseConsumes() {
         String id = "name";
         String requestBody = "{\"id\":\"" + id + "\"}";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
-                .uri(urlPrefix + "/demo/post/useConsumes")
-                .header("content-type", "application/json")
+                .uri(toUri("/demo/post/useConsumes"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(requestBody)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void postUseParams(){
+    public void postUseParams() {
         String id = "123";
         String requestBody = "{\"id\":\"" + id + "\"}";
         String res = demoService.postUseParams(requestBody);
-        Assert.assertEquals(prefix + id, res);
+        Assert.assertEquals(PREFIX + id, res);
     }
 
     @Test
-    public void RestUseParams(){
+    public void RestUseParams() {
         String id = "name";
         String requestBody = "{\"id\":\"" + id + "\"}";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
-                .uri(urlPrefix + "/demo/post/useParams?myParam=myValue")
-                .contentType(APPLICATION_JSON)
+                .uri(toUri("/demo/post/useParams?myParam=myValue"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(requestBody)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void getHead(){
+    public void getHead() {
         String id = "123";
         String res = demoService.getHead(id);
-        Assert.assertEquals(prefix + id, res);
+        Assert.assertEquals(PREFIX + id, res);
     }
 
     @Test
-    public void RestGetHead(){
+    public void RestGetHead() {
         String id = "123";
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.get()
-                .uri(urlPrefix + "/demo/get/head/{id}", id)
-                .header("Content-Type", "application/json")
+                .uri(toUri("/demo/get/head/{id}"), id)
+                .accept(MediaType.APPLICATION_JSON)
                 .header("myHeader", "myValue")
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
-
     @Test
-    public void RestPostUseConsumesFormData(){
+    public void RestPostUseConsumesFormData() {
         String id = "123", name = "John";
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("id", id);
         map.add("name", name);
 
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
-                .uri(urlPrefix + "/demo/post/useConsumes/formData")
+                .uri(toUri("/demo/post/useConsumes/formData"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .body(map)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + id + " " + name + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void postUser(){
-        HashMap<String, User> map = new HashMap<String, User>();
+    public void postUser() {
+        HashMap<String, User> map = new HashMap<>();
         map.put("user1", new User(123L, "nick"));
         map.put("user2", new User(456L, "lick"));
 
         String json = JSON.toJSONString(map);
 
-        Assert.assertEquals(prefix + "123" + " 456", demoService.postMapUser(json));
+        Assert.assertEquals(PREFIX + "123" + " 456", demoService.postMapUser(json));
     }
 
     // 出现问题
     @Test
-    public void RestPostUser(){
-        HashMap<String, User> map = new HashMap<String, User>();
+    public void RestPostUser() {
+        HashMap<String, User> map = new HashMap<>();
         map.put("user1", new User(123L, "nick"));
         map.put("user2", new User(456L, "lick"));
 
         String json = JSON.toJSONString(map);
 
-        RestClient restClient = RestClient.create();
         ResponseEntity<String> responseEntity = restClient.post()
-                .uri(urlPrefix + "/demo/post/map/user")
-                .header("content-type", "application/json")
+                .uri(toUri("/demo/post/map/user"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(json)
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + prefix + "123" + " 456" + "\"", responseEntity.getBody());
+        Assert.assertEquals("\"" + PREFIX + "123" + " 456" + "\"", responseEntity.getBody());
     }
 
     @Test
-    public void putUpdateId(){
+    public void putUpdateId() {
         String id = "123";
-        Assert.assertEquals(prefix + id, demoService.putUpdateId(id));
+        Assert.assertEquals(PREFIX + id, demoService.putUpdateId(id));
     }
 
-
     @Test
-    public void RestPutUpdateId(){
+    public void RestPutUpdateId() {
         String id = "123";
-        RestClient restClient = RestClient.create();
         HttpEntity<String> response = restClient.put()
-                .uri(urlPrefix + "/demo/put/update/{id}", id)
+                .uri(toUri("/demo/put/update/{id}"), id)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("\"" + prefix + id + "\"", response.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", response.getBody());
     }
 
     @Test
-    public void deleteId(){
+    public void deleteId() {
         String id = "123";
-        Assert.assertEquals(prefix + id, demoService.deleteId(id));
+        Assert.assertEquals(PREFIX + id, demoService.deleteId(id));
     }
 
-
     @Test
-    public void RestDeleteId(){
+    public void RestDeleteId() {
         String id = "123";
 
-        RestClient restClient = RestClient.create();
         HttpEntity<String> response = restClient.delete()
-                .uri(urlPrefix + "/demo/delete/{id}", id)
+                .uri(toUri("/demo/delete/{id}"), id)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("\"" + prefix + id + "\"", response.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + "\"", response.getBody());
     }
 
     @Test
-    public void patchById(){
+    public void patchById() {
         String id = "123";
-        Assert.assertEquals(prefix + id + " jack", demoService.patchById(id, new User(123L, "jack").stringToJson()));
+        Assert.assertEquals(PREFIX + id + " jack", demoService.patchById(id, new User(123L, "jack").stringToJson()));
     }
 
-
     @Test
-    public void RestPatchById(){
+    public void RestPatchById() {
         String id = "123";
         String requestBody = new User(12L, "jack").stringToJson();
 
-        RestClient restClient = RestClient.create();
         HttpEntity<String> response = restClient.patch()
-                .uri(urlPrefix + "/demo/patch/{id}", id)
-                .contentType(APPLICATION_JSON)
+                .uri(toUri("/demo/patch/{id}"), id)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(requestBody)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("\"" + prefix + id + " jack" +"\"", response.getBody());
+        Assert.assertEquals("\"" + PREFIX + id + " jack" + "\"", response.getBody());
     }
 
     @Test
-    public void primitive(){
+    public void primitive() {
         Assert.assertEquals(1 + 2, demoService.primitiveInt(1, 2));
 
         Assert.assertEquals(1L + 2L, demoService.primitiveLong(1L, 2L));
@@ -407,18 +378,17 @@ public class ConsumerIT {
     }
 
     @Test
-    public void filterGet(){
+    public void filterGet() {
         String name = "123";
         Assert.assertEquals(name, filterService.filterGet(name));
     }
 
     @Test
-    public void RestFilterGet(){
+    public void RestFilterGet() {
         String name = "123";
-        RestClient restClient = RestClient.create();
         HttpEntity<String> response = restClient.get()
-                .uri(urlPrefix + "/filter/get/{name}", name)
-                .header("content-type", "application/json")
+                .uri(toUri("/filter/get/{name}"), name)
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
 
@@ -426,7 +396,7 @@ public class ConsumerIT {
     }
 
     @Test
-    public void postList(){
+    public void postList() {
         List<User> userList = new LinkedList<>();
         userList.add(new User(123L, "jack"));
         userList.add(new User(345L, "mack"));
@@ -435,23 +405,17 @@ public class ConsumerIT {
     }
 
     @Test
-    public void RestPostList(){
+    public void RestPostList() {
         List<User> userList = new LinkedList<>();
         userList.add(new User(123L, "jack", 123));
         userList.add(new User(345L, "mack", 123));
 
-        RestClient restClient = RestClient.create();
         HttpEntity<List<User>> response = restClient.post()
-                .uri(urlPrefix + "/demo/post/list")
-                .contentType(APPLICATION_JSON)
+                .uri(toUri("/demo/post/list"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(userList)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<User>>() {
-                    @Override
-                    public Type getType() {
-                        return super.getType();
-                    }
-                });
+                .toEntity(new ParameterizedTypeReference<>() {});
 
         Assert.assertEquals(userList, response.getBody());
     }

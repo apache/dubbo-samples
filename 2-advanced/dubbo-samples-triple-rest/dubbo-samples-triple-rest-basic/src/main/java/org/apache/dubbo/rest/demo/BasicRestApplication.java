@@ -15,17 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.rest.demo.test;
+package org.apache.dubbo.rest.demo;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableDubbo
-public class ConsumerApplication {
+public class BasicRestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+        SpringApplication.run(BasicRestApplication.class, args);
+        System.out.println("dubbo service started");
     }
 }

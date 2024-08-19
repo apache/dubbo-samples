@@ -21,7 +21,6 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.remoting.http12.HttpMethods;
 import org.apache.dubbo.remoting.http12.HttpRequest;
 import org.apache.dubbo.remoting.http12.HttpResponse;
-import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.pojo.User;
 
 import java.io.IOException;
@@ -30,7 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 @DubboService
-public class ParamTransferRequestServiceImpl implements ParamTransferRequestService{
+public class ParamTransferRequestServiceImpl implements ParamTransferRequestService {
+
     @Override
     public String sayHello(String name) {
         return "Hello " + name;
@@ -86,7 +86,6 @@ public class ParamTransferRequestServiceImpl implements ParamTransferRequestServ
         return "Hello " + name;
     }
 
-
     @Override
     public String sayHeader(Map<String, String> value) {
         return value.get("name");
@@ -108,19 +107,18 @@ public class ParamTransferRequestServiceImpl implements ParamTransferRequestServ
     }
 
     @Override
-    public String sayMatrixString(String name) {
-        return  "Hello " + name;
+    public String sayMatrixString(String m, String name) {
+        return "Hello " + name;
     }
 
     @Override
-    public List<String> sayMatrixList(List<String> values) {
+    public List<String> sayMatrixList(String m, List<String> values) {
         return values;
     }
 
-
     @Override
-    public Map<String, List<String>> sayMatrixMap(Map<String, List<String>> value) {
-        return value;
+    public Map<String, List<String>> sayMatrixMap(String m, Map<String, List<String>> valueMap) {
+        return valueMap;
     }
 
     @Override
@@ -154,6 +152,5 @@ public class ParamTransferRequestServiceImpl implements ParamTransferRequestServ
         String name = request.header("name");
         response.setBody(name);
     }
-
 
 }

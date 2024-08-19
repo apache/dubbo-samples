@@ -17,11 +17,14 @@
 package org.apache.dubbo.rest.demo.routine;
 
 import org.apache.dubbo.config.annotation.DubboService;
+
 import javax.ws.rs.core.Application;
+
 import java.time.ZonedDateTime;
 
 @DubboService
-public class AbnormalRequestServiceImpl extends Application implements AbnormalRequestService{
+public class AbnormalRequestServiceImpl extends Application implements AbnormalRequestService {
+
     @Override
     public String testNotFound() {
         return null;
@@ -36,7 +39,6 @@ public class AbnormalRequestServiceImpl extends Application implements AbnormalR
     public ZonedDateTime testParamConvertFai(ZonedDateTime date) {
         return date;
     }
-
 
     @Override
     public String testPathRepeat1() {

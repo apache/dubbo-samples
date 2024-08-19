@@ -20,7 +20,8 @@ package org.apache.dubbo.rest.demo.routine;
 import org.apache.dubbo.config.annotation.DubboService;
 
 @DubboService
-public class HttpMethodRequestServiceImpl implements HttpMethodRequestService{
+public class HttpMethodRequestServiceImpl implements HttpMethodRequestService {
+
     @Override
     public String sayHelloPost(String name) {
         return "Hello " + name;

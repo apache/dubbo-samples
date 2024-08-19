@@ -16,25 +16,20 @@
  */
 package org.apache.dubbo.rest.demo.test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.routine.HttpMethodRequestService;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestClient;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class HttpMethodRequestIT {
-    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
+public class HttpMethodRequestIT extends BaseTest {
 
-    @DubboReference
+    @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
     private HttpMethodRequestService httpMethodRequestService;
 
     @Test
@@ -63,10 +58,9 @@ public class HttpMethodRequestIT {
 
     @Test
     public void testGet() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/HttpRequestMethod/sayGet?name=world")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.get()
+                .uri(toUri("/HttpRequestMethod/sayGet?name=world"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
 
@@ -76,10 +70,9 @@ public class HttpMethodRequestIT {
     @Test
     public void testPost() throws JsonProcessingException {
         String value = new ObjectMapper().writeValueAsString("world");
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.post()
-                .uri("http://" + providerAddress + ":50052/HttpRequestMethod/sayPost")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.post()
+                .uri(toUri("/HttpRequestMethod/sayPost"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(value)
                 .retrieve()
                 .toEntity(String.class);
@@ -89,10 +82,9 @@ public class HttpMethodRequestIT {
 
     @Test
     public void testDel() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.delete()
-                .uri("http://" + providerAddress + ":50052/HttpRequestMethod/sayDelete?name=world")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.delete()
+                .uri(toUri("/HttpRequestMethod/sayDelete?name=world"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
 
@@ -101,10 +93,9 @@ public class HttpMethodRequestIT {
 
     @Test
     public void testHeader() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Void> result = defaultClient.head()
-                .uri("http://" + providerAddress + ":50052/HttpRequestMethod/sayHead?name=world")
-                .header("Content-type", "application/json")
+        ResponseEntity<Void> result = restClient.head()
+                .uri(toUri("/HttpRequestMethod/sayHead?name=world"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toBodilessEntity();
 
@@ -113,10 +104,9 @@ public class HttpMethodRequestIT {
 
     @Test
     public void testPatch() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.patch()
-                .uri("http://" + providerAddress + ":50052/HttpRequestMethod/sayPatch?name=world")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.patch()
+                .uri(toUri("/HttpRequestMethod/sayPatch?name=world"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
 
@@ -125,23 +115,20 @@ public class HttpMethodRequestIT {
 
     @Test
     public void testOptions() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.options()
-                .uri("http://" + providerAddress + ":50052/HttpRequestMethod/sayOptions?name=world")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.options()
+                .uri(toUri("/HttpRequestMethod/sayOptions?name=world"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
 
         Assert.assertEquals("Hello world", result.getBody());
     }
 
-
     @Test
     public void testPut() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.put()
-                .uri("http://" + providerAddress + ":50052/HttpRequestMethod/sayPut?name=world")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.put()
+                .uri(toUri("/HttpRequestMethod/sayPut?name=world"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
 

@@ -25,12 +25,14 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @DubboService
 public class ComplexParamReqServiceImpl implements ComplexParamRequestService {
+
     @Override
     public List<User> list(List<User> users) {
         return users;
@@ -80,7 +82,6 @@ public class ComplexParamReqServiceImpl implements ComplexParamRequestService {
     public String testForm(Person person) {
         return person.getName();
     }
-
 
     @Override
     public Person testXml(Person person) {
