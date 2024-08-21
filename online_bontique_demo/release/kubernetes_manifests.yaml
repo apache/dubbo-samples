@@ -10,8 +10,6 @@ metadata:
   name: dubbo-system
 ---
 
-## Admin/Prometheus/Grafana/Tracing
-
 # Nacos
 apiVersion: apps/v1
 kind: Deployment

@@ -28,6 +28,7 @@ docker build --build-arg APP_DIR=recommendationService --build-arg APP_PORT=2088
 # build shippingService
 docker build --build-arg APP_DIR=shippingService --build-arg APP_PORT=20888 --build-arg APP_FILE=shippingService-1.0-SNAPSHOT.jar -f ../Dockerfile -t ken222/online-boutique-shipping-service:1.0 ../
 
+docker push ken222/online-boutique-ad-service:1.0
 docker push ken222/online-boutique-cart-service:1.0
 docker push ken222/online-boutique-checkout-service:1.0
 docker push ken222/online-boutique-currency-service:1.0
