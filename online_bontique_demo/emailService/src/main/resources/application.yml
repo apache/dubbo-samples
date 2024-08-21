@@ -13,21 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-server:
-  port: 8085
-spring:
-  application:
-    name: emailCatalogServiceImpl
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 dubbo:
   application:
     logger: slf4j
-    name: ${spring.application.name}
+    name: emailCatalogService
     qos-enable: false
     check-serializable: false
   registry:
-    address: nacos://${nacos.address:127.0.0.1}:8848
+    address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos
   protocol:
     port: 20884
     name: tri

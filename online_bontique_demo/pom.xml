@@ -50,14 +50,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <!--Thymeleaf模版-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-thymeleaf</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -65,19 +57,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring-boot.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo-bom</artifactId>
@@ -87,15 +66,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
-        </dependency>
-
-    </dependencies>
 
     <build>
         <pluginManagement>
@@ -112,48 +82,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <plugin>
-                    <groupId>com.diffplug.spotless</groupId>
-                    <artifactId>spotless-maven-plugin</artifactId>
-                    <version>2.43.0</version>
-                    <configuration>
-                        <java>
-                            <eclipse>
-                                <file>/home/heliang/Code/online_bontique_demo/code-style.xml</file>
-                            </eclipse>
-                            <licenseHeader>
-                                <file>/home/heliang/Code/online_bontique_demo/license-header</file>
-                            </licenseHeader>
-                        </java>
-                        <pom>
-                            <sortPom>
-                                <encoding>UTF-8</encoding>
-                                <nrOfIndentSpace>4</nrOfIndentSpace>
-                                <keepBlankLines>true</keepBlankLines>
-                                <indentBlankLines>false</indentBlankLines>
-                                <indentSchemaLocation>true</indentSchemaLocation>
-                                <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
-                                <sortModules>false</sortModules>
-                                <sortExecutions>false</sortExecutions>
-                                <predefinedSortOrder>custom_1</predefinedSortOrder>
-                                <expandEmptyElements>false</expandEmptyElements>
-                                <sortProperties>false</sortProperties>
-                            </sortPom>
-                        </pom>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>apply</goal>
-                            </goals>
-                            <phase>compile</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-
             </plugins>
-
         </pluginManagement>
     </build>
 
