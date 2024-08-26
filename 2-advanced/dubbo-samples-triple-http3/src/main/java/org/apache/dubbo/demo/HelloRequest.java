@@ -14,18 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.dubbo.demo;
 
-package org.apache.dubbo.rest.demo.test;
+import java.io.Serial;
+import java.io.Serializable;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+public class HelloRequest implements Serializable {
 
-@SpringBootApplication
-@EnableDubbo
-public class ConsumerApplication {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    public static void main(String[] args) {
-        SpringApplication.run(ConsumerApplication.class, args);
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

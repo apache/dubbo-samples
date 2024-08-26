@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 package org.apache.dubbo.rest.demo.pojo;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 // 需要 implements Serializable
-public class User implements Serializable{
+public class User implements Serializable {
 
     private Long id;
 
@@ -27,18 +28,18 @@ public class User implements Serializable{
 
     private Integer age;
 
-    public User(Long id, String name){
+    public User(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public User(Long id, String name, Integer age){
+    public User(Long id, String name, Integer age) {
         this.id = id;
         this.name = name;
         this.age = age;
     }
 
-    public User(){
+    public User() {
 
     }
 
@@ -70,7 +71,7 @@ public class User implements Serializable{
         User user = new User();
         user.setAge(18);
         user.setName("dubbo");
-        user.setId(404l);
+        user.setId(404L);
         return user;
     }
 
@@ -96,7 +97,7 @@ public class User implements Serializable{
         return "User{" + "id=" + id + ", name='" + name + '\'' + ", age=" + age + '}';
     }
 
-    public String stringToJson(){
+    public String stringToJson() {
         return "{\"id\":\"" + this.id + "\", \"name\":\"" + this.name + "\"}";
     }
 

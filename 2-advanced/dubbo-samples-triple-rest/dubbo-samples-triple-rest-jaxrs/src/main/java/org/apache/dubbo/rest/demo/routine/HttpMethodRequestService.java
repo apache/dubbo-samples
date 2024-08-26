@@ -26,44 +26,43 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
-
+import javax.ws.rs.core.MediaType;
 
 @Path("/HttpRequestMethod")
 public interface HttpMethodRequestService {
+
     @POST
     @Path("/sayPost")
-    @Produces({javax.ws.rs.core.MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_PLAIN})
     String sayHelloPost(String hello);
 
     @DELETE
     @Path("/sayDelete")
-    @Produces({javax.ws.rs.core.MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_PLAIN})
     String sayHelloDelete(@QueryParam("name") String hello);
 
     @HEAD
     @Path("/sayHead")
-    @Produces({javax.ws.rs.core.MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_PLAIN})
     String sayHelloHead(@QueryParam("name") String hello);
-
 
     @GET
     @Path("/sayGet")
-    @Produces({javax.ws.rs.core.MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_PLAIN})
     String sayHelloGet(@QueryParam("name") String hello);
 
     @PUT
     @Path("/sayPut")
-    @Produces({javax.ws.rs.core.MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_PLAIN})
     String sayHelloPut(@QueryParam("name") String hello);
 
     @PATCH
     @Path("/sayPatch")
-    @Produces({javax.ws.rs.core.MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_PLAIN})
     String sayHelloPatch(@QueryParam("name") String hello);
 
     @OPTIONS
     @Path("/sayOptions")
-    @Produces({javax.ws.rs.core.MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_PLAIN})
     String sayHelloOptions(@QueryParam("name") String hello);
 }

@@ -59,7 +59,7 @@ header:
     - '.repository/'
     - 'compiler/**'
     - '.gitmodules'
-    - '**/.mvn/*'
+    - '**/.mvn/**'
     - 'mvnw'
     - 'mvnw.cmd'
     - 'LICENSE'

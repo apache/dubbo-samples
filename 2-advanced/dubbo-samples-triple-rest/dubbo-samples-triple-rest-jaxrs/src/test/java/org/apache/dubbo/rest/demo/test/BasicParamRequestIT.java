@@ -20,16 +20,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.pojo.Color;
 import org.apache.dubbo.rest.demo.routine.BasicParamRequestService;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestClient;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -44,12 +34,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class BasicParamRequestIT {
-    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
-    @DubboReference
+public class BasicParamRequestIT extends BaseTest {
+
+    @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
     private BasicParamRequestService basicParamRequestService;
 
     @Test
@@ -64,38 +58,38 @@ public class BasicParamRequestIT {
         Assert.assertEquals(2L, result3);
 
         double result4 = basicParamRequestService.primitiveDouble(1.1, 1.2);
-        Assert.assertEquals(2.3,result4,0.00001);
+        Assert.assertEquals(2.3, result4, 0.00001);
 
         short result5 = basicParamRequestService.primitiveShort((short) 1, (short) 1);
-        Assert.assertEquals((short)2,result5);
+        Assert.assertEquals((short) 2, result5);
 
         boolean result6 = basicParamRequestService.primitiveBoolean(true, false);
         Assert.assertFalse(result6);
 
         char result7 = basicParamRequestService.primitiveChar('a', 'b');
-        Assert.assertEquals((char)('a'+'b'), result7);
+        Assert.assertEquals((char) ('a' + 'b'), result7);
 
         double result8 = basicParamRequestService.primitiveFloat(1.1f, 1.2f);
-        Assert.assertEquals(2.3f,result8,0.00001f);
+        Assert.assertEquals(2.3f, result8, 0.00001f);
     }
 
     @Test
-    public void test(){
+    public void test() {
         BigInteger result17 = basicParamRequestService.bigInt(BigInteger.ONE, BigInteger.ONE);
-        Assert.assertEquals(BigInteger.TWO,result17);
+        Assert.assertEquals(BigInteger.TWO, result17);
 
         BigDecimal result18 = basicParamRequestService.bigDecimal(BigDecimal.ONE, BigDecimal.ZERO);
-        Assert.assertEquals(BigDecimal.ONE,result18);
+        Assert.assertEquals(BigDecimal.ONE, result18);
 
-        int[] array1 = basicParamRequestService.intArray(new int[]{1, 2, 3});
-        Assert.assertArrayEquals(new int[]{1,2,3},array1);
+        int[] array1 = basicParamRequestService.intArray(new int[] {1, 2, 3});
+        Assert.assertArrayEquals(new int[] {1, 2, 3}, array1);
 
-        long[] array2 = basicParamRequestService.longArray(new long[]{1L, 2L, 3L});
-        Assert.assertArrayEquals(new long[]{1L,2L,3L},array2);
+        long[] array2 = basicParamRequestService.longArray(new long[] {1L, 2L, 3L});
+        Assert.assertArrayEquals(new long[] {1L, 2L, 3L}, array2);
     }
 
     @Test
-     public void testWrapper() {
+    public void testWrapper() {
         Boolean result9 = basicParamRequestService.wrapperBoolean(Boolean.TRUE, Boolean.FALSE);
         Assert.assertEquals(Boolean.FALSE, result9);
 
@@ -118,37 +112,36 @@ public class BasicParamRequestIT {
         Assert.assertEquals(Short.valueOf((short) 2), result16);
     }
 
-     @Test
-     public void testDateTime(){
-         Date date = basicParamRequestService.date(Date.from(Instant.parse("2023-03-08T09:30:05Z")));
-         Assert.assertEquals(Date.from(Instant.parse("2023-03-08T09:30:05Z")),date);
+    @Test
+    public void testDateTime() {
+        Date date = basicParamRequestService.date(Date.from(Instant.parse("2023-03-08T09:30:05Z")));
+        Assert.assertEquals(Date.from(Instant.parse("2023-03-08T09:30:05Z")), date);
 
-         Instant date1 = basicParamRequestService.date(Instant.parse("2023-03-08T09:30:05Z"));
-         Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"),date1);
+        Instant date1 = basicParamRequestService.date(Instant.parse("2023-03-08T09:30:05Z"));
+        Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"), date1);
 
-         Calendar calendar = Calendar.getInstance();
-         Calendar date2 = basicParamRequestService.date(calendar);
-         Assert.assertEquals(date2,calendar);
+        Calendar calendar = Calendar.getInstance();
+        Calendar date2 = basicParamRequestService.date(calendar);
+        Assert.assertEquals(date2, calendar);
 
-         LocalDate date3 = basicParamRequestService.date(LocalDate.parse("2001-05-23"));
-         Assert.assertEquals(LocalDate.parse("2001-05-23"),date3);
+        LocalDate date3 = basicParamRequestService.date(LocalDate.parse("2001-05-23"));
+        Assert.assertEquals(LocalDate.parse("2001-05-23"), date3);
 
-         LocalTime date4 = basicParamRequestService.date(LocalTime.parse("09:30:05.123"));
-         Assert.assertEquals(LocalTime.parse("09:30:05.123"),date4);
+        LocalTime date4 = basicParamRequestService.date(LocalTime.parse("09:30:05.123"));
+        Assert.assertEquals(LocalTime.parse("09:30:05.123"), date4);
 
-         LocalDateTime date5 = basicParamRequestService.date(LocalDateTime.parse("2023-03-08T09:30:05"));
-         Assert.assertEquals(LocalDateTime.parse("2023-03-08T09:30:05"),date5);
+        LocalDateTime date5 = basicParamRequestService.date(LocalDateTime.parse("2023-03-08T09:30:05"));
+        Assert.assertEquals(LocalDateTime.parse("2023-03-08T09:30:05"), date5);
 
-         ZonedDateTime date6 = basicParamRequestService.date(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"));
-         Assert.assertEquals(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"),date6);
-     }
+        ZonedDateTime date6 = basicParamRequestService.date(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"));
+        Assert.assertEquals(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"), date6);
+    }
 
     @Test
     public void testPrimitiveInt() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Integer> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveInt?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Integer> result = restClient.get()
+                .uri(toUri("/primitiveInt?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
         Assert.assertEquals(Integer.valueOf(2), result.getBody());
@@ -156,10 +149,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testPrimitiveByte() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Byte> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveByte?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Byte> result = restClient.get()
+                .uri(toUri("/primitiveByte?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Byte.class);
         Assert.assertEquals(Byte.valueOf((byte) 2), result.getBody());
@@ -167,10 +159,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testPrimitiveLong() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Long> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveLong?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Long> result = restClient.get()
+                .uri(toUri("/primitiveLong?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Long.class);
         Assert.assertEquals(Long.valueOf(2), result.getBody());
@@ -178,10 +169,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testPrimitiveDouble() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Double> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveDouble?a={a}&b={b}", 1.1, 1.2)
-                .header("Content-type", "application/json")
+        ResponseEntity<Double> result = restClient.get()
+                .uri(toUri("/primitiveDouble?a={a}&b={b}"), 1.1, 1.2)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Double.class);
         Assert.assertEquals(Double.valueOf(2.3), result.getBody());
@@ -189,10 +179,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testPrimitiveShort() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Short> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveShort?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Short> result = restClient.get()
+                .uri(toUri("/primitiveShort?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Short.class);
         Assert.assertEquals(Short.valueOf((short) 2), result.getBody());
@@ -200,43 +189,40 @@ public class BasicParamRequestIT {
 
     @Test
     public void testPrimitiveChar() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Character> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveChar?a={a}&b={b}", 'a', 'b')
-                .header("Content-type", "application/json")
+        ResponseEntity<Character> result = restClient.get()
+                .uri(toUri("/primitiveChar?a={a}&b={b}"), 'a', 'b')
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Character.class);
-        Assert.assertEquals(Character.valueOf((char) ('a'+'b')), result.getBody());
+        Assert.assertEquals(Character.valueOf((char) ('a' + 'b')), result.getBody());
     }
 
     @Test
     public void testPrimitiveBoolean() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Boolean> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveBoolean?a={a}&b={b}", true, false)
-                .header("Content-type", "application/json")
+        ResponseEntity<Boolean> result = restClient.get()
+                .uri(toUri("/primitiveBoolean?a={a}&b={b}"), true, false)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Boolean.class);
         Assert.assertEquals(Boolean.FALSE, result.getBody());
     }
 
     @Test
+    @SuppressWarnings("DataFlowIssue")
     public void testPrimitiveFloat() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Float> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/primitiveFloat?a={a}&b={b}", 1.1f, 1.2f)
-                .header("Content-type", "application/json")
+        ResponseEntity<Float> result = restClient.get()
+                .uri(toUri("/primitiveFloat?a={a}&b={b}"), 1.1f, 1.2f)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Float.class);
-        Assert.assertEquals(2.3f,result.getBody(),0.00001f);
+        Assert.assertEquals(2.3f, result.getBody(), 0.00001f);
     }
 
     @Test
     public void testWrapperInt() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Integer> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperInt?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Integer> result = restClient.get()
+                .uri(toUri("/wrapperInt?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
         Assert.assertEquals(Integer.valueOf(2), result.getBody());
@@ -244,10 +230,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testWrapperByte() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Byte> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperByte?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Byte> result = restClient.get()
+                .uri(toUri("/wrapperByte?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Byte.class);
         Assert.assertEquals(Byte.valueOf((byte) 2), result.getBody());
@@ -255,10 +240,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testWrapperLong() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Long> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperLong?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Long> result = restClient.get()
+                .uri(toUri("/wrapperLong?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Long.class);
         Assert.assertEquals(Long.valueOf(2), result.getBody());
@@ -266,10 +250,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testWrapperDouble() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Double> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperDouble?a={a}&b={b}", 1.1, 1.2)
-                .header("Content-type", "application/json")
+        ResponseEntity<Double> result = restClient.get()
+                .uri(toUri("/wrapperDouble?a={a}&b={b}"), 1.1, 1.2)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Double.class);
         Assert.assertEquals(Double.valueOf(2.3), result.getBody());
@@ -277,10 +260,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testWrapperShort() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Short> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperShort?a={a}&b={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Short> result = restClient.get()
+                .uri(toUri("/wrapperShort?a={a}&b={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Short.class);
         Assert.assertEquals(Short.valueOf((short) 2), result.getBody());
@@ -288,21 +270,19 @@ public class BasicParamRequestIT {
 
     @Test
     public void testWrapperChar() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Character> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperCharacter?a={a}&b={b}", 'a', 'b')
-                .header("Content-type", "application/json")
+        ResponseEntity<Character> result = restClient.get()
+                .uri(toUri("/wrapperCharacter?a={a}&b={b}"), 'a', 'b')
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Character.class);
-        Assert.assertEquals(Character.valueOf((char) ('a'+'b')), result.getBody());
+        Assert.assertEquals(Character.valueOf((char) ('a' + 'b')), result.getBody());
     }
 
     @Test
     public void testWrapperBoolean() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Boolean> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/wrapperBoolean?a={a}&b={b}", true, false)
-                .header("Content-type", "application/json")
+        ResponseEntity<Boolean> result = restClient.get()
+                .uri(toUri("/wrapperBoolean?a={a}&b={b}"), true, false)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Boolean.class);
         Assert.assertEquals(Boolean.FALSE, result.getBody());
@@ -310,10 +290,9 @@ public class BasicParamRequestIT {
 
     @Test
     public void testBigInt() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<BigInteger> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/bigInt?a={a}&b={b}",new BigInteger("3000000000"),new BigInteger("3000000000"))
-                .header("Content-type", "application/json")
+        ResponseEntity<BigInteger> result = restClient.get()
+                .uri(toUri("/bigInt?a={a}&b={b}"), new BigInteger("3000000000"), new BigInteger("3000000000"))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(BigInteger.class);
         Assert.assertEquals(new BigInteger("6000000000"), result.getBody());
@@ -321,45 +300,41 @@ public class BasicParamRequestIT {
 
     @Test
     public void testBigDecimal() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<BigDecimal> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/bigDecimal?a={a}&b={b}", new BigDecimal("1.1"), new BigDecimal("1.2"))
-                .header("Content-type", "application/json")
+        ResponseEntity<BigDecimal> result = restClient.get()
+                .uri(toUri("/bigDecimal?a={a}&b={b}"), new BigDecimal("1.1"), new BigDecimal("1.2"))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(BigDecimal.class);
-        Assert.assertEquals(new BigDecimal("2.3"),result.getBody());
+        Assert.assertEquals(new BigDecimal("2.3"), result.getBody());
     }
 
     @Test
     public void testIntArray() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<int[]> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/intArray?array={a}&array={b}", 1, 1)
-                .header("Content-type", "application/json")
+        ResponseEntity<int[]> result = restClient.get()
+                .uri(toUri("/intArray?array={a}&array={b}"), 1, 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<int[]>() {});
-        Assert.assertArrayEquals(new int[]{1,1}, result.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertArrayEquals(new int[] {1, 1}, result.getBody());
     }
 
     @Test
     public void testLongArray() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<long[]> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/longArray?array={a}&array={b}", 1L, 1L)
-                .header("Content-type", "application/json")
+        ResponseEntity<long[]> result = restClient.get()
+                .uri(toUri("/longArray?array={a}&array={b}"), 1L, 1L)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<long[]>() {});
-        Assert.assertArrayEquals(new long[]{1L,1L}, result.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertArrayEquals(new long[] {1L, 1L}, result.getBody());
     }
 
     @Test
     public void testDate() throws ParseException {
-        RestClient defaultClient = RestClient.create();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/date?date=2023-03-08 09:30:05")
-                .header("Content-type", "application/json")
-                .exchange((request,response)->{
+        Date result = restClient.get()
+                .uri(toUri("/date?date=2023-03-08 09:30:05"))
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange((request, response) -> {
                     try {
                         ObjectMapper mapper = new ObjectMapper();
                         String str = mapper.readValue(response.getBody(), String.class);
@@ -368,31 +343,29 @@ public class BasicParamRequestIT {
                         throw new RuntimeException(e);
                     }
                 });
-        Assert.assertEquals(formatter.parse("2023-03-08 09:30:05"),result);
+        Assert.assertEquals(formatter.parse("2023-03-08 09:30:05"), result);
     }
 
     @Test
     public void testLocalDate() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<LocalDate> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/localDate?localDate=2001-05-23")
-                .header("Content-type", "application/json")
+        ResponseEntity<LocalDate> result = restClient.get()
+                .uri(toUri("/localDate?localDate=2001-05-23"))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(LocalDate.class);
-        Assert.assertEquals(LocalDate.parse("2001-05-23"),result.getBody());
+        Assert.assertEquals(LocalDate.parse("2001-05-23"), result.getBody());
     }
 
     @Test
     public void testCalendar() throws ParseException {
-        RestClient defaultClient = RestClient.create();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/calendar?calendar=2023-03-08 09:30:05")
-                .exchange((request,response)->{
+        Calendar result = restClient.get()
+                .uri(toUri("/calendar?calendar=2023-03-08 09:30:05"))
+                .exchange((request, response) -> {
                     try {
                         ObjectMapper mapper = new ObjectMapper();
                         String str = mapper.readValue(response.getBody(), String.class);
-                        Date date =  formatter.parse(str);
+                        Date date = formatter.parse(str);
                         Calendar instance = Calendar.getInstance();
                         instance.setTime(date);
                         return instance;
@@ -402,102 +375,96 @@ public class BasicParamRequestIT {
                 });
         Calendar instance = Calendar.getInstance();
         instance.setTime(formatter.parse("2023-03-08 09:30:05"));
-        Assert.assertEquals(instance,result);
+        Assert.assertEquals(instance, result);
     }
+
     @Test
     public void testInstant() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Instant> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/Instant?instant=2023-03-08T09:30:05Z")
-                .header("Content-type", "application/json")
+        ResponseEntity<Instant> result = restClient.get()
+                .uri(toUri("/Instant?instant=2023-03-08T09:30:05Z"))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Instant.class);
-        Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"),result.getBody());
+        Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"), result.getBody());
     }
 
     @Test
     public void testLocalTime() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<LocalTime> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/localTime?localTime=09:30:05.123")
-                .header("Content-type", "application/json")
+        ResponseEntity<LocalTime> result = restClient.get()
+                .uri(toUri("/localTime?localTime=09:30:05.123"))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(LocalTime.class);
-        Assert.assertEquals(LocalTime.parse("09:30:05.123"),result.getBody());
+        Assert.assertEquals(LocalTime.parse("09:30:05.123"), result.getBody());
     }
 
     @Test
     public void testLocalDateTime() {
-        RestClient defaultClient = RestClient.create();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/localDateTime?localDateTime=2024-04-28 10:00:00")
-                .exchange((request,response)->{
+        LocalDateTime result = restClient.get()
+                .uri(toUri("/localDateTime?localDateTime=2024-04-28 10:00:00"))
+                .exchange((request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     String str = mapper.readValue(response.getBody(), String.class);
                     return LocalDateTime.parse(str, formatter);
                 });
-        Assert.assertEquals(LocalDateTime.parse("2024-04-28 10:00:00",formatter),result);
+        Assert.assertEquals(LocalDateTime.parse("2024-04-28 10:00:00", formatter), result);
     }
 
     @Test
     public void testZonedDateTime() {
-        RestClient defaultClient = RestClient.create();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        ZonedDateTime result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/zonedDateTime?zonedDateTime=2021-06-11 10:00:00")
-                .header("Content-type", "application/json")
-                .exchange((request,response)->{
+        ZonedDateTime result = restClient.get()
+                .uri(toUri("/zonedDateTime?zonedDateTime=2021-06-11 10:00:00"))
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange((request, response) -> {
                     ObjectMapper mapper = new ObjectMapper();
                     String value = mapper.readValue(response.getBody(), String.class);
                     int i = value.indexOf('[');
-                    return LocalDateTime.parse(value.substring(0, i), formatter).atZone(ZoneId.of(value.substring(i + 1, value.length() - 1)));
+                    return LocalDateTime.parse(value.substring(0, i), formatter)
+                            .atZone(ZoneId.of(value.substring(i + 1, value.length() - 1)));
                 });
-        Assert.assertEquals(LocalDateTime.parse("2021-06-11T10:00:00",formatter).atZone(ZoneId.systemDefault()),result);
+        Assert.assertEquals(LocalDateTime.parse("2021-06-11T10:00:00", formatter)
+                .atZone(ZoneId.systemDefault()), result);
     }
 
     @Test
     public void testEnum() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Color> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/enum?enum=RED")
-                .header("Content-type", "application/json")
+        ResponseEntity<Color> result = restClient.get()
+                .uri(toUri("/enum?enum=RED"))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Color.class);
-        Assert.assertEquals(Color.RED,result.getBody());
+        Assert.assertEquals(Color.RED, result.getBody());
     }
 
     @Test
     public void testOptionalDouble() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Double> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/optionalDouble?optionalDouble={a}",1.1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Double> result = restClient.get()
+                .uri(toUri("/optionalDouble?optionalDouble={a}"), 1.1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Double.class);
-        Assert.assertEquals(Double.valueOf("1.1"),result.getBody());
+        Assert.assertEquals(Double.valueOf("1.1"), result.getBody());
     }
-
 
     @Test
     public void testOptionalString() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/optionalString?optionalString={a}","Hello world")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.get()
+                .uri(toUri("/optionalString?optionalString={a}"), "Hello world")
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world",result.getBody());
+        Assert.assertEquals("Hello world", result.getBody());
     }
 
     @Test
     public void testOptionalInt() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<Integer> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/optionalInt?optionalInt={a}",1)
-                .header("Content-type", "application/json")
+        ResponseEntity<Integer> result = restClient.get()
+                .uri(toUri("/optionalInt?optionalInt={a}"), 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
-        Assert.assertEquals(Integer.valueOf(1),result.getBody());
+        Assert.assertEquals(Integer.valueOf(1), result.getBody());
     }
 }

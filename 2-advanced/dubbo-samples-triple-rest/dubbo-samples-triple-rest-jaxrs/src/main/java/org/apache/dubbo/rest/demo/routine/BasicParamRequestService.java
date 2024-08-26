@@ -17,7 +17,6 @@
  */
 package org.apache.dubbo.rest.demo.routine;
 
-
 import org.apache.dubbo.rest.demo.pojo.Color;
 
 import javax.ws.rs.GET;
@@ -25,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Instant;
@@ -35,8 +35,10 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
+
 @Path("/")
 public interface BasicParamRequestService {
+
     @GET
     @Path("/primitiveInt")
     int primitiveInt(@QueryParam("a") int a, @QueryParam("b") int b);
@@ -51,7 +53,7 @@ public interface BasicParamRequestService {
 
     @GET
     @Path("/primitiveDouble")
-    double primitiveDouble(@QueryParam("a") double a,@QueryParam("b") double b);
+    double primitiveDouble(@QueryParam("a") double a, @QueryParam("b") double b);
 
     @GET
     @Path("/primitiveShort")
@@ -69,7 +71,6 @@ public interface BasicParamRequestService {
     @Path("/primitiveFloat")
     double primitiveFloat(@QueryParam("a") float a, @QueryParam("b") float b);
 
-
     @GET
     @Path("/wrapperInt")
     Integer wrapperInt(@QueryParam("a") Integer a, @QueryParam("b") Integer b);
@@ -84,7 +85,7 @@ public interface BasicParamRequestService {
 
     @GET
     @Path("/wrapperDouble")
-    Double wrapperDouble(@QueryParam("a") Double a,@QueryParam("b") Double b);
+    Double wrapperDouble(@QueryParam("a") Double a, @QueryParam("b") Double b);
 
     @GET
     @Path("/wrapperShort")
@@ -98,14 +99,13 @@ public interface BasicParamRequestService {
     @Path("/wrapperBoolean")
     Boolean wrapperBoolean(@QueryParam("a") Boolean a, @QueryParam("b") Boolean b);
 
-
     @GET
     @Path("/intArray")
-    int[] intArray(@QueryParam("array") int[] aray);
+    int[] intArray(@QueryParam("array") int[] array);
 
     @GET
     @Path("/longArray")
-    long[] longArray(@QueryParam("array") long[] aray);
+    long[] longArray(@QueryParam("array") long[] array);
 
     @GET
     @Path("/bigInt")
@@ -126,7 +126,6 @@ public interface BasicParamRequestService {
     @GET
     @Path("/Instant")
     Instant date(@QueryParam("instant") Instant instant);
-
 
     @GET
     @Path("/localDate")
