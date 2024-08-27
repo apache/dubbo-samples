@@ -42,10 +42,10 @@
 6. 启动 `productCatalogsService`
 7. 启动 `recommendationService`
 8. 启动 `shippingService`
-9. 最后启动 `checkoutService`
-10. 最后启动 `fronted`
+9. 启动 `checkoutService`
+10. 启动 `fronted`
 
-**注意：`checkoutService` 和 `fronted` 必须最后启动。**
+**注意：模块启动顺序可调换。**
 
 ## 访问前端页面
 

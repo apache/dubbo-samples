@@ -42,10 +42,10 @@ To ensure the correct startup of the system, the services should be started in t
 6. Start `productCatalogsService`
 7. Start `recommendationService`
 8. Start `shippingService`
-9. Start `checkoutService` last
-10. Start `fronted` last
+9. Start `checkoutService`
+10. Start `fronted`
 
-**Note: `checkoutService` and `fronted` must be started last.**
+**Note: The module boot order is reversible.**
 
 ## Accessing the Frontend Page
 
