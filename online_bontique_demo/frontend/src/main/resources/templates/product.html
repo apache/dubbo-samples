@@ -25,42 +25,49 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <!-- 引用你的 CSS 文件 -->
 </head>
+<div th:class="alibaba-platform">
+    <span class="platform-flag" th:text="AlibabaCloud"></span>
+</div>
 <body>
 <div th:replace="header :: header"></div>
 <main role="main">
-  <div class="h-product container">
-    <div class="row" th:each="prod : ${products}">
-      <div class="col-md-6">
-        <img class="product-image" th:src="@{${prod.picture}}" alt=""/>
-      </div>
-      <div class="product-info col-md-5">
-        <div class="product-wrapper">
-          <h2 th:text="${prod.name}"></h2>
-          <p th:text="${prod.description}"></p>
-
-          <form method="POST" action="/cart/add">
-            <input type="hidden" name="productId" th:value="${prod.id}" />
-            <input type="hidden" name="userId" value="1" />
-            <div class="product-quantity-dropdown">
-              <select name="quantity" id="quantity">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>10</option>
-              </select>
+    <div class="h-product container">
+        <div class="row">
+            <div class="col-md-6">
+                <img class="product-image" alt="" th:src="@{${product.picture}}"/>
             </div>
-            <button type="submit" class="cymbal-button-primary">Add To Cart</button>
-          </form>
+            <div class="product-info col-md-5">
+                <div class="product-wrapper">
+                    <h2 th:text="${product.name}"></h2>
+                    <p th:text="${product.description}"></p>
 
-
+                    <form method="POST" action="/cart/add">
+                        <input type="hidden" name="productId" th:value="${product.id}"/>
+                        <input type="hidden" name="userId" value="1"/>
+                        <div class="product-quantity-dropdown">
+                            <select name="quantity" id="quantity">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>10</option>
+                            </select>
+                            <img src="/static/icons/Hipster_DownArrow.svg" alt="">
+                        </div>
+                        <button type="submit" class="cymbal-button-primary">Add To Cart</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="ad" th:if="${ad}">
+    <!-- 如果有推荐内容 -->
+    <div th:if="${recommendations != null}">
+        <div th:replace="recommendations :: recommendations"></div>
+    </div>
+
+    <div class="ad" th:if="${ad}">
     <div th:fragment="text_ad">
       <div class="container py-3 px-lg-5 py-lg-5">
         <div role="alert">

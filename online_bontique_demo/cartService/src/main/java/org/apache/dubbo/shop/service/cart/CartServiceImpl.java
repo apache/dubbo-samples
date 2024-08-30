@@ -32,16 +32,16 @@ import java.util.Map;
 @DubboService
 @Service
 public class CartServiceImpl implements CartService {
-    
+
     private final Map<String, List<CartItem>> cartStore = new HashMap<>();
     @Override
     public void addItem(String userId, CartItem newItem) {
         // Retrieve the list of cart items for the user, create a new list if it doesn't exist
         List<CartItem> cartItems = cartStore.computeIfAbsent(userId, k -> new ArrayList<>());
-        
+
         // Flag to check if the item was updated
         boolean itemUpdated = false;
-        
+
         // Iterate through the list to check if the item already exists
         for (CartItem item : cartItems) {
             if (item.getProductId().equals(newItem.getProductId())) {
@@ -51,22 +51,22 @@ public class CartServiceImpl implements CartService {
                 break;
             }
         }
-        
+
         // If the item was not updated, add it as a new item
         if (!itemUpdated) {
             cartItems.add(newItem);
         }
-        
+
         // Update the cartStore with the new list
         cartStore.put(userId, cartItems);
     }
-    
+
     @Override
     public Cart getCart(String userId) {
         List<CartItem> items = cartStore.getOrDefault(userId, new ArrayList<>());
         return new Cart(userId, items);
     }
-    
+
     @Override
     public void emptyCart(String userId) {
         cartStore.remove(userId);

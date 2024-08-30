@@ -33,14 +33,14 @@
 <!-- 引用 Header -->
 <div th:replace="header :: header"></div>
 
-<div th:class="local">
-    <span class="platform-flag" th:text="local"></span>
+<div th:class="alibaba-platform">
+    <span class="platform-flag" th:text="AlibabaCloud"></span>
 </div>
 
 <main role="main" class="cart-sections">
 
     <!-- 判断购物车是否为空 -->
-    <div th:if="${#lists.isEmpty(items)}">
+    <div th:if="${cart_size <= 0}">
         <section class="empty-cart-section">
             <h3>Your shopping cart is empty!</h3>
             <p>Items you add to your shopping cart will appear here.</p>
@@ -49,7 +49,7 @@
     </div>
 
     <!-- 如果购物车不为空 -->
-    <div th:unless="${#lists.isEmpty(items)}">
+    <div th:unless="${cart_size <= 0}">
         <section class="container">
             <div class="row">
 
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="col pr-md-0 text-right">
                                     <strong>$</strong>
-                                    <strong th:text="${entry.key.priceUsd.units + (entry.key.priceUsd.nanos / 100000000.0)}"></strong>
+                                    <strong th:text="${entry.key.priceUsd.units + (entry.key.priceUsd.nanos / 1000000000.0)}"></strong>
                                 </div>
                             </div>
                         </div>
@@ -107,13 +107,15 @@
 
                     <div class="row cart-summary-total-row">
                         <div class="col pl-md-0">Total</div>
-                        <div class="col pr-md-0 text-right" th:text="'$ ' +${total_cost.units + (total_cost.nanos / 100000000.0)}"></div>
+                        <div class="col pr-md-0 text-right" th:text="'$ ' +${total_cost.units + (total_cost.nanos / 1000000000.0)}"></div>
                     </div>
 
                 </div>
 
                 <div class="col-lg-5 offset-lg-1 col-xl-4">
                     <form class="cart-checkout-form" th:action="@{/cart/checkout}" method="POST">
+                        <input type="hidden" name="userId" value="1" />
+                        <input type="hidden" name="userCurrency" value="USD" />
 
                         <div class="row">
                             <div class="col">
@@ -131,32 +133,32 @@
                         <div class="form-row">
                             <div class="col cymbal-form-field">
                                 <label for="street_address">Street Address</label>
-                                <input type="text" name="street_address" id="street_address" th:value="${street_address}" required>
+                                <input type="text" name="address.streetAddress" id="street_address" th:value="${street_address}" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col cymbal-form-field">
                                 <label for="zip_code">Zip Code</label>
-                                <input type="text" name="zip_code" id="zip_code" th:value="${zip_code}" required pattern="\d{4,5}">
+                                <input type="text" name="address.zipCode" id="zip_code" th:value="${zip_code}" required pattern="\d{4,5}">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col cymbal-form-field">
                                 <label for="city">City</label>
-                                <input type="text" name="city" id="city" th:value="${city}" required>
+                                <input type="text" name="address.city" id="city" th:value="${city}" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-md-5 cymbal-form-field">
                                 <label for="state">State</label>
-                                <input type="text" name="state" id="state" th:value="${state}" required>
+                                <input type="text" name="address.state" id="state" th:value="${state}" required>
                             </div>
                             <div class="col-md-7 cymbal-form-field">
                                 <label for="country">Country</label>
-                                <input type="text" id="country" name="country" th:value="${country}" placeholder="Country Name" required>
+                                <input type="text" id="country" name="address.country" th:value="${country}" placeholder="Country Name" required>
                             </div>
                         </div>
 
@@ -169,13 +171,13 @@
                         <div class="form-row">
                             <div class="col cymbal-form-field">
                                 <label for="credit_card_number">Credit Card Number</label>
-                                <input type="text" id="credit_card_number" name="credit_card_number" th:value="${credit_card_number}" placeholder="0000-0000-0000-0000" required pattern="\d{4}-\d{4}-\d{4}-\d{4}">
+                                <input type="text" id="credit_card_number" name="creditCard.creditCardNumber" th:value="${credit_card_number}" placeholder="0000-0000-0000-0000" required pattern="\d{4}-\d{4}-\d{4}-\d{4}">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-5 cymbal-form-field">
                                 <label for="credit_card_expiration_month">Month</label>
-                                <select name="credit_card_expiration_month" id="credit_card_expiration_month">
+                                <select name="creditCard.creditCardExpirationMonth" id="credit_card_expiration_month">
                                     <option value="01">January</option>
                                     <option value="02">February</option>
                                     <option value="03">March</option>
@@ -193,7 +195,7 @@
                             </div>
                             <div class="col-md-4 cymbal-form-field">
                                 <label for="credit_card_expiration_year">Year</label>
-                                <select name="credit_card_expiration_year" id="credit_card_expiration_year">
+                                <select name="creditCard.creditCardExpirationYear" id="credit_card_expiration_year">
                                     <option value="2013">2013</option>
                                     <option value="2014">2014</option>
                                     <option value="2015">2015</option>
@@ -211,7 +213,7 @@
                             </div>
                             <div class="col-md-3 cymbal-form-field">
                                 <label for="credit_card_cvv">CVV</label>
-                                <input type="password" id="credit_card_cvv" name="credit_card_cvv" required pattern="\d{3}">
+                                <input type="password" id="credit_card_cvv" name="creditCard.creditCardCvv"  required pattern="\d{3}" th:value="${cvv}">
                             </div>
                         </div>
 
