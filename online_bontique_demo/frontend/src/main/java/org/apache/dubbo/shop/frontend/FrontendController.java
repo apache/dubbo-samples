@@ -24,8 +24,10 @@ import org.apache.dubbo.shop.common.dto.request.GetProductRequest;
 import org.apache.dubbo.shop.common.dto.request.GetQuoteRequest;
 import org.apache.dubbo.shop.common.dto.request.ListRecommendationsRequest;
 import org.apache.dubbo.shop.common.dto.request.PlaceOrderRequest;
+import org.apache.dubbo.shop.common.dto.response.AdResponse;
 import org.apache.dubbo.shop.common.dto.response.ListProductsResponse;
 import org.apache.dubbo.shop.common.dto.response.ListRecommendationsResponse;
+import org.apache.dubbo.shop.common.dto.response.PlaceOrderResponse;
 import org.apache.dubbo.shop.common.pojo.Ad;
 import org.apache.dubbo.shop.common.pojo.Address;
 import org.apache.dubbo.shop.common.pojo.Cart;
@@ -37,9 +39,6 @@ import org.apache.dubbo.shop.common.utils.MoneyUtils;
 import org.apache.dubbo.shop.service.AdsService;
 import org.apache.dubbo.shop.service.CartService;
 import org.apache.dubbo.shop.service.CheckoutService;
-import org.apache.dubbo.shop.service.CurrencyService;
-import org.apache.dubbo.shop.service.EmailService;
-import org.apache.dubbo.shop.service.PaymentService;
 import org.apache.dubbo.shop.service.ProductCatalogService;
 import org.apache.dubbo.shop.service.RecommendationService;
 import org.apache.dubbo.shop.service.ShippingService;
@@ -47,6 +46,8 @@ import org.apache.dubbo.shop.service.ShippingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -68,16 +69,12 @@ public class FrontendController {
     @DubboReference
     private ProductCatalogService productCatalogService;
     @DubboReference
-    private CurrencyService currencyService;
-    @DubboReference
-    private PaymentService paymentService;
-    @DubboReference
-    private EmailService emailService;
-    @DubboReference
     private CheckoutService checkoutService;
     @DubboReference
     private AdsService adsService;
 
+    static Money totalCost = new Money("USD", 0L, 0);
+    static int totalQuantity = 0;
     @PostMapping("/cart/add")
     public String addItemToCart(@RequestParam String productId, @RequestParam Integer quantity, @RequestParam String userId) {
         CartItem item = new CartItem(productId, quantity);
@@ -95,9 +92,12 @@ public class FrontendController {
         List<CartItem> items = cart.getItems();
 
         Map<Product, Integer> productQuantityMap = new HashMap<>();
-        int totalQuantity = 0;
+
 
         List<String> productIds = new ArrayList<>();
+        totalQuantity = 0;
+       MoneyUtils.reset(totalCost);
+
         for (CartItem item : items) {
             totalQuantity += item.getQuantity();
             Product product = productCatalogService.getProduct(new GetProductRequest(item.getProductId()));
@@ -107,7 +107,6 @@ public class FrontendController {
             }
         }
 
-        Money totalCost = new Money("USD", 0L, 0);
         for (Map.Entry<Product, Integer> entry : productQuantityMap.entrySet()) {
             totalCost = MoneyUtils.sum(totalCost, MoneyUtils.multiplySlow(entry.getKey().getPriceUsd(), entry.getValue()));
         }
@@ -123,34 +122,69 @@ public class FrontendController {
         model.addAttribute("total_cost", totalCost);
         model.addAttribute("shipping_cost", shippingService.getQuote(new GetQuoteRequest(new Address(), items)));
 
+        model.addAttribute("email", "someone@example.com");
+        model.addAttribute("street_address", "1600 Amphitheatre Parkway");
+        model.addAttribute("zip_code", "94043");
+        model.addAttribute("city", "Mountain View");
+        model.addAttribute("state", "CA");
+        model.addAttribute("country", "United States");
+        model.addAttribute("credit_card_number", "4432-8015-6152-0454");
+        model.addAttribute("cvv", "123");
+        // Add any other default values needed
+
         return "cart";
     }
 
     @PostMapping("/cart/empty")
     public String emptyCart(String userId) {
         cartService.emptyCart("1");
+        totalQuantity = 0;
         return "redirect:/cart";
     }
 
     @PostMapping("/cart/checkout")
-    public String checkout(String userId) {
-        cartService.emptyCart("1");
-        return "redirect:/";
-    }
+    public String checkout(@ModelAttribute PlaceOrderRequest placeOrderRequest,Model model) throws ExecutionException, InterruptedException {
+        PlaceOrderResponse placeOrderResponse = checkoutService.placeOrder(placeOrderRequest);
 
-    @GetMapping("/products")
-    public String listProducts(Model model) {
-        ListProductsResponse response = productCatalogService.listProducts(new Empty());
+        checkoutService.emptyUserCart("1");
+        totalQuantity = 0;
+        checkoutService.sendOrderConfirmation(placeOrderRequest.getEmail(), placeOrderResponse.getOrder());
+
+        ListRecommendationsResponse recommendations = recommendationService.listRecommendations(new ListRecommendationsRequest("1", new ArrayList<>()));
+        List<Product> products = new ArrayList<>();
+        for(String productId : recommendations.getProductIds()){
+            products.add(productCatalogService.getProduct(new GetProductRequest(productId)));
+        }
+
+        model.addAttribute("order",placeOrderResponse.getOrder());
+        model.addAttribute("total_cost",totalCost);
+        model.addAttribute("recommendations",products);
         model.addAttribute("is_cymbal_brand", false);
         model.addAttribute("show_currency", false);
-        model.addAttribute("products", response.getProducts());
-        return "product";
-    }
-    @GetMapping("/order")
-    public String placeOrder(Model model) {
-        model.addAttribute("is_cymbal_brand", false);
-        model.addAttribute(checkoutService.placeOrder(new PlaceOrderRequest()).getOrder());
         return "order";
+    }
+
+    @GetMapping("/product/{id}")
+    public String product(@PathVariable String id, Model model) throws ExecutionException, InterruptedException {
+        Product product = productCatalogService.getProduct(new GetProductRequest(id));
+
+        model.addAttribute("is_cymbal_brand", false);
+        model.addAttribute("show_currency", false);
+        model.addAttribute("product",product);
+
+        ListRecommendationsResponse recommendations = recommendationService.listRecommendations(new ListRecommendationsRequest("1", List.of(product.getId())));
+        List<Product> products = new ArrayList<>();
+        for(String productId : recommendations.getProductIds()){
+            products.add(productCatalogService.getProduct(new GetProductRequest(productId)));
+        }
+
+        AdRequest adRequest = new AdRequest(List.of(id));
+        AdResponse ads = adsService.getAds(adRequest);
+
+        model.addAttribute("recommendations",products);
+        model.addAttribute("ad", ads.getAds().get(0));
+        model.addAttribute("cart_size",totalQuantity);
+        return "product";
     }
 
     @GetMapping("/ad")
@@ -161,11 +195,12 @@ public class FrontendController {
         return "ad";
     }
 
-    @GetMapping({"/"})
+    @GetMapping({"/static"})
     public String listUser(Model model) {
         model.addAttribute("is_cymbal_brand", false);
         ListProductsResponse response = productCatalogService.listProducts(new Empty());
         model.addAttribute("products", response.getProducts());
+        model.addAttribute("cart_size",totalQuantity);
         return "home";
     }
 }

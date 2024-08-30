@@ -37,19 +37,19 @@ import java.util.List;
 @DubboService
 @Service
 public class ProductCatalogServiceImpl implements ProductCatalogService, Serializable {
-    
+
     private List<Product> products = new ArrayList<>();
-    
+
     // Load products from JSON file
     {
         loadProductsFromJson();
     }
-    
+
     @Override
     public ListProductsResponse listProducts(Empty request) {
         return new ListProductsResponse(products);
     }
-    
+
     @Override
     public Product getProduct(GetProductRequest request) {
         return products.stream()
@@ -57,7 +57,7 @@ public class ProductCatalogServiceImpl implements ProductCatalogService, Seriali
                 .findFirst()
                 .orElse(null);
     }
-    
+
     private void loadProductsFromJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -68,11 +68,10 @@ public class ProductCatalogServiceImpl implements ProductCatalogService, Seriali
             e.printStackTrace();
         }
     }
-    
+
     // 内部类用于解析JSON
     @Data
     public static class ProductsWrapper {
-        
         private List<Product> products;
     }
 }

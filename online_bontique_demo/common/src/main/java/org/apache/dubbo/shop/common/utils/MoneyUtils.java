@@ -20,17 +20,17 @@ package org.apache.dubbo.shop.common.utils;
 import org.apache.dubbo.shop.common.pojo.Money;
 
 public class MoneyUtils {
-    
+
     public static Money sum(Money a, Money b) {
         if (!isValid(a) || !isValid(b)) {
             throw new IllegalArgumentException("Invalid money value");
         } else if (!a.getCurrencyCode().equals(b.getCurrencyCode())) {
             throw new IllegalArgumentException("Mismatching currency codes");
         }
-        
+
         long units = a.getUnits() + b.getUnits();
         int nanos = a.getNanos() + b.getNanos();
-        
+
         if ((units >= 0 && nanos >= 0) || (units < 0 && nanos <= 0)) {
             units += nanos / 1_000_000_000;
             nanos %= 1_000_000_000;
@@ -45,7 +45,12 @@ public class MoneyUtils {
         }
         return new Money(a.getCurrencyCode(), units, nanos);
     }
-    
+
+    public static Money reset(Money money){
+        money.setNanos(0);
+        money.setUnits(0L);
+        return money;
+    }
     public static Money multiplySlow(Money money, int multiplier) {
         Money result = money;
         for (int i = 1; i < multiplier; i++) {
@@ -53,15 +58,15 @@ public class MoneyUtils {
         }
         return result;
     }
-    
+
     public static Boolean isValid(Money money) {
         return signMatches(money) && validNanos(money.getNanos());
     }
-    
+
     private static Boolean signMatches(Money money) {
         return money.getNanos() == 0 || money.getUnits() == 0 || (money.getNanos() < 0) == (money.getUnits() < 0);
     }
-    
+
     private static Boolean validNanos(Integer nanos) {
         return -999_999_999 <= nanos && nanos <= 999_999_999;
     }

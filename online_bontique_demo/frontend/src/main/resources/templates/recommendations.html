@@ -31,9 +31,9 @@
         <div class="row">
           <div th:each="recommendation : ${recommendations}" class="col-md-3">
               <div>
-                <a href="/products">
+                  <a th:href="@{|/product/${recommendation.id}|}">
                   <img th:src="${recommendation.picture}" alt="">
-                </a>
+                  </a>
                 <div>
                   <h5 th:text="${recommendation.name}"></h5>
                 </div>

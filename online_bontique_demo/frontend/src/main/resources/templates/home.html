@@ -29,8 +29,8 @@
 <div th:replace="header :: header"></div>
 
 <!-- Platform Section -->
-<div th:class="local">
-  <span class="platform-flag" th:text="local"></span>
+<div th:class="alibaba-platform">
+  <span class="platform-flag" th:text="AlibabaCloud"></span>
 </div>
 
 <main role="main" class="home">
@@ -54,13 +54,13 @@
 
           <!-- Loop through products -->
           <div th:each="product : ${products}" class="col-md-4 hot-product-card">
-            <a href="/products">
+              <a th:href="@{|/product/${product.id}|}">
               <img alt="" th:src="@{${product.picture}}">
               <div class="hot-product-card-img-overlay"></div>
             </a>
             <div>
               <div class="hot-product-card-name" th:text="${product.name}"></div>
-              <div class="hot-product-card-price" th:text="'$ ' + ${product.priceUsd.units + (product.priceUsd.nanos / 100000000.0)}"></div>
+              <div class="hot-product-card-price" th:text="'$ ' + ${product.priceUsd.units + (product.priceUsd.nanos / 1000000000.0)}"></div>
             </div>
           </div>
 
