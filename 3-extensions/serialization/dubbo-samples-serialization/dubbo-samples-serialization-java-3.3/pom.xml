@@ -79,19 +79,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.apache.dubbo.extensions</groupId>
-                <artifactId>dubbo-extensions-bom</artifactId>
-                <version>${spi.extension.version}</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>org.apache.dubbo.extensions</groupId>
-                  <artifactId>dubbo-extensions-dependencies-bom</artifactId>
-                </exclusion>
-              </exclusions>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.dubbo.extensions</groupId>-->
+<!--                <artifactId>dubbo-extensions-bom</artifactId>-->
+<!--                <version>${spi.extension.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -102,11 +96,13 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.dubbo.extensions</groupId>
-            <artifactId>dubbo-serialization-jdk</artifactId>
-            <version>${spi.extension.version}</version>
-        </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.dubbo.extensions/dubbo-serialization-jdk -->
+      <dependency>
+        <groupId>org.apache.dubbo.extensions</groupId>
+        <artifactId>dubbo-serialization-jdk</artifactId>
+        <version>3.3.0</version>
+      </dependency>
+
 
 
     </dependencies>
