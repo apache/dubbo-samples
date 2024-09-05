@@ -19,8 +19,8 @@ package org.apache.dubbo.rest.demo.pojo;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 public class User implements Serializable {
+
     private Long id;
 
     private String name;
@@ -64,7 +64,7 @@ public class User implements Serializable {
         User user = new User();
         user.setAge(18);
         user.setName("dubbo");
-        user.setId(404l);
+        user.setId(404L);
         return user;
     }
 

@@ -20,204 +20,230 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.complex.ComplexParamRequestService;
 import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.pojo.User;
-import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClient;
+
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class ComplexParamRequestIT {
-    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
 
-    @DubboReference
+public class ComplexParamRequestIT extends BaseTest {
+
+    @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
     private ComplexParamRequestService complexParamRequestService;
 
     @Test
-    public void test(){
+    public void test() {
         List<User> list = List.of(new User(1L, "1", 1), new User(2L, "2", 2));
         List<User> result1 = complexParamRequestService.list(list);
-        Assert.assertEquals(list,result1);
+        Assert.assertEquals(list, result1);
 
         Set<User> set = Set.of(new User(1L, "1", 1), new User(2L, "2", 2));
         Set<User> result2 = complexParamRequestService.set(set);
-        Assert.assertEquals(set,result2);
+        Assert.assertEquals(set, result2);
 
-        User[] arr ={new User(1L, "1", 1), new User(2L, "2", 2)};
+        User[] arr = {new User(1L, "1", 1), new User(2L, "2", 2)};
         User[] result3 = complexParamRequestService.array(arr);
-        Assert.assertArrayEquals(arr,result3);
+        Assert.assertArrayEquals(arr, result3);
 
         Map<String, User> map = Map.of("user1", new User(1L, "1", 1), "user2", new User(2L, "2", 2));
         Map<String, User> result4 = complexParamRequestService.stringMap(map);
-        Assert.assertEquals(map,result4);
+        Assert.assertEquals(map, result4);
 
-        MultivaluedHashMap<String,String> valueMap = new MultivaluedHashMap<>();
-        valueMap.add("arg1","Hello");
-        valueMap.add("arg2","world");
+        MultivaluedHashMap<String, String> valueMap = new MultivaluedHashMap<>();
+        valueMap.add("arg1", "Hello");
+        valueMap.add("arg2", "world");
         List<String> result5 = complexParamRequestService.testMapForm(valueMap);
-        Assert.assertEquals(valueMap.values().stream().flatMap(List::stream).toList(),result5);
+        Assert.assertEquals(valueMap.values().stream().flatMap(List::stream).toList(), result5);
 
         String result6 = complexParamRequestService.testMapHeader("Head");
-        Assert.assertEquals("Head",result6);
+        Assert.assertEquals("Head", result6);
 
         Map<String, String> stringMap = Map.of("Hello", "World");
         List<String> result7 = complexParamRequestService.testMapParam(stringMap);
-        Assert.assertEquals(stringMap.values().stream().toList(),result7);
+        Assert.assertEquals(stringMap.values().stream().toList(), result7);
 
         Person person = complexParamRequestService.testXml(new Person("1"));
-        Assert.assertEquals(new Person("1"),person);
+        Assert.assertEquals(new Person("1"), person);
 
     }
 
-
     @Test
-    public void testList() throws Exception {
+    public void testList() {
         ArrayList<User> list = new ArrayList<>();
-        list.add(new User(1L,"1",1));
-        list.add(new User(2L,"2",2));
-        ResponseEntity<List<User>> response = RestClient.create().post()
-                .uri("http://" + providerAddress +":50052/complex/list")
-                .contentType(APPLICATION_JSON)
+        list.add(new User(1L, "1", 1));
+        list.add(new User(2L, "2", 2));
+        ResponseEntity<List<User>> response = RestClient.create()
+                .post()
+                .uri(toUri("/complex/list"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(list)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<User>>() {
-                });
-        Assert.assertEquals(list,response.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertEquals(list, response.getBody());
     }
 
     @Test
-    public void testSet() throws Exception {
+    public void testSet() {
         Set<User> set = new HashSet<>();
-        set.add(new User(1L,"1",1));
-        set.add(new User(2L,"2",2));
-        ResponseEntity<Set<User>> response = RestClient.create().post()
-                .uri("http://" + providerAddress +":50052/complex/set")
-                .contentType(APPLICATION_JSON)
+        set.add(new User(1L, "1", 1));
+        set.add(new User(2L, "2", 2));
+        ResponseEntity<Set<User>> response = RestClient.create()
+                .post()
+                .uri(toUri("/complex/set"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(set)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<Set<User>>() {
-                });
-        Assert.assertEquals(set,response.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertEquals(set, response.getBody());
     }
 
     @Test
-    public void testArray() throws Exception {
-
-        User[] array = {new User(1L,"1",1),new User(2L,"2",2)};
-        ResponseEntity<User[]> response = RestClient.create().post()
-                .uri("http://" + providerAddress +":50052/complex/array")
-                .contentType(APPLICATION_JSON)
+    public void testArray() {
+        User[] array = {new User(1L, "1", 1), new User(2L, "2", 2)};
+        ResponseEntity<User[]> response = RestClient.create()
+                .post()
+                .uri(toUri("/complex/array"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(array)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<User[]>() {
-                });
+                .toEntity(new ParameterizedTypeReference<>() {});
         Assert.assertArrayEquals(array, response.getBody());
     }
 
-
     @Test
-    public void testStringMap() throws Exception {
+    public void testStringMap() {
         HashMap<String, User> map = new HashMap<>();
-        map.put("user1",new User(1L,"1",1));
-        map.put("user2",new User(2L,"2",2));
-        ResponseEntity<Map<String,User>> response = RestClient.create().post()
-                .uri("http://" + providerAddress +":50052/complex/stringMap")
-                .contentType(APPLICATION_JSON)
+        map.put("user1", new User(1L, "1", 1));
+        map.put("user2", new User(2L, "2", 2));
+        ResponseEntity<Map<String, User>> response = RestClient.create()
+                .post()
+                .uri(toUri("/complex/stringMap"))
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(map)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<Map<String,User>>() {
-                });
-        Assert.assertEquals(map,response.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertEquals(map, response.getBody());
     }
 
     @Test
-    public void testHeader() throws Exception {
-
-        ResponseEntity<String> response = RestClient.create().get()
-                .uri("http://" + providerAddress +":50052/complex/testMapHeader")
-                .header("Content-type", "application/json")
-                .header("headers","Head")
+    public void testHeader() {
+        ResponseEntity<String> response = RestClient.create()
+                .get()
+                .uri(toUri("/complex/testMapHeader"))
+                .accept(MediaType.TEXT_PLAIN)
+                .header("headers", "Head")
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<String>() {
-                });
-        Assert.assertEquals("Head",response.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertEquals("Head", response.getBody());
     }
 
-
     @Test
-    public void testMapParam() throws Exception {
-        ResponseEntity<List<String>> response = RestClient.create().get()
-                .uri("http://" + providerAddress +":50052/complex/testMapParam?arg1=World&arg2=Hello")
-                .header("Content-type", "application/json")
+    public void testMapParam() {
+        ResponseEntity<List<String>> response = RestClient.create()
+                .get()
+                .uri(toUri("/complex/testMapParam?arg1=World&arg2=Hello"))
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<String>>() {
-                });
-        Assert.assertEquals(List.of("Hello","World"),response.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertEquals(List.of("Hello", "World"), response.getBody());
     }
 
-
     @Test
-    public void testMapForm() throws Exception {
+    public void testMapForm() {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("arg1","Hello");
-        map.add("arg2","world");
-        ResponseEntity<List<String>> response = RestClient.create().post()
-                .uri("http://" + providerAddress +":50052/complex/testMapForm")
+        map.add("arg1", "Hello");
+        ResponseEntity<List<String>> response = RestClient.create()
+                .post()
+                .uri(toUri("/complex/testMapForm"))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(map)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<String>>() {
-                });
-        Assert.assertEquals(List.of("Hello","world"),response.getBody());
+                .toEntity(new ParameterizedTypeReference<>() {});
+        Assert.assertEquals(List.of("Hello"), response.getBody());
     }
 
     @Test
-    public void testXml() throws Exception {
-        // TODO xml
-        String str = "<?xml  version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><person><name>1</name></person>";
-        Person person = new Person("1");
+    public void testXml() throws JAXBException {
+        Person person = new Person("Sam");
 
-        RestClient defaultClient = RestClient.create();
-        Person result = defaultClient.post()
-                .uri("http://" + providerAddress + ":50052/complex/xml")
-                .header("Content-type", "text/xml")
-                .accept(MediaType.APPLICATION_XML)
-                .body(str)
-                .exchange((request,response)->{
-                    if(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))){
-                        try {
-                            JAXBContext jaxbContext = JAXBContext.newInstance(Person.class);
-                            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                            return  (Person) jaxbUnmarshaller.unmarshal(response.getBody());
-                        } catch (JAXBException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }else {
-                        throw new RuntimeException("http code erroe");
-                    }
-                });
-        Assert.assertEquals(person,result);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Person.class);
+        StringWriter writer = new StringWriter();
+        jaxbContext.createMarshaller().marshal(person, writer);
+
+        String result = restClient.post()
+                .uri(toUri("/complex/xml"))
+                .contentType(MediaType.APPLICATION_XML)
+                .body(writer.toString())
+                .retrieve()
+                .body(String.class);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(person, jaxbContext.createUnmarshaller().unmarshal(new StringReader(result)));
+    }
+
+    @Test
+    public void testCookie() {
+        ResponseEntity<String> response = RestClient.create()
+                .get()
+                .uri(toUri("/complex/cookie"))
+                .accept(MediaType.TEXT_PLAIN)
+                .header("cookie", "cookie=1")
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("1", response.getBody());
+    }
+
+    @Test
+    public void testHttpHeader() {
+        ResponseEntity<String> response = RestClient.create()
+                .get()
+                .uri(toUri("/complex/httpHeader"))
+                .accept(MediaType.TEXT_PLAIN)
+                .header("name", "world")
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("world", response.getBody());
+    }
+
+    @Test
+    public void testUri() {
+        ResponseEntity<String> response = RestClient.create()
+                .get()
+                .uri(toUri("/complex/uri"))
+                .accept(MediaType.TEXT_PLAIN)
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("/complex/uri", response.getBody());
+    }
+
+    @Test
+    public void testAnnoFrom() {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("name", "Li");
+        ResponseEntity<String> response = RestClient.create()
+                .post()
+                .uri(toUri("/complex/annoForm"))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(map)
+                .retrieve()
+                .toEntity(String.class);
+        Assert.assertEquals("Li", response.getBody());
     }
 
 }

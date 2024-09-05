@@ -59,7 +59,7 @@ header:
     - '.repository/'
     - 'compiler/**'
     - '.gitmodules'
-    - '.mvn'
+    - '**/.mvn/**'
     - 'mvnw'
     - 'mvnw.cmd'
     - 'LICENSE'
@@ -79,6 +79,7 @@ header:
     - '**/*.xml'
     - '**/*.properties'
     - '**/*.yml'
+    - '**/*.yaml'
 
   comment: on-failure
 
