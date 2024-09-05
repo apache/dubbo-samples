@@ -20,7 +20,7 @@ services:
 
     provider:
         type: app
-        basedir: dubbo-samples-serialization-java-provider
+        basedir: dubbo-samples-serialization-java-provider-3.3
         mainClass: org.apache.dubbo.samples.serialization.DubboProvider
         systemProps:
             - zookeeper.address=zookeeper
@@ -32,7 +32,7 @@ services:
 
     test:
         type: test
-        basedir: dubbo-samples-serialization-java-consumer
+        basedir: dubbo-samples-serialization-java-consumer-3.3
         tests:
             - "**/*IT.class"
         systemProps:
