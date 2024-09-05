@@ -15,30 +15,13 @@
 # limitations under the License.
 
 services:
-  nacos:
-    image: nacos/nacos-server:${nacos-server.version:2.0.0}
-    environment:
-      - PREFER_HOST_MODE=hostname
-      - MODE=standalone
-      - NACOS_AUTH_ENABLE=true
-      - JVM_XMS=512m
-      - JVM_XMX=512m
-      - JVM_XMN=256m
-
-  springmvc-provider:
+  provider:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.rest.demo.SpringmvcRestApplication
-    systemProps:
-      - nacos.address=nacos
-      - nacos.port=8848
-    waitPortsBeforeRun:
-      - nacos:8848
     checkPorts:
       - 50052
-    checkLog: "Current Spring Boot Application is await..."
-    depends_on:
-      - nacos
+    checkLog: "dubbo service started"
 
   test:
     type: test
@@ -46,12 +29,8 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - nacos.address=nacos
-      - nacos.port=8848
-      - dubbo.address=springmvc-provider
+      - dubbo.address=provider
     waitPortsBeforeRun:
-      - nacos:8848
-      - springmvc-provider:50052
+      - provider:50052
     depends_on:
-      - nacos
-      - springmvc-provider
+      - provider
