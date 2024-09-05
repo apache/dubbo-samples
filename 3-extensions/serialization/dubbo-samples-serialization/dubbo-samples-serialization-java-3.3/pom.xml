@@ -83,6 +83,12 @@
                 <groupId>org.apache.dubbo.extensions</groupId>
                 <artifactId>dubbo-extensions-bom</artifactId>
                 <version>${spi.extension.version}</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>org.apache.dubbo.extensions</groupId>
+                  <artifactId>dubbo-extensions-dependencies-bom</artifactId>
+                </exclusion>
+              </exclusions>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
