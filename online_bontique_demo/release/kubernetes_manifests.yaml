@@ -94,9 +94,30 @@ spec:
             - name: dubbo
               containerPort: 20889
               protocol: TCP
+            - name: dubbo
+              containerPort: 9000
+              protocol: TCP
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-Dnacos.address=nacos.dubbo-system.svc"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: dubbo-boutique-demo
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - protocol: tcp
+      port: 20889
+      targetPort: 20889
+    - protocol: http
+      port: 9000
+      targetPort: 9000
 ---
 
 # App ad-service
