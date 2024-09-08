@@ -195,7 +195,7 @@ public class FrontendController {
         return "ad";
     }
 
-    @GetMapping({"/static"})
+    @GetMapping({"/"})
     public String listUser(Model model) {
         model.addAttribute("is_cymbal_brand", false);
         ListProductsResponse response = productCatalogService.listProducts(new Empty());
