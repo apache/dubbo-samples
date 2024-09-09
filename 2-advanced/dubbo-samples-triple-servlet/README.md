@@ -4,8 +4,8 @@ This example shows how to enable servlet support for triple protocol.
 
 ## Benefits
 
-After enabled Servlet support, Triple protocol requests will be forward to the servlet server, allowing to use features of servlet container such as filters.
-This also avoids the maintenance costs associated with adding extra server port and uri mapping, makes it easier to penetrate firewalls and gateways.
+After enabled Servlet support, triple protocol reuse existing Spring Boot servlet listening ports to handle HTTP traffic, eliminating the need for Netty to listen on new ports,
+that allowing user to use features of servlet container such as filters. This also avoids the maintenance costs associated with adding extra server port and uri mapping, makes it easier to penetrate firewalls and gateways.
 
 ## How to run
 
@@ -64,7 +64,7 @@ Note that only spring boot3 is required, spring boot2 has been imported by dubbo
 
 ### Add the following configuration to `application.yml` to enable servlet support
 
-Note that when set the triple port to be the same as the servlet server, triple will no longer start netty port listening, all requests will be forward to the servlet server.
+Note that when set the triple port to be the same as the servlet server, triple will no longer start netty port listening, all requests come from servlet server.
 
 ```yaml
 server:
