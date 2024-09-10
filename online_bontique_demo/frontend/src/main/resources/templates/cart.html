@@ -1,0 +1,247 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/cart.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/bootstrap.min.css}">
+
+</head>
+
+<body>
+
+<!-- 引用 Header -->
+<div th:replace="header :: header"></div>
+
+<div th:class="alibaba-platform">
+    <span class="platform-flag" th:text="AlibabaCloud"></span>
+</div>
+
+<main role="main" class="cart-sections">
+
+    <!-- 判断购物车是否为空 -->
+    <div th:if="${cart_size <= 0}">
+        <section class="empty-cart-section">
+            <h3>Your shopping cart is empty!</h3>
+            <p>Items you add to your shopping cart will appear here.</p>
+            <a class="cymbal-button-primary" th:href="@{/}" role="button">Continue Shopping</a>
+        </section>
+    </div>
+
+    <!-- 如果购物车不为空 -->
+    <div th:unless="${cart_size <= 0}">
+        <section class="container">
+            <div class="row">
+
+                <div class="col-lg-6 col-xl-5 offset-xl-1 cart-summary-section">
+
+                    <div class="row mb-3 py-2">
+                        <div class="col-4 pl-md-0">
+                            <h3>Cart (<span th:text="${cart_size}">0</span>)</h3>
+                        </div>
+                        <div class="col-8 pr-md-0 text-right">
+                            <form method="POST" th:action="@{/cart/empty}">
+                                <button class="cymbal-button-secondary cart-summary-empty-cart-button" type="submit">
+                                    Empty Cart
+                                </button>
+                                <a class="cymbal-button-primary" th:href="@{/}" role="button">
+                                    Continue Shopping
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div th:each="entry : ${productQuantityMap}" class="row cart-summary-item-row">
+                        <div class="col-md-4 pl-md-0">
+                            <a th:href="@{/product/{id}(id=${entry.key.id})}">
+                                <img class="img-fluid" th:src="@{${entry.key.picture}}" alt="" />
+                            </a>
+                        </div>
+                        <div class="col-md-8 pr-md-0">
+                            <div class="row">
+                                <div class="col">
+                                    <h4 th:text="${entry.key.name}"></h4>
+                                </div>
+                            </div>
+                            <div class="row cart-summary-item-row-item-id-row">
+                                <div class="col">
+                                    SKU #<span th:text="${entry.key.id}"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    Quantity: <span th:text="${entry.value}"></span>
+                                </div>
+                                <div class="col pr-md-0 text-right">
+                                    <strong>$</strong>
+                                    <strong th:text="${entry.key.priceUsd.units + (entry.key.priceUsd.nanos / 1000000000.0)}"></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row cart-summary-shipping-row">
+                        <div class="col pl-md-0">Shipping</div>
+                        <div class="col pr-md-0 text-right" th:text="'$ ' + ${shipping_cost.costUsd.units + (shipping_cost.costUsd.nanos / 100000000.0)}"></div>
+                    </div>
+
+                    <div class="row cart-summary-total-row">
+                        <div class="col pl-md-0">Total</div>
+                        <div class="col pr-md-0 text-right" th:text="'$ ' +${total_cost.units + (total_cost.nanos / 1000000000.0)}"></div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5 offset-lg-1 col-xl-4">
+                    <form class="cart-checkout-form" th:action="@{/cart/checkout}" method="POST">
+                        <input type="hidden" name="userId" value="1" />
+                        <input type="hidden" name="userCurrency" value="USD" />
+
+                        <div class="row">
+                            <div class="col">
+                                <h3>Shipping Address</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="email">E-mail Address</label>
+                                <input type="email" id="email" name="email" th:value="${email}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="street_address">Street Address</label>
+                                <input type="text" name="address.streetAddress" id="street_address" th:value="${street_address}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="zip_code">Zip Code</label>
+                                <input type="text" name="address.zipCode" id="zip_code" th:value="${zip_code}" required pattern="\d{4,5}">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="city">City</label>
+                                <input type="text" name="address.city" id="city" th:value="${city}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-5 cymbal-form-field">
+                                <label for="state">State</label>
+                                <input type="text" name="address.state" id="state" th:value="${state}" required>
+                            </div>
+                            <div class="col-md-7 cymbal-form-field">
+                                <label for="country">Country</label>
+                                <input type="text" id="country" name="address.country" th:value="${country}" placeholder="Country Name" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="payment-method-heading">Payment Method</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="credit_card_number">Credit Card Number</label>
+                                <input type="text" id="credit_card_number" name="creditCard.creditCardNumber" th:value="${credit_card_number}" placeholder="0000-0000-0000-0000" required pattern="\d{4}-\d{4}-\d{4}-\d{4}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-5 cymbal-form-field">
+                                <label for="credit_card_expiration_month">Month</label>
+                                <select name="creditCard.creditCardExpirationMonth" id="credit_card_expiration_month">
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                                <img src="/icons/Hipster_DownArrow.svg" alt="" class="cymbal-dropdown-chevron">
+                            </div>
+                            <div class="col-md-4 cymbal-form-field">
+                                <label for="credit_card_expiration_year">Year</label>
+                                <select name="creditCard.creditCardExpirationYear" id="credit_card_expiration_year">
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                                <img src="/icons/Hipster_DownArrow.svg" alt="" class="cymbal-dropdown-chevron">
+                            </div>
+                            <div class="col-md-3 cymbal-form-field">
+                                <label for="credit_card_cvv">CVV</label>
+                                <input type="password" id="credit_card_cvv" name="creditCard.creditCardCvv"  required pattern="\d{3}" th:value="${cvv}">
+                            </div>
+                        </div>
+
+
+                        <div class="form-row justify-content-center">
+                            <div class="col text-center">
+                                <button class="cymbal-button-primary" type="submit">
+                                    Place Order
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+</main>
+
+<!-- 如果有推荐内容 -->
+<div th:if="${recommendations != null}">
+    <div th:replace="recommendations :: recommendations"></div>
+</div>
+
+<!-- 引用 Footer -->
+<div th:replace="footer :: footer"></div>
+
+</body>
+</html>

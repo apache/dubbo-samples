@@ -17,7 +17,6 @@
 
 package org.apache.dubbo.rest.demo.complex;
 
-
 import org.apache.dubbo.rest.demo.pojo.Person;
 import org.apache.dubbo.rest.demo.pojo.User;
 
@@ -28,13 +27,20 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 @Path("/complex")
 public interface ComplexParamRequestService {
+
     @POST
     @Path("/list")
     List<User> list(List<User> list);
@@ -51,28 +57,42 @@ public interface ComplexParamRequestService {
     @Path("/stringMap")
     Map<String, User> stringMap(Map<String, User> userMap);
 
-
     @GET
     @Path("/testMapParam")
     @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
     List<String> testMapParam(@QueryParam("map") Map<String, String> map);
 
     @GET
     @Path("/testMapHeader")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     String testMapHeader(@HeaderParam("headers") String headerMap);
+
+    @POST
+    @Path("/xml")
+    Person testXml(Person person);
+
+    @GET
+    @Path("/cookie")
+    @Produces(MediaType.TEXT_PLAIN)
+    String testCookie(@Context Cookie cookie);
 
     @POST
     @Path("/testMapForm")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-    List<String> testMapForm(MultivaluedMap<String,String> params);
+    List<String> testMapForm(MultivaluedMap<String, String> params);
+
+    @GET
+    @Path("/httpHeader")
+    String testHeader(@Context HttpHeaders headers);
+
+    @GET
+    @Path("/uri")
+    @Produces(MediaType.TEXT_PLAIN)
+    String testUriInfo(@Context UriInfo uriInfo);
 
     @POST
-    @Path("/xml")
-    @Consumes(MediaType.TEXT_XML)
-    @Produces(MediaType.APPLICATION_XML)
-    Person testXml(Person person);
+    @Path("/annoForm")
+    @Produces(MediaType.TEXT_PLAIN)
+    String testForm(@org.jboss.resteasy.annotations.Form Person person);
 }

@@ -14,6 +14,7 @@ ARG APP_FILE
 
 # Remember to change the port according to the RPC protocol you select
 EXPOSE 50051
+EXPOSE 22222
 
 # copy the JAR file into the root and rename
 RUN cp ./quickstart-service/target/${APP_FILE} app.jar

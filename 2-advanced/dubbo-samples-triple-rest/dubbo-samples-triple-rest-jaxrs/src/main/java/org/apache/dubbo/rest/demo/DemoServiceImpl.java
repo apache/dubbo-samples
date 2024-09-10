@@ -22,15 +22,14 @@ import org.apache.dubbo.config.annotation.DubboService;
 public class DemoServiceImpl implements DemoService {
 
     @Override
-    public String hello(Integer a, String name) {
-        return "Hello " + name + a;
+    public String hello(String name) {
+        return "Hello " + name;
     }
 
     @Override
     public int findUserById(Integer id) {
         return id;
     }
-
 
     @Override
     public Long testFormBody(Long number) {

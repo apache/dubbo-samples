@@ -17,28 +17,26 @@
 
 package org.apache.dubbo.rest.demo.expansion.filter;
 
-import jakarta.annotation.Priority;
-
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
-import java.io.IOException;
+
+import jakarta.annotation.Priority;
 
 @Priority(Priorities.USER)
 public class TraceFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) {
         System.out.println("Request filter invoked: " + requestContext.getUriInfo().getAbsolutePath());
     }
 
     @Override
     public void filter(
-            ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext)
-            throws IOException {
-        String entity = (String)containerResponseContext.getEntity();
+            ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) {
+        String entity = (String) containerResponseContext.getEntity();
         containerResponseContext.setEntity(entity + "response-filter");
         System.out.println("Response filter invoked.");
     }

@@ -21,11 +21,12 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import static org.apache.dubbo.rpc.protocol.tri.rest.RestConstants.EXTENSION_KEY;
 
-@DubboService(parameters = {EXTENSION_KEY,"org.apache.dubbo.rest.demo.expansion.intercept.DynamicTraceInterceptor"})
-public class InterceptorServiceImpl implements InterceptorService{
+@DubboService(parameters = {EXTENSION_KEY, "org.apache.dubbo.rest.demo.expansion.intercept.DynamicTraceInterceptor"})
+public class InterceptorServiceImpl implements InterceptorService {
+
     @Override
     public String testIntercept(String name) {
-        return "Hello "+name;
+        return "Hello " + name;
     }
 
 }
