@@ -25,12 +25,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Consumer implements CommandLineRunner {
-    @DubboReference
+    // scope="remote" is used to force mock remote service call
+    @DubboReference(scope = "remote")
     private DemoService demoService;
 
     @Override
     public void run(String... args) throws Exception {
-
         String result = demoService.sayHello("world");
         System.out.println("Receive result ======> " + result);
     }
