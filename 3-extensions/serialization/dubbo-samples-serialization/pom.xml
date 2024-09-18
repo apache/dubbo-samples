@@ -37,6 +37,7 @@
 
     <modules>
         <module>dubbo-samples-serialization-java</module>
+        <module>dubbo-samples-serialization-java-3.3</module>
     </modules>
 
 </project>

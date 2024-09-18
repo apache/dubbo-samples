@@ -21,11 +21,12 @@ import org.apache.dubbo.config.annotation.DubboService;
 
 import static org.apache.dubbo.rpc.protocol.tri.rest.RestConstants.EXTENSION_KEY;
 
-@DubboService(parameters = {EXTENSION_KEY,"org.apache.dubbo.rest.demo.expansion.filter.TraceFilter"})
-public class FilterServiceImpl implements FilterService{
+@DubboService(parameters = {EXTENSION_KEY, "org.apache.dubbo.rest.demo.expansion.filter.TraceFilter"})
+public class FilterServiceImpl implements FilterService {
+
     @Override
     public String testFilter(String name) {
-        return "Hello "+name;
+        return "Hello " + name;
     }
 
 }

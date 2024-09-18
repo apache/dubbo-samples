@@ -32,19 +32,16 @@ public interface DemoService {
 
     @GET
     @Path("/hello")
-    @Produces(MediaType.TEXT_PLAIN)
-    String hello(@QueryParam("a") Integer a, @QueryParam("name") String name);
+    String hello(@QueryParam("name") String name);
 
     @GET
     @Path("/findUserById")
     int findUserById(@QueryParam("id") Integer id);
 
-
     @POST
     @Path("/form")
     @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     Long testFormBody(@FormParam("number") Long number);
-
 
     @DELETE
     @Path("/deleteUserById/{uid}")
