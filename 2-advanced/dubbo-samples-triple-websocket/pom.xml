@@ -33,11 +33,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.0-beta.5-SNAPSHOT</dubbo.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <dubbo.version>3.3.1-SNAPSHOT</dubbo.version>
+        <spring-boot.version>3.3.3</spring-boot.version>
         <java-websocket.version>1.5.6</java-websocket.version>
-        <servlet.version>4.0.1</servlet.version>
-        <tomcat.version>9.0.83</tomcat.version>
+        <jarkata.version>6.1.0</jarkata.version>
+        <tomcat.version>10.1.28</tomcat.version>
         <junit.version>4.13.2</junit.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -46,16 +46,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-bom</artifactId>
-                <version>${dubbo.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-bom</artifactId>
+                <version>${dubbo.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -66,6 +66,11 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-3-autoconfigure</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
         <dependency>
@@ -81,9 +86,9 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jarkata.version}</version>
         </dependency>
 
         <dependency>

@@ -26,6 +26,6 @@ dubbo:
         port: 50052
         triple:
             websocket:
-                enable: true
-        parameters:
-            triple.servlet: true
+                enabled: true
+            servlet:
+                enabled: true
