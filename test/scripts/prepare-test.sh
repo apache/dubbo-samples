@@ -18,6 +18,8 @@ test_base_dir="$( cd $test_dir/.. && pwd )"
 echo "Searching all '$CONFIG_FILE' under dir $test_base_dir .."
 find $test_base_dir -name $CONFIG_FILE | grep -v "$test_dir" > $test_list_file
 
+shuf --random-source=<(yes 1) $test_list_file -o $test_list_file
+
 # Split test list into JOB_COUNT parts
 case_index=0
 while read file
@@ -28,4 +30,4 @@ do
 done < $test_list_file
 
 echo "Total $case_index cases split into $JOB_COUNT jobs:"
-grep -r "" -c $jobs_dir
+grep -r "" -c $jobs_dir | sort
