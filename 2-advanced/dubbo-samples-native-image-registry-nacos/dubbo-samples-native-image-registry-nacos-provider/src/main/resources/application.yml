@@ -1,0 +1,16 @@
+dubbo:
+    application:
+        logger: logback
+        name: DemoApplication
+    registry:
+        address: nacos://${nacos.address:127.0.0.1}:8848
+    protocol:
+        name: tri
+        port: 50051
+        serialization: fastjson2
+    provider:
+        serialization: fastjson2
+    consumer:
+        serialization: fastjson2
+server:
+    port: 9011
