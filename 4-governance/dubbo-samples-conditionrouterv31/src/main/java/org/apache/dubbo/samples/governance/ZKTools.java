@@ -22,6 +22,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 
 public class ZKTools {
     private static String zookeeperHost = System.getProperty("zookeeper.address", "127.0.0.1");
+    private static String zookeeperPort = System.getProperty("zookeeper.port", "2181");
     private static CuratorFramework client;
 
     public static void main(String[] args) throws Exception {
@@ -37,7 +38,7 @@ public class ZKTools {
     }
 
     public static void initClient() {
-        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":2181", 60 * 1000, 60 * 1000,
+        client = CuratorFrameworkFactory.newClient(zookeeperHost + ":" + zookeeperPort, 60 * 1000, 60 * 1000,
                 new ExponentialBackoffRetry(1000, 3));
         client.start();
     }

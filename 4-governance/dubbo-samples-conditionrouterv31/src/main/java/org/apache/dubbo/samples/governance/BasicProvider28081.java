@@ -28,7 +28,7 @@ public class BasicProvider28081 {
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider-28081.xml");
         context.start();
-//        ZKTools.start();
+        ZKTools.start();
 
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();

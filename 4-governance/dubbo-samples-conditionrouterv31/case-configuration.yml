@@ -25,7 +25,7 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
-      - dubbo.port=20880
+      - dubbo.port=28080
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
@@ -41,11 +41,11 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
-      - dubbo.port=20881
+      - dubbo.port=28081
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
-      - 20881
+      - 28081
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
@@ -60,8 +60,8 @@ services:
       - zookeeper.port=2181
     waitPortsBeforeRun:
       - zookeeper:2181
-      - dubbo-samples-conditionrouterv31-1:20880
-      - dubbo-samples-conditionrouterv31-2:20881
+      - dubbo-samples-conditionrouterv31-1:28080
+      - dubbo-samples-conditionrouterv31-2:28081
     depends_on:
       - zookeeper
       - dubbo-samples-conditionrouterv31-1
