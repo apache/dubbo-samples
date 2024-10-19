@@ -39,8 +39,7 @@ public class DemoService2IT {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        ZKTools.initClient();
-        ZKTools.generateAppevelRouter();
+        ZKTools.start();
         Thread.sleep(2000);
     }
 
