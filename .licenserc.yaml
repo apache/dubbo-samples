@@ -80,6 +80,8 @@ header:
     - '**/*.properties'
     - '**/*.yml'
     - '**/*.yaml'
+    - 'online_bontique_demo/frontend/src/main/resources/static/styles/bootstrap.min.css'
+
 
   comment: on-failure
 
