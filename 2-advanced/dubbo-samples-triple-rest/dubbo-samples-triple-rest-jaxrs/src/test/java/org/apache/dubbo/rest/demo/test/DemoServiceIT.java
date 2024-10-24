@@ -18,31 +18,24 @@ package org.apache.dubbo.rest.demo.test;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.DemoService;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class DemoServiceIT {
+public class DemoServiceIT extends BaseTest {
 
-    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
-
-    @DubboReference
+    @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
     private DemoService demoService;
 
     @Test
     public void test() {
-        String result = demoService.hello(1, "world");
-        Assert.assertEquals("Hello world1", result);
+        String result = demoService.hello("world");
+        Assert.assertEquals("Hello world", result);
 
         String res = demoService.deleteUserById("1");
         Assert.assertEquals("1", res);
@@ -51,37 +44,38 @@ public class DemoServiceIT {
         Assert.assertEquals(1, userById);
 
         Long formBody = demoService.testFormBody(1L);
-        Assert.assertEquals(Long.valueOf(1),formBody);
+        Assert.assertEquals(Long.valueOf(1), formBody);
 
     }
 
     @Test
     public void testRest() {
-        RestClient defaultClient = RestClient.create();
-        ResponseEntity<String> result = defaultClient.get()
-                .uri("http://" + providerAddress + ":50052/demo/hello?a={a}&name={name}",1,"world")
-                .header("Content-type", "application/json")
+        ResponseEntity<String> result = restClient.get()
+                .uri(toUri("/demo/hello?name={name}"), "world")
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world1", result.getBody());
+        Assert.assertEquals("Hello world", result.getBody());
     }
 
     @Test
-    public void testQuery(){
-        ResponseEntity<Integer> response = RestClient.create().get()
-                .uri("http://" + providerAddress + ":50052/demo/findUserById?id={id}",1)
-                .header("Content-type", "application/json")
+    public void testQuery() {
+        ResponseEntity<Integer> response = RestClient.create()
+                .get()
+                .uri(toUri("/demo/findUserById?id={id}"), 1)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
         Assert.assertEquals(Integer.valueOf(1), response.getBody());
     }
 
     @Test
-    public void testFrom(){
+    public void testFrom() {
         MultiValueMap<String, Long> map = new LinkedMultiValueMap<>();
-        map.add("number",1L);
-        ResponseEntity<Long> response = RestClient.create().post()
-                .uri("http://" + providerAddress + ":50052/demo/form")
+        map.add("number", 1L);
+        ResponseEntity<Long> response = RestClient.create()
+                .post()
+                .uri(toUri("/demo/form"))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(map)
                 .retrieve()
@@ -90,14 +84,14 @@ public class DemoServiceIT {
     }
 
     @Test
-    public void testDel(){
-        ResponseEntity<String> response = RestClient.create().delete()
-                .uri("http://" + providerAddress + ":50052/demo/deleteUserById/1")
-                .header("Content-type", "application/json")
+    public void testDel() {
+        ResponseEntity<String> response = RestClient.create()
+                .delete()
+                .uri(toUri("/demo/deleteUserById/1"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
         Assert.assertEquals("1", response.getBody());
     }
-
 
 }

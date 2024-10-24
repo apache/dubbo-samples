@@ -17,18 +17,17 @@
 
 package org.apache.dubbo.rest.demo.expansion.intercept;
 
-import jakarta.annotation.Priority;
-
 import javax.ws.rs.Priorities;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.ext.ReaderInterceptor;
 import javax.ws.rs.ext.ReaderInterceptorContext;
 import javax.ws.rs.ext.WriterInterceptor;
 import javax.ws.rs.ext.WriterInterceptorContext;
+
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+
+import jakarta.annotation.Priority;
 
 @Priority(Priorities.USER)
 public class DynamicTraceInterceptor implements ReaderInterceptor, WriterInterceptor {
@@ -36,17 +35,15 @@ public class DynamicTraceInterceptor implements ReaderInterceptor, WriterInterce
     public DynamicTraceInterceptor() {}
 
     @Override
-    public Object aroundReadFrom(ReaderInterceptorContext readerInterceptorContext)
-            throws IOException, WebApplicationException {
+    public Object aroundReadFrom(ReaderInterceptorContext readerInterceptorContext) throws IOException, WebApplicationException {
         System.out.println("Dynamic reader interceptor invoked");
         return readerInterceptorContext.proceed();
     }
 
     @Override
-    public void aroundWriteTo(WriterInterceptorContext writerInterceptorContext)
-            throws IOException, WebApplicationException {
+    public void aroundWriteTo(WriterInterceptorContext writerInterceptorContext) throws IOException, WebApplicationException {
         System.out.println("Dynamic writer interceptor invoked");
-        String entity = (String)writerInterceptorContext.getEntity();
+        String entity = (String) writerInterceptorContext.getEntity();
         writerInterceptorContext.getOutputStream().write(entity.getBytes(StandardCharsets.UTF_8));
         writerInterceptorContext.getOutputStream().write("intercept".getBytes(StandardCharsets.UTF_8));
         writerInterceptorContext.proceed();

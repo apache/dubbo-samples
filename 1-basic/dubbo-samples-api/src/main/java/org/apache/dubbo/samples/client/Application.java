@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ApplicationBuilder;
 import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.apache.dubbo.samples.api.GreetingsService;
 
@@ -31,7 +32,10 @@ public class Application {
                 .interfaceClass(GreetingsService.class)
                 .url("tri://localhost:50052")
                 .build();
-        DubboBootstrap.getInstance().reference(reference).start();
+
+        DubboBootstrap.getInstance()
+                .application(ApplicationBuilder.newBuilder().qosPort(22223).build())
+                .reference(reference).start();
         GreetingsService service = reference.get();
 
         String message = service.sayHi("dubbo");
