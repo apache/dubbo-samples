@@ -23,7 +23,6 @@ import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.samples.tri.streaming.util.EmbeddedZooKeeper;
 import org.apache.dubbo.samples.tri.streaming.util.TriSampleConstants;
 
 import java.io.IOException;
@@ -31,7 +30,6 @@ import java.io.IOException;
 public class TriStreamServer {
 
     public static void main(String[] args) throws IOException {
-        new EmbeddedZooKeeper(TriSampleConstants.ZK_PORT, false).start();
         ServiceConfig<Greeter> service = new ServiceConfig<>();
         service.setInterface(Greeter.class);
         service.setRef(new GreeterImpl("tri-stub"));

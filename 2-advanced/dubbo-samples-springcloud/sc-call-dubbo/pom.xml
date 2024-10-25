@@ -38,7 +38,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
         <spring.cloud.version>2023.0.0</spring.cloud.version>
         <spring.cloud.alibaba.version>2022.0.0.0</spring.cloud.alibaba.version>

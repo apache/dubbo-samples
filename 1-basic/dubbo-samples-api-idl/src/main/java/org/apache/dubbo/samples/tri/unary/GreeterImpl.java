@@ -17,10 +17,10 @@
 
 package org.apache.dubbo.samples.tri.unary;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.CompletableFuture;
 
 public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(GreeterImpl.class);
