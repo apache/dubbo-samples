@@ -39,8 +39,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <dubbo.version>3.3.1</dubbo.version>
-        <spring-boot.version>2.7.8</spring-boot.version>
-        <micrometer.version>1.10.6</micrometer.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
         <httpclient.version>4.5.13</httpclient.version>
         <junit.version>4.13.1</junit.version>
 
@@ -49,13 +48,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-bom</artifactId>
-                <version>${micrometer.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -149,6 +141,18 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-actuator</artifactId>
         </dependency>
+      <dependency>
+        <groupId>io.micrometer</groupId>
+        <artifactId>micrometer-registry-prometheus</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient_pushgateway</artifactId>
+      </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -226,6 +230,10 @@
             <artifactId>snappy-java</artifactId>
             <version>1.1.10.5</version>
         </dependency>
+      <dependency>
+        <groupId>org.awaitility</groupId>
+        <artifactId>awaitility</artifactId>
+      </dependency>
     </dependencies>
 
     <profiles>
