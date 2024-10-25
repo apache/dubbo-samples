@@ -33,7 +33,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
+        <dubbo.version>3.2.6</dubbo.version>
         <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
@@ -156,10 +156,6 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jackson-provider</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-rpc-rest</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>

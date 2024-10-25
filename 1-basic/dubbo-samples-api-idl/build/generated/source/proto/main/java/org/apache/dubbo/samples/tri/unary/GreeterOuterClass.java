@@ -16,12 +16,12 @@ public final class GreeterOuterClass {
   }
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_org_apache_dubbo_samples_tri_unary_GreeterRequest_descriptor;
-  static final
+  static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_apache_dubbo_samples_tri_unary_GreeterRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_org_apache_dubbo_samples_tri_unary_GreeterReply_descriptor;
-  static final
+  static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_apache_dubbo_samples_tri_unary_GreeterReply_fieldAccessorTable;
 

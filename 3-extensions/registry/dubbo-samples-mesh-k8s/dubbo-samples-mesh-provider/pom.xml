@@ -36,7 +36,6 @@
         <protoc.version>3.24.3</protoc.version>
         <protobuf-java.version>3.24.3</protobuf-java.version>
         <junit.version>4.13.1</junit.version>
-        <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
         <log4j.version>2.17.2</log4j.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -201,7 +200,7 @@
                             <id>dubbo</id>
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
-                            <version>${dubbo.compiler.version}</version>
+                            <version>${dubbo.version}</version>
                             <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>
                         </protocPlugin>
                     </protocPlugins>

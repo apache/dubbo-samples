@@ -28,10 +28,9 @@
 
     <modules>
         <module>dubbo-samples-http</module>
-        <module>dubbo-samples-jetty</module>
         <module>dubbo-samples-port-unification</module>
         <module>dubbo-samples-resilience4j</module>
-        <module>dubbo-samples-rest</module>
+<!--        <module>dubbo-samples-rest</module>-->
         <module>dubbo-samples-rocketmq</module>
         <module>dubbo-samples-thrift</module>
         <module>dubbo-samples-triple</module>
