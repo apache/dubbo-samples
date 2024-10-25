@@ -158,6 +158,10 @@
             <artifactId>resteasy-jackson-provider</artifactId>
         </dependency>
         <dependency>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-rpc-rest</artifactId>
+        </dependency>
+      <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
