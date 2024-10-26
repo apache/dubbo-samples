@@ -32,13 +32,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <junit.version>4.13.1</junit.version>
         <grpc.version>1.58.0</grpc.version>
         <protoc.version>3.24.3</protoc.version>
         <protobuf-java.version>3.24.3</protobuf-java.version>
-        <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     </properties>
@@ -202,7 +201,7 @@
                             <id>dubbo</id>
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
-                            <version>${dubbo.compiler.version}</version>
+                            <version>${dubbo.version}</version>
                             <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>
                         </protocPlugin>
                     </protocPlugins>

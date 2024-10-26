@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.apache.dubbo</groupId>
-    <artifactId>dubbo-samples-metrics-springboot</artifactId>
+    <artifactId>dubbo-samples-metrics-spring-boot</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <name>Dubbo Samples Metrics SpringBoot</name>
@@ -38,9 +38,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
-        <spring-boot.version>2.7.8</spring-boot.version>
-        <micrometer.version>1.10.6</micrometer.version>
+        <dubbo.version>3.3.1</dubbo.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
         <httpclient.version>4.5.13</httpclient.version>
         <junit.version>4.13.1</junit.version>
 
@@ -49,13 +48,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-bom</artifactId>
-                <version>${micrometer.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -131,8 +123,8 @@
 
         <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-metrics-prometheus -->
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-observability-starter</artifactId>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-observability-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -149,6 +141,18 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-actuator</artifactId>
         </dependency>
+      <dependency>
+        <groupId>io.micrometer</groupId>
+        <artifactId>micrometer-registry-prometheus</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.prometheus</groupId>
+        <artifactId>simpleclient_pushgateway</artifactId>
+      </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -226,6 +230,10 @@
             <artifactId>snappy-java</artifactId>
             <version>1.1.10.5</version>
         </dependency>
+      <dependency>
+        <groupId>org.awaitility</groupId>
+        <artifactId>awaitility</artifactId>
+      </dependency>
     </dependencies>
 
     <profiles>

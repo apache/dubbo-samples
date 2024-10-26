@@ -17,8 +17,8 @@
 
 package org.apache.dubbo.springboot.demo.idl;
 
-import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.PathResolver;
 import org.apache.dubbo.rpc.RpcException;
@@ -28,20 +28,19 @@ import org.apache.dubbo.rpc.model.MethodDescriptor;
 import org.apache.dubbo.rpc.model.ServiceDescriptor;
 import org.apache.dubbo.rpc.model.StubMethodDescriptor;
 import org.apache.dubbo.rpc.model.StubServiceDescriptor;
-import org.apache.dubbo.rpc.stub.BiStreamMethodHandler;
-import org.apache.dubbo.rpc.stub.ServerStreamMethodHandler;
+import org.apache.dubbo.rpc.service.Destroyable;
 import org.apache.dubbo.rpc.stub.StubInvocationUtil;
 import org.apache.dubbo.rpc.stub.StubInvoker;
 import org.apache.dubbo.rpc.stub.StubMethodHandler;
 import org.apache.dubbo.rpc.stub.StubSuppliers;
 import org.apache.dubbo.rpc.stub.UnaryStubMethodHandler;
 
-import com.google.protobuf.Message;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+
+import com.google.protobuf.Message;
 
 public final class DubboGreeterTriple {
 
@@ -85,12 +84,17 @@ public final class DubboGreeterTriple {
         serviceDescriptor.addMethod(greetProxyAsyncMethod);
     }
 
-    public static class GreeterStub implements Greeter{
+    public static class GreeterStub implements Greeter, Destroyable {
         private final Invoker<Greeter> invoker;
 
         public GreeterStub(Invoker<Greeter> invoker) {
             this.invoker = invoker;
         }
+
+        @Override
+        public void $destroy() {
+              invoker.destroy();
+         }
 
         @Override
         public org.apache.dubbo.springboot.demo.idl.GreeterReply greet(org.apache.dubbo.springboot.demo.idl.GreeterRequest request){
