@@ -18,51 +18,44 @@ package org.apache.dubbo.rest.demo.test;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestClient;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class ExpansionServiceIT {
-
-    private static final String providerAddress = System.getProperty("dubbo.address", "localhost");
-
+public class ExpansionServiceIT extends BaseTest {
 
     @Test
-    public void testFilter(){
-        ResponseEntity<String> response = RestClient.create().get()
-                .uri("http://" + providerAddress + ":50052/ext/filter?name={name}","world ")
-                .header("Content-type", "application/json")
+    public void testFilter() {
+        ResponseEntity<String> response = RestClient.create()
+                .get()
+                .uri(toUri("/ext/filter?name={name}"), "world ")
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world response-filter",response.getBody());
+        Assert.assertEquals("Hello world response-filter", response.getBody());
 
     }
 
     @Test
-    public void testIntercept(){
-        ResponseEntity<String> response = RestClient.create().get()
-                .uri("http://" + providerAddress + ":50052/ext/intercept?name={name}","world ")
-                .header("Content-type", "application/json")
+    public void testIntercept() {
+        ResponseEntity<String> response = RestClient.create()
+                .get()
+                .uri(toUri("/ext/intercept?name={name}"), "world ")
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world intercept",response.getBody());
+        Assert.assertEquals("Hello world intercept", response.getBody());
     }
-
 
     @Test
-    public void testException(){
-        ResponseEntity<String> response = RestClient.create().get()
-                .uri("http://" + providerAddress + ":50052/ext/exception")
-                .header("Content-type", "application/json")
+    public void testException() {
+        ResponseEntity<String> response = RestClient.create()
+                .get()
+                .uri(toUri("/ext/exception"))
+                .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("test-exception",response.getBody());
+        Assert.assertEquals("test-exception", response.getBody());
     }
-
-
 
 }

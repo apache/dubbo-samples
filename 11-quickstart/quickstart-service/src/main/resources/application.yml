@@ -14,7 +14,10 @@
 
 dubbo:
   registry:
-    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    address: nacos://${nacos.address:127.0.0.1}:8848?username=nacos&password=nacos
+    # This will enable application-level service discovery only (the recommended service discovery method for Dubbo3).
+    # For users upgrading from Dubbo2.x, please set the value to 'all' for smooth migration.
+    register-mode: instance
   protocol:
     name: tri
     port: 50051

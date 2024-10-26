@@ -43,6 +43,7 @@
         <module>3-extensions</module>
         <module>4-governance</module>
         <module>tools</module>
+        <module>online_bontique_demo</module>
     </modules>
 
     <build>
