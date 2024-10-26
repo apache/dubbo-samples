@@ -17,29 +17,20 @@
  *
  */
 
-package org.apache.dubbo.samples.broadcast.impl;
+package org.apache.dubbo.samples.broadcast;
 
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.samples.broadcast.api.DemoService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.concurrent.CountDownLatch;
 
-public class DemoServiceImpl implements DemoService {
+public class BroadcastProvider2 {
 
-    boolean isInvoke;
-    @Override
-    public String sayHello(String name) {
-        isInvoke = true;
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " +
-                name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
-        return "Hello " + name + ", response from provider: " + RpcContext.getContext().getLocalAddress();
-    }
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/broadcast-provider2.xml");
+        context.start();
 
-    @Override
-    public boolean isInvoke() {
-        System.out.println("The value of isInvoke:" + isInvoke);
-        return isInvoke;
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
     }
 
 }

@@ -15,21 +15,23 @@
  * limitations under the License.
  */
 
-import org.apache.dubbo.common.constants.CommonConstants;
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.spring.ReferenceBean;
+import org.apache.dubbo.registry.client.migration.MigrationInvoker;
+import org.apache.dubbo.rpc.Invocation;
+import org.apache.dubbo.rpc.Invoker;
+import org.apache.dubbo.rpc.Result;
+import org.apache.dubbo.rpc.RpcInvocation;
 import org.apache.dubbo.samples.broadcast.api.DemoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 /**
  * Consumer test side
@@ -42,6 +44,9 @@ public class BroadcastConsumerIT {
     @Qualifier("demoService")
     private DemoService demoService;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Test
     public void testSayHello() {
         Assert.assertTrue(demoService.sayHello("world").contains("Hello"));
@@ -50,7 +55,22 @@ public class BroadcastConsumerIT {
     @Test
     public void testBroadcast() {
         Assert.assertTrue(demoService.sayHello("world").contains("Hello"));
-        Assert.assertTrue(demoService.isInvoke());
+        assertInvoke();
+    }
+
+    /**
+     * Call all invokers manually
+     */
+    public void assertInvoke() {
+        ReferenceBean reference = applicationContext.getBean(ReferenceBean.class);
+
+        Invocation invocation = new RpcInvocation("isInvoke", "org.apache.dubbo.samples.broadcast.api.DemoService", "", new Class<?>[0], new Object[0]);
+
+        List<Invoker> allInvokers = (List<Invoker>) ((MigrationInvoker) reference.getReferenceConfig().getInvoker()).getInvoker().getDirectory().getAllInvokers();
+        for (Invoker allInvoker : allInvokers) {
+            Result invoke = allInvoker.invoke(invocation);
+            Assert.assertTrue((boolean) invoke.getValue());
+        }
     }
 
 }
