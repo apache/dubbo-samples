@@ -34,23 +34,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 /**
- * Consumer test side
+ * Consumer verify side
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/broadcast-consumer.xml")
-public class BroadcastConsumerIT {
+@ContextConfiguration(locations = "classpath*:spring/simple-consumer.xml")
+public class ConsumerVerification {
 
     @Autowired
     @Qualifier("demoService")
     private DemoService demoService;
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
     @Test
-    public void testSayHello() {
-        Assert.assertTrue(demoService.sayHello("world").contains("Hello"));
+    public void verify() throws InterruptedException {
+        Thread.sleep(5000);
+        Assert.assertTrue(demoService.isInvoke());
     }
-
 
 }

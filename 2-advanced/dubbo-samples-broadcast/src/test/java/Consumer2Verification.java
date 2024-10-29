@@ -15,42 +15,31 @@
  * limitations under the License.
  */
 
-import org.apache.dubbo.config.spring.ReferenceBean;
-import org.apache.dubbo.registry.client.migration.MigrationInvoker;
-import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcInvocation;
 import org.apache.dubbo.samples.broadcast.api.DemoService;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-
 /**
- * Consumer test side
+ * Consumer verify side
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/broadcast-consumer.xml")
-public class BroadcastConsumerIT {
+@ContextConfiguration(locations = "classpath*:spring/simple-consumer2.xml")
+public class Consumer2Verification {
 
     @Autowired
     @Qualifier("demoService")
     private DemoService demoService;
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
     @Test
-    public void testSayHello() {
-        Assert.assertTrue(demoService.sayHello("world").contains("Hello"));
+    public void verify() throws InterruptedException {
+        Thread.sleep(5000);
+        Assert.assertTrue(demoService.isInvoke());
     }
-
 
 }

@@ -66,3 +66,21 @@ services:
       - zookeeper
       - dubbo-samples-broadcast-provider1
       - dubbo-samples-broadcast-provider2
+
+  dubbo-samples-broadcast-verify:
+    type: test
+    basedir: .
+    tests:
+      - "**/*Verification.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - dubbo-samples-broadcast-provider1:20880
+      - dubbo-samples-broadcast-provider2:20881
+    depends_on:
+      - dubbo-samples-broadcast-test
+      - zookeeper
+      - dubbo-samples-broadcast-provider1
+      - dubbo-samples-broadcast-provider2
