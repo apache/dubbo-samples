@@ -39,7 +39,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <sentinel.version>1.8.6</sentinel.version>
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <nacos.version>2.2.0</nacos.version>
     </properties>
 

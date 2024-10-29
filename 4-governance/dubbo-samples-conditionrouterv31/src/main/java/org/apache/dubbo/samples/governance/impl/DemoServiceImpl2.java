@@ -16,23 +16,25 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.jetty.impl;
 
-import org.apache.dubbo.samples.jetty.HelloWorld;
-import org.apache.dubbo.samples.jetty.JettyContainer;
-import org.apache.dubbo.samples.jetty.api.JettyService;
+package org.apache.dubbo.samples.governance.impl;
 
-public class JettyServiceImpl implements JettyService {
+import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.samples.governance.api.DemoService2;
 
-    private static JettyContainer container = new JettyContainer();
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+public class DemoServiceImpl2 implements DemoService2 {
 
     @Override
-    public void sayHello() {
-        container.setServerHandler(new HelloWorld());
-
-        container.start();
-
-        container.stop();
+    public String sayHello(String name) {
+        String res = "[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " +
+                name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress()
+                + ",response from provider:" + RpcContext.getContext().getLocalAddress() + "port : " + RpcContext.getServiceContext().getLocalPort()
+                + " env = " + RpcContext.getCurrentServiceContext().getUrl().getParameter("env");
+        return res;
     }
 
 }

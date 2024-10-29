@@ -45,7 +45,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <spring-boot.version>2.7.8</spring-boot.version>
         <junit.version>4.13.1</junit.version>
         <httpclient.version>4.5.13</httpclient.version>
@@ -132,7 +132,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-observability-starter</artifactId>
+            <artifactId>dubbo-observability-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
