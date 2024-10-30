@@ -26,6 +26,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * Consumer test side
  */
@@ -36,8 +39,13 @@ public class BroadcastConsumerIT {
     private DemoService demoService2;
 
     @Before
-    public void setup() {
+    public void setup() throws UnknownHostException {
         String ip = System.getProperty("zookeeper.address");
+        System.out.println("ip = " + ip);
+        InetAddress address = InetAddress.getByName(ip);
+
+        System.out.println("address = " + address);
+
         ReferenceConfig<DemoService> broadcastReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
                 .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
