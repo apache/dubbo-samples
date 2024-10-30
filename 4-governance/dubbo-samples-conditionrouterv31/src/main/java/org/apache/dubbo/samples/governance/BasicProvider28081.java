@@ -16,8 +16,20 @@
  *   limitations under the License.
  *
  */
-package org.apache.dubbo.samples.jetty.api;
 
-public interface JettyService {
-    void sayHello();
+package org.apache.dubbo.samples.governance;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.CountDownLatch;
+
+public class BasicProvider28081 {
+
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-demo-provider-28081.xml");
+        context.start();
+
+        System.out.println("dubbo service started");
+        new CountDownLatch(1).await();
+    }
 }

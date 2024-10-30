@@ -33,7 +33,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
         <hystrix-starter.version>2.2.10.RELEASE</hystrix-starter.version>
         <javassist.version>3.29.2-GA</javassist.version>
