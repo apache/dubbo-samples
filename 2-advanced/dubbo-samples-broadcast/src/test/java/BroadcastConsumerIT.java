@@ -26,7 +26,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
@@ -34,33 +33,31 @@ import java.net.UnknownHostException;
  */
 public class BroadcastConsumerIT {
 
+    private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
+    private static final String ZOOKEEPER_PORT = System.getProperty("zookeeper.port", "2181");
+    private static final String ZOOKEEPER_ADDRESS = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
+
     private DemoService broadcastService;
     private DemoService demoService;
     private DemoService demoService2;
 
     @Before
     public void setup() throws UnknownHostException {
-        String ip = System.getProperty("zookeeper.address","zookeeper");
-        String port = System.getProperty("zookeeper.port","2181");
-        RegistryConfig registryConfig = new RegistryConfig();
-        registryConfig.setAddress(ip.trim());
-        registryConfig.setPort(Integer.valueOf(port.trim()));
-        registryConfig.setProtocol("zookeeper");
 
         ReferenceConfig<DemoService> broadcastReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
-                .addRegistry(registryConfig)
+                .addRegistry(new RegistryConfig(ZOOKEEPER_ADDRESS))
                 .cluster("broadcast")
                 .version("*")
                 .build();
         ReferenceConfig<DemoService> demoReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
-                .addRegistry(registryConfig)
+                .addRegistry(new RegistryConfig(ZOOKEEPER_ADDRESS))
                 .version("1.1.1")
                 .build();
         ReferenceConfig<DemoService> demoReference2 = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
-                .addRegistry(registryConfig)
+                .addRegistry(new RegistryConfig(ZOOKEEPER_ADDRESS))
                 .version("1.1.2")
                 .build();
 
