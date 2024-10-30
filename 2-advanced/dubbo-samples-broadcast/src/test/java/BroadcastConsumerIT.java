@@ -40,24 +40,27 @@ public class BroadcastConsumerIT {
 
     @Before
     public void setup() throws UnknownHostException {
-        String ip = System.getProperty("zookeeper.address");
-//        InetAddress address = InetAddress.getByName(containName);
-//        String ip = address.getHostAddress();
+        String ip = System.getProperty("zookeeper.address","localhost");
+        String port = System.getProperty("zookeeper.port","2181");
+        RegistryConfig registryConfig = new RegistryConfig();
+        registryConfig.setAddress(ip.trim());
+        registryConfig.setPort(Integer.valueOf(port.trim()));
+        registryConfig.setProtocol("zookeeper");
 
         ReferenceConfig<DemoService> broadcastReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
-                .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
+                .addRegistry(registryConfig)
                 .cluster("broadcast")
                 .version("*")
                 .build();
         ReferenceConfig<DemoService> demoReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
-                .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
+                .addRegistry(registryConfig)
                 .version("1.1.1")
                 .build();
         ReferenceConfig<DemoService> demoReference2 = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
-                .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
+                .addRegistry(registryConfig)
                 .version("1.1.2")
                 .build();
 
