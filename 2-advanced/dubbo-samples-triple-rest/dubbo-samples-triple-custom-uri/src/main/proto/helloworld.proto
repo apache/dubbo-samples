@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.apache.dubbo.custom.uri.demo";
+option java_outer_classname = "HelloWorldProto";
+
+import "google/api/annotations.proto";  // 引入 annotations.proto
+
+package helloworld;
+
+// 请求消息，包含用户的名字。
+message HelloRequest {
+    string name = 1;
+}
+
+// 响应消息，包含问候语。
+message HelloReply {
+    string message = 1;
+}
+
+// 服务定义，带有自定义 HTTP 映射。
+service Greeter {
+    // 使用 POST 方法测试请求体映射
+    rpc SayHelloWithPost(HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            post: "/v1/hello"
+            body: "*"
+        };
+    }
+
+    // 使用 PUT 方法测试请求体和路径变量映射
+    rpc UpdateGreeting(HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            put: "/v1/hello/update"
+            body: "*"
+        };
+    }
+}
