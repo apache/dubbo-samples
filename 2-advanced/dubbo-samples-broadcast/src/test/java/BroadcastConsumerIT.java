@@ -52,16 +52,19 @@ public class BroadcastConsumerIT {
                 .addRegistry(new RegistryConfig(ZOOKEEPER_ADDRESS))
                 .cluster("broadcast")
                 .version("*")
+                .check(false)
                 .build();
         ReferenceConfig<DemoService> demoReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
                 .addRegistry(new RegistryConfig(ZOOKEEPER_ADDRESS))
                 .version("1.1.1")
+                .check(false)
                 .build();
         ReferenceConfig<DemoService> demoReference2 = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
                 .addRegistry(new RegistryConfig(ZOOKEEPER_ADDRESS))
                 .version("1.1.2")
+                .check(false)
                 .build();
 
         DubboBootstrap.getInstance()
