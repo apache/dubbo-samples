@@ -15,41 +15,63 @@
  * limitations under the License.
  */
 
-import org.apache.dubbo.config.spring.ReferenceBean;
-import org.apache.dubbo.registry.client.migration.MigrationInvoker;
-import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcInvocation;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.bootstrap.DubboBootstrap;
+import org.apache.dubbo.config.bootstrap.builders.ApplicationBuilder;
+import org.apache.dubbo.config.bootstrap.builders.ReferenceBuilder;
 import org.apache.dubbo.samples.broadcast.api.DemoService;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Consumer test side
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath*:spring/broadcast-consumer.xml")
 public class BroadcastConsumerIT {
 
-    @Autowired
-    @Qualifier("demoService")
+    private DemoService broadcastService;
     private DemoService demoService;
+    private DemoService demoService2;
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    @Before
+    public void setup() {
+        String ip = System.getenv("zookeeper.address");
+        ReferenceConfig<DemoService> broadcastReference = ReferenceBuilder.<DemoService>newBuilder()
+                .interfaceClass(DemoService.class)
+                .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
+                .cluster("broadcast")
+                .version("*")
+                .build();
+        ReferenceConfig<DemoService> demoReference = ReferenceBuilder.<DemoService>newBuilder()
+                .interfaceClass(DemoService.class)
+                .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
+                .version("1.1.1")
+                .build();
+        ReferenceConfig<DemoService> demoReference2 = ReferenceBuilder.<DemoService>newBuilder()
+                .interfaceClass(DemoService.class)
+                .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
+                .version("1.1.2")
+                .build();
+
+        DubboBootstrap.getInstance()
+                .application(ApplicationBuilder.newBuilder().qosPort(22223).name("broadcast").build())
+                .reference(broadcastReference)
+                .reference(demoReference)
+                .reference(demoReference2)
+                .start();
+
+        broadcastService = broadcastReference.get();
+        demoService = demoReference.get();
+        demoService2 = demoReference2.get();
+    }
 
     @Test
     public void testSayHello() {
-        Assert.assertTrue(demoService.sayHello("world").contains("Hello"));
+        Assert.assertTrue(broadcastService.sayHello("world").contains("Hello"));
+        Assert.assertTrue(demoService.isInvoke());
+        Assert.assertTrue(demoService2.isInvoke());
     }
 
 
