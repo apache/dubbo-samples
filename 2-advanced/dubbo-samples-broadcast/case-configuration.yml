@@ -37,7 +37,7 @@ services:
   dubbo-samples-broadcast-provider2:
     type: app
     basedir: .
-    mainClass: org.apache.dubbo.samples.broadcast.BroadcastProvider
+    mainClass: org.apache.dubbo.samples.broadcast.BroadcastProvider2
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
