@@ -37,7 +37,7 @@ public class BroadcastConsumerIT {
 
     @Before
     public void setup() {
-        String ip = System.getenv("zookeeper.address");
+        String ip = System.getProperty("zookeeper.address");
         ReferenceConfig<DemoService> broadcastReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
                 .addRegistry(new RegistryConfig("zookeeper://" + ip + ":2181"))
