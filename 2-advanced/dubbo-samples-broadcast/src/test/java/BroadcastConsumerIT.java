@@ -40,9 +40,9 @@ public class BroadcastConsumerIT {
 
     @Before
     public void setup() throws UnknownHostException {
-        String containName = System.getProperty("zookeeper.address");
-        InetAddress address = InetAddress.getByName(containName);
-        String ip = address.getHostAddress();
+        String ip = System.getProperty("zookeeper.address");
+//        InetAddress address = InetAddress.getByName(containName);
+//        String ip = address.getHostAddress();
 
         ReferenceConfig<DemoService> broadcastReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
