@@ -40,7 +40,7 @@ public class BroadcastConsumerIT {
 
     @Before
     public void setup() throws UnknownHostException {
-        String ip = System.getProperty("zookeeper.address","localhost");
+        String ip = System.getProperty("zookeeper.address","zookeeper");
         String port = System.getProperty("zookeeper.port","2181");
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setAddress(ip.trim());
