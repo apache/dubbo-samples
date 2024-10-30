@@ -44,6 +44,9 @@ public class BroadcastConsumerIT {
     @Before
     public void setup() throws UnknownHostException {
 
+        System.out.println("ZOOKEEPER_HOST = " + ZOOKEEPER_HOST);
+        System.out.println("ZOOKEEPER_ADDRESS = " + ZOOKEEPER_ADDRESS);
+
         ReferenceConfig<DemoService> broadcastReference = ReferenceBuilder.<DemoService>newBuilder()
                 .interfaceClass(DemoService.class)
                 .addRegistry(new RegistryConfig(ZOOKEEPER_ADDRESS))
