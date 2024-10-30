@@ -68,9 +68,9 @@ public class BroadcastConsumerIT {
                 .reference(demoReference2)
                 .start();
 
-        broadcastService = broadcastReference.get();
-        demoService = demoReference.get();
-        demoService2 = demoReference2.get();
+        broadcastService = broadcastReference.get(false);
+        demoService = demoReference.get(false);
+        demoService2 = demoReference2.get(false);
     }
 
     @Test
