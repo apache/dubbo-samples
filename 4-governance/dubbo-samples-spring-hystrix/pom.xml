@@ -67,13 +67,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-                <version>${dubbo.version}</version>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
@@ -157,9 +150,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-            <type>pom</type>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
