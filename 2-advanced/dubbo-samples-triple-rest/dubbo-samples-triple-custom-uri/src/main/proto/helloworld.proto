@@ -44,11 +44,10 @@ service Greeter {
         };
     }
 
-    // Health check interface, maps the name field from request body
+    // Health check interface
     rpc CheckName(HelloRequest) returns (HelloReply) {
         option (google.api.http) = {
-            put: "/v1/hello/check-name"  // PUT request URI
-            body: "name"                  // Field from request body
+            put: "/v1/hello/check-name/{name}"  // PUT request URI
         };
     }
 

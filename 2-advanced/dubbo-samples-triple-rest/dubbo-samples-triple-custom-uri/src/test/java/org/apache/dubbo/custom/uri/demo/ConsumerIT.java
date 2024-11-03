@@ -86,7 +86,7 @@ public class ConsumerIT {
         data.add("name", "He");
 
         String result = webClient.put()
-                .uri(toUri("/v1/hello/check-name"))
+                .uri(toUri("/v1/hello/check-name/heliang"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(data)
                 .retrieve()
@@ -135,5 +135,4 @@ public class ConsumerIT {
 
         Assert.assertEquals("{\"message\":\"Action check with name: He\"}", result);
     }
-
 }
