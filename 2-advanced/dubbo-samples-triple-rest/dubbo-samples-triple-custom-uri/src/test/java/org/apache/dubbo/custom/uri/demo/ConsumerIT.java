@@ -1,10 +1,10 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License. You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -82,39 +82,37 @@ public class ConsumerIT {
 
     @Test
     public void checkName() {
-        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
-        data.add("name", "He");
+        HelloRequest request = HelloRequest.newBuilder().build();
 
         String result = webClient.put()
                 .uri(toUri("/v1/hello/check-name/heliang"))
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(data)
+                .body(request)
                 .retrieve()
                 .body(String.class);
-        Assert.assertEquals("{\"message\":\"Name checked: He\"}", result);
+        Assert.assertEquals("{\"message\":\"Name checked: heliang\"}", result);
     }
 
     @Test
     public void simpleCheck() {
-        // 创建一个 HelloRequest 对象，但不需要填充字段
-        HelloRequest request = HelloRequest.newBuilder().build(); // 可以不设置任何字段
+        // Create a HelloRequest object, no fields need to be filled
+        HelloRequest request = HelloRequest.newBuilder().build(); // No fields need to be set
 
         String result = webClient.put()
                 .uri(toUri("/v1/hello/simple-check"))
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(request) // 发送 HelloRequest 对象
+                .body(request) // Send HelloRequest object
                 .retrieve()
                 .body(String.class);
 
         Assert.assertEquals("{\"message\":\"Simple check successful!\"}", result);
     }
 
-
     @Test
     public void actionCheck() {
-        HelloRequest request = HelloRequest.newBuilder().build(); // 可以不设置任何字段
-        String result = webClient.put() // 改为 PUT 方法
-                .uri(toUri("/v1/hello/check")) // 使用新的路径
+        HelloRequest request = HelloRequest.newBuilder().build(); // No fields need to be set
+        String result = webClient.put() // Change to PUT method
+                .uri(toUri("/v1/hello/check")) // Use new path
                 .body(request)
                 .retrieve()
                 .body(String.class);
@@ -127,7 +125,7 @@ public class ConsumerIT {
         data.add("name", "He");
 
         String result = webClient.post()
-                .uri(toUri("/v1/hello/check-with-name")) // 使用新的路径
+                .uri(toUri("/v1/hello/check-with-name")) // Use new path
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(data)
                 .retrieve()
