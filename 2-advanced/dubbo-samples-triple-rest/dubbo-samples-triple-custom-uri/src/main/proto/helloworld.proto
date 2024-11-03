@@ -4,35 +4,73 @@ option java_multiple_files = true;
 option java_package = "org.apache.dubbo.custom.uri.demo";
 option java_outer_classname = "HelloWorldProto";
 
-import "google/api/annotations.proto";  // 引入 annotations.proto
+import "google/api/annotations.proto";  // Import annotations.proto
 
 package helloworld;
 
-// 请求消息，包含用户的名字。
+// Request message containing the user's name.
 message HelloRequest {
-    string name = 1;
+    string name = 1;  // User's name
 }
 
-// 响应消息，包含问候语。
+// Response message containing the greeting.
 message HelloReply {
-    string message = 1;
+    string message = 1;  // Returned greeting message
 }
 
-// 服务定义，带有自定义 HTTP 映射。
+// Service definition with custom HTTP mapping.
 service Greeter {
-    // 使用 POST 方法测试请求体映射
+    // Send a greeting request using POST method
     rpc SayHelloWithPost(HelloRequest) returns (HelloReply) {
         option (google.api.http) = {
-            post: "/v1/hello"
-            body: "*"
+            post: "/v1/hello"  // POST request URI
+            body: "*"          // Map request body to HelloRequest
         };
     }
 
-    // 使用 PUT 方法测试请求体和路径变量映射
+    // Update the greeting using PUT method
     rpc UpdateGreeting(HelloRequest) returns (HelloReply) {
         option (google.api.http) = {
-            put: "/v1/hello/update"
-            body: "*"
+            put: "/v1/hello/update"  // PUT request URI
+            body: "*"                // Map request body to HelloRequest
+        };
+    }
+
+    // Health check interface, maps request body to HelloRequest
+    rpc HealthCheck(HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            put: "/v1/hello/health"  // PUT request URI
+            body: "*"                 // Map request body to HelloRequest
+        };
+    }
+
+    // Health check interface, maps the name field from request body
+    rpc CheckName(HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            put: "/v1/hello/check-name"  // PUT request URI
+            body: "name"                  // Field from request body
+        };
+    }
+
+    // Health check interface that does not use request body
+    rpc SimpleCheck(HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            put: "/v1/hello/simple-check"  // PUT request URI
+        };
+    }
+
+    // Check interface that supports path variables
+    rpc ActionCheck(HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            put: "/v1/hello/check" // Change to the new path
+        };
+    }
+
+    // Check interface that maps the name field from request body and supports path variables
+    rpc ActionCheckWithName(HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            post: "/v1/hello/check-with-name", // Change to the new path
+            body: "name"                       // Field from request body
         };
     }
 }

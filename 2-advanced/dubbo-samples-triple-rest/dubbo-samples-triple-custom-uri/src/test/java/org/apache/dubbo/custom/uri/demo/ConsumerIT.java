@@ -54,7 +54,7 @@ public class ConsumerIT {
                 .body(data)
                 .retrieve()
                 .body(String.class);
-        Assert.assertEquals("{\"message\":\"POST Hello, He!\"}", result);
+        Assert.assertEquals("{\"message\":\"Hello, He!\"}", result);
     }
 
     @Test
@@ -68,6 +68,72 @@ public class ConsumerIT {
                 .body(data)
                 .retrieve()
                 .body(String.class);
-        Assert.assertEquals("{\"message\":\"Updated greeting to: He\"}", result);
+        Assert.assertEquals("{\"message\":\"Greeting updated for: He!\"}", result);
     }
+
+    @Test
+    public void healthCheck() {
+        String result = webClient.put()
+                .uri(toUri("/v1/hello/health"))
+                .retrieve()
+                .body(String.class);
+        Assert.assertEquals("{\"message\":\"Health check successful!\"}", result);
+    }
+
+    @Test
+    public void checkName() {
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("name", "He");
+
+        String result = webClient.put()
+                .uri(toUri("/v1/hello/check-name"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(data)
+                .retrieve()
+                .body(String.class);
+        Assert.assertEquals("{\"message\":\"Name checked: He\"}", result);
+    }
+
+    @Test
+    public void simpleCheck() {
+        // 创建一个 HelloRequest 对象，但不需要填充字段
+        HelloRequest request = HelloRequest.newBuilder().build(); // 可以不设置任何字段
+
+        String result = webClient.put()
+                .uri(toUri("/v1/hello/simple-check"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request) // 发送 HelloRequest 对象
+                .retrieve()
+                .body(String.class);
+
+        Assert.assertEquals("{\"message\":\"Simple check successful!\"}", result);
+    }
+
+
+    @Test
+    public void actionCheck() {
+        HelloRequest request = HelloRequest.newBuilder().build(); // 可以不设置任何字段
+        String result = webClient.put() // 改为 PUT 方法
+                .uri(toUri("/v1/hello/check")) // 使用新的路径
+                .body(request)
+                .retrieve()
+                .body(String.class);
+        Assert.assertEquals("{\"message\":\"Action check successful!\"}", result);
+    }
+
+    @Test
+    public void actionCheckWithName() {
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("name", "He");
+
+        String result = webClient.post()
+                .uri(toUri("/v1/hello/check-with-name")) // 使用新的路径
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(data)
+                .retrieve()
+                .body(String.class);
+
+        Assert.assertEquals("{\"message\":\"Action check with name: He\"}", result);
+    }
+
 }

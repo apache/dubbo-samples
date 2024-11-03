@@ -26,27 +26,107 @@ public class DemoServiceImpl implements Greeter {
 
     @Override
     public HelloReply sayHelloWithPost(HelloRequest request) {
-        String message = "POST Hello, " + request.getName() + "!";
+        String name = request.getName();
+        String message = "Hello, " + (name.isEmpty() ? "World" : name) + "!";
+        return HelloReply.newBuilder().setMessage(message).build();
+    }
+
+    @Override
+    public HelloReply updateGreeting(HelloRequest request) {
+        String name = request.getName();
+        String message = "Greeting updated for: " + (name.isEmpty() ? "World" : name) + "!";
+        return HelloReply.newBuilder().setMessage(message).build();
+    }
+
+
+    @Override
+    public HelloReply healthCheck(HelloRequest request) {
+        return HelloReply.newBuilder().setMessage("Health check successful!").build();
+    }
+
+
+    @Override
+    public HelloReply checkName(HelloRequest request) {
+        String name = request.getName();
+        String message = "Name checked: " + (name.isEmpty() ? "No name provided" : name);
+        return HelloReply.newBuilder().setMessage(message).build();
+    }
+
+    @Override
+    public HelloReply simpleCheck(HelloRequest request) {
+        return HelloReply.newBuilder().setMessage("Simple check successful!").build();
+    }
+
+
+    @Override
+    public HelloReply actionCheck(HelloRequest request) {
+        // 这里可以处理路径变量
+        return HelloReply.newBuilder().setMessage("Action check successful!").build();
+    }
+
+
+    @Override
+    public HelloReply actionCheckWithName(HelloRequest request) {
+        String name = request.getName();
+        String message = "Action check with name: " + (name.isEmpty() ? "No name provided" : name);
         return HelloReply.newBuilder().setMessage(message).build();
     }
 
     @Override
     public CompletableFuture<HelloReply> sayHelloWithPostAsync(HelloRequest request) {
-        return CompletableFuture.supplyAsync(() -> sayHelloWithPost(request));
-    }
-
-    @Override
-    public HelloReply updateGreeting(HelloRequest request) {
-        if (request == null || request.getName() == null) {
-            return HelloReply.newBuilder().setMessage("Request or name is missing").build();
-        }
-
-        String message = "Updated greeting to: " + request.getName();
-        return HelloReply.newBuilder().setMessage(message).build();
+        return CompletableFuture.supplyAsync(() -> {
+            String name = request.getName();
+            String message = "Hello, " + (name.isEmpty() ? "World" : name) + "!";
+            return HelloReply.newBuilder().setMessage(message).build();
+        });
     }
 
     @Override
     public CompletableFuture<HelloReply> updateGreetingAsync(HelloRequest request) {
-        return CompletableFuture.supplyAsync(() -> updateGreeting(request));
+        return CompletableFuture.supplyAsync(() -> {
+            String name = request.getName();
+            String message = "Greeting updated for: " + (name.isEmpty() ? "World" : name) + "!";
+            return HelloReply.newBuilder().setMessage(message).build();
+        });
+    }
+
+    @Override
+    public CompletableFuture<HelloReply> healthCheckAsync(HelloRequest request) {
+        return CompletableFuture.supplyAsync(() -> {
+            return HelloReply.newBuilder().setMessage("Health check successful!").build();
+        });
+    }
+
+    @Override
+    public CompletableFuture<HelloReply> checkNameAsync(HelloRequest request) {
+        return CompletableFuture.supplyAsync(() -> {
+            String name = request.getName();
+            String message = "Name checked: " + (name.isEmpty() ? "No name provided" : name);
+            return HelloReply.newBuilder().setMessage(message).build();
+        });
+    }
+
+    @Override
+    public CompletableFuture<HelloReply> simpleCheckAsync(HelloRequest request) {
+        return CompletableFuture.supplyAsync(() -> {
+            return HelloReply.newBuilder().setMessage("Simple check successful!").build();
+        });
+    }
+
+    @Override
+    public CompletableFuture<HelloReply> actionCheckAsync(HelloRequest request) {
+        return CompletableFuture.supplyAsync(() -> {
+            // 这里可以处理路径变量
+            return HelloReply.newBuilder().setMessage("Action check successful!").build();
+        });
+    }
+
+    @Override
+    public CompletableFuture<HelloReply> actionCheckWithNameAsync(HelloRequest request) {
+        return CompletableFuture.supplyAsync(() -> {
+            String name = request.getName();
+            String message = "Action check with name: " + (name.isEmpty() ? "No name provided" : name);
+            return HelloReply.newBuilder().setMessage(message).build();
+        });
     }
 }
