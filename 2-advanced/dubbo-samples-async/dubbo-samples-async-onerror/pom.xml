@@ -41,7 +41,7 @@
         <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
         <swagger.version>1.5.19</swagger.version>
-        <tomcat.version>7.0.88</tomcat.version>
+        <tomcat.version>7.0.107</tomcat.version>
         <servlet.version>3.0.1</servlet.version>
     </properties>
 
