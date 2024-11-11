@@ -22,6 +22,7 @@ import org.apache.dubbo.samples.gateway.apisix.dubbo.api.DemoService;
 
 @DubboService
 public class DemoServiceImpl implements DemoService {
+    @Override
     public String sayHello(String name) {
         return "Hello " + name;
     }

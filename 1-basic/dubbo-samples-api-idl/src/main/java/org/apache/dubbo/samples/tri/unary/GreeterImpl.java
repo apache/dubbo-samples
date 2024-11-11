@@ -37,6 +37,7 @@ public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
                 .setMessage("hello," + request.getName())
                 .build();
     }
+    @Override
     public CompletableFuture<GreeterReply> greetAsync(GreeterRequest request){
         return CompletableFuture.completedFuture(greet(request));
     }

@@ -101,6 +101,7 @@ public final class DubboGreeterTriple {
             return StubInvocationUtil.unaryCall(invoker, greetMethod, request);
         }
 
+        @Override
         public CompletableFuture<org.apache.dubbo.springboot.demo.idl.GreeterReply> greetAsync(org.apache.dubbo.springboot.demo.idl.GreeterRequest request){
             return StubInvocationUtil.unaryCall(invoker, greetAsyncMethod, request);
         }

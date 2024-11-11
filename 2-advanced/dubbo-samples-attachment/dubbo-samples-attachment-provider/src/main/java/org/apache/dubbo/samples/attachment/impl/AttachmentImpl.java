@@ -30,6 +30,7 @@ import java.util.Date;
 @DubboService
 public class AttachmentImpl implements AttachmentService {
 
+    @Override
     public String sayHello(String name) {
         RpcContext context = RpcContext.getContext();
 

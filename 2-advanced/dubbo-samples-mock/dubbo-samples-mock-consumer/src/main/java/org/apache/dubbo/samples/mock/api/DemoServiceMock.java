@@ -23,6 +23,7 @@ import org.apache.dubbo.common.logger.LoggerFactory;
 public class DemoServiceMock implements DemoService {
     private static Logger logger = LoggerFactory.getLogger(DemoServiceMock.class);
 
+    @Override
     public String sayHello(String name) {
         logger.warn("about to execute mock: " + DemoServiceMock.class.getSimpleName());
         return "mock " + name;
