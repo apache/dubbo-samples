@@ -1,0 +1,8 @@
+server:
+  port: 9000
+
+#spring:
+#  security:
+#    oauth2:
+#      authorization:
+#        issuer-uri: http://localhost:9000 # set the address of the authorization server
