@@ -15,17 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.rest.demo.controller;
+package org.apache.dubbo.rest.demo.service.impl;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.rest.demo.service.HelloService;
 
-@RestController
-public class UserController {
+import org.springframework.stereotype.Service;
 
-    @GetMapping("/user")
-    public String getUser() {
-        return "Hello,user!";
+@DubboService
+@Service
+public class HelloServiceImpl implements HelloService {
+
+    @Override
+    public String sayHello(String name) {
+        return "Hello, " + name;
     }
-
 }

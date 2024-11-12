@@ -15,13 +15,28 @@
 # limitations under the License.
 
 server:
-  port: 9000
+  port: 9001
 
 spring:
   application:
-    name: authorization-server  # Application name for Spring Boot
+    name: resource-server  # Application name for Spring Boot
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+  protocol:
+    name: tri                 # Use the Triple protocol
+    port: 50051               # Service port (adjust as needed)
+    triple:
+      verbose: true           # Enable verbose mode
+  provider:
+    filter: OAuthFilter  # Register the OAuthFilter globally as a filter
 
 logging:
   level:
     org.springframework.security: DEBUG
-    org.springframework.boot.autoconfigure.security: DEBUG
+    org.springframework.web: DEBUG
+    org.apache.dubbo: DEBUG
+    com.nimbusds: DEBUG

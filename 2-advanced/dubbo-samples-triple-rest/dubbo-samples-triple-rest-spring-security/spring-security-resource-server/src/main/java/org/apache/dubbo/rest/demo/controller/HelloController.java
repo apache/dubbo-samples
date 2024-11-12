@@ -17,15 +17,24 @@
 
 package org.apache.dubbo.rest.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import jakarta.annotation.Resource;
+
+import org.apache.dubbo.rest.demo.service.HelloService;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+@RequestMapping("/api")
+public class HelloController {
 
-    @GetMapping("/user")
-    public String getUser() {
-        return "Hello,user!";
+    @Resource
+    private HelloService helloService;
+
+    @PostMapping("/hello/{name}")
+    public String hello(@PathVariable String name) {
+        return helloService.sayHello(name);
     }
-
 }

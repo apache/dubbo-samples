@@ -19,25 +19,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.dubbo.rest.demo.AuthorizationApplication;
+import org.apache.dubbo.rest.demo.ResourceApplication;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 
 import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@SpringBootTest(classes = AuthorizationApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class OAuth2AuthorizationServerTest {
+@SpringBootTest(classes = ResourceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class ResourceServerTest {
 
     @LocalServerPort
     private int port;
@@ -46,46 +43,13 @@ public class OAuth2AuthorizationServerTest {
     private final String clientSecret = "H3DTtm2fR3GRAdr4ls1mcg";
 
     @Test
-    public void testClientCredentialsGrantFlow() {
-        System.out.println("Assigned port: " + port);
-        assertNotEquals(0, port, "Port should not be 0");
-        // build Basic Auth header
-        String credentials = clientId + ":" + clientSecret;
-        String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
-        System.out.println("Encoded Credentials: " + encodedCredentials);
-
-        // build RestClient request
-        RestClient restClient = RestClient.builder().build();
-        String url = "http://localhost:" + port + "/oauth2/token";
-
-        try {
-            // make a post request
-            String response = restClient.post()
-                    .uri(url)
-                    .header(HttpHeaders.AUTHORIZATION, "Basic " + encodedCredentials)
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                    .body("grant_type=client_credentials&scope=read")
-                    .retrieve()
-                    .body(String.class);
-
-            System.out.println("Access Token Response: " + response);
-
-        } catch (RestClientResponseException e) {
-            // use getStatusCode().value() to get status code
-            assertEquals(HttpStatus.UNAUTHORIZED.value(), e.getStatusCode()
-                    .value(), "The request failed and was not authorized");
-            System.err.println("Error Response: " + e.getResponseBodyAsString());
-        }
-    }
-
-    @Test
     public void testGetUserEndpoint() {
         String credentials = clientId + ":" + clientSecret;
         String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
 
         // build RestClient request
         RestClient restClient = RestClient.builder().build();
-        String url = "http://localhost:" + port + "/oauth2/token";
+        String url = "http://localhost:" + 9000 + "/oauth2/token";
 
         try {
             // make a post request
@@ -106,16 +70,16 @@ public class OAuth2AuthorizationServerTest {
             System.out.println("accessToken: " + accessToken);
             // Use the access token to authenticate the request to the /user endpoint
             assert accessToken != null;
-            String userUrl = "http://localhost:" + port + "/user";
+            String userUrl = "http://localhost:" + port + "/api/hello/World";
             try {
-                String userResponse = restClient.get()
+                String userResponse = restClient.post()
                         .uri(userUrl)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                         .retrieve()
                         .body(String.class);
 
                 System.out.println("User Response: " + userResponse);
-                assertEquals("Hello,user!", userResponse, "The response should be 'Hello,user!'");
+                assertEquals("Hello, World", userResponse, "The response should be 'Hello,user!'");
             } catch (RestClientResponseException e) {
                 System.err.println("Error Response: " + e.getResponseBodyAsString());
             }
@@ -124,4 +88,5 @@ public class OAuth2AuthorizationServerTest {
             throw new RuntimeException(e);
         }
     }
+
 }
