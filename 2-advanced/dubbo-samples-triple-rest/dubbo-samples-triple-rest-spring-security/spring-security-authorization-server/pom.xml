@@ -58,6 +58,12 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-oauth2-jose</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>nimbus-jose-jwt</artifactId>
+          <groupId>com.nimbusds</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Spring Boot Starter Logging -->

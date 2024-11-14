@@ -63,7 +63,7 @@ public class AuthorizationSeverConfig {
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
                 .issuer("http://localhost:9000") // set the address of the authorization server
-                .jwkSetEndpoint("/.well-known/jwks.json")
+//                .jwkSetEndpoint("/.well-known/jwks.json")
                 .build();
     }
 

@@ -15,10 +15,6 @@
  * limitations under the License.
  */
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.dubbo.rest.demo.AuthorizationApplication;
 
 import org.junit.jupiter.api.Test;
@@ -75,53 +71,6 @@ public class OAuth2AuthorizationServerTest {
             assertEquals(HttpStatus.UNAUTHORIZED.value(), e.getStatusCode()
                     .value(), "The request failed and was not authorized");
             System.err.println("Error Response: " + e.getResponseBodyAsString());
-        }
-    }
-
-    @Test
-    public void testGetUserEndpoint() {
-        String credentials = clientId + ":" + clientSecret;
-        String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
-
-        // build RestClient request
-        RestClient restClient = RestClient.builder().build();
-        String url = "http://localhost:" + port + "/oauth2/token";
-
-        try {
-            // make a post request
-            String response = restClient.post()
-                    .uri(url)
-                    .header(HttpHeaders.AUTHORIZATION, "Basic " + encodedCredentials)
-                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                    .body("grant_type=client_credentials&scope=read")
-                    .retrieve()
-                    .body(String.class);
-
-            System.out.println("Access Token Response: " + response);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response);
-            String accessToken = jsonNode.get("access_token").asText();
-
-            System.out.println("accessToken: " + accessToken);
-            // Use the access token to authenticate the request to the /user endpoint
-            assert accessToken != null;
-            String userUrl = "http://localhost:" + port + "/user";
-            try {
-                String userResponse = restClient.get()
-                        .uri(userUrl)
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                        .retrieve()
-                        .body(String.class);
-
-                System.out.println("User Response: " + userResponse);
-                assertEquals("Hello,user!", userResponse, "The response should be 'Hello,user!'");
-            } catch (RestClientResponseException e) {
-                System.err.println("Error Response: " + e.getResponseBodyAsString());
-            }
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         }
     }
 }

@@ -49,8 +49,8 @@ public class ResourceServerConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        String jwkSetUri = "http://localhost:9000/.well-known/jwks.json";
-        return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
+        String issuerUri = "http://localhost:9000";
+        return NimbusJwtDecoder.withIssuerLocation(issuerUri).build();
     }
 
     @Bean
