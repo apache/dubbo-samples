@@ -70,6 +70,7 @@ public class ShopServiceImpl implements ShopService {
         return detailService.getItem(sku, username);
     }
 
+    @Override
     public Item checkItemGray(long sku, String username) {
         return detailService.getItem(sku, username);
     }

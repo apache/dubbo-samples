@@ -32,6 +32,7 @@ public class AnnotationHelloServiceImpl implements HelloService {
         return "Annotation, hello " + name;
     }
 
+    @Override
     public String sayGoodbye(String name) {
         System.out.println("provider received invoke of sayGoodbye: " + name);
         sleepWhile();
