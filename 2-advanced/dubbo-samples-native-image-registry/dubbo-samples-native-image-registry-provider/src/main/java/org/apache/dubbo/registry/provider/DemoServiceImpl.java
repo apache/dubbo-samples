@@ -30,6 +30,7 @@ public class DemoServiceImpl implements DemoService {
 
     private static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);
 
+    @Override
     public HelloResponse sayHello(HelloRequest request) {
         logger.info("Hello " + request.getName() + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return new HelloResponse(request.getName());

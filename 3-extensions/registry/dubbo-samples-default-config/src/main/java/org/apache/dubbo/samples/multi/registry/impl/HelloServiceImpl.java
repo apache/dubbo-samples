@@ -24,6 +24,7 @@ import org.apache.dubbo.samples.multi.registry.api.HelloService;
 
 public class HelloServiceImpl implements HelloService {
 
+    @Override
     public String sayHello(String name) {
         return "sayHello: " + name;
     }

@@ -29,6 +29,7 @@ import java.util.Date;
 @DubboService(group = "groupA")
 public class GroupAServiceImpl implements GroupService {
 
+    @Override
     public String sayHello(String name) {
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name +
                 ", request from consumer: " + RpcContext.getContext().getRemoteAddress() + "in groupA");
