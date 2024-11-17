@@ -98,5 +98,5 @@ dubbo:
         triple:
             http3:
                 enabled: true
-                negotiate: false
+                negotiation: false
 ```
