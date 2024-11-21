@@ -17,25 +17,42 @@
 
 package org.apache.dubbo.rest.demo.filter;
 
-import org.apache.dubbo.rpc.Filter;
-import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcException;
+
+import jakarta.servlet.Filter;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+
+import org.apache.dubbo.rpc.protocol.tri.rest.filter.RestExtension;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
-public class OAuthFilter implements Filter {
+import java.io.IOException;
+
+public class OAuthFilter implements Filter, RestExtension {
 
     @Override
-    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+    public String[] getPatterns() {
+        return new String[] { "/**" }; // Intercept all requests
+    }
 
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RpcException("Unauthorized request - authentication token is missing or invalid");
+    @Override
+    public void doFilter(
+            ServletRequest servletRequest,
+            ServletResponse servletResponse,
+            FilterChain filterChain) throws ServletException {
+        // Check if the request is authorized
+        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        if (jwtAuthenticationToken == null) {
+            throw new ServletException("Unauthorized");
         }
+    }
 
-        return invoker.invoke(invocation);
+    @Override
+    public int getPriority() {
+        return -200;
     }
 }

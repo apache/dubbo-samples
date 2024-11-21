@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 server:
   port: 9001
 
@@ -24,6 +23,7 @@ spring:
 dubbo:
   application:
     name: ${spring.application.name}
+    protocol: tri
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
   protocol:
@@ -31,8 +31,7 @@ dubbo:
     port: 50051               # Service port (adjust as needed)
     triple:
       verbose: true           # Enable verbose mode
-  provider:
-    filter: OAuthFilter  # Register the OAuthFilter globally as a filter
+
 
 logging:
   level:

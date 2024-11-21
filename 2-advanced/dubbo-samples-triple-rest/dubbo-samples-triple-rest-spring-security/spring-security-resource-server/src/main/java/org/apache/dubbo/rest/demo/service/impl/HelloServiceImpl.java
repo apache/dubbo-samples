@@ -20,10 +20,7 @@ package org.apache.dubbo.rest.demo.service.impl;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rest.demo.service.HelloService;
 
-import org.springframework.stereotype.Service;
-
 @DubboService
-@Service
 public class HelloServiceImpl implements HelloService {
 
     @Override
