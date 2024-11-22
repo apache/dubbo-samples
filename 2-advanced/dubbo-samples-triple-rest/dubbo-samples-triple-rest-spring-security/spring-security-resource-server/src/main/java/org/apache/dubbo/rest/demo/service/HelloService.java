@@ -17,6 +17,13 @@
 
 package org.apache.dubbo.rest.demo.service;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/hello")
 public interface HelloService {
-    String sayHello(String name);
+
+    @GetMapping("/sayHello/{name}")
+    String sayHello(@PathVariable String name);
 }

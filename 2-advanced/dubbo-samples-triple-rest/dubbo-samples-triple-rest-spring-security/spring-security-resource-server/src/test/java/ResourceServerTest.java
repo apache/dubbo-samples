@@ -98,6 +98,11 @@ public class ResourceServerTest {
     //    }
 
     @Test
+    public void testService() {
+        System.out.println("helloService: " + helloService.sayHello("World"));
+    }
+
+    @Test
     public void testHelloService() {
 
         System.out.println("helloService: " + helloService.sayHello("World"));

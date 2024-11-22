@@ -27,28 +27,24 @@ import jakarta.servlet.ServletResponse;
 
 import org.apache.dubbo.rpc.protocol.tri.rest.filter.RestExtension;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-
 import java.io.IOException;
 
 public class OAuthFilter implements Filter, RestExtension {
 
     @Override
     public String[] getPatterns() {
-        return new String[] { "/**" }; // Intercept all requests
+        return new String[] {"/**"}; // Intercept all requests
     }
 
     @Override
     public void doFilter(
             ServletRequest servletRequest,
             ServletResponse servletResponse,
-            FilterChain filterChain) throws ServletException {
-        // Check if the request is authorized
-        JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        if (jwtAuthenticationToken == null) {
-            throw new ServletException("Unauthorized");
-        }
+            FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("OAuthFilter.doFilter");
+        System.out.println("servletRequest" + servletRequest);
+        System.out.println("servletResponse" + servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
