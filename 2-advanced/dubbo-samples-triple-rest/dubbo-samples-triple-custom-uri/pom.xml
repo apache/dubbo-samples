@@ -69,7 +69,7 @@
       <plugin>
         <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-maven-plugin</artifactId>
-        <version>3.3.2-SNAPSHOT</version>
+        <version>3.3.2</version>
         <executions>
           <execution>
             <goals>
