@@ -38,6 +38,7 @@ public class PojoGreeterImpl implements PojoGreeter {
         this.delegate = new GreeterImpl("tri-wrap");
     }
 
+    @Override
     public CompletableFuture<String> unaryFuture(String request) {
         return CompletableFuture.completedFuture(request);
     }

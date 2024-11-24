@@ -20,6 +20,7 @@
 package org.apache.dubbo.samples.docker;
 
 public class DemoServiceImpl implements DemoService {
+    @Override
     public String hello(String str) {
         return "Hello " + str + " from docker";
     }
