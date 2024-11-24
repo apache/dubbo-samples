@@ -18,7 +18,7 @@ services:
   provider:
     type: app
     basedir: .
-    mainClass: org.apache.dubbo.rest.demo.BasicApplication
+    mainClass: org.apache.dubbo.custom.uri.demo.BasicApplication
     checkPorts:
       - 50052
     checkLog: "dubbo service started"
