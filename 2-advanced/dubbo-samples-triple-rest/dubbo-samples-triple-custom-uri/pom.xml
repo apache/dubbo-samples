@@ -67,9 +67,35 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-maven-plugin</artifactId>
-        <version>3.3.2</version>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>1.7.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>detect</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.xolstice.maven.plugins</groupId>
+        <artifactId>protobuf-maven-plugin</artifactId>
+        <version>0.6.1</version>
+        <configuration>
+          <protocArtifact>com.google.protobuf:protoc:3.22.2:exe:${os.detected.classifier}</protocArtifact>
+          <outputDirectory>build/generated/source/proto/main/java</outputDirectory>
+          <protocPlugins>
+            <protocPlugin>
+              <id>dubbo</id>
+              <groupId>org.apache.dubbo</groupId>
+              <artifactId>dubbo-compiler</artifactId>
+              <version>3.3.2</version>
+              <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>
+            </protocPlugin>
+          </protocPlugins>
+        </configuration>
         <executions>
           <execution>
             <goals>
@@ -78,6 +104,7 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
