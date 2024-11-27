@@ -27,6 +27,8 @@ services:
     type: app
     basedir: spring-security-resource-server
     mainClass: org.apache.dubbo.rest.demo.ResourceApplication
+    systemProps:
+      - authorization.address=authorization
     checkPorts:
       - 50051
     checkLog: "resource service started"
