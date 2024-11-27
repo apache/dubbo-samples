@@ -77,13 +77,13 @@
       <version>6.2.2</version>
     </dependency>
 
-    <!-- Dubbo Zookeeper Curator -->
-    <dependency>
-      <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-      <version>${dubbo.version}</version>
-      <type>pom</type>
-    </dependency>
+<!--    &lt;!&ndash; Dubbo Zookeeper Curator &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.dubbo</groupId>-->
+<!--      <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>-->
+<!--      <version>${dubbo.version}</version>-->
+<!--      <type>pom</type>-->
+<!--    </dependency>-->
 
     <!-- Spring Boot Starter Test (optional, for testing purposes) -->
     <dependency>
