@@ -38,7 +38,7 @@ services:
       - "**/*IT.class"
     systemProps:
       - authorization.address=authorization
-      - dubbo.address=resource
+      - resource.address=resource
     waitPortsBeforeRun:
       - authorization:9000
       - resource:50051
