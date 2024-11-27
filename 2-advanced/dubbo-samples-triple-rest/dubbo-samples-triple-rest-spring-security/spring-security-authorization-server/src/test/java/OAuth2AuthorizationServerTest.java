@@ -43,7 +43,6 @@ public class OAuth2AuthorizationServerTest {
 
     @Test
     public void testClientCredentialsGrantFlow() {
-        System.out.println("Assigned port: " + port);
         assertNotEquals(0, port, "Port should not be 0");
         // build Basic Auth header
         String credentials = clientId + ":" + clientSecret;

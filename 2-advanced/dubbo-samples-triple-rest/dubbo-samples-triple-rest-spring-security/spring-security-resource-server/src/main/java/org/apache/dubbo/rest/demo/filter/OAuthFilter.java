@@ -17,12 +17,10 @@
 
 package org.apache.dubbo.rest.demo.filter;
 
-
 import jakarta.servlet.Filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
@@ -37,23 +35,21 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
-import java.util.Map;
 
 @Activate
 public class OAuthFilter implements Filter, RestExtension {
 
-    private Map<String, Object> jwkSet;
+    private static final String HOST = System.getProperty("authorization.address", "localhost");
 
-    String issuer = "http://localhost:9000";
+    String issuer = "http://" + HOST + ":9000";
 
     private JwtDecoder jwtDecoder;
     private JwtAuthenticationConverter jwtAuthenticationConverter;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         // Initialize the JwtDecoder and obtain the public key from the configured authorization server URL for decoding the JWT
         jwtDecoder = NimbusJwtDecoder.withIssuerLocation(issuer).build();
         // Initialize JwtAuthenticationConverter to convert JWT
@@ -67,7 +63,6 @@ public class OAuthFilter implements Filter, RestExtension {
         return new String[] {"/**"}; // Intercept all requests
     }
 
-
     @Override
     public void doFilter(
             ServletRequest servletRequest,
@@ -76,10 +71,8 @@ public class OAuthFilter implements Filter, RestExtension {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String authorization = request.getHeader("Authorization");
-        System.out.println("Authorization: " + authorization);
         if (authorization != null && authorization.startsWith("Bearer ")) {
             String jwtToken = authorization.substring("Bearer ".length());
-            System.out.println("JWT Token: " + jwtToken);
             // Decode the JWT token
             try {
                 Jwt jwt = jwtDecoder.decode(jwtToken);
@@ -94,8 +87,6 @@ public class OAuthFilter implements Filter, RestExtension {
         }
 
     }
-
-
 
     @Override
     public int getPriority() {

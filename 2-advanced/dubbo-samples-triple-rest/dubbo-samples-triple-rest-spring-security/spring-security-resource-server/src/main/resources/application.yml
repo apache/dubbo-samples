@@ -23,19 +23,9 @@ spring:
 dubbo:
   application:
     name: ${spring.application.name}
-    protocol: tri
-  registry:
-    address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+    qos-enable: false
   protocol:
     name: tri                 # Use the Triple protocol
     port: 50051               # Service port (adjust as needed)
     triple:
       verbose: true           # Enable verbose mode
-
-
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.springframework.web: DEBUG
-    org.apache.dubbo: DEBUG
-    com.nimbusds: DEBUG

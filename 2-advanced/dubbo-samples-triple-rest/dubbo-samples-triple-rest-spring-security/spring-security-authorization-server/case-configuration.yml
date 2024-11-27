@@ -15,15 +15,6 @@
 # limitations under the License.
 
 services:
-  authorization:
-    type: app
-    basedir: .
-    mainClass: org.apache.dubbo.rest.demo.AuthorizationApplication
-    checkPorts:
-      - 9000
-    checkLog: "authorization service started"
-
-
   test:
     type: test
     basedir: .

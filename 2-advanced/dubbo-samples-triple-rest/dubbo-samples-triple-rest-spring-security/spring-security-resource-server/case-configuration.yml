@@ -23,13 +23,25 @@ services:
       - 9000
     checkLog: "authorization service started"
 
+  resource:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.rest.demo.ResourceApplication
+    checkPorts:
+      - 50051
+    checkLog: "resource service started"
+
   test:
     type: test
     basedir: .
     tests:
       - "**/*IT.class"
+    systemProps:
+      - authorization.address=authorization
+      - dubbo.address=resource
     waitPortsBeforeRun:
-      - localhost:9000
-      - localhost:2181
+      - authorization:9000
+      - resource:50051
     depends_on:
       - authorization
+      - resource

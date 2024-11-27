@@ -16,15 +16,10 @@
  */
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.rest.demo.service.HelloService;
-
-import org.apache.dubbo.rpc.RpcContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,22 +40,23 @@ public class ResourceServerTest {
     //    @LocalServerPort
     //    private int port;
 
-    @DubboReference(url = "tri://localhost:50051")
-    private HelloService helloService;
-
-    private final int port = 50051;
+//    @DubboReference(url = "tri://localhost:50051")
+//    private HelloService helloService;
 
     private final String clientId = "49fd8518-12eb-422b-9264-2bae0ab89f66";
     private final String clientSecret = "H3DTtm2fR3GRAdr4ls1mcg";
 
-        @Test
+    private static final String OAUTH2HOST = System.getProperty("authorization.address", "localhost");
+    private static final String HOST = System.getProperty("resource.address", "localhost");
+
+    @Test
         public void testGetUserEndpoint() {
             String credentials = clientId + ":" + clientSecret;
             String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
 
             // build RestClient request
             RestClient restClient = RestClient.builder().build();
-            String url = "http://localhost:" + 9000 + "/oauth2/token";
+            String url = "http://"+ OAUTH2HOST + ":9000/oauth2/token";
 
             try {
                 // make a post request
@@ -72,15 +68,13 @@ public class ResourceServerTest {
                         .retrieve()
                         .body(String.class);
 
-                System.out.println("Access Token Response: " + response);
-
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(response);
                 String accessToken = jsonNode.get("access_token").asText();
 
                 // Use the access token to authenticate the request to the /user endpoint
                 assert accessToken != null;
-                String userUrl = "http://localhost:" + port + "/hello/sayHello/World";
+                String userUrl = "http://" + HOST + ":50051/hello/sayHello/World";
                 try {
                     String userResponse = restClient.get()
                             .uri(userUrl)
@@ -97,10 +91,4 @@ public class ResourceServerTest {
                 throw new RuntimeException(e);
             }
         }
-
-    @Test
-    public void testService() {
-        System.out.println("helloService: " + helloService.sayHello("World"));
-    }
-
 }
