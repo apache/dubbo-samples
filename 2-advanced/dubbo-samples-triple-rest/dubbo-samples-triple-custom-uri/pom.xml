@@ -90,7 +90,7 @@
               <id>dubbo</id>
               <groupId>org.apache.dubbo</groupId>
               <artifactId>dubbo-compiler</artifactId>
-              <version>3.3.2</version>
+              <version>3.3.3-SNAPSHOT</version>
               <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>
             </protocPlugin>
           </protocPlugins>
