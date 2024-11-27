@@ -21,31 +21,81 @@ package org.apache.dubbo.rest.demo.filter;
 import jakarta.servlet.Filter;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.protocol.tri.rest.filter.RestExtension;
 
-import java.io.IOException;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.web.client.RestClient;
 
+import java.io.IOException;
+import java.util.Map;
+
+@Activate
 public class OAuthFilter implements Filter, RestExtension {
+
+    private Map<String, Object> jwkSet;
+
+    String issuer = "http://localhost:9000";
+
+    private JwtDecoder jwtDecoder;
+    private JwtAuthenticationConverter jwtAuthenticationConverter;
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // Initialize the JwtDecoder and obtain the public key from the configured authorization server URL for decoding the JWT
+        jwtDecoder = NimbusJwtDecoder.withIssuerLocation(issuer).build();
+        // Initialize JwtAuthenticationConverter to convert JWT
+        jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+    }
 
     @Override
     public String[] getPatterns() {
         return new String[] {"/**"}; // Intercept all requests
     }
 
+
     @Override
     public void doFilter(
             ServletRequest servletRequest,
             ServletResponse servletResponse,
-            FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("OAuthFilter.doFilter");
-        System.out.println("servletRequest" + servletRequest);
-        System.out.println("servletResponse" + servletResponse);
-        filterChain.doFilter(servletRequest, servletResponse);
+            FilterChain filterChain) throws IOException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        String authorization = request.getHeader("Authorization");
+        System.out.println("Authorization: " + authorization);
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            String jwtToken = authorization.substring("Bearer ".length());
+            System.out.println("JWT Token: " + jwtToken);
+            // Decode the JWT token
+            try {
+                Jwt jwt = jwtDecoder.decode(jwtToken);
+                jwtAuthenticationConverter.convert(jwt);
+                filterChain.doFilter(request, response);
+            } catch (Exception e) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
+            }
+
+        } else {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing JWT token");
+        }
+
     }
+
+
 
     @Override
     public int getPriority() {

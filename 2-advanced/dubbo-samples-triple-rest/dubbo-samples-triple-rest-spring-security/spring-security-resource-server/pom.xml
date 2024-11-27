@@ -63,12 +63,12 @@
 <!--      <version>${spring.boot.version}</version>-->
 <!--    </dependency>-->
 
-<!--    &lt;!&ndash; Spring Security OAuth2 Resource Server &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>-->
-<!--      <version>${spring.boot.version}</version>-->
-<!--    </dependency>-->
+    <!-- Spring Security OAuth2 Resource Server -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+      <version>${spring.boot.version}</version>
+    </dependency>
 
     <!-- Spring Security OAuth2 JOSE (for JWT support) -->
     <dependency>
