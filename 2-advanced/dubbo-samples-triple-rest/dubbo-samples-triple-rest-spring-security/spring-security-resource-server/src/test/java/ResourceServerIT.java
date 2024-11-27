@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @EnableDubbo
 @RunWith(SpringRunner.class)
-public class ResourceServerTest {
+public class ResourceServerIT {
 
     //    @LocalServerPort
     //    private int port;
