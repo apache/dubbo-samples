@@ -43,5 +43,4 @@
         <module>dubbo-samples-spring-boot3-tracing</module>
         <module>dubbo-samples-spring-boot-tracing-skywalking</module>
     </modules>
-
 </project>
