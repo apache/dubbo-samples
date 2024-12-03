@@ -37,18 +37,17 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-registry-zookeeper</artifactId>
+      <artifactId>dubbo-spring-boot-starter</artifactId>
       <version>${dubbo.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-rpc-triple</artifactId>
-      <version>${dubbo.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-triple-servlet</artifactId>
+      <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
       <version>${dubbo.version}</version>
     </dependency>
     <dependency>
@@ -57,43 +56,17 @@
       <version>${dubbo.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-serialization-hessian2</artifactId>
-      <version>${dubbo.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-remoting-netty4</artifactId>
-      <version>${dubbo.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-config-spring</artifactId>
-      <version>${dubbo.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-spring-boot-autoconfigure</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.dubbo</groupId>
-          <artifactId>dubbo</artifactId>
-        </exclusion>
-      </exclusions>
-      <version>${dubbo.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-log4j2</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-test</artifactId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
       <scope>test</scope>
     </dependency>
 
