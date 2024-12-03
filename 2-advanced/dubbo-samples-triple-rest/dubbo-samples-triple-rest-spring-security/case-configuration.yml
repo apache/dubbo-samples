@@ -15,8 +15,35 @@
 # limitations under the License.
 
 services:
+  authorization:
+    type: app
+    basedir: spring-security-authorization-server
+    mainClass: org.apache.dubbo.rest.demo.AuthorizationApplication
+    checkPorts:
+      - 9000
+    checkLog: "authorization service started"
+
+  resource:
+    type: app
+    basedir: spring-security-resource-server
+    mainClass: org.apache.dubbo.rest.demo.ResourceApplication
+    systemProps:
+      - authorization.address=authorization
+    checkPorts:
+      - 50051
+    checkLog: "resource service started"
+
   test:
     type: test
-    basedir: .
+    basedir: spring-security-resource-server
     tests:
       - "**/*IT.class"
+    systemProps:
+      - authorization.address=authorization
+      - resource.address=resource
+    waitPortsBeforeRun:
+      - authorization:9000
+      - resource:50051
+    depends_on:
+      - authorization
+      - resource
