@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -85,10 +86,31 @@ public class ResourceServerTest {
                     assertEquals("\"Hello, World\"", userResponse, "error");
                 } catch (RestClientResponseException e) {
                     System.err.println("Error Response: " + e.getResponseBodyAsString());
+                    Assertions.fail("Request failed with response: " + e.getResponseBodyAsString());
                 }
 
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
         }
+
+    @Test
+    public void testGetUserEndpointWithInvalidToken() {
+        String invalidAccessToken = "invalid_token";
+        RestClient restClient = RestClient.builder().build();
+        String userUrl = "http://" + HOST + ":50051/hello/sayHello/World";
+
+        try {
+            restClient.get()
+                    .uri(userUrl)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + invalidAccessToken)
+                    .retrieve()
+                    .body(String.class);
+
+            Assertions.fail("Request should have failed with an invalid token");
+        } catch (RestClientResponseException e) {
+            System.err.println("Error Response: " + e.getResponseBodyAsString());
+            assertEquals(401, e.getStatusCode().value(), "Expected 401 Unauthorized status");
+        }
+    }
 }
