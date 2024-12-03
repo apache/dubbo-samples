@@ -35,6 +35,10 @@ import java.util.UUID;
 @EnableWebSecurity
 public class AuthorizationSeverConfig {
 
+    private static final String HOST = System.getProperty("authorization.address", "localhost");
+
+    String issuer = "http://" + HOST + ":9000";
+
     @Bean
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
@@ -62,8 +66,7 @@ public class AuthorizationSeverConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:9000") // set the address of the authorization server
-//                .jwkSetEndpoint("/.well-known/jwks.json")
+                .issuer(issuer) // set the address of the authorization server
                 .build();
     }
 

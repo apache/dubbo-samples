@@ -19,6 +19,8 @@ services:
     type: app
     basedir: spring-security-authorization-server
     mainClass: org.apache.dubbo.rest.demo.AuthorizationApplication
+    systemProps:
+      - authorization.address=authorization
     checkPorts:
       - 9000
     checkLog: "authorization service started"
