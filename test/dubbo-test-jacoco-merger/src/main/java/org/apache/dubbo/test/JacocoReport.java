@@ -55,9 +55,9 @@ public class JacocoReport {
             System.arraycopy(classes, 0, reportArgs, execs.length + 1, classes.length);
             System.arraycopy(sources, 0, reportArgs, execs.length + classes.length + 1, sources.length);
             reportArgs[execs.length + classes.length + sources.length + 1] = "--xml";
-            reportArgs[execs.length + classes.length + sources.length + 2] = basePath + File.separator + "target" + File.separator + "report.xml";
+            reportArgs[execs.length + classes.length + sources.length + 2] = classFile.getAbsolutePath() + File.separator + "target" + File.separator + "report.xml";
             reportArgs[execs.length + classes.length + sources.length + 3] = "--html";
-            reportArgs[execs.length + classes.length + sources.length + 4] = basePath + File.separator + "target" + File.separator + "site";
+            reportArgs[execs.length + classes.length + sources.length + 4] = classFile.getAbsolutePath() + File.separator + "target" + File.separator + "site";
 
             PrintWriter out = new PrintWriter(System.out, true);
             PrintWriter err = new PrintWriter(System.err, true);
