@@ -47,6 +47,7 @@
     <module>dubbo-samples-triple-rest-jaxrs</module>
     <module>dubbo-samples-triple-rest-springmvc</module>
     <module>dubbo-samples-triple-rest-spring-security</module>
+    <module>dubbo-samples-triple-rest-swagger</module>
   </modules>
 
   <dependencyManagement>
