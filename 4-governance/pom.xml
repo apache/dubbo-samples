@@ -30,7 +30,6 @@
         <module>dubbo-samples-applevel-override</module>
         <module>dubbo-samples-configconditionrouter</module>
         <module>dubbo-samples-conditionrouterv31</module>
-        <module>dubbo-samples-meshrule-router</module>
         <module>dubbo-samples-metrics-prometheus</module>
         <module>dubbo-samples-metrics-spring-boot</module>
         <module>dubbo-samples-sentinel</module>
