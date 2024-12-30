@@ -135,10 +135,31 @@ jobs:
       - name: "Download Skywalking Agent and MySQL Driver"
         if: steps.cache-skywalking-agent.outputs.cache-hit != 'true' || steps.cache-mysql-driver.outputs.cache-hit != 'true'
         run: |
-          wget -c https://archive.apache.org/dist/skywalking/java-agent/9.0.0/apache-skywalking-java-agent-9.0.0.tgz --no-check-certificate
-          tar -zxvf apache-skywalking-java-agent-9.0.0.tgz -C /tmp
-          wget -c https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar
-          mv mysql-connector-java-8.0.23.jar /tmp/
+          download_with_retry() {
+            local url=$1
+            local dest=$2
+            local retries=3
+            local count=0
+            local success=0
+
+            while [ $count -lt $retries ]; do
+              echo "Attempt $(($count+1)) to download $url"
+              wget -c $url --no-check-certificate -O $dest && success=1 && break
+              count=$(($count+1))
+              echo "Retry in 5 seconds..."
+              sleep 5
+            done
+
+            if [ $success -ne 1 ]; then
+              echo "Failed to download $url after $retries attempts."
+              exit 1
+            fi
+          }
+
+          download_with_retry "https://archive.apache.org/dist/skywalking/java-agent/9.0.0/apache-skywalking-java-agent-9.0.0.tgz" "/tmp/apache-skywalking-java-agent-9.0.0.tgz"
+          tar -zxvf /tmp/apache-skywalking-java-agent-9.0.0.tgz -C /tmp
+
+          download_with_retry "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar" "/tmp/mysql-connector-java-8.0.23.jar"
       - name: "Mvn Benchmark Skywalking Plugin"
         run: |
           rm -rf /tmp/skywalking-agent/plugins/*
