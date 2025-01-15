@@ -24,8 +24,6 @@ import org.apache.dubbo.remoting.http12.rest.ParamType;
 
 public interface DemoService {
 
-    String hello(String name);
-
     String hello(User user, int count);
 
     String helloUser(User user);

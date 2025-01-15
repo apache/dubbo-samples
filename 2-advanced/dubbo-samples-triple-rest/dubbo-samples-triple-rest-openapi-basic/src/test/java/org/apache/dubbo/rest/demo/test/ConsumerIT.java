@@ -47,6 +47,5 @@ public class ConsumerIT {
         Assert.assertNotNull("OpenAPI documentation response should not be null", result);
         Assert.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/hello"));
         Assert.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/helloUser"));
-        Assert.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/hi"));
     }
 }
