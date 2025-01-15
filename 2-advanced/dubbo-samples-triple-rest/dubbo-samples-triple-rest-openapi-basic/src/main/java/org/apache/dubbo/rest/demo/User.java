@@ -20,6 +20,7 @@ package org.apache.dubbo.rest.demo;
 public class User {
 
     private String title;
+
     private String name;
 
     public String getTitle() {

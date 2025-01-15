@@ -26,10 +26,8 @@ public interface DemoService {
 
     String hello(String name);
 
-    @Mapping(path = "/hi", method = HttpMethods.POST)
-    String hello(User user, @Param(value = "c", type = ParamType.Header) int count);
+    String hello(User user, int count);
 
-    @Mapping
     String helloUser(User user);
 
 }
