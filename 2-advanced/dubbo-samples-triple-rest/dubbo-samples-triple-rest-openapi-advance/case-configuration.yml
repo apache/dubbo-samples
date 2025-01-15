@@ -21,7 +21,7 @@ services:
   provider:
     type: app
     basedir: .
-    mainClass: org.apache.dubbo.rest.demo.OpenAPIApplication
+    mainClass: org.apache.dubbo.rest.openapi.advance.OpenAPIApplication
     systemProps:
       - zookeeper.address=zookeeper
       - zookeeper.port=2181
@@ -33,7 +33,7 @@ services:
     checkLog: "dubbo service started"
     depends_on:
       - zookeeper
-      -
+
   test:
     type: test
     basedir: .

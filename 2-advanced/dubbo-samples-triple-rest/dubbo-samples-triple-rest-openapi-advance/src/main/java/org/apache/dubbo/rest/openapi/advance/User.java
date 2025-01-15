@@ -20,8 +20,10 @@ package org.apache.dubbo.rest.openapi.advance;
 import org.apache.dubbo.remoting.http12.rest.Schema;
 
 public class User {
+
     @Schema(description = "title")
     private String title;
+
     @Schema(description = "name")
     private String name;
 
