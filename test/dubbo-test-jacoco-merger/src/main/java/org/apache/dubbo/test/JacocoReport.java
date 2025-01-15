@@ -16,12 +16,13 @@
  */
 package org.apache.dubbo.test;
 
-import org.jacoco.cli.internal.Main;
-
 import java.io.File;
+import java.io.PrintWriter;
+import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
+
+import org.jacoco.cli.internal.Main;
 
 public class JacocoReport {
     public static void main(String[] args) throws Exception {
@@ -32,42 +33,43 @@ public class JacocoReport {
         String dubboRepo = args[1];
 
         List<File> execFiles = loadExecFiles(new File(basePath + File.separator + "target"));
-        List<File> classFiles = loadClassFiles(new File(dubboRepo));
-        List<File> sourceFiles = loadSourceFiles(new File(dubboRepo));
+        List<File> moduelFiles = loadModuleFiles(new File(dubboRepo));
 
         if (execFiles.isEmpty()) {
             System.out.println(basePath + File.separator + "target" + File.separator + "jacoco*.exec" + " does not exist");
             return;
         }
 
+        for (File classFile : moduelFiles) {
+            System.out.println("Generating report for " + classFile.getAbsolutePath());
 
-        String[] execs = execFiles.stream()
-                .map(File::getAbsolutePath)
-                .toArray(String[]::new);
-        String[] classes = classFiles.stream()
-                .map(File::getAbsolutePath)
-                .flatMap(s -> Stream.of("--classfiles", s))
-                .toArray(String[]::new);
-        String[] sources = sourceFiles.stream()
-                .map(File::getAbsolutePath)
-                .flatMap(s -> Stream.of("--sourcefiles", s))
-                .toArray(String[]::new);
+            String[] execs = execFiles.stream()
+                    .map(File::getAbsolutePath)
+                    .toArray(String[]::new);
+            String[] classes = new String[]{"--classfiles", classFile.getAbsolutePath() + File.separator + "target" + File.separator + "classes" + File.separator + "org" + File.separator + "apache" + File.separator + "dubbo"};
+            String[] sources = new String[]{"--sourcefiles", classFile.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "java"};
 
-        String[] reportArgs = new String[execs.length + classes.length + sources.length + 5];
-        reportArgs[0] = "report";
-        System.arraycopy(execs, 0, reportArgs, 1, execs.length);
-        System.arraycopy(classes, 0, reportArgs, execs.length + 1, classes.length);
-        System.arraycopy(sources, 0, reportArgs, execs.length + classes.length + 1, sources.length);
-        reportArgs[execs.length + classes.length + sources.length + 1] = "--xml";
-        reportArgs[execs.length + classes.length + sources.length + 2] = basePath + File.separator + "target" + File.separator + "report.xml";
-        reportArgs[execs.length + classes.length + sources.length + 3] = "--html";
-        reportArgs[execs.length + classes.length + sources.length + 4] = basePath + File.separator + "target" + File.separator + "site";
+            String[] reportArgs = new String[execs.length + classes.length + sources.length + 5];
+            reportArgs[0] = "report";
+            System.arraycopy(execs, 0, reportArgs, 1, execs.length);
+            System.arraycopy(classes, 0, reportArgs, execs.length + 1, classes.length);
+            System.arraycopy(sources, 0, reportArgs, execs.length + classes.length + 1, sources.length);
+            reportArgs[execs.length + classes.length + sources.length + 1] = "--xml";
+            reportArgs[execs.length + classes.length + sources.length + 2] = classFile.getAbsolutePath() + File.separator + "target" + File.separator + "report.xml";
+            reportArgs[execs.length + classes.length + sources.length + 3] = "--html";
+            reportArgs[execs.length + classes.length + sources.length + 4] = classFile.getAbsolutePath() + File.separator + "target" + File.separator + "site";
 
-        Main.main(reportArgs);
+            PrintWriter out = new PrintWriter(System.out, true);
+            PrintWriter err = new PrintWriter(System.err, true);
+            Constructor<Main> declaredConstructor = Main.class.getDeclaredConstructor(String[].class);
+            declaredConstructor.setAccessible(true);
+            int returncode = (declaredConstructor.newInstance((Object) reportArgs)).execute(out, err);
+            System.out.println("Generating report for " + classFile.getAbsolutePath() + " finished with return code " + returncode);
+        }
     }
 
 
-    private static List<File> loadClassFiles(File baseFile) {
+    private static List<File> loadModuleFiles(File baseFile) {
         List<File> result = new LinkedList<>();
         if (baseFile.isDirectory()) {
             if (baseFile.getAbsolutePath().contains("dubbo-demo")) {
@@ -77,19 +79,18 @@ public class JacocoReport {
                 return result;
             }
             if (new File(baseFile.getAbsolutePath() + File.separator + "target" + File.separator + "classes" + File.separator + "org" + File.separator + "apache" + File.separator + "dubbo").exists()) {
-                result.add(new File(baseFile.getAbsolutePath() + File.separator + "target" + File.separator + "classes" + File.separator + "org" + File.separator + "apache" + File.separator + "dubbo"));
+                result.add(new File(baseFile.getAbsolutePath()));
                 return result;
             }
             File[] files = baseFile.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    result.addAll(loadClassFiles(file));
+                    result.addAll(loadModuleFiles(file));
                 }
             }
         }
         return result;
     }
-
 
     private static List<File> loadExecFiles(File baseFile) {
         List<File> result = new LinkedList<>();
@@ -102,28 +103,6 @@ public class JacocoReport {
             }
         } else if (baseFile.isFile() && baseFile.getName().endsWith(".exec")) {
             result.add(baseFile);
-        }
-        return result;
-    }
-    private static List<File> loadSourceFiles(File baseFile) {
-        List<File> result = new LinkedList<>();
-        if (baseFile.isDirectory()) {
-            if (baseFile.getAbsolutePath().contains("dubbo-demo")) {
-                return result;
-            }
-            if (baseFile.getAbsolutePath().contains("dubbo-native")) {
-                return result;
-            }
-            if (new File(baseFile.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "java").exists()) {
-                result.add(new File(baseFile.getAbsolutePath() + File.separator + "src" + File.separator + "main" + File.separator + "java"));
-                return result;
-            }
-            File[] files = baseFile.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    result.addAll(loadSourceFiles(file));
-                }
-            }
         }
         return result;
     }
