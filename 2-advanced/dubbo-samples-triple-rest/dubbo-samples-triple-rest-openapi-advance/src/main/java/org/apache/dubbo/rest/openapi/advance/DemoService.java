@@ -17,19 +17,12 @@
 
 package org.apache.dubbo.rest.openapi.advance;
 
-import org.apache.dubbo.remoting.http12.HttpMethods;
-import org.apache.dubbo.remoting.http12.rest.Mapping;
-import org.apache.dubbo.remoting.http12.rest.Param;
-import org.apache.dubbo.remoting.http12.rest.ParamType;
-
 public interface DemoService {
 
     String hello(String name);
 
-    @Mapping(path = "/hi", method = HttpMethods.POST)
-    String hello(User user, @Param(value = "c", type = ParamType.Header) int count);
+    String hello(User user,int count);
 
-    @Mapping
     String helloUser(User user);
 
 }
