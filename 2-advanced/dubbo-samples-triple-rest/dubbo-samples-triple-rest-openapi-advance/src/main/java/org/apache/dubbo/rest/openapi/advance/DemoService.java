@@ -19,8 +19,6 @@ package org.apache.dubbo.rest.openapi.advance;
 
 public interface DemoService {
 
-    String hello(String name);
-
     String hello(User user,int count);
 
     String helloUser(User user);
