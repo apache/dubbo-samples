@@ -226,10 +226,30 @@ jobs:
       JAVA_VER: ${{matrix.java}}
     steps:
       - uses: actions/checkout@v3
-      - name: Download test result
+      - name: Download test result 1
         uses: actions/download-artifact@v4
         with:
-          name: test-result
+          name: test-result_1-java${{matrix.java}}
+          path: test/jobs/
+      - name: Download test result 2
+        uses: actions/download-artifact@v4
+        with:
+          name: test-result_2-java${{matrix.java}}
+          path: test/jobs/
+      - name: Download test result 3
+        uses: actions/download-artifact@v4
+        with:
+          name: test-result_3-java${{matrix.java}}
+          path: test/jobs/
+      - name: Download test result 4
+        uses: actions/download-artifact@v4
+        with:
+          name: test-result_4-java${{matrix.java}}
+          path: test/jobs/
+      - name: Download test result 5
+        uses: actions/download-artifact@v4
+        with:
+          name: test-result_5-java${{matrix.java}}
           path: test/jobs/
       - name: Merge test result - java ${{matrix.java}}
         run: ./test/scripts/merge-test-results.sh
