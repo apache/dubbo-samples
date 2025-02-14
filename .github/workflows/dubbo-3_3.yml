@@ -210,7 +210,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-result
+          name: test-result_${{matrix.job_id}}-java${{matrix.java}}
           path: test/jobs/testjob_${{matrix.job_id}}-result-java${{matrix.java}}.txt
 
   test_result:
