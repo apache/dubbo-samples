@@ -42,7 +42,7 @@ public class JacocoDownloader {
     /**
      * The jacoco agent version
      */
-    private static final String JACOCO_VERSION = "0.8.8";
+    private static final String JACOCO_VERSION = "0.8.9";
 
     /**
      * The jacoco binary file name
