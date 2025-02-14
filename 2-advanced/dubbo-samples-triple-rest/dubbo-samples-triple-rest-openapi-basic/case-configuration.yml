@@ -15,25 +15,14 @@
 # limitations under the License.
 
 services:
-  zookeeper:
-    image: zookeeper:latest
-
   provider:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.rest.demo.OpenApiApplication
-    systemProps:
-      - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-      - dubbo.port=50052
-    waitPortsBeforeRun:
-      - zookeeper:2181
     checkPorts:
       - 50052
     checkLog: "dubbo service started"
-    depends_on:
-      - zookeeper
-      -
+
   test:
     type: test
     basedir: .
@@ -45,4 +34,3 @@ services:
       - provider:50052
     depends_on:
       - provider
-

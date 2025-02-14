@@ -18,16 +18,24 @@
 package org.apache.dubbo.rest.demo;
 
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.remoting.http12.rest.OpenAPI;
+import org.apache.dubbo.remoting.http12.rest.Operation;
 
 @DubboService
+@OpenAPI(infoTitle = "Dubbo OpenAPI",
+        infoDescription = "This API provides greeting services for users.",
+        infoVersion = "v1",
+        docDescription = "API for greeting users with their names and titles.")
 public class DemoServiceImpl implements DemoService {
 
     @Override
+    @Operation(description = "Returns a greeting message with the provided user object and count.")
     public String hello(User user, int count) {
         return "Hello " + user.getTitle() + ". " + user.getName() + ", " + count;
     }
 
     @Override
+    @Operation(description = "Returns a greeting message with the provided user object.")
     public String helloUser(User user) {
         return "Hello " + user.getTitle() + ". " + user.getName();
     }

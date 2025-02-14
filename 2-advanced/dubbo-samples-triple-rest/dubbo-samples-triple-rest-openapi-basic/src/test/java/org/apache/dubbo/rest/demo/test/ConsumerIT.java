@@ -19,6 +19,8 @@ package org.apache.dubbo.rest.demo.test;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 
+import org.apache.dubbo.rest.demo.DemoService;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +34,7 @@ public class ConsumerIT {
     private final RestClient webClient = RestClient.create();
 
     @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
+    private DemoService demoService;
 
     private static String toUri(String path) {
         return "http://" + HOST + ":50052/" + path;

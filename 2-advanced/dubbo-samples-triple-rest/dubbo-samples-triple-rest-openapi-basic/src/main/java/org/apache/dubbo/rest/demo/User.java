@@ -17,10 +17,15 @@
 
 package org.apache.dubbo.rest.demo;
 
+import org.apache.dubbo.remoting.http12.rest.Schema;
+
+@Schema(title = "user model", description = "User information class.")
 public class User {
 
+    @Schema(title = "user title", example = "Manager")
     private String title;
 
+    @Schema(title = "user name", example = "Tom")
     private String name;
 
     public String getTitle() {

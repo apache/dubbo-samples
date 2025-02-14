@@ -25,11 +25,7 @@ dubbo:
     name: tri
     port: 50052
     triple:
+      verbose: true
       rest:
         openapi:
           enabled: true
-  registry:
-    id: zk-registry
-    address: zookeeper://127.0.0.1:2181
-server:
-  port: 8082
