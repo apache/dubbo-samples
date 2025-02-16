@@ -18,7 +18,7 @@ services:
   zookeeper4openapi:
     image: zookeeper:latest
 
-  provider:
+  provider4openapi:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.rest.demo.OpenApiApplication
@@ -34,15 +34,15 @@ services:
     depends_on:
       - zookeeper4openapi
 
-  test:
+  test4openapi:
     type: test
     basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
-      - dubbo.address=provider
+      - dubbo.address=provider4openapi
     waitPortsBeforeRun:
-      - provider:50052
+      - provider4openapi:50052
     depends_on:
-      - provider
+      - provider4openapi
 
