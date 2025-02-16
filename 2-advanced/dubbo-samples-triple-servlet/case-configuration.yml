@@ -25,7 +25,7 @@ services:
       - JVM_XMX=512m
       - JVM_XMN=256m
 
-  provider:
+  provider4tripleServlet:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.demo.ProviderApplication
@@ -40,7 +40,7 @@ services:
     depends_on:
       - nacos4tripleServlet
 
-  test:
+  test4tripleServlet:
     type: test
     basedir: .
     tests:
@@ -48,10 +48,10 @@ services:
     systemProps:
       - nacos.address=nacos4tripleServlet
       - nacos.port=8848
-      - dubbo.address=provider
+      - dubbo.address=provider4tripleServlet
     waitPortsBeforeRun:
       - nacos4tripleServlet:8848
-      - provider:50052
+      - provider4tripleServlet:50052
     depends_on:
       - nacos4tripleServlet
-      - provider
+      - provider4tripleServlet
