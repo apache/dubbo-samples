@@ -218,8 +218,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-result
-          path: test/jobs/*-result*
+          name: test-result_${{matrix.job_id}}-java${{matrix.java}}
+          path: test/jobs/testjob_${{matrix.job_id}}-result-java${{matrix.java}}.txt
 
   test_result:
     needs: [testjob]
@@ -237,7 +237,8 @@ jobs:
       - name: Download test result
         uses: actions/download-artifact@v4
         with:
-          name: test-result
           path: test/jobs/
+          pattern: test-result_*-java${{matrix.java}}
+          merge-multiple: true
       - name: Merge test result - java ${{matrix.java}}
         run: ./test/scripts/merge-test-results.sh

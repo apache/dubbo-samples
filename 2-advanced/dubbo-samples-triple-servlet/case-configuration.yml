@@ -15,7 +15,7 @@
 # limitations under the License.
 
 services:
-  nacos:
+  nacos4tripleServlet:
     image: nacos/nacos-server:${nacos-server.version:2.0.0}
     environment:
       - PREFER_HOST_MODE=hostname
@@ -25,33 +25,33 @@ services:
       - JVM_XMX=512m
       - JVM_XMN=256m
 
-  provider:
+  provider4tripleServlet:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.demo.ProviderApplication
     systemProps:
-      - nacos.address=nacos
+      - nacos.address=nacos4tripleServlet
       - nacos.port=8848
     waitPortsBeforeRun:
-      - nacos:8848
+      - nacos4tripleServlet:8848
     checkPorts:
       - 50052
     checkLog: "dubbo service started"
     depends_on:
-      - nacos
+      - nacos4tripleServlet
 
-  test:
+  test4tripleServlet:
     type: test
     basedir: .
     tests:
       - "**/*IT.class"
     systemProps:
-      - nacos.address=nacos
+      - nacos.address=nacos4tripleServlet
       - nacos.port=8848
-      - dubbo.address=provider
+      - dubbo.address=provider4tripleServlet
     waitPortsBeforeRun:
-      - nacos:8848
-      - provider:50052
+      - nacos4tripleServlet:8848
+      - provider4tripleServlet:50052
     depends_on:
-      - nacos
-      - provider
+      - nacos4tripleServlet
+      - provider4tripleServlet
