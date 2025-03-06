@@ -125,7 +125,7 @@ public class ConfigurationImpl implements IConfiguration {
             }
         }
 
-        this.configuration = loadCaseConfiguration(configureFile);
+        this.configuration = loadCaseConfiguration(configureFile, scenarioName);
 
         //set scenario timeout
         if (this.configuration.getTimeout() > 0) {
@@ -163,7 +163,7 @@ public class ConfigurationImpl implements IConfiguration {
         return debugPatterns != null && debugPatterns.size() > 0;
     }
 
-    private CaseConfiguration loadCaseConfiguration(String configureFile) throws IOException {
+    private CaseConfiguration loadCaseConfiguration(String configureFile, String scenarioName) throws IOException {
         // read 'props'
         String configYaml = FileUtil.readFully(configureFile);
         CaseConfiguration tmpConfiguration = parseConfiguration(configYaml);
@@ -210,7 +210,7 @@ public class ConfigurationImpl implements IConfiguration {
             caseConfiguration.setServices(newServices);
         }
 
-        fillupServices(caseConfiguration);
+        fillupServices(caseConfiguration, scenarioName);
         return caseConfiguration;
     }
 
@@ -252,12 +252,26 @@ public class ConfigurationImpl implements IConfiguration {
         return new Yaml().loadAs(configYaml, CaseConfiguration.class);
     }
 
-    private void fillupServices(CaseConfiguration caseConfiguration) throws IOException {
+    private void fillupServices(CaseConfiguration caseConfiguration, String scenarioName) throws IOException {
         List<String> caseSystemProps = caseConfiguration.getSystemProps();
         int index = 0;
+        //normalize hostname by concatenating scenarioName with index number, hostname length should less than 64.
+        Map<String, String> hostnameMap = new HashMap<>();
+        for (String serviceName : caseConfiguration.getServices().keySet()) {
+            hostnameMap.put(serviceName, scenarioName + index++);
+        }
+        index = 0;
         for (Map.Entry<String, ServiceComponent> entry : caseConfiguration.getServices().entrySet()) {
             String serviceName = entry.getKey();
             ServiceComponent service = entry.getValue();
+
+            String originalHostname = service.getHostname();
+            String normalizedHostname = hostnameMap.get(serviceName);
+            if (StringUtils.isBlank(originalHostname) || originalHostname.equals(serviceName)) {
+                //set normalized hostname if absent, or replace by normalized hostname if original equal serviceName.
+                service.setHostname(normalizedHostname);
+            }
+
             String type = service.getType();
             if (isAppOrTestService(type)) {
                 service.setImage(SAMPLE_TEST_IMAGE + ":" + testImageVersion);
@@ -280,7 +294,7 @@ public class ConfigurationImpl implements IConfiguration {
 
                 //set wait ports
                 if (isNotEmpty(service.getWaitPortsBeforeRun())) {
-                    String str = convertAddrPortsToString(service.getWaitPortsBeforeRun());
+                    String str = convertAddrPortsToString(service.getWaitPortsBeforeRun(), hostnameMap);
                     setEnv(service, ENV_WAIT_PORTS_BEFORE_RUN, str);
                 }
 
@@ -351,7 +365,7 @@ public class ConfigurationImpl implements IConfiguration {
                     //set check ports
                     if (isNotEmpty(service.getCheckPorts())) {
                         addHealthcheck = true;
-                        String str = convertAddrPortsToString(service.getCheckPorts());
+                        String str = convertAddrPortsToString(service.getCheckPorts(), hostnameMap);
                         setEnv(service, ENV_CHECK_PORTS, str);
                     }
 
@@ -395,7 +409,7 @@ public class ConfigurationImpl implements IConfiguration {
 
                 //set wait ports
                 if (isNotEmpty(service.getWaitPortsBeforeRun())) {
-                    String str = convertAddrPortsToString(service.getWaitPortsBeforeRun());
+                    String str = convertAddrPortsToString(service.getWaitPortsBeforeRun(), hostnameMap);
                     setEnv(service, ENV_WAIT_PORTS_BEFORE_RUN, str);
                 }
 
@@ -423,7 +437,7 @@ public class ConfigurationImpl implements IConfiguration {
                     //set check ports
                     if (isNotEmpty(service.getCheckPorts())) {
                         addHealthcheck = true;
-                        String str = convertAddrPortsToString(service.getCheckPorts());
+                        String str = convertAddrPortsToString(service.getCheckPorts(), hostnameMap);
                         setEnv(service, ENV_CHECK_PORTS, str);
                     }
 
@@ -434,15 +448,31 @@ public class ConfigurationImpl implements IConfiguration {
                 }
             }
 
-            // set hostname to serviceId if absent
-            if (StringUtils.isBlank(service.getHostname())) {
-                service.setHostname(serviceName);
-            }
-
             //set jvmFlags
             if (isNotEmpty(service.getJvmFlags())) {
                 String str = StringUtils.join(service.getJvmFlags(), ' ');
                 appendEnv(service, ENV_JAVA_OPTS, str);
+            }
+
+            //revise service hostname properties
+            List<String> serviceSystemProps = service.getSystemProps();
+            if (serviceSystemProps != null) {
+                List<String> revisedServiceSystemProps = new ArrayList<>();
+                serviceSystemProps.forEach(serviceProp -> {
+                    String[] strs = serviceProp.split("=");
+                    if (strs.length == 2) {
+                        String hostname = hostnameMap.get(strs[1]);
+                        if (null != hostname) {
+                            //use normalized hostname instead.
+                            revisedServiceSystemProps.add(strs[0] + "=" + hostname);
+                        } else {
+                            revisedServiceSystemProps.add(serviceProp);
+                        }
+                    } else {
+                        revisedServiceSystemProps.add(serviceProp);
+                    }
+                });
+                service.setSystemProps(revisedServiceSystemProps);
             }
 
             //set systemProps
@@ -526,13 +556,23 @@ public class ConfigurationImpl implements IConfiguration {
         return list != null && list.size() > 0;
     }
 
-    private String convertAddrPortsToString(List<String> addrPorts) {
+    private String convertAddrPortsToString(List<String> addrPorts, Map<String, String> hostnameMap) {
         StringBuilder sb = new StringBuilder();
         for (String addrPort : addrPorts) {
-            if (!addrPort.contains(":")) {
+            int idx = addrPort.indexOf(":");
+            if (idx > 0) {
+                String hostname = hostnameMap.get(addrPort.substring(0, idx));
+                if (null != hostname) {
+                    //use normalized hostname instead.
+                    sb.append(hostname).append(addrPort.substring(idx));
+                } else {
+                    sb.append(addrPort);
+                }
+            } else {
                 addrPort = "127.0.0.1" + ":" + addrPort;
+                sb.append(addrPort);
             }
-            sb.append(addrPort).append(";");
+            sb.append(";");
         }
         return sb.toString();
     }
