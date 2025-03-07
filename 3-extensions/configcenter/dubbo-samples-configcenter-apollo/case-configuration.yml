@@ -68,7 +68,7 @@ services:
       - 8090
     environment:
       - APOLLO_SERVICE=1
-      - DB_ADDRESS=apollo-db:3306
+      - DB_ADDRESS=dubbo-samples-configcenter-apollo-db:3306
     volumes:
       - ${_basedir}/src/main/resources/docker/demo.sh:/apollo-quick-start/demo.sh
       - ./logs:/apollo-quick-start/logs
@@ -81,6 +81,7 @@ services:
 
   apollo-db:
     image: mysql:5.7
+    hostname: dubbo-samples-configcenter-apollo-db
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
