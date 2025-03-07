@@ -22,7 +22,7 @@ services:
 
   bh-mysql:
     image: mysql:5.7
-    hostname: bh-mysql
+    hostname: dubbo-samples-benchmark-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_DATABASE=skywalking
@@ -38,18 +38,18 @@ services:
 
   skywalking:
     image: apache/skywalking-oap-server:9.3.0
-    hostname: skywalking
+    hostname: dubbo-samples-benchmark-skywalking
     ports:
       - 11800:11800
     volumes:
       - /tmp/mysql-connector-java-8.0.23.jar:/skywalking/oap-libs/mysql-connector-java-8.0.23.jar
     environment:
       - SW_STORAGE=mysql
-      - SW_JDBC_URL=jdbc:mysql://bh-mysql:3306/skywalking?useSSL=false
+      - SW_JDBC_URL=jdbc:mysql://dubbo-samples-benchmark-mysql:3306/skywalking?useSSL=false
       - SW_DATA_SOURCE_USER=root
       - SW_DATA_SOURCE_PASSWORD=123456
     waitPortsBeforeRun:
-      - bh-mysql:3306
+      - dubbo-samples-benchmark-mysql:3306
     depends_on:
       - bh-mysql
 
@@ -75,12 +75,12 @@ services:
     systemProps:
       - zookeeper.address=zookeeper
       - skywalking.agent.service_name=dubbo-samples-benchmark-consumer
-      - skywalking.collector.backend_service=skywalking:11800
+      - skywalking.collector.backend_service=dubbo-samples-benchmark-skywalking:11800
     volumes:
       - /tmp:/tmp
     waitPortsBeforeRun:
       - zookeeper:2181
       - provider:20880
-      - skywalking:11800
+      - dubbo-samples-benchmark-skywalking:11800
     depends_on:
       - provider
