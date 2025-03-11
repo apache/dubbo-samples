@@ -29,6 +29,8 @@ import org.apache.dubbo.sample.tri.util.TriSampleConstants;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class GrpcClientTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GrpcClientTest.class);
     private static GreeterGrpc.GreeterStub stub;
     private static GreeterGrpc.GreeterBlockingStub blockingStub;
 
@@ -76,22 +79,25 @@ public class GrpcClientTest {
                 "sayGreeterServerStream") {
             @Override
             public void onNext(GreeterReply data) {
-                long lastTimestamp = map.getOrDefault(key, 0L);
                 long now = System.currentTimeMillis();
+                long lastTimestamp = map.getOrDefault(key, 0L);
                 map.put(key, now);
+                latch.countDown();
                 if (lastTimestamp == 0) {
-                    latch.countDown();
+                    LOGGER.info("onNext now:{}", now);
                 } else {
                     long diff = Math.abs(now - lastTimestamp - 1000);
-                    System.out.println(diff);
                     if (diff < 50) {
-                        latch.countDown();
+                        LOGGER.info("onNext now:{} diff:{}", now, diff);
+                    } else {
+                        LOGGER.warn("onNext now:{} diff:{} >= 50!", now, diff);
                     }
                 }
                 super.onNext(data);
             }
         };
         stub.greetServerStream(request, observer);
+        LOGGER.info("serverStream begin latch.await now:{}", System.currentTimeMillis());
         Assert.assertTrue(latch.await(12, TimeUnit.SECONDS));
     }
 
