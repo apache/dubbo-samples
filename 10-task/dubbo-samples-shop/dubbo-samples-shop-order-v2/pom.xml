@@ -116,7 +116,7 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.4.5</version>
                 <configuration>
                     <to>
                         <image>apache/dubbo-demo:dubbo-samples-shop-order_v2_0.0.2</image>
