@@ -46,7 +46,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
+        <dubbo.version>3.3.3</dubbo.version>
         <spring-boot.version>2.7.8</spring-boot.version>
         <micrometer.version>1.10.6</micrometer.version>
         <micrometer-tracing.version>1.0.5</micrometer-tracing.version>
@@ -110,6 +110,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+          <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-tracing-brave-zipkin-spring-boot-starter</artifactId>
+            <version>${dubbo.version}</version>
+          </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
