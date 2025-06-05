@@ -25,6 +25,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 @DubboService(version = "1.0.0")
 public class AnnotatedGreetingService implements GreetingService {
 
+    @Override
     public String sayHello(String name) {
         System.out.println("greeting service received: " + name);
         return "hello, " + name;

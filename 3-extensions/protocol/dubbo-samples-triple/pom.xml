@@ -39,7 +39,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
         <grpc.version>1.58.0</grpc.version>
         <protoc.version>3.22.2</protoc.version>
@@ -81,28 +81,9 @@
             <version>${protobuf-java.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-            <version>${dubbo.version}</version>
-            <type>pom</type>
-            <exclusions>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logback-core</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-log4j12</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
+          <version>${dubbo.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>

@@ -34,7 +34,6 @@ dubbo:
       verbose: true
       servlet:
         enabled: true
-        enable: true
   registry:
     address: nacos://${nacos.address:127.0.0.1}:8848
     username: nacos

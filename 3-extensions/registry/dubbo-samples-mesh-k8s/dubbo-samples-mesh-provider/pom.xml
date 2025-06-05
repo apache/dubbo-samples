@@ -30,13 +30,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.2.6</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <grpc.version>1.58.0</grpc.version>
         <protoc.version>3.24.3</protoc.version>
         <protobuf-java.version>3.24.3</protobuf-java.version>
         <junit.version>4.13.1</junit.version>
-        <dubbo.compiler.version>0.0.4.1</dubbo.compiler.version>
         <log4j.version>2.17.2</log4j.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -88,28 +87,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-            <version>${dubbo.version}</version>
-            <type>pom</type>
-            <exclusions>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logback-core</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-log4j12</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -201,7 +180,7 @@
                             <id>dubbo</id>
                             <groupId>org.apache.dubbo</groupId>
                             <artifactId>dubbo-compiler</artifactId>
-                            <version>${dubbo.compiler.version}</version>
+                            <version>${dubbo.version}</version>
                             <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>
                         </protocPlugin>
                     </protocPlugins>
