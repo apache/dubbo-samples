@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 @RunWith(SpringRunner.class)
 public class WebSocketWithNettyIT {
 
-    private final String nettyAddress = "localhost:50052";
+    private final String nettyAddress = System.getProperty("dubbo.address", "localhost") + ":50052";
 
     @Test
     public void testHelloWithNetty() throws URISyntaxException, InterruptedException {
