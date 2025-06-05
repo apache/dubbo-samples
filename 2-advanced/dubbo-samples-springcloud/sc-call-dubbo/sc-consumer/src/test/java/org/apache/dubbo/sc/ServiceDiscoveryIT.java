@@ -49,34 +49,12 @@ import java.util.List;
 public class ServiceDiscoveryIT {
 
     private static String consumerAddress = System.getProperty("consumer.address", "127.0.0.1");
-
     @Test
     public void test() {
-
         String url = String.format("http://%s:8099/dubbo/rest/test1", consumerAddress);
         RestTemplate restTemplate = new RestTemplate();
-        UserList userList = restTemplate.getForObject(url, UserList.class);
-
-        assert userList != null;
-        Assert.assertEquals(1, userList.getUsers().size());
-
+        List<User> userList = restTemplate.getForObject(url, List.class);
+        Assert.assertNotNull(userList);
+        Assert.assertEquals(1, userList.size());
     }
-
-    public class UserList {
-        private List<User> users;
-
-        public UserList() {
-            users = new ArrayList<>();
-        }
-
-        public List<User> getUsers() {
-            return users;
-        }
-
-        public void setUsers(List<User> users) {
-            this.users = users;
-        }
-    }
-
-
 }

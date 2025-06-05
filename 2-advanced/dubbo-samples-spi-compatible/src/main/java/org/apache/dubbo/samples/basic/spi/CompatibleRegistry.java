@@ -18,7 +18,7 @@ package org.apache.dubbo.samples.basic.spi;
 
 import org.apache.dubbo.registry.zookeeper.ZookeeperRegistryFactory;
 import org.apache.dubbo.remoting.zookeeper.ZookeeperTransporter;
-import org.apache.dubbo.remoting.zookeeper.curator.CuratorZookeeperTransporter;
+import org.apache.dubbo.remoting.zookeeper.curator5.Curator5ZookeeperTransporter;
 
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.registry.NotifyListener;
@@ -34,7 +34,7 @@ public class CompatibleRegistry implements Registry {
 
     public CompatibleRegistry(URL url) {
         this.url = url;
-        ZookeeperTransporter transporter = new CuratorZookeeperTransporter();
+        ZookeeperTransporter transporter = new Curator5ZookeeperTransporter();
         ZookeeperRegistryFactory registryFactory = new ZookeeperRegistryFactory();
         registryFactory.setZookeeperTransporter(transporter);
         delegate = registryFactory.createRegistry(url.setProtocol("zookeeper"));

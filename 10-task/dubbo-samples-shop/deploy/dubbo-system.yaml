@@ -1,0 +1,122 @@
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-system
+---
+# Nacos
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nacos
+  template:
+    metadata:
+      labels:
+        app: nacos
+    spec:
+      containers:
+        - name: consumer
+          image: registry.cn-hangzhou.aliyuncs.com/robocanic-public/nacos:v2.1.2
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8848
+              name: client
+            - containerPort: 9848
+              name: client-rpc
+          env:
+            - name: NACOS_SERVER_PORT
+              value: "8848"
+            - name: NACOS_APPLICATION_PORT
+              value: "8848"
+            - name: PREFER_HOST_MODE
+              value: "hostname"
+            - name: MODE
+              value: "standalone"
+            - name: NACOS_AUTH_ENABLE
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  type: LoadBalancer
+  sessionAffinity: None
+  selector:
+    app: nacos
+  ports:
+    - port: 8848
+      name: server
+      targetPort: 8848
+    - port: 9848
+      name: client-rpc
+      targetPort: 9848
+---
+# Dubbo Admin
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dubbo-admin
+  namespace: dubbo-system
+data:
+  # Set the properties you want to override, properties not set here will be using the default values
+  # check application.properties inside dubbo-admin project for the keys supported
+  application.properties: |
+    admin.registry.address=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+    admin.config-center=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+    admin.metadata-report.address=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-admin
+  namespace: dubbo-system
+  labels:
+    app: dubbo-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo-admin
+  template:
+    metadata:
+      labels:
+        app: dubbo-admin
+    spec:
+      containers:
+        - image: registry.cn-hangzhou.aliyuncs.com/robocanic-public/dubbo-admin:0.6.0
+          name: dubbo-admin
+          ports:
+            - containerPort: 38080
+          volumeMounts:
+            - mountPath: /config
+              name: application-properties
+      volumes:
+        - name: application-properties
+          configMap:
+            name: dubbo-admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dubbo-admin
+  namespace: dubbo-system
+spec:
+  type: LoadBalancer
+  selector:
+    app: dubbo-admin
+  ports:
+    - protocol: TCP
+      port: 38080
+      targetPort: 38080

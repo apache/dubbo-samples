@@ -30,8 +30,6 @@ public class Application {
     private static final String ZOOKEEPER_ADDRESS = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
 
     public static void main(String[] args) {
-        new EmbeddedZooKeeper(2181, false).start();
-
         ServiceConfig<GreetingsService> service = new ServiceConfig<>();
         service.setInterface(GreetingsService.class);
         service.setRef(new GreetingsServiceImpl());

@@ -32,7 +32,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>2.7.13</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <spring.version>4.3.30.RELEASE</spring.version>
         <log4j2.version>2.20.0</log4j2.version>
         <junit.version>4.13.1</junit.version>
@@ -67,32 +67,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper</artifactId>
-                <version>${dubbo.version}</version>
-                <type>pom</type>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>logback-classic</artifactId>
-                        <groupId>ch.qos.logback</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>logback-core</artifactId>
-                        <groupId>ch.qos.logback</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>log4j</artifactId>
-                        <groupId>log4j</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>slf4j-log4j12</artifactId>
-                        <groupId>org.slf4j</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
             <dependency>
                 <groupId>io.zipkin.brave</groupId>
                 <artifactId>brave-bom</artifactId>
@@ -124,15 +98,20 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.10</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper</artifactId>
-            <type>pom</type>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

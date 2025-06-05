@@ -227,6 +227,16 @@ else
     done
 fi
 
+for service_name in ${service_names[@]};do
+    echo "--------------$service_name-----------"
+    cat $SCENARIO_HOME/logs/${service_name}.log
+    echo "--------------"$service_name"_end-----------"
+done
+
+echo "--------------scenario_log-----------"
+cat $scenario_log
+echo "--------------scenario_log_end-----------"
+
 # rm network
 docker network rm $network_name 2>&1 | tee -a $scenario_log > /dev/null
 

@@ -35,7 +35,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <dubbo.version>3.3.1</dubbo.version>
         <protobuf-java.version>3.19.6</protobuf-java.version>
         <protoc.version>3.22.3</protoc.version>
         <log4j2.version>2.20.0</log4j2.version>
@@ -58,9 +58,28 @@
             <version>${protobuf-java.version}</version>
         </dependency>
 
+        <!-- SLF4J API -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <!-- Log4j2 to SLF4J Bridge -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <!-- Log4j2 Core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <!-- Log4j2 API -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
             <version>${log4j2.version}</version>
         </dependency>
     </dependencies>

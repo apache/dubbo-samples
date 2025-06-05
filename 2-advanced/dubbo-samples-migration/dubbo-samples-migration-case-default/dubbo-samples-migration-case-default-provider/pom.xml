@@ -29,8 +29,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <dubbo.provider.version>3.0.7</dubbo.provider.version>
+        <spring.version>4.3.30.RELEASE</spring.version>
+        <dubbo.provider.version>3.3.1</dubbo.provider.version>
         <log4j2.version>2.20.0</log4j2.version>
         <junit.version>4.13.1</junit.version>
 
@@ -40,35 +40,18 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-bom</artifactId>
-                <version>${dubbo.provider.version}</version>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
+                <artifactId>dubbo-bom</artifactId>
                 <version>${dubbo.provider.version}</version>
                 <type>pom</type>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>logback-classic</artifactId>
-                        <groupId>ch.qos.logback</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>logback-core</artifactId>
-                        <groupId>ch.qos.logback</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>slf4j-log4j12</artifactId>
-                        <groupId>org.slf4j</groupId>
-                    </exclusion>
-                </exclusions>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
@@ -85,6 +68,11 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+	        <version>${spring.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.protobuf</groupId>
@@ -92,9 +80,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-            <type>pom</type>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

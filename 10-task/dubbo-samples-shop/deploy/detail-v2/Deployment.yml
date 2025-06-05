@@ -19,7 +19,7 @@ metadata:
   name: shop-detail-v2
   namespace: dubbo-demo
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: shop-detail
@@ -29,40 +29,35 @@ spec:
       labels:
         app: shop-detail
         detailVersion: v2
+        app-type: dubbo
     spec:
-      volumes:
-        - name: skywalking-agent
-          emptyDir: { }
-
-      initContainers:
-        - name: agent-container
-          image: apache/skywalking-java-agent:8.13.0-java17
-          volumeMounts:
-            - name: skywalking-agent
-              mountPath: /agent
-          command: [ "/bin/sh" ]
-          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
-
       containers:
         - name: shop-detail
-          image: apache/dubbo-demo:dubbo-samples-shop-detail_v2_0.0.1
+          image: apache/dubbo-demo:dubbo-demo-detail_v2_0.0.2
           imagePullPolicy: Always
           ports:
             - name: dubbo
               containerPort: 20886
               protocol: TCP
             - name: dubbo-qos
-              containerPort: 20996
+              containerPort: 22222
               protocol: TCP
-          volumeMounts:
-            - name: skywalking-agent
-              mountPath: /skywalking
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
-            - name: SW_AGENT_NAME
-              value: shop::shop-detail
-            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-              value: "skywalking-oap-server.dubbo-system.svc:11800"
+              value:
+                -Ddubbo.registry.address=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+                -Ddubbo.config-center.address=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+                -Ddubbo.metadata-report.address=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+                -Ddubbo.application.metadata-type=remote
+                -Ddubbo.application.qos-port=22222
+                -Ddubbo.application.qos-anonymous-allow-commands=metrics
+                -Ddubbo.metrics.histogram.enabled=true
+                -Ddubbo.metrics.histogram.enabled-percentiles=true
+                -Ddubbo.metrics.enable-threadpool=true
+                -Ddubbo.metrics.enable-registry=true
+                -Ddubbo.metrics.enable-metadata=true
+                -Ddubbo.metrics.aggregation.enabled=true
+                -Ddubbo.tracing.enabled=true
+                -Ddubbo.tracing.tracing-exporter.otlp-config.endpoint=http://jaeger.dubbo-system.svc:4317
             - name: DUBBO_LABELS
               value: "detailVersion=v2; region=hangzhou;"

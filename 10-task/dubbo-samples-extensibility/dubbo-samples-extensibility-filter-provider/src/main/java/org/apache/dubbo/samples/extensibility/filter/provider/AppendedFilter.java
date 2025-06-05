@@ -31,7 +31,9 @@ public class AppendedFilter implements Filter {
         // Obtain the returned value
         Result appResponse = ((AsyncRpcResult) result).getAppResponse();
         // Appended value
-        appResponse.setValue(appResponse.getValue()+"'s customized AppendedFilter");
+        if (appResponse.getValue() instanceof String) {
+            appResponse.setValue(appResponse.getValue() + "'s customized AppendedFilter");
+        }
         return result;
     }
 }

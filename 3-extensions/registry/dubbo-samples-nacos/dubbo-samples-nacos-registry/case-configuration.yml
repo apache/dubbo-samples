@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-timeout: 300
+timeout: 600
 
 services:
   nacos:
@@ -37,7 +37,7 @@ services:
     waitPortsBeforeRun:
       - nacos:8848
     checkPorts:
-      - 20880
+      - 50052
     checkLog: "dubbo service started"
     depends_on:
       - nacos
@@ -52,7 +52,7 @@ services:
       - nacos.port=8848
     waitPortsBeforeRun:
       - nacos:8848
-      - dubbo-samples-nacos-registry:20880
+      - dubbo-samples-nacos-registry:50052
     depends_on:
       - nacos
       - dubbo-samples-nacos-registry

@@ -36,7 +36,7 @@ services:
     waitPortsBeforeRun:
       - nacos:8848
     checkPorts:
-      - 20880
+      - 50051
     depends_on:
       - nacos
 
@@ -50,7 +50,7 @@ services:
       - nacos.port=8848
     waitPortsBeforeRun:
       - nacos:8848
-      - dubbo-samples-sentinel-provider:20880
+      - dubbo-samples-sentinel-provider:50051
     depends_on:
       - nacos
       - dubbo-samples-sentinel-provider

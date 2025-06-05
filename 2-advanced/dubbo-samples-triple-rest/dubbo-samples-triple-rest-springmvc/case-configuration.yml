@@ -15,20 +15,13 @@
 # limitations under the License.
 
 services:
-  zookeeper:
-    image: zookeeper:latest
-
-  springmvc-provider:
+  provider:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.rest.demo.SpringmvcRestApplication
-    systemProps:
-      - zookeeper.address=zookeeper
-    waitPortsBeforeRun:
-      - zookeeper:2181
     checkPorts:
       - 50052
-    checkLog: "Current Spring Boot Application is await..."
+    checkLog: "dubbo service started"
 
   test:
     type: test
@@ -36,10 +29,8 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
-      - dubbo.address=springmvc-provider
+      - dubbo.address=provider
     waitPortsBeforeRun:
-      - zookeeper:2181
-      - springmvc-provider:50052
+      - provider:50052
     depends_on:
-      - springmvc-provider
+      - provider

@@ -116,10 +116,55 @@ jobs:
         run: |
           bash ./test/scripts/prepare-test.sh
       - name: Upload test list
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-list
           path: test/jobs
+      - name: "Cache Skywalking Agent"
+        id: cache-skywalking-agent
+        uses: actions/cache@v4
+        with:
+          path: /tmp/skywalking-agent
+          key: ${{ runner.os }}-skywalking-agent-9.0.0
+      - name: "Cache MySQL Driver"
+        id: cache-mysql-driver
+        uses: actions/cache@v4
+        with:
+          path: /tmp/mysql-connector-java-8.0.23.jar
+          key: ${{ runner.os }}-mysql-driver-8.0.23
+      - name: "Download Skywalking Agent and MySQL Driver"
+        if: steps.cache-skywalking-agent.outputs.cache-hit != 'true' || steps.cache-mysql-driver.outputs.cache-hit != 'true'
+        run: |
+          download_with_retry() {
+            local url=$1
+            local dest=$2
+            local retries=3
+            local count=0
+            local success=0
+
+            while [ $count -lt $retries ]; do
+              echo "Attempt $(($count+1)) to download $url"
+              wget -c $url --no-check-certificate -O $dest && success=1 && break
+              count=$(($count+1))
+              echo "Retry in 5 seconds..."
+              sleep 5
+            done
+
+            if [ $success -ne 1 ]; then
+              echo "Failed to download $url after $retries attempts."
+              exit 1
+            fi
+          }
+
+          download_with_retry "https://archive.apache.org/dist/skywalking/java-agent/9.0.0/apache-skywalking-java-agent-9.0.0.tgz" "/tmp/apache-skywalking-java-agent-9.0.0.tgz"
+          tar -zxvf /tmp/apache-skywalking-java-agent-9.0.0.tgz -C /tmp
+
+          download_with_retry "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar" "/tmp/mysql-connector-java-8.0.23.jar"
+      - name: "Mvn Benchmark Skywalking Plugin"
+        run: |
+          rm -rf /tmp/skywalking-agent/plugins/*
+          cd 10-task/dubbo-samples-benchmark/dubbo-samples-benchmark-agent && mvn --batch-mode --no-snapshot-updates -e --no-transfer-progress clean package -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
+          cp -f ./target/dubbo-samples-benchmark-agent.jar /tmp/skywalking-agent/plugins/
 
   testjob:
     needs: [prepare_test, build-dubbo]
@@ -155,7 +200,7 @@ jobs:
           path: ~/.m2/repository/org/apache/dubbo
           key: ${{ runner.os }}-dubbo-snapshot-${{needs.build-dubbo.outputs.commit_id}}
       - name: Download test list
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: test-list
           path: test/jobs/
@@ -171,10 +216,10 @@ jobs:
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: test-result
-          path: test/jobs/*-result*
+          name: test-result_${{matrix.job_id}}-java${{matrix.java}}
+          path: test/jobs/testjob_${{matrix.job_id}}-result-java${{matrix.java}}.txt
 
   test_result:
     needs: [testjob]
@@ -190,9 +235,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download test result
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: test-result
           path: test/jobs/
+          pattern: test-result_*-java${{matrix.java}}
+          merge-multiple: true
       - name: Merge test result - java ${{matrix.java}}
         run: ./test/scripts/merge-test-results.sh

@@ -41,6 +41,7 @@
         <swagger.version>1.5.19</swagger.version>
         <tomcat.version>8.0.53</tomcat.version>
         <zookeeper.version>3.8.3</zookeeper.version>
+        <alibaba-spring-context-support.version>1.0.11</alibaba-spring-context-support.version>
     </properties>
 
     <dependencyManagement>
@@ -67,12 +68,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-                <version>${dubbo.version}</version>
-                <type>pom</type>
-            </dependency>
+
 
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -133,9 +129,8 @@
             <artifactId>dubbo</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-            <type>pom</type>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -157,10 +152,10 @@
             <artifactId>resteasy-jackson-provider</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-rpc-rest</artifactId>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-rpc-rest</artifactId>
         </dependency>
-        <dependency>
+      <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
@@ -187,6 +182,7 @@
         <dependency>
             <groupId>com.alibaba.spring</groupId>
             <artifactId>spring-context-support</artifactId>
+            <version>${alibaba-spring-context-support.version}</version>
         </dependency>
 
         <dependency>

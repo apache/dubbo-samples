@@ -28,6 +28,7 @@ import java.util.List;
 @DubboService(version = "1.0.0", group = "2")
 public class AnnotatedGreetingService2 implements GreetingService {
 
+    @Override
     public String sayHello(String name) {
         System.out.println("greeting service received: " + name);
         return "hello, " + name + " from group 2";

@@ -24,6 +24,7 @@ import org.apache.dubbo.samples.multi.registry.api.DemoService;
 
 public class DemoServiceImpl implements DemoService {
 
+    @Override
     public String get(String name) {
         return "get: " + name;
     }

@@ -12,7 +12,7 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <dubbo.version>3.3.0-beta.1</dubbo.version>
+        <dubbo.version>3.3.0</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
     </properties>
 
@@ -60,6 +60,7 @@
                     <source>17</source>
                     <target>17</target>
                     <encoding>UTF-8</encoding>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
         </plugins>
