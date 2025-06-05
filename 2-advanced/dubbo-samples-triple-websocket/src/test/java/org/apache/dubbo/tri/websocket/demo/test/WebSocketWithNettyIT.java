@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
-public class WebSocketWithNettyTest {
+public class WebSocketWithNettyIT {
 
     private final String nettyAddress = "localhost:50052";
 
