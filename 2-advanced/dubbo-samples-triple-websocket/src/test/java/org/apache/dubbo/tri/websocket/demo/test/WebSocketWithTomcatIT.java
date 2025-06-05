@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 @RunWith(SpringRunner.class)
 public class WebSocketWithTomcatIT {
 
-    private final String tomcatAddress = "localhost:8080";
+    private final String tomcatAddress = System.getProperty("dubbo.address", "localhost") + ":8080";
 
     @Test
     public void testHelloWithTomcat() throws URISyntaxException, InterruptedException {
