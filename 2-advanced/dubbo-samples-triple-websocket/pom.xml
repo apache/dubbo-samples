@@ -33,7 +33,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1-SNAPSHOT</dubbo.version>
+        <dubbo.version>3.3.4</dubbo.version>
         <spring-boot.version>3.3.3</spring-boot.version>
         <java-websocket.version>1.5.6</java-websocket.version>
         <jarkata.version>6.1.0</jarkata.version>
