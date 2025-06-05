@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
-public class WebSocketWithTomcatTest {
+public class WebSocketWithTomcatIT {
 
     private final String tomcatAddress = "localhost:8080";
 
