@@ -44,7 +44,7 @@ services:
     type: test
     basedir: .
     tests:
-      - "**/*Test.class"
+      - "**/*IT.class"
     systemProps:
       - nacos.address=nacos
       - nacos.port=8848
