@@ -41,8 +41,14 @@ public class ClassLoaderUtils {
                 field.setAccessible(true);
                 Unsafe unsafe = (Unsafe) field.get(null);
 
-                // jdk.internal.loader.ClassLoaders.AppClassLoader.ucp
-                Field ucpField = classLoader.getClass().getDeclaredField("ucp");
+                Field ucpField;
+                try {
+                    // jdk.internal.loader.ClassLoaders.AppClassLoader.ucp
+                    ucpField = classLoader.getClass().getDeclaredField("ucp");
+                } catch (NoSuchFieldException ignored) {
+                    // get from super class because field "ucp" had been removed from newer jdk's AppClassLoader.
+                    ucpField = classLoader.getClass().getSuperclass().getDeclaredField("ucp");
+                }
                 long ucpFieldOffset = unsafe.objectFieldOffset(ucpField);
                 Object ucpObject = unsafe.getObject(classLoader, ucpFieldOffset);
 
