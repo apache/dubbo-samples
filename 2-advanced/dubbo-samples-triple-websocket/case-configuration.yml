@@ -34,8 +34,8 @@ services:
       - nacos.port=8848
     waitPortsBeforeRun:
       - nacos:8848
-    checkPorts:
-      - 50052
+    #checkPorts:  # could not run healthcheck otherwise the websocket server will disconnect the check connection immediately.
+    #  - 50052
     checkLog: "Current Spring Boot Application is await..."
     depends_on:
       - nacos
