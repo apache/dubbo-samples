@@ -110,6 +110,11 @@
             <groupId>io.netty.incubator</groupId>
             <artifactId>netty-incubator-codec-http3</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>1.81</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
