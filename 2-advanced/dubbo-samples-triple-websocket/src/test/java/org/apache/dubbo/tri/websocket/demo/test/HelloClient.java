@@ -16,15 +16,15 @@
  */
 package org.apache.dubbo.tri.websocket.demo.test;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HelloClient extends WebSocketClient {
 
@@ -32,17 +32,21 @@ public class HelloClient extends WebSocketClient {
 
     private final List<String> responses = new ArrayList<>();
 
+    private final CountDownLatch openLatch;
+
     private int closeCode;
 
     private String closeMessage;
 
-    public HelloClient(URI serverURI) {
+    public HelloClient(CountDownLatch openLatch, URI serverURI) {
         super(serverURI);
+        this.openLatch = openLatch;
     }
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         LOGGER.info("new connection opened:{}", handshakedata);
+        openLatch.countDown();
     }
 
     @Override
