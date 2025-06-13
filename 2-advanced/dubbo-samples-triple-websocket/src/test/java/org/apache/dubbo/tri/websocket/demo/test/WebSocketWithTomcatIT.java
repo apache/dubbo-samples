@@ -17,26 +17,37 @@
 package org.apache.dubbo.tri.websocket.demo.test;
 
 import io.netty.handler.codec.http.websocketx.WebSocketCloseStatus;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 public class WebSocketWithTomcatIT {
 
     private final String tomcatAddress = System.getProperty("dubbo.address", "localhost") + ":8080";
 
+    private CountDownLatch openLatch;
+
+    @Before
+    public void setUp() {
+        openLatch = new CountDownLatch(1);
+    }
+
     @Test
     public void testHelloWithTomcat() throws URISyntaxException, InterruptedException {
         HelloClient helloClient = new HelloClient(
+                openLatch,
                 new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/sayHello"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
@@ -48,8 +59,10 @@ public class WebSocketWithTomcatIT {
     @Test
     public void testHelloErrorWithTomcat() throws URISyntaxException, InterruptedException {
         HelloClient helloClient = new HelloClient(
+                openLatch,
                 new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/sayHelloError"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
@@ -61,9 +74,12 @@ public class WebSocketWithTomcatIT {
 
     @Test
     public void testServerStreamWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(new URI(
-                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStream"));
+        HelloClient helloClient = new HelloClient(
+                openLatch,
+                new URI("ws://" + tomcatAddress
+                        + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStream"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
@@ -76,9 +92,12 @@ public class WebSocketWithTomcatIT {
 
     @Test
     public void testServerStreamErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(new URI(
-                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamError"));
+        HelloClient helloClient = new HelloClient(
+                openLatch,
+                new URI("ws://" + tomcatAddress
+                        + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamError"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
@@ -90,9 +109,12 @@ public class WebSocketWithTomcatIT {
 
     @Test
     public void testServerStreamDirectErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(new URI("ws://" + tomcatAddress
-                + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamDirectError"));
+        HelloClient helloClient = new HelloClient(
+                openLatch,
+                new URI("ws://" + tomcatAddress
+                        + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetServerStreamDirectError"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         helloClient.send("{\"world\": 1}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
@@ -105,8 +127,10 @@ public class WebSocketWithTomcatIT {
     @Test
     public void testBiStreamWithTomcat() throws URISyntaxException, InterruptedException {
         HelloClient helloClient = new HelloClient(
+                openLatch,
                 new URI("ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStream"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         for (int i = 0; i < 10; i++) {
             helloClient.send("{\"world\": " + i + "}");
         }
@@ -131,9 +155,12 @@ public class WebSocketWithTomcatIT {
 
     @Test
     public void testBiStreamErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(new URI(
-                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamError"));
+        HelloClient helloClient = new HelloClient(
+                openLatch,
+                new URI("ws://" + tomcatAddress
+                        + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamError"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         for (int i = 0; i < 10; i++) {
             helloClient.send("{\"world\": " + i + "}");
         }
@@ -147,9 +174,12 @@ public class WebSocketWithTomcatIT {
 
     @Test
     public void testBiStreamDirectErrorWithTomcat() throws URISyntaxException, InterruptedException {
-        HelloClient helloClient = new HelloClient(new URI(
-                "ws://" + tomcatAddress + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamDirectError"));
+        HelloClient helloClient = new HelloClient(
+                openLatch,
+                new URI("ws://" + tomcatAddress
+                        + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamDirectError"));
         helloClient.connectBlocking();
+        Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
         for (int i = 0; i < 10; i++) {
             helloClient.send("{\"world\": " + i + "}");
         }
