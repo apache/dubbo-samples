@@ -22,9 +22,10 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -35,7 +36,7 @@ public class WebSocketWithTomcatIT {
 
     private CountDownLatch openLatch;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         openLatch = new CountDownLatch(1);
     }
