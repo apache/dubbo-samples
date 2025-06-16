@@ -42,4 +42,8 @@ public class DemoServiceStub implements DemoService {
             return null;
         }
     }
+
+    public void onConnectEvent() {
+        logger.info("A new connection has been created");
+    }
 }
