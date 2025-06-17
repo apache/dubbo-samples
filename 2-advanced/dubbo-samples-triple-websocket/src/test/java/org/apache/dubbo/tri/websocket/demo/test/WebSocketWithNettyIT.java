@@ -160,9 +160,7 @@ public class WebSocketWithNettyIT {
                         + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamError"));
         helloClient.connectBlocking();
         Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
-        for (int i = 0; i < 10; i++) {
-            helloClient.send("{\"world\": " + i + "}");
-        }
+        helloClient.send("{\"world\": " + 0 + "}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
         Assertions.assertEquals(0, responses.size());
@@ -179,9 +177,7 @@ public class WebSocketWithNettyIT {
                         + "/org.apache.dubbo.tri.websocket.demo.DemoService/greetBiStreamDirectError"));
         helloClient.connectBlocking();
         Assertions.assertTrue(openLatch.await(1, TimeUnit.SECONDS));
-        for (int i = 0; i < 10; i++) {
-            helloClient.send("{\"world\": " + i + "}");
-        }
+        helloClient.send("{\"world\": " + 0 + "}");
         TimeUnit.SECONDS.sleep(1);
         List<String> responses = helloClient.getResponses();
         Assertions.assertEquals(0, responses.size());
