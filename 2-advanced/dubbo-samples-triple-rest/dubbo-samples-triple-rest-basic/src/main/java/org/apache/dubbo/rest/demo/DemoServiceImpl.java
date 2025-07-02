@@ -19,21 +19,29 @@ package org.apache.dubbo.rest.demo;
 
 import org.apache.dubbo.config.annotation.DubboService;
 
+import java.util.stream.IntStream;
+
 @DubboService
 public class DemoServiceImpl implements DemoService {
 
+    private static final StringBuffer finalString = new StringBuffer();
+
+    static {
+        IntStream.range(0, 20000).forEach(i -> finalString.append(i).append("Hello"));
+    }
+
     @Override
     public String hello(String name) {
-        return "Hello " + name;
+        return finalString + "Hello " + name;
     }
 
     @Override
     public String hello(User user, int count) {
-        return "Hello " + user.getTitle() + ". " + user.getName() + ", " + count;
+        return finalString + "Hello " + user.getTitle() + ". " + user.getName() + ", " + count;
     }
 
     @Override
     public String helloUser(User user) {
-        return "Hello " + user.getTitle() + ". " + user.getName();
+        return finalString + "Hello " + user.getTitle() + ". " + user.getName();
     }
 }
