@@ -13,12 +13,12 @@ mvn clean compile #Compile and generate code
 Make sure you are in `dubbo-samples-triple-streaming` directory and then run the following command:
 
 ```shell
-$ mvn compile exec:java -D"exec.mainClass"="org.apache.dubbo.samples.tri.streaming.TriStreamServer"
+mvn spring-boot:run
 ```
 
-#### Start client
+#### Start integration test
 Open a new terminal, enter `dubbo-samples-triple-streaming` directory and then run the following command:
 
 ```shell
-$ mvn compile exec:java -D"exec.mainClass"="org.apache.dubbo.samples.tri.streaming.TriStreamClient"
+mvn verify
 ```
