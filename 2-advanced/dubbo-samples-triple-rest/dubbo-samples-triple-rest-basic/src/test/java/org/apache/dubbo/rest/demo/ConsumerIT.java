@@ -15,18 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.dubbo.rest.demo.test;
+package org.apache.dubbo.rest.demo;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.dubbo.rest.demo.DemoService;
-import org.apache.dubbo.rest.demo.User;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
@@ -34,7 +32,7 @@ import org.springframework.web.client.RestClient;
 import java.util.stream.IntStream;
 
 @EnableDubbo
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class ConsumerIT {
 
     private static final String HOST = System.getProperty("dubbo.address", "localhost");
@@ -57,13 +55,13 @@ public class ConsumerIT {
     @Test
     public void helloWithRpc() {
         String result = demoService.hello("world");
-        Assert.assertEquals(finalString + "Hello world", result);
+        Assertions.assertEquals(finalString + "Hello world", result);
     }
 
     @Test
     public void helloWithRest() {
         String result = restClient.get().uri(toUri("/hello?name=world")).retrieve().body(String.class);
-        Assert.assertEquals("\"" + finalString + "Hello world\"", result);
+        Assertions.assertEquals("\"" + finalString + "Hello world\"", result);
     }
 
     @Test
@@ -77,7 +75,7 @@ public class ConsumerIT {
                 .header("c", "3")
                 .retrieve()
                 .body(String.class);
-        Assert.assertEquals(finalString + "Hello Mr. Yang, 3", result);
+        Assertions.assertEquals(finalString + "Hello Mr. Yang, 3", result);
     }
 
     @Test
@@ -92,6 +90,6 @@ public class ConsumerIT {
                 .body(user)
                 .retrieve()
                 .body(String.class);
-        Assert.assertEquals("\"" + finalString + "Hello Mr. Yang\"", result);
+        Assertions.assertEquals("\"" + finalString + "Hello Mr. Yang\"", result);
     }
 }
