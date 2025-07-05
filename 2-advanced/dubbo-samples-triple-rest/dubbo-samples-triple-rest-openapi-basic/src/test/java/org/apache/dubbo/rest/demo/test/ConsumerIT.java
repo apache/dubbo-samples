@@ -19,8 +19,8 @@ package org.apache.dubbo.rest.demo.test;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestClient;
 
@@ -44,8 +44,8 @@ public class ConsumerIT {
                 retrieve().
                 body(String.class);
         System.out.println(result);
-        Assert.assertNotNull("OpenAPI documentation response should not be null", result);
-        Assert.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/hello"));
-        Assert.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/helloUser"));
+        Assertions.assertNotNull("OpenAPI documentation response should not be null", result);
+        Assertions.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/hello"));
+        Assertions.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/helloUser"));
     }
 }

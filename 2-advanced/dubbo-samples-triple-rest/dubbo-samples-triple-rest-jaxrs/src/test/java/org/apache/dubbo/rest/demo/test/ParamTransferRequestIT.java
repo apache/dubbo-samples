@@ -23,8 +23,8 @@ import org.apache.dubbo.rest.demo.routine.ParamTransferRequestService;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,61 +39,61 @@ public class ParamTransferRequestIT extends BaseTest {
     @Test
     public void test() {
         String result1 = paramTransferRequestService.sayHello("world");
-        Assert.assertEquals("Hello world", result1);
+        Assertions.assertEquals("Hello world", result1);
 
         String result2 = paramTransferRequestService.sayForm("world");
-        Assert.assertEquals("Hello world", result2);
+        Assertions.assertEquals("Hello world", result2);
 
         String result3 = paramTransferRequestService.sayPath("1");
-        Assert.assertEquals("Hello 1", result3);
+        Assertions.assertEquals("Hello 1", result3);
 
         String result4 = paramTransferRequestService.sayHeader("world");
-        Assert.assertEquals("Hello world", result4);
+        Assertions.assertEquals("Hello world", result4);
 
         String result5 = paramTransferRequestService.sayCookie("1");
-        Assert.assertEquals("Hello 1", result5);
+        Assertions.assertEquals("Hello 1", result5);
 
         List<String> result6 = paramTransferRequestService.sayCookie(List.of("1", "2"));
-        Assert.assertEquals(List.of("1", "2"), result6);
+        Assertions.assertEquals(List.of("1", "2"), result6);
 
         Map<String, String> result7 = paramTransferRequestService.sayCookie(Map.of("c1", "c", "c2", "d"));
-        Assert.assertEquals(Map.of("c1", "c", "c2", "d"), result7);
+        Assertions.assertEquals(Map.of("c1", "c", "c2", "d"), result7);
 
         String result8 = paramTransferRequestService.sayHeader(Map.of("name", "Hello"));
-        Assert.assertEquals("Hello", result8);
+        Assertions.assertEquals("Hello", result8);
 
         String result9 = paramTransferRequestService.sayNoAnnoParam("world");
-        Assert.assertEquals("world", result9);
+        Assertions.assertEquals("world", result9);
 
         String[] result10 = paramTransferRequestService.sayNoAnnoArrayParam(new String[] {"Hello", "world"});
-        Assert.assertArrayEquals(new String[] {"Hello", "world"}, result10);
+        Assertions.assertArrayEquals(new String[] {"Hello", "world"}, result10);
 
         List<Long> result12 = paramTransferRequestService.sayList(List.of(1L, 2L, 3L));
-        Assert.assertEquals(List.of(1L, 2L, 3L), result12);
+        Assertions.assertEquals(List.of(1L, 2L, 3L), result12);
 
         List<String> result13 = paramTransferRequestService.sayNoAnnoListParam(List.of("Hello", "world"));
-        Assert.assertEquals(List.of("Hello", "world"), result13);
+        Assertions.assertEquals(List.of("Hello", "world"), result13);
 
         Map<String, String> result14 = paramTransferRequestService.sayNoAnnoStringMapParam(Map.of("a", "world", "b", "hello"));
-        Assert.assertEquals(Map.of("a", "world", "b", "hello"), result14);
+        Assertions.assertEquals(Map.of("a", "world", "b", "hello"), result14);
 
         String result15 = paramTransferRequestService.sayPath("1");
-        Assert.assertEquals("Hello 1", result15);
+        Assertions.assertEquals("Hello 1", result15);
 
         List<String> result16 = paramTransferRequestService.sayQueryList(List.of("Hello ", "world"));
-        Assert.assertEquals(List.of("Hello ", "world"), result16);
+        Assertions.assertEquals(List.of("Hello ", "world"), result16);
 
         Map<String, String> result18 = paramTransferRequestService.sayQueryMap(Map.of("a", "world", "b", "hello"));
-        Assert.assertEquals(Map.of("a", "world", "b", "hello"), result18);
+        Assertions.assertEquals(Map.of("a", "world", "b", "hello"), result18);
 
         Map<String, List<String>> result19 = paramTransferRequestService.sayQueryStringMap(Map.of("arg1", List.of("Hello", "world"), "arg2", List.of("!")));
-        Assert.assertEquals(Map.of("arg1", List.of("Hello", "world"), "arg2", List.of("!")), result19);
+        Assertions.assertEquals(Map.of("arg1", List.of("Hello", "world"), "arg2", List.of("!")), result19);
 
         Map<String, String> result20 = paramTransferRequestService.sayStringMap(Map.of("Hello", "world"));
-        Assert.assertEquals(Map.of("Hello", "world"), result20);
+        Assertions.assertEquals(Map.of("Hello", "world"), result20);
 
         User result21 = paramTransferRequestService.sayUser(new User(1L, "1", 1));
-        Assert.assertEquals(new User(1L, "1", 1), result21);
+        Assertions.assertEquals(new User(1L, "1", 1), result21);
     }
 
     @Test
@@ -103,7 +103,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(List.of("Hello ", "world"), response.getBody());
+        Assertions.assertEquals(List.of("Hello ", "world"), response.getBody());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(Map.of("arg1", List.of("Hello", "world"), "arg2", List.of("!")), response.getBody());
+        Assertions.assertEquals(Map.of("arg1", List.of("Hello", "world"), "arg2", List.of("!")), response.getBody());
 
     }
 
@@ -134,7 +134,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(Map.of("a", "world", "b", "hello"), response.getBody());
+        Assertions.assertEquals(Map.of("a", "world", "b", "hello"), response.getBody());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .uri(toUri("/param/noAnnoParam?name={name}"), "world")
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("world", response.getBody());
+        Assertions.assertEquals("world", response.getBody());
     }
 
     @Test
@@ -152,7 +152,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .uri(toUri("/param/noAnnoListParam?value={value}&value={value}"), "Hello ", "world")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(List.of("Hello ", "world"), response.getBody());
+        Assertions.assertEquals(List.of("Hello ", "world"), response.getBody());
     }
 
     @Test
@@ -162,7 +162,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertArrayEquals(new String[] {"Hello", "world"}, response.getBody());
+        Assertions.assertArrayEquals(new String[] {"Hello", "world"}, response.getBody());
 
     }
 
@@ -173,7 +173,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(Map.of("a", "world", "b", "hello"), response.getBody());
+        Assertions.assertEquals(Map.of("a", "world", "b", "hello"), response.getBody());
     }
 
     @Test
@@ -183,7 +183,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello 1", response.getBody());
+        Assertions.assertEquals("Hello 1", response.getBody());
     }
 
     @Test
@@ -196,7 +196,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .body(map)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
 
     }
 
@@ -208,7 +208,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .header("name", "world")
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -218,7 +218,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .header("name", "Hello")
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello", response.getBody());
+        Assertions.assertEquals("Hello", response.getBody());
     }
 
     @Test
@@ -229,7 +229,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .header("Cookie", "cookieId=1")
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello 1", response.getBody());
+        Assertions.assertEquals("Hello 1", response.getBody());
     }
 
     @Test
@@ -239,7 +239,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .header("Cookie", "cookieId=1")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(List.of("1"), response.getBody());
+        Assertions.assertEquals(List.of("1"), response.getBody());
     }
 
     @Test
@@ -249,7 +249,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .header("Cookie", "c1=c")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(Map.of("c1", "c"), response.getBody());
+        Assertions.assertEquals(Map.of("c1", "c"), response.getBody());
     }
 
     @Test
@@ -259,7 +259,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -269,7 +269,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(List.of("Hello", "world"), result.getBody());
+        Assertions.assertEquals(List.of("Hello", "world"), result.getBody());
     }
 
     @Test
@@ -279,7 +279,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("{\"name\":[\"world\"]}", result.getBody());
+        Assertions.assertEquals("{\"name\":[\"world\"]}", result.getBody());
     }
 
     @Test
@@ -290,7 +290,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .body(new User(1L, "1", 1))
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(new User(1L, "1", 1), response.getBody());
+        Assertions.assertEquals(new User(1L, "1", 1), response.getBody());
     }
 
     @Test
@@ -301,7 +301,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .body(List.of(1L, 2L, 3L))
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(List.of(1L, 2L, 3L), response.getBody());
+        Assertions.assertEquals(List.of(1L, 2L, 3L), response.getBody());
     }
 
     @Test
@@ -312,7 +312,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .body(Map.of("Hello", "world"))
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(Map.of("Hello", "world"), response.getBody());
+        Assertions.assertEquals(Map.of("Hello", "world"), response.getBody());
     }
 
     @Test
@@ -323,7 +323,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .header("name", "Hello world")
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -333,7 +333,7 @@ public class ParamTransferRequestIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("GET", result.getBody());
+        Assertions.assertEquals("GET", result.getBody());
     }
 
     @Test
@@ -343,6 +343,6 @@ public class ParamTransferRequestIT extends BaseTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("world", result.getBody());
+        Assertions.assertEquals("world", result.getBody());
     }
 }
