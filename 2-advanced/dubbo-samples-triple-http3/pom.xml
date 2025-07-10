@@ -36,7 +36,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
+        <dubbo.version>3.3.6-SNAPSHOT</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
 
         <maven_os_plugin_version>1.7.1</maven_os_plugin_version>
@@ -70,6 +70,10 @@
                         <groupId>org.springframework.boot</groupId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+              <groupId>io.netty</groupId>
+              <artifactId>netty-codec-http3</artifactId>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -105,6 +109,10 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.netty.incubator</groupId>
+            <artifactId>netty-incubator-codec-http3</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
