@@ -40,9 +40,9 @@ public class JacocoDownloader {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
-     * The jacoco agent version
+     * The jacoco agent version, set to 0.8.13 for supporting JDK 23 and 24 class files
      */
-    private static final String JACOCO_VERSION = "0.8.9";
+    private static final String JACOCO_VERSION = "0.8.13";
 
     /**
      * The jacoco binary file name
