@@ -19,8 +19,19 @@ package org.apache.dubbo.rest.demo;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.HttpClientTransport;
+import org.eclipse.jetty.client.transport.HttpClientConnectionFactory;
+import org.eclipse.jetty.client.transport.HttpClientTransportDynamic;
+import org.eclipse.jetty.http.HttpHeader;
+import org.eclipse.jetty.http2.client.HTTP2Client;
+import org.eclipse.jetty.http2.client.transport.ClientConnectionFactoryOverHTTP2;
+import org.eclipse.jetty.io.ClientConnectionFactory;
+import org.eclipse.jetty.io.ClientConnector;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -69,5 +80,40 @@ public class DelayConsumerIT {
                 .retrieve()
                 .body(String.class);
         Assertions.assertEquals("\"" + finalString + "Hello Mr. Yang\"", result);
+    }
+
+    /**
+     * The MAX_HEADER_LIST_SIZE value of jetty HTTP/2 client is 8192, which is smaller than the default value of
+     * Triple server, Triple server should wait client connection preface before sending back response with large
+     * size header, otherwise the client will encounter IOException with invalid_continuation_stream.
+     */
+    @Test
+    public void helloH2cWithExceededLargeSizeHeaderResp() throws Exception {
+        ClientConnector clientConnector = new ClientConnector();
+        HTTP2Client http2Client = new HTTP2Client(clientConnector);
+        ClientConnectionFactory.Info h2 = new ClientConnectionFactoryOverHTTP2.HTTP2(http2Client);
+        clientConnector.setSelectors(1);
+        QueuedThreadPool clientThreads = new QueuedThreadPool();
+        clientThreads.setName("client");
+        clientConnector.setExecutor(clientThreads);
+        HttpClientTransport httpClientTransport
+                = new HttpClientTransportDynamic(clientConnector, HttpClientConnectionFactory.HTTP11, h2);
+        HttpClient httpClient = new HttpClient(httpClientTransport);
+        httpClient.start();
+
+        try {
+            httpClient.newRequest(toUri("/helloH2cWithExceededLargeSizeHeaderResp"))
+                    .headers(headers -> headers
+                            .put(HttpHeader.UPGRADE, "h2c")
+                            .put(HttpHeader.HTTP2_SETTINGS, "")
+                            .put(HttpHeader.CONNECTION, "Upgrade, HTTP2-Settings"))
+                    .timeout(5, TimeUnit.SECONDS)
+                    .send();
+            Assertions.fail("Expected exception not occurred!");
+        } catch (Exception ex) {
+            Assertions.assertEquals("java.io.IOException: cancel_stream_error", ex.getMessage());
+        } finally {
+            httpClient.stop();
+        }
     }
 }
