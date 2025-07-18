@@ -18,7 +18,12 @@
 package org.apache.dubbo.rest.demo;
 
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.remoting.http12.HttpResult;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @DubboService
@@ -26,8 +31,11 @@ public class DemoServiceImpl implements DemoService {
 
     private static final StringBuffer finalString = new StringBuffer();
 
+    private static final Map<String, List<String>> finalMap = new LinkedHashMap<>();
+
     static {
         IntStream.range(0, 20000).forEach(i -> finalString.append(i).append("Hello"));
+        finalMap.put("large-size-response-header", Collections.singletonList(finalString.toString()));
     }
 
     @Override
@@ -43,5 +51,26 @@ public class DemoServiceImpl implements DemoService {
     @Override
     public String helloUser(User user) {
         return finalString + "Hello " + user.getTitle() + ". " + user.getName();
+    }
+
+    @Override
+    public HttpResult<String> helloH2cWithExceededLargeSizeHeaderResp() {
+        return new HttpResult<>() {
+
+            @Override
+            public int getStatus() {
+                return 200;
+            }
+
+            @Override
+            public Map<String, List<String>> getHeaders() {
+                return finalMap;
+            }
+
+            @Override
+            public String getBody() {
+                return "Client should not get this because response header size exceeds limitation!";
+            }
+        };
     }
 }
