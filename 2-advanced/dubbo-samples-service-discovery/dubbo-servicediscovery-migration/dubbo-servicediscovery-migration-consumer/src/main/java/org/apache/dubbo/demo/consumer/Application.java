@@ -42,7 +42,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println("demoServiceFromDual reponse ===>  "+demoServiceFromDual.sayHello("123"));
+        System.out.println("demoServiceFromDual response ===>  "+demoServiceFromDual.sayHello("123"));
         System.out.println("demoServiceFromService response ===> " +demoServiceFromService.sayHello("456"));
         System.out.println("demoServiceFromNormal response ===> "+demoServiceFromNormal.sayHello("000"));
     }
