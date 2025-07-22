@@ -78,7 +78,7 @@ public class DemoServiceImpl implements DemoService {
                 System.out.println("dubbo test: status empty");
                 ret.put("body", "dubbo failed");
             } else {
-                System.out.println("dubbo test: unkown test");
+                System.out.println("dubbo test: unknown test");
             }
 
             return ret;
@@ -203,7 +203,7 @@ public class DemoServiceImpl implements DemoService {
                 System.out.println("dubbo test: status empty");
                 ret.put("body", "dubbo failed");
             } else {
-                System.out.println("dubbo test: unkown test");
+                System.out.println("dubbo test: unknown test");
             }
 
             return ret;
