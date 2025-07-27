@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author conghuhu
+ * GreeterImpl
  */
 @DubboService(version = "1.0.0")
 public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
