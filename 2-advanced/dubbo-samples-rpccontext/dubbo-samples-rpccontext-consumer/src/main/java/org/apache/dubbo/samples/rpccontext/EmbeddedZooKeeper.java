@@ -41,10 +41,6 @@ import org.springframework.util.ErrorHandler;
  * <p>
  * NOTE: at least an external standalone server (if not an ensemble) are recommended, even for
  * {@link org.springframework.xd.dirt.server.singlenode.SingleNodeApplication}
- *
- * @author Patrick Peralta
- * @author Mark Fisher
- * @author David Turanski
  */
 public class EmbeddedZooKeeper implements SmartLifecycle {
 

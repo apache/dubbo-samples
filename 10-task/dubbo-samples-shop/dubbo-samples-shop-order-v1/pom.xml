@@ -33,11 +33,11 @@
     <description>Dubbo Task - Shop - Order - Version 1</description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
+        <dubbo.version>3.2.16</dubbo.version>
         <nacos.version>2.2.0</nacos.version>
     </properties>
 
@@ -60,6 +60,18 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-tracing-otel-otlp-starter</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-observability-starter</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
 
@@ -99,10 +111,10 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.4.5</version>
                 <configuration>
                     <to>
-                        <image>apache/dubbo-demo:dubbo-samples-shop-order_v1_0.0.1</image>
+                        <image>apache/dubbo-demo:dubbo-samples-shop-order_v1_0.0.2</image>
                     </to>
                     <container>
                         <jvmFlags>

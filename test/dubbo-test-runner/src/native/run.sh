@@ -1,6 +1,7 @@
 #!/bin/bash
 set -x
 echo "Start at: $(date "+%Y-%m-%d %H:%M:%S")"
+echo "Current "`sysctl net.ipv4.ip_local_reserved_ports`
 
 DIR=/usr/local/dubbo
 cd $DIR
@@ -25,4 +26,3 @@ elif [ "$SERVICE_TYPE" == "nativeTest"  ]; then
 fi
 
 /bin/bash $script_file 2>&1
-

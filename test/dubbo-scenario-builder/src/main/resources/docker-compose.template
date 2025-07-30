@@ -96,4 +96,6 @@ services:
             - ${item}
         </#list>
         </#if>
+        sysctls:
+          net.ipv4.ip_local_reserved_ports: 50050-50059
 </#list>

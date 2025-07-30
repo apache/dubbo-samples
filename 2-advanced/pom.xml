@@ -72,6 +72,7 @@
         <module>dubbo-samples-gateway</module>
         <module>dubbo-samples-multiple-protocols</module>
         <module>dubbo-samples-triple-rest/dubbo-samples-triple-custom-uri</module>
+        <module>dubbo-samples-triple-websocket</module>
         <module>dubbo-samples-broadcast</module>
     </modules>
 </project>

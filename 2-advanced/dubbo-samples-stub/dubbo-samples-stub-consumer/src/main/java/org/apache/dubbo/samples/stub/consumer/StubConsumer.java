@@ -34,7 +34,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class StubConsumer {
     private static Logger logger = LoggerFactory.getLogger(StubConsumer.class);
 
-    @DubboReference(check=false, stub="org.apache.dubbo.samples.stub.DemoServiceStub", interfaceName = "org.apache.dubbo.samples.stub.DemoService")
+    @DubboReference(check=false, onconnect = "onConnectEvent", stub="org.apache.dubbo.samples.stub.DemoServiceStub", interfaceName = "org.apache.dubbo.samples.stub.DemoService")
     private DemoService demoService;
 
     public static void main(String[] args) {

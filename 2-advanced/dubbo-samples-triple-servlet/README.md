@@ -78,6 +78,6 @@ dubbo:
         name: tri
         port: ${server.port}
         triple:
-        servlet:
-            enabled: true
+            servlet:
+                enabled: true
 ```

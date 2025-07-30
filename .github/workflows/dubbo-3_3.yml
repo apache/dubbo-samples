@@ -19,9 +19,7 @@ env:
   SHOW_ERROR_DETAIL: 1
   BUILD_OPTS: --batch-mode --no-snapshot-updates --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml
     -Dmaven.wagon.http.retryHandler.count=3 clean package dependency:copy-dependencies -DskipTests
-  #multi-version size limit
   VERSIONS_LIMIT: 4
-  #candidate versions (the dubbo snapshot version will be extracted from pom.xml and appended before CANDIDATE_VERSIONS )
   CANDIDATE_VERSIONS: '
     spring.version:5.3.24,6.1.5;
     spring-boot.version:2.7.6,3.2.3;
@@ -59,7 +57,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    # Map a step output to a job output
     outputs:
       commit_id: ${{ steps.git-checker.outputs.commit_id }}
       version: ${{ steps.git-checker.outputs.version }}
@@ -71,13 +68,10 @@ jobs:
       - name: Get commit id and dubbo version
         id: git-checker
         run: |
-          # Calculate Dubbo Version
-          REVISION=`awk '/<revision>[^<]+<\/revision>/{gsub(/<revision>|<\/revision>/,"",$1);print $1;exit;}' pom.xml`
+          REVISION=$(awk '/<revision>[^<]+<\/revision>/{gsub(/<revision>|<\/revision>/,"",$1);print $1;exit;}' pom.xml)
           echo "::set-output name=version::$REVISION"
           echo "dubbo version: $REVISION"
-          #
-          # commit id
-          commit_id=`git log --format="%H" -n 1`
+          commit_id=$(git log --format="%H" -n 1)
           echo "::set-output name=commit_id::$commit_id"
           echo "commit_id: $commit_id"
       - name: Dubbo cache
@@ -103,12 +97,11 @@ jobs:
       - name: Build dubbo
         if: steps.dubbocache.outputs.cache-hit != 'true'
         run: |
-          ./mvnw --batch-mode --no-snapshot-updates --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
+          ./mvnw --batch-mode --no-snapshot-updates --no-transfer-progress clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   prepare_test:
     runs-on: ubuntu-latest
     env:
-      #'JOB_COUNT' MUST match 'job_id' list of 'testjob'
       JOB_COUNT: 5
     steps:
       - uses: actions/checkout@v3
@@ -116,11 +109,55 @@ jobs:
         run: |
           bash ./test/scripts/prepare-test.sh
       - name: Upload test list
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-list
           path: test/jobs
+      - name: "Cache Skywalking Agent"
+        id: cache-skywalking-agent
+        uses: actions/cache@v4
+        with:
+          path: /tmp/skywalking-agent/dubbo-samples-benchmark-agent.jar
+          key: ${{ runner.os }}-skywalking-agent-9.0.0
+      - name: "Cache MySQL Driver"
+        id: cache-mysql-driver
+        uses: actions/cache@v4
+        with:
+          path: /tmp/mysql-connector-java-8.0.23.jar
+          key: ${{ runner.os }}-mysql-driver-8.0.23
+      - name: "Download Skywalking Agent and MySQL Driver"
+        if: steps.cache-skywalking-agent.outputs.cache-hit != 'true' || steps.cache-mysql-driver.outputs.cache-hit != 'true'
+        run: |
+          download_with_retry() {
+            local url=$1
+            local dest=$2
+            local retries=3
+            local count=0
+            local success=0
 
+            while [ $count -lt $retries ]; do
+              echo "Attempt $(($count+1)) to download $url"
+              wget -c $url --no-check-certificate -O $dest && success=1 && break
+              count=$(($count+1))
+              echo "Retry in 5 seconds..."
+              sleep 5
+            done
+
+            if [ $success -ne 1 ]; then
+              echo "Failed to download $url after $retries attempts."
+              exit 1
+            fi
+          }
+
+          download_with_retry "https://archive.apache.org/dist/skywalking/java-agent/9.0.0/apache-skywalking-java-agent-9.0.0.tgz" "/tmp/apache-skywalking-java-agent-9.0.0.tgz"
+          tar -zxvf /tmp/apache-skywalking-java-agent-9.0.0.tgz -C /tmp
+
+          download_with_retry "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar" "/tmp/mysql-connector-java-8.0.23.jar"
+      - name: "Mvn Benchmark Skywalking Plugin"
+        run: |
+          rm -rf /tmp/skywalking-agent/dubbo-samples-benchmark-agent.jar
+          cd 10-task/dubbo-samples-benchmark/dubbo-samples-benchmark-agent && mvn --batch-mode --no-snapshot-updates -e --no-transfer-progress clean package -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
+          cp -f ./target/dubbo-samples-benchmark-agent.jar /tmp/skywalking-agent/
 
   testjob:
     needs: [prepare_test, build-dubbo]
@@ -134,7 +171,6 @@ jobs:
       fail-fast: false
       matrix:
         java: [8, 11, 17, 21]
-        #testjob id list MUST match 'JOB_COUNT' of 'prepare_test'
         job_id: [1,2,3,4,5]
     steps:
       - uses: actions/checkout@v3
@@ -156,7 +192,7 @@ jobs:
           path: ~/.m2/repository/org/apache/dubbo
           key: ${{ runner.os }}-dubbo-snapshot-${{needs.build-dubbo.outputs.commit_id}}
       - name: Download test list
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: test-list
           path: test/jobs/
@@ -165,41 +201,17 @@ jobs:
           DUBBO_VERSION="${{needs.build-dubbo.outputs.version}}"
           CANDIDATE_VERSIONS="dubbo.version:$DUBBO_VERSION;compiler.version:$DUBBO_VERSION;dubbo.compiler.version:$DUBBO_VERSION;$CANDIDATE_VERSIONS"
           echo "CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS" >> $GITHUB_ENV
-      - name: "Cache Skywalking Agent"
-        id: cache-skywalking-agent
-        uses: actions/cache@v4
-        with:
-            path: /tmp/skywalking-agent/dubbo-samples-benchmark-agent.jar
-            key: ${{ runner.os }}-skywalking-agent-9.0.0
-      - name: "Cache MySQL Driver"
-        id: cache-mysql-driver
-        uses: actions/cache@v4
-        with:
-            path: /tmp/mysql-connector-java-8.0.23.jar
-            key: ${{ runner.os }}-mysql-driver-8.0.23
-      - name: "Download Skywalking Agent and MySQL Driver"
-#        if: steps.cache-skywalking-agent.outputs.cache-hit != 'true' || steps.cache-mysql-driver.outputs.cache-hit != 'true'
-        run: |
-            wget -c https://archive.apache.org/dist/skywalking/java-agent/9.0.0/apache-skywalking-java-agent-9.0.0.tgz --no-check-certificate
-            tar -zxvf apache-skywalking-java-agent-9.0.0.tgz -C /tmp
-            wget -c https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar
-            mv ./mysql-connector-java-8.0.23.jar /tmp/
-      - name: "Mvn Benchmark Skywalking Plugin"
-        run: |
-            rm -rf /tmp/skywalking-agent/dubbo-samples-benchmark-agent.jar
-            cd 10-task/dubbo-samples-benchmark/dubbo-samples-benchmark-agent && mvn --batch-mode --no-snapshot-updates -e --no-transfer-progress clean package -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
-            cp -f ./target/dubbo-samples-benchmark-agent.jar /tmp/skywalking-agent/
       - name: Build test image
         run: |
-          cd test && bash ./build-test-image.sh
+          cd test && bash -c 'DEBIAN_MIRROR=http://archive.debian.org/debian-archive ./build-test-image.sh'
       - name: Run tests
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: test-result
-          path: test/jobs/*-result*
+          name: test-result_${{matrix.job_id}}-java${{matrix.java}}
+          path: test/jobs/testjob_${{matrix.job_id}}-result-java${{matrix.java}}.txt
 
   test_result:
     needs: [testjob]
@@ -215,9 +227,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download test result
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: test-result
           path: test/jobs/
+          pattern: test-result_*-java${{matrix.java}}
+          merge-multiple: true
       - name: Merge test result - java ${{matrix.java}}
         run: ./test/scripts/merge-test-results.sh

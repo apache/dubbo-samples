@@ -36,7 +36,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
+        <dubbo.version>3.3.6-SNAPSHOT</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
 
         <maven_os_plugin_version>1.7.1</maven_os_plugin_version>
@@ -106,13 +106,14 @@
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.netty.incubator</groupId>
-            <artifactId>netty-incubator-codec-http3</artifactId>
-        </dependency>
+       <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-codec-http3</artifactId>
+       </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>1.81</version>
         </dependency>
 
         <dependency>
@@ -151,6 +152,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- add os-maven-plugin to plugins just for Eclipse m2e, not for `mvn install` -->
             <plugin>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
@@ -182,6 +184,14 @@
                 </executions>
             </plugin>
         </plugins>
+        <extensions>
+          <!-- add os-maven-plugin to extensions for `mvn install` -->
+          <extension>
+            <groupId>kr.motd.maven</groupId>
+            <artifactId>os-maven-plugin</artifactId>
+            <version>${maven_os_plugin_version}</version>
+          </extension>
+        </extensions>
     </build>
 
     <repositories>
