@@ -22,7 +22,7 @@ import org.apache.dubbo.common.stream.StreamObserver;
 import java.util.function.Function;
 
 /**
- * @author earthchen
+ * EchoStreamObserver
  * @date 2021/9/6
  **/
 public class EchoStreamObserver<T, R> implements StreamObserver<T> {

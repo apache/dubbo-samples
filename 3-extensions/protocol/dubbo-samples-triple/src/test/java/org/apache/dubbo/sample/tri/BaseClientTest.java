@@ -38,7 +38,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author earthchen
+ * BaseClientTest
  * @date 2021/9/9
  **/
 public abstract class BaseClientTest {

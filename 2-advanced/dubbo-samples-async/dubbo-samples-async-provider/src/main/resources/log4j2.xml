@@ -22,7 +22,16 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="info">
+        <!-- Dubbo Logger -->
+        <Logger name="org.apache.dubbo" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <!-- AsyncRpcResult Logger -->
+        <Logger name="org.apache.dubbo.rpc.AsyncRpcResult" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <!-- Root Logger -->
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

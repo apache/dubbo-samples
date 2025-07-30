@@ -32,4 +32,5 @@ dubbo:
     address: zookeeper://${ZOOKEEPER_ADDRESS:127.0.0.1}:2181
   metrics:
     protocol: prometheus
+    enable: true
     # enable-jvm-metrics: true
