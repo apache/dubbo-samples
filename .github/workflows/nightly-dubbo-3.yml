@@ -116,7 +116,7 @@ jobs:
         run: |
           bash ./test/scripts/prepare-test.sh
       - name: Upload test list
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-list
           path: test/jobs
@@ -154,7 +154,7 @@ jobs:
           path: ~/.m2/repository/org/apache/dubbo
           key: ${{ runner.os }}-dubbo-snapshot-${{needs.build-dubbo.outputs.commit_id}}
       - name: Download test list
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: test-list
           path: test/jobs/
@@ -165,15 +165,15 @@ jobs:
           echo "CANDIDATE_VERSIONS=$CANDIDATE_VERSIONS" >> $GITHUB_ENV
       - name: Build test image
         run: |
-          cd test && bash ./build-test-image.sh
+          cd test && bash -c 'DEBIAN_MIRROR=http://archive.debian.org/debian-archive ./build-test-image.sh'
       - name: Run tests
         run: cd test && bash ./run-tests.sh
       - name: Upload test result
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: test-result
-          path: test/jobs/*-result*
+          name: test-result_${{matrix.job_id}}-java${{matrix.java}}
+          path: test/jobs/testjob_${{matrix.job_id}}-result-java${{matrix.java}}.txt
 
   test_result:
     needs: [testjob]
@@ -189,9 +189,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download test result
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: test-result
           path: test/jobs/
+          pattern: test-result_*-java${{matrix.java}}
+          merge-multiple: true
       - name: Merge test result - java ${{matrix.java}}
         run: ./test/scripts/merge-test-results.sh

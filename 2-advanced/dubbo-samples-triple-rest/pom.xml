@@ -46,6 +46,7 @@
     <module>dubbo-samples-triple-rest-basic</module>
     <module>dubbo-samples-triple-rest-jaxrs</module>
     <module>dubbo-samples-triple-rest-springmvc</module>
+    <module>dubbo-samples-triple-rest-openapi-basic</module>
     <module>dubbo-samples-triple-rest-spring-security</module>
     <module>dubbo-samples-triple-rest-openapi-advance</module>
   </modules>
@@ -84,14 +85,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>

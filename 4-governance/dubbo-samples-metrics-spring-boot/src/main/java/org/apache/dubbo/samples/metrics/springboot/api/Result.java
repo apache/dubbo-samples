@@ -36,7 +36,7 @@ package org.apache.dubbo.samples.metrics.springboot.api;
 import java.io.Serializable;
 
 /**
- * @author zmx ON 2019-07-03
+ * Result
  */
 public class Result implements Serializable {
     public Result(){

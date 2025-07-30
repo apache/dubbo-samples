@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Start at: $(date "+%Y-%m-%d %H:%M:%S")"
+echo "Current "`sysctl net.ipv4.ip_local_reserved_ports`
 
 DIR=/usr/local/dubbo
 cd $DIR

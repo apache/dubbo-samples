@@ -26,8 +26,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.alibaba.fastjson2.JSON;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
@@ -49,7 +49,7 @@ public class ConsumerIT extends BaseTest {
     public void getParam() {
         String id = "123";
         String res = demoService.getParam(id);
-        Assert.assertEquals(PREFIX + id, res);
+        Assertions.assertEquals(PREFIX + id, res);
     }
 
     @Test
@@ -61,14 +61,14 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
     public void getVariable() {
         String id = "123";
         String res = demoService.getVariable(id);
-        Assert.assertEquals(PREFIX + id, res);
+        Assertions.assertEquals(PREFIX + id, res);
     }
 
     @Test
@@ -80,14 +80,14 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
     public void getMuchParam() {
         String id = "123", name = "test";
         String res = demoService.getMuchParam(id, name);
-        Assert.assertEquals(PREFIX + id + " " + name, res);
+        Assertions.assertEquals(PREFIX + id + " " + name, res);
     }
 
     @Test
@@ -99,14 +99,14 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
     }
 
     @Test
     public void getMuchVariable() {
         String id = "123", name = "test";
         String res = demoService.getMuchVariable(id, name);
-        Assert.assertEquals(PREFIX + id + " " + name, res);
+        Assertions.assertEquals(PREFIX + id + " " + name, res);
     }
 
     @Test
@@ -118,14 +118,14 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
     }
 
     @Test
     public void getReg() {
         String name = "test", version = "2.2.1", ext = ".txt";
         String res = demoService.getReg(name, version, ext);
-        Assert.assertEquals(PREFIX + name + " " + version + " " + ext, res);
+        Assertions.assertEquals(PREFIX + name + " " + version + " " + ext, res);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class ConsumerIT extends BaseTest {
                 .toEntity(String.class);
 
         // 因为已经解析了json 那么不需要再变成json格式了
-        Assert.assertEquals(PREFIX + name + " " + version + " " + ext, responseEntity.getBody());
+        Assertions.assertEquals(PREFIX + name + " " + version + " " + ext, responseEntity.getBody());
     }
 
     @Test
@@ -146,7 +146,7 @@ public class ConsumerIT extends BaseTest {
         String name = "123";
         String requestBody = "{\"name\": \"" + name + "\"}";
         String res = demoService.postBody(requestBody);
-        Assert.assertEquals(PREFIX + name, res);
+        Assertions.assertEquals(PREFIX + name, res);
     }
 
     @Test
@@ -160,14 +160,14 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + name + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + name + "\"", responseEntity.getBody());
     }
 
     @Test
     public void postParam() {
         String name = "123";
         String res = demoService.postParam(name);
-        Assert.assertEquals(PREFIX + name, res);
+        Assertions.assertEquals(PREFIX + name, res);
     }
 
     @Test
@@ -179,14 +179,14 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
     public void postVariable() {
         String name = "123";
         String res = demoService.postVariable(name);
-        Assert.assertEquals(PREFIX + name, res);
+        Assertions.assertEquals(PREFIX + name, res);
     }
 
     @Test
@@ -198,7 +198,7 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
@@ -206,7 +206,7 @@ public class ConsumerIT extends BaseTest {
         String id = "123";
         String requestBody = "{\"id\": \"" + id + "\"}";
         String res = demoService.postUseConsumes(requestBody);
-        Assert.assertEquals(PREFIX + id, res);
+        Assertions.assertEquals(PREFIX + id, res);
     }
 
     @Test
@@ -220,7 +220,7 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
@@ -228,7 +228,7 @@ public class ConsumerIT extends BaseTest {
         String id = "123";
         String requestBody = "{\"id\":\"" + id + "\"}";
         String res = demoService.postUseParams(requestBody);
-        Assert.assertEquals(PREFIX + id, res);
+        Assertions.assertEquals(PREFIX + id, res);
     }
 
     @Test
@@ -242,14 +242,14 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
     public void getHead() {
         String id = "123";
         String res = demoService.getHead(id);
-        Assert.assertEquals(PREFIX + id, res);
+        Assertions.assertEquals(PREFIX + id, res);
     }
 
     @Test
@@ -262,7 +262,7 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", responseEntity.getBody());
     }
 
     @Test
@@ -280,7 +280,7 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + " " + name + "\"", responseEntity.getBody());
     }
 
     @Test
@@ -291,7 +291,7 @@ public class ConsumerIT extends BaseTest {
 
         String json = JSON.toJSONString(map);
 
-        Assert.assertEquals(PREFIX + "123" + " 456", demoService.postMapUser(json));
+        Assertions.assertEquals(PREFIX + "123" + " 456", demoService.postMapUser(json));
     }
 
     // 出现问题
@@ -310,13 +310,13 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("\"" + PREFIX + "123" + " 456" + "\"", responseEntity.getBody());
+        Assertions.assertEquals("\"" + PREFIX + "123" + " 456" + "\"", responseEntity.getBody());
     }
 
     @Test
     public void putUpdateId() {
         String id = "123";
-        Assert.assertEquals(PREFIX + id, demoService.putUpdateId(id));
+        Assertions.assertEquals(PREFIX + id, demoService.putUpdateId(id));
     }
 
     @Test
@@ -326,13 +326,13 @@ public class ConsumerIT extends BaseTest {
                 .uri(toUri("/demo/put/update/{id}"), id)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("\"" + PREFIX + id + "\"", response.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", response.getBody());
     }
 
     @Test
     public void deleteId() {
         String id = "123";
-        Assert.assertEquals(PREFIX + id, demoService.deleteId(id));
+        Assertions.assertEquals(PREFIX + id, demoService.deleteId(id));
     }
 
     @Test
@@ -343,13 +343,13 @@ public class ConsumerIT extends BaseTest {
                 .uri(toUri("/demo/delete/{id}"), id)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("\"" + PREFIX + id + "\"", response.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + "\"", response.getBody());
     }
 
     @Test
     public void patchById() {
         String id = "123";
-        Assert.assertEquals(PREFIX + id + " jack", demoService.patchById(id, new User(123L, "jack").stringToJson()));
+        Assertions.assertEquals(PREFIX + id + " jack", demoService.patchById(id, new User(123L, "jack").stringToJson()));
     }
 
     @Test
@@ -363,24 +363,24 @@ public class ConsumerIT extends BaseTest {
                 .body(requestBody)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("\"" + PREFIX + id + " jack" + "\"", response.getBody());
+        Assertions.assertEquals("\"" + PREFIX + id + " jack" + "\"", response.getBody());
     }
 
     @Test
     public void primitive() {
-        Assert.assertEquals(1 + 2, demoService.primitiveInt(1, 2));
+        Assertions.assertEquals(1 + 2, demoService.primitiveInt(1, 2));
 
-        Assert.assertEquals(1L + 2L, demoService.primitiveLong(1L, 2L));
+        Assertions.assertEquals(1L + 2L, demoService.primitiveLong(1L, 2L));
 
-        Assert.assertEquals(1 + 2L, demoService.primitiveByte((byte) 1, 2L));
+        Assertions.assertEquals(1 + 2L, demoService.primitiveByte((byte) 1, 2L));
 
-        Assert.assertEquals(3L, demoService.primitiveShort((short) 1, 2L, 1));
+        Assertions.assertEquals(3L, demoService.primitiveShort((short) 1, 2L, 1));
     }
 
     @Test
     public void filterGet() {
         String name = "123";
-        Assert.assertEquals(name, filterService.filterGet(name));
+        Assertions.assertEquals(name, filterService.filterGet(name));
     }
 
     @Test
@@ -392,7 +392,7 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals(name, response.getBody());
+        Assertions.assertEquals(name, response.getBody());
     }
 
     @Test
@@ -401,7 +401,7 @@ public class ConsumerIT extends BaseTest {
         userList.add(new User(123L, "jack"));
         userList.add(new User(345L, "mack"));
 
-        Assert.assertEquals(userList, demoService.postList(userList));
+        Assertions.assertEquals(userList, demoService.postList(userList));
     }
 
     @Test
@@ -417,7 +417,7 @@ public class ConsumerIT extends BaseTest {
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
 
-        Assert.assertEquals(userList, response.getBody());
+        Assertions.assertEquals(userList, response.getBody());
     }
 
 }

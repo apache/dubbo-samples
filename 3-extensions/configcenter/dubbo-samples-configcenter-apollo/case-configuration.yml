@@ -60,7 +60,7 @@ services:
       - dubbo-samples-configcenter-apollo
 
   apollo-quick-start:
-    image: nobodyiam/apollo-quick-start
+    image: nobodyiam/apollo-quick-start:2.2.0
     depends_on:
       - apollo-db
     expose:

@@ -35,8 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,92 +49,92 @@ public class BasicParamRequestIT extends BaseTest {
     @Test
     public void testPrimitive() {
         int result1 = basicParamRequestService.primitiveInt(1, 1);
-        Assert.assertEquals(2, result1);
+        Assertions.assertEquals(2, result1);
 
         byte result2 = basicParamRequestService.primitiveByte((byte) 1, (byte) 1);
-        Assert.assertEquals((byte) 2, result2);
+        Assertions.assertEquals((byte) 2, result2);
 
         long result3 = basicParamRequestService.primitiveLong(1L, 1L);
-        Assert.assertEquals(2L, result3);
+        Assertions.assertEquals(2L, result3);
 
         double result4 = basicParamRequestService.primitiveDouble(1.1, 1.2);
-        Assert.assertEquals(2.3, result4, 0.00001);
+        Assertions.assertEquals(2.3, result4, 0.00001);
 
         short result5 = basicParamRequestService.primitiveShort((short) 1, (short) 1);
-        Assert.assertEquals((short) 2, result5);
+        Assertions.assertEquals((short) 2, result5);
 
         boolean result6 = basicParamRequestService.primitiveBoolean(true, false);
-        Assert.assertFalse(result6);
+        Assertions.assertFalse(result6);
 
         char result7 = basicParamRequestService.primitiveChar('a', 'b');
-        Assert.assertEquals((char) ('a' + 'b'), result7);
+        Assertions.assertEquals((char) ('a' + 'b'), result7);
 
         double result8 = basicParamRequestService.primitiveFloat(1.1f, 1.2f);
-        Assert.assertEquals(2.3f, result8, 0.00001f);
+        Assertions.assertEquals(2.3f, result8, 0.00001f);
     }
 
     @Test
     public void test() {
         BigInteger result17 = basicParamRequestService.bigInt(BigInteger.ONE, BigInteger.ONE);
-        Assert.assertEquals(BigInteger.TWO, result17);
+        Assertions.assertEquals(BigInteger.TWO, result17);
 
         BigDecimal result18 = basicParamRequestService.bigDecimal(BigDecimal.ONE, BigDecimal.ZERO);
-        Assert.assertEquals(BigDecimal.ONE, result18);
+        Assertions.assertEquals(BigDecimal.ONE, result18);
 
         int[] array1 = basicParamRequestService.intArray(new int[] {1, 2, 3});
-        Assert.assertArrayEquals(new int[] {1, 2, 3}, array1);
+        Assertions.assertArrayEquals(new int[] {1, 2, 3}, array1);
 
         long[] array2 = basicParamRequestService.longArray(new long[] {1L, 2L, 3L});
-        Assert.assertArrayEquals(new long[] {1L, 2L, 3L}, array2);
+        Assertions.assertArrayEquals(new long[] {1L, 2L, 3L}, array2);
     }
 
     @Test
     public void testWrapper() {
         Boolean result9 = basicParamRequestService.wrapperBoolean(Boolean.TRUE, Boolean.FALSE);
-        Assert.assertEquals(Boolean.FALSE, result9);
+        Assertions.assertEquals(Boolean.FALSE, result9);
 
         Byte result10 = basicParamRequestService.wrapperByte((byte) 1, (byte) 1);
-        Assert.assertEquals(Byte.valueOf((byte) 2), result10);
+        Assertions.assertEquals(Byte.valueOf((byte) 2), result10);
 
         Character result11 = basicParamRequestService.wrapperChar('a', 'b');
-        Assert.assertEquals(Character.valueOf((char) ('a' + 'b')), result11);
+        Assertions.assertEquals(Character.valueOf((char) ('a' + 'b')), result11);
 
         Double result12 = basicParamRequestService.wrapperDouble(1.1, 1.2);
-        Assert.assertEquals(Double.valueOf(2.3), result12);
+        Assertions.assertEquals(Double.valueOf(2.3), result12);
 
         Integer result13 = basicParamRequestService.wrapperInt(1, 1);
-        Assert.assertEquals(Integer.valueOf(2), result13);
+        Assertions.assertEquals(Integer.valueOf(2), result13);
 
         Long result14 = basicParamRequestService.wrapperLong(1L, 1L);
-        Assert.assertEquals(Long.valueOf(2L), result14);
+        Assertions.assertEquals(Long.valueOf(2L), result14);
 
         Short result16 = basicParamRequestService.wrapperShort((short) 1, (short) 1);
-        Assert.assertEquals(Short.valueOf((short) 2), result16);
+        Assertions.assertEquals(Short.valueOf((short) 2), result16);
     }
 
     @Test
     public void testDateTime() {
         Date date = basicParamRequestService.date(Date.from(Instant.parse("2023-03-08T09:30:05Z")));
-        Assert.assertEquals(Date.from(Instant.parse("2023-03-08T09:30:05Z")), date);
+        Assertions.assertEquals(Date.from(Instant.parse("2023-03-08T09:30:05Z")), date);
 
         Instant date1 = basicParamRequestService.date(Instant.parse("2023-03-08T09:30:05Z"));
-        Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"), date1);
+        Assertions.assertEquals(Instant.parse("2023-03-08T09:30:05Z"), date1);
 
         Calendar calendar = Calendar.getInstance();
         Calendar date2 = basicParamRequestService.date(calendar);
-        Assert.assertEquals(date2, calendar);
+        Assertions.assertEquals(date2, calendar);
 
         LocalDate date3 = basicParamRequestService.date(LocalDate.parse("2001-05-23"));
-        Assert.assertEquals(LocalDate.parse("2001-05-23"), date3);
+        Assertions.assertEquals(LocalDate.parse("2001-05-23"), date3);
 
         LocalTime date4 = basicParamRequestService.date(LocalTime.parse("09:30:05.123"));
-        Assert.assertEquals(LocalTime.parse("09:30:05.123"), date4);
+        Assertions.assertEquals(LocalTime.parse("09:30:05.123"), date4);
 
         LocalDateTime date5 = basicParamRequestService.date(LocalDateTime.parse("2023-03-08T09:30:05"));
-        Assert.assertEquals(LocalDateTime.parse("2023-03-08T09:30:05"), date5);
+        Assertions.assertEquals(LocalDateTime.parse("2023-03-08T09:30:05"), date5);
 
         ZonedDateTime date6 = basicParamRequestService.date(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"));
-        Assert.assertEquals(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"), date6);
+        Assertions.assertEquals(ZonedDateTime.parse("2021-06-11T10:00:00+02:00"), date6);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
-        Assert.assertEquals(Integer.valueOf(2), result.getBody());
+        Assertions.assertEquals(Integer.valueOf(2), result.getBody());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Byte.class);
-        Assert.assertEquals(Byte.valueOf((byte) 2), result.getBody());
+        Assertions.assertEquals(Byte.valueOf((byte) 2), result.getBody());
     }
 
     @Test
@@ -164,7 +164,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Long.class);
-        Assert.assertEquals(Long.valueOf(2), result.getBody());
+        Assertions.assertEquals(Long.valueOf(2), result.getBody());
     }
 
     @Test
@@ -174,7 +174,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Double.class);
-        Assert.assertEquals(Double.valueOf(2.3), result.getBody());
+        Assertions.assertEquals(Double.valueOf(2.3), result.getBody());
     }
 
     @Test
@@ -184,7 +184,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Short.class);
-        Assert.assertEquals(Short.valueOf((short) 2), result.getBody());
+        Assertions.assertEquals(Short.valueOf((short) 2), result.getBody());
     }
 
     @Test
@@ -194,7 +194,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Character.class);
-        Assert.assertEquals(Character.valueOf((char) ('a' + 'b')), result.getBody());
+        Assertions.assertEquals(Character.valueOf((char) ('a' + 'b')), result.getBody());
     }
 
     @Test
@@ -204,7 +204,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Boolean.class);
-        Assert.assertEquals(Boolean.FALSE, result.getBody());
+        Assertions.assertEquals(Boolean.FALSE, result.getBody());
     }
 
     @Test
@@ -215,7 +215,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Float.class);
-        Assert.assertEquals(2.3f, result.getBody(), 0.00001f);
+        Assertions.assertEquals(2.3f, result.getBody(), 0.00001f);
     }
 
     @Test
@@ -225,7 +225,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
-        Assert.assertEquals(Integer.valueOf(2), result.getBody());
+        Assertions.assertEquals(Integer.valueOf(2), result.getBody());
     }
 
     @Test
@@ -235,7 +235,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Byte.class);
-        Assert.assertEquals(Byte.valueOf((byte) 2), result.getBody());
+        Assertions.assertEquals(Byte.valueOf((byte) 2), result.getBody());
     }
 
     @Test
@@ -245,7 +245,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Long.class);
-        Assert.assertEquals(Long.valueOf(2), result.getBody());
+        Assertions.assertEquals(Long.valueOf(2), result.getBody());
     }
 
     @Test
@@ -255,7 +255,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Double.class);
-        Assert.assertEquals(Double.valueOf(2.3), result.getBody());
+        Assertions.assertEquals(Double.valueOf(2.3), result.getBody());
     }
 
     @Test
@@ -265,7 +265,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Short.class);
-        Assert.assertEquals(Short.valueOf((short) 2), result.getBody());
+        Assertions.assertEquals(Short.valueOf((short) 2), result.getBody());
     }
 
     @Test
@@ -275,7 +275,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Character.class);
-        Assert.assertEquals(Character.valueOf((char) ('a' + 'b')), result.getBody());
+        Assertions.assertEquals(Character.valueOf((char) ('a' + 'b')), result.getBody());
     }
 
     @Test
@@ -285,7 +285,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Boolean.class);
-        Assert.assertEquals(Boolean.FALSE, result.getBody());
+        Assertions.assertEquals(Boolean.FALSE, result.getBody());
     }
 
     @Test
@@ -295,7 +295,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(BigInteger.class);
-        Assert.assertEquals(new BigInteger("6000000000"), result.getBody());
+        Assertions.assertEquals(new BigInteger("6000000000"), result.getBody());
     }
 
     @Test
@@ -305,7 +305,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(BigDecimal.class);
-        Assert.assertEquals(new BigDecimal("2.3"), result.getBody());
+        Assertions.assertEquals(new BigDecimal("2.3"), result.getBody());
     }
 
     @Test
@@ -315,7 +315,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertArrayEquals(new int[] {1, 1}, result.getBody());
+        Assertions.assertArrayEquals(new int[] {1, 1}, result.getBody());
     }
 
     @Test
@@ -325,7 +325,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertArrayEquals(new long[] {1L, 1L}, result.getBody());
+        Assertions.assertArrayEquals(new long[] {1L, 1L}, result.getBody());
     }
 
     @Test
@@ -343,7 +343,7 @@ public class BasicParamRequestIT extends BaseTest {
                         throw new RuntimeException(e);
                     }
                 });
-        Assert.assertEquals(formatter.parse("2023-03-08 09:30:05"), result);
+        Assertions.assertEquals(formatter.parse("2023-03-08 09:30:05"), result);
     }
 
     @Test
@@ -353,7 +353,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(LocalDate.class);
-        Assert.assertEquals(LocalDate.parse("2001-05-23"), result.getBody());
+        Assertions.assertEquals(LocalDate.parse("2001-05-23"), result.getBody());
     }
 
     @Test
@@ -375,7 +375,7 @@ public class BasicParamRequestIT extends BaseTest {
                 });
         Calendar instance = Calendar.getInstance();
         instance.setTime(formatter.parse("2023-03-08 09:30:05"));
-        Assert.assertEquals(instance, result);
+        Assertions.assertEquals(instance, result);
     }
 
     @Test
@@ -385,7 +385,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Instant.class);
-        Assert.assertEquals(Instant.parse("2023-03-08T09:30:05Z"), result.getBody());
+        Assertions.assertEquals(Instant.parse("2023-03-08T09:30:05Z"), result.getBody());
     }
 
     @Test
@@ -395,7 +395,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(LocalTime.class);
-        Assert.assertEquals(LocalTime.parse("09:30:05.123"), result.getBody());
+        Assertions.assertEquals(LocalTime.parse("09:30:05.123"), result.getBody());
     }
 
     @Test
@@ -408,7 +408,7 @@ public class BasicParamRequestIT extends BaseTest {
                     String str = mapper.readValue(response.getBody(), String.class);
                     return LocalDateTime.parse(str, formatter);
                 });
-        Assert.assertEquals(LocalDateTime.parse("2024-04-28 10:00:00", formatter), result);
+        Assertions.assertEquals(LocalDateTime.parse("2024-04-28 10:00:00", formatter), result);
     }
 
     @Test
@@ -424,7 +424,7 @@ public class BasicParamRequestIT extends BaseTest {
                     return LocalDateTime.parse(value.substring(0, i), formatter)
                             .atZone(ZoneId.of(value.substring(i + 1, value.length() - 1)));
                 });
-        Assert.assertEquals(LocalDateTime.parse("2021-06-11T10:00:00", formatter)
+        Assertions.assertEquals(LocalDateTime.parse("2021-06-11T10:00:00", formatter)
                 .atZone(ZoneId.systemDefault()), result);
     }
 
@@ -435,7 +435,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Color.class);
-        Assert.assertEquals(Color.RED, result.getBody());
+        Assertions.assertEquals(Color.RED, result.getBody());
     }
 
     @Test
@@ -445,7 +445,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Double.class);
-        Assert.assertEquals(Double.valueOf("1.1"), result.getBody());
+        Assertions.assertEquals(Double.valueOf("1.1"), result.getBody());
     }
 
     @Test
@@ -455,7 +455,7 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -465,6 +465,6 @@ public class BasicParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
-        Assert.assertEquals(Integer.valueOf(1), result.getBody());
+        Assertions.assertEquals(Integer.valueOf(1), result.getBody());
     }
 }

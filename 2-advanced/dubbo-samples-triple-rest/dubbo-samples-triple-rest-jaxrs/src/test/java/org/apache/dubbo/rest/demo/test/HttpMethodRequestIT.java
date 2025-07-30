@@ -21,8 +21,8 @@ import org.apache.dubbo.rest.demo.routine.HttpMethodRequestService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,25 +35,25 @@ public class HttpMethodRequestIT extends BaseTest {
     @Test
     public void test() {
         String result = httpMethodRequestService.sayHelloPut("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
 
         result = httpMethodRequestService.sayHelloGet("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
 
         result = httpMethodRequestService.sayHelloPut("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
 
         result = httpMethodRequestService.sayHelloDelete("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
 
         result = httpMethodRequestService.sayHelloPatch("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
 
         result = httpMethodRequestService.sayHelloOptions("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
 
         result = httpMethodRequestService.sayHelloHead("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class HttpMethodRequestIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class HttpMethodRequestIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class HttpMethodRequestIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class HttpMethodRequestIT extends BaseTest {
                 .retrieve()
                 .toBodilessEntity();
 
-        Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+        Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class HttpMethodRequestIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class HttpMethodRequestIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class HttpMethodRequestIT extends BaseTest {
                 .retrieve()
                 .toEntity(String.class);
 
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
 }
