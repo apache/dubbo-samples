@@ -63,9 +63,9 @@ curl --http3 -vk 'https://localhost:50052/org.apache.dubbo.demo.GreeterService/s
 
 <dependencys>
     <dependency>
-        <groupId>io.netty.incubator</groupId>
-        <artifactId>netty-incubator-codec-http3</artifactId>
-        <version>0.0.28.Final</version>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-codec-http3</artifactId>
+        <version>4.2.2.Final</version>
     </dependency>
     <!-- To support self-signed certificates, if the certificate is configured that does not require -->
     <dependency>

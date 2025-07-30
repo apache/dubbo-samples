@@ -375,6 +375,9 @@ function process_case() {
               result=$?
               end_time=$SECONDS
 
+              mkdir $TEST_DIR/logs/$scenario_name/
+              cp -f $project_home/target/logs/*.log $TEST_DIR/logs/$scenario_name/
+
               if [ $result == 0 ]; then
                 echo "$log_prefix $TEST_SUCCESS with version: $version_profile, cost $((end_time - start_time)) s"
               else
@@ -410,7 +413,6 @@ function process_case() {
 
   log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix $TEST_SUCCESS: versions: $version_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
-
   # clean log files
   rm -f $project_home/*.log $project_home/version-matrix.*
 }
@@ -433,6 +435,7 @@ echo "Test reports dir: \${project.basedir}/target/test-reports"
 
 # prepare testcases
 mkdir -p $TEST_DIR/jobs
+mkdir -p $TEST_DIR/logs
 testListFile=$TEST_DIR/jobs/testjob.txt
 targetTestcases=$1
 if [ "$targetTestcases" != "" ];then

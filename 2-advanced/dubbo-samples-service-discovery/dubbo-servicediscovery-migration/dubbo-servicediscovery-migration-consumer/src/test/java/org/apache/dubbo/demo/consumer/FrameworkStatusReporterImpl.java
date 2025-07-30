@@ -17,27 +17,38 @@
 package org.apache.dubbo.demo.consumer;
 
 import com.google.gson.Gson;
+import org.apache.dubbo.common.status.reporter.FrameworkStatusReportService;
 import org.apache.dubbo.common.status.reporter.FrameworkStatusReporter;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class FrameworkStatusReporterImpl implements FrameworkStatusReporter {
-    private static final Map<String, String> report = new HashMap<>();
+    private static String expectedStep = "";
+    private static CountDownLatch latch = null;
 
     @Override
     public void report(String type, Object obj) {
-        if (obj instanceof String) {
-            Object group = new Gson().fromJson((String) obj, Map.class).get("group");
-//            report.put((String) group, (String) obj);
+        if (latch != null && FrameworkStatusReportService.MIGRATION_STEP_STATUS.equals(type) && obj instanceof String) {
+            Map<?, ?> map = new Gson().fromJson((String) obj, Map.class);
+            Object newStep = map.get("newStep");
+            Object success = map.get("success");
+            if (expectedStep.equals(newStep) && "true".equals(success)) {
+                latch.countDown();
+            }
         }
     }
 
-    public static Map<String, String> getReport() {
-        return report;
+    public static boolean waitReport(long ms) throws InterruptedException {
+        if (latch != null) {
+            return latch.await(ms, TimeUnit.MILLISECONDS);
+        }
+        return false;
     }
 
-    public static void clearReport() {
-        report.clear();
+    public static void prepare(String newStep, int expectedMigrationReportCount) {
+        expectedStep = newStep;
+        latch = new CountDownLatch(expectedMigrationReportCount);
     }
 }

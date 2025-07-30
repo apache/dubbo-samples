@@ -19,8 +19,8 @@ package org.apache.dubbo.rest.demo.test;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.routine.MappingRequestService;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
@@ -33,43 +33,43 @@ public class MappingRequestServiceIT extends BaseTest {
     @Test
     public void test() {
         String result1 = mappingRequestService.testService("world");
-        Assert.assertEquals("Hello world", result1);
+        Assertions.assertEquals("Hello world", result1);
 
         String result2 = mappingRequestService.testInterface("world");
-        Assert.assertEquals("Hello world", result2);
+        Assertions.assertEquals("Hello world", result2);
 
         String result3 = mappingRequestService.testPathOne("world");
-        Assert.assertEquals("Hello world", result3);
+        Assertions.assertEquals("Hello world", result3);
 
         int result4 = mappingRequestService.testPathInt(1);
-        Assert.assertEquals(1, result4);
+        Assertions.assertEquals(1, result4);
 
         String result5 = mappingRequestService.testPathParam("a", "b");
-        Assert.assertEquals("ab", result5);
+        Assertions.assertEquals("ab", result5);
 
         String result6 = mappingRequestService.testPathTwo("world");
-        Assert.assertEquals("Hello world", result6);
+        Assertions.assertEquals("Hello world", result6);
 
         String result7 = mappingRequestService.testPathParamTwo("a", "b");
-        Assert.assertEquals("ab", result7);
+        Assertions.assertEquals("ab", result7);
 
         String result8 = mappingRequestService.testPathZero("world");
-        Assert.assertEquals("Hello world", result8);
+        Assertions.assertEquals("Hello world", result8);
 
         String result9 = mappingRequestService.testPathAny("world");
-        Assert.assertEquals("Hello world", result9);
+        Assertions.assertEquals("Hello world", result9);
 
         String result10 = mappingRequestService.testConsumesAJ("world");
-        Assert.assertEquals("Hello world", result10);
+        Assertions.assertEquals("Hello world", result10);
 
         String result11 = mappingRequestService.testConsumesAll("world");
-        Assert.assertEquals("Hello world", result11);
+        Assertions.assertEquals("Hello world", result11);
 
         String result12 = mappingRequestService.testProducesAJ("world");
-        Assert.assertEquals("Hello world", result12);
+        Assertions.assertEquals("Hello world", result12);
 
         String result13 = mappingRequestService.testProducesAll("world");
-        Assert.assertEquals("Hello world", result13);
+        Assertions.assertEquals("Hello world", result13);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("ISN1111CHINESE", response.getBody());
+        Assertions.assertEquals("ISN1111CHINESE", response.getBody());
     }
 
     @Test
@@ -146,7 +146,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("FG", response.getBody());
+        Assertions.assertEquals("FG", response.getBody());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
-        Assert.assertEquals(Integer.valueOf(1), response.getBody());
+        Assertions.assertEquals(Integer.valueOf(1), response.getBody());
     }
 
     @Test
@@ -168,7 +168,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -179,7 +179,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -190,7 +190,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
     @Test
@@ -201,7 +201,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("\"Hello world\"", response.getBody());
+        Assertions.assertEquals("\"Hello world\"", response.getBody());
     }
 
     @Test
@@ -212,7 +212,7 @@ public class MappingRequestServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", response.getBody());
+        Assertions.assertEquals("Hello world", response.getBody());
     }
 
 }

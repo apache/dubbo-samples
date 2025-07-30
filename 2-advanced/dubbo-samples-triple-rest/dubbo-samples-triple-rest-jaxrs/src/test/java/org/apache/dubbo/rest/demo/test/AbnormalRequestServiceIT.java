@@ -16,8 +16,8 @@
  */
 package org.apache.dubbo.rest.demo.test;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
@@ -32,7 +32,7 @@ public class AbnormalRequestServiceIT extends BaseTest {
                 .uri(toUri("/abnormal/not"))
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {
-                    Assert.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+                    Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
                     return response;
                 });
     }
@@ -45,7 +45,7 @@ public class AbnormalRequestServiceIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {
                     System.out.println(response.getStatusCode());
-                    Assert.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+                    Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
                     return response;
                 });
     }
@@ -57,7 +57,7 @@ public class AbnormalRequestServiceIT extends BaseTest {
                 .uri(toUri("/abnormal/paramConvertFail?zonedDateTime=2023-03-08T10:15:30+08:00"))
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {
-                    Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+                    Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
                     return response;
                 });
     }
@@ -69,7 +69,7 @@ public class AbnormalRequestServiceIT extends BaseTest {
                 .uri(toUri("/abnormal/throwException"))
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange((request, response) -> {
-                    Assert.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+                    Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
                     return response;
                 });
     }

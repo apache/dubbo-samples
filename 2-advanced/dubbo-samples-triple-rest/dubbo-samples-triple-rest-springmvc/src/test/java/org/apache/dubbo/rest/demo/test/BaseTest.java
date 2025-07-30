@@ -19,12 +19,13 @@ package org.apache.dubbo.rest.demo.test;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestClient;
 
 @EnableDubbo
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public abstract class BaseTest {
 
     protected static final String HOST = System.getProperty("dubbo.address", "localhost");

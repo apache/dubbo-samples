@@ -1,0 +1,36 @@
+management:
+  metrics:
+    tags:
+      application: dubbo-samples-metrics-spring-boot
+    export:
+      prometheus:
+        enabled: true
+  server:
+    port: 18081
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: info,health,env,prometheus
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+spring:
+  main:
+    allow-circular-references: true
+
+server:
+  port: 18080
+
+dubbo:
+  application:
+    name: metrics-provider
+  registry:
+    address: zookeeper://${ZOOKEEPER_ADDRESS:127.0.0.1}:2181
+  metrics:
+    protocol: prometheus
+    enable: true
+    # enable-jvm-metrics: true
