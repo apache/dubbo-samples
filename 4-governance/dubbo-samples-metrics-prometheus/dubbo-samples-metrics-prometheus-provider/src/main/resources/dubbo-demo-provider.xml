@@ -24,14 +24,16 @@
     <context:property-placeholder/>
 
     <dubbo:application name="metrics-provider" qos-enable="true" qos-port="20888"  qos-accept-foreign-ip="false"
-                       qos-accept-foreign-ip-whitelist=" 192.168.1.169,47.96.183.43,192.168.1.9,121.199.25.64"/>
+                       qos-accept-foreign-ip-whitelist=" 192.168.1.169,47.96.183.43,192.168.1.9,121.199.25.64"
+                       metadata-type="remote"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
     <dubbo:config-center address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
     <dubbo:metadata-report address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
 
-    <dubbo:metrics protocol="prometheus" enable-jvm="false" enabled="true" >
+    <dubbo:metrics protocol="prometheus">
         <dubbo:histogram enabled="true"/>
+        <dubbo:aggregation enabled="true"/>
     </dubbo:metrics>
 
   <bean id="demoService" class="org.apache.dubbo.samples.metrics.prometheus.provider.impl.DemoServiceImpl"/>

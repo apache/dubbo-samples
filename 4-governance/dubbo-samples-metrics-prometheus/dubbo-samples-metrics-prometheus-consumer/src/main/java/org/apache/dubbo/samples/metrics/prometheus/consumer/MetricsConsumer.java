@@ -35,14 +35,25 @@ public class MetricsConsumer {
         DemoService2 demoService2 = ctx.getBean(DemoService2.class);
         while (true) {
             try {
-                Thread.sleep(3000);
-                System.out.println(demoService.sayHello("Dubbo").getMsg());
-                System.out.println(demoService.randomResponseTime("Dubbo").getMsg());
-                System.out.println(demoService.runTimeException("Dubbo").getMsg());
-                System.out.println(demoService.timeLimitedMethod("Dubbo").getMsg());
-                System.out.println(demoService2.sayHello("Dubbo").getMsg());
+                Thread.sleep(1000);
             } catch (Exception e) {
-                logger.error("MetricsConsumer failed: ", e);
+                logger.error("sleep failed: ", e);
+            }
+            System.out.println(demoService.sayHello("Dubbo").getMsg());
+            try {
+                System.out.println(demoService.randomResponseTime("Dubbo").getMsg());
+            } catch (Exception e) {
+                logger.error("randomResponseTime failed: ", e);
+            }
+            try {
+                System.out.println(demoService.runTimeException("Dubbo").getMsg());
+            } catch (Exception e) {
+                logger.error("runTimeException failed: ", e);
+            }
+            try {
+                System.out.println(demoService.timeLimitedMethod("Dubbo").getMsg());
+            } catch (Exception e) {
+                logger.error("timeLimitedMethod failed: ", e);
             }
         }
     }

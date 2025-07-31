@@ -82,7 +82,6 @@ public class ConsumerMetricsIT {
         //register
         add("dubbo_registry_subscribe_num_total");
         add("dubbo_registry_register_requests_succeed_total");
-
         add("dubbo_register_rt_milliseconds_last");
         add("dubbo_registry_register_requests_total");
         add("dubbo_register_rt_milliseconds_avg");
@@ -96,8 +95,6 @@ public class ConsumerMetricsIT {
         add("dubbo_register_rt_milliseconds_max");
         add("dubbo_registry_register_requests_succeed_total");
 
-
-
         //metadata
         add("dubbo_metadata_subscribe_num_failed_total");
         add("dubbo_metadata_push_num_failed_total");
@@ -105,6 +102,7 @@ public class ConsumerMetricsIT {
         add("dubbo_metadata_subscribe_num_succeed_total");
         add("dubbo_metadata_push_num_succeed_total");
         add("dubbo_metadata_push_num_total");
+
         //thread
         add("dubbo_thread_pool_thread_count");
         add("dubbo_thread_pool_largest_size");
@@ -124,6 +122,7 @@ public class ConsumerMetricsIT {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-demo-consumer.xml");
 
+        List<String> notExistedList = new ArrayList<>();
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet("http://localhost:" + port + "/metrics");
             CloseableHttpResponse response = client.execute(request);
@@ -132,17 +131,18 @@ public class ConsumerMetricsIT {
                     .lines().collect(Collectors.joining("\n"));
             for (int i = 0; i < metricKeys.size(); i++) {
                 String metricKey = metricKeys.get(i);
-                try {
-                    Assert.assertTrue(text.contains(metricKey));
-                } catch (Throwable e) {
-                    logger.error("metric key:{} don't exists", metricKey);
-                    throw new RuntimeException(e);
+                if (!text.contains(metricKey)) {
+                    notExistedList.add(metricKey);
                 }
             }
         } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
         context.stop();
+        for (String metricKey : notExistedList) {
+            logger.error("metric key:{} don't exists", metricKey);
+        }
+        Assert.assertTrue(notExistedList.isEmpty());
     }
 
 }
