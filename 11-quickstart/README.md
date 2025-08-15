@@ -15,12 +15,7 @@ $ ./mvnw clean install
 This will install all the modules especially `quickstart-api` in the local maven repo.
 
 ### Run quick start demo
-Enter `quickstart-service` directory:
-```shell
-$ cd 11-quickstart/quickstart-service
-```
-
-then, run the following command to start Dubbo process:
+Step into '11-quickstart' directory, run the following command to start Dubbo process:
 ```shell
 $ ./mvnw compile -pl quickstart-service exec:java -Dexec.mainClass="org.apache.dubbo.samples.quickstart.QuickStartApplication"
 ```
