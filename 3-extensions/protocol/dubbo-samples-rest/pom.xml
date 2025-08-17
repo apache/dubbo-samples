@@ -37,7 +37,7 @@
         <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
-        <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.0.23.Final</hibernate-validator.version>
         <swagger.version>1.5.19</swagger.version>
         <tomcat.version>8.0.53</tomcat.version>
         <zookeeper.version>3.8.3</zookeeper.version>
