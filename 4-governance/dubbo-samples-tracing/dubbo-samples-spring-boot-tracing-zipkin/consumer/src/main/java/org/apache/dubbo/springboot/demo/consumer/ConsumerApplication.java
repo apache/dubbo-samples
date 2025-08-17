@@ -38,12 +38,13 @@ public class ConsumerApplication {
     @DubboReference
     private DemoService demoService;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(ConsumerApplication.class, args);
         ConsumerApplication application = context.getBean(ConsumerApplication.class);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100000; i++) {
             String result = application.doSayHello("world");
             LOGGER.info("result: {}", result);
+            Thread.sleep(2000);
         }
     }
 
