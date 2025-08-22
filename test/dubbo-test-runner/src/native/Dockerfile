@@ -20,9 +20,9 @@ RUN yum -y update && \
     yum install -y wget && \
     yum install -y gzip
 
-RUN wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz && \
-    tar xvf apache-maven-3.9.6-bin.tar.gz -C /opt && \
-    mv /opt/apache-maven-3.9.6/ /opt/maven
+RUN wget https://dlcdn.apache.org/maven/maven-3/3.8.9/binaries/apache-maven-3.8.9-bin.tar.gz && \
+    tar xvf apache-maven-3.8.9-bin.tar.gz  -C /opt && \
+    mv /opt/apache-maven-3.8.9/ /opt/maven
 
 ENV MAVEN_HOME /opt/maven
 ENV PATH $MAVEN_HOME/bin:$PATH
