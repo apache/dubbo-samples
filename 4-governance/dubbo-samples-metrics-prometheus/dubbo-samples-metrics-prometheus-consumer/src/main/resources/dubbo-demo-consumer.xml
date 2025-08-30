@@ -18,13 +18,17 @@
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <context:property-placeholder/>
 
-    <dubbo:application name="metrics-provider" qos-enable="true" qos-port="20889"  qos-accept-foreign-ip="false"
-                       qos-accept-foreign-ip-whitelist=" 192.168.1.169,47.96.183.43,192.168.1.9,121.199.25.64"/>
+    <dubbo:application name="metrics-consumer" qos-enable="true" qos-port="20889"  qos-accept-foreign-ip="false"
+                       qos-accept-foreign-ip-whitelist="192.168.1.169,47.96.183.43,192.168.1.9,121.199.25.64"/>
 
     <dubbo:registry address="zookeeper://${zookeeper.address:127.0.0.1}:2181"/>
     <dubbo:config-center address="zookeeper://${zookeeper.address:127.0.0.1}:2181" />
@@ -35,8 +39,9 @@
         <dubbo:aggregation enabled="true"/>
     </dubbo:metrics>
 
-    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService" id="demoService" check="false"/>
+    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService"
+                     id="demoService" check="false"/>
 
-
-    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService2" id="demoService2"  check="false"/>
+    <dubbo:reference interface="org.apache.dubbo.samples.metrics.prometheus.api.DemoService2"
+                     id="demoService2" check="false"/>
 </beans>
