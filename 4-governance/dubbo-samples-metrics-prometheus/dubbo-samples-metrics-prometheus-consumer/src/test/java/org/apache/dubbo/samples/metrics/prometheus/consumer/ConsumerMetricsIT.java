@@ -123,17 +123,24 @@ public class ConsumerMetricsIT {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-demo-consumer.xml");
 
         List<String> notExistedList = new ArrayList<>();
+        HttpGet request = new HttpGet("http://localhost:" + port + "/metrics");
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet("http://localhost:" + port + "/metrics");
-            CloseableHttpResponse response = client.execute(request);
-            InputStream inputStream = response.getEntity().getContent();
-            String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-                    .lines().collect(Collectors.joining("\n"));
-            for (int i = 0; i < metricKeys.size(); i++) {
-                String metricKey = metricKeys.get(i);
-                if (!text.contains(metricKey)) {
-                    notExistedList.add(metricKey);
+            // retry 3 times as all metrics data are not collected immediately.
+            for (int retryTime = 0; retryTime < 3; retryTime++) {
+                notExistedList.clear();
+                CloseableHttpResponse response = client.execute(request);
+                InputStream inputStream = response.getEntity().getContent();
+                String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines()
+                        .collect(Collectors.joining("\n"));
+                for (String metricKey : metricKeys) {
+                    if (!text.contains(metricKey)) {
+                        notExistedList.add(metricKey);
+                    }
                 }
+                if (notExistedList.isEmpty()) {
+                    break;
+                }
+                Thread.sleep(1000);
             }
         } catch (Exception e) {
             Assert.fail(e.getMessage());
