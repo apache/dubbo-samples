@@ -33,6 +33,17 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      # Refer to https://github.com/actions/runner-images/issues/2840
+      # Current dubbo-samples is too huge and `System.IO.IOException: No space left on device` will be thrown
+      # during building it on current github-hosted running system, it should be split into two or more small
+      # projects in the future.
+      # For now, we should clean some unnecessary system files to make room for the building action.
+      - name: Clean unnecessary system files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
       - uses: actions/checkout@v3
       - name: Cache local Maven repository
         uses: actions/cache@v3
