@@ -14,7 +14,7 @@
 #   limitations under the License.
 
 ARG JAVA_VER=8
-FROM openjdk:${JAVA_VER}-jdk-bullseye
+FROM eclipse-temurin:${JAVA_VER}-jdk
 
 ARG DEBIAN_MIRROR
 RUN if [ -n "$DEBIAN_MIRROR" ]; then \
