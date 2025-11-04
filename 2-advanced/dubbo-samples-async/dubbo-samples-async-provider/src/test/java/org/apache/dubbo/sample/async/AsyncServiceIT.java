@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.dubo.sample.async;
+package org.apache.dubbo.sample.async;
 
 import org.apache.dubbo.samples.async.api.AsyncService;
 
