@@ -1,1 +1,0 @@
-org.springframework.boot.env.EnvironmentPostProcessor=org.apache.dubbo.samples.externalconfiguration.spring.MyEnvironmentPostProcessor
