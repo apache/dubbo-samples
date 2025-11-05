@@ -1,0 +1,65 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+services:
+  zookeeper:
+    image: zookeeper:latest
+
+  dubbo-samples-http-tomcat:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.http.HttpProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+      - servlet.port=8080
+      - servlet.container=tomcat
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 8080
+    checkLog: "dubbo service started"
+
+  dubbo-samples-http-jetty:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.http.HttpProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+      - servlet.port=8081
+      - servlet.container=jetty
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 8081
+    checkLog: "dubbo service started"
+
+  dubbo-samples-http-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - dubbo-samples-http-tomcat:8080
+      - dubbo-samples-http-jetty:8081
+    depends_on:
+      - dubbo-samples-http-tomcat
+      - dubbo-samples-http-jetty
+

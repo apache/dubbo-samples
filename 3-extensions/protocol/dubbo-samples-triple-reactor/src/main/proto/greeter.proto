@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "GreeterProto";
+
+package org.apache.dubbo.samples.triple.reactor;
+
+// The request message containing the user's name.
+message GreeterRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message GreeterReply {
+  string message = 1;
+}
+
+service GreeterService {
+
+  rpc greetOneToOne(GreeterRequest) returns (GreeterReply);
+
+  rpc greetOneToMany(GreeterRequest) returns (stream GreeterReply);
+
+  rpc greetManyToOne(stream GreeterRequest) returns (GreeterReply);
+
+  rpc greetManyToMany(stream GreeterRequest) returns (stream GreeterReply);
+}

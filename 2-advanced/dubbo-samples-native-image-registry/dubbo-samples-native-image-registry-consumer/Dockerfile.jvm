@@ -1,0 +1,19 @@
+# Using Oracle GraalVM for JDK 17
+FROM openjdk:17
+
+# Set the working directory to /home/app
+WORKDIR /build
+COPY . /build
+
+RUN ./mvnw clean package
+
+# JAR file will be specified by passing in a build time argument to docker build
+ARG APP_FILE
+
+EXPOSE 9091
+
+# opy the JAR file into the root and rename
+COPY ./target/${APP_FILE} app.jar
+
+# Run java with the jar file when the container starts up
+CMD ["java","-jar","app.jar"]

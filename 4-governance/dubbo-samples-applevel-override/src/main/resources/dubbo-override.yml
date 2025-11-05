@@ -1,0 +1,51 @@
+#
+#
+#   Licensed to the Apache Software Foundation (ASF) under one or more
+#   contributor license agreements.  See the NOTICE file distributed with
+#   this work for additional information regarding copyright ownership.
+#   The ASF licenses this file to You under the Apache License, Version 2.0
+#   (the "License"); you may not use this file except in compliance with
+#   the License.  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#
+
+# Execute on governance-appoverride-provider only and only those instances whose port is 20880 will be lifted to 1000.
+# This will take effect on all services in governance-appoverride-provider.
+---
+configVersion: v2.7
+scope: application
+key: governance-appoverride-provider
+enabled: true
+configs:
+- addresses: ["0.0.0.0:20880"]
+  side: provider
+  parameters:
+    weight: 100
+- addresses: ["0.0.0.0:20881"]
+  side: provider
+  parameters:
+    weight: 100
+...
+
+
+# Execute on demo-consumer only
+# the traffic come out from governance-appoverride-consumer will be distributed evenly across all providers,
+# because governance-appoverride-consumer will consider them having the same weight 100.
+---
+configVersion: v2.7
+scope: application
+key: governance-appoverride-consumer
+enabled: true
+configs:
+- addresses: ["0.0.0.0"]
+  parameters:
+    weight: 100
+...

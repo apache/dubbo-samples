@@ -1,0 +1,3 @@
+async-postprocess=org.apache.dubbo.samples.async.filter.AsyncPostprocessFilter
+legacy-block=org.apache.dubbo.samples.async.filter.LegacyBlockFilter
+legacy-listenable=org.apache.dubbo.samples.async.filter.LegacyListenableFilter

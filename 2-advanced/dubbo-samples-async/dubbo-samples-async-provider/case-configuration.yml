@@ -1,0 +1,92 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from: app-builtin-zookeeper.yml
+
+props:
+  project_name: dubbo-samples-async-provider
+  main_class: org.apache.dubbo.samples.async.AsyncProvider
+  zookeeper_port: 2181
+  dubbo_port: 20880
+
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+services:
+  zookeeper:
+    image: zookeeper:latest
+
+  async-provider-embedded:
+    type: app
+    basedir: dubbo-samples-async-provider
+    mainClass: org.apache.dubbo.samples.async.EmbeddedAsyncProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20881
+    checkLog: "dubbo service started"
+    depends_on:
+      - zookeeper
+
+  async-provider:
+    type: app
+    basedir: dubbo-samples-async-provider
+    mainClass: org.apache.dubbo.samples.async.AsyncProvider
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - async-provider-embedded:20881
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+    depends_on:
+      - zookeeper
+      - async-provider-embedded
+
+  async-consumer-test:
+    type: test
+    basedir: dubbo-samples-async-provider
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+      - provider-embedded:20880
+      - async-provider-embedded:20881
+    depends_on:
+      - zookeeper
+      - async-provider
+      - async-provider-embedded
+
+

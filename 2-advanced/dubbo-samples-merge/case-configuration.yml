@@ -1,0 +1,74 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+props:
+  ipv6Cidr: 2001:1:1::/64
+
+services:
+  dubbo-samples-merge-provider1:
+    type: app
+    basedir: dubbo-samples-merge-provider1
+    mainClass: org.apache.dubbo.samples.merge.MergeProvider1
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+
+  dubbo-samples-merge-provider2:
+    type: app
+    basedir: dubbo-samples-merge-provider2
+    mainClass: org.apache.dubbo.samples.merge.MergeProvider2
+    systemProps:
+      - zookeeper.address=dubbo-samples-merge-provider1
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-merge-provider1
+      - dubbo.port=20880
+    checkPorts:
+      - 20881
+    depends_on:
+      - dubbo-samples-merge-provider1
+    waitPortsBeforeRun:
+      - dubbo-samples-merge-provider1:2181
+      - dubbo-samples-merge-provider1:20880
+    checkLog: "dubbo service started"
+
+  dubbo-samples-merge-consumer1:
+    type: test
+    basedir: dubbo-samples-merge-consumer1
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=dubbo-samples-merge-provider1
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - dubbo-samples-merge-provider1:20880
+      - dubbo-samples-merge-provider2:20881
+    depends_on:
+      - dubbo-samples-merge-provider1
+      - dubbo-samples-merge-provider2
+
+  dubbo-samples-merge-consumer2:
+    type: test
+    basedir: dubbo-samples-merge-consumer2
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=dubbo-samples-merge-provider1
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - dubbo-samples-merge-provider1:20880
+      - dubbo-samples-merge-provider2:20881
+    depends_on:
+      - dubbo-samples-merge-provider1
+      - dubbo-samples-merge-provider2

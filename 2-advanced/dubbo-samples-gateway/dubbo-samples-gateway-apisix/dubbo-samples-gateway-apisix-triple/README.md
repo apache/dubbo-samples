@@ -1,0 +1,1 @@
+Please visit [the official website](http://dubbo.apache.org/zh-cn/blog/2024/04/22/%E4%BD%BF%E7%94%A8-apache-apisix-%E4%BB%A3%E7%90%86-dubbo-%E6%9C%8D%E5%8A%A1triple%E5%8D%8F%E8%AE%AE/) for more details of this example.

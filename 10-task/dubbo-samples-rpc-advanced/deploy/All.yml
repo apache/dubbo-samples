@@ -1,0 +1,482 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-demo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dubbo-system
+---
+
+# Nacos
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nacos
+  template:
+    metadata:
+      labels:
+        app: nacos
+    spec:
+      containers:
+        - name: consumer
+          image: nacos/nacos-server:v2.1.2
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8848
+              name: client
+            - containerPort: 9848
+              name: client-rpc
+          env:
+            - name: NACOS_SERVER_PORT
+              value: "8848"
+            - name: NACOS_APPLICATION_PORT
+              value: "8848"
+            - name: PREFER_HOST_MODE
+              value: "hostname"
+            - name: MODE
+              value: "standalone"
+            - name: NACOS_AUTH_ENABLE
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos
+  namespace: dubbo-system
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: nacos
+  ports:
+    - port: 8848
+      name: server
+      targetPort: 8848
+    - port: 9848
+      name: client-rpc
+      targetPort: 9848
+---
+
+# Dubbo Admin
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dubbo-admin
+  namespace: dubbo-system
+data:
+  # Set the properties you want to override, properties not set here will be using the default values
+  # check application.properties inside dubbo-admin project for the keys supported
+  application.properties: |
+    admin.registry.address=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+    admin.config-center=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+    admin.metadata-report.address=nacos://nacos.dubbo-system.svc:8848?username=nacos&password=nacos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-admin
+  namespace: dubbo-system
+  labels:
+    app: dubbo-admin
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dubbo-admin
+  template:
+    metadata:
+      labels:
+        app: dubbo-admin
+    spec:
+      containers:
+        - image: apache/dubbo-admin:0.5.0
+          name: dubbo-admin
+          ports:
+            - containerPort: 38080
+          volumeMounts:
+            - mountPath: /config
+              name: application-properties
+      volumes:
+        - name: application-properties
+          configMap:
+            name: dubbo-admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dubbo-admin
+  namespace: dubbo-system
+spec:
+  selector:
+    app: dubbo-admin
+  ports:
+    - protocol: TCP
+      port: 38080
+      targetPort: 38080
+---
+
+# Skywalking
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skywalking-oap-server
+  namespace: dubbo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skywalking-oap-server
+  template:
+    metadata:
+      labels:
+        app: skywalking-oap-server
+    spec:
+      containers:
+        - name: skywalking-oap-server
+          image: apache/skywalking-oap-server:9.3.0
+          imagePullPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skywalking-oap-dashboard
+  namespace: dubbo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skywalking-oap-dashboard
+  template:
+    metadata:
+      labels:
+        app: skywalking-oap-dashboard
+    spec:
+      containers:
+        - name: skywalking-oap-dashboard
+          image: apache/skywalking-ui:9.3.0
+          imagePullPolicy: Always
+          env:
+            - name: SW_OAP_ADDRESS
+              value: http://skywalking-oap-server.dubbo-system.svc:12800
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: skywalking-oap-server
+  namespace: dubbo-system
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: skywalking-oap-server
+  ports:
+    - port: 12800
+      name: rest
+      targetPort: 12800
+    - port: 11800
+      name: grpc
+      targetPort: 11800
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: skywalking-oap-dashboard
+  namespace: dubbo-system
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  selector:
+    app: skywalking-oap-dashboard
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+---
+
+# App A
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: advanced-a
+  namespace: dubbo-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: advanced-a
+  template:
+    metadata:
+      labels:
+        app: advanced-a
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: advanced-a
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_a_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20881
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20991
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: "rpc-advanced::a"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap-server.dubbo-system.svc:11800"
+---
+
+# App B V1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: advanced-b-v1
+  namespace: dubbo-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: advanced-b-v1
+  template:
+    metadata:
+      labels:
+        app: advanced-b-v1
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: advanced-b-v1
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_b_v1_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20882
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20992
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: "rpc-advanced::b"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap-server.dubbo-system.svc:11800"
+---
+
+# App B V2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: advanced-b-v2
+  namespace: dubbo-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: advanced-b-v2
+  template:
+    metadata:
+      labels:
+        app: advanced-b-v2
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: advanced-b-v2
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_b_v2_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20883
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20993
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: "rpc-advanced::b"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap-server.dubbo-system.svc:11800"
+---
+
+# App C
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: advanced-c
+  namespace: dubbo-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: advanced-c
+  template:
+    metadata:
+      labels:
+        app: advanced-c
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: advanced-c
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_c_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20884
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20994
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: "rpc-advanced::c"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap-server.dubbo-system.svc:11800"
+---
+
+# App D
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: advanced-d
+  namespace: dubbo-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: advanced-d
+  template:
+    metadata:
+      labels:
+        app: advanced-d
+    spec:
+      volumes:
+        - name: skywalking-agent
+          emptyDir: { }
+
+      initContainers:
+        - name: agent-container
+          image: apache/skywalking-java-agent:8.13.0-java17
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /agent
+          command: [ "/bin/sh" ]
+          args: [ "-c", "cp -R /skywalking/agent /agent/" ]
+
+      containers:
+        - name: advanced-d
+          image: apache/dubbo-demo:dubbo-samples-rpc-advanced_app_d_0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: dubbo
+              containerPort: 20885
+              protocol: TCP
+            - name: dubbo-qos
+              containerPort: 20995
+              protocol: TCP
+          volumeMounts:
+            - name: skywalking-agent
+              mountPath: /skywalking
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/skywalking/agent/skywalking-agent.jar"
+            - name: SW_AGENT_NAME
+              value: "rpc-advanced::d"
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: "skywalking-oap-server.dubbo-system.svc:11800"
+---

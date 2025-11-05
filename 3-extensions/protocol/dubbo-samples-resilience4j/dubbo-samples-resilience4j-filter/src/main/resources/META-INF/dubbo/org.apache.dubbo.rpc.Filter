@@ -1,0 +1,2 @@
+circuitBreaker=org.apache.dubbo.samples.resilience4j.filter.Resilience4jCircuitBreakerFilter
+rateLimiter=org.apache.dubbo.samples.resilience4j.filter.Resilience4jRateLimiterFilter

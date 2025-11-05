@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.apache.dubbo</groupId>
+    <artifactId>2-advanced</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>Advanced Usage</name>
+    <description>Dubbo Advanced Usage Samples</description>
+
+    <modules>
+        <module>dubbo-samples-async</module>
+        <module>dubbo-samples-attachment</module>
+        <module>dubbo-samples-autowire</module>
+        <module>dubbo-samples-cache</module>
+        <module>dubbo-samples-callback</module>
+        <module>dubbo-samples-chain</module>
+        <module>dubbo-samples-compatible</module>
+        <module>dubbo-samples-context</module>
+        <module>dubbo-samples-direct</module>
+        <module>dubbo-samples-docker</module>
+        <module>dubbo-samples-echo</module>
+        <module>dubbo-samples-environment-keys</module>
+        <module>dubbo-samples-generic</module>
+        <module>dubbo-samples-group</module>
+        <module>dubbo-samples-local</module>
+        <module>dubbo-samples-merge</module>
+        <module>dubbo-samples-migration</module>
+        <module>dubbo-samples-mock</module>
+        <module>dubbo-samples-notify</module>
+        <module>dubbo-samples-scala</module>
+        <module>dubbo-samples-seata</module>
+        <module>dubbo-samples-spi-compatible</module>
+        <module>dubbo-samples-stub</module>
+        <module>dubbo-samples-tengine</module>
+        <module>dubbo-samples-validation</module>
+        <module>dubbo-samples-version</module>
+        <module>dubbo-samples-rpccontext</module>
+        <module>dubbo-samples-spring-security</module>
+        <module>dubbo-samples-triple-streaming</module>
+        <module>dubbo-samples-springcloud</module>
+        <module>dubbo-samples-service-discovery</module>
+        <module>dubbo-samples-triple-grpc</module>
+        <module>dubbo-samples-triple-no-idl</module>
+        <module>dubbo-samples-native-image</module>
+        <module>dubbo-samples-native-image-registry</module>
+        <module>dubbo-samples-annotation</module>
+        <module>dubbo-samples-spring-xml</module>
+        <module>dubbo-samples-api-with-registry</module>
+        <module>dubbo-samples-dubbo</module>
+        <module>dubbo-samples-triple-rest</module>
+        <module>dubbo-samples-triple-http3</module>
+        <module>dubbo-samples-triple-servlet</module>
+        <module>dubbo-samples-gateway</module>
+        <module>dubbo-samples-multiple-protocols</module>
+        <module>dubbo-samples-triple-websocket</module>
+        <module>dubbo-samples-broadcast</module>
+    </modules>
+</project>

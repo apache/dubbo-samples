@@ -1,0 +1,52 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+services:
+  dubbo-samples-ssl-provider:
+    type: app
+    basedir: dubbo-samples-ssl-provider
+    mainClass: org.apache.dubbo.samples.basic.SslBasicProvider
+    volumes:
+      - ${_basedir}/dubbo-samples-ssl-provider/src/main/resources/certs:/dubbo-samples-ssl-provider/certs
+    systemProps:
+      - zookeeper.address=dubbo-samples-ssl-provider
+      - zookeeper.port=2181
+      - dubbo.ssl.server-key-cert-chain-path=/dubbo-samples-ssl-provider/certs/server0.pem
+      - dubbo.ssl.server-private-key-path=/dubbo-samples-ssl-provider/certs/server0.key
+      - dubbo.ssl.server-trust-cert-collection-path=/dubbo-samples-ssl-provider/certs/ca.pem
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+
+  dubbo-samples-ssl-test:
+    type: test
+    basedir: dubbo-samples-ssl-provider
+    tests:
+      - "**/*IT.class"
+    volumes:
+      - ${_basedir}/dubbo-samples-ssl-provider/src/main/resources/certs:/dubbo-samples-ssl-test/certs
+    systemProps:
+      - zookeeper.address=dubbo-samples-ssl-provider
+      - zookeeper.port=2181
+      - dubbo.ssl.client-key-cert-chain-path=/dubbo-samples-ssl-test/certs/client.pem
+      - dubbo.ssl.client-private-key-path=/dubbo-samples-ssl-test/certs/client.key
+      - dubbo.ssl.client-trust-cert-collection-path=/dubbo-samples-ssl-test/certs/ca.pem
+    waitPortsBeforeRun:
+      - dubbo-samples-ssl-provider:2181
+      - dubbo-samples-ssl-provider:20880
+    depends_on:
+      - dubbo-samples-ssl-provider

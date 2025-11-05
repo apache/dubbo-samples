@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DetailApplication2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="tasks-shop">
+    <module name="dubbo-samples-shop-detail-v2" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="org.apache.dubbo.samples.detail.DetailApplication2" />
+    <option name="VM_PARAMETERS" value="-Ddubbo.labels=&quot;detailVersion=v2;region=hangzhou;type=vip&quot;" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.apache.dubbo.samples.detail.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,49 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+props:
+  zookeeper_port1: 2181
+  zookeeper_port2: 2182
+  dubbo_port: 20890
+  hessian_port: 8082
+
+services:
+  dubbo-samples-default-config:
+    type: app
+    basedir: .
+    mainClass: org.apache.dubbo.samples.multi.registry.MultiRegistryProvider
+    checkPorts:
+      - ${zookeeper_port1}
+      - ${zookeeper_port2}
+      - ${dubbo_port}
+      - ${hessian_port}
+    checkLog: "dubbo service started"
+
+  dubbo-samples-default-config-test:
+    type: test
+    basedir: .
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address=dubbo-samples-default-config
+      - dubbo.address=dubbo-samples-default-config
+    waitPortsBeforeRun:
+      - dubbo-samples-default-config:${zookeeper_port1}
+      - dubbo-samples-default-config:${zookeeper_port2}
+      - dubbo-samples-default-config:${dubbo_port}
+      - dubbo-samples-default-config:${hessian_port}
+    depends_on:
+      - dubbo-samples-default-config

@@ -1,0 +1,60 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+services:
+  zookeeper-1:
+    image: zookeeper:latest
+
+  zookeeper-2:
+    image: zookeeper:latest
+
+  dubbo-samples-multi-registry:
+    type: app
+    basedir: dubbo-samples-multi-registry-provider
+    mainClass: org.apache.dubbo.samples.multi.registry.provider.MultiRegistryProvider
+    systemProps:
+      - zookeeper.address.1=zookeeper-1
+      - zookeeper.address.2=zookeeper-2
+      - zookeeper.port=2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+    waitPortsBeforeRun:
+      - zookeeper-1:2181
+      - zookeeper-2:2181
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+
+  dubbo-samples-multi-registry-test:
+    type: test
+    basedir: dubbo-samples-multi-registry-consumer
+    tests:
+      - "**/*IT.class"
+    systemProps:
+      - zookeeper.address.1=zookeeper-1
+      - zookeeper.address.2=zookeeper-2
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-multi-registry
+      - dubbo.port=20880
+    waitPortsBeforeRun:
+      - zookeeper-1:2181
+      - zookeeper-2:2181
+      - dubbo-samples-multi-registry:20880
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - dubbo-samples-multi-registry

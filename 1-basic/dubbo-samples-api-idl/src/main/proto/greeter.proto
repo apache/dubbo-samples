@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.apache.dubbo.samples.tri.unary;
+
+message GreeterRequest {
+  string name = 1;
+}
+
+message GreeterReply {
+  string message = 1;
+}
+
+service Greeter{
+
+  rpc greet(GreeterRequest) returns (GreeterReply);
+
+}

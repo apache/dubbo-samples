@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="OrderApplication2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="tasks-shop">
+    <module name="dubbo-samples-shop-order-v2" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="org.apache.dubbo.samples.order.OrderApplicationV2" />
+    <option name="VM_PARAMETERS" value="-Ddubbo.labels=&quot;orderVersion=v2&quot;" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
