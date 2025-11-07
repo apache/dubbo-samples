@@ -22,6 +22,15 @@ services:
     type: app
     basedir: dubbo-samples-callback-provider
     mainClass: org.apache.dubbo.samples.callback.provider.ProviderApplication
+    systemProps:
+      - zookeeper.address=zookeeper
+    waitPortsBeforeRun:
+      - zookeeper:2181
+    checkPorts:
+      - 20880
+    checkLog: "dubbo service started"
+    depends_on:
+      - zookeeper
 
   callback-consumer:
     type: test
@@ -29,12 +38,12 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=callback-provider
+      - zookeeper.address=zookeeper
       - zookeeper.port=2181
       - dubbo.address=callback-provider
       - dubbo.port=20880
     waitPortsBeforeRun:
-      - callback-provider:2181
+      - zookeeper:2181
       - callback-provider:20880
     depends_on:
       - callback-provider
