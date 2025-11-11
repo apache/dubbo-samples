@@ -40,7 +40,7 @@ report_dir=$DIR/app/test-reports
 
 # Fix Class loading problem in java9+: CompletableFuture.supplyAsync() is executed in the ForkJoinWorkerThread
 # and it only uses system classloader to load classes instead of the IsolatedClassLoader
-classpath=dubbo-test-runner.jar:$TEST_CLASSES_DIR:$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*
+classpath=dubbo-test-runner.jar:$TEST_CLASSES_DIR:$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*:$APP_CLASSES_DIR/../../jctools-core.jar
 java $JAVA_OPTS $DEBUG_OPTS -cp $classpath org.apache.dubbo.test.runner.TestRunnerMain "$TEST_CLASSES_DIR" "$APP_CLASSES_DIR" "$APP_DEPENDENCY_DIR" "$report_dir" "$TEST_PATTERNS" 2>&1
 result=$?
 if [ $result -ne 0 ]; then
