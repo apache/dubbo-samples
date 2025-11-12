@@ -52,7 +52,7 @@ ENV JAVA_OPTS="" \
     TEST_PATTERNS="**/*IT.class"
 
 
-ADD dubbo-test-runner.jar *.sh jctools-core.jar /usr/local/dubbo/
+ADD dubbo-test-runner.jar *.sh /usr/local/dubbo/
 
 WORKDIR /usr/local/dubbo/
 #ENTRYPOINT exec java $JAVA_OPTS -jar dubbo-test-runner.jar $TEST_CLASSES_DIR $APP_CLASSES_DIR $APP_DEPENDENCY_DIR
