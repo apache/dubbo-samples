@@ -29,7 +29,7 @@ fi
 
 echo "Running app : [$APP_MAIN_CLASS] ..."
 start=$SECONDS
-java $JAVA_OPTS $DEBUG_OPTS -cp "$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*:$APP_CLASSES_DIR/../../jctools-core.jar" $APP_MAIN_CLASS 2>&1 &
+java $JAVA_OPTS $DEBUG_OPTS -cp "$APP_CLASSES_DIR:$APP_DEPENDENCY_DIR/*" $APP_MAIN_CLASS 2>&1 &
 pid=$!
 
 echo "Wait for process to exit: $pid .."

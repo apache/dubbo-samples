@@ -21,5 +21,4 @@ cp -r $DIR/src/docker/* $DOCKER_DIR/
 cp $DIR/target/dubbo-test-runner-*-jar-with-dependencies.jar $DOCKER_DIR/dubbo-test-runner.jar
 
 cd $DOCKER_DIR
-wget https://repo1.maven.org/maven2/org/jctools/jctools-core/4.0.5/jctools-core-4.0.5.jar -O jctools-core.jar
 docker build -t dubbo/sample-test:$JAVA_VER . --build-arg DEBIAN_MIRROR=$DEBIAN_MIRROR  --build-arg JAVA_VER=$JAVA_VER
