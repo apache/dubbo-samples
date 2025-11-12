@@ -149,7 +149,8 @@ function run_test_with_version_profile() {
     fi
 
     echo "jvm_opts=$jvm_opts"
-    mvn $BUILD_OPTS $jvm_opts &> $project_home/mvn.log
+    # output all dependencies to the same directory (each module of multiple module project has its own dependency output directory by default)
+    mvn $BUILD_OPTS $jvm_opts -DoutputDirectory=$project_home/target/dependency &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
       echo "$log_prefix $TEST_FAILURE: Build failure with version: $jvm_opts, please check log: $project_home/mvn.log" | tee -a $testResultFile
