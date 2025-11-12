@@ -268,7 +268,7 @@ public class ConfigurationImpl implements IConfiguration {
                 //mount ${project.basedir}/target : DUBBO_APP_DIR
                 String targetPath = new File(service.getBasedir(), "target").getCanonicalPath();
                 service.getVolumes().add(targetPath + ":" + DUBBO_APP_DIR);
-                logger.info("mount " + targetPath + " to " + DUBBO_APP_DIR);
+                logger.info("Service: " + serviceName + ", mount " + targetPath + " to " + DUBBO_APP_DIR);
 
                 //mount ${scenario_home}/logs : DUBBO_LOG_DIR
                 service.getVolumes().add(scenarioLogDir + ":" + DUBBO_LOG_DIR);
