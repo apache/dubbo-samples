@@ -149,8 +149,7 @@ function run_test_with_version_profile() {
     fi
 
     echo "jvm_opts=$jvm_opts"
-    # output all dependencies to the same directory (each module of multiple module project has its own dependency output directory by default)
-    mvn $BUILD_OPTS $jvm_opts -DoutputDirectory=$project_home/target/dependency &> $project_home/mvn.log
+    mvn $BUILD_OPTS $jvm_opts &> $project_home/mvn.log
     result=$?
     if [ $result -ne 0 ]; then
       echo "$log_prefix $TEST_FAILURE: Build failure with version: $jvm_opts, please check log: $project_home/mvn.log" | tee -a $testResultFile
@@ -160,6 +159,9 @@ function run_test_with_version_profile() {
       fi
       return 1
     fi
+
+    # echo target directories
+    find `pwd` -name target -print
 
      # generate case configuration
      mkdir -p $scenario_home/logs
@@ -335,8 +337,7 @@ function process_case() {
                 find . -name target -d | xargs -I {} sudo rm -rf {}
               fi
 
-              # output all dependencies to the same directory (each module of multiple module project has its own dependency output directory by default)
-              mvn $BUILD_OPTS $version_profile -DoutputDirectory=$project_home/target/dependency &> $project_home/mvn.log
+              mvn $BUILD_OPTS $version_profile &> $project_home/mvn.log
               result=$?
               if [ $result -ne 0 ]; then
                 echo "$log_prefix $TEST_FAILURE: Build failure with version: $version_profile, please check log: $project_home/mvn.log" | tee -a $testResultFile
@@ -345,6 +346,9 @@ function process_case() {
                 fi
                 return 1
               fi
+
+              # echo target directories
+              find `pwd` -name target -print
 
               # generate case configuration
               mkdir -p $scenario_home/logs
