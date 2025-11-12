@@ -188,6 +188,9 @@ function run_test_with_version_profile() {
         return $result
      fi
 
+    mount_msg=`grep mount $scenario_builder_log`
+    echo "$log_prefix $mount_msg"
+
     # run test
     echo "$log_prefix Running test case .."
     running_time=$SECONDS
@@ -373,6 +376,9 @@ function process_case() {
                 fi
                 return $result
               fi
+
+              mount_msg=`grep mount $scenario_builder_log`
+              echo "$log_prefix $mount_msg"
 
               # run test
               echo "$log_prefix Running test case .."
