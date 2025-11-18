@@ -8,7 +8,7 @@ To do this, we've provided a [multistage Docker build file](./Dockerfile) for bu
 1. Containerise the native executable using the following command:
 
     ```shell
-    docker build -f ./Dockerfile --build-arg APP_FILE=dubbo-samples-native-image-provider -t provider-native:1.0.0 .
+    docker build -f ./Dockerfile -t provider-native:1.0.0 .
     ```
 
 2. Run the application:

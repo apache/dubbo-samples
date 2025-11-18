@@ -9,14 +9,13 @@ COPY . /build
 
 # Build
 RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative -U
-
-ARG APP_FILE
+RUN ls -l /build/target
 
 # The deployment Image
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
 EXPOSE 50052
 
-# Copy the native executable into the containers
-COPY --from=builder /build/target/${APP_FILE} app
+# Copy the native executable into the containers (source file name could not contain variables)
+COPY --from=builder /build/target/dubbo-samples-native-image-provider app
 ENTRYPOINT ["/app"]
