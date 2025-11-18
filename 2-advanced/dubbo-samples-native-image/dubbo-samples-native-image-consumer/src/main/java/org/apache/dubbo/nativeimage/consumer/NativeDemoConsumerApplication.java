@@ -31,7 +31,10 @@ import java.lang.management.RuntimeMXBean;
 @EnableDubbo(scanBasePackages = {"org.apache.dubbo.nativeimage.consumer"})
 public class NativeDemoConsumerApplication {
 
-    @DubboReference(url = "tri://127.0.0.1:50052?serialization=fastjson2")
+    /**
+     * should change to the provider's ip address and port.
+     */
+    @DubboReference(url = "tri://172.17.0.2:50052?serialization=fastjson2")
     private DemoService demoService;
 
     public static void main(String[] args) throws InterruptedException {
