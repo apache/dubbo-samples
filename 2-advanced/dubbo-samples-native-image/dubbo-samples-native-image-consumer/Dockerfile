@@ -20,6 +20,6 @@ EXPOSE 9091
 ARG APP_FILE
 RUN echo "Set ARG APP_FILE=${APP_FILE} at the same build stage ('FROM ...') of COPY instruction"
 
-# Copy the native executable into the containers (source file name could not contain variables)
+# Copy the native executable into the containers
 COPY --from=builder /build/target/${APP_FILE} app
 ENTRYPOINT ["/app"]

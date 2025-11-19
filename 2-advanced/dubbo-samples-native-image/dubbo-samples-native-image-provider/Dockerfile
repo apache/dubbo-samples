@@ -22,5 +22,4 @@ RUN echo "Set ARG APP_FILE=${APP_FILE} at the same build stage ('FROM ...') of C
 
 # Copy the native executable into the containers
 COPY --from=builder /build/target/${APP_FILE} app
-
 ENTRYPOINT ["/app"]
