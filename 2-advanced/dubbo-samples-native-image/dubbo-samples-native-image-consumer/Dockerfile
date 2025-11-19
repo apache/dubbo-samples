@@ -16,6 +16,10 @@ FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
 EXPOSE 9091
 
+# The `APP_FILE` variable used in `COPY` instruction should be set at the same build stage (`FROM` ...) of the `COPY` instruction
+ARG APP_FILE
+RUN echo "Set ARG APP_FILE=${APP_FILE} at the same build stage ('FROM ...') of COPY instruction"
+
 # Copy the native executable into the containers (source file name could not contain variables)
-COPY --from=builder /build/target/dubbo-samples-native-image-consumer app
+COPY --from=builder /build/target/${APP_FILE} app
 ENTRYPOINT ["/app"]
