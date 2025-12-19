@@ -6,15 +6,40 @@ Samples for Apache Dubbo.
 ![Build Status](https://github.com/apache/dubbo-samples/workflows/Dubbo%203.3/badge.svg)
 ![license](https://img.shields.io/github/license/apache/dubbo-samples.svg)
 
-This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced, pls. check README in each individual sub projects. It is also helpful to cross reference to [Dubbo User Manual](https://dubbo.apache.org/zh-cn/overview/tasks/) to understand the features demoed in this project.
+This repository contains a number of projects to illustrate various usages of Dubbo from basic to advanced.
+All samples are standard Java, Spring, or Spring Boot applications, and can be built and run in the same way as normal applications.
+ Please check the README in each individual sub-project for detailed instructions.
+ It is also helpful to cross reference to [Dubbo User Manual](https://dubbo.apache.org/zh-cn/overview/tasks/) to understand the features demoed in this project.
 
 What's more, [dubbo-go](https://github.com/apache/dubbo-go) samples are moved to [dubbo-go-samples](https://github.com/apache/dubbo-go-samples).
+## Prerequisites
+
+Before running most samples, make sure you have the following installed:
+
+- JDK 8 or later
+- Maven 3.6+
+- ZooKeeper (external)
+
+### ZooKeeper Setup
+
+Samples do not rely on an embedded ZooKeeper by default.
+
+Please download and run a standard ZooKeeper distribution:
+
+1. Download ZooKeeper from https://zookeeper.apache.org/releases.html
+2. Extract the package
+3. Start ZooKeeper:
+
+```bash
+bin/zkServer.sh start 
+
 
 ## Build and Run Samples
 
-To compile all samples, run the following command in the top directory of this project, or step into the sub directories to compile one single sample:
+**It is highly NOT recommended to build the entire project from the root directory**, as building all samples can take a long time.
 
-**It is highly not recommend to build the entire project from the root directory, as building the entire samples can take a long time. Each module in Samples is designed independently so you can first go to the demo directory you care about, then execute the build and run the demo.**
+Each sample is designed to be independent. You should navigate to the demo directory you are interested in and then build and run the sample.
+
 
 For example,
 
