@@ -1,5 +1,8 @@
 # maven ignore
 target/
+
+# gradle ignore
+build/
 *.jar
 *.war
 *.zip
