@@ -17,31 +17,32 @@
 services:
   zookeeper:
     image: zookeeper:latest
-    expose:
-      - 2181
 
-  dubbo-samples-triple-backpressure-provider:
+  dubbo-samples-triple-backpressure:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.samples.backpressure.BackpressureProvider
     systemProps:
       - zookeeper.address=zookeeper
+      - zookeeper.port=2181
+    waitPortsBeforeRun:
+      - zookeeper:2181
     checkPorts:
       - 50051
     checkLog: "BackpressureProvider started"
-    depends_on:
-      - zookeeper
 
-  dubbo-samples-triple-backpressure-consumer:
-    type: app
+  dubbo-samples-triple-backpressure-test:
+    type: test
     basedir: .
-    mainClass: org.apache.dubbo.samples.backpressure.BackpressureConsumer
+    tests:
+      - "**/*IT.class"
     systemProps:
       - zookeeper.address=zookeeper
-    checkLog: "All tests completed"
+      - zookeeper.port=2181
+      - dubbo.address=dubbo-samples-triple-backpressure
+      - dubbo.port=50051
     waitPortsBeforeRun:
       - zookeeper:2181
-      - dubbo-samples-triple-backpressure-provider:50051
+      - dubbo-samples-triple-backpressure:50051
     depends_on:
-      - dubbo-samples-triple-backpressure-provider
-
+      - dubbo-samples-triple-backpressure
