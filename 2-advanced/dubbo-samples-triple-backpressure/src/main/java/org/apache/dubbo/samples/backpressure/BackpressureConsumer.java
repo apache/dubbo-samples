@@ -33,7 +33,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BackpressureConsumer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackpressureConsumer.class);
 
     private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
     private static final String ZOOKEEPER_PORT = System.getProperty("zookeeper.port", "2181");
@@ -44,7 +49,7 @@ public class BackpressureConsumer {
         reference.setProtocol("tri");
 
         String zkAddress = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
-        System.out.println("Using ZooKeeper: " + zkAddress);
+        LOGGER.info("Using ZooKeeper: {}", zkAddress);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("backpressure-consumer"))
@@ -54,22 +59,22 @@ public class BackpressureConsumer {
 
         BackpressureService service = reference.get();
 
-        System.out.println("=== Test 1: Basic Echo ===");
+        LOGGER.info("=== Test 1: Basic Echo ===");
         testEcho(service);
 
-        System.out.println("\n=== Test 2: Server Stream WITHOUT Backpressure ===");
+        LOGGER.info("\n=== Test 2: Server Stream WITHOUT Backpressure ===");
         testServerStreamWithoutBackpressure(service);
 
-        System.out.println("\n=== Test 3: Server Stream WITH Backpressure (CancelableStreamObserver) ===");
+        LOGGER.info("\n=== Test 3: Server Stream WITH Backpressure (CancelableStreamObserver) ===");
         testServerStreamWithBackpressure(service);
 
-        System.out.println("\n=== Test 4: Client Stream ===");
+        LOGGER.info("\n=== Test 4: Client Stream ===");
         testClientStream(service);
 
-        System.out.println("\n=== Test 5: BiStream WITH Backpressure ===");
+        LOGGER.info("\n=== Test 5: BiStream WITH Backpressure ===");
         testBiStreamWithBackpressure(service);
 
-        System.out.println("\n✅ All tests completed!");
+        LOGGER.info("\n✅ All tests completed!");
         System.exit(0);
     }
 
@@ -78,7 +83,7 @@ public class BackpressureConsumer {
      */
     public static void testEcho(BackpressureService service) {
         String response = service.echo("Hello Backpressure");
-        System.out.println("Echo response: " + response);
+        LOGGER.info("Echo response: {}", response);
     }
 
     /**
@@ -102,26 +107,26 @@ public class BackpressureConsumer {
                 lastTimestamp.set(System.currentTimeMillis());
 
                 if (count % 20 == 0) {
-                    System.out.println("[NoBackpressure] Received " + count + " chunks");
+                    LOGGER.info("[NoBackpressure] Received {} chunks", count);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("Error: " + throwable.getMessage());
+                LOGGER.error("Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("[NoBackpressure] Stream completed");
+                LOGGER.info("[NoBackpressure] Stream completed");
                 latch.countDown();
             }
         });
 
         latch.await(60, TimeUnit.SECONDS);
         long duration = lastTimestamp.get() - firstTimestamp.get();
-        System.out.println("[NoBackpressure] Total received: " + received.get() + ", Duration: " + duration + "ms");
+        LOGGER.info("[NoBackpressure] Total received: {}, Duration: {}ms", received.get(), duration);
     }
 
     /**
@@ -152,15 +157,15 @@ public class BackpressureConsumer {
             public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
                 this.clientObserver = clientCallToObserverAdapter;
 
-                System.out.println("[Backpressure] beforeStart() - Calling disableAutoFlowControl()");
+                LOGGER.info("[Backpressure] beforeStart() - Calling disableAutoFlowControl()");
                 clientObserver.disableAutoFlowControl();
             }
 
             @Override
             public void startRequest() {
-                System.out.println("[Backpressure] startRequest() called - stream is ready, requesting initial batch");
+                LOGGER.info("[Backpressure] startRequest() called - stream is ready, requesting initial batch");
                 if (clientObserver != null) {
-                    System.out.println("[Backpressure] startRequest() - Calling request(" + batchSize + ")");
+                    LOGGER.info("[Backpressure] startRequest() - Calling request({})", batchSize);
                     clientObserver.request(batchSize);
                 }
             }
@@ -180,25 +185,24 @@ public class BackpressureConsumer {
                     Thread.currentThread().interrupt();
                 }
 
-                System.out.println("[Backpressure] Received chunk seq=" + chunk.getSequenceNumber() + ", total=" + count);
+                LOGGER.info("[Backpressure] Received chunk seq={}, total={}", chunk.getSequenceNumber(), count);
 
                 if (count % batchSize == 0 && clientObserver != null) {
                     int batch = batchCount.incrementAndGet();
-                    System.out.println("[Backpressure] >>> Requesting next batch #" + batch + " (request " + batchSize + " more)");
+                    LOGGER.info("[Backpressure] >>> Requesting next batch #{} (request {} more)", batch, batchSize);
                     clientObserver.request(batchSize);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("Error: " + throwable.getMessage());
-                throwable.printStackTrace();
+                LOGGER.error("Error: {}", throwable.getMessage(), throwable);
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("[Backpressure] Stream completed");
+                LOGGER.info("[Backpressure] Stream completed");
                 latch.countDown();
             }
         };
@@ -208,8 +212,8 @@ public class BackpressureConsumer {
 
         latch.await(120, TimeUnit.SECONDS);
         long duration = lastTimestamp.get() - firstTimestamp.get();
-        System.out.println("[Backpressure] Total received: " + received.get() + ", Duration: " + duration + "ms");
-        System.out.println("[Backpressure] Total batches requested: " + batchCount.get());
+        LOGGER.info("[Backpressure] Total received: {}, Duration: {}ms", received.get(), duration);
+        LOGGER.info("[Backpressure] Total batches requested: {}", batchCount.get());
     }
 
     /**
@@ -223,19 +227,19 @@ public class BackpressureConsumer {
         StreamObserver<StreamResponse> responseObserver = new StreamObserver<StreamResponse>() {
             @Override
             public void onNext(StreamResponse response) {
-                System.out.println("[ClientStream] Received response: chunks=" + response.getTotalChunks() +
-                        ", bytes=" + response.getTotalBytes() + ", duration=" + response.getDurationMs() + "ms");
+                LOGGER.info("[ClientStream] Received response: chunks={}, bytes={}, duration={}ms", 
+                        response.getTotalChunks(), response.getTotalBytes(), response.getDurationMs());
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("[ClientStream] Error: " + throwable.getMessage());
+                LOGGER.error("[ClientStream] Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("[ClientStream] Stream completed");
+                LOGGER.info("[ClientStream] Stream completed");
                 latch.countDown();
             }
         };
@@ -245,13 +249,13 @@ public class BackpressureConsumer {
         byte[] data = new byte[1024];
         for (int i = 0; i < sendCount; i++) {
             DataChunk chunk = new DataChunk(i, data, System.currentTimeMillis());
-            System.out.println("[ClientStream] Sending chunk seq=" + i);
+            LOGGER.info("[ClientStream] Sending chunk seq={}", i);
             requestObserver.onNext(chunk);
             sent.incrementAndGet();
             Thread.sleep(10);
         }
         requestObserver.onCompleted();
-        System.out.println("[ClientStream] Client finished sending " + sent.get() + " chunks");
+        LOGGER.info("[ClientStream] Client finished sending {} chunks", sent.get());
 
         latch.await(60, TimeUnit.SECONDS);
     }
@@ -273,13 +277,13 @@ public class BackpressureConsumer {
             public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
                 this.clientObserver = clientCallToObserverAdapter;
 
-                System.out.println("[BiStream] beforeStart() - Calling disableAutoFlowControl()");
+                LOGGER.info("[BiStream] beforeStart() - Calling disableAutoFlowControl()");
                 clientObserver.disableAutoFlowControl();
             }
 
             @Override
             public void startRequest() {
-                System.out.println("[BiStream] startRequest() - stream ready, requesting initial message");
+                LOGGER.info("[BiStream] startRequest() - stream ready, requesting initial message");
                 if (clientObserver != null) {
                     clientObserver.request(1);
                 }
@@ -288,7 +292,7 @@ public class BackpressureConsumer {
             @Override
             public void onNext(DataChunk chunk) {
                 int count = received.incrementAndGet();
-                System.out.println("[BiStream] Received response seq=" + chunk.getSequenceNumber() + ", total=" + count);
+                LOGGER.info("[BiStream] Received response seq={}, total={}", chunk.getSequenceNumber(), count);
 
                 // Request next message
                 if (clientObserver != null) {
@@ -299,14 +303,13 @@ public class BackpressureConsumer {
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("[BiStream] Error: " + throwable.getMessage());
-                throwable.printStackTrace();
+                LOGGER.error("[BiStream] Error: {}", throwable.getMessage(), throwable);
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("[BiStream] Stream completed, received " + received.get() + " responses");
+                LOGGER.info("[BiStream] Stream completed, received {} responses", received.get());
                 latch.countDown();
             }
         };
@@ -318,14 +321,13 @@ public class BackpressureConsumer {
         byte[] data = new byte[100];
         for (int i = 0; i < sendCount; i++) {
             DataChunk chunk = new DataChunk(i, data, System.currentTimeMillis());
-            System.out.println("[BiStream] Sending chunk seq=" + i);
+            LOGGER.info("[BiStream] Sending chunk seq={}", i);
             requestObserver.onNext(chunk);
             Thread.sleep(50);
         }
         requestObserver.onCompleted();
 
         latch.await(60, TimeUnit.SECONDS);
-        System.out.println("[BiStream] Total requests made: " + batchCount.get());
+        LOGGER.info("[BiStream] Total requests made: {}", batchCount.get());
     }
 }
-

@@ -37,7 +37,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BackpressureIT {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackpressureIT.class);
 
     private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
     private static final String ZOOKEEPER_PORT = System.getProperty("zookeeper.port", "2181");
@@ -53,7 +58,7 @@ public class BackpressureIT {
         reference.setTimeout(60000);
 
         String zkAddress = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
-        System.out.println("Using ZooKeeper: " + zkAddress);
+        LOGGER.info("Using ZooKeeper: {}", zkAddress);
 
         bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("backpressure-test"))
@@ -74,7 +79,7 @@ public class BackpressureIT {
     @Test
     public void testEcho() {
         String result = service.echo("Hello Backpressure");
-        System.out.println("Echo response: " + result);
+        LOGGER.info("Echo response: {}", result);
         Assert.assertNotNull(result);
         Assert.assertTrue(result.contains("Hello Backpressure"));
     }
@@ -95,13 +100,13 @@ public class BackpressureIT {
             @Override
             public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
                 this.clientObserver = clientCallToObserverAdapter;
-                System.out.println("[Backpressure] beforeStart() - Calling disableAutoFlowControl()");
+                LOGGER.info("[Backpressure] beforeStart() - Calling disableAutoFlowControl()");
                 clientObserver.disableAutoFlowControl();
             }
 
             @Override
             public void startRequest() {
-                System.out.println("[Backpressure] startRequest() - Calling request(" + batchSize + ")");
+                LOGGER.info("[Backpressure] startRequest() - Calling request({})", batchSize);
                 if (clientObserver != null) {
                     clientObserver.request(batchSize);
                 }
@@ -110,24 +115,24 @@ public class BackpressureIT {
             @Override
             public void onNext(DataChunk chunk) {
                 int count = receivedCount.incrementAndGet();
-                System.out.println("[Backpressure] Received chunk seq=" + chunk.getSequenceNumber() + ", total=" + count);
+                LOGGER.info("[Backpressure] Received chunk seq={}, total={}", chunk.getSequenceNumber(), count);
 
                 if (count % batchSize == 0 && clientObserver != null) {
                     int batch = batchCount.incrementAndGet();
-                    System.out.println("[Backpressure] >>> Requesting next batch #" + batch);
+                    LOGGER.info("[Backpressure] >>> Requesting next batch #{}", batch);
                     clientObserver.request(batchSize);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("[Backpressure] Error: " + throwable.getMessage());
+                LOGGER.error("[Backpressure] Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("[Backpressure] Stream completed, received " + receivedCount.get() + " chunks");
+                LOGGER.info("[Backpressure] Stream completed, received {} chunks", receivedCount.get());
                 latch.countDown();
             }
         };
@@ -137,7 +142,7 @@ public class BackpressureIT {
 
         Assert.assertTrue("Stream should complete within timeout", completed);
         Assert.assertEquals("Should receive all chunks", requestCount, receivedCount.get());
-        System.out.println("✅ Server stream with backpressure test passed!");
+        LOGGER.info("✅ Server stream with backpressure test passed!");
     }
 
     @Test
@@ -150,18 +155,18 @@ public class BackpressureIT {
             @Override
             public void onNext(StreamResponse response) {
                 responseChunks.set(response.getTotalChunks());
-                System.out.println("[ClientStream] Received response: chunks=" + response.getTotalChunks());
+                LOGGER.info("[ClientStream] Received response: chunks={}", response.getTotalChunks());
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("[ClientStream] Error: " + throwable.getMessage());
+                LOGGER.error("[ClientStream] Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("[ClientStream] Stream completed");
+                LOGGER.info("[ClientStream] Stream completed");
                 latch.countDown();
             }
         };
@@ -179,7 +184,6 @@ public class BackpressureIT {
 
         Assert.assertTrue("Stream should complete within timeout", completed);
         Assert.assertEquals("Server should receive all chunks", sendCount, responseChunks.get());
-        System.out.println("✅ Client stream test passed!");
+        LOGGER.info("✅ Client stream test passed!");
     }
 }
-

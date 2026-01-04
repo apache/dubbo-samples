@@ -26,14 +26,19 @@ import org.apache.dubbo.samples.backpressure.api.StreamResponse;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Implementation of BackpressureService demonstrating streaming with backpressure.
  */
 public class BackpressureServiceImpl implements BackpressureService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackpressureServiceImpl.class);
+
     @Override
     public String echo(String message) {
-        System.out.println("[Server] Echo received: " + message);
+        LOGGER.info("[Server] Echo received: {}", message);
         return "Echo: " + message;
     }
 
@@ -41,32 +46,32 @@ public class BackpressureServiceImpl implements BackpressureService {
     public void serverStream(StreamRequest request, StreamObserver<DataChunk> responseObserver) {
         int count = request.getCount();
         int chunkSize = request.getChunkSize();
-        System.out.println("[Server] Starting server stream, count=" + count + ", chunkSize=" + chunkSize);
-        
+        LOGGER.info("[Server] Starting server stream, count={}, chunkSize={}", count, chunkSize);
+
         // Generate and send chunks
         byte[] data = new byte[chunkSize];
         for (int i = 0; i < count; i++) {
             DataChunk chunk = new DataChunk(i, data, System.currentTimeMillis());
             responseObserver.onNext(chunk);
-            
+
             if ((i + 1) % 20 == 0) {
-                System.out.println("[Server] Sent " + (i + 1) + " chunks");
+                LOGGER.info("[Server] Sent {} chunks", i + 1);
             }
         }
-        
+
         responseObserver.onCompleted();
-        System.out.println("[Server] Server stream completed, sent " + count + " chunks");
+        LOGGER.info("[Server] Server stream completed, sent {} chunks", count);
     }
 
     /**
      * Client streaming with SERVER-SIDE backpressure demonstration.
-     * 
+     *
      * The responseObserver passed in implements FlowControlStreamObserver,
      * which can be used to control inbound message flow rate.
      */
     @Override
     public StreamObserver<DataChunk> clientStream(StreamObserver<StreamResponse> responseObserver) {
-        System.out.println("[Server-ClientStream] Client stream started");
+        LOGGER.info("[Server-ClientStream] Client stream started");
         final long startTime = System.currentTimeMillis();
         final AtomicInteger chunkCount = new AtomicInteger(0);
         final AtomicLong totalBytes = new AtomicLong(0);
@@ -77,20 +82,20 @@ public class BackpressureServiceImpl implements BackpressureService {
         final FlowControlStreamObserver<StreamResponse> flowControlObserver;
         if (responseObserver instanceof FlowControlStreamObserver) {
             flowControlObserver = (FlowControlStreamObserver<StreamResponse>) responseObserver;
-            
+
             // Enable server-side backpressure
-            System.out.println("[Server-ClientStream] Calling disableAutoFlowControl()");
+            LOGGER.info("[Server-ClientStream] Calling disableAutoFlowControl()");
             flowControlObserver.disableAutoFlowControl();
-            
+
             // Request initial batch
-            System.out.println("[Server-ClientStream] Calling request(" + batchSize + ") for initial batch");
+            LOGGER.info("[Server-ClientStream] Calling request({}) for initial batch", batchSize);
             flowControlObserver.request(batchSize);
-            
-            System.out.println("[Server-ClientStream] Server-side backpressure enabled!");
+
+            LOGGER.info("[Server-ClientStream] Server-side backpressure enabled!");
         } else {
             flowControlObserver = null;
-            System.out.println("[Server-ClientStream] WARNING: responseObserver is not FlowControlStreamObserver");
-            System.out.println("[Server-ClientStream] Observer type: " + responseObserver.getClass().getName());
+            LOGGER.warn("[Server-ClientStream] WARNING: responseObserver is not FlowControlStreamObserver");
+            LOGGER.warn("[Server-ClientStream] Observer type: {}", responseObserver.getClass().getName());
         }
 
         return new StreamObserver<DataChunk>() {
@@ -100,27 +105,27 @@ public class BackpressureServiceImpl implements BackpressureService {
                 if (chunk.getData() != null) {
                     totalBytes.addAndGet(chunk.getData().length);
                 }
-                
-                System.out.println("[Server-ClientStream] Received chunk seq=" + chunk.getSequenceNumber() + ", total=" + count);
-                
+
+                LOGGER.info("[Server-ClientStream] Received chunk seq={}, total={}", chunk.getSequenceNumber(), count);
+
                 // Simulate slow processing on server side
                 try {
                     Thread.sleep(20); // 20ms processing time
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                
+
                 // Request next batch after processing current batch
                 if (count % batchSize == 0 && flowControlObserver != null) {
                     int batch = batchCount.incrementAndGet();
-                    System.out.println("[Server-ClientStream] >>> Requesting next batch (batch #" + batch + ", request " + batchSize + " more)");
+                    LOGGER.info("[Server-ClientStream] >>> Requesting next batch (batch #{}, request {} more)", batch, batchSize);
                     flowControlObserver.request(batchSize);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("[Server-ClientStream] Error: " + throwable.getMessage());
+                LOGGER.error("[Server-ClientStream] Error: {}", throwable.getMessage());
             }
 
             @Override
@@ -133,21 +138,21 @@ public class BackpressureServiceImpl implements BackpressureService {
                 );
                 responseObserver.onNext(response);
                 responseObserver.onCompleted();
-                System.out.println("[Server-ClientStream] Completed: received " + chunkCount.get() + 
-                        " chunks in " + duration + "ms, batches requested: " + batchCount.get());
+                LOGGER.info("[Server-ClientStream] Completed: received {} chunks in {}ms, batches requested: {}", 
+                        chunkCount.get(), duration, batchCount.get());
             }
         };
     }
 
     /**
      * Bidirectional streaming with SERVER-SIDE backpressure demonstration.
-     * 
+     *
      * Server controls how fast it receives messages from client,
      * while also sending responses back.
      */
     @Override
     public StreamObserver<DataChunk> biStream(StreamObserver<DataChunk> responseObserver) {
-        System.out.println("[Server-BiStream] BiStream started");
+        LOGGER.info("[Server-BiStream] BiStream started");
         final int batchSize = 3; // Server requests 3 messages at a time
         final AtomicInteger receivedCount = new AtomicInteger(0);
         final AtomicInteger batchCount = new AtomicInteger(0);
@@ -156,35 +161,35 @@ public class BackpressureServiceImpl implements BackpressureService {
         final FlowControlStreamObserver<DataChunk> flowControlObserver;
         if (responseObserver instanceof FlowControlStreamObserver) {
             flowControlObserver = (FlowControlStreamObserver<DataChunk>) responseObserver;
-            
+
             // Enable server-side backpressure
-            System.out.println("[Server-BiStream] Calling disableAutoFlowControl()");
+            LOGGER.info("[Server-BiStream] Calling disableAutoFlowControl()");
             flowControlObserver.disableAutoFlowControl();
-            
+
             // Request initial batch
-            System.out.println("[Server-BiStream] Calling request(" + batchSize + ") for initial batch");
+            LOGGER.info("[Server-BiStream] Calling request({}) for initial batch", batchSize);
             flowControlObserver.request(batchSize);
-            
-            System.out.println("[Server-BiStream] Server-side backpressure enabled!");
+
+            LOGGER.info("[Server-BiStream] Server-side backpressure enabled!");
         } else {
             flowControlObserver = null;
-            System.out.println("[Server-BiStream] WARNING: responseObserver is not FlowControlStreamObserver");
-            System.out.println("[Server-BiStream] Observer type: " + responseObserver.getClass().getName());
+            LOGGER.warn("[Server-BiStream] WARNING: responseObserver is not FlowControlStreamObserver");
+            LOGGER.warn("[Server-BiStream] Observer type: {}", responseObserver.getClass().getName());
         }
 
         return new StreamObserver<DataChunk>() {
             @Override
             public void onNext(DataChunk requestChunk) {
                 int count = receivedCount.incrementAndGet();
-                System.out.println("[Server-BiStream] Received chunk seq=" + requestChunk.getSequenceNumber() + ", total=" + count);
-                
+                LOGGER.info("[Server-BiStream] Received chunk seq={}, total={}", requestChunk.getSequenceNumber(), count);
+
                 // Simulate slow processing on server side
                 try {
                     Thread.sleep(30); // 30ms processing time
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                
+
                 // Echo back with modified sequence number
                 DataChunk responseChunk = new DataChunk(
                         requestChunk.getSequenceNumber() * 10,
@@ -192,27 +197,26 @@ public class BackpressureServiceImpl implements BackpressureService {
                         System.currentTimeMillis()
                 );
                 responseObserver.onNext(responseChunk);
-                
+
                 // Request next batch after processing current batch
                 if (count % batchSize == 0 && flowControlObserver != null) {
                     int batch = batchCount.incrementAndGet();
-                    System.out.println("[Server-BiStream] >>> Requesting next batch (batch #" + batch + ", request " + batchSize + " more)");
+                    LOGGER.info("[Server-BiStream] >>> Requesting next batch (batch #{}, request {} more)", batch, batchSize);
                     flowControlObserver.request(batchSize);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.err.println("[Server-BiStream] Error: " + throwable.getMessage());
+                LOGGER.error("[Server-BiStream] Error: {}", throwable.getMessage());
             }
 
             @Override
             public void onCompleted() {
                 responseObserver.onCompleted();
-                System.out.println("[Server-BiStream] Completed: received " + receivedCount.get() + 
-                        " chunks, batches requested: " + batchCount.get());
+                LOGGER.info("[Server-BiStream] Completed: received {} chunks, batches requested: {}", 
+                        receivedCount.get(), batchCount.get());
             }
         };
     }
 }
-

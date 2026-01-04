@@ -25,7 +25,12 @@ import org.apache.dubbo.config.bootstrap.DubboBootstrap;
 import org.apache.dubbo.samples.backpressure.api.BackpressureService;
 import org.apache.dubbo.samples.backpressure.impl.BackpressureServiceImpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class BackpressureProvider {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackpressureProvider.class);
 
     private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
     private static final String ZOOKEEPER_PORT = System.getProperty("zookeeper.port", "2181");
@@ -36,7 +41,7 @@ public class BackpressureProvider {
         service.setRef(new BackpressureServiceImpl());
 
         String zkAddress = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
-        System.out.println("Using ZooKeeper: " + zkAddress);
+        LOGGER.info("Using ZooKeeper: {}", zkAddress);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("backpressure-provider"))
@@ -44,10 +49,9 @@ public class BackpressureProvider {
                 .protocol(new ProtocolConfig(CommonConstants.TRIPLE, 50051))
                 .service(service)
                 .start();
-        
-        System.out.println("BackpressureProvider started on port 50051, waiting for requests...");
-        
+
+        LOGGER.info("BackpressureProvider started on port 50051, waiting for requests...");
+
         bootstrap.await();
     }
 }
-
