@@ -21,7 +21,6 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
 import org.apache.dubbo.rpc.protocol.tri.observer.ClientCallToObserverAdapter;
 import org.apache.dubbo.samples.backpressure.api.BackpressureService;
 import org.apache.dubbo.samples.backpressure.api.DataChunk;
@@ -30,8 +29,8 @@ import org.apache.dubbo.samples.backpressure.api.StreamResponse;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,24 +61,18 @@ public class BackpressureConsumer {
         LOGGER.info("=== Test 1: Basic Echo ===");
         testEcho(service);
 
-        LOGGER.info("\n=== Test 2: Server Stream WITHOUT Backpressure ===");
-        testServerStreamWithoutBackpressure(service);
+        LOGGER.info("\n=== Test 2: Client-side Backpressure (clientStream) ===");
+        testClientSideBackpressure(service);
 
-        LOGGER.info("\n=== Test 3: Server Stream WITH Backpressure (CancelableStreamObserver) ===");
-        testServerStreamWithBackpressure(service);
-
-        LOGGER.info("\n=== Test 4: Client Stream ===");
-        testClientStream(service);
-
-        LOGGER.info("\n=== Test 5: BiStream WITH Backpressure ===");
-        testBiStreamWithBackpressure(service);
+        LOGGER.info("\n=== Test 3: Server-side Backpressure (serverStream) ===");
+        testServerSideBackpressure(service);
 
         LOGGER.info("\n✅ All tests completed!");
         System.exit(0);
     }
 
     /**
-     * Test basic echo functionality to ensure existing features work.
+     * Test basic echo functionality.
      */
     public static void testEcho(BackpressureService service) {
         String response = service.echo("Hello Backpressure");
@@ -87,247 +80,133 @@ public class BackpressureConsumer {
     }
 
     /**
-     * Test server stream without backpressure (default behavior).
+     * Test server-side backpressure.
+     * Server uses isReady() and setOnReadyHandler() to control sending rate.
      */
-    public static void testServerStreamWithoutBackpressure(BackpressureService service) throws InterruptedException {
-        final int expectedCount = 100;
+    public static void testServerSideBackpressure(BackpressureService service) throws InterruptedException {
+        final int expectedCount = 50;
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicInteger received = new AtomicInteger(0);
-        final AtomicLong firstTimestamp = new AtomicLong(0);
-        final AtomicLong lastTimestamp = new AtomicLong(0);
 
         StreamRequest request = new StreamRequest(expectedCount, 1024);
+
+        LOGGER.info("[Server-Backpressure] Requesting {} chunks from server", expectedCount);
+
         service.serverStream(request, new StreamObserver<DataChunk>() {
             @Override
             public void onNext(DataChunk chunk) {
                 int count = received.incrementAndGet();
-                if (count == 1) {
-                    firstTimestamp.set(System.currentTimeMillis());
-                }
-                lastTimestamp.set(System.currentTimeMillis());
-
-                if (count % 20 == 0) {
-                    LOGGER.info("[NoBackpressure] Received {} chunks", count);
+                if (count % 10 == 0) {
+                    LOGGER.info("[Server-Backpressure] Received {} chunks", count);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                LOGGER.error("Error: {}", throwable.getMessage());
+                LOGGER.error("[Server-Backpressure] Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                LOGGER.info("[NoBackpressure] Stream completed");
+                LOGGER.info("[Server-Backpressure] Stream completed, total: {}", received.get());
                 latch.countDown();
             }
         });
 
         latch.await(60, TimeUnit.SECONDS);
-        long duration = lastTimestamp.get() - firstTimestamp.get();
-        LOGGER.info("[NoBackpressure] Total received: {}, Duration: {}ms", received.get(), duration);
+        LOGGER.info("[Server-Backpressure] Test finished, received: {}", received.get());
     }
 
     /**
-     * Test server stream WITH backpressure using CancelableStreamObserver.
+     * Test client-side backpressure.
      *
-     * KEY: Must use CancelableStreamObserver to get ClientCallToObserverAdapter
-     * via beforeStart() callback, which provides disableAutoFlowControl() and request(n).
+     * <p>Client uses CallStreamObserver's isReady() and setOnReadyHandler()
+     * to control sending rate based on transport layer capacity.
      */
-    public static void testServerStreamWithBackpressure(BackpressureService service) throws InterruptedException {
-        final int expectedCount = 50;
-        final int batchSize = 5;
-        final CountDownLatch latch = new CountDownLatch(1);
-        final AtomicInteger received = new AtomicInteger(0);
-        final AtomicInteger batchCount = new AtomicInteger(0);
-        final AtomicLong firstTimestamp = new AtomicLong(0);
-        final AtomicLong lastTimestamp = new AtomicLong(0);
-
-        StreamRequest request = new StreamRequest(expectedCount, 512);
-
-        CancelableStreamObserver<DataChunk> responseObserver = new CancelableStreamObserver<DataChunk>() {
-
-            private ClientCallToObserverAdapter<DataChunk> clientObserver;
-
-            /**
-             * Called BEFORE stream is established - only save reference and disable auto flow
-             */
-            @Override
-            public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
-                this.clientObserver = clientCallToObserverAdapter;
-
-                LOGGER.info("[Backpressure] beforeStart() - Calling disableAutoFlowControl()");
-                clientObserver.disableAutoFlowControl();
-            }
-
-            @Override
-            public void startRequest() {
-                LOGGER.info("[Backpressure] startRequest() called - stream is ready, requesting initial batch");
-                if (clientObserver != null) {
-                    LOGGER.info("[Backpressure] startRequest() - Calling request({})", batchSize);
-                    clientObserver.request(batchSize);
-                }
-            }
-
-            @Override
-            public void onNext(DataChunk chunk) {
-                int count = received.incrementAndGet();
-                if (count == 1) {
-                    firstTimestamp.set(System.currentTimeMillis());
-                }
-                lastTimestamp.set(System.currentTimeMillis());
-
-                // Simulate processing
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-
-                LOGGER.info("[Backpressure] Received chunk seq={}, total={}", chunk.getSequenceNumber(), count);
-
-                if (count % batchSize == 0 && clientObserver != null) {
-                    int batch = batchCount.incrementAndGet();
-                    LOGGER.info("[Backpressure] >>> Requesting next batch #{} (request {} more)", batch, batchSize);
-                    clientObserver.request(batchSize);
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                LOGGER.error("Error: {}", throwable.getMessage(), throwable);
-                latch.countDown();
-            }
-
-            @Override
-            public void onCompleted() {
-                LOGGER.info("[Backpressure] Stream completed");
-                latch.countDown();
-            }
-        };
-
-        // Start the server stream call
-        service.serverStream(request, responseObserver);
-
-        latch.await(120, TimeUnit.SECONDS);
-        long duration = lastTimestamp.get() - firstTimestamp.get();
-        LOGGER.info("[Backpressure] Total received: {}, Duration: {}ms", received.get(), duration);
-        LOGGER.info("[Backpressure] Total batches requested: {}", batchCount.get());
-    }
-
-    /**
-     * Test client stream - demonstrates SERVER-SIDE backpressure.
-     */
-    public static void testClientStream(BackpressureService service) throws InterruptedException {
-        final int sendCount = 50;
+    public static void testClientSideBackpressure(BackpressureService service) throws InterruptedException {
+        final int sendCount = 100;
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicInteger sent = new AtomicInteger(0);
+        final AtomicBoolean completed = new AtomicBoolean(false);
+        final byte[] data = new byte[1024];
 
+        LOGGER.info("[Client-Backpressure] Sending {} chunks to server using backpressure", sendCount);
+
+        // Response observer
         StreamObserver<StreamResponse> responseObserver = new StreamObserver<StreamResponse>() {
             @Override
             public void onNext(StreamResponse response) {
-                LOGGER.info("[ClientStream] Received response: chunks={}, bytes={}, duration={}ms", 
+                LOGGER.info("[Client-Backpressure] Server received: {} chunks, {} bytes in {}ms",
                         response.getTotalChunks(), response.getTotalBytes(), response.getDurationMs());
             }
 
             @Override
             public void onError(Throwable throwable) {
-                LOGGER.error("[ClientStream] Error: {}", throwable.getMessage());
+                LOGGER.error("[Client-Backpressure] Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                LOGGER.info("[ClientStream] Stream completed");
+                LOGGER.info("[Client-Backpressure] Response completed");
                 latch.countDown();
             }
         };
 
+        // Get request StreamObserver
         StreamObserver<DataChunk> requestObserver = service.clientStream(responseObserver);
 
-        byte[] data = new byte[1024];
-        for (int i = 0; i < sendCount; i++) {
-            DataChunk chunk = new DataChunk(i, data, System.currentTimeMillis());
-            LOGGER.info("[ClientStream] Sending chunk seq={}", i);
-            requestObserver.onNext(chunk);
-            sent.incrementAndGet();
-            Thread.sleep(10);
-        }
-        requestObserver.onCompleted();
-        LOGGER.info("[ClientStream] Client finished sending {} chunks", sent.get());
+        // Cast to ClientCallToObserverAdapter to use backpressure API
+        ClientCallToObserverAdapter<DataChunk> callObserver = (ClientCallToObserverAdapter<DataChunk>) requestObserver;
 
-        latch.await(60, TimeUnit.SECONDS);
-    }
+        // Disable auto flow control for manual backpressure
+        callObserver.disableAutoFlowControl();
+        LOGGER.info("[Client-Backpressure] Disabled auto flow control");
 
-    /**
-     * Test bidirectional stream with backpressure using CancelableStreamObserver.
-     */
-    public static void testBiStreamWithBackpressure(BackpressureService service) throws InterruptedException {
-        final int sendCount = 20;
-        final CountDownLatch latch = new CountDownLatch(1);
-        final AtomicInteger received = new AtomicInteger(0);
-        final AtomicInteger batchCount = new AtomicInteger(0);
+        // Set ready callback - called when stream becomes writable
+        callObserver.setOnReadyHandler(() -> {
+            LOGGER.info("[Client-Backpressure] onReadyHandler triggered, sent so far: {}", sent.get());
 
-        CancelableStreamObserver<DataChunk> responseObserver = new CancelableStreamObserver<DataChunk>() {
+            // Send data while stream is ready and we have more to send
+            while (callObserver.isReady() && sent.get() < sendCount && !completed.get()) {
+                int seq = sent.getAndIncrement();
+                DataChunk chunk = new DataChunk(seq, data, System.currentTimeMillis());
+                callObserver.onNext(chunk);
 
-            private ClientCallToObserverAdapter<DataChunk> clientObserver;
-
-            @Override
-            public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
-                this.clientObserver = clientCallToObserverAdapter;
-
-                LOGGER.info("[BiStream] beforeStart() - Calling disableAutoFlowControl()");
-                clientObserver.disableAutoFlowControl();
-            }
-
-            @Override
-            public void startRequest() {
-                LOGGER.info("[BiStream] startRequest() - stream ready, requesting initial message");
-                if (clientObserver != null) {
-                    clientObserver.request(1);
+                if ((seq + 1) % 20 == 0) {
+                    LOGGER.info("[Client-Backpressure] Sent {} chunks (isReady={})", seq + 1, callObserver.isReady());
                 }
             }
 
-            @Override
-            public void onNext(DataChunk chunk) {
-                int count = received.incrementAndGet();
-                LOGGER.info("[BiStream] Received response seq={}, total={}", chunk.getSequenceNumber(), count);
-
-                // Request next message
-                if (clientObserver != null) {
-                    batchCount.incrementAndGet();
-                    clientObserver.request(1);
-                }
+            // Complete if all data sent
+            if (sent.get() >= sendCount && !completed.getAndSet(true)) {
+                callObserver.onCompleted();
+                LOGGER.info("[Client-Backpressure] Completed via onReadyHandler, total: {}", sent.get());
             }
+        });
 
-            @Override
-            public void onError(Throwable throwable) {
-                LOGGER.error("[BiStream] Error: {}", throwable.getMessage(), throwable);
-                latch.countDown();
+        // Initial send (if writable)
+        LOGGER.info("[Client-Backpressure] Initial send, isReady={}", callObserver.isReady());
+        while (callObserver.isReady() && sent.get() < sendCount) {
+            int seq = sent.getAndIncrement();
+            DataChunk chunk = new DataChunk(seq, data, System.currentTimeMillis());
+            callObserver.onNext(chunk);
+
+            if ((seq + 1) % 20 == 0) {
+                LOGGER.info("[Client-Backpressure] Initial sent {} chunks", seq + 1);
             }
-
-            @Override
-            public void onCompleted() {
-                LOGGER.info("[BiStream] Stream completed, received {} responses", received.get());
-                latch.countDown();
-            }
-        };
-
-        // Start bidirectional stream
-        StreamObserver<DataChunk> requestObserver = service.biStream(responseObserver);
-
-        // Send messages
-        byte[] data = new byte[100];
-        for (int i = 0; i < sendCount; i++) {
-            DataChunk chunk = new DataChunk(i, data, System.currentTimeMillis());
-            LOGGER.info("[BiStream] Sending chunk seq={}", i);
-            requestObserver.onNext(chunk);
-            Thread.sleep(50);
         }
-        requestObserver.onCompleted();
 
-        latch.await(60, TimeUnit.SECONDS);
-        LOGGER.info("[BiStream] Total requests made: {}", batchCount.get());
+        // Complete if all sent in initial phase
+        if (sent.get() >= sendCount && !completed.getAndSet(true)) {
+            callObserver.onCompleted();
+            LOGGER.info("[Client-Backpressure] All sent in initial phase, total: {}", sent.get());
+        } else {
+            LOGGER.info("[Client-Backpressure] Paused at {} chunks, waiting for onReadyHandler", sent.get());
+        }
+
+        latch.await(120, TimeUnit.SECONDS);
+        LOGGER.info("[Client-Backpressure] Test finished, total sent: {}", sent.get());
     }
 }

@@ -17,12 +17,13 @@
 package org.apache.dubbo.samples.backpressure.impl;
 
 import org.apache.dubbo.common.stream.StreamObserver;
-import org.apache.dubbo.remoting.http12.FlowControlStreamObserver;
+import org.apache.dubbo.remoting.http12.h2.Http2ServerChannelObserver;
 import org.apache.dubbo.samples.backpressure.api.BackpressureService;
 import org.apache.dubbo.samples.backpressure.api.DataChunk;
 import org.apache.dubbo.samples.backpressure.api.StreamRequest;
 import org.apache.dubbo.samples.backpressure.api.StreamResponse;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -42,61 +43,76 @@ public class BackpressureServiceImpl implements BackpressureService {
         return "Echo: " + message;
     }
 
+    /**
+     * Server streaming with SERVER-SIDE backpressure.
+     */
     @Override
     public void serverStream(StreamRequest request, StreamObserver<DataChunk> responseObserver) {
-        int count = request.getCount();
+        int totalCount = request.getCount();
         int chunkSize = request.getChunkSize();
-        LOGGER.info("[Server] Starting server stream, count={}, chunkSize={}", count, chunkSize);
+        LOGGER.info("[Server-Backpressure] Starting server stream, count={}, chunkSize={}", totalCount, chunkSize);
 
-        // Generate and send chunks
-        byte[] data = new byte[chunkSize];
-        for (int i = 0; i < count; i++) {
-            DataChunk chunk = new DataChunk(i, data, System.currentTimeMillis());
-            responseObserver.onNext(chunk);
+        Object obj = responseObserver;
+        if (obj instanceof Http2ServerChannelObserver) {
+            Http2ServerChannelObserver serverObserver = (Http2ServerChannelObserver) obj;
+            final AtomicInteger sentCount = new AtomicInteger(0);
+            final AtomicBoolean completed = new AtomicBoolean(false);
+            final byte[] data = new byte[chunkSize];
 
-            if ((i + 1) % 20 == 0) {
-                LOGGER.info("[Server] Sent {} chunks", i + 1);
+            // Set ready callback - called when the stream becomes writable
+            serverObserver.setOnReadyHandler(() -> {
+                LOGGER.info("[Server-Backpressure] onReadyHandler triggered, sent so far: {}", sentCount.get());
+
+                // Send data while stream is ready and we have more to send
+                while (serverObserver.isReady() && sentCount.get() < totalCount && !completed.get()) {
+                    int seq = sentCount.getAndIncrement();
+                    DataChunk chunk = new DataChunk(seq, data, System.currentTimeMillis());
+                    serverObserver.onNext(chunk);
+
+                    if ((seq + 1) % 10 == 0) {
+                        LOGGER.info("[Server-Backpressure] Sent {} chunks (isReady={})", seq + 1, serverObserver.isReady());
+                    }
+                }
+
+                // Complete if all data sent
+                if (sentCount.get() >= totalCount && !completed.getAndSet(true)) {
+                    serverObserver.onCompleted();
+                    LOGGER.info("[Server-Backpressure] Completed via onReadyHandler, total: {}", sentCount.get());
+                }
+            });
+
+            // Initial send (if writable)
+            LOGGER.info("[Server-Backpressure] Initial send, isReady={}", serverObserver.isReady());
+            while (serverObserver.isReady() && sentCount.get() < totalCount) {
+                int seq = sentCount.getAndIncrement();
+                DataChunk chunk = new DataChunk(seq, data, System.currentTimeMillis());
+                serverObserver.onNext(chunk);
+
+                if ((seq + 1) % 10 == 0) {
+                    LOGGER.info("[Server-Backpressure] Initial sent {} chunks", seq + 1);
+                }
+            }
+
+            // Complete if all sent in initial phase
+            if (sentCount.get() >= totalCount && !completed.getAndSet(true)) {
+                serverObserver.onCompleted();
+                LOGGER.info("[Server-Backpressure] All sent in initial phase, total: {}", sentCount.get());
+            } else {
+                LOGGER.info("[Server-Backpressure] Paused at {} chunks, waiting for onReadyHandler", sentCount.get());
             }
         }
 
-        responseObserver.onCompleted();
-        LOGGER.info("[Server] Server stream completed, sent {} chunks", count);
     }
 
     /**
-     * Client streaming with SERVER-SIDE backpressure demonstration.
-     *
-     * The responseObserver passed in implements FlowControlStreamObserver,
-     * which can be used to control inbound message flow rate.
+     * The CLIENT-SIDE backpressure is demonstrated in the consumer.
      */
     @Override
     public StreamObserver<DataChunk> clientStream(StreamObserver<StreamResponse> responseObserver) {
-        LOGGER.info("[Server-ClientStream] Client stream started");
+        LOGGER.info("[Server] Client stream started - receiving data from client");
         final long startTime = System.currentTimeMillis();
         final AtomicInteger chunkCount = new AtomicInteger(0);
         final AtomicLong totalBytes = new AtomicLong(0);
-        final int batchSize = 5; // Server requests 5 messages at a time
-        final AtomicInteger batchCount = new AtomicInteger(0);
-
-        // Cast to FlowControlStreamObserver to enable server-side backpressure
-        final FlowControlStreamObserver<StreamResponse> flowControlObserver;
-        if (responseObserver instanceof FlowControlStreamObserver) {
-            flowControlObserver = (FlowControlStreamObserver<StreamResponse>) responseObserver;
-
-            // Enable server-side backpressure
-            LOGGER.info("[Server-ClientStream] Calling disableAutoFlowControl()");
-            flowControlObserver.disableAutoFlowControl();
-
-            // Request initial batch
-            LOGGER.info("[Server-ClientStream] Calling request({}) for initial batch", batchSize);
-            flowControlObserver.request(batchSize);
-
-            LOGGER.info("[Server-ClientStream] Server-side backpressure enabled!");
-        } else {
-            flowControlObserver = null;
-            LOGGER.warn("[Server-ClientStream] WARNING: responseObserver is not FlowControlStreamObserver");
-            LOGGER.warn("[Server-ClientStream] Observer type: {}", responseObserver.getClass().getName());
-        }
 
         return new StreamObserver<DataChunk>() {
             @Override
@@ -106,116 +122,24 @@ public class BackpressureServiceImpl implements BackpressureService {
                     totalBytes.addAndGet(chunk.getData().length);
                 }
 
-                LOGGER.info("[Server-ClientStream] Received chunk seq={}, total={}", chunk.getSequenceNumber(), count);
-
-                // Simulate slow processing on server side
-                try {
-                    Thread.sleep(20); // 20ms processing time
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-
-                // Request next batch after processing current batch
-                if (count % batchSize == 0 && flowControlObserver != null) {
-                    int batch = batchCount.incrementAndGet();
-                    LOGGER.info("[Server-ClientStream] >>> Requesting next batch (batch #{}, request {} more)", batch, batchSize);
-                    flowControlObserver.request(batchSize);
+                if (count % 10 == 0) {
+                    LOGGER.info("[Server] Received {} chunks from client", count);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                LOGGER.error("[Server-ClientStream] Error: {}", throwable.getMessage());
+                LOGGER.error("[Server] Client stream error: {}", throwable.getMessage());
             }
 
             @Override
             public void onCompleted() {
                 long duration = System.currentTimeMillis() - startTime;
-                StreamResponse response = new StreamResponse(
-                        chunkCount.get(),
-                        totalBytes.get(),
-                        duration
-                );
+                StreamResponse response = new StreamResponse(chunkCount.get(), totalBytes.get(), duration);
                 responseObserver.onNext(response);
                 responseObserver.onCompleted();
-                LOGGER.info("[Server-ClientStream] Completed: received {} chunks in {}ms, batches requested: {}", 
-                        chunkCount.get(), duration, batchCount.get());
-            }
-        };
-    }
-
-    /**
-     * Bidirectional streaming with SERVER-SIDE backpressure demonstration.
-     *
-     * Server controls how fast it receives messages from client,
-     * while also sending responses back.
-     */
-    @Override
-    public StreamObserver<DataChunk> biStream(StreamObserver<DataChunk> responseObserver) {
-        LOGGER.info("[Server-BiStream] BiStream started");
-        final int batchSize = 3; // Server requests 3 messages at a time
-        final AtomicInteger receivedCount = new AtomicInteger(0);
-        final AtomicInteger batchCount = new AtomicInteger(0);
-
-        // Cast to FlowControlStreamObserver to enable server-side backpressure
-        final FlowControlStreamObserver<DataChunk> flowControlObserver;
-        if (responseObserver instanceof FlowControlStreamObserver) {
-            flowControlObserver = (FlowControlStreamObserver<DataChunk>) responseObserver;
-
-            // Enable server-side backpressure
-            LOGGER.info("[Server-BiStream] Calling disableAutoFlowControl()");
-            flowControlObserver.disableAutoFlowControl();
-
-            // Request initial batch
-            LOGGER.info("[Server-BiStream] Calling request({}) for initial batch", batchSize);
-            flowControlObserver.request(batchSize);
-
-            LOGGER.info("[Server-BiStream] Server-side backpressure enabled!");
-        } else {
-            flowControlObserver = null;
-            LOGGER.warn("[Server-BiStream] WARNING: responseObserver is not FlowControlStreamObserver");
-            LOGGER.warn("[Server-BiStream] Observer type: {}", responseObserver.getClass().getName());
-        }
-
-        return new StreamObserver<DataChunk>() {
-            @Override
-            public void onNext(DataChunk requestChunk) {
-                int count = receivedCount.incrementAndGet();
-                LOGGER.info("[Server-BiStream] Received chunk seq={}, total={}", requestChunk.getSequenceNumber(), count);
-
-                // Simulate slow processing on server side
-                try {
-                    Thread.sleep(30); // 30ms processing time
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-
-                // Echo back with modified sequence number
-                DataChunk responseChunk = new DataChunk(
-                        requestChunk.getSequenceNumber() * 10,
-                        requestChunk.getData(),
-                        System.currentTimeMillis()
-                );
-                responseObserver.onNext(responseChunk);
-
-                // Request next batch after processing current batch
-                if (count % batchSize == 0 && flowControlObserver != null) {
-                    int batch = batchCount.incrementAndGet();
-                    LOGGER.info("[Server-BiStream] >>> Requesting next batch (batch #{}, request {} more)", batch, batchSize);
-                    flowControlObserver.request(batchSize);
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                LOGGER.error("[Server-BiStream] Error: {}", throwable.getMessage());
-            }
-
-            @Override
-            public void onCompleted() {
-                responseObserver.onCompleted();
-                LOGGER.info("[Server-BiStream] Completed: received {} chunks, batches requested: {}", 
-                        receivedCount.get(), batchCount.get());
+                LOGGER.info("[Server] Client stream completed: {} chunks, {} bytes in {}ms",
+                        chunkCount.get(), totalBytes.get(), duration);
             }
         };
     }

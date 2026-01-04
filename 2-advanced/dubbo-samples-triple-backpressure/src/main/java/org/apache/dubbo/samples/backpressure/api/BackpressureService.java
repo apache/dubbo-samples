@@ -45,15 +45,6 @@ public interface BackpressureService {
      * @return observer to send chunks
      */
     StreamObserver<DataChunk> clientStream(StreamObserver<StreamResponse> responseObserver);
-
-    /**
-     * Bidirectional streaming - both sides send multiple messages.
-     * Used to test bidirectional backpressure.
-     *
-     * @param responseObserver observer to receive chunks
-     * @return observer to send chunks
-     */
-    StreamObserver<DataChunk> biStream(StreamObserver<DataChunk> responseObserver);
 }
 
 

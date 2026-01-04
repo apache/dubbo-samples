@@ -51,7 +51,6 @@ public class BackpressureProvider {
                 .start();
 
         LOGGER.info("BackpressureProvider started on port 50051, waiting for requests...");
-
         bootstrap.await();
     }
 }

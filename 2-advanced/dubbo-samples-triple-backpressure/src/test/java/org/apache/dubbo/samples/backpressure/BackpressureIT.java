@@ -18,15 +18,17 @@ package org.apache.dubbo.samples.backpressure;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
-import org.apache.dubbo.rpc.protocol.tri.observer.ClientCallToObserverAdapter;
+import org.apache.dubbo.rpc.protocol.tri.observer.CallStreamObserver;
 import org.apache.dubbo.samples.backpressure.api.BackpressureService;
 import org.apache.dubbo.samples.backpressure.api.DataChunk;
 import org.apache.dubbo.samples.backpressure.api.StreamRequest;
 import org.apache.dubbo.samples.backpressure.api.StreamResponse;
+import org.apache.dubbo.samples.backpressure.impl.BackpressureServiceImpl;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -35,38 +37,49 @@ import org.junit.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Integration test for backpressure functionality.
+ * This test starts both provider and consumer in the same JVM using direct connection (no registry needed).
+ */
 public class BackpressureIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BackpressureIT.class);
 
-    private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
-    private static final String ZOOKEEPER_PORT = System.getProperty("zookeeper.port", "2181");
+    private static final int PORT = 50052;
 
     private static BackpressureService service;
     private static DubboBootstrap bootstrap;
 
     @BeforeClass
     public static void setup() {
+        // Provider config
+        ServiceConfig<BackpressureService> serviceConfig = new ServiceConfig<>();
+        serviceConfig.setInterface(BackpressureService.class);
+        serviceConfig.setRef(new BackpressureServiceImpl());
+
+        // Consumer config with direct connection (no registry needed)
         ReferenceConfig<BackpressureService> reference = new ReferenceConfig<>();
         reference.setInterface(BackpressureService.class);
-        reference.setProtocol("tri");
+        reference.setUrl("tri://127.0.0.1:" + PORT);
         reference.setTimeout(60000);
 
-        String zkAddress = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
-        LOGGER.info("Using ZooKeeper: {}", zkAddress);
-
+        // Start both provider and consumer
         bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("backpressure-test"))
-                .registry(new RegistryConfig(zkAddress))
+                .registry(new RegistryConfig("N/A"))  // No registry needed
+                .protocol(new ProtocolConfig("tri", PORT))
+                .service(serviceConfig)
                 .reference(reference)
                 .start();
 
         service = reference.get();
+        LOGGER.info("Provider and Consumer started on port {}", PORT);
     }
 
     @AfterClass
@@ -84,106 +97,110 @@ public class BackpressureIT {
         Assert.assertTrue(result.contains("Hello Backpressure"));
     }
 
+    /**
+     * Test server-side backpressure.
+     * Server uses isReady() and setOnReadyHandler() to control sending rate.
+     */
     @Test
-    public void testServerStreamWithBackpressure() throws InterruptedException {
-        final int requestCount = 20;
-        final int batchSize = 5;
+    public void testServerSideBackpressure() throws InterruptedException {
+        final int requestCount = 30;
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicInteger receivedCount = new AtomicInteger(0);
-        final AtomicInteger batchCount = new AtomicInteger(0);
 
         StreamRequest request = new StreamRequest(requestCount, 1024);
 
-        CancelableStreamObserver<DataChunk> responseObserver = new CancelableStreamObserver<DataChunk>() {
-            private ClientCallToObserverAdapter<DataChunk> clientObserver;
-
-            @Override
-            public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
-                this.clientObserver = clientCallToObserverAdapter;
-                LOGGER.info("[Backpressure] beforeStart() - Calling disableAutoFlowControl()");
-                clientObserver.disableAutoFlowControl();
-            }
-
-            @Override
-            public void startRequest() {
-                LOGGER.info("[Backpressure] startRequest() - Calling request({})", batchSize);
-                if (clientObserver != null) {
-                    clientObserver.request(batchSize);
-                }
-            }
-
+        service.serverStream(request, new StreamObserver<DataChunk>() {
             @Override
             public void onNext(DataChunk chunk) {
-                int count = receivedCount.incrementAndGet();
-                LOGGER.info("[Backpressure] Received chunk seq={}, total={}", chunk.getSequenceNumber(), count);
-
-                if (count % batchSize == 0 && clientObserver != null) {
-                    int batch = batchCount.incrementAndGet();
-                    LOGGER.info("[Backpressure] >>> Requesting next batch #{}", batch);
-                    clientObserver.request(batchSize);
-                }
+                receivedCount.incrementAndGet();
             }
 
             @Override
             public void onError(Throwable throwable) {
-                LOGGER.error("[Backpressure] Error: {}", throwable.getMessage());
+                LOGGER.error("Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                LOGGER.info("[Backpressure] Stream completed, received {} chunks", receivedCount.get());
+                LOGGER.info("Server stream completed, received: {}", receivedCount.get());
                 latch.countDown();
             }
-        };
+        });
 
-        service.serverStream(request, responseObserver);
         boolean completed = latch.await(30, TimeUnit.SECONDS);
-
         Assert.assertTrue("Stream should complete within timeout", completed);
         Assert.assertEquals("Should receive all chunks", requestCount, receivedCount.get());
-        LOGGER.info("✅ Server stream with backpressure test passed!");
+        LOGGER.info("✅ Server-side backpressure test passed!");
     }
 
+    /**
+     * Test client-side backpressure.
+     * Client uses CallStreamObserver's isReady() and setOnReadyHandler() to control sending rate.
+     */
     @Test
-    public void testClientStream() throws InterruptedException {
-        final int sendCount = 20;
+    @SuppressWarnings("unchecked")
+    public void testClientSideBackpressure() throws InterruptedException {
+        final int sendCount = 50;
         final CountDownLatch latch = new CountDownLatch(1);
-        final AtomicInteger responseChunks = new AtomicInteger(0);
+        final AtomicInteger sent = new AtomicInteger(0);
+        final AtomicBoolean sendCompleted = new AtomicBoolean(false);
+        final AtomicInteger serverReceivedChunks = new AtomicInteger(0);
+        final byte[] data = new byte[1024];
 
         StreamObserver<StreamResponse> responseObserver = new StreamObserver<StreamResponse>() {
             @Override
             public void onNext(StreamResponse response) {
-                responseChunks.set(response.getTotalChunks());
-                LOGGER.info("[ClientStream] Received response: chunks={}", response.getTotalChunks());
+                serverReceivedChunks.set(response.getTotalChunks());
+                LOGGER.info("Server received: {} chunks", response.getTotalChunks());
             }
 
             @Override
             public void onError(Throwable throwable) {
-                LOGGER.error("[ClientStream] Error: {}", throwable.getMessage());
+                LOGGER.error("Error: {}", throwable.getMessage());
                 latch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                LOGGER.info("[ClientStream] Stream completed");
+                LOGGER.info("Client stream completed");
                 latch.countDown();
             }
         };
 
         StreamObserver<DataChunk> requestObserver = service.clientStream(responseObserver);
 
-        byte[] data = new byte[1024];
-        for (int i = 0; i < sendCount; i++) {
-            DataChunk chunk = new DataChunk(i, data, System.currentTimeMillis());
-            requestObserver.onNext(chunk);
+        // Cast to CallStreamObserver to use backpressure API
+        CallStreamObserver<DataChunk> callObserver = (CallStreamObserver<DataChunk>) requestObserver;
+
+        // Disable auto flow control
+        callObserver.disableAutoFlowControl();
+
+        // Set ready callback
+        callObserver.setOnReadyHandler(() -> {
+            while (callObserver.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
+                int seq = sent.getAndIncrement();
+                callObserver.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
+            }
+
+            if (sent.get() >= sendCount && !sendCompleted.getAndSet(true)) {
+                callObserver.onCompleted();
+            }
+        });
+
+        // Initial send
+        while (callObserver.isReady() && sent.get() < sendCount) {
+            int seq = sent.getAndIncrement();
+            callObserver.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
         }
-        requestObserver.onCompleted();
+
+        if (sent.get() >= sendCount && !sendCompleted.getAndSet(true)) {
+            callObserver.onCompleted();
+        }
 
         boolean completed = latch.await(60, TimeUnit.SECONDS);
-
         Assert.assertTrue("Stream should complete within timeout", completed);
-        Assert.assertEquals("Server should receive all chunks", sendCount, responseChunks.get());
-        LOGGER.info("✅ Client stream test passed!");
+        Assert.assertEquals("Server should receive all chunks", sendCount, serverReceivedChunks.get());
+        LOGGER.info("✅ Client-side backpressure test passed!");
     }
 }
