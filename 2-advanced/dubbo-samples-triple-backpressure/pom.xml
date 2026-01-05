@@ -33,6 +33,7 @@
         <source.level>1.8</source.level>
         <target.level>1.8</target.level>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- it should be replaced by release version after dubbo 3.3.7 is released. -->
         <dubbo.version>3.3.7-SNAPSHOT</dubbo.version>
         <log4j2.version>2.20.0</log4j2.version>
     </properties>
