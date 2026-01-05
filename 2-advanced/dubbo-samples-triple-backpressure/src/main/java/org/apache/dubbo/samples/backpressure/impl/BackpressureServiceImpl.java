@@ -18,6 +18,7 @@ package org.apache.dubbo.samples.backpressure.impl;
 
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.remoting.http12.h2.Http2ServerChannelObserver;
+import org.apache.dubbo.rpc.protocol.tri.observer.CallStreamObserver;
 import org.apache.dubbo.samples.backpressure.api.BackpressureService;
 import org.apache.dubbo.samples.backpressure.api.DataChunk;
 import org.apache.dubbo.samples.backpressure.api.StreamRequest;
@@ -140,6 +141,55 @@ public class BackpressureServiceImpl implements BackpressureService {
                 responseObserver.onCompleted();
                 LOGGER.info("[Server] Client stream completed: {} chunks, {} bytes in {}ms",
                         chunkCount.get(), totalBytes.get(), duration);
+            }
+        };
+    }
+
+    /**
+     * Bidirectional streaming with SERVER-SIDE backpressure.
+     * Server echoes back each received chunk with backpressure awareness.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public StreamObserver<DataChunk> biStream(StreamObserver<DataChunk> responseObserver) {
+        LOGGER.info("[Server] BiStream started - bidirectional streaming with backpressure");
+        final AtomicInteger receivedCount = new AtomicInteger(0);
+        final AtomicInteger sentCount = new AtomicInteger(0);
+
+        // Cast to CallStreamObserver for backpressure control
+        CallStreamObserver<DataChunk> callObserver = (CallStreamObserver<DataChunk>) responseObserver;
+
+        return new StreamObserver<DataChunk>() {
+            @Override
+            public void onNext(DataChunk chunk) {
+                int count = receivedCount.incrementAndGet();
+                if (count % 10 == 0) {
+                    LOGGER.info("[Server-BiStream] Received {} chunks, isReady={}", count, callObserver.isReady());
+                }
+
+                // Echo back the chunk - always send (let the framework handle buffering)
+                DataChunk response = new DataChunk(
+                        chunk.getSequenceNumber(),
+                        chunk.getData(),
+                        System.currentTimeMillis()
+                );
+                callObserver.onNext(response);
+                int sent = sentCount.incrementAndGet();
+                if (sent % 10 == 0) {
+                    LOGGER.info("[Server-BiStream] Sent {} response chunks", sent);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                LOGGER.error("[Server-BiStream] Error: {}", throwable.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                callObserver.onCompleted();
+                LOGGER.info("[Server-BiStream] Completed: received={}, sent={}",
+                        receivedCount.get(), sentCount.get());
             }
         };
     }
