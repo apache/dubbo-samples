@@ -52,6 +52,11 @@ jobs:
           key: ${{ runner.os }}-samples-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-samples-maven-
+      - name: Dubbo cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository/org/apache/dubbo
+          key: ${{ runner.os }}-dubbo-snapshot-${{needs.build-dubbo.outputs.commit_id}}
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
