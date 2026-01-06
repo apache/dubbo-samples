@@ -191,6 +191,9 @@ function run_test_with_version_profile() {
     mount_msg=`grep mount $scenario_builder_log`
     echo "$log_prefix $mount_msg"
 
+    jacoco_agent_msg=`grep JacocoAgent $scenario_builder_log`
+    echo "$log_prefix $jacoco_agent_msg"
+
     # run test
     echo "$log_prefix Running test case .."
     running_time=$SECONDS
@@ -379,6 +382,9 @@ function process_case() {
 
               mount_msg=`grep mount $scenario_builder_log`
               echo "$log_prefix $mount_msg"
+
+              jacoco_agent_msg=`grep JacocoAgent $scenario_builder_log`
+              echo "$log_prefix $jacoco_agent_msg"
 
               # run test
               echo "$log_prefix Running test case .."
