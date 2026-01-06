@@ -19,9 +19,9 @@ package org.apache.dubbo.samples.backpressure;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.common.stream.ClientCallStreamObserver;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.rpc.protocol.tri.observer.ClientCallToObserverAdapter;
 import org.apache.dubbo.samples.backpressure.api.BackpressureService;
 import org.apache.dubbo.samples.backpressure.api.DataChunk;
 import org.apache.dubbo.samples.backpressure.api.StreamRequest;
@@ -157,8 +157,8 @@ public class BackpressureConsumer {
         // Get request StreamObserver
         StreamObserver<DataChunk> requestObserver = service.clientStream(responseObserver);
 
-        // Cast to ClientCallToObserverAdapter to use backpressure API
-        ClientCallToObserverAdapter<DataChunk> callObserver = (ClientCallToObserverAdapter<DataChunk>) requestObserver;
+        // Cast to ClientCallStreamObserver interface to use backpressure API for client side
+        ClientCallStreamObserver<DataChunk> callObserver = (ClientCallStreamObserver<DataChunk>) requestObserver;
 
         // Disable auto flow control for manual backpressure
         callObserver.disableAutoFlowControl();

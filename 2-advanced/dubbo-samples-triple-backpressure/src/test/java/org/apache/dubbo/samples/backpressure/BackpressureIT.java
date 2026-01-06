@@ -16,6 +16,8 @@
  */
 package org.apache.dubbo.samples.backpressure;
 
+import org.apache.dubbo.common.stream.ClientCallStreamObserver;
+import org.apache.dubbo.common.stream.ClientResponseObserver;
 import org.apache.dubbo.common.stream.StreamObserver;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
@@ -23,8 +25,6 @@ import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
 import org.apache.dubbo.config.bootstrap.DubboBootstrap;
-import org.apache.dubbo.rpc.protocol.tri.CancelableStreamObserver;
-import org.apache.dubbo.rpc.protocol.tri.observer.ClientCallToObserverAdapter;
 import org.apache.dubbo.samples.backpressure.api.BackpressureService;
 import org.apache.dubbo.samples.backpressure.api.DataChunk;
 import org.apache.dubbo.samples.backpressure.api.StreamRequest;
@@ -57,12 +57,22 @@ import org.slf4j.LoggerFactory;
  *   <li>{@link #testBiStreamWithOnReadyHandler()} - Both sides use setOnReadyHandler()</li>
  * </ul>
  *
- * <h3>Low-Level API (disableAutoRequestWithInitial) - Controlling Receive Rate</h3>
+ * <h3>Low-Level API (disableAutoRequestWithInitial) - Controlling Receive Rate (Client-Side)</h3>
  * <ul>
- *   <li>{@link #testServerStreamWithManualRequest()} - Client uses CancelableStreamObserver.beforeStart() to control receive rate</li>
- *   <li>{@link #testClientStreamWithDisableAutoRequestWithInitial()} - Client uses CancelableStreamObserver.beforeStart()</li>
- *   <li>{@link #testBiStreamWithDisableAutoRequestWithInitial()} - Client uses CancelableStreamObserver.beforeStart()</li>
+ *   <li>{@link #testServerStreamWithManualRequest()} - Client uses ClientResponseObserver.beforeStart() to control receive rate</li>
+ *   <li>{@link #testClientStreamWithDisableAutoRequestWithInitial()} - Client uses ClientResponseObserver.beforeStart()</li>
+ *   <li>{@link #testBiStreamWithDisableAutoRequestWithInitial()} - Client uses ClientResponseObserver.beforeStart()</li>
  * </ul>
+ *
+ * <h3>Server-Side Backpressure API (disableAutoRequest) - Controlling Receive Rate (Server-Side)</h3>
+ * <ul>
+ *   <li>{@link #testClientStreamWithServerReceiveBackpressure()} - Server uses disableAutoRequest() + request() to control receive rate</li>
+ *   <li>{@link #testBiStreamWithServerFullBackpressure()} - Server uses full backpressure control (send + receive)</li>
+ * </ul>
+ *
+ * <p>Note: For client-side, Dubbo uses {@code disableAutoRequestWithInitial(int)} which combines gRPC's
+ * {@code disableAutoRequest()} and {@code request(int)} into a single method call.
+ * For server-side, Dubbo uses {@code disableAutoRequest()} followed by {@code request(int)} separately.
  */
 public class BackpressureIT {
 
@@ -171,7 +181,7 @@ public class BackpressureIT {
 
     /**
      * Test server streaming with LOW-LEVEL API (disableAutoRequestWithInitial).
-     * Client uses CancelableStreamObserver.beforeStart() to configure receive backpressure
+     * Client uses ClientResponseObserver.beforeStart() to configure receive backpressure
      * BEFORE the stream starts, following gRPC's pattern.
      * This demonstrates CLIENT-SIDE receive backpressure.
      */
@@ -185,16 +195,17 @@ public class BackpressureIT {
 
         StreamRequest request = new StreamRequest(requestCount, 1024);
 
-        // Use CancelableStreamObserver to configure receive backpressure BEFORE the stream starts
-        CancelableStreamObserver<DataChunk> responseObserver = new CancelableStreamObserver<DataChunk>() {
-            // Member variable to hold the adapter for manual request
-            private ClientCallToObserverAdapter<DataChunk> adapter;
+        // Use ClientResponseObserver to configure receive backpressure BEFORE the stream starts ()
+        ClientResponseObserver<StreamRequest, DataChunk> responseObserver =
+                new ClientResponseObserver<StreamRequest, DataChunk>() {
+            // Member variable to hold the stream observer for manual request
+            private ClientCallStreamObserver<StreamRequest> requestStream;
 
             @Override
-            public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
-                this.adapter = clientCallToObserverAdapter;
+            public void beforeStart(ClientCallStreamObserver<StreamRequest> requestStream) {
+                this.requestStream = requestStream;
                 // Configure receive backpressure - disable auto request and set initial request
-                clientCallToObserverAdapter.disableAutoRequestWithInitial(initialRequest);
+                requestStream.disableAutoRequestWithInitial(initialRequest);
                 LOGGER.info("[ServerStream-ManualRequest] beforeStart: configured receive backpressure, initialRequest={}",
                         initialRequest);
             }
@@ -208,8 +219,8 @@ public class BackpressureIT {
 
                 // After processing each chunk, request more data
                 // This simulates controlled consumption rate
-                if (adapter != null) {
-                    adapter.request(1);
+                if (requestStream != null) {
+                    requestStream.request(1);
                 }
             }
 
@@ -239,7 +250,7 @@ public class BackpressureIT {
 
     /**
      * Test client streaming with HIGH-LEVEL API (setOnReadyHandler).
-     * Uses CancelableStreamObserver.beforeStart() to configure send backpressure
+     * Uses ClientResponseObserver.beforeStart() to configure send backpressure
      * BEFORE the stream starts, following gRPC's pattern.
      */
     @Test
@@ -252,26 +263,27 @@ public class BackpressureIT {
         final AtomicInteger serverReceivedChunks = new AtomicInteger(0);
         final byte[] data = new byte[1024];
 
-        // Use CancelableStreamObserver to configure backpressure BEFORE the stream starts
-        CancelableStreamObserver<StreamResponse> responseObserver = new CancelableStreamObserver<StreamResponse>() {
+        // Use ClientResponseObserver to configure backpressure BEFORE the stream starts ()
+        ClientResponseObserver<DataChunk, StreamResponse> responseObserver =
+                new ClientResponseObserver<DataChunk, StreamResponse>() {
             @Override
-            public void beforeStart(ClientCallToObserverAdapter<StreamResponse> requestAdapter) {
+            public void beforeStart(ClientCallStreamObserver<DataChunk> requestStream) {
                 LOGGER.info("[ClientStream-OnReady] beforeStart called");
 
                 // Disable auto flow control for manual send control
-                requestAdapter.disableAutoFlowControl();
+                requestStream.disableAutoFlowControl();
 
                 // Set onReadyHandler BEFORE the stream starts
-                requestAdapter.setOnReadyHandler(() -> {
+                requestStream.setOnReadyHandler(() -> {
                     LOGGER.info("[ClientStream-OnReady] onReadyHandler triggered, isReady={}, sent={}",
-                            requestAdapter.isReady(), sent.get());
-                    while (requestAdapter.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
+                            requestStream.isReady(), sent.get());
+                    while (requestStream.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
                         int seq = sent.getAndIncrement();
-                        requestAdapter.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
+                        requestStream.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
                     }
 
                     if (sent.get() >= sendCount && !sendCompleted.getAndSet(true)) {
-                        requestAdapter.onCompleted();
+                        requestStream.onCompleted();
                         LOGGER.info("[ClientStream-OnReady] onCompleted called");
                     }
                 });
@@ -309,7 +321,7 @@ public class BackpressureIT {
 
     /**
      * Test client streaming with LOW-LEVEL API (disableAutoRequestWithInitial).
-     * Uses CancelableStreamObserver.beforeStart() to set up both send and receive backpressure
+     * Uses ClientResponseObserver.beforeStart() to set up both send and receive backpressure
      * BEFORE the stream starts, following gRPC's pattern.
      */
     @Test
@@ -322,29 +334,30 @@ public class BackpressureIT {
         final AtomicBoolean responseReceived = new AtomicBoolean(false);
         final byte[] data = new byte[1024];
 
-        // Use CancelableStreamObserver to configure backpressure BEFORE the stream starts
-        CancelableStreamObserver<StreamResponse> responseObserver = new CancelableStreamObserver<StreamResponse>() {
+        // Use ClientResponseObserver to configure backpressure BEFORE the stream starts ()
+        ClientResponseObserver<DataChunk, StreamResponse> responseObserver =
+                new ClientResponseObserver<DataChunk, StreamResponse>() {
             @Override
-            public void beforeStart(ClientCallToObserverAdapter<StreamResponse> clientCallToObserverAdapter) {
+            public void beforeStart(ClientCallStreamObserver<DataChunk> requestStream) {
                 LOGGER.info("[ClientStream-DisableAutoRequestWithInitial] beforeStart called");
 
                 // Configure receive backpressure
-                clientCallToObserverAdapter.disableAutoRequestWithInitial(10);
+                requestStream.disableAutoRequestWithInitial(10);
 
                 // Configure send backpressure
-                clientCallToObserverAdapter.disableAutoFlowControl();
+                requestStream.disableAutoFlowControl();
 
                 // Set onReadyHandler BEFORE the stream starts
-                clientCallToObserverAdapter.setOnReadyHandler(() -> {
+                requestStream.setOnReadyHandler(() -> {
                     LOGGER.info("[ClientStream-DisableAutoRequestWithInitial] onReadyHandler triggered, isReady={}, sent={}",
-                            clientCallToObserverAdapter.isReady(), sent.get());
-                    while (clientCallToObserverAdapter.isReady() && sent.get() < sendCount) {
+                            requestStream.isReady(), sent.get());
+                    while (requestStream.isReady() && sent.get() < sendCount) {
                         int seq = sent.getAndIncrement();
-                        clientCallToObserverAdapter.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
+                        requestStream.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
                     }
 
                     if (sent.get() >= sendCount) {
-                        clientCallToObserverAdapter.onCompleted();
+                        requestStream.onCompleted();
                         LOGGER.info("[ClientStream-DisableAutoRequestWithInitial] onCompleted called");
                     }
                 });
@@ -383,11 +396,81 @@ public class BackpressureIT {
         LOGGER.info("✅ Client stream with disableAutoRequestWithInitial test passed!");
     }
 
+    /**
+     * Test client streaming with SERVER-SIDE receive backpressure.
+     * Server uses disableAutoRequest() and request(int) to control receiving rate.
+     * This demonstrates SERVER-SIDE receive backpressure ().
+     */
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testClientStreamWithServerReceiveBackpressure() throws InterruptedException {
+        final int sendCount = 50;
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicInteger sent = new AtomicInteger(0);
+        final AtomicBoolean sendCompleted = new AtomicBoolean(false);
+        final AtomicInteger serverReceivedChunks = new AtomicInteger(0);
+        final byte[] data = new byte[1024];
+
+        // Use ClientResponseObserver to configure send backpressure
+        ClientResponseObserver<DataChunk, StreamResponse> responseObserver =
+                new ClientResponseObserver<DataChunk, StreamResponse>() {
+            @Override
+            public void beforeStart(ClientCallStreamObserver<DataChunk> requestStream) {
+                LOGGER.info("[ClientStream-ServerReceiveBackpressure] beforeStart called");
+
+                // Disable auto flow control for manual send control
+                requestStream.disableAutoFlowControl();
+
+                // Set onReadyHandler to send data when ready
+                requestStream.setOnReadyHandler(() -> {
+                    LOGGER.info("[ClientStream-ServerReceiveBackpressure] onReadyHandler triggered, isReady={}, sent={}",
+                            requestStream.isReady(), sent.get());
+                    while (requestStream.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
+                        int seq = sent.getAndIncrement();
+                        requestStream.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
+                    }
+
+                    if (sent.get() >= sendCount && !sendCompleted.getAndSet(true)) {
+                        requestStream.onCompleted();
+                        LOGGER.info("[ClientStream-ServerReceiveBackpressure] onCompleted called");
+                    }
+                });
+            }
+
+            @Override
+            public void onNext(StreamResponse response) {
+                serverReceivedChunks.set(response.getTotalChunks());
+                LOGGER.info("[ClientStream-ServerReceiveBackpressure] Server received: {} chunks, {} bytes in {}ms",
+                        response.getTotalChunks(), response.getTotalBytes(), response.getDurationMs());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                LOGGER.error("[ClientStream-ServerReceiveBackpressure] Error: {}", throwable.getMessage());
+                latch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                LOGGER.info("[ClientStream-ServerReceiveBackpressure] Completed");
+                latch.countDown();
+            }
+        };
+
+        // Start the stream - server will use disableAutoRequest() to control receive rate
+        StreamObserver<DataChunk> requestObserver = service.clientStream(responseObserver);
+
+        boolean completed = latch.await(60, TimeUnit.SECONDS);
+        Assert.assertTrue("Stream should complete within timeout", completed);
+        Assert.assertEquals("Server should receive all chunks", sendCount, serverReceivedChunks.get());
+        LOGGER.info("✅ Client stream with server receive backpressure test passed!");
+    }
+
     // ==================== Bidirectional Stream Tests ====================
 
     /**
      * Test bidirectional streaming with HIGH-LEVEL API (setOnReadyHandler).
-     * Uses CancelableStreamObserver.beforeStart() to configure send backpressure
+     * Uses ClientResponseObserver.beforeStart() to configure send backpressure
      * BEFORE the stream starts, following gRPC's pattern.
      */
     @Test
@@ -400,30 +483,30 @@ public class BackpressureIT {
         final AtomicBoolean sendCompleted = new AtomicBoolean(false);
         final byte[] data = new byte[1024];
 
-        // Use AtomicReference to access the request adapter from the onReadyHandler
-        final AtomicReference<ClientCallToObserverAdapter<DataChunk>> requestAdapterRef = new AtomicReference<>();
+        // Use AtomicReference to access the request stream from the onReadyHandler
+        final AtomicReference<ClientCallStreamObserver<DataChunk>> requestStreamRef = new AtomicReference<>();
 
-        // Use CancelableStreamObserver to configure backpressure BEFORE the stream starts
-        // This follows gRPC's pattern where setOnReadyHandler must be called in beforeStart()
-        CancelableStreamObserver<DataChunk> responseObserver = new CancelableStreamObserver<DataChunk>() {
+        // Use ClientResponseObserver to configure backpressure BEFORE the stream starts ()
+        ClientResponseObserver<DataChunk, DataChunk> responseObserver =
+                new ClientResponseObserver<DataChunk, DataChunk>() {
             @Override
-            public void beforeStart(ClientCallToObserverAdapter<DataChunk> requestAdapter) {
-                requestAdapterRef.set(requestAdapter);
+            public void beforeStart(ClientCallStreamObserver<DataChunk> requestStream) {
+                requestStreamRef.set(requestStream);
 
                 // Disable auto flow control for manual send control
-                requestAdapter.disableAutoFlowControl();
+                requestStream.disableAutoFlowControl();
 
                 // Set onReadyHandler BEFORE the stream starts
-                requestAdapter.setOnReadyHandler(() -> {
+                requestStream.setOnReadyHandler(() -> {
                     LOGGER.info("[BiStream-OnReady] onReadyHandler triggered, isReady={}, sent={}",
-                            requestAdapter.isReady(), sent.get());
-                    while (requestAdapter.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
+                            requestStream.isReady(), sent.get());
+                    while (requestStream.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
                         int seq = sent.getAndIncrement();
-                        requestAdapter.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
+                        requestStream.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
                     }
 
                     if (sent.get() >= sendCount && !sendCompleted.getAndSet(true)) {
-                        requestAdapter.onCompleted();
+                        requestStream.onCompleted();
                         LOGGER.info("[BiStream-OnReady] onCompleted called");
                     }
                 });
@@ -468,7 +551,7 @@ public class BackpressureIT {
 
     /**
      * Test bidirectional streaming with LOW-LEVEL API (disableAutoRequestWithInitial).
-     * Uses CancelableStreamObserver.beforeStart() to set up BOTH send and receive backpressure
+     * Uses ClientResponseObserver.beforeStart() to set up BOTH send and receive backpressure
      * BEFORE the stream starts, following gRPC's pattern.
      */
     @Test
@@ -482,32 +565,33 @@ public class BackpressureIT {
         final AtomicBoolean sendCompleted = new AtomicBoolean(false);
         final byte[] data = new byte[1024];
 
-        // Use CancelableStreamObserver to configure BOTH send and receive backpressure BEFORE the stream starts
-        CancelableStreamObserver<DataChunk> responseObserver = new CancelableStreamObserver<DataChunk>() {
-            // Member variable to hold the request adapter - same pattern as gRPC
-            private ClientCallToObserverAdapter<DataChunk> requestAdapter;
+        // Use ClientResponseObserver to configure BOTH send and receive backpressure BEFORE the stream starts ()
+        ClientResponseObserver<DataChunk, DataChunk> responseObserver =
+                new ClientResponseObserver<DataChunk, DataChunk>() {
+            // Member variable to hold the request stream - same pattern as gRPC
+            private ClientCallStreamObserver<DataChunk> requestStream;
 
             @Override
-            public void beforeStart(ClientCallToObserverAdapter<DataChunk> clientCallToObserverAdapter) {
-                this.requestAdapter = clientCallToObserverAdapter;
+            public void beforeStart(ClientCallStreamObserver<DataChunk> requestStream) {
+                this.requestStream = requestStream;
 
                 // Configure receive backpressure (LOW-LEVEL API)
-                clientCallToObserverAdapter.disableAutoRequestWithInitial(initialRequest);
+                requestStream.disableAutoRequestWithInitial(initialRequest);
 
                 // Configure send backpressure (HIGH-LEVEL API)
-                clientCallToObserverAdapter.disableAutoFlowControl();
+                requestStream.disableAutoFlowControl();
 
-                // Set onReadyHandler BEFORE the stream starts (following gRPC pattern)
-                clientCallToObserverAdapter.setOnReadyHandler(() -> {
+                // Set onReadyHandler BEFORE the stream starts ()
+                requestStream.setOnReadyHandler(() -> {
                     LOGGER.info("[BiStream-DisableAutoRequestWithInitial] onReadyHandler triggered, isReady={}, sent={}",
-                            clientCallToObserverAdapter.isReady(), sent.get());
-                    while (clientCallToObserverAdapter.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
+                            requestStream.isReady(), sent.get());
+                    while (requestStream.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
                         int seq = sent.getAndIncrement();
-                        clientCallToObserverAdapter.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
+                        requestStream.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
                     }
 
                     if (sent.get() >= sendCount && !sendCompleted.getAndSet(true)) {
-                        clientCallToObserverAdapter.onCompleted();
+                        requestStream.onCompleted();
                         LOGGER.info("[BiStream-DisableAutoRequestWithInitial] onCompleted called");
                     }
                 });
@@ -523,8 +607,8 @@ public class BackpressureIT {
                 }
 
                 // Request more after processing - using member variable directly
-                if (requestAdapter != null) {
-                    requestAdapter.request(1);
+                if (requestStream != null) {
+                    requestStream.request(1);
                 }
             }
 
@@ -551,6 +635,86 @@ public class BackpressureIT {
         Assert.assertTrue("BiStream should complete within timeout", completed);
         Assert.assertEquals("Should send all chunks", sendCount, sent.get());
         LOGGER.info("✅ BiStream with disableAutoRequestWithInitial test passed! sent={}, received={}",
+                sent.get(), received.get());
+    }
+
+    /**
+     * Test bidirectional streaming with SERVER-SIDE full backpressure control.
+     * Server uses both send backpressure (setOnReadyHandler) and receive backpressure (disableAutoRequest).
+     * This demonstrates the complete SERVER-SIDE backpressure pattern ().
+     */
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testBiStreamWithServerFullBackpressure() throws InterruptedException {
+        final int sendCount = 50;
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicInteger sent = new AtomicInteger(0);
+        final AtomicInteger received = new AtomicInteger(0);
+        final AtomicBoolean sendCompleted = new AtomicBoolean(false);
+        final byte[] data = new byte[1024];
+
+        // Use ClientResponseObserver to configure client-side send backpressure
+        ClientResponseObserver<DataChunk, DataChunk> responseObserver =
+                new ClientResponseObserver<DataChunk, DataChunk>() {
+            private ClientCallStreamObserver<DataChunk> requestStream;
+
+            @Override
+            public void beforeStart(ClientCallStreamObserver<DataChunk> requestStream) {
+                this.requestStream = requestStream;
+
+                // Disable auto flow control for manual send control
+                requestStream.disableAutoFlowControl();
+
+                // Set onReadyHandler for client-side send backpressure
+                requestStream.setOnReadyHandler(() -> {
+                    LOGGER.info("[BiStream-ServerFullBackpressure] Client onReadyHandler triggered, isReady={}, sent={}",
+                            requestStream.isReady(), sent.get());
+                    while (requestStream.isReady() && sent.get() < sendCount && !sendCompleted.get()) {
+                        int seq = sent.getAndIncrement();
+                        requestStream.onNext(new DataChunk(seq, data, System.currentTimeMillis()));
+                    }
+
+                    if (sent.get() >= sendCount && !sendCompleted.getAndSet(true)) {
+                        requestStream.onCompleted();
+                        LOGGER.info("[BiStream-ServerFullBackpressure] Client onCompleted called");
+                    }
+                });
+
+                LOGGER.info("[BiStream-ServerFullBackpressure] Client beforeStart configured");
+            }
+
+            @Override
+            public void onNext(DataChunk chunk) {
+                int count = received.incrementAndGet();
+                if (count % 10 == 0) {
+                    LOGGER.info("[BiStream-ServerFullBackpressure] Client received {} response chunks", count);
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                LOGGER.error("[BiStream-ServerFullBackpressure] Error: {}", throwable.getMessage());
+                latch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                LOGGER.info("[BiStream-ServerFullBackpressure] Completed, sent: {}, received: {}",
+                        sent.get(), received.get());
+                latch.countDown();
+            }
+        };
+
+        // Start the stream - server will use full backpressure control:
+        // - setOnReadyHandler() for send backpressure
+        // - disableAutoRequest() + request() for receive backpressure
+        StreamObserver<DataChunk> requestObserver = service.biStream(responseObserver);
+
+        boolean completed = latch.await(60, TimeUnit.SECONDS);
+        Assert.assertTrue("BiStream should complete within timeout", completed);
+        Assert.assertEquals("Should send all chunks", sendCount, sent.get());
+        Assert.assertTrue("Should receive response chunks", received.get() > 0);
+        LOGGER.info("✅ BiStream with server full backpressure test passed! sent={}, received={}",
                 sent.get(), received.get());
     }
 }
