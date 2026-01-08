@@ -317,8 +317,8 @@ public class ConfigurationImpl implements IConfiguration {
                     setEnv(service, ENV_WAIT_TIMEOUT, service.getWaitTimeout() + "");
                 }
 
-                // set jacoco
-                if (jacocoEnable) {
+                // set jacoco for test
+                if (jacocoEnable && "test".equals(type)) {
                     //mount ${project.basedir}/target : DUBBO_APP_DIR
                     String jacocoPath = new File(service.getBasedir(), "target-jacoco").getCanonicalPath();
                     service.getVolumes().add(jacocoPath + ":" + DUBBO_JACOCO_RESULT_DIR);
