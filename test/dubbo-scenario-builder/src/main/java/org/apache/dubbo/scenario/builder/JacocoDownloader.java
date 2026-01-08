@@ -80,12 +80,14 @@ public class JacocoDownloader {
 
     public static void initialize(IConfiguration configuration) {
         if (!configuration.enableJacoco()) {
+            LOGGER.info("Disabled JacocoAgent");
             return;
         }
 
         Path expectedFile = new File(configuration.outputDir() + File.separator + "jacocoagent.jar").toPath();
         // checks the jacoco binary file exists or not
         if (checkFile(expectedFile)) {
+            LOGGER.info("Existed JacocoAgent: " + expectedFile);
             return;
         }
         Path temporaryFilePath;
@@ -146,6 +148,7 @@ public class JacocoDownloader {
             throw new IllegalArgumentException(String.format("The jacoco binary archive file doesn't exist, file path:%s", expectedFile));
         }
 
+        LOGGER.info("Downloaded JacocoAgent: " + expectedFile);
     }
 
     /**
