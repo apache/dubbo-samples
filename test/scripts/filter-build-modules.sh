@@ -16,15 +16,18 @@
 # limitations under the License.
 #
 
-# This script filters modules based on build.dubbo.version configuration
-# in case-versions.conf files.
+# This script filters modules based on dubbo.version configuration
+# in case-versions.conf files. The logic is consistent with Java VersionMatcher.
 #
 # Usage: ./filter-build-modules.sh <dubbo_version>
 # Output: Maven -pl exclude list (e.g., "-pl !module1,!module2")
 #
-# Configuration in case-versions.conf:
-#   build.dubbo.version=3.3
-#   - Means this module requires Dubbo >= 3.3 to compile
+# Supported dubbo.version formats (same as Java VersionMatcher):
+#   dubbo.version=2.7*, 3.*           -> wildcard match
+#   dubbo.version=[ >= 3.3.6 ]        -> range match
+#   dubbo.version=3.3.*               -> wildcard match
+#   dubbo.version=!2.7.8*             -> exclusion
+#   dubbo.version=>=2.7.7 <3.0        -> combined range
 
 set -e
 
@@ -39,51 +42,244 @@ if [ -z "$DUBBO_VERSION" ]; then
     exit 1
 fi
 
-# Extract major.minor from version (e.g., "3.2.6-SNAPSHOT" -> "3.2")
-extract_major_minor() {
+# Trim version suffix like '-SNAPSHOT'
+trim_version() {
     local version=$1
-    echo "$version" | sed -E 's/^([0-9]+\.[0-9]+).*/\1/'
+    echo "$version" | sed 's/-.*$//'
 }
 
-# Compare two major.minor versions
-# Returns: 0 if v1 >= v2, 1 otherwise
-version_ge() {
-    local v1=$1
-    local v2=$2
+# Convert version string to comparable array (e.g., "3.2.6" -> "3 2 6 0")
+# Returns space-separated integers for comparison
+version_to_ints() {
+    local version=$1
+    version=$(trim_version "$version")
     
-    local v1_major=$(echo "$v1" | cut -d. -f1)
-    local v1_minor=$(echo "$v1" | cut -d. -f2)
-    local v2_major=$(echo "$v2" | cut -d. -f1)
-    local v2_minor=$(echo "$v2" | cut -d. -f2)
+    local IFS='.'
+    read -ra parts <<< "$version"
     
-    if [ "$v1_major" -gt "$v2_major" ]; then
-        return 0
-    elif [ "$v1_major" -lt "$v2_major" ]; then
-        return 1
-    else
-        # major versions are equal, compare minor
-        if [ "$v1_minor" -ge "$v2_minor" ]; then
-            return 0
+    local result=""
+    for i in 0 1 2 3; do
+        if [ $i -lt ${#parts[@]} ]; then
+            # Extract numeric part only
+            local num=$(echo "${parts[$i]}" | grep -oE '^[0-9]+' || echo "0")
+            result="$result $num"
         else
-            return 1
+            result="$result 0"
         fi
+    done
+    echo $result
+}
+
+# Compare two versions: returns 0 if v1 > v2, 1 if v1 < v2, 2 if equal
+compare_versions() {
+    local v1_ints=($1)
+    local v2_ints=($2)
+    
+    for i in 0 1 2 3; do
+        if [ "${v1_ints[$i]}" -gt "${v2_ints[$i]}" ]; then
+            return 0  # v1 > v2
+        elif [ "${v1_ints[$i]}" -lt "${v2_ints[$i]}" ]; then
+            return 1  # v1 < v2
+        fi
+    done
+    return 2  # equal
+}
+
+# Check if version matches a wildcard pattern (e.g., "3.*", "2.7*")
+match_wildcard() {
+    local version=$1
+    local pattern=$2
+    
+    # Convert wildcard pattern to regex
+    # "3.*" -> "^3\..*$", "2.7*" -> "^2\.7.*$"
+    local regex=$(echo "$pattern" | sed 's/\./\\./g' | sed 's/\*/.*/g')
+    regex="^${regex}$"
+    
+    if [[ "$version" =~ $regex ]]; then
+        return 0  # match
+    else
+        return 1  # no match
     fi
 }
 
-# Get the current dubbo version's major.minor
-CURRENT_VERSION=$(extract_major_minor "$DUBBO_VERSION")
+# Check if version satisfies a range condition (e.g., ">=3.3.6", "<3.0")
+match_range() {
+    local version=$1
+    local operator=$2
+    local target=$3
+    
+    local v_ints=$(version_to_ints "$version")
+    local t_ints=$(version_to_ints "$target")
+    
+    compare_versions "$v_ints" "$t_ints"
+    local cmp=$?
+    
+    case "$operator" in
+        ">=")
+            [ $cmp -eq 0 ] || [ $cmp -eq 2 ]
+            return $?
+            ;;
+        ">")
+            [ $cmp -eq 0 ]
+            return $?
+            ;;
+        "<=")
+            [ $cmp -eq 1 ] || [ $cmp -eq 2 ]
+            return $?
+            ;;
+        "<")
+            [ $cmp -eq 1 ]
+            return $?
+            ;;
+    esac
+    return 1
+}
 
-# Find all case-versions.conf files and check build.dubbo.version
+# Parse and check a single rule against a version
+# Returns: 0=included, 1=excluded, 2=no match
+check_rule() {
+    local version=$1
+    local rule=$2
+    local excluded=0
+    
+    # Trim leading/trailing whitespace first
+    rule=$(echo "$rule" | xargs)
+    
+    # Check for exclusion prefix
+    if [[ "$rule" == !* ]]; then
+        excluded=1
+        rule="${rule:1}"
+        rule=$(echo "$rule" | xargs)  # trim again after removing !
+    fi
+    
+    # Check for range operators (>=, >, <=, <)
+    if [[ "$rule" =~ ^(>=|>|<=|<)[[:space:]]*([0-9]+\.[0-9]+(\.[0-9]+)?) ]]; then
+        local operator="${BASH_REMATCH[1]}"
+        local target="${BASH_REMATCH[2]}"
+        
+        if match_range "$version" "$operator" "$target"; then
+            [ $excluded -eq 1 ] && return 1 || return 0
+        fi
+        return 2
+    fi
+    
+    # Check for wildcard
+    if [[ "$rule" == *"*"* ]]; then
+        if match_wildcard "$version" "$rule"; then
+            [ $excluded -eq 1 ] && return 1 || return 0
+        fi
+        return 2
+    fi
+    
+    # Plain version match
+    local trimmed_version=$(trim_version "$version")
+    if [ "$trimmed_version" == "$rule" ]; then
+        [ $excluded -eq 1 ] && return 1 || return 0
+    fi
+    
+    return 2
+}
+
+# Check if a version matches a set of rules (from dubbo.version line)
+# Returns: 0 if version is included, 1 if excluded or no match
+check_version_rules() {
+    local version=$1
+    local rules_str=$2
+    
+    # Trim leading/trailing whitespace
+    rules_str=$(echo "$rules_str" | xargs)
+    
+    # Remove brackets [ ]
+    rules_str=$(echo "$rules_str" | sed 's/^\[//' | sed 's/\]$//' | xargs)
+    
+    # Handle combined range rules like ">=2.7.7 <3.0" (space-separated without comma)
+    # First, check if it's a combined range (contains space but no comma between operators)
+    if [[ "$rules_str" =~ ^[[:space:]]*(\>=|\>|\<=|\<)[^,]+[[:space:]]+(\>=|\>|\<=|\<) ]]; then
+        # Combined range rule - all conditions must match
+        local all_match=true
+        while [[ "$rules_str" =~ (\>=|\>|\<=|\<)([^[:space:]\>=\<]+) ]]; do
+            local operator="${BASH_REMATCH[1]}"
+            local target="${BASH_REMATCH[2]}"
+            # Remove quotes
+            target=$(echo "$target" | tr -d "\"'")
+            
+            if ! match_range "$version" "$operator" "$target"; then
+                all_match=false
+                break
+            fi
+            # Remove matched part
+            rules_str="${rules_str#*${BASH_REMATCH[0]}}"
+        done
+        
+        if $all_match; then
+            return 0
+        fi
+        return 1
+    fi
+    
+    # Split by comma for multiple rules
+    local included=false
+    
+    IFS=',' read -ra rules <<< "$rules_str"
+    for rule in "${rules[@]}"; do
+        # Remove quotes
+        rule=$(echo "$rule" | tr -d "\"'" | xargs)
+        
+        # Skip empty rules
+        [ -z "$rule" ] && continue
+        
+        # Check for combined range within a single rule (e.g., ">=2.7.7 <3.0")
+        if [[ "$rule" =~ ^[[:space:]]*(\>=|\>|\<=|\<).+[[:space:]]+(\>=|\>|\<=|\<) ]]; then
+            local all_match=true
+            local temp_rule="$rule"
+            while [[ "$temp_rule" =~ (\>=|\>|\<=|\<)([^[:space:]\>=\<]+) ]]; do
+                local operator="${BASH_REMATCH[1]}"
+                local target="${BASH_REMATCH[2]}"
+                
+                if ! match_range "$version" "$operator" "$target"; then
+                    all_match=false
+                    break
+                fi
+                temp_rule="${temp_rule#*${BASH_REMATCH[0]}}"
+            done
+            
+            if $all_match; then
+                included=true
+            fi
+            continue
+        fi
+        
+        check_rule "$version" "$rule"
+        local result=$?
+        
+        if [ $result -eq 1 ]; then
+            # Excluded - immediate return
+            return 1
+        elif [ $result -eq 0 ]; then
+            included=true
+        fi
+    done
+    
+    if $included; then
+        return 0
+    fi
+    return 1
+}
+
+# Get the trimmed version for matching
+CURRENT_VERSION=$(trim_version "$DUBBO_VERSION")
+
+# Find all case-versions.conf files and check dubbo.version
 EXCLUDED_MODULES=""
 
 while IFS= read -r conf_file; do
-    # Read build.dubbo.version from the config file
-    BUILD_VERSION=$(grep -E "^build\.dubbo\.version\s*=" "$conf_file" 2>/dev/null | sed 's/.*=\s*//' | tr -d '[:space:]' || echo "")
+    # Read dubbo.version from the config file
+    RAW_VERSION=$(grep -E "^dubbo\.version\s*=" "$conf_file" 2>/dev/null | sed 's/^dubbo\.version\s*=\s*//' || echo "")
     
-    if [ -n "$BUILD_VERSION" ]; then
-        # Check if current version >= required version
-        if ! version_ge "$CURRENT_VERSION" "$BUILD_VERSION"; then
-            # Get the module path relative to BASE_DIR
+    if [ -n "$RAW_VERSION" ]; then
+        # Check if current version matches the rules
+        if ! check_version_rules "$CURRENT_VERSION" "$RAW_VERSION"; then
+            # Version does not match - exclude this module
             MODULE_DIR=$(dirname "$conf_file")
             RELATIVE_PATH="${MODULE_DIR#$BASE_DIR/}"
             
@@ -93,7 +289,7 @@ while IFS= read -r conf_file; do
                 EXCLUDED_MODULES="$RELATIVE_PATH"
             fi
             
-            echo "Excluding module: $RELATIVE_PATH (requires Dubbo >= $BUILD_VERSION, current: $CURRENT_VERSION)" >&2
+            echo "Excluding module: $RELATIVE_PATH (dubbo.version=$RAW_VERSION, current: $CURRENT_VERSION)" >&2
         fi
     fi
 done < <(find "$BASE_DIR" -name "case-versions.conf" -type f)
