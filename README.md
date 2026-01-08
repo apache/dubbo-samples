@@ -32,7 +32,7 @@ Please download and run a standard ZooKeeper distribution:
 
 ```bash
 bin/zkServer.sh start 
-
+```
 
 ## Build and Run Samples
 
@@ -44,8 +44,8 @@ Each sample is designed to be independent. You should navigate to the demo direc
 For example,
 
 ```bash
-$ cd 1-basic/dubbo-samples-spring-boot
-$ mvn clean package
+cd 1-basic/dubbo-samples-spring-boot
+mvn clean package
 ```
 
 You may need to read each individual README under the sub directories if you have to understand how to build and run.
@@ -86,7 +86,7 @@ Then we use the `run-tests.sh` script to run the test cases.
 
   For example, run the `dubbo-samples-annotation` test case:
 
-  ```
+  ```bash
   ./test/run-tests.sh 2-advanced/dubbo-samples-annotation
   ```
 
