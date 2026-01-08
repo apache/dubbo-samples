@@ -62,9 +62,15 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
+      - name: Filter modules by Dubbo version
+        id: filter-modules
+        run: |
+          EXCLUDED=$(bash ./test/scripts/filter-build-modules.sh ${{ needs.build-dubbo.outputs.version }})
+          echo "excluded_modules=$EXCLUDED" >> $GITHUB_OUTPUT
+          echo "Excluded modules: $EXCLUDED"
       - name: Build with Maven
         run: |
-          ./mvnw $BUILD_OPTS
+          ./mvnw $BUILD_OPTS ${{ steps.filter-modules.outputs.excluded_modules }}
       - name: Clean with Maven
         run: |
           ./mvnw --batch-mode --no-snapshot-updates --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml clean
