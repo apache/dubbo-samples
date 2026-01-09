@@ -49,7 +49,7 @@
 ```yaml
   <dependency>
       <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-spring-boot-tracing-brave-zipkin-starter</artifactId>
+      <artifactId>dubbo-tracing-brave-zipkin-spring-boot-starter</artifactId>
       <version>${version}</version>
   </dependency>
 ```
@@ -59,7 +59,7 @@
 ```yaml
  <dependency>
       <groupId>org.apache.dubbo</groupId>
-      <artifactId>dubbo-spring-boot-tracing-otel-otlp-starter</artifactId>
+      <artifactId>dubbo-tracing-otel-otlp-spring-boot-starter</artifactId>
       <version>${version}</version>
   </dependency>
 ```

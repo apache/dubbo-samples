@@ -45,6 +45,6 @@ dubbo:
 
 logging:
   level:
-    root: info
+    root: debug
   pattern:
-    console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId:-}, %X{spanId:-}]: %m%n'
+    console: '[%d{dd/MM/yy HH:mm:ss:SSS z}] %t %5p %c{2} [%X{traceId}, %X{spanId}]: %m%n'
