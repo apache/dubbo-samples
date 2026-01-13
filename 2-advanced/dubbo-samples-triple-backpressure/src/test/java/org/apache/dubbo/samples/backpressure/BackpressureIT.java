@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.samples.backpressure;
 
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.stream.ClientCallStreamObserver;
 import org.apache.dubbo.common.stream.ClientResponseObserver;
 import org.apache.dubbo.common.stream.StreamObserver;
@@ -78,37 +79,25 @@ public class BackpressureIT {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BackpressureIT.class);
 
-    // Use random port to avoid conflicts between consecutive test runs
-    private static final int PORT = 50052 + (int)(Math.random() * 1000);
-
     private static BackpressureService service;
     private static DubboBootstrap bootstrap;
 
     @BeforeClass
     public static void setup() {
-        // Provider config
-        ServiceConfig<BackpressureService> serviceConfig = new ServiceConfig<>();
-        serviceConfig.setInterface(BackpressureService.class);
-        serviceConfig.setRef(new BackpressureServiceImpl());
-
         // Consumer config with direct connection (no registry needed)
         ReferenceConfig<BackpressureService> reference = new ReferenceConfig<>();
         reference.setInterface(BackpressureService.class);
-        reference.setUrl("tri://127.0.0.1:" + PORT);
+        reference.setProtocol(CommonConstants.TRIPLE);
         reference.setTimeout(60000);
 
         // Start both provider and consumer using newInstance to avoid singleton pollution
         bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("backpressure-test"))
-                .registry(new RegistryConfig("N/A"))  // No registry needed
-                .protocol(new ProtocolConfig("tri", PORT))
-                .service(serviceConfig)
+                .registry(new RegistryConfig(BackpressureProvider.ZK_ADDRESS))  // No registry needed
                 .reference(reference)
                 .start();
 
         service = reference.get();
-        LOGGER.info("Provider and Consumer started on port {}", PORT);
-
         // Warm up the connection to ensure resources are properly initialized
         // This prevents timing issues when running individual tests
         try {

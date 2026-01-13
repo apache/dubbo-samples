@@ -35,17 +35,21 @@ public class BackpressureProvider {
     private static final String ZOOKEEPER_HOST = System.getProperty("zookeeper.address", "127.0.0.1");
     private static final String ZOOKEEPER_PORT = System.getProperty("zookeeper.port", "2181");
 
+    public static final String ZK_ADDRESS = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
+
     public static void main(String[] args) {
+
+        new EmbeddedZooKeeper(Integer.parseInt(ZOOKEEPER_PORT), false).start();
+
         ServiceConfig<BackpressureService> service = new ServiceConfig<>();
         service.setInterface(BackpressureService.class);
         service.setRef(new BackpressureServiceImpl());
 
-        String zkAddress = "zookeeper://" + ZOOKEEPER_HOST + ":" + ZOOKEEPER_PORT;
-        LOGGER.info("Using ZooKeeper: {}", zkAddress);
+        LOGGER.info("Using ZooKeeper: {}", ZK_ADDRESS);
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("backpressure-provider"))
-                .registry(new RegistryConfig(zkAddress))
+                .registry(new RegistryConfig(ZK_ADDRESS))
                 .protocol(new ProtocolConfig(CommonConstants.TRIPLE, 50051))
                 .service(service)
                 .start();
