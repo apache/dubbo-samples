@@ -32,8 +32,6 @@ import org.apache.zookeeper.server.ZooKeeperServerMain;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.SmartLifecycle;
-import org.springframework.util.ErrorHandler;
 
 /**
  * from: https://github.com/spring-projects/spring-xd/blob/v1.3.1.RELEASE/spring-xd-dirt/src/main/java/org/springframework/xd/dirt/zookeeper/ZooKeeperUtils.java
@@ -43,7 +41,7 @@ import org.springframework.util.ErrorHandler;
  * NOTE: at least an external standalone server (if not an ensemble) are recommended, even for
  * {@link org.springframework.xd.dirt.server.singlenode.SingleNodeApplication}
  */
-public class EmbeddedZooKeeper implements SmartLifecycle {
+public class EmbeddedZooKeeper {
 
     private static final Random RANDOM = new Random();
 
@@ -76,11 +74,6 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
      * ZooKeeper server.
      */
     private volatile ZooKeeperServerMain zkServer;
-
-    /**
-     * {@link ErrorHandler} to be invoked if an Exception is thrown from the ZooKeeper server thread.
-     */
-    private ErrorHandler errorHandler;
 
     private boolean daemon = true;
 
@@ -122,7 +115,6 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * {@inheritDoc}
      */
-    @Override
     public boolean isAutoStartup() {
         return this.autoStartup;
     }
@@ -139,7 +131,6 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * {@inheritDoc}
      */
-    @Override
     public int getPhase() {
         return this.phase;
     }
@@ -147,7 +138,6 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * {@inheritDoc}
      */
-    @Override
     public boolean isRunning() {
         return (zkServerThread != null);
     }
@@ -158,7 +148,6 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
      * Register an error handler via {@link #setErrorHandler} in order to handle
      * any exceptions thrown during startup or execution.
      */
-    @Override
     public synchronized void start() {
         if (zkServerThread == null) {
             zkServerThread = new Thread(new ServerRunnable(), "ZooKeeper Server Starter");
@@ -170,7 +159,6 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * Shutdown the ZooKeeper server.
      */
-    @Override
     public synchronized void stop() {
         if (zkServerThread != null) {
             // The shutdown method is protected...thus this hack to invoke it.
@@ -202,21 +190,11 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
     /**
      * Stop the server if running and invoke the callback when complete.
      */
-    @Override
     public void stop(Runnable callback) {
         stop();
         callback.run();
     }
 
-    /**
-     * Provide an {@link ErrorHandler} to be invoked if an Exception is thrown from the ZooKeeper server thread. If none
-     * is provided, only error-level logging will occur.
-     *
-     * @param errorHandler the {@link ErrorHandler} to be invoked
-     */
-    public void setErrorHandler(ErrorHandler errorHandler) {
-        this.errorHandler = errorHandler;
-    }
 
     /**
      * Runnable implementation that starts the ZooKeeper server.
@@ -227,8 +205,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
         public void run() {
             try {
                 Properties properties = new Properties();
-                File file = new File(System.getProperty("java.io.tmpdir")
-                        + File.separator + UUID.randomUUID());
+                File file = new File(System.getProperty("java.io.tmpdir") + File.separator + UUID.randomUUID());
                 file.deleteOnExit();
                 properties.setProperty("dataDir", file.getAbsolutePath());
                 properties.setProperty("clientPort", String.valueOf(clientPort));
@@ -244,11 +221,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
 
                 zkServer.runFromConfig(configuration);
             } catch (Exception e) {
-                if (errorHandler != null) {
-                    errorHandler.handleError(e);
-                } else {
-                    logger.error("Exception running embedded ZooKeeper", e);
-                }
+                logger.error("Exception running embedded ZooKeeper", e);
             }
         }
     }

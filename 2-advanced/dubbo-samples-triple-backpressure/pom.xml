@@ -36,7 +36,6 @@
         <!-- it should be replaced by release version after dubbo 3.3.7 is released. -->
         <dubbo.version>3.3.7-SNAPSHOT</dubbo.version>
         <log4j2.version>2.20.0</log4j2.version>
-      <spring.version>4.3.30.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -50,11 +49,6 @@
           <artifactId>dubbo-zookeeper-curator5-spring-boot-starter</artifactId>
           <version>${dubbo.version}</version>
         </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context-support</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
         <!-- Embedded Zookeeper Server Dependencies -->
         <dependency>
           <groupId>io.dropwizard.metrics</groupId>
