@@ -1,0 +1,4 @@
+AsyncShortCircuit=org.apache.dubbo.filter.AsyncShortCircuitFilter
+decorateResult=org.apache.dubbo.filter.DecorateResultFilter
+attachAndDecorate=org.apache.dubbo.filter.AttachAndDecorateFilter
+eventDriven=org.apache.dubbo.filter.EventDrivenFilter
