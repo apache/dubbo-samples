@@ -19,6 +19,7 @@ services:
     basedir: .
     mainClass: org.apache.dubbo.samples.backpressure.BackpressureProvider
     checkPorts:
+      - 2181
       - 50051
     checkLog: "BackpressureProvider started"
 
@@ -28,7 +29,7 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.host=dubbo-samples-triple-backpressure
+      - zookeeper.address=dubbo-samples-triple-backpressure
       - zookeeper.port=2181
       - dubbo.address=dubbo-samples-triple-backpressure
       - dubbo.port=50051
