@@ -13,21 +13,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 services:
-  zookeeper:
-    image: zookeeper:latest
-
   dubbo-samples-triple-backpressure:
     type: app
     basedir: .
     mainClass: org.apache.dubbo.samples.backpressure.BackpressureProvider
-    systemProps:
-      - zookeeper.address=zookeeper
-      - zookeeper.port=2181
-    waitPortsBeforeRun:
-      - zookeeper:2181
     checkPorts:
+      - 2181
       - 50051
     checkLog: "BackpressureProvider started"
 
@@ -37,12 +29,12 @@ services:
     tests:
       - "**/*IT.class"
     systemProps:
-      - zookeeper.address=zookeeper
+      - zookeeper.address=dubbo-samples-triple-backpressure
       - zookeeper.port=2181
       - dubbo.address=dubbo-samples-triple-backpressure
       - dubbo.port=50051
     waitPortsBeforeRun:
-      - zookeeper:2181
       - dubbo-samples-triple-backpressure:50051
+      - dubbo-samples-triple-backpressure:2181
     depends_on:
       - dubbo-samples-triple-backpressure
