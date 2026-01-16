@@ -31,5 +31,6 @@
         <module>dubbo-samples-api-idl</module>
         <module>dubbo-samples-spring-boot</module>
         <module>dubbo-samples-spring-boot-idl</module>
+        <module>dubbo-samples-spring-boot-idl-diff-package</module>
     </modules>
 </project>
