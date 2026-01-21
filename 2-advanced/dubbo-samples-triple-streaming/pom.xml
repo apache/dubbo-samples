@@ -39,8 +39,9 @@
 
         <dubbo.version>3.3.1</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
-        <protoc.version>3.22.2</protoc.version>
-        <protobuf-java.version>3.19.6</protobuf-java.version>
+        <!-- protoc version should be same with protobuf-java version -->
+        <protoc.version>4.33.4</protoc.version>
+        <protobuf-java.version>4.33.4</protobuf-java.version>
         <log4j2.version>2.20.0</log4j2.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
