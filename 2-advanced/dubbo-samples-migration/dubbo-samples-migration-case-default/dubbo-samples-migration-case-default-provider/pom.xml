@@ -35,6 +35,7 @@
         <junit.version>4.13.1</junit.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <protobuf-java.version>4.33.4</protobuf-java.version>
     </properties>
 
     <dependencyManagement>
@@ -75,8 +76,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
+          <groupId>com.google.protobuf</groupId>
+          <artifactId>protobuf-java</artifactId>
+          <version>${protobuf-java.version}</version>
         </dependency>
 
         <dependency>

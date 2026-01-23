@@ -34,6 +34,9 @@
         <spring.version>4.3.30.RELEASE</spring.version>
         <log4j2.version>2.20.0</log4j2.version>
         <compiler.version>0.0.2</compiler.version>
+        <protobuf-java.version>4.33.4</protobuf-java.version>
+        <!-- protoc version should be same with protobuf-java version -->
+        <protoc.version>4.33.4</protoc.version>
     </properties>
 
     <modules>
@@ -149,7 +152,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.5.1</version>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.24.3:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
                     <outputDirectory>build/generated/source/proto/main/java</outputDirectory>
                     <clearOutputDirectory>false</clearOutputDirectory>
                     <protocPlugins>

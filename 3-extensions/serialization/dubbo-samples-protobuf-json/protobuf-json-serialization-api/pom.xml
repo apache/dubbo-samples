@@ -31,6 +31,7 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
+            <version>${protobuf-java.version}</version>
         </dependency>
     </dependencies>
 
@@ -57,7 +58,7 @@
                         </goals>
                         <configuration>
                             <protoSourceRoot>${basedir}/src/main/resources/protobuf</protoSourceRoot>
-                            <protocArtifact>com.google.protobuf:protoc:3.24.3:exe:${os.detected.classifier}
+                            <protocArtifact>com.google.protobuf:protoc:${protobuf-java.version}:exe:${os.detected.classifier}
                             </protocArtifact>
                         </configuration>
                     </execution>
