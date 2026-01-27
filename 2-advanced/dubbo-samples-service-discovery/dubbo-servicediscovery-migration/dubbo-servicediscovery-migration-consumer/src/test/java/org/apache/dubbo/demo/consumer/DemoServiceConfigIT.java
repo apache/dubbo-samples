@@ -43,7 +43,8 @@ public class DemoServiceConfigIT {
     public void setup() {
         applicationModel = FrameworkModel.defaultModel().newApplication();
         ApplicationConfig applicationConfig = new ApplicationConfig(applicationModel);
-        applicationConfig.setName("dubbo-servicediscovery-migration-consumer");
+        // Set a different name to avoid affecting DemoServiceIT.
+        applicationConfig.setName("dubbo-servicediscovery-migration-consumer-1");
 
         RegistryConfig registryConfig = new RegistryConfig(applicationModel);
         registryConfig.setProtocol("zookeeper");

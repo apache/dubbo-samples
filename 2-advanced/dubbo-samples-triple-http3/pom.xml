@@ -36,16 +36,23 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
+        <dubbo.version>3.3.6</dubbo.version>
         <spring-boot.version>3.2.3</spring-boot.version>
 
         <maven_os_plugin_version>1.7.1</maven_os_plugin_version>
         <maven_protobuf_plugin_version>0.6.1</maven_protobuf_plugin_version>
-        <protobuf-protoc_version>3.22.3</protobuf-protoc_version>
+        <protobuf-java.version>4.33.4</protobuf-java.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-bom</artifactId>
+                <version>4.2.9.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -99,20 +106,23 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
+          <groupId>com.google.protobuf</groupId>
+          <artifactId>protobuf-java</artifactId>
+          <version>${protobuf-java.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java-util</artifactId>
+          <groupId>com.google.protobuf</groupId>
+          <artifactId>protobuf-java-util</artifactId>
+          <version>${protobuf-java.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.netty.incubator</groupId>
-            <artifactId>netty-incubator-codec-http3</artifactId>
-        </dependency>
+       <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-codec-http3</artifactId>
+       </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>1.81</version>
         </dependency>
 
         <dependency>
@@ -151,6 +161,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- add os-maven-plugin to plugins just for Eclipse m2e, not for `mvn install` -->
             <plugin>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
@@ -170,7 +181,7 @@
                 <version>${maven_protobuf_plugin_version}</version>
                 <configuration>
                     <!--suppress UnresolvedMavenProperty -->
-                    <protocArtifact>com.google.protobuf:protoc:${protobuf-protoc_version}:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:${protobuf-java.version}:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>triple-java</pluginId>
                 </configuration>
                 <executions>
@@ -182,6 +193,14 @@
                 </executions>
             </plugin>
         </plugins>
+        <extensions>
+          <!-- add os-maven-plugin to extensions for `mvn install` -->
+          <extension>
+            <groupId>kr.motd.maven</groupId>
+            <artifactId>os-maven-plugin</artifactId>
+            <version>${maven_os_plugin_version}</version>
+          </extension>
+        </extensions>
     </build>
 
     <repositories>

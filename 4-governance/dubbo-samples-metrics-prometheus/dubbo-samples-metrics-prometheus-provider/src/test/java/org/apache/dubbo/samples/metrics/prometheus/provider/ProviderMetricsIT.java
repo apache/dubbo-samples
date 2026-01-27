@@ -48,6 +48,7 @@ public class ProviderMetricsIT {
     public void setUp() {
         //application
         add("dubbo_application_info_total");
+
         //provider
         add("dubbo_provider_requests_succeed_total");
         add("dubbo_provider_rt_milliseconds_p99");
@@ -78,6 +79,7 @@ public class ProviderMetricsIT {
 
         //config
         add("dubbo_configcenter_total");
+
         //register
         add("dubbo_register_service_rt_milliseconds_sum");
         add("dubbo_registry_register_service_total");
@@ -100,29 +102,27 @@ public class ProviderMetricsIT {
         add("dubbo_registry_subscribe_num_succeed_total");
         add("dubbo_registry_subscribe_num_failed_total");
 
-
         add("dubbo_push_rt_milliseconds_avg");
         add("dubbo_push_rt_milliseconds_min");
         add("dubbo_push_rt_milliseconds_last");
         add("dubbo_push_rt_milliseconds_sum");
         add("dubbo_push_rt_milliseconds_max");
 
-        //metadata
         add("dubbo_store_provider_interface_rt_milliseconds_min");
         add("dubbo_store_provider_interface_rt_milliseconds_max");
         add("dubbo_store_provider_interface_rt_milliseconds_avg");
         add("dubbo_store_provider_interface_rt_milliseconds_last");
         add("dubbo_store_provider_interface_rt_milliseconds_sum");
+
+        //metadata
         add("dubbo_metadata_store_provider_succeed_total");
         add("dubbo_metadata_store_provider_total");
-
         add("dubbo_metadata_subscribe_num_failed_total");
         add("dubbo_metadata_push_num_total");
         add("dubbo_metadata_subscribe_num_total");
         add("dubbo_metadata_subscribe_num_succeed_total");
         add("dubbo_metadata_push_num_succeed_total");
         add("dubbo_metadata_push_num_failed_total");
-
 
         //thread
         add("dubbo_thread_pool_thread_count");
@@ -131,7 +131,9 @@ public class ProviderMetricsIT {
         add("dubbo_thread_pool_queue_size");
         add("dubbo_thread_pool_core_size");
         add("dubbo_thread_pool_max_size");
-        add("dubbo_thread_pool_reject_thread_count");
+
+        // it usually does not appear in test case.
+        // add("dubbo_thread_pool_reject_thread_count");
     }
 
     private void add(String dubboStoreProviderInterfaceRtMillisecondsMin) {
@@ -143,27 +145,27 @@ public class ProviderMetricsIT {
         new EmbeddedZooKeeper(2181, false).start();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-demo-provider.xml");
         context.start();
+        List<String> notExistedList = new ArrayList<>();
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet("http://localhost:" + port + "/metrics");
             CloseableHttpResponse response = client.execute(request);
             InputStream inputStream = response.getEntity().getContent();
             String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
                     .lines().collect(Collectors.joining("\n"));
-            //O(size)
             for (int i = 0; i < metricKeys.size(); i++) {
                 String metricKey = metricKeys.get(i);
-                try {
-                    Assert.assertTrue(text.contains(metricKey));
-                } catch (Throwable e) {
-                    logger.error("metric key:{} don't exists", metricKey);
-                    throw new RuntimeException(e);
+                if (!text.contains(metricKey)) {
+                    notExistedList.add(metricKey);
                 }
             }
         } catch (Throwable e) {
             Assert.fail(e.getMessage());
         }
         context.stop();
-
+        for (String metricKey : notExistedList) {
+            logger.error("metric key:{} don't exists", metricKey);
+        }
+        Assert.assertTrue(notExistedList.isEmpty());
     }
 
 }

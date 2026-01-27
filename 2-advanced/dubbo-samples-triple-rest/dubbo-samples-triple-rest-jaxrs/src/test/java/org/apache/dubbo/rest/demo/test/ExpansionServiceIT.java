@@ -16,8 +16,8 @@
  */
 package org.apache.dubbo.rest.demo.test;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
@@ -32,7 +32,7 @@ public class ExpansionServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world response-filter", response.getBody());
+        Assertions.assertEquals("Hello world response-filter", response.getBody());
 
     }
 
@@ -44,7 +44,7 @@ public class ExpansionServiceIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world intercept", response.getBody());
+        Assertions.assertEquals("Hello world intercept", response.getBody());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class ExpansionServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("test-exception", response.getBody());
+        Assertions.assertEquals("test-exception", response.getBody());
     }
 
 }

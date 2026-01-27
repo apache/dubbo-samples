@@ -40,9 +40,9 @@ public class JacocoDownloader {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
-     * The jacoco agent version
+     * The jacoco agent version, set to 0.8.13 for supporting JDK 23 and 24 class files
      */
-    private static final String JACOCO_VERSION = "0.8.9";
+    private static final String JACOCO_VERSION = "0.8.13";
 
     /**
      * The jacoco binary file name
@@ -80,12 +80,14 @@ public class JacocoDownloader {
 
     public static void initialize(IConfiguration configuration) {
         if (!configuration.enableJacoco()) {
+            LOGGER.info("Disabled JacocoAgent");
             return;
         }
 
         Path expectedFile = new File(configuration.outputDir() + File.separator + "jacocoagent.jar").toPath();
         // checks the jacoco binary file exists or not
         if (checkFile(expectedFile)) {
+            LOGGER.info("Existed JacocoAgent: " + expectedFile);
             return;
         }
         Path temporaryFilePath;
@@ -146,6 +148,7 @@ public class JacocoDownloader {
             throw new IllegalArgumentException(String.format("The jacoco binary archive file doesn't exist, file path:%s", expectedFile));
         }
 
+        LOGGER.info("Downloaded JacocoAgent: " + expectedFile);
     }
 
     /**

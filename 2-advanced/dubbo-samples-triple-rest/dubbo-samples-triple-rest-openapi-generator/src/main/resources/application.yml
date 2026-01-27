@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: openapi-dubbo-provider
+
+dubbo:
+  application:
+    name: openapi-dubbo
+    logger: slf4j
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    name: tri
+    port: -1 # auto-increment port
+
+logging:
+  level:
+    root: INFO
+    org.apache.dubbo: INFO
+    org.apache.dubbo.rest.demo: DEBUG

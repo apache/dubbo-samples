@@ -19,8 +19,8 @@ package org.apache.dubbo.rest.demo.test;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rest.demo.DemoService;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -35,16 +35,16 @@ public class DemoServiceIT extends BaseTest {
     @Test
     public void test() {
         String result = demoService.hello("world");
-        Assert.assertEquals("Hello world", result);
+        Assertions.assertEquals("Hello world", result);
 
         String res = demoService.deleteUserById("1");
-        Assert.assertEquals("1", res);
+        Assertions.assertEquals("1", res);
 
         int userById = demoService.findUserById(1);
-        Assert.assertEquals(1, userById);
+        Assertions.assertEquals(1, userById);
 
         Long formBody = demoService.testFormBody(1L);
-        Assert.assertEquals(Long.valueOf(1), formBody);
+        Assertions.assertEquals(Long.valueOf(1), formBody);
 
     }
 
@@ -55,7 +55,7 @@ public class DemoServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Hello world", result.getBody());
+        Assertions.assertEquals("Hello world", result.getBody());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class DemoServiceIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(Integer.class);
-        Assert.assertEquals(Integer.valueOf(1), response.getBody());
+        Assertions.assertEquals(Integer.valueOf(1), response.getBody());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class DemoServiceIT extends BaseTest {
                 .body(map)
                 .retrieve()
                 .toEntity(Long.class);
-        Assert.assertEquals(Long.valueOf(1), response.getBody());
+        Assertions.assertEquals(Long.valueOf(1), response.getBody());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class DemoServiceIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("1", response.getBody());
+        Assertions.assertEquals("1", response.getBody());
     }
 
 }

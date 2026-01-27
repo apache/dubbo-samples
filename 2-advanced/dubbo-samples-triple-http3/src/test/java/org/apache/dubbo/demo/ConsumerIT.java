@@ -26,6 +26,7 @@ import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,6 +38,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class ConsumerIT {
 
+    private static final StringBuffer finalString = new StringBuffer();
+
+    static {
+        IntStream.range(0, 10000).forEach(i -> finalString.append(i).append("Hello"));
+    }
+
     @DubboReference
     private GreeterService greeterService;
 
@@ -45,9 +52,9 @@ public class ConsumerIT {
     }
 
     @Test
-    public void sayHello() {
+    public void sayHello_issue_15501() {
         HelloReply reply = greeterService.sayHello(buildRequest("world"));
-        Assert.assertEquals("Hello world", reply.getMessage());
+        Assert.assertEquals(finalString + " world", reply.getMessage());
     }
 
     @Test
@@ -57,13 +64,13 @@ public class ConsumerIT {
     }
 
     @Test
-    public void sayHelloServerStream() throws Exception {
+    public void sayHelloServerStream_issue_15501() throws Exception {
         CompletableFuture<Void> future = new CompletableFuture<>();
         AtomicInteger count = new AtomicInteger();
         StreamObserver<HelloReply> responseObserver = new StreamObserver<>() {
             @Override
             public void onNext(HelloReply reply) {
-                Assert.assertEquals("Hello stream", reply.getMessage());
+                Assert.assertEquals(finalString + " stream", reply.getMessage());
                 count.incrementAndGet();
             }
 

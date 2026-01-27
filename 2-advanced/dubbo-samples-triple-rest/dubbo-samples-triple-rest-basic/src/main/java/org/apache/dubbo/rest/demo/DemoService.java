@@ -18,6 +18,7 @@
 package org.apache.dubbo.rest.demo;
 
 import org.apache.dubbo.remoting.http12.HttpMethods;
+import org.apache.dubbo.remoting.http12.HttpResult;
 import org.apache.dubbo.remoting.http12.rest.Mapping;
 import org.apache.dubbo.remoting.http12.rest.Param;
 import org.apache.dubbo.remoting.http12.rest.ParamType;
@@ -32,4 +33,6 @@ public interface DemoService {
     @Mapping
     String helloUser(User user);
 
+    @Mapping(method = HttpMethods.GET)
+    HttpResult<String> helloH2cWithExceededLargeSizeHeaderResp();
 }

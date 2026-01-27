@@ -22,6 +22,7 @@ import org.apache.dubbo.demo.pb.HelloReply;
 import org.apache.dubbo.demo.pb.HelloRequest;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,16 @@ public class GreeterServiceImpl implements GreeterService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GreeterServiceImpl.class);
 
+    private static final StringBuffer finalString = new StringBuffer();
+
+    static {
+        IntStream.range(0, 10000).forEach(i -> finalString.append(i).append("Hello"));
+    }
+
     @Override
     public HelloReply sayHello(HelloRequest request) {
         LOGGER.info("Received sayHello request: {}", request.getName());
-        return toReply("Hello " + request.getName());
+        return toReply(finalString + " " + request.getName());
     }
 
     @Override
@@ -48,7 +55,7 @@ public class GreeterServiceImpl implements GreeterService {
         LOGGER.info("Received sayHelloServerStream request");
         for (int i = 1; i < 6; i++) {
             LOGGER.info("sayHelloServerStream onNext: {} {} times", request.getName(), i);
-            responseObserver.onNext(toReply("Hello " + request.getName()));
+            responseObserver.onNext(toReply(finalString + " " + request.getName()));
         }
         LOGGER.info("sayHelloServerStream onCompleted");
         responseObserver.onCompleted();

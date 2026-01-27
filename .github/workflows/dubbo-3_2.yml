@@ -31,10 +31,21 @@ env:
 jobs:
   build-samples:
     needs: [build-dubbo]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     steps:
+      # Refer to https://github.com/actions/runner-images/issues/2840
+      # Current dubbo-samples is too huge and `System.IO.IOException: No space left on device` will be thrown
+      # during building it on current github-hosted running system, it should be split into two or more small
+      # projects in the future.
+      # For now, we should clean some unnecessary system files to make room for the building action.
+      - name: Clean unnecessary system files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
       - uses: actions/checkout@v3
       - name: Cache local Maven repository
         uses: actions/cache@v3
@@ -43,20 +54,31 @@ jobs:
           key: ${{ runner.os }}-samples-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-samples-maven-
+      - name: Dubbo cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository/org/apache/dubbo
+          key: ${{ runner.os }}-dubbo-snapshot-${{needs.build-dubbo.outputs.commit_id}}
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: 21
+      - name: Filter modules by Dubbo version
+        id: filter-modules
+        run: |
+          EXCLUDED=$(bash ./test/scripts/filter-build-modules.sh ${{ needs.build-dubbo.outputs.version }})
+          echo "excluded_modules=$EXCLUDED" >> $GITHUB_OUTPUT
+          echo "Excluded modules: $EXCLUDED"
       - name: Build with Maven
         run: |
-          ./mvnw $BUILD_OPTS
+          ./mvnw $BUILD_OPTS ${{ steps.filter-modules.outputs.excluded_modules }}
       - name: Clean with Maven
         run: |
           ./mvnw --batch-mode --no-snapshot-updates --no-transfer-progress --settings ${{github.workspace}}/.mvn/settings.xml clean
 
   build-dubbo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
     # Map a step output to a job output
@@ -106,7 +128,7 @@ jobs:
           ./mvnw --batch-mode --no-snapshot-updates --no-transfer-progress  clean install -Dmaven.test.skip=true -Dmaven.test.skip.exec=true
 
   prepare_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       #'JOB_COUNT' MUST match 'job_id' list of 'testjob'
       JOB_COUNT: 5
@@ -169,7 +191,7 @@ jobs:
   testjob:
     needs: [prepare_test, build-dubbo]
     name: 'Integration Test (Java${{matrix.java}}, Job${{matrix.job_id}})'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       JAVA_VER: ${{matrix.java}}
       TEST_CASE_FILE: jobs/testjob_${{matrix.job_id}}.txt
@@ -225,7 +247,7 @@ jobs:
     needs: [testjob]
     name: 'Test Result (Java${{matrix.java}})'
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:

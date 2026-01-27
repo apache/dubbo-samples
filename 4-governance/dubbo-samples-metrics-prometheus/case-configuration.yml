@@ -15,9 +15,6 @@
 # limitations under the License.
 
 services:
-  zookeeper:
-    image: zookeeper:latest
-
   metrics-prometheus-provider:
     type: app
     basedir: dubbo-samples-metrics-prometheus-provider

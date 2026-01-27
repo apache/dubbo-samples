@@ -28,7 +28,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author lin
+ * ProtobufSerialization
  * Date: 2019-10-01
  */
 public class ProtobufSerialization implements Serialization {

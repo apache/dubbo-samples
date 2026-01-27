@@ -19,11 +19,12 @@ package org.apache.dubbo.demo.consumer;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -39,54 +40,62 @@ public class DemoServiceIT {
     @DubboReference(id = "demoServiceFromDual",group = "dual")
     private DemoService demoServiceFromDual;
 
-    @Before
-    public void setUp() {
-        FrameworkStatusReporterImpl.clearReport();
-    }
+    @Autowired
+    private ApplicationModel applicationModel;
 
     @Test
     public void test() throws InterruptedException {
-        FrameworkStatusReporterImpl.clearReport();
+        UpgradeUtil.clearRule(applicationModel);
+
+        // FORCE_INTERFACE
+        testInterface(2, false);
+
         // FORCE_INTERFACE --> APPLICATION_FIRST
-        testInterface();
-        testApplication();
+        testApplication(2, true);
 
         // APPLICATION_FIRST --> FORCE_APPLICATION
-        testApplicationForce();
+        testApplicationForce(3, true);
 
         // FORCE_APPLICATION --> APPLICATION_FIRST
-        testApplication();
+        testApplication(3, true);
 
         // APPLICATION_FIRST --> FORCE_INTERFACE
-        testInterface();
+        testInterface(3, true);
 
         // FORCE_INTERFACE --> FORCE_APPLICATION
-        testApplicationForce();
+        testApplicationForce(3, true);
 
         // FORCE_APPLICATION --> FORCE_INTERFACE
-        testInterface();
+        testInterface(3, true);
     }
 
-    public void testInterface() throws InterruptedException {
+    public void testInterface(int expectedMigrationReportCount, boolean waitImmediately) throws InterruptedException {
+        FrameworkStatusReporterImpl.prepare("FORCE_INTERFACE", expectedMigrationReportCount);
         UpgradeUtil.writeForceInterfaceRule();
-        checkIfNotified();
+        if (waitImmediately) {
+            Assert.assertTrue(FrameworkStatusReporterImpl.waitReport(5000));
+        }
 
         Assert.assertTrue(demoServiceFromNormal.sayHello("client").contains("registry-type: normal"));
-
         Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
+
+        if (!waitImmediately) {
+            Assert.assertTrue(FrameworkStatusReporterImpl.waitReport(5000));
+        }
     }
 
-    public void testApplication() throws InterruptedException {
+    public void testApplication(int expectedMigrationReportCount, boolean waitImmediately) throws InterruptedException {
+        FrameworkStatusReporterImpl.prepare("APPLICATION_FIRST", expectedMigrationReportCount);
         UpgradeUtil.writeApplicationFirstRule(100);
-        checkIfNotified();
+        if (waitImmediately) {
+            Assert.assertTrue(FrameworkStatusReporterImpl.waitReport(500000));
+        }
 
         Assert.assertTrue(demoServiceFromNormal.sayHello("client").contains("registry-type: normal"));
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
         Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
 
-
         UpgradeUtil.writeApplicationFirstRule(50);
-        checkIfNotified();
 
         int serviceCount = 0;
         for (int i = 0; i < 100; i++) {
@@ -95,11 +104,18 @@ public class DemoServiceIT {
             }
         }
         Assert.assertTrue(serviceCount <= 100);
+
+        if (!waitImmediately) {
+            Assert.assertTrue(FrameworkStatusReporterImpl.waitReport(5000));
+        }
     }
 
-    public void testApplicationForce() throws InterruptedException {
+    public void testApplicationForce(int expectedMigrationReportCount, boolean waitImmediately) throws InterruptedException {
+        FrameworkStatusReporterImpl.prepare("FORCE_APPLICATION", expectedMigrationReportCount);
         UpgradeUtil.writeForceApplicationRule();
-        checkIfNotified();
+        if (waitImmediately) {
+            Assert.assertTrue(FrameworkStatusReporterImpl.waitReport(5000));
+        }
 
         try {
             demoServiceFromNormal.sayHello("client");
@@ -108,15 +124,9 @@ public class DemoServiceIT {
         }
         Assert.assertTrue(demoServiceFromService.sayHello("client").contains("registry-type: service"));
         Assert.assertTrue(demoServiceFromDual.sayHello("client").contains("registry-type: dual"));
-    }
 
-    private void checkIfNotified() throws InterruptedException {
-        for (int i = 0; i < 50; i++) {
-            if (FrameworkStatusReporterImpl.getReport().size() == 3) {
-                FrameworkStatusReporterImpl.clearReport();
-                return;
-            }
-            Thread.sleep(100);
+        if (!waitImmediately) {
+            Assert.assertTrue(FrameworkStatusReporterImpl.waitReport(5000));
         }
     }
 }

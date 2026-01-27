@@ -33,9 +33,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
-        <grpc.version>1.58.0</grpc.version>
-        <protoc.version>3.22.2</protoc.version>
+        <dubbo.version>3.3.7-SNAPSHOT</dubbo.version>
+        <grpc.version>1.78.0</grpc.version>
+        <!-- protoc version should be same with protobuf-java version -->
+        <protoc.version>4.33.4</protoc.version>
+        <protobuf-java.version>4.33.4</protobuf-java.version>
         <log4j2.version>2.20.0</log4j2.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>

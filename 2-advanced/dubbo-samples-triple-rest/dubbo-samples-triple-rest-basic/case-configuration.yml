@@ -23,14 +23,28 @@ services:
       - 50052
     checkLog: "dubbo service started"
 
-  test:
+  # TestRunnerMain only check exit status of first test container.
+  delayTest:
     type: test
     basedir: .
     tests:
-      - "**/*IT.class"
+      - "**/DelayConsumerIT.class"
     systemProps:
       - dubbo.address=provider
     waitPortsBeforeRun:
       - provider:50052
     depends_on:
       - provider
+
+  test:
+    type: test
+    basedir: .
+    tests:
+      - "**/ConsumerIT.class"
+    systemProps:
+      - dubbo.address=provider
+    waitPortsBeforeRun:
+      - provider:50052
+    depends_on:
+      - provider
+

@@ -9,13 +9,16 @@ COPY . /build
 
 # Build
 RUN ./mvnw clean package --no-transfer-progress native:compile -Pnative -U
-
-ARG APP_FILE
+RUN ls -l /build/target
 
 # The deployment Image
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
 EXPOSE 50052
+
+# The `APP_FILE` variable used in `COPY` instruction should be set at the same build stage (`FROM` ...) of the `COPY` instruction
+ARG APP_FILE
+RUN echo "Set ARG APP_FILE=${APP_FILE} at the same build stage ('FROM ...') of COPY instruction"
 
 # Copy the native executable into the containers
 COPY --from=builder /build/target/${APP_FILE} app

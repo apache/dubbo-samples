@@ -17,21 +17,21 @@
 
 package org.apache.dubbo.rest.demo.test;
 
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestClient;
 
 
-@SpringBootTest
+@EnableDubbo
+@ExtendWith(SpringExtension.class)
 public class ConsumerIT {
 
     private static final String HOST = System.getProperty("dubbo.address", "localhost");
     private final RestClient webClient = RestClient.create();
-
-    @DubboReference(url = "tri://${dubbo.address:localhost}:50052")
 
     private static String toUri(String path) {
         return "http://" + HOST + ":50052/" + path;
@@ -44,8 +44,8 @@ public class ConsumerIT {
                 retrieve().
                 body(String.class);
         System.out.println(result);
-        Assert.assertNotNull("OpenAPI documentation response should not be null", result);
-        Assert.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/hello"));
-        Assert.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/helloUser"));
+        Assertions.assertNotNull("OpenAPI documentation response should not be null", result);
+        Assertions.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/hello"));
+        Assertions.assertTrue(result.contains("/org.apache.dubbo.rest.demo.DemoService/helloUser"));
     }
 }

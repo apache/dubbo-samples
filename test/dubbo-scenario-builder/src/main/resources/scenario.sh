@@ -207,6 +207,9 @@ sleep 5
       read -r -d '' _ </dev/tty
     fi
 
+    echo "[$scenario_name] Waiting 5 seconds for jacoco agent to finish writing its exec file .." | tee -a $scenario_log
+    sleep 5
+
     echo "[$scenario_name] Stopping containers .." | tee -a $scenario_log
     docker compose -p ${project_name} -f ${compose_file} kill 2>&1 | tee -a $scenario_log > /dev/null
 #fi

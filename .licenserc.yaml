@@ -26,6 +26,7 @@ header:
     - '**/.project'
     - '**/target/**'
     - '**/generated/**'
+    - '**/.openapi-generator/**'
     - '**/*.log'
     - '**/codestyle/*'
     - '**/resources/META-INF/**'

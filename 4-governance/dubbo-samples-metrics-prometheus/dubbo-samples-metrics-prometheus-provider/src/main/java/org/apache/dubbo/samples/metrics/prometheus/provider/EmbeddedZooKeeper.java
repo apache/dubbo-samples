@@ -41,10 +41,6 @@ import java.util.stream.Collectors;
  * Helper class to start an embedded instance of standalone (non clustered) ZooKeeper.
  * <p>
  * NOTE: at least an external standalone server (if not an ensemble) are recommended, even for
- *
- * @author Patrick Peralta
- * @author Mark Fisher
- * @author David Turanski
  */
 public class EmbeddedZooKeeper implements SmartLifecycle {
 
@@ -242,7 +238,7 @@ public class EmbeddedZooKeeper implements SmartLifecycle {
                 zkServer = new ZooKeeperServerMain();
                 ServerConfig configuration = new ServerConfig();
                 configuration.readFrom(quorumPeerConfig);
-                
+
                 System.setProperty("zookeeper.admin.enableServer", "false");
 
                 zkServer.runFromConfig(configuration);

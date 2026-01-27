@@ -160,6 +160,9 @@ function run_test_with_version_profile() {
       return 1
     fi
 
+    # list files of all dependency directories
+    find `pwd` -name dependency -print -exec ls -1 {} \;
+
      # generate case configuration
      mkdir -p $scenario_home/logs
      scenario_builder_log=$scenario_home/logs/scenario-builder.log
@@ -184,6 +187,12 @@ function run_test_with_version_profile() {
         fi
         return $result
      fi
+
+    mount_msg=`grep mount $scenario_builder_log`
+    echo "$log_prefix $mount_msg"
+
+    jacoco_agent_msg=`grep JacocoAgent $scenario_builder_log`
+    echo "$log_prefix $jacoco_agent_msg"
 
     # run test
     echo "$log_prefix Running test case .."
@@ -344,6 +353,9 @@ function process_case() {
                 return 1
               fi
 
+              # list files of all dependency directories
+              find `pwd` -name dependency -print -exec ls -1 {} \;
+
               # generate case configuration
               mkdir -p $scenario_home/logs
               scenario_builder_log=$scenario_home/logs/scenario-builder.log
@@ -368,12 +380,21 @@ function process_case() {
                 return $result
               fi
 
+              mount_msg=`grep mount $scenario_builder_log`
+              echo "$log_prefix $mount_msg"
+
+              jacoco_agent_msg=`grep JacocoAgent $scenario_builder_log`
+              echo "$log_prefix $jacoco_agent_msg"
+
               # run test
               echo "$log_prefix Running test case .."
               running_time=$SECONDS
               bash $scenario_home/scenario.sh
               result=$?
               end_time=$SECONDS
+
+              mkdir $TEST_DIR/logs/$scenario_name/
+              cp -f $project_home/target/logs/*.log $TEST_DIR/logs/$scenario_name/
 
               if [ $result == 0 ]; then
                 echo "$log_prefix $TEST_SUCCESS with version: $version_profile, cost $((end_time - start_time)) s"
@@ -410,7 +431,6 @@ function process_case() {
 
   log_prefix="[${case_no}/${totalCount}] [$scenario_name]"
   echo "$log_prefix $TEST_SUCCESS: versions: $version_count, total cost $((end_time - case_start_time)) s" | tee -a $testResultFile
-
   # clean log files
   rm -f $project_home/*.log $project_home/version-matrix.*
 }
@@ -433,6 +453,7 @@ echo "Test reports dir: \${project.basedir}/target/test-reports"
 
 # prepare testcases
 mkdir -p $TEST_DIR/jobs
+mkdir -p $TEST_DIR/logs
 testListFile=$TEST_DIR/jobs/testjob.txt
 targetTestcases=$1
 if [ "$targetTestcases" != "" ];then

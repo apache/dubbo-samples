@@ -36,6 +36,7 @@
         <junit.version>4.13.1</junit.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <protobuf-java.version>4.33.4</protobuf-java.version>
     </properties>
 
     <dependencyManagement>
@@ -72,21 +73,22 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-        </dependency>
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo</artifactId>
+      </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-        </dependency>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${protobuf-java.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.apache.curator</groupId>
         <artifactId>curator-x-discovery</artifactId>

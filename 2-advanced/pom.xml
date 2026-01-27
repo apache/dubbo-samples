@@ -71,6 +71,8 @@
         <module>dubbo-samples-triple-servlet</module>
         <module>dubbo-samples-gateway</module>
         <module>dubbo-samples-multiple-protocols</module>
+        <module>dubbo-samples-triple-websocket</module>
         <module>dubbo-samples-broadcast</module>
+        <module>dubbo-samples-triple-backpressure</module>
     </modules>
 </project>

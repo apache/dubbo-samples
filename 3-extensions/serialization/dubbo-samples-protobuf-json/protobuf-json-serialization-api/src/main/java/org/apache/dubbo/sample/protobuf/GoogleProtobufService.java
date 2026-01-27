@@ -17,7 +17,7 @@
 package org.apache.dubbo.sample.protobuf;
 
 /**
- * @author lin
+ * GoogleProtobufService
  * Date: 2019-10-03
  */
 public interface GoogleProtobufService {

@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -52,35 +52,35 @@ public class ComplexParamRequestIT extends BaseTest {
     public void test() {
         List<User> list = List.of(new User(1L, "1", 1), new User(2L, "2", 2));
         List<User> result1 = complexParamRequestService.list(list);
-        Assert.assertEquals(list, result1);
+        Assertions.assertEquals(list, result1);
 
         Set<User> set = Set.of(new User(1L, "1", 1), new User(2L, "2", 2));
         Set<User> result2 = complexParamRequestService.set(set);
-        Assert.assertEquals(set, result2);
+        Assertions.assertEquals(set, result2);
 
         User[] arr = {new User(1L, "1", 1), new User(2L, "2", 2)};
         User[] result3 = complexParamRequestService.array(arr);
-        Assert.assertArrayEquals(arr, result3);
+        Assertions.assertArrayEquals(arr, result3);
 
         Map<String, User> map = Map.of("user1", new User(1L, "1", 1), "user2", new User(2L, "2", 2));
         Map<String, User> result4 = complexParamRequestService.stringMap(map);
-        Assert.assertEquals(map, result4);
+        Assertions.assertEquals(map, result4);
 
         MultivaluedHashMap<String, String> valueMap = new MultivaluedHashMap<>();
         valueMap.add("arg1", "Hello");
         valueMap.add("arg2", "world");
         List<String> result5 = complexParamRequestService.testMapForm(valueMap);
-        Assert.assertEquals(valueMap.values().stream().flatMap(List::stream).toList(), result5);
+        Assertions.assertEquals(valueMap.values().stream().flatMap(List::stream).toList(), result5);
 
         String result6 = complexParamRequestService.testMapHeader("Head");
-        Assert.assertEquals("Head", result6);
+        Assertions.assertEquals("Head", result6);
 
         Map<String, String> stringMap = Map.of("Hello", "World");
         List<String> result7 = complexParamRequestService.testMapParam(stringMap);
-        Assert.assertEquals(stringMap.values().stream().toList(), result7);
+        Assertions.assertEquals(stringMap.values().stream().toList(), result7);
 
         Person person = complexParamRequestService.testXml(new Person("1"));
-        Assert.assertEquals(new Person("1"), person);
+        Assertions.assertEquals(new Person("1"), person);
 
     }
 
@@ -96,7 +96,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .body(list)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(list, response.getBody());
+        Assertions.assertEquals(list, response.getBody());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .body(set)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(set, response.getBody());
+        Assertions.assertEquals(set, response.getBody());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .body(array)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertArrayEquals(array, response.getBody());
+        Assertions.assertArrayEquals(array, response.getBody());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .body(map)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(map, response.getBody());
+        Assertions.assertEquals(map, response.getBody());
     }
 
     @Test
@@ -151,7 +151,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .header("headers", "Head")
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals("Head", response.getBody());
+        Assertions.assertEquals("Head", response.getBody());
     }
 
     @Test
@@ -162,7 +162,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(List.of("Hello", "World"), response.getBody());
+        Assertions.assertEquals(List.of("Hello", "World"), response.getBody());
     }
 
     @Test
@@ -176,7 +176,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .body(map)
                 .retrieve()
                 .toEntity(new ParameterizedTypeReference<>() {});
-        Assert.assertEquals(List.of("Hello"), response.getBody());
+        Assertions.assertEquals(List.of("Hello"), response.getBody());
     }
 
     @Test
@@ -193,8 +193,8 @@ public class ComplexParamRequestIT extends BaseTest {
                 .body(writer.toString())
                 .retrieve()
                 .body(String.class);
-        Assert.assertNotNull(result);
-        Assert.assertEquals(person, jaxbContext.createUnmarshaller().unmarshal(new StringReader(result)));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(person, jaxbContext.createUnmarshaller().unmarshal(new StringReader(result)));
     }
 
     @Test
@@ -206,7 +206,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .header("cookie", "cookie=1")
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("1", response.getBody());
+        Assertions.assertEquals("1", response.getBody());
     }
 
     @Test
@@ -218,7 +218,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .header("name", "world")
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("world", response.getBody());
+        Assertions.assertEquals("world", response.getBody());
     }
 
     @Test
@@ -229,7 +229,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .accept(MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("/complex/uri", response.getBody());
+        Assertions.assertEquals("/complex/uri", response.getBody());
     }
 
     @Test
@@ -243,7 +243,7 @@ public class ComplexParamRequestIT extends BaseTest {
                 .body(map)
                 .retrieve()
                 .toEntity(String.class);
-        Assert.assertEquals("Li", response.getBody());
+        Assertions.assertEquals("Li", response.getBody());
     }
 
 }

@@ -48,10 +48,18 @@
     <module>dubbo-samples-triple-rest-springmvc</module>
     <module>dubbo-samples-triple-rest-openapi-basic</module>
     <module>dubbo-samples-triple-rest-spring-security</module>
+    <module>dubbo-samples-triple-rest-openapi-generator</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-bom</artifactId>
+        <version>4.2.9.Final</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
@@ -84,14 +92,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>

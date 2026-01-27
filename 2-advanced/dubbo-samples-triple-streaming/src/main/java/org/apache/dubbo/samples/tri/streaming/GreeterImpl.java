@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.dubbo.samples.tri.streaming;
 
 import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.config.annotation.DubboService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@DubboService
 public class GreeterImpl extends DubboGreeterTriple.GreeterImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(GreeterImpl.class);
-    private final String serverName;
-
-    public GreeterImpl(String serverName) {
-        this.serverName = serverName;
-    }
 
     @Override
     public StreamObserver<GreeterRequest> biStream(StreamObserver<GreeterReply> responseObserver) {

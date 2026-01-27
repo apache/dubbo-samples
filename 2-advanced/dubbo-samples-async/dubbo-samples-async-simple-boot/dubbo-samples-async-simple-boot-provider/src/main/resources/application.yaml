@@ -21,3 +21,10 @@ dubbo:
     port: -1
   registry:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
+
+logging:
+  level:
+    org.apache.dubbo: DEBUG
+    org.apache.dubbo.rpc.AsyncRpcResult: DEBUG
+  pattern:
+    console: "%style{%d{HH:mm:ss.SSS}}{Magenta} %style{|-}{White}%highlight{%-5p} [%t] %style{%40.40c}{Cyan}:%style{%-3L}{Blue} %style{-|}{White} %m%n%rEx{filters(jdk.internal.reflect,java.lang.reflect,sun.reflect)}"
