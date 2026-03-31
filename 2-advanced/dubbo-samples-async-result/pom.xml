@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.apache.dubbo.sample</groupId>
+    <artifactId>dubbo-samples-async-result</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>dubbo-samples-async-result</name>
+
+    <modules>
+        <module>api</module>
+        <module>Provider</module>
+        <module>Consumer</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <dubbo.version>3.3.5</dubbo.version>
+        <spring.boot.version>3.2.0</spring.boot.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-bom</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
+
+
+

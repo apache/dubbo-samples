@@ -1,0 +1,14 @@
+spring:
+  main:
+    web-application-type: none
+
+dubbo:
+  application:
+    name: async-result-provider
+  protocol:
+    name: dubbo
+    port: 20880
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan:
+    base-packages: org.apache.dubbo.samples.asyncresult

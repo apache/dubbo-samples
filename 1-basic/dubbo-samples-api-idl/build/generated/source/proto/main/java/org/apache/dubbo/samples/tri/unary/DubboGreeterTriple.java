@@ -17,8 +17,8 @@
 
 package org.apache.dubbo.samples.tri.unary;
 
-import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.stream.StreamObserver;
+import org.apache.dubbo.common.URL;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.PathResolver;
 import org.apache.dubbo.rpc.RpcException;
@@ -29,18 +29,20 @@ import org.apache.dubbo.rpc.model.ServiceDescriptor;
 import org.apache.dubbo.rpc.model.StubMethodDescriptor;
 import org.apache.dubbo.rpc.model.StubServiceDescriptor;
 import org.apache.dubbo.rpc.service.Destroyable;
+import org.apache.dubbo.rpc.stub.BiStreamMethodHandler;
+import org.apache.dubbo.rpc.stub.ServerStreamMethodHandler;
 import org.apache.dubbo.rpc.stub.StubInvocationUtil;
 import org.apache.dubbo.rpc.stub.StubInvoker;
 import org.apache.dubbo.rpc.stub.StubMethodHandler;
 import org.apache.dubbo.rpc.stub.StubSuppliers;
 import org.apache.dubbo.rpc.stub.UnaryStubMethodHandler;
 
+import com.google.protobuf.Message;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-
-import com.google.protobuf.Message;
+import java.util.concurrent.CompletableFuture;
 
 public final class DubboGreeterTriple {
 
@@ -101,7 +103,6 @@ public final class DubboGreeterTriple {
             return StubInvocationUtil.unaryCall(invoker, greetMethod, request);
         }
 
-        @Override
         public CompletableFuture<org.apache.dubbo.samples.tri.unary.GreeterReply> greetAsync(org.apache.dubbo.samples.tri.unary.GreeterRequest request){
             return StubInvocationUtil.unaryCall(invoker, greetAsyncMethod, request);
         }

@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  provider:
+    build:
+      context: ./provider
+    container_name: dubbo-samples-async-result-provider
+    ports:
+      - "20880:20880"
+    networks:
+      - dubbo-network
+
+  consumer:
+    build:
+      context: ./consumer
+    container_name: dubbo-samples-async-result-consumer
+    depends_on:
+      - provider
+    networks:
+      - dubbo-network
+
+networks:
+  dubbo-network:
+    driver: bridge
+

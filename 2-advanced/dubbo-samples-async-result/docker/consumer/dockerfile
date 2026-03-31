@@ -1,0 +1,10 @@
+FROM openjdk:8-jdk-alpine
+
+WORKDIR /app
+
+# Copy built consumer jar
+COPY ../../dubbo-samples-async-result-consumer/target/*.jar app.jar
+
+EXPOSE 20880
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
