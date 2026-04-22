@@ -37,8 +37,8 @@
         <module>dubbo-samples-metrics-prometheus-consumer</module>
     </modules>
 
-    <name>Dubbo Samples Metrics Prometheus</name>
-    <description>Dubbo Samples Metrics Prometheus</description>
+    <name>Dubbo Samples Metrics Prometheus for Spring Boot 2</name>
+    <description>Dubbo Samples Metrics Prometheus for Spring Boot 2</description>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

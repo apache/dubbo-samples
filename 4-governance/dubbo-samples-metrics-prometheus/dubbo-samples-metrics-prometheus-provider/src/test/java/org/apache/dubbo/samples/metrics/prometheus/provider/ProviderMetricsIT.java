@@ -163,7 +163,7 @@ public class ProviderMetricsIT {
         }
         context.stop();
         for (String metricKey : notExistedList) {
-            logger.error("metric key:{} don't exists", metricKey);
+            logger.error("metric key:{} doesn't exist", metricKey);
         }
         Assert.assertTrue(notExistedList.isEmpty());
     }

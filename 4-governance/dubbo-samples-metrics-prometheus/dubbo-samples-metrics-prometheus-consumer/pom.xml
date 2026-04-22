@@ -65,8 +65,8 @@
           <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
         <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient_pushgateway</artifactId>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-metrics-prometheus</artifactId>
         </dependency>
     </dependencies>
 
