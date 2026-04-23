@@ -17,6 +17,7 @@
 
 package org.apache.dubbo.samples.metrics.prometheus.consumer;
 
+import org.apache.dubbo.samples.metrics.prometheus.util.PrometheusMetricAssert;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -40,81 +41,88 @@ import java.util.stream.Collectors;
 public class ConsumerMetricsIT {
     private static final Logger logger = LoggerFactory.getLogger(ConsumerMetricsIT.class);
 
-
     private final String port = "20889";
 
-    private final List<String> metricKeys = new ArrayList();
+    private final List<MetricExpectation> metricExpectations = new ArrayList<>();
 
     @Before
     public void setUp() {
-        add("dubbo_application_info_total");
+        addCounter("dubbo.application.info.total");
 
         //config
-        add("dubbo_configcenter_total");
+        addGauge("dubbo.configcenter.total");
 
-        add("dubbo_provider_rt_milliseconds_p99");
-        add("dubbo_provider_requests_total_aggregate");
-        add("dubbo_provider_rt_milliseconds_p90");
-        add("dubbo_provider_rt_max_milliseconds_aggregate");
-        add("dubbo_provider_requests_succeed_total");
-        add("dubbo_provider_requests_business_failed_aggregate");
-        add("dubbo_provider_requests_business_failed_total");
-        add("dubbo_provider_requests_total");
-        add("dubbo_provider_requests_failed_service_unavailable_total_aggregate");
-        add("dubbo_provider_requests_limit_aggregate");
-        add("dubbo_provider_qps_total");
-        add("dubbo_provider_rt_milliseconds_p50");
-        add("dubbo_provider_requests_processing_total");
-        add("dubbo_provider_requests_failed_total");
-        add("dubbo_provider_requests_succeed_aggregate");
-        add("dubbo_provider_rt_milliseconds_p95");
-        add("dubbo_provider_requests_failed_aggregate");
-        add("dubbo_provider_rt_avg_milliseconds_aggregate");
-        add("dubbo_provider_requests_failed_total_aggregate");
-        add("dubbo_provider_requests_failed_network_total_aggregate");
-        add("dubbo_provider_rt_min_milliseconds_aggregate");
-        add("dubbo_provider_requests_failed_codec_total_aggregate");
-        add("dubbo_provider_requests_timeout_failed_aggregate");
+        addGauge("dubbo.provider.rt.milliseconds.p99");
+        addGauge("dubbo.provider.requests.total.aggregate");
+        addGauge("dubbo.provider.rt.milliseconds.p90");
+        addGauge("dubbo.provider.rt.max.milliseconds.aggregate");
+        addCounter("dubbo.provider.requests.succeed.total");
+        addGauge("dubbo.provider.requests.business.failed.aggregate");
+        addCounter("dubbo.provider.requests.business.failed.total");
+        addCounter("dubbo.provider.requests.total");
+        addGauge("dubbo.provider.requests.failed.service.unavailable.total.aggregate");
+        addGauge("dubbo.provider.requests.limit.aggregate");
+        addGauge("dubbo.provider.qps.total");
+        addGauge("dubbo.provider.rt.milliseconds.p50");
+        addGauge("dubbo.provider.requests.processing.total");
+        addCounter("dubbo.provider.requests.failed.total");
+        addGauge("dubbo.provider.requests.succeed.aggregate");
+        addGauge("dubbo.provider.rt.milliseconds.p95");
+        addGauge("dubbo.provider.requests.failed.aggregate");
+        addGauge("dubbo.provider.rt.avg.milliseconds.aggregate");
+        addGauge("dubbo.provider.requests.failed.total.aggregate");
+        addGauge("dubbo.provider.requests.failed.network.total.aggregate");
+        addGauge("dubbo.provider.rt.min.milliseconds.aggregate");
+        addGauge("dubbo.provider.requests.failed.codec.total.aggregate");
+        addGauge("dubbo.provider.requests.timeout.failed.aggregate");
 
         //consumer
-        add("dubbo_consumer_requests_failed_service_unavailable_total");
+        addCounter("dubbo.consumer.requests.failed.service.unavailable.total");
 
         //register
-        add("dubbo_registry_subscribe_num_total");
-        add("dubbo_registry_register_requests_succeed_total");
-        add("dubbo_register_rt_milliseconds_last");
-        add("dubbo_registry_register_requests_total");
-        add("dubbo_register_rt_milliseconds_avg");
-        add("dubbo_registry_subscribe_num_succeed_total");
-        add("dubbo_register_rt_milliseconds_max");
-        add("dubbo_register_rt_milliseconds_min");
-        add("dubbo_register_rt_milliseconds_sum");
-        add("dubbo_registry_notify_requests_total");
-        add("dubbo_registry_register_requests_failed_total");
-        add("dubbo_registry_subscribe_num_failed_total");
-        add("dubbo_register_rt_milliseconds_max");
-        add("dubbo_registry_register_requests_succeed_total");
+        addGauge("dubbo.registry.subscribe.num.total");
+        addGauge("dubbo.registry.register.requests.succeed.total");
+        addGauge("dubbo.register.rt.milliseconds.last");
+        addGauge("dubbo.registry.register.requests.total");
+        addGauge("dubbo.register.rt.milliseconds.avg");
+        addGauge("dubbo.registry.subscribe.num.succeed.total");
+        addGauge("dubbo.register.rt.milliseconds.max");
+        addGauge("dubbo.register.rt.milliseconds.min");
+        addGauge("dubbo.register.rt.milliseconds.sum");
+        addGauge("dubbo.registry.notify.requests.total");
+        addGauge("dubbo.registry.register.requests.failed.total");
+        addGauge("dubbo.registry.subscribe.num.failed.total");
+        addGauge("dubbo.register.rt.milliseconds.max");
+        addGauge("dubbo.registry.register.requests.succeed.total");
 
         //metadata
-        add("dubbo_metadata_subscribe_num_failed_total");
-        add("dubbo_metadata_push_num_failed_total");
-        add("dubbo_metadata_subscribe_num_total");
-        add("dubbo_metadata_subscribe_num_succeed_total");
-        add("dubbo_metadata_push_num_succeed_total");
-        add("dubbo_metadata_push_num_total");
+        addGauge("dubbo.metadata.subscribe.num.failed.total");
+        addGauge("dubbo.metadata.push.num.failed.total");
+        addGauge("dubbo.metadata.subscribe.num.total");
+        addGauge("dubbo.metadata.subscribe.num.succeed.total");
+        addGauge("dubbo.metadata.push.num.succeed.total");
+        addGauge("dubbo.metadata.push.num.total");
 
         //thread
-        add("dubbo_thread_pool_thread_count");
-        add("dubbo_thread_pool_largest_size");
-        add("dubbo_thread_pool_active_size");
-        add("dubbo_thread_pool_queue_size");
-        add("dubbo_thread_pool_core_size");
-        add("dubbo_thread_pool_max_size");
+        addGauge("dubbo.thread.pool.thread.count");
+        addGauge("dubbo.thread.pool.largest.size");
+        addGauge("dubbo.thread.pool.active.size");
+        addGauge("dubbo.thread.pool.queue.size");
+        addGauge("dubbo.thread.pool.core.size");
+        addGauge("dubbo.thread.pool.max.size");
     }
 
-    private void add(String dubboStoreProviderInterfaceRtMillisecondsMin) {
-        metricKeys.add(dubboStoreProviderInterfaceRtMillisecondsMin);
+    // Use explicit kind only when it changes cross-registry compatible names.
+    // Example: `dubbo.application.info.total` resolves to `dubbo_application_total` on new clients.
+    private void addCounter(String rawName) {
+        metricExpectations.add(new MetricExpectation(rawName, PrometheusMetricAssert.MetricKind.COUNTER));
     }
+
+    // Example: `...qps.total` is exposed without `_total` on new clients when treated as a gauge.
+    private void addGauge(String rawName) {
+        metricExpectations.add(new MetricExpectation(rawName, PrometheusMetricAssert.MetricKind.GAUGE));
+    }
+
 
     @Test
     public void test() throws Exception {
@@ -122,7 +130,7 @@ public class ConsumerMetricsIT {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("dubbo-demo-consumer.xml");
 
-        List<String> notExistedList = new ArrayList<>();
+        List<MetricExpectation> notExistedList = new ArrayList<>();
         HttpGet request = new HttpGet("http://localhost:" + port + "/metrics");
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             // retry 3 times as all metrics data are not collected immediately.
@@ -132,9 +140,11 @@ public class ConsumerMetricsIT {
                 InputStream inputStream = response.getEntity().getContent();
                 String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines()
                         .collect(Collectors.joining("\n"));
-                for (String metricKey : metricKeys) {
-                    if (!text.contains(metricKey)) {
-                        notExistedList.add(metricKey);
+                for (MetricExpectation expectation : metricExpectations) {
+                    try {
+                        PrometheusMetricAssert.assertDubboMetricExposed(text, expectation.rawName, expectation.kind);
+                    } catch (AssertionError ignored) {
+                        notExistedList.add(expectation);
                     }
                 }
                 if (notExistedList.isEmpty()) {
@@ -146,10 +156,19 @@ public class ConsumerMetricsIT {
             Assert.fail(e.getMessage());
         }
         context.stop();
-        for (String metricKey : notExistedList) {
-            logger.error("metric key:{} doesn't exist", metricKey);
+        for (MetricExpectation metric : notExistedList) {
+            logger.error("metric rawName:{} with kind:{} doesn't exist", metric.rawName, metric.kind);
         }
         Assert.assertTrue(notExistedList.isEmpty());
     }
 
+    private static final class MetricExpectation {
+        private final String rawName;
+        private final PrometheusMetricAssert.MetricKind kind;
+
+        private MetricExpectation(String rawName, PrometheusMetricAssert.MetricKind kind) {
+            this.rawName = rawName;
+            this.kind = kind;
+        }
+    }
 }
