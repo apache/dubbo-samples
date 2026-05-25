@@ -36,5 +36,6 @@
         <module>dubbo-samples-triple</module>
         <module>dubbo-samples-triple-reactor</module>
         <module>dubbo-samples-webservice</module>
+        <module>dubbo-samples-rest-3.2</module>
     </modules>
 </project>
