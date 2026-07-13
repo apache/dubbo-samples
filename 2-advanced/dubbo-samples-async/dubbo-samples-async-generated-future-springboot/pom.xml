@@ -37,13 +37,13 @@
     <description>Dubbo Samples Async Generated Future SpringBoot</description>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <dubbo.version>3.3.1</dubbo.version>
-        <spring-boot.version>2.7.8</spring-boot.version>
-        <spring.version>4.3.30.RELEASE</spring.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
+        <spring.version>6.1.4</spring.version>
         <junit.version>4.13.1</junit.version>
 
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
