@@ -2,8 +2,9 @@ management:
   metrics:
     tags:
       application: dubbo-samples-metrics-spring-boot
-    export:
-      prometheus:
+  prometheus:
+    metrics:
+      export:
         enabled: true
   server:
     port: 18081
@@ -11,9 +12,18 @@ management:
     web:
       base-path: /management
       exposure:
-        include: info,health,env,prometheus
+        include:
+          - health
+          - info
+          - env
+          - prometheus
   endpoint:
-    metrics:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    env:
       enabled: true
     prometheus:
       enabled: true
@@ -21,6 +31,10 @@ management:
 spring:
   main:
     allow-circular-references: true
+  info:
+    app:
+      name: dubbo-samples-metrics-spring-boot
+      description: Dubbo metrics sample on Spring Boot 3
 
 server:
   port: 18080
