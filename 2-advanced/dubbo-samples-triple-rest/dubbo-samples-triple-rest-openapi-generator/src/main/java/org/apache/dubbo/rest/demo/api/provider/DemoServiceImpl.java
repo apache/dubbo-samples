@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
