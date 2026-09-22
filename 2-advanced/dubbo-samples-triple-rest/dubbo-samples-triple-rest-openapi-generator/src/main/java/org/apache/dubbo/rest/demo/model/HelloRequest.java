@@ -21,7 +21,7 @@ import org.apache.dubbo.rest.demo.model.User;
 import java.util.Objects;
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.time.*;
 import java.math.*;
 @Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
