@@ -37,6 +37,7 @@
 
         <dubbo.version>3.3.1</dubbo.version>
         <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
+        <spring.version>5.3.24</spring.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <junit.version>4.13.1</junit.version>
 
@@ -45,6 +46,17 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Import spring-framework-bom first so that ${spring.version} takes precedence
+                 over the 4.3.x version managed by spring-boot-dependencies 1.5.x.
+                 Spring 4.3 cglib cannot run on JDK 16+ (InaccessibleObjectException). -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
