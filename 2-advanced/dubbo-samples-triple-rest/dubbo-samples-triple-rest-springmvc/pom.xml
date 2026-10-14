@@ -56,6 +56,30 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>dubbo-rest-spring6</id>
+      <activation>
+        <property>
+          <name>dubbo.rest.spring6</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-spring-boot-3-autoconfigure</artifactId>
+          <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.dubbo</groupId>
+          <artifactId>dubbo-rest-spring6</artifactId>
+          <version>${dubbo.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
