@@ -35,6 +35,7 @@
 
         <dubbo.version>3.2.6</dubbo.version>
         <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
+        <spring.version>5.3.24</spring.version>
         <javassist.version>3.29.2-GA</javassist.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
@@ -46,6 +47,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <!-- Import dependency management from Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
