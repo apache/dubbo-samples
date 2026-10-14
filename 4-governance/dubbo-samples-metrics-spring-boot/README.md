@@ -6,7 +6,7 @@ Dubbo 支持通过两种方式对外暴露 Metrics 指标给 Prometheus，具体
 * Spring-boot-actuator，即通过标准的 Spring boot actuator 端口在特定的 endpoint 将 Dubbo 监控指标暴露出去
 * dubbo qos，即通过 Dubbo 内置的 qos 端口将 Dubbo 监控指标暴露出去
 
-本示例中，我们使用 spring-boot-actuator 的方式透出 Dubbo 指标信息，请注意本示例使用的 Dubbo 版本必须为 3.2.0-beta.6 以上。
+本示例基于 **Spring Boot 3 / JDK 17**，使用 spring-boot-actuator 的方式透出 Dubbo 指标信息，请注意本示例使用的 Dubbo 版本必须为 3.3.0 以上。
 
 ### Metrics 相关示例配置
 
@@ -14,6 +14,7 @@ Dubbo 支持通过两种方式对外暴露 Metrics 指标给 Prometheus，具体
 # ......
 management.server.port=18081
 management.endpoints.web.base-path=/management
+management.prometheus.metrics.export.enabled=true
 dubbo.metrics.protocol=prometheus
 
 # 如果不使用 spring-boot-actuator，可使用下面配置开启 qos 配置
