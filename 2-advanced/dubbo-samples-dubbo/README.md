@@ -2,6 +2,8 @@
 
 This example shows how to use dubbo tcp protocol to communicate. For pure rpc protocol demonstration, this example does not rely on any registry center.
 
+Requires **JDK 17+** and Spring Boot **3.2.x**.
+
 ## Modules
 * interface, provides Dubbo service definition
 * provider, implements Dubbo service
