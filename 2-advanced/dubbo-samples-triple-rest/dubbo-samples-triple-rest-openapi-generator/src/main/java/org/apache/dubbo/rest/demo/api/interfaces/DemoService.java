@@ -26,7 +26,7 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
