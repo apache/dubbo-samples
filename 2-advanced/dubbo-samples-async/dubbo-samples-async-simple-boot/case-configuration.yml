@@ -24,6 +24,7 @@ services:
     mainClass: org.apache.dubbo.async.boot.provider.ProviderApplication
     systemProps:
       - zookeeper.address=zookeeper
+      - dubbo.protocol.port=20880
     waitPortsBeforeRun:
       - zookeeper:2181
     checkPorts:
