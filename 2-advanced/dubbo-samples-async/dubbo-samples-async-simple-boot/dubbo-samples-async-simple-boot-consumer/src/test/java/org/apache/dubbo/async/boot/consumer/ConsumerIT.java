@@ -19,37 +19,38 @@ package org.apache.dubbo.async.boot.consumer;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.samples.async.boot.HiService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @date: 25/3/2023
  * @time: 5:59 PM
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class ConsumerIT {
-    @DubboReference
+
+    @DubboReference(async = true)
     private HiService hiService;
 
     @Test
-    public void simpleAsyncTest() throws Exception{
-        hiService.sayHello("world");//调用远程hiService 的sayHello
+    public void testCompletableFuture() throws Exception {
+        hiService.sayHello("world");
         CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
-        helloFuture.whenComplete((retValue, exception) -> {
-            if (exception == null) {
-                System.out.println("return value: " + retValue);
-            } else {
-                exception.printStackTrace();
-            }
-        });
 
+        assertNotNull(helloFuture);
+        assertEquals("hi, your name is: world", helloFuture.get(5, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void testAsyncCall() throws Exception {
         CompletableFuture<String> f = RpcContext.getContext().asyncCall(() -> hiService.sayHello("async call request"));
-        System.out.println("async call returned: " + f.get());
+        assertEquals("hi, your name is: async call request", f.get(5, TimeUnit.SECONDS));
     }
 }
